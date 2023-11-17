@@ -61,10 +61,6 @@ BOOL isInitialized = NO;
     [HyBidSDKConfig sharedConfig].test = enabled;
 }
 
-+ (void)setInterstitialActionBehaviour:(HyBidInterstitialActionBehaviour)behaviour {
-    [HyBidRenderingConfig sharedConfig].interstitialActionBehaviour = behaviour;
-}
-
 + (void)initWithAppToken:(NSString *)appToken completion:(HyBidCompletionBlock)completion {
     if (!appToken || appToken.length == 0) {
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"App Token is nil or empty and required."];
@@ -115,47 +111,8 @@ BOOL isInitialized = NO;
     return HyBidConstants.HYBID_SDK_VERSION;
 }
 
-+ (void)setInterstitialSkipOffset:(NSInteger)seconds {
-    [HyBidRenderingConfig sharedConfig].videoSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInteger:seconds] isCustom:YES];
-    [HyBidRenderingConfig sharedConfig].interstitialHtmlSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInteger:seconds] isCustom:YES];
-}
-
-+ (void)setVideoInterstitialSkipOffset:(NSInteger)seconds {
-    [HyBidRenderingConfig sharedConfig].videoSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInteger:seconds] isCustom:YES];
-}
-
-+ (void)setHTMLInterstitialSkipOffset:(NSInteger)seconds {
-    [HyBidRenderingConfig sharedConfig].interstitialHtmlSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInteger:seconds] isCustom:YES];
-}
-
-+ (void)setHTMLRewardedSkipOffset:(NSInteger)seconds {
-    [HyBidRenderingConfig sharedConfig].rewardedHtmlSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInteger:seconds] isCustom:YES];
-}
-
-+ (void)setEndCardCloseOffset:(NSNumber *)seconds
-{
-    [HyBidRenderingConfig sharedConfig].endCardCloseOffset = [[HyBidSkipOffset alloc] initWithOffset:seconds isCustom:YES];
-}
-
-+ (void)setShowEndCard:(BOOL)showEndCard
-{
-    [HyBidRenderingConfig sharedConfig].showEndCard = showEndCard;
-}
-
-+ (void)setRewardedCloseOnFinish:(BOOL)closeOnFinish {
-    [HyBidRenderingConfig sharedConfig].rewardedCloseOnFinish = closeOnFinish;
-}
-
-+ (void)setInterstitialCloseOnFinish:(BOOL)closeOnFinish {
-    [HyBidRenderingConfig sharedConfig].interstitialCloseOnFinish = closeOnFinish;
-}
-
 + (HyBidReportingManager *)reportingManager {
     return HyBidReportingManager.sharedInstance;
-}
-
-+ (void)setVideoAudioStatus:(HyBidAudioStatus)audioStatus {
-    [HyBidRenderingConfig sharedConfig].audioStatus = audioStatus;
 }
 
 + (NSString *)getSDKVersionInfo {
@@ -177,18 +134,6 @@ BOOL isInitialized = NO;
     NSString *logMessage = [NSString stringWithFormat:@"Signal Data Parameters String: %@", url.query];
     [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:logMessage];
     return url.query;
-}
-
-+ (void)setMRAIDExpand:(BOOL)enabled {
-    [HyBidRenderingConfig sharedConfig].mraidExpand = enabled;
-}
-
-+ (void)setInterstitialSKOverlay:(BOOL)enabled {
-    [HyBidRenderingConfig sharedConfig].interstitialSKOverlay = enabled;
-}
-
-+ (void)setRewardedSKOverlay:(BOOL)enabled {
-    [HyBidRenderingConfig sharedConfig].rewardedSKOverlay = enabled;
 }
 
 @end

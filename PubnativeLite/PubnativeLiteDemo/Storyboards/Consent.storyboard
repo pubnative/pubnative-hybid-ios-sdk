@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BJd-Cf-ldx">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BJd-Cf-ldx">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -351,7 +351,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zRT-wZ-qdP" userLabel="One Trust Button">
                                 <rect key="frame" x="16" y="20" width="288" height="33"/>
                                 <color key="backgroundColor" red="0.54901963470000004" green="0.74509805439999999" blue="0.70980393890000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <accessibility key="accessibilityConfiguration" identifier="loadButton" label="Load Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="triggerOneTrustButton" label="Trigger oneTrust consent dialog"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="7UY-sP-ebW"/>
                                 </constraints>
@@ -372,79 +372,160 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="y4g-b3-Yu9">
                                 <rect key="frame" x="16" y="61" width="288" height="96"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Public GPP String:" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZUe-X0-B0U">
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="fnb-u0-nNn">
                                         <rect key="frame" x="0.0" y="0.0" width="288" height="18"/>
-                                        <accessibility key="accessibilityConfiguration" identifier="GDPRConsentStringLabel" label="Public GPP String Label"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="288" id="idv-HR-qsi"/>
-                                            <constraint firstAttribute="height" constant="21" id="sIc-8E-Irf"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                        <variation key="default">
-                                            <mask key="constraints">
-                                                <exclude reference="sIc-8E-Irf"/>
-                                            </mask>
-                                        </variation>
-                                        <variation key="heightClass=compact">
-                                            <mask key="constraints">
-                                                <include reference="sIc-8E-Irf"/>
-                                            </mask>
-                                        </variation>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Public GPPSID String:" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1be-jb-Nyq">
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Public GPP String:" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZUe-X0-B0U">
+                                                <rect key="frame" x="0.0" y="0.0" width="140" height="18"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="publicGPPStringLabel" label="Public GPP String Label"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="21" id="sIc-8E-Irf"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                                <variation key="default">
+                                                    <mask key="constraints">
+                                                        <exclude reference="sIc-8E-Irf"/>
+                                                    </mask>
+                                                </variation>
+                                                <variation key="heightClass=compact">
+                                                    <mask key="constraints">
+                                                        <include reference="sIc-8E-Irf"/>
+                                                    </mask>
+                                                </variation>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dyU-Wl-RAz">
+                                                <rect key="frame" x="148" y="0.0" width="140" height="18"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="publicGPPStringValue" label="Public GPP String Value"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="21" id="8iz-gB-XoZ"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="13"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                                <variation key="default">
+                                                    <mask key="constraints">
+                                                        <exclude reference="8iz-gB-XoZ"/>
+                                                    </mask>
+                                                </variation>
+                                                <variation key="heightClass=compact">
+                                                    <mask key="constraints">
+                                                        <include reference="8iz-gB-XoZ"/>
+                                                    </mask>
+                                                </variation>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="KOO-JW-wTy">
                                         <rect key="frame" x="0.0" y="26" width="288" height="18"/>
-                                        <accessibility key="accessibilityConfiguration" identifier="GDPRConsentStringLabel" label="Public GPPSID Label"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="21" id="517-5c-tME"/>
-                                            <constraint firstAttribute="width" constant="288" id="OVF-fP-ax8"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                        <variation key="default">
-                                            <mask key="constraints">
-                                                <exclude reference="517-5c-tME"/>
-                                            </mask>
-                                        </variation>
-                                        <variation key="heightClass=compact">
-                                            <mask key="constraints">
-                                                <include reference="517-5c-tME"/>
-                                            </mask>
-                                        </variation>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Internal GPP String:" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7qu-P8-Df6">
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Public GPPSID String:" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1be-jb-Nyq">
+                                                <rect key="frame" x="0.0" y="0.0" width="140" height="18"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="publicGPPSIDLabel" label="Public GPPSID Label"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="21" id="517-5c-tME"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                                <variation key="default">
+                                                    <mask key="constraints">
+                                                        <exclude reference="517-5c-tME"/>
+                                                    </mask>
+                                                </variation>
+                                                <variation key="heightClass=compact">
+                                                    <mask key="constraints">
+                                                        <include reference="517-5c-tME"/>
+                                                    </mask>
+                                                </variation>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q7g-Fb-Lpd">
+                                                <rect key="frame" x="148" y="0.0" width="140" height="18"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="publicGPPSIDValue" label="Public GPPSID Value"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="21" id="GSQ-Ew-fti"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="13"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                                <variation key="default">
+                                                    <mask key="constraints">
+                                                        <exclude reference="GSQ-Ew-fti"/>
+                                                    </mask>
+                                                </variation>
+                                                <variation key="heightClass=compact">
+                                                    <mask key="constraints">
+                                                        <include reference="GSQ-Ew-fti"/>
+                                                    </mask>
+                                                </variation>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Ahv-g0-e5m">
                                         <rect key="frame" x="0.0" y="52" width="288" height="18"/>
-                                        <accessibility key="accessibilityConfiguration" identifier="GDPRConsentStringLabel" label="Internal GPP String Label"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="288" id="bCc-Oe-Dud"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Internal GPPSID String:" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rej-P9-qB5">
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Internal GPP String:" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7qu-P8-Df6">
+                                                <rect key="frame" x="0.0" y="0.0" width="140" height="18"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="internalGPPStringLabel" label="Internal GPP String Label"/>
+                                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vDx-RQ-nDr">
+                                                <rect key="frame" x="148" y="0.0" width="140" height="18"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="internalGPPStringValue" label="Internal GPP String Value"/>
+                                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="13"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="6bd-aX-UXm">
                                         <rect key="frame" x="0.0" y="78" width="288" height="18"/>
-                                        <accessibility key="accessibilityConfiguration" identifier="GDPRConsentStringLabel" label="Internal GPPSID Label"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="21" id="df1-qv-hUB"/>
-                                            <constraint firstAttribute="width" constant="288" id="pOs-HM-6Fv"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                        <variation key="default">
-                                            <mask key="constraints">
-                                                <exclude reference="df1-qv-hUB"/>
-                                            </mask>
-                                        </variation>
-                                        <variation key="heightClass=compact">
-                                            <mask key="constraints">
-                                                <include reference="df1-qv-hUB"/>
-                                            </mask>
-                                        </variation>
-                                    </label>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Internal GPPSID String:" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rej-P9-qB5">
+                                                <rect key="frame" x="0.0" y="0.0" width="140" height="18"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="internalGPPSIDLabel" label="Internal GPPSID Label"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="21" id="df1-qv-hUB"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                                <variation key="default">
+                                                    <mask key="constraints">
+                                                        <exclude reference="df1-qv-hUB"/>
+                                                    </mask>
+                                                </variation>
+                                                <variation key="heightClass=compact">
+                                                    <mask key="constraints">
+                                                        <include reference="df1-qv-hUB"/>
+                                                    </mask>
+                                                </variation>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2bQ-lI-c6Y">
+                                                <rect key="frame" x="148" y="0.0" width="140" height="18"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="internalGPPSIDValue" label="Internal GPPSID Value"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="21" id="uvr-Xh-8Xf"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="13"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                                <variation key="default">
+                                                    <mask key="constraints">
+                                                        <exclude reference="uvr-Xh-8Xf"/>
+                                                    </mask>
+                                                </variation>
+                                                <variation key="heightClass=compact">
+                                                    <mask key="constraints">
+                                                        <include reference="uvr-Xh-8Xf"/>
+                                                    </mask>
+                                                </variation>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="52N-V0-Knt">
@@ -525,9 +606,6 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="139" height="33"/>
                                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="setGPPSIDButton" label="Set GPPSID Button"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="139" id="3Dm-bN-DO0"/>
-                                                </constraints>
                                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <state key="normal" title="Set">
@@ -567,7 +645,7 @@
                             <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vqC-ou-Z5M" userLabel="Remove GPP Data Button">
                                 <rect key="frame" x="16" y="323" width="288" height="33"/>
                                 <color key="backgroundColor" red="0.54901963470000004" green="0.74509805439999999" blue="0.70980393890000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <accessibility key="accessibilityConfiguration" identifier="loadButton" label="Load Button"/>
+                                <accessibility key="accessibilityConfiguration" identifier="removeGPPInternalData" label="Remove GPP Internal Data"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="mEv-r1-vNf"/>
                                 </constraints>
@@ -613,9 +691,13 @@
                         <outlet property="gppInternalSIDTextField" destination="4c3-bG-FUF" id="ygc-RK-sk6"/>
                         <outlet property="gppInternalStringTextField" destination="b1p-Eh-crX" id="8bv-L4-Enr"/>
                         <outlet property="internalGPPSIDLabel" destination="Rej-P9-qB5" id="bos-1Z-6sS"/>
+                        <outlet property="internalGPPSIDValue" destination="2bQ-lI-c6Y" id="a9C-uT-OhS"/>
                         <outlet property="internalGPPStringLabel" destination="7qu-P8-Df6" id="tBU-Ou-IgX"/>
+                        <outlet property="internalGPPStringValue" destination="vDx-RQ-nDr" id="7Rm-VJ-Azq"/>
                         <outlet property="publicGPPSIDLabel" destination="1be-jb-Nyq" id="Aah-X9-fRv"/>
+                        <outlet property="publicGPPSIDValue" destination="q7g-Fb-Lpd" id="Gzt-Lb-vcV"/>
                         <outlet property="publicGPPStringLabel" destination="ZUe-X0-B0U" id="wuJ-Iz-iFe"/>
+                        <outlet property="publicGPPStringValue" destination="dyU-Wl-RAz" id="noD-SD-YSD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4kk-bt-ONj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

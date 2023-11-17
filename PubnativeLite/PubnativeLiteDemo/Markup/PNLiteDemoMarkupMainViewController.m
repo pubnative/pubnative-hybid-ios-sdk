@@ -24,7 +24,7 @@
 #import "PNLiteDemoMarkupDetailViewController.h"
 #import "UITextView+KeyboardDismiss.h"
 
-@interface PNLiteDemoMarkupMainViewController () <HyBidInterstitialAdDelegate, HyBidRewardedAdDelegate>
+@interface PNLiteDemoMarkupMainViewController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *bannerButton;
 @property (weak, nonatomic) IBOutlet UIButton *mRectButton;
@@ -34,8 +34,6 @@
 @property (weak, nonatomic) IBOutlet UITextView *markupTextView;
 @property (nonatomic) HyBidMarkupPlacement placement;
 @property (nonatomic, strong) Markup *markup;
-@property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
-@property (nonatomic, strong) HyBidRewardedAd *rewardedAd;
 @property (weak, nonatomic) IBOutlet UIButton *debugButton;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (weak, nonatomic) NSString *creativeID;
@@ -102,8 +100,7 @@
             case HyBidDemoAppPlacementInterstitial:
                 switch ([self.segmentedControl selectedSegmentIndex]) {
                     case 0: {
-                        self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
-                        [self.interstitialAd prepareCustomMarkupFrom:self.markup.text];
+                        [self loadCreativeWithMarkup:self.markup];
                         break;
                     }
                     case 1: {
@@ -116,8 +113,7 @@
             case HyBidDemoAppPlacementRewarded: {
                 switch ([self.segmentedControl selectedSegmentIndex]) {
                     case 0: {
-                        self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:nil andWithDelegate:self];
-                        [self.rewardedAd prepareCustomMarkupFrom:self.markup.text];
+                        [self loadCreativeWithMarkup:self.markup];
                         break;
                     }
                     case 1: {
@@ -189,7 +185,6 @@
 
 - (void)cleanUpAllParams {
     self.markup = nil;
-    self.interstitialAd = nil;
     self.creativeID = nil;
     self.creativeURL = nil;
     self.urTemplate = nil;
@@ -256,62 +251,6 @@
 
 - (void)invokeFailWithError:(NSError *) error {
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
-}
-
-#pragma mark - HyBidInterstitialAdDelegate
-
-- (void)interstitialDidLoad {
-    NSLog(@"Interstitial did load");
-    [self.interstitialAd show];
-    self.debugButton.hidden = NO;
-}
-
-- (void)interstitialDidFailWithError:(NSError *)error {
-    NSLog(@"Interstitial did fail with error: %@",error.localizedDescription);
-    [self showAlertControllerWithMessage:error.localizedDescription];
-    self.debugButton.hidden = NO;
-}
-
-- (void)interstitialDidTrackClick {
-    NSLog(@"Interstitial did track click");
-}
-
-- (void)interstitialDidTrackImpression {
-    NSLog(@"Interstitial did track impression");
-}
-
-- (void)interstitialDidDismiss {
-    NSLog(@"Interstitial did dismiss");
-}
-
-#pragma mark - HyBidRewardedAdDelegate
-
--(void)rewardedDidLoad {
-    NSLog(@"Rewarded did load");
-    [self.rewardedAd show];
-    self.debugButton.hidden = NO;
-}
-
--(void)rewardedDidFailWithError:(NSError *)error {
-    NSLog(@"Rewarded did fail with error: %@",error.localizedDescription);
-    [self showAlertControllerWithMessage:error.localizedDescription];
-    self.debugButton.hidden = NO;
-}
-
--(void)rewardedDidTrackClick {
-    NSLog(@"Rewarded did track click");
-}
-
--(void)rewardedDidTrackImpression {
-    NSLog(@"Rewarded did track impression");
-}
-
--(void)rewardedDidDismiss {
-    NSLog(@"Rewarded did dismiss");
-}
-
-- (void)onReward {
-    NSLog(@"Rewarded did reward");
 }
 
 @end

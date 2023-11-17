@@ -34,5 +34,6 @@
 - (void)updateTimerStateWithRemainingSeconds:(NSInteger)seconds
                               withTimerState:(HyBidTimerState)timerState
                                 forTimerType:(HyBidSKOverlayTimerType)timerType;
+- (void)addObservers;
 
 @end

@@ -22,6 +22,8 @@
 
 #import "PNLiteDemoVASTTestingViewController.h"
 #import "HyBid.h"
+#import "HyBidMarkupUtils.h"
+#import "HyBidDemo-Swift.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -60,7 +62,7 @@
 - (IBAction)loadButtonTapped:(UIButton *)sender {
     if ([[self.vastTextField text] isEqualToString:@""]) {
         NSError *error = [NSError errorWithDomain:@"Please input some vast adserver URL" code:0 userInfo:nil];
-        [self invokeDidFail:error];
+        [self invokeFailWithError:error];
         return;
     }
     
@@ -83,22 +85,75 @@
     NSString *vastURL = [self.vastTextField text];
     if ([vastURL length] == 0) {
         NSError *error = [NSError errorWithDomain:@"Please input some vast adserver URL" code:0 userInfo:nil];
-        [self invokeDidFail:error];
+        [self invokeFailWithError:error];
     } else {
         [self loadVASTTagDirectlyFrom:vastURL];
     }
 }
 
-- (void)loadVASTTagDirectlyFrom:(NSString *)url {
-    self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
-    [self.interstitialAd prepareVideoTagFrom:url];
+- (void)prepareAdWithVASTContent:(NSString *)vastContent {
+    NSArray* configs = [HyBidAdCustomizationUtility checkSavedHyBidAdSettings];
+    [HyBidAdCustomizationUtility postConfigToSamplingEndoingWithAdFormat:@"video"
+                                                                   width:0
+                                                                  height:0
+                                                            isFullscreen:true
+                                                              isRewarded:false
+                                                                 admType:@"markup"
+                                                               adContent:vastContent
+                                                                 configs:configs
+                                                              completion:^(BOOL success, NSString * _Nullable content) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
+            [self.interstitialAd prepareAdWithAdReponse:content];
+        });
+    }];
 }
 
-- (void)invokeDidFail:(NSError *)error {
+- (void)loadVASTTagDirectlyFrom:(NSString *)url {
+    NSArray* configs = [HyBidAdCustomizationUtility checkSavedHyBidAdSettings];
+    if (configs.count > 0) {
+        [self loadVASTWithURL: url];
+    } else {
+        self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
+        [self.interstitialAd prepareVideoTagFrom:url];
+        [self.vastLoadingIndicator stopAnimating];
+    }
+}
+
+- (void)loadVASTWithURL:(NSString*)url {
+    NSString *urlString = [url stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] ;
+    if ([urlString containsString:@"|"] || ([urlString containsString:@"<"] && ([urlString containsString:@">"]))){
+        urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    }
+    [self requestWithUrlForPlacement:urlString];
+}
+
+- (void)requestWithUrlForPlacement:(NSString *)urlString {
+    NSMutableURLRequest *urlRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString: urlString]];
+    [urlRequest setHTTPMethod:@"GET"];
+    [[[NSURLSession sharedSession] dataTaskWithRequest: urlRequest completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
+        if(!error){
+            [self invokeFinishWithResponse:response withData: data withURL:urlString];
+        } else {
+            [self invokeFailWithError: error];
+        }
+    }] resume];
+}
+
+- (void)invokeFinishWithResponse:(NSURLResponse *)response withData:(NSData*)data withURL: (NSString*) url {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSString *adString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        [self prepareAdWithVASTContent:adString];
+    });
+}
+
+- (void)invokeFailWithError:(NSError *) error {
     [self.vastLoadingIndicator stopAnimating];
     self.debugButton.hidden = NO;
+    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
     [self showAlertControllerWithMessage:error.localizedDescription];
 }
+
 
 #pragma mark - HyBidInterstitialAdDelegate
 

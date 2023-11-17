@@ -72,6 +72,8 @@ CGFloat const PNLiteVASTPlayerViewProgressTrailingConstant      = 0.0f;
 CGFloat const PNLiteVASTPlayerViewProgressLeadingConstant       = 0.0f;
 CGFloat const PNLiteContentViewDefaultSize = 15.0f;
 CGFloat const PNLiteMaxContentInfoHeight = 20.0f;
+NSUInteger const PNLiteVASTPlayerCustomEndCardValue = 2;
+NSUInteger const PNLiteVASTPlayerWrapperMaximumValue = 5;
 
 typedef enum : NSUInteger {
     PNLiteVASTPlayerState_IDLE = 1 << 0,
@@ -162,6 +164,9 @@ HyBidCloseButton *closeButton;
 @property (nonatomic, strong) NSString *iconPositionY;
 @property (nonatomic, strong) HyBidSkipOffset *rewardedVideoSkipOffset;
 @property (nonatomic, assign) BOOL skipOverlayConstraintsAdded;
+@property (nonatomic, strong) HyBidVASTCTAButton *ctaButton;
+@property (nonatomic, strong) NSArray *vastArray;
+@property (nonatomic, assign) BOOL isVastModel;
 
 @end
 
@@ -198,11 +203,12 @@ typedef enum {
         if (self.ad.audioState) {
             self.muted = [self isAdAudioMuted:[self audioStatusFromString:self.ad.audioState]];
         } else {
-            self.muted = [self isAdAudioMuted:[HyBidRenderingConfig sharedConfig].audioStatus];
+            self.muted = [self isAdAudioMuted:HyBidConstants.audioStatus];
         }
         [self setAdAudioMuted:self.muted];
         self.canResize = YES;
         self.endCardManager = [[HyBidVASTEndCardManager alloc] init];
+        self.endCards = [[NSMutableArray alloc] init];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(preparePlayerForAdFeedbackView)
                                                      name:@"adFeedbackViewIsReady"
@@ -305,12 +311,8 @@ typedef enum {
     } else {
         self.btnOpenOffer.hidden = YES;
     }
-    NSOrderedSet *vastSet = [[NSOrderedSet alloc] initWithArray:self.vastParser.vastArray];
-    NSMutableArray *vastArray = [[NSMutableArray alloc] initWithArray:[vastSet array]];
 
-    NSString *vast = self.ad.isUsingOpenRTB
-    ? self.ad.openRtbVast
-    : [[NSString alloc] initWithData:vastArray.firstObject encoding:NSUTF8StringEncoding];
+    NSString *vast = self.ad.isUsingOpenRTB ? self.ad.openRtbVast: self.ad.vast ;
     
     [[[HyBidVASTIconUtils alloc] init] getVASTIconFrom:vast completion:^(NSArray<HyBidVASTIcon *> *icons, NSError *error) {
         HyBidVASTIcon *icon = [self getIconFromArray:icons];
@@ -543,7 +545,7 @@ typedef enum {
             self.fullscreenClickabilityBehaviour = HB_ACTION_BUTTON;
         }
     } else {
-        self.fullscreenClickabilityBehaviour = [HyBidRenderingConfig sharedConfig].interstitialActionBehaviour;
+        self.fullscreenClickabilityBehaviour = HyBidConstants.interstitialActionBehaviour;
     }
 }
 
@@ -712,6 +714,10 @@ typedef enum {
         self.skipOverlay = nil;
         self.isCountdownTimerStarted = nil;
         self.rewardedVideoSkipOffset = nil;
+        self.endCards = nil;
+        self.ctaButton = nil;
+        self.vastArray = nil;
+        self.isVastModel = nil;
         closeButton = nil;
     }
 }
@@ -862,7 +868,7 @@ typedef enum {
     if (self.ad.rewardedVideoSkipOffset) {
         self.rewardedVideoSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:self.ad.rewardedVideoSkipOffset isCustom:YES];
     } else {
-        self.rewardedVideoSkipOffset = [HyBidRenderingConfig sharedConfig].rewardedVideoSkipOffset;
+        self.rewardedVideoSkipOffset = HyBidConstants.rewardedVideoSkipOffset;
     }
 }
 
@@ -987,35 +993,82 @@ typedef enum {
 }
 
 - (void)trackClick {
-    HyBidVASTAd *ad = [self getVastAd];
-    
-    if (ad == nil) {
-        return;
-    }
-    
-    NSArray<HyBidVASTCreative *> *creatives = [[ad inLine] creatives];
-    NSMutableArray<HyBidVASTVideoClicks *> *videoClicks = [NSMutableArray new];
-    
-    for (HyBidVASTCreative *creative in creatives) {
-        if ([creative linear] != nil && [[creative linear] videoClicks] != nil) {
-            [videoClicks addObject:[[creative linear] videoClicks]];
-            break;
-        }
-    }
-    
     NSMutableArray<NSString *> *trackingClickURLs = [[NSMutableArray alloc] init];
     NSString *throughClickURL;
-    
-    for (HyBidVASTVideoClicks *videoClick in videoClicks) {
-        if (throughClickURL == nil) {
-            throughClickURL = [[videoClick clickThrough] content];
+    NSMutableArray<HyBidVASTVideoClicks *> *videoClicks = [NSMutableArray new];
+
+    if (self.isVastModel) {
+        HyBidVASTAd *ad = [self getVastAd];
+
+        if (ad == nil) {
+            return;
         }
-    }
-    
-    for (HyBidVASTVideoClicks *videoClick in videoClicks) {
-        for (HyBidVASTClickTracking *tracking in [videoClick clickTrackings]) {
-            if([tracking content] != nil) {
-                [trackingClickURLs addObject:[tracking content]];
+        NSArray<HyBidVASTCreative *> *creatives = [[ad inLine] creatives];
+
+        for (HyBidVASTCreative *creative in creatives) {
+            if ([creative linear] != nil && [[creative linear] videoClicks] != nil) {
+                [videoClicks addObject:[[creative linear] videoClicks]];
+                break;
+            }
+        }
+        
+        for (HyBidVASTVideoClicks *videoClick in videoClicks) {
+            if (throughClickURL == nil) {
+                throughClickURL = [[videoClick clickThrough] content];
+            }
+        }
+
+        for (HyBidVASTVideoClicks *videoClick in videoClicks) {
+            for (HyBidVASTClickTracking *tracking in [videoClick clickTrackings]) {
+                if([tracking content] != nil) {
+                    [trackingClickURLs addObject:[tracking content]];
+                }
+            }
+        }
+    } else {
+        for (NSData *vast in self.vastArray){
+            NSString *xml = [[NSString alloc] initWithData:vast encoding:NSUTF8StringEncoding];
+            HyBidXMLEx *parser = [HyBidXMLEx parserWithXML:xml];
+            NSArray *result = [[parser rootElement] query:@"Ad"];
+            for (int i = 0; i < [result count]; i++) {
+                HyBidVASTAd * ad;
+                if (result[i]) {
+                    ad = [[HyBidVASTAd alloc] initWithXMLElement:result[i]];
+                }
+                if ([ad wrapper] != nil) {
+                    NSArray<HyBidVASTCreative *> *creatives = [[ad wrapper] creatives];
+                    for (HyBidVASTCreative *creative in creatives) {
+                        if ([creative linear] != nil && [[creative linear] videoClicks] != nil) {
+                            HyBidVASTLinear* linear = [creative linear];
+                            HyBidVASTVideoClicks* videoClicksObject = [linear videoClicks];
+                            [videoClicks addObject:videoClicksObject];
+                            
+                            for (HyBidVASTClickTracking *tracking in [videoClicksObject clickTrackings]) {
+                                if([tracking content] != nil) {
+                                    [trackingClickURLs addObject:[tracking content]];
+                                    break;
+                                }
+                            }
+                            if([[videoClicksObject clickThrough] content] != nil) {
+                                throughClickURL = [[videoClicksObject clickThrough] content];
+                            }
+                        }
+                    }
+                }else if ([ad inLine]!=nil) {
+                    NSArray<HyBidVASTCreative *> *creatives = [[ad inLine] creatives];
+                    for (HyBidVASTCreative *creative in creatives) {
+                        if ([creative linear] != nil && [[creative linear] videoClicks] != nil) {
+                            HyBidVASTLinear* linear = [creative linear];
+                            HyBidVASTVideoClicks* videoClicksObject = [linear videoClicks];
+                            
+                            if([[videoClicksObject clickThrough] content] != nil) {
+                                throughClickURL = [[videoClicksObject clickThrough] content];
+                            }
+                            [videoClicks addObject:[[creative linear] videoClicks]];
+                            break;
+                        }
+                    }
+                }
             }
         }
     }
@@ -1375,6 +1428,7 @@ typedef enum {
     
     if (self.videoAdCacheItem.vastModel) {
         self.hyBidVastModel = self.videoAdCacheItem.vastModel;
+        self.isVastModel = YES;
         [self fetchEndCards];
         
         HyBidVASTAd *firstCachedAd = [[self.hyBidVastModel ads] firstObject];
@@ -1431,7 +1485,7 @@ typedef enum {
         }
         [self startLoadTimeoutTimer];
         __weak PNLiteVASTPlayerViewController *weakSelf = self;
-        
+        self.isVastModel = NO;
         HyBidVastParserCompletionBlock completion = ^(HyBidVASTModel *model, HyBidVASTParserError error) {
             if (!model) {
                 NSError *parseError = [NSError errorWithDomain:[NSString stringWithFormat:@"%ld", (long)error]
@@ -1486,6 +1540,8 @@ typedef enum {
             NSError *unexpectedError = [NSError errorWithDomain:@"Unexpected Error." code:HyBidErrorCodeInternal userInfo:nil];
             [self invokeDidFailLoadingWithError:unexpectedError];
         }
+        NSOrderedSet *vastSet = [[NSOrderedSet alloc] initWithArray:self.vastParser.vastArray];
+        self.vastArray = [[NSMutableArray alloc] initWithArray:[vastSet array]];
     } else {
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"VAST is nil and required."];
         [self setState:PNLiteVASTPlayerState_IDLE];
@@ -1601,38 +1657,73 @@ typedef enum {
 
 - (void)fetchEndCards
 {
-    self.endCards = [[NSMutableArray alloc] init];
-    if (self.ad.hasCustomEndCard || (self.ad.customEndcardEnabled == nil && [HyBidRenderingConfig sharedConfig].customEndCard)) {
+    if (self.ad.hasCustomEndCard || (self.ad.customEndcardEnabled == nil && HyBidConstants.showCustomEndCard)) {
         HyBidVASTEndCard *customEndCard = [[HyBidVASTEndCard alloc] init];
         [customEndCard setType:HyBidEndCardType_HTML];
         [customEndCard setContent:self.ad.customEndCardData];
         [customEndCard setIsCustomEndCard:YES];
         [self.endCards addObject:customEndCard];
     }
-    HyBidVASTAd *ad = [self getVastAd];
-    
-    if (ad == nil) {
-        return;
-    }
-    
-    NSArray<HyBidVASTCreative *> *creatives = [[ad inLine] creatives];
-    HyBidVASTCompanionAds *companionAds;
-    
-    for (HyBidVASTCreative *creative in creatives) {
-        if ([creative companionAds] != nil) {
-            companionAds = [creative companionAds];
-            break;
+    if (self.isVastModel) {
+        HyBidVASTAd *ad = [self getVastAd];
+        if (ad == nil) {
+            return;
+        }
+        NSArray<HyBidVASTCreative *> *creatives = [[ad inLine] creatives];
+        self.ctaButton = [[ad inLine] ctaButton];
+        HyBidVASTCompanionAds *companionAds;
+        for (HyBidVASTCreative *creative in creatives) {
+            if ([creative companionAds] != nil) {
+                companionAds = [creative companionAds];
+                break;
+            }
+        }
+        for (HyBidVASTCompanion *companion in [companionAds companions]) {
+            [self.endCardManager addCompanion:companion];
+        }
+        if ([self.endCardManager endCards].lastObject != nil && ([self.ad.endcardEnabled boolValue] || (self.ad.endcardEnabled == nil && HyBidConstants.showEndCard))) {
+            [self.endCards addObject:[self.endCardManager endCards].lastObject];
+        }
+    } else {
+        HyBidVASTCompanionAds *companionAds;
+        for (NSData *vast in self.vastArray){
+            NSString *xml = [[NSString alloc] initWithData:vast encoding:NSUTF8StringEncoding];
+            HyBidXMLEx *parser = [HyBidXMLEx parserWithXML:xml];
+            NSArray *result = [[parser rootElement] query:@"Ad"];
+            for (int i = 0; i < [result count]; i++) {
+                HyBidVASTAd * ad;
+                if (result[i]) {
+                    ad = [[HyBidVASTAd alloc] initWithXMLElement:result[i]];
+                }
+                if ([ad wrapper] != nil) {
+                    NSArray<HyBidVASTCreative *> *creatives = [[ad wrapper] creatives];
+                    self.ctaButton = [[ad wrapper] ctaButton];
+                    for (HyBidVASTCreative *creative in creatives) {
+                        if ([creative companionAds] != nil) {
+                            companionAds = [creative companionAds];
+                            for (HyBidVASTCompanion *companion in [companionAds companions]) {
+                                [self.endCardManager addCompanion:companion];
+                            }
+                        }
+                    }
+                } else if ([ad inLine]!=nil) {
+                    self.ctaButton = [[ad inLine] ctaButton];
+                    NSArray<HyBidVASTCreative *> *creatives = [[ad inLine] creatives];
+                    for (HyBidVASTCreative *creative in creatives) {
+                        if ([creative companionAds] != nil) {
+                            companionAds = [creative companionAds];
+                            for (HyBidVASTCompanion *companion in [companionAds companions]) {
+                                [self.endCardManager addCompanion:companion];
+                            }
+                        }
+                    }
+                }
+                if ([self.endCardManager endCards].lastObject != nil && ([self.ad.endcardEnabled boolValue] || (self.ad.endcardEnabled == nil && HyBidConstants.showEndCard))) {
+                    [self.endCards addObject:[self.endCardManager endCards].lastObject];
+                }
+            }
         }
     }
-    
-    for (HyBidVASTCompanion *companion in [companionAds companions]) {
-        [self.endCardManager addCompanion:companion];
-    }
-    
-    if ([self.endCardManager endCards].firstObject != nil && ([self.ad.endcardEnabled boolValue] || (self.ad.endcardEnabled == nil && [HyBidRenderingConfig sharedConfig].showEndCard))) {
-        [self.endCards addObject:[self.endCardManager endCards].firstObject];
-    }
-    
 }
 
 - (void)showEndCard
@@ -1651,16 +1742,21 @@ typedef enum {
     [self.viewProgress removeFromSuperview];
     self.endCardShown = YES;
     self.isMoviePlaybackFinished = YES;
+    HyBidVASTEndCard *endCard;
+    NSUInteger endCardCount;
+    [self.endCards sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"isCustomEndCard" ascending:YES]]];
     if (self.ad.hasCustomEndCard) {
+        endCard = [self.endCards firstObject];
+        endCardCount = PNLiteVASTPlayerCustomEndCardValue;
         [self updateVideoFrameToLastInterruption];
     } else {
+        endCard = [self.endCards lastObject];
+        endCardCount = PNLiteVASTPlayerWrapperMaximumValue;
         [self.player seekToTime:self.player.currentItem.duration
                 toleranceBefore:kCMTimeZero
                  toleranceAfter:kCMTimePositiveInfinity];
     }
     [self setState:PNLiteVASTPlayerState_READY];
-    [self.endCards sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"isCustomEndCard" ascending:YES]]];
-    HyBidVASTEndCard *firstEndCard = [self.endCards firstObject];
     self.endCardView = [[HyBidVASTEndCardView alloc] initWithDelegate:self
                                                                     withViewController:self
                                                                                 withAd:self.ad
@@ -1668,19 +1764,18 @@ typedef enum {
                                                                         isInterstitial:(self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded)
                                                                          iconXposition:self.iconPositionX
                                                                          iconYposition:self.iconPositionY
-                                                                        withSkipButton:self.endCards.count == 2];
+                                                                        withSkipButton:self.endCards.count == endCardCount];
 
-    HyBidVASTCTAButton *ctaButton = [[self.vastAd inLine] ctaButton];
-    [self.endCardView displayEndCard:firstEndCard withCTAButton:ctaButton withViewController:self];
+    [self.endCardView displayEndCard:endCard withCTAButton:self.ctaButton withViewController:self];
     [self.view addSubview:self.endCardView];
     self.endCardView.frame = self.view.frame;
     [self addingConstrainsForEndcard];
     
-    if (!firstEndCard.isCustomEndCard) {
+    if (!endCard.isCustomEndCard) {
         [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.COMPANION_VIEW];
     }
-    if ([self.endCards containsObject:firstEndCard]) {
-        [self.endCards removeObject:firstEndCard];
+    if ([self.endCards containsObject:endCard]) {
+        [self.endCards removeObject:endCard];
     }
 }
 

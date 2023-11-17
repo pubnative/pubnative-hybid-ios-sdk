@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *prepareButton;
 @property (weak, nonatomic) IBOutlet UISwitch *adCachingSwitch;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *showAdTopConstraint;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *apiSwitch;
 
 @end
 
@@ -57,7 +58,11 @@
     
     self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
     [self.rewardedAd setIsAutoCacheOnLoad: self.adCachingSwitch.isOn];
-    [self.rewardedAd load];
+    if (self.apiSwitch.selectedSegmentIndex == 0) {
+        [self.rewardedAd load];
+    } else if (self.apiSwitch.selectedSegmentIndex == 1) {
+        [self.rewardedAd loadExchangeAd];
+    }
 }
 
 - (IBAction)adCachingSwitchValueChanged:(UISwitch *)sender {

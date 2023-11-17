@@ -23,6 +23,8 @@
 // This class is used for showing details for both Markup(Banner and MRect) and URL(Interstitial and Rewarded)
 #import "PNLiteDemoMarkupDetailViewController.h"
 #import "HyBidAdView.h"
+#import "HyBidMarkupUtils.h"
+#import "HyBidDemo-Swift.h"
 
 NSString *const baseUrl = @"https://creative-sampler.herokuapp.com/creatives/";
 NSString *const ADM_MACRO = @"{[{ .Adm | base64EncodeString | safeHTML }]}";
@@ -103,13 +105,16 @@ NSString *const ADM_MACRO = @"{[{ .Adm | base64EncodeString | safeHTML }]}";
     self.adView.delegate = self;
     [self.markupContainer addSubview:self.adView];
     [self.adView setAccessibilityIdentifier:@"customMarkupAdView"];
-    if (self.urWrap && self.urTemplate != NULL){
-        NSString *encodedAdm = [self encodeStringTo64: self.markup.text];
-        [self.adView prepareCustomMarkupFrom: [self wrapInUr: encodedAdm] withPlacement: self.markup.placement];
-    } else {
-        [self.adView prepareCustomMarkupFrom:self.markup.text withPlacement: self.markup.placement];
+    if (self.markup.placement != HyBidDemoAppPlacementInterstitial && self.markup.placement != HyBidDemoAppPlacementRewarded) {
+        if (self.urWrap && self.urTemplate != NULL){
+            NSString *encodedAdm = [self encodeStringTo64: self.markup.text];
+            [self prepareAdForPlacement:self.markup.placement withMarkup: [self wrapInUr: encodedAdm]];
+        } else {
+            [self prepareAdForPlacement:self.markup.placement withMarkup: self.markup.text];
+        }
     }
 }
+
 - (IBAction)openCreativeInBrowser:(id)sender {
     if ([self.creativeURL containsString:@"crid"]){
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString: [self.creativeURL stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]]];
@@ -161,6 +166,65 @@ NSString *const ADM_MACRO = @"{[{ .Adm | base64EncodeString | safeHTML }]}";
     return base64String;
 }
 
+- (void)prepareAdForPlacement:(HyBidMarkupPlacement)placement withMarkup:(NSString *)markupText {
+
+    if (markupText != nil) {
+        
+        NSArray* configs = [HyBidAdCustomizationUtility checkSavedHyBidAdSettings];
+        
+        if (configs.count > 0) {
+            
+            BOOL isFullScreen = placement == HyBidDemoAppPlacementInterstitial || placement == HyBidDemoAppPlacementRewarded;
+            BOOL isBanner = placement == HyBidDemoAppPlacementBanner;
+            BOOL isMRECT = placement == HyBidDemoAppPlacementMRect;
+
+            int bannerWidth = isBanner ? 320 : 0;
+            int bannerHeight = isBanner ? 50 : 0;
+            int mrectWidth = isMRECT ? 300 : 0;
+            int mrectHeight = isMRECT ? 250 : 0;
+            
+            [HyBidMarkupUtils isVastXml:markupText completion:^(BOOL isVAST, NSError *error) {
+                [HyBidAdCustomizationUtility postConfigToSamplingEndoingWithAdFormat:isVAST ? @"video" : @"html"
+                                                                               width:isBanner ? bannerWidth : mrectWidth
+                                                                              height:isBanner ? bannerHeight : mrectHeight
+                                                                        isFullscreen:isFullScreen
+                                                                          isRewarded:placement == HyBidDemoAppPlacementRewarded
+                                                                             admType:@"markup"
+                                                                           adContent:markupText
+                                                                             configs:configs
+                                                                          completion:^(BOOL success, NSString * _Nullable content) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        if (placement == HyBidDemoAppPlacementInterstitial) {
+                            self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
+                            [self.interstitialAd prepareAdWithAdReponse:content];
+                        } else if (placement == HyBidDemoAppPlacementRewarded) {
+                            self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:nil andWithDelegate:self];
+                            [self.rewardedAd prepareAdWithAdReponse:content];
+                        } else {
+                            [self.adView renderAdWithAdResponse:content withDelegate:self];
+                        }
+                        [self.showAdButton setEnabled:NO];
+                    });
+                }];
+                
+            }];
+            
+        } else {
+            if (placement == HyBidDemoAppPlacementInterstitial) {
+                self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
+                [self.interstitialAd prepareCustomMarkupFrom:markupText];
+            } else if (placement == HyBidDemoAppPlacementRewarded) {
+                self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:nil andWithDelegate:self];
+                [self.rewardedAd prepareCustomMarkupFrom:markupText];
+            } else {
+                [self.adView prepareCustomMarkupFrom:markupText withPlacement:placement];
+            }
+            
+            [self.showAdButton setEnabled:NO];
+        }
+    }
+}
+
 - (IBAction)showButtonTouchUpInside:(UIButton *)sender {
     switch (self.markup.placement) {
         case HyBidDemoAppPlacementBanner:
@@ -168,18 +232,8 @@ NSString *const ADM_MACRO = @"{[{ .Adm | base64EncodeString | safeHTML }]}";
         case HyBidDemoAppPlacementLeaderboard:
             break;
         case HyBidDemoAppPlacementInterstitial:
-            self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
-            if (self.markup != nil) {
-                [self.interstitialAd prepareCustomMarkupFrom: self.markup.text];
-                [self.showAdButton setEnabled: NO];
-            }
-            break;
         case HyBidDemoAppPlacementRewarded:
-            self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:nil andWithDelegate:self];
-            if (self.markup != nil) {
-                [self.rewardedAd prepareCustomMarkupFrom: self.markup.text];
-                [self.showAdButton setEnabled: NO];
-            }
+            [self prepareAdForPlacement:self.markup.placement withMarkup:self.markup.text];
             break;
     }
 }

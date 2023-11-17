@@ -68,7 +68,11 @@
             }
         }
         case kHyBidAdTypeVideo: {
-            switch (ad.assetGroupID.integerValue) {
+            NSNumber *assetGroupID = ad.isUsingOpenRTB
+            ? ad.openRTBAssetGroupID
+            : ad.assetGroupID;
+
+            switch (assetGroupID.integerValue) {
                 case VAST_MRECT: {
                     HyBidVASTAdPresenter *vastAdPresenter = [[HyBidVASTAdPresenter alloc] initWithAd:ad];
                     return vastAdPresenter;

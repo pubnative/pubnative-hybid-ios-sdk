@@ -20,20 +20,17 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+import UIKit
 
-@protocol HyBidAdSettingWithTextFieldCellDelegate<NSObject>
-
-- (void)textFieldValueChangedAtIndexPath:(NSIndexPath *)indexPath withValue:(NSString *)value;
-
-@end
-
-@interface HyBidAdSettingWithTextFieldCell : UITableViewCell <UITextFieldDelegate>
-
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UITextField *textField;
-
-@property (nonatomic, strong) NSIndexPath *indexPath;
-@property (nonatomic, weak) NSObject <HyBidAdSettingWithTextFieldCellDelegate> *delegate;
-
-@end
+class HyBidSegmentedControlTableViewCell: UITableViewCell {
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var toggleSwitch: UICheckbox!
+    @IBOutlet var segmentedControl: UISegmentedControl!
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        titleLabel.text = ""
+        toggleSwitch.isChecked = false
+        segmentedControl.selectedSegmentIndex = 0
+    }
+}

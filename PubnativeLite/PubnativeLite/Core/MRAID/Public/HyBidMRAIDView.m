@@ -346,10 +346,10 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
         if([ad.nativeCloseButtonDelay integerValue] >= 0 && [ad.nativeCloseButtonDelay integerValue] < HyBidSkipOffset.DEFAULT_NATIVE_CLOSE_BUTTON_OFFSET){
             self.nativeCloseButtonDelay = [[HyBidSkipOffset alloc] initWithOffset:ad.nativeCloseButtonDelay isCustom:YES];
         } else {
-            self.nativeCloseButtonDelay = [HyBidRenderingConfig sharedConfig].nativeCloseButtonOffset;
+            self.nativeCloseButtonDelay = HyBidConstants.nativeCloseButtonOffset;
         }
     } else {
-        self.nativeCloseButtonDelay = [HyBidRenderingConfig sharedConfig].nativeCloseButtonOffset;
+        self.nativeCloseButtonDelay = HyBidConstants.nativeCloseButtonOffset;
     }
 }
 
@@ -357,7 +357,7 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
     if ([ad.creativeAutoStorekitEnabled boolValue]) {
         self.creativeAutoStorekitEnabled = YES;
     } else {
-        self.creativeAutoStorekitEnabled = [HyBidRenderingConfig sharedConfig].creativeAutoStorekitEnabled;
+        self.creativeAutoStorekitEnabled = HyBidConstants.creativeAutoStorekitEnabled;
     }
 }
 
@@ -795,7 +795,7 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
     if (self.ad.mraidExpand) {
         [self decideMRAIDExpand:[self.ad.mraidExpand boolValue] withURL:urlString supportVerve:supportVerve];
     } else {
-        [self decideMRAIDExpand:[HyBidRenderingConfig sharedConfig].mraidExpand withURL:urlString supportVerve:supportVerve];
+        [self decideMRAIDExpand:HyBidConstants.mraidExpand withURL:urlString supportVerve:supportVerve];
     }
 }
 

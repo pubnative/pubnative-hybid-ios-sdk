@@ -362,7 +362,15 @@
     if (adReponse && [adReponse length] != 0) {
         HyBidAdRequest* adRequest = [[HyBidAdRequest alloc]init];
         adRequest.delegate = self;
-        adRequest.openRTBAdType = HyBidOpenRTBAdBanner;
+        adRequest.adSize = self.adSize;
+        if ([self.adSize isEqualTo:HyBidAdSize.SIZE_300x250]){
+            adRequest.placement = HyBidDemoAppPlacementMRect;
+            adRequest.openRTBAdType = HyBidOpenRTBAdVideo;
+        }
+        if ([self.adSize isEqualTo:HyBidAdSize.SIZE_300x50]){
+            adRequest.placement = HyBidDemoAppPlacementBanner;
+            adRequest.openRTBAdType = HyBidOpenRTBAdBanner;
+        }
         [adRequest processResponseWithJSON:adReponse];
     } else {
         [self.delegate adView:self didFailWithError:[NSError hyBidInvalidAsset]];
@@ -437,8 +445,8 @@
     if ([[NSUserDefaults standardUserDefaults] stringForKey: HyBidReportingCommon.SESSION_DURATION] != nil){
         [reportingDictionary setObject: [[NSUserDefaults standardUserDefaults] stringForKey: HyBidReportingCommon.SESSION_DURATION] forKey: HyBidReportingCommon.SESSION_DURATION];
     }
-    if ([[NSUserDefaults standardUserDefaults] stringForKey: HyBidReportingCommon.AGE_OF_APP] != nil){
-        [reportingDictionary setObject:[[NSUserDefaults standardUserDefaults] stringForKey: HyBidReportingCommon.AGE_OF_APP] forKey: HyBidReportingCommon.AGE_OF_APP];
+    if ([[HyBidSessionManager sharedInstance] getAgeOfApp] != nil){
+        [reportingDictionary setObject:[[HyBidSessionManager sharedInstance] getAgeOfApp] forKey: HyBidReportingCommon.AGE_OF_APP];
     }
 }
 

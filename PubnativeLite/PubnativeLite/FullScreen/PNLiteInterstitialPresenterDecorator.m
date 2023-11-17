@@ -132,9 +132,7 @@
             if ([self.interstitialPresenter.ad.skoverlayEnabled boolValue]) {
                 self.skoverlay = [[HyBidSKOverlay alloc] initWithAd:interstitialPresenter.ad];
             }
-        } else if ([HyBidRenderingConfig sharedConfig].interstitialSKOverlay) {
-            self.skoverlay = [[HyBidSKOverlay alloc] initWithAd:interstitialPresenter.ad];
-        }
+        } 
         [self.interstitialPresenterDelegate interstitialPresenterDidLoad:interstitialPresenter];
     }
 }
@@ -143,6 +141,7 @@
     if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenterDidShow:)] && !self.adTracker.impressionTracked) {
         [self.adTracker trackImpressionWithAdFormat:HyBidReportingAdFormat.FULLSCREEN];
         [self.interstitialPresenterDelegate interstitialPresenterDidShow:interstitialPresenter];
+        [self.skoverlay addObservers];
         [self.skoverlay presentWithAd:interstitialPresenter.ad];
     }
 }
@@ -160,6 +159,14 @@
         [[HyBid reportingManager] reportEventFor:reportingEvent];
         [self.interstitialPresenterDelegate interstitialPresenterDidDismiss:interstitialPresenter];
         [self.skoverlay dismissEntirely:YES withAd:interstitialPresenter.ad causedByAutoCloseTimerCompletion:NO];
+    }
+}
+
+- (void)interstitialPresenterDidFinish:(HyBidInterstitialPresenter *)interstitialPresenter {
+    if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenterDidFinish:)]) {
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.VIDEO_FINISHED adFormat:HyBidReportingAdFormat.FULLSCREEN properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
+        [self.interstitialPresenterDelegate interstitialPresenterDidFinish:interstitialPresenter];
     }
 }
 

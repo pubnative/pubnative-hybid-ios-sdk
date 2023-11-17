@@ -71,7 +71,6 @@
     }
     self.adRequestModel.requestParameters[HyBidRequestParameter.os] = [HyBidSettings sharedInstance].os;
     self.adRequestModel.requestParameters[HyBidRequestParameter.osVersion] = [HyBidSettings sharedInstance].osVersion;
-    self.adRequestModel.requestParameters[HyBidRequestParameter.deviceOsVersion] = [HyBidSettings sharedInstance].osVersion;
     self.adRequestModel.requestParameters[HyBidRequestParameter.deviceModel] = [HyBidSettings sharedInstance].deviceModel;
     self.adRequestModel.requestParameters[HyBidRequestParameter.deviceMake] = [HyBidSettings sharedInstance].deviceMake;
     self.adRequestModel.requestParameters[HyBidRequestParameter.deviceType] = [HyBidSettings sharedInstance].deviceType;
@@ -90,7 +89,7 @@
         self.adRequestModel.requestParameters[HyBidRequestParameter.batteryLevel] = [HyBidSettings sharedInstance].batteryLevel;
     }
     self.adRequestModel.requestParameters[HyBidRequestParameter.batterySaver] = [HyBidSettings sharedInstance].batterySaver;
-    if ([HyBidSettings sharedInstance].isAirplaneModeEnabled) {
+    if ([HyBidSettings sharedInstance].hasSIM && [HyBidSettings sharedInstance].isAirplaneModeEnabled) {
         self.adRequestModel.requestParameters[HyBidRequestParameter.airplaneMode] = [HyBidSettings sharedInstance].isAirplaneModeEnabled;
     }
     [self setIDFA:self.adRequestModel];
@@ -248,7 +247,9 @@
     
     // Impression data
     self.adRequestModel.requestParameters[HyBidRequestParameter.clickbrowser] = @"1";
-    self.adRequestModel.requestParameters[HyBidRequestParameter.topframe] = @"1";
+    if(![adSize isEqualTo:HyBidAdSize.SIZE_NATIVE]) {
+        self.adRequestModel.requestParameters[HyBidRequestParameter.topframe] = @"1";
+    }
     
     NSString* darkMode = [HyBidSettings sharedInstance].isDarkModeEnabled;
     if (darkMode) {

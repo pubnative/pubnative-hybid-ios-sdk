@@ -99,7 +99,6 @@
                         if ([skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.position] != [NSNull null] && [skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.position]) {
                             position = [[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.position] boolValue] ? SKOverlayPositionBottom : SKOverlayPositionBottomRaised;
                         }
-                        [self addObservers];
                         SKOverlayAppConfiguration *configuration = [[SKOverlayAppConfiguration alloc]
                                                                     initWithAppIdentifier:appIdentifier
                                                                     position:position];
@@ -187,6 +186,8 @@
     }
 }
 
+#pragma mark Observers
+
 - (void)addObservers {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(vastEndCardWillShow:)
@@ -256,8 +257,6 @@
         if ([ad.skoverlayEnabled boolValue]) {
             [self checkSKOverlayAvailabilityAndPresent];
         }
-    } else if ([HyBidRenderingConfig sharedConfig].interstitialSKOverlay) {
-        [self checkSKOverlayAvailabilityAndPresent];
     }
 }
 
@@ -300,9 +299,7 @@
         if ([ad.skoverlayEnabled boolValue]) {
             [self checkSKOverlayAvailabilityAndDismiss:completed causedByAutoCloseTimerCompletion:autoCloseTimerCompleted];
         }
-    } else if ([HyBidRenderingConfig sharedConfig].interstitialSKOverlay) {
-        [self checkSKOverlayAvailabilityAndDismiss:completed causedByAutoCloseTimerCompletion:autoCloseTimerCompleted];
-    }
+    } 
 }
 
 - (void)checkSKOverlayAvailabilityAndDismiss:(BOOL)isSKOverlayDismissedEntirely causedByAutoCloseTimerCompletion:(BOOL)autoCloseTimerCompleted {

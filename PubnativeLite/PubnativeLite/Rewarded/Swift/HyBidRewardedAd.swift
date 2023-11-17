@@ -99,8 +99,8 @@ public class HyBidRewardedAd: NSObject {
         self.zoneID = zoneID
         self.appToken = appToken
         self.delegate = delegate
-        self.htmlSkipOffset = HyBidRenderingConfig.sharedConfig.rewardedHtmlSkipOffset
-        self.closeOnFinish = HyBidRenderingConfig.sharedConfig.rewardedCloseOnFinish
+        self.htmlSkipOffset = HyBidConstants.rewardedHtmlSkipOffset
+        self.closeOnFinish = HyBidConstants.rewardedCloseOnFinish
     }
     
     @objc
@@ -129,25 +129,6 @@ public class HyBidRewardedAd: NSObject {
         } else {
             invokeDidFailWithError(error: NSError.hyBidInvalidZoneId())
         }
-    }
-    
-    @objc(setSkipOffset:)
-    public func setSkipOffset(_ seconds: Int) {
-        if seconds > 0 {
-            setHTMLSkipOffset(seconds)
-        }
-    }
-    
-    @objc(setHTMLSkipOffset:)
-    public func setHTMLSkipOffset(_ seconds: Int) {
-        if seconds > 0 {
-            htmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: seconds), isCustom: true)
-        }
-    }
-    
-    @objc(setCloseOnFinish:)
-    public func setCloseOnFinish(_ closeOnFinish: Bool) {
-        self.closeOnFinish = closeOnFinish
     }
     
     @objc
@@ -287,9 +268,7 @@ public class HyBidRewardedAd: NSObject {
         if zoneID != nil{
             sessionReportingDictionaryToAppend[Common.ZONE_ID] = zoneID
         }
-        if UserDefaults.standard.object(forKey: Common.AGE_OF_APP) != nil {
-            sessionReportingDictionaryToAppend[Common.AGE_OF_APP] = UserDefaults.standard.object(forKey: Common.AGE_OF_APP)
-        }
+        sessionReportingDictionaryToAppend[Common.AGE_OF_APP] = HyBidSessionManager.sharedInstance.getAgeOfApp()
         return sessionReportingDictionaryToAppend
     }
     

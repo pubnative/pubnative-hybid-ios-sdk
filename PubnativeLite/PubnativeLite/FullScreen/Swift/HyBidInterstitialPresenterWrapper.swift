@@ -47,6 +47,10 @@ class HyBidInterstitialPresenterWrapper: NSObject, HyBidInterstitialPresenterDel
         parent?.interstitialPresenterDidDismiss(interstitialPresenter)
     }
     
+    func interstitialPresenterDidFinish(_ interstitialPresenter: HyBidInterstitialPresenter!) {
+        parent?.interstitialPresenterDidFinish(interstitialPresenter)
+    }
+    
     func interstitialPresenter(_ interstitialPresenter: HyBidInterstitialPresenter!, didFailWithError error: Error!) {
         parent?.interstitialPresenter(interstitialPresenter, didFailWithError: error)
     }

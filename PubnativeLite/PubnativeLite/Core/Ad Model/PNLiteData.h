@@ -59,6 +59,7 @@
 + (NSString *)mraidExpand;
 + (NSString *)customEndcardDisplay;
 + (NSString *)creativeAutoStorekitEnabled;
-
++ (NSString *)sdkAutoStorekitEnabled;
++ (NSString *)sdkAutoStorekitDelay;
 
 @end

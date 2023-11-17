@@ -27,7 +27,6 @@
 + (NSString * _Nonnull)appToken                      { return @"apptoken"; }
 + (NSString * _Nonnull)os                            { return @"os"; }
 + (NSString * _Nonnull)osVersion                     { return @"osver"; }
-+ (NSString * _Nonnull)deviceOsVersion               { return @"osv"; }
 + (NSString * _Nonnull)deviceModel                   { return @"devicemodel"; }
 + (NSString * _Nonnull)deviceWidth                   { return @"dw"; }
 + (NSString * _Nonnull)deviceHeight                  { return @"dh"; }

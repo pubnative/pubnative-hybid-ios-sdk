@@ -111,9 +111,7 @@
             if ([self.rewardedPresenter.ad.skoverlayEnabled boolValue]) {
                 self.skoverlay = [[HyBidSKOverlay alloc] initWithAd:rewardedPresenter.ad];
             }
-        } else if ([HyBidRenderingConfig sharedConfig].rewardedSKOverlay) {
-            self.skoverlay = [[HyBidSKOverlay alloc] initWithAd:rewardedPresenter.ad];
-        }
+        } 
         [self.rewardedPresenterDelegate rewardedPresenterDidLoad:rewardedPresenter];
         
         if(!self.impressionTracker) {
@@ -131,6 +129,7 @@
     if (self.rewardedPresenterDelegate && [self.rewardedPresenterDelegate respondsToSelector:@selector(rewardedPresenterDidShow:)] && !self.adTracker.impressionTracked) {
         [self.adTracker trackImpressionWithAdFormat:HyBidReportingAdFormat.REWARDED];
         [self.rewardedPresenterDelegate rewardedPresenterDidShow:rewardedPresenter];
+        [self.skoverlay addObservers];
         [self.skoverlay presentWithAd:rewardedPresenter.ad];
     }
 }

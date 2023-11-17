@@ -41,6 +41,7 @@
 @property (nonatomic, strong) NSMutableArray *dataSource;
 @property (nonatomic, strong) UIActivityIndicatorView *bannerLoaderIndicator;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *creativeIDTopConstraint;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *apiSwitch;
 
 @end
 
@@ -80,7 +81,12 @@
     self.prepareButton.enabled = NO;
     [self.bannerLoaderIndicator startAnimating];
     [self.bannerAdView setIsAutoCacheOnLoad:self.adCachingSwitch.isOn];
-    [self.bannerAdView loadWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
+    
+    if (self.apiSwitch.selectedSegmentIndex == 0) {
+        [self.bannerAdView loadWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
+    } else if (self.apiSwitch.selectedSegmentIndex == 1) {
+        [self.bannerAdView loadExchangeAdWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
+    }
 }
 
 - (IBAction)adCachingSwitchValueChanged:(UISwitch *)sender {

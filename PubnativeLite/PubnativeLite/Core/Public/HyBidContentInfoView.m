@@ -220,9 +220,6 @@ CGFloat const HyBidIconMaximumHeight = 30.0f;
                     });
                     self.link = @"https://pubnative.net/content-info";
                 }
-                if (!self.link) {
-                    self.link = @"https://pubnative.net/content-info";
-                }
                 self.openSize = self.iconView.frame.size.width + self.textView.frame.size.width;
                 self.hidden = NO;
             }

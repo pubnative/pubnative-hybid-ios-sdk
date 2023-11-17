@@ -105,7 +105,6 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import "HyBidAdPresenterFactory.h"
 #import "HyBidAdCache.h"
 #import "HyBidHeaderBiddingUtils.h"
-#import "HyBidPrebidUtils.h"
 #import "HyBidContentInfoView.h"
 #import "HyBidUserDataManager.h"
 #import "HyBidBaseModel.h"
@@ -200,22 +199,9 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 + (void)setAppStoreAppID:(NSString *)appID DEPRECATED_MSG_ATTRIBUTE("You can safely remove this method from your integration.");
 + (NSString *)sdkVersion;
 + (BOOL)isInitialized;
-+ (void)setInterstitialSkipOffset:(NSInteger)seconds DEPRECATED_MSG_ATTRIBUTE("Use either setVideoInterstitialSkipOffset: or setHTMLInterstitialSkipOffset: based on your ad format instead.");
-+ (void)setVideoInterstitialSkipOffset:(NSInteger)seconds DEPRECATED_MSG_ATTRIBUTE("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
-+ (void)setHTMLInterstitialSkipOffset:(NSInteger)seconds DEPRECATED_MSG_ATTRIBUTE("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
-+ (void)setHTMLRewardedSkipOffset:(NSInteger)seconds DEPRECATED_MSG_ATTRIBUTE("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
-+ (void)setEndCardCloseOffset:(NSNumber *)seconds DEPRECATED_MSG_ATTRIBUTE("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
-+ (void)setShowEndCard:(BOOL)showEndCard DEPRECATED_MSG_ATTRIBUTE("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
-+ (void)setRewardedCloseOnFinish:(BOOL)closeOnFinish DEPRECATED_MSG_ATTRIBUTE("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
-+ (void)setInterstitialCloseOnFinish:(BOOL)closeOnFinish DEPRECATED_MSG_ATTRIBUTE("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
-+ (void)setInterstitialActionBehaviour:(HyBidInterstitialActionBehaviour)actionBehaviour DEPRECATED_MSG_ATTRIBUTE("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
 + (HyBidReportingManager *)reportingManager;
-+ (void)setVideoAudioStatus:(HyBidAudioStatus)audioStatus DEPRECATED_MSG_ATTRIBUTE("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
 + (NSString*)getSDKVersionInfo;
 + (NSString*)getCustomRequestSignalData;
 + (NSString*)getCustomRequestSignalData:(NSString*) mediationVendorName;
-+ (void)setMRAIDExpand:(BOOL)enabled DEPRECATED_MSG_ATTRIBUTE("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
-+ (void)setInterstitialSKOverlay:(BOOL)enabled DEPRECATED_MSG_ATTRIBUTE("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
-+ (void)setRewardedSKOverlay:(BOOL)enabled DEPRECATED_MSG_ATTRIBUTE("Please note this method will no longer be supported from HyBid SDK v3.0. While we do not recommend changes to this setting, you can reach out to your account managers for customisations.");
 
 @end

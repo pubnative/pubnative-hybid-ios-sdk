@@ -388,6 +388,20 @@ public class HyBidSettings: NSObject, CLLocationManagerDelegate {
         }
         return nil
     }
+    
+    @objc public var hasSIM: Bool {
+        if #available(iOS 12, *) {
+            let networkInfo = CTTelephonyNetworkInfo()
+            guard let serviceSubscriberCellularProviders = networkInfo.serviceSubscriberCellularProviders else { return false }
+            let carriers = serviceSubscriberCellularProviders.values
+            let validCarriers = carriers.compactMap() {
+                $0.isoCountryCode
+            }
+            return !validCarriers.isEmpty
+        } else {
+            return false;
+        }
+    }
 }
 
 public extension UIDevice {

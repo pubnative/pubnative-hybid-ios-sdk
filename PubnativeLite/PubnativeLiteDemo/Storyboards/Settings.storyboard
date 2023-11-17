@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GpQ-44-yA7">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GpQ-44-yA7">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -382,15 +382,15 @@
                                         </state>
                                         <variation key="default">
                                             <mask key="constraints">
-                                                <exclude reference="d6Z-oI-gvz"/>
                                                 <exclude reference="fNR-55-h1e"/>
+                                                <exclude reference="d6Z-oI-gvz"/>
                                             </mask>
                                         </variation>
                                         <variation key="heightClass=compact">
                                             <mask key="constraints">
+                                                <include reference="fNR-55-h1e"/>
                                                 <exclude reference="9iM-gk-N5Q"/>
                                                 <include reference="d6Z-oI-gvz"/>
-                                                <include reference="fNR-55-h1e"/>
                                             </mask>
                                         </variation>
                                         <variation key="heightClass=compact-widthClass=regular">
@@ -971,7 +971,7 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <segue destination="yQm-th-YNf" kind="show" id="Adr-Ow-A5c"/>
+                                    <segue destination="utA-25-E6R" kind="show" id="8Fj-9y-xQW"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ta3-jm-G5X" userLabel="Consent Button">
@@ -1429,156 +1429,15 @@
             </objects>
             <point key="canvasLocation" x="-4687" y="806"/>
         </scene>
-        <!--Ad Settings-->
-        <scene sceneID="e3m-3b-crI">
+        <!--AdCustomization-->
+        <scene sceneID="rrG-zZ-Tvm">
             <objects>
-                <viewController title="Ad Settings" id="yQm-th-YNf" customClass="HyBidDemoAdSettingsViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="RCn-Gc-6c7">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="qTX-Tl-aqN">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HyBidAdSettingWithSwitchCell" id="16V-kZ-bBo" customClass="HyBidAdSettingWithSwitchCell">
-                                        <rect key="frame" x="0.0" y="50" width="414" height="43.5"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="16V-kZ-bBo" id="CyS-fK-C1B">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vsl-Sx-Vhd">
-                                                    <rect key="frame" x="343" y="6.5" width="51" height="31"/>
-                                                    <accessibility key="accessibilityConfiguration" identifier="hyBidAdSettingsSwitchCellSwitch" label="HyBid Ad Settings Switch Cell Switch"/>
-                                                    <connections>
-                                                        <action selector="switchValueChanged:" destination="16V-kZ-bBo" eventType="valueChanged" id="gKd-yN-SwL"/>
-                                                    </connections>
-                                                </switch>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aPL-9R-ycZ">
-                                                    <rect key="frame" x="20" y="11.5" width="38" height="20.5"/>
-                                                    <accessibility key="accessibilityConfiguration" identifier="hyBidAdSettingsSwitchCellLabel" label="HyBid Ad Settings Switch Cell Label"/>
-                                                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="Vsl-Sx-Vhd" secondAttribute="trailing" constant="22" id="32H-uW-ebI"/>
-                                                <constraint firstItem="aPL-9R-ycZ" firstAttribute="leading" secondItem="CyS-fK-C1B" secondAttribute="leading" constant="20" id="8cd-GQ-bvA"/>
-                                                <constraint firstItem="aPL-9R-ycZ" firstAttribute="centerY" secondItem="CyS-fK-C1B" secondAttribute="centerY" id="c4f-XP-IQn"/>
-                                                <constraint firstItem="Vsl-Sx-Vhd" firstAttribute="centerY" secondItem="CyS-fK-C1B" secondAttribute="centerY" id="g8N-xa-Sjw"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="titleLabel" destination="aPL-9R-ycZ" id="E4K-wr-ESO"/>
-                                            <outlet property="toggleSwitch" destination="Vsl-Sx-Vhd" id="TXd-5h-dDt"/>
-                                        </connections>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HyBidAdSettingWithTextFieldCell" id="WlT-94-k5D" customClass="HyBidAdSettingWithTextFieldCell">
-                                        <rect key="frame" x="0.0" y="93.5" width="414" height="43.5"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WlT-94-k5D" id="PRb-AG-gra">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fvy-jn-Kuv">
-                                                    <rect key="frame" x="20" y="11.5" width="38" height="20.5"/>
-                                                    <accessibility key="accessibilityConfiguration" identifier="hyBidAdSettingsTextFieldCellLabel" label="HyBid Ad Settings TextField Cell Label"/>
-                                                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ibm-6a-QhX">
-                                                    <rect key="frame" x="244" y="5" width="150" height="34"/>
-                                                    <accessibility key="accessibilityConfiguration" identifier="hyBidAdSettingsTextFieldCellTextField" label="HyBid Ad Settings TextField Cell TextField"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="150" id="HHa-WI-gKa"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" textContentType="tel"/>
-                                                </textField>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="Fvy-jn-Kuv" firstAttribute="leading" secondItem="PRb-AG-gra" secondAttribute="leading" constant="20" id="Inw-e8-HJE"/>
-                                                <constraint firstItem="Ibm-6a-QhX" firstAttribute="centerY" secondItem="PRb-AG-gra" secondAttribute="centerY" id="QLR-vN-6E2"/>
-                                                <constraint firstAttribute="trailing" secondItem="Ibm-6a-QhX" secondAttribute="trailing" constant="20" symbolic="YES" id="aop-JE-w79"/>
-                                                <constraint firstItem="Fvy-jn-Kuv" firstAttribute="centerY" secondItem="PRb-AG-gra" secondAttribute="centerY" id="kIt-oR-G3d"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="textField" destination="Ibm-6a-QhX" id="K2c-Dt-NyC"/>
-                                            <outlet property="titleLabel" destination="Fvy-jn-Kuv" id="4dk-La-siP"/>
-                                        </connections>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HyBidAdSettingWithSegmentedControlCell" id="0DY-5D-T5T" customClass="HyBidAdSettingWithSegmentedControlCell">
-                                        <rect key="frame" x="0.0" y="137" width="414" height="43.5"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0DY-5D-T5T" id="CCb-Ij-abc">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nGb-FL-DSD">
-                                                    <rect key="frame" x="20" y="11.5" width="38" height="20.5"/>
-                                                    <accessibility key="accessibilityConfiguration" identifier="hyBidAdSettingsSegmentedControlCellLabel" label="HyBid Ad Settings SegmentedControl Cell Label"/>
-                                                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="yYI-hI-b7S">
-                                                    <rect key="frame" x="263" y="6" width="131" height="32.5"/>
-                                                    <segments>
-                                                        <segment title="First"/>
-                                                        <segment title="Second"/>
-                                                    </segments>
-                                                    <connections>
-                                                        <action selector="segmentedControlValueChanged:" destination="0DY-5D-T5T" eventType="valueChanged" id="6hA-zw-4qH"/>
-                                                    </connections>
-                                                </segmentedControl>
-                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="whU-lu-5Sl">
-                                                    <rect key="frame" x="217" y="11.5" width="38" height="20.5"/>
-                                                    <accessibility key="accessibilityConfiguration" identifier="hyBidAdSettingsSegmented ControlCellSegmentedControl" label="HyBid Ad Settings Segmented Control Cell Segmented Control"/>
-                                                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="yYI-hI-b7S" secondAttribute="trailing" constant="20" symbolic="YES" id="2DI-bW-kaV"/>
-                                                <constraint firstItem="whU-lu-5Sl" firstAttribute="centerY" secondItem="CCb-Ij-abc" secondAttribute="centerY" id="Cz8-ab-YNb"/>
-                                                <constraint firstItem="nGb-FL-DSD" firstAttribute="leading" secondItem="CCb-Ij-abc" secondAttribute="leading" constant="20" id="DFf-VF-XtM"/>
-                                                <constraint firstItem="yYI-hI-b7S" firstAttribute="centerY" secondItem="CCb-Ij-abc" secondAttribute="centerY" id="gTP-wp-KvB"/>
-                                                <constraint firstItem="yYI-hI-b7S" firstAttribute="leading" secondItem="whU-lu-5Sl" secondAttribute="trailing" constant="8" id="gfa-Zg-w6a"/>
-                                                <constraint firstItem="whU-lu-5Sl" firstAttribute="top" secondItem="yYI-hI-b7S" secondAttribute="bottom" constant="-26" id="hDe-HM-GiO"/>
-                                                <constraint firstItem="nGb-FL-DSD" firstAttribute="centerY" secondItem="CCb-Ij-abc" secondAttribute="centerY" id="i0P-cB-5J9"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="hiddenAccessibilityLabel" destination="whU-lu-5Sl" id="2tq-Sn-wdO"/>
-                                            <outlet property="segmentedControl" destination="yYI-hI-b7S" id="00f-4I-kS3"/>
-                                            <outlet property="titleLabel" destination="nGb-FL-DSD" id="OpQ-NS-i9L"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="05u-B1-Mcq"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="qTX-Tl-aqN" firstAttribute="leading" secondItem="05u-B1-Mcq" secondAttribute="leading" id="HQQ-gT-Udh"/>
-                            <constraint firstItem="qTX-Tl-aqN" firstAttribute="top" secondItem="05u-B1-Mcq" secondAttribute="top" id="Rz0-vA-47t"/>
-                            <constraint firstAttribute="bottom" secondItem="qTX-Tl-aqN" secondAttribute="bottom" id="YxZ-4H-LVo"/>
-                            <constraint firstItem="qTX-Tl-aqN" firstAttribute="trailing" secondItem="05u-B1-Mcq" secondAttribute="trailing" id="nmL-OF-w2B"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="v3p-mT-u8N"/>
-                    <connections>
-                        <outlet property="tableView" destination="qTX-Tl-aqN" id="H2s-XW-5a3"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="yEn-sQ-5RM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <viewControllerPlaceholder storyboardName="AdCustomization" id="utA-25-E6R" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="gQm-BA-Y5Y"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ero-oq-d4R" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3997.1014492753625" y="805.58035714285711"/>
+            <point key="canvasLocation" x="-4959" y="153"/>
         </scene>
         <!--Mediation Settings-->
         <scene sceneID="20C-c0-3sf">
@@ -2392,7 +2251,7 @@
     </scenes>
     <resources>
         <systemColor name="labelColor">
-            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

@@ -24,8 +24,9 @@
 #import "HyBidDemoLegacyAPITesterDetailViewController.h"
 #import <HyBid/HyBid.h>
 #import "UITextView+KeyboardDismiss.h"
+#import "HyBidDemo-Swift.h"
 
-@interface HyBidDemoLegacyAPITesterMainViewController () <HyBidInterstitialAdDelegate, HyBidRewardedAdDelegate>
+@interface HyBidDemoLegacyAPITesterMainViewController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *bannerButton;
 @property (weak, nonatomic) IBOutlet UIButton *mRectButton;
@@ -35,8 +36,6 @@
 @property (weak, nonatomic) IBOutlet UITextView *adReponseTextView;
 @property (nonatomic) HyBidMarkupPlacement placement;
 @property (nonatomic, strong) NSString *adResponse;
-@property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
-@property (nonatomic, strong) HyBidRewardedAd *rewardedAd;
 @property (weak, nonatomic) IBOutlet UIButton *debugButton;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 
@@ -52,6 +51,7 @@
     [super viewDidLoad];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setBool:NO forKey:kIsUsingOpenRTB];
+    self.placement = -1;
     [self.adReponseTextView addDismissKeyboardButtonWithTitle:@"Done" withTarget:self withSelector:@selector(dismissKeyboard)];
 }
 
@@ -99,8 +99,7 @@
             case HyBidDemoAppPlacementInterstitial:
                 switch ([self.segmentedControl selectedSegmentIndex]) {
                     case 0: {
-                        self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
-                        [self.interstitialAd prepareAdWithAdReponse:self.adResponse];
+                        [self loadWithAdResponse: self.adResponse];
                         break;
                     }
                     case 1: {
@@ -112,8 +111,7 @@
             case HyBidDemoAppPlacementRewarded:
                 switch ([self.segmentedControl selectedSegmentIndex]) {
                     case 0: {
-                        self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:nil andWithDelegate:self];
-                        [self.rewardedAd prepareAdWithAdReponse:self.adResponse];
+                        [self loadWithAdResponse: self.adResponse];
                         break;
                     }
                     case 1: {
@@ -150,18 +148,53 @@
     legacyAPITesterDetailVC.adResponse = self.adResponse;
     legacyAPITesterDetailVC.placement = self.placement;
     legacyAPITesterDetailVC.debugButton = self.debugButton;
-    [self cleanUpAllParams];
-    if (self.placement != HyBidDemoAppPlacementLeaderboard) {
-        [self.navigationController presentViewController:legacyAPITesterDetailVC animated:YES completion:nil];
+    
+    NSArray* configs = [HyBidAdCustomizationUtility checkSavedHyBidAdSettings];
+    if (configs.count > 0) {
+        
+        BOOL isFullScreen = self.placement == HyBidDemoAppPlacementInterstitial || self.placement == HyBidDemoAppPlacementRewarded;
+        BOOL isBanner = self.placement == HyBidDemoAppPlacementBanner;
+        BOOL isMRECT = self.placement == HyBidDemoAppPlacementMRect;
+
+        int bannerWidth = isBanner ? 320 : 0;
+        int bannerHeight = isBanner ? 50 : 0;
+        int mrectWidth = isMRECT ? 300 : 0;
+        int mrectHeight = isMRECT ? 250 : 0;
+        
+        [HyBidAdCustomizationUtility postConfigToSamplingEndoingWithAdFormat:@"html"
+                                                                       width:isBanner ? bannerWidth : mrectWidth
+                                                                      height:isBanner ? bannerHeight : mrectHeight
+                                                                isFullscreen:isFullScreen
+                                                                  isRewarded:self.placement == HyBidDemoAppPlacementRewarded
+                                                                     admType:@"apiv3"
+                                                                   adContent:self.adResponse
+                                                                     configs:configs
+                                                                  completion:^(BOOL success, NSString * _Nullable content) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self cleanUpAllParams];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    legacyAPITesterDetailVC.adResponse = content;
+                    if (self.placement != HyBidDemoAppPlacementLeaderboard) {
+                        [self.navigationController presentViewController:legacyAPITesterDetailVC animated:YES completion:nil];
+                    } else {
+                        [self.navigationController pushViewController:legacyAPITesterDetailVC animated:YES];
+                    }
+                });
+            });
+        }];
+        
     } else {
-        [self.navigationController pushViewController:legacyAPITesterDetailVC animated:YES];
+        [self cleanUpAllParams];
+        if (self.placement != HyBidDemoAppPlacementLeaderboard) {
+            [self.navigationController presentViewController:legacyAPITesterDetailVC animated:YES completion:nil];
+        } else {
+            [self.navigationController pushViewController:legacyAPITesterDetailVC animated:YES];
+        }
     }
 }
 
 - (void)cleanUpAllParams {
     self.adResponse = nil;
-    self.interstitialAd = nil;
-    self.rewardedAd = nil;
 }
 
 - (IBAction)bannerTouchUpInside:(UIButton *)sender {
@@ -219,62 +252,6 @@
 
 - (void)invokeFailWithError:(NSError *) error {
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
-}
-
-#pragma mark - HyBidInterstitialAdDelegate
-
-- (void)interstitialDidLoad {
-    NSLog(@"Interstitial did load");
-    [self.interstitialAd show];
-    self.debugButton.hidden = NO;
-}
-
-- (void)interstitialDidFailWithError:(NSError *)error {
-    NSLog(@"Interstitial did fail with error: %@",error.localizedDescription);
-    [self showAlertControllerWithMessage:error.localizedDescription];
-    self.debugButton.hidden = NO;
-}
-
-- (void)interstitialDidTrackClick {
-    NSLog(@"Interstitial did track click");
-}
-
-- (void)interstitialDidTrackImpression {
-    NSLog(@"Interstitial did track impression");
-}
-
-- (void)interstitialDidDismiss {
-    NSLog(@"Interstitial did dismiss");
-}
-
-#pragma mark - HyBidRewardedAdDelegate
-
--(void)rewardedDidLoad {
-    NSLog(@"Rewarded did load");
-    [self.rewardedAd show];
-    self.debugButton.hidden = NO;
-}
-
--(void)rewardedDidFailWithError:(NSError *)error {
-    NSLog(@"Rewarded did fail with error: %@",error.localizedDescription);
-    [self showAlertControllerWithMessage:error.localizedDescription];
-    self.debugButton.hidden = NO;
-}
-
--(void)rewardedDidTrackClick {
-    NSLog(@"Rewarded did track click");
-}
-
--(void)rewardedDidTrackImpression {
-    NSLog(@"Rewarded did track impression");
-}
-
--(void)rewardedDidDismiss {
-    NSLog(@"Rewarded did dismiss");
-}
-
-- (void)onReward {
-    NSLog(@"Rewarded did reward");
 }
 
 @end

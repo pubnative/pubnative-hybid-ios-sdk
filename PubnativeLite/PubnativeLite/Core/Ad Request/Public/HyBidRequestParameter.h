@@ -27,7 +27,6 @@
 + (NSString * _Nonnull)appToken;
 + (NSString * _Nonnull)os;
 + (NSString * _Nonnull)osVersion;
-+ (NSString * _Nonnull)deviceOsVersion;
 + (NSString * _Nonnull)deviceModel;
 + (NSString * _Nonnull)deviceWidth;
 + (NSString * _Nonnull)deviceHeight;

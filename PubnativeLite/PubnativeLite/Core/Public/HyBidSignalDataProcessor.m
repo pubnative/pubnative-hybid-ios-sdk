@@ -145,25 +145,25 @@ NSInteger const HyBidSignalDataResponseStatusRequestMalformed = 422;
                             [self invokeDidFail:error];
                         } else {
                             NSArray *endCards = [self fetchEndCardsFromVastAd:vastModel.ads.firstObject];
-                            if ([ad.endcardEnabled boolValue] || (ad.endcardEnabled == nil && [HyBidRenderingConfig sharedConfig].showEndCard)) {
+                            if ([ad.endcardEnabled boolValue] || (ad.endcardEnabled == nil && HyBidConstants.showEndCard)) {
                                 if ([endCards count] > 0) {
                                     [ad setHasEndCard:YES];
-                                    if ([ad.customEndcardEnabled boolValue] || (ad.customEndcardEnabled == nil && [HyBidRenderingConfig sharedConfig].customEndCard)) {
-                                        if ([self customEndcardDisplayBehaviourFromString:ad.customEndcardDisplay] == HyBidCustomEndcardDisplayExtention || (ad.customEndcardDisplay == nil && [HyBidRenderingConfig sharedConfig].customEndcardDisplay == HyBidCustomEndcardDisplayExtention)) {
+                                    if ([ad.customEndcardEnabled boolValue] || (ad.customEndcardEnabled == nil && HyBidConstants.showCustomEndCard)) {
+                                        if ([self customEndcardDisplayBehaviourFromString:ad.customEndcardDisplay] == HyBidCustomEndcardDisplayExtention || (ad.customEndcardDisplay == nil && HyBidConstants.customEndcardDisplay == HyBidCustomEndcardDisplayExtention)) {
                                             if (ad.customEndCardData && ad.customEndCardData.length > 0) {
                                                 [ad setHasCustomEndCard:YES];
                                             }
                                         }
                                     }
                                 } else if ([endCards count] == 0) {
-                                    if ([ad.customEndcardEnabled boolValue] || (ad.customEndcardEnabled == nil && [HyBidRenderingConfig sharedConfig].customEndCard)) {
+                                    if ([ad.customEndcardEnabled boolValue] || (ad.customEndcardEnabled == nil && HyBidConstants.showCustomEndCard)) {
                                         if (ad.customEndCardData && ad.customEndCardData.length > 0) {
                                             [ad setHasCustomEndCard:YES];
                                         }
                                     }
                                 }
-                            } else if (ad.endcardEnabled != nil || (ad.endcardEnabled == nil && ![HyBidRenderingConfig sharedConfig].showEndCard)) {
-                                if ([ad.customEndcardEnabled boolValue] || (ad.customEndcardEnabled == nil && [HyBidRenderingConfig sharedConfig].customEndCard)) {
+                            } else if (ad.endcardEnabled != nil || (ad.endcardEnabled == nil && !HyBidConstants.showEndCard)) {
+                                if ([ad.customEndcardEnabled boolValue] || (ad.customEndcardEnabled == nil && HyBidConstants.showCustomEndCard)) {
                                     if (ad.customEndCardData && ad.customEndCardData.length > 0) {
                                         [ad setHasCustomEndCard:YES];
                                     }

@@ -59,5 +59,7 @@
 + (NSString *)mraidExpand { return @"mraid_expand"; }
 + (NSString *)customEndcardDisplay { return @"custom_endcard_display"; }
 + (NSString *)creativeAutoStorekitEnabled { return @"creative_autostorekit"; }
++ (NSString *)sdkAutoStorekitEnabled { return @"sdk_autostorekit"; }
++ (NSString *)sdkAutoStorekitDelay {return @"sdk_autostorekit_delay";}
 
 @end

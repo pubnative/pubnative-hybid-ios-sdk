@@ -439,6 +439,28 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     return result;
 }
 
+- (NSNumber *)sdkAutoStorekitEnabled {
+    NSNumber *result = nil;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.sdkAutoStorekitEnabled] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.sdkAutoStorekitEnabled];
+        }
+    }
+    return result;
+}
+
+- (NSNumber *)sdkAutoStorekitDelay {
+    NSNumber *result = nil;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.sdkAutoStorekitDelay] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.sdkAutoStorekitDelay];
+        }
+    }
+    return result;
+}
+
 - (NSNumber *)endcardEnabled {
     NSNumber *result = nil;
     NSDictionary *jsonDictionary = [self jsonData];

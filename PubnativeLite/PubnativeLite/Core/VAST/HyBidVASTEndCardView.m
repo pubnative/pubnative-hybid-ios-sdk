@@ -138,7 +138,7 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
     if (ad.endcardCloseDelay) {
         self.endCardCloseDelay = [[HyBidSkipOffset alloc] initWithOffset:ad.endcardCloseDelay isCustom:YES];
     } else {
-        self.endCardCloseDelay = [HyBidRenderingConfig sharedConfig].endCardCloseOffset;
+        self.endCardCloseDelay = HyBidConstants.endCardCloseOffset;
     }
 }
 
@@ -360,7 +360,9 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
     }
     
     self.endCard = endCard;
-    [self.vastEventProcessor setCustomEvents:[[endCard events] events]];
+    if (self.endCard.events == nil) {
+        [self.vastEventProcessor setCustomEvents:[[endCard events] events]];
+    }
     if ([endCard type] == HyBidEndCardType_STATIC) {
         [self addTapRecognizerToView:self.mainView];
         [self displayImageViewWithURL:[endCard content] withView:viewController.view];

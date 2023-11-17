@@ -61,20 +61,20 @@ typedef id<GADMediationInterstitialAdEventDelegate> _Nullable(^HyBidGADInterstit
         if (self.ad.interstitialHtmlSkipOffset){
             htmlSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:self.ad.interstitialHtmlSkipOffset isCustom:YES];
         } else {
-            htmlSkipOffset = [HyBidRenderingConfig sharedConfig].interstitialHtmlSkipOffset;
+            htmlSkipOffset = HyBidConstants.interstitialHtmlSkipOffset;
         }
         
         if (self.ad.videoSkipOffset){
             videoSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:self.ad.videoSkipOffset isCustom:YES];
         } else {
-            videoSkipOffset = [HyBidRenderingConfig sharedConfig].videoSkipOffset;
+            videoSkipOffset = HyBidConstants.videoSkipOffset;
         }
         
         BOOL closeOnFinish;
         if (self.ad.closeInterstitialAfterFinish) {
             closeOnFinish = self.ad.closeInterstitialAfterFinish;
         } else {
-            closeOnFinish = [HyBidRenderingConfig sharedConfig].interstitialCloseOnFinish;
+            closeOnFinish = HyBidConstants.interstitialCloseOnFinish;
         }
         
         self.interstitialPresenter = [self.interstitalPresenterFactory createInterstitalPresenterWithAd:self.ad

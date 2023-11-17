@@ -63,15 +63,6 @@
     [[ALSdk shared] initializeSdkWithCompletionHandler:^(ALSdkConfiguration *configuration) {}];
     
     [HyBid setAppStoreAppID:kHyBidDemoAppID];
-    
-    [HyBid setInterstitialActionBehaviour:HB_CREATIVE];
-//    [HyBid setVideoInterstitialSkipOffset:1];
-//    [HyBid setHTMLInterstitialSkipOffset:2];
-//    [HyBid setEndCardCloseOffset:@5];
-    [HyBid setVideoAudioStatus:HyBidAudioStatusON];
-    [HyBid setInterstitialSKOverlay:YES];
-    [HyBid setRewardedSKOverlay:YES];
-//    [HyBid setShowEndCard:NO];
     [HyBid getCustomRequestSignalData];
     
     [HyBidGPPSDKInitializer initOneTrustSDK];

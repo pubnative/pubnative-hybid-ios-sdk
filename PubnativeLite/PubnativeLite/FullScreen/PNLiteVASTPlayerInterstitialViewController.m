@@ -120,8 +120,8 @@
 - (void)vastPlayerDidComplete:(PNLiteVASTPlayerViewController *)vastPlayer {
     if (self.closeOnFinish) {
         [self.presenter hideFromViewController:self];
-        [self.presenter.delegate interstitialPresenterDidDismiss:self.presenter];
     }
+    [self.presenter.delegate interstitialPresenterDidFinish:self.presenter];
 }
 
 - (void)vastPlayerDidOpenOffer:(PNLiteVASTPlayerViewController *)vastPlayer {
@@ -130,10 +130,8 @@
 }
 
 - (void)vastPlayerDidClose:(PNLiteVASTPlayerViewController *)vastPlayer {
-    if(!self.closeOnFinish) {
-        [self.presenter hideFromViewController:self];
-        [self.presenter.delegate interstitialPresenterDidDismiss:self.presenter];
-    }
+    [self.presenter hideFromViewController:self];
+    [self.presenter.delegate interstitialPresenterDidDismiss:self.presenter];
 }
 
 - (void)vastPlayerDidCloseOffer:(PNLiteVASTPlayerViewController *)vastPlayer {

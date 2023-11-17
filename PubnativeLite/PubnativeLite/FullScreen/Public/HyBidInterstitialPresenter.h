@@ -35,6 +35,7 @@
              didFailWithError:(NSError *)error;
 
 @optional
+- (void)interstitialPresenterDidFinish:(HyBidInterstitialPresenter *)interstitialPresenter;
 - (void)interstitialPresenterDidAppear:(HyBidInterstitialPresenter *)interstitialPresenter;
 - (void)interstitialPresenterDidDisappear:(HyBidInterstitialPresenter *)interstitialPresenter;
 - (void)interstitialPresenterPresentsSKOverlay:(HyBidInterstitialPresenter *)interstitialPresenter;

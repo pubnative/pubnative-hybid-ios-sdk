@@ -20,27 +20,22 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidGADUtils.h"
+#import "HyBidGAMUtils.h"
 
-NSString *const HyBidGADAdapterKeyZoneID = @"pn_zone_id";
-NSString *const HyBidGADAdapterKeyAppToken = @"pn_app_token";
+NSString *const PNLiteGAMAdapterKeyZoneID = @"pn_zone_id";
 
-@implementation HyBidGADUtils
+@implementation HyBidGAMUtils
 
 + (BOOL)areExtrasValid:(NSString *)extras {
-    if ([HyBidGADUtils zoneID:extras] && [HyBidGADUtils appToken:extras]) {
+    if ([HyBidGAMUtils zoneID:extras]) {
         return YES;
     } else {
         return NO;
     }
 }
 
-+ (NSString *)appToken:(NSString *)extras {
-    return [HyBidGADUtils valueWithKey:HyBidGADAdapterKeyAppToken fromExtras:extras];
-}
-
 + (NSString *)zoneID:(NSString *)extras {
-    return [HyBidGADUtils valueWithKey:HyBidGADAdapterKeyZoneID fromExtras:extras];
+    return [HyBidGAMUtils valueWithKey:PNLiteGAMAdapterKeyZoneID fromExtras:extras];
 }
 
 + (NSString *)valueWithKey:(NSString *)key
@@ -58,19 +53,19 @@ NSString *const HyBidGADAdapterKeyAppToken = @"pn_app_token";
     return result;
 }
 
-// v: 2.20.0-beta7
+// v: 3.0.0-beta1
 + (GADVersionNumber)adSDKVersion {
     GADVersionNumber version = {0};
-    version.majorVersion = 2;
-    version.minorVersion = 20;
+    version.majorVersion = 3;
+    version.minorVersion = 0;
     version.patchVersion = 0;
     return version;
 }
 
 + (GADVersionNumber)adapterVersion {
     GADVersionNumber version = {0};
-    version.majorVersion = 2;
-    version.minorVersion = 20;
+    version.majorVersion = 3;
+    version.minorVersion = 0;
     version.patchVersion = 0;
     return version;
 }

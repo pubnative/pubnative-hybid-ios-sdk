@@ -124,6 +124,7 @@
         [self.mraidView stopAdSession];
     }
     [self.delegate interstitialPresenterDidDismiss:self];
+    [self.delegate interstitialPresenterDidFinish:self];
 }
 
 - (void)mraidViewNavigate:(HyBidMRAIDView *)mraidView withURL:(NSURL *)url {

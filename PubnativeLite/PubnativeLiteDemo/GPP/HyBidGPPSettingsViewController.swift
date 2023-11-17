@@ -98,6 +98,11 @@ class HyBidGPPSettingsViewController: UIViewController {
     @IBOutlet weak private var gppInternalStringTextField: UITextField!
     @IBOutlet weak private var gppInternalSIDTextField: UITextField!
     
+    @IBOutlet weak var publicGPPStringValue: UILabel!
+    @IBOutlet weak var publicGPPSIDValue: UILabel!
+    @IBOutlet weak var internalGPPSIDValue: UILabel!
+    @IBOutlet weak var internalGPPStringValue: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -127,20 +132,18 @@ class HyBidGPPSettingsViewController: UIViewController {
         DispatchQueue.main.async { [weak self] in
             if HyBidGPPSDKInitializer.sdkState() != .initialized { return }
             guard let self = self else { return }
+                        
+            self.publicGPPStringValue.text = "\(self.userDataManagerSharedInstance.getPublicGPPString() ?? "")"
+            self.publicGPPStringValue.accessibilityValue = self.publicGPPStringValue.text;
             
-            let textFont = UIFont(name: "Avenir Next Regular", size: 13.0) ?? UIFont.systemFont(ofSize: 13.0)
-            
-            self.publicGPPStringLabel.text = "Public GPP String: \(self.userDataManagerSharedInstance.getPublicGPPString() ?? "")"
-            self.publicGPPStringLabel.changeTextFont(text: self.userDataManagerSharedInstance.getPublicGPPString() ?? "", font: textFont)
-            
-            self.publicGPPSIDLabel.text = "Public GPPSID: \(self.userDataManagerSharedInstance.getPublicGPPSID() ?? "")"
-            self.publicGPPSIDLabel.changeTextFont(text: self.userDataManagerSharedInstance.getPublicGPPSID() ?? "", font: textFont)
-            
-            self.internalGPPStringLabel.text = "Internal GPP String: \(self.userDataManagerSharedInstance.getInternalGPPString() ?? "")"
-            self.internalGPPStringLabel.changeTextFont(text: self.userDataManagerSharedInstance.getInternalGPPString() ?? "", font: textFont)
-            
-            self.internalGPPSIDLabel.text = "Internal GPPSID: \(self.userDataManagerSharedInstance.getInternalGPPSID() ?? "")"
-            self.internalGPPSIDLabel.changeTextFont(text: self.userDataManagerSharedInstance.getInternalGPPSID() ?? "", font: textFont)
+            self.publicGPPSIDValue.text = "\(self.userDataManagerSharedInstance.getPublicGPPSID() ?? "")"
+            self.publicGPPSIDValue.accessibilityValue = self.publicGPPSIDValue.text;
+
+            self.internalGPPStringValue.text = "\(self.userDataManagerSharedInstance.getInternalGPPString() ?? "")"
+            self.internalGPPStringValue.accessibilityValue = self.internalGPPStringValue.text;
+
+            self.internalGPPSIDValue.text = "\(self.userDataManagerSharedInstance.getInternalGPPSID() ?? "")"
+            self.internalGPPSIDValue.accessibilityValue = self.internalGPPSIDValue.text;
         }
     }
     

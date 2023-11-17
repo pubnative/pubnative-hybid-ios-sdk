@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2021 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,8 +20,17 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidDFPUtils.h"
+import UIKit
 
-@implementation HyBidDFPUtils
-
-@end
+class HyBidSwitchTableViewCell: UITableViewCell {
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var toggleSwitch: UICheckbox!
+    @IBOutlet var additionalSwitch: UISwitch!
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        titleLabel.text = ""
+        toggleSwitch.isChecked = false
+        additionalSwitch.isOn = false
+    }
+}

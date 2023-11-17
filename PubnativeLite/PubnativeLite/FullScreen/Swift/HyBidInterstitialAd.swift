@@ -98,9 +98,9 @@ public class HyBidInterstitialAd: NSObject {
         self.zoneID = zoneID
         self.delegate = delegate
         self.appToken = appToken
-        self.htmlSkipOffset = HyBidRenderingConfig.sharedConfig.interstitialHtmlSkipOffset
-        self.videoSkipOffset = HyBidRenderingConfig.sharedConfig.videoSkipOffset
-        self.closeOnFinish = HyBidRenderingConfig.sharedConfig.interstitialCloseOnFinish
+        self.htmlSkipOffset = HyBidConstants.interstitialHtmlSkipOffset
+        self.videoSkipOffset = HyBidConstants.videoSkipOffset
+        self.closeOnFinish = HyBidConstants.interstitialCloseOnFinish
     }
     
     @objc
@@ -130,33 +130,6 @@ public class HyBidInterstitialAd: NSObject {
         } else {
             invokeDidFailWithError(error: NSError.hyBidInvalidZoneId())
         }
-    }
-    
-    @objc(setSkipOffset:)
-    public func setSkipOffset(_ seconds: Int) {
-        if seconds > 0 {
-            setHTMLSkipOffset(seconds)
-            setVideoSkipOffset(seconds)
-        }
-    }
-    
-    @objc(setVideoSkipOffset:)
-    public func setVideoSkipOffset(_ seconds: Int) {
-        if seconds > 0 {
-            videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: seconds), isCustom: true)
-        }
-    }
-    
-    @objc(setHTMLSkipOffset:)
-    public func setHTMLSkipOffset(_ seconds: Int) {
-        if seconds > 0 {
-            htmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: seconds), isCustom: true)
-        }
-    }
-    
-    @objc(setCloseOnFinish:)
-    public func setCloseOnFinish(_ closeOnFinish: Bool) {
-        self.closeOnFinish = closeOnFinish
     }
     
     @objc
@@ -282,23 +255,24 @@ public class HyBidInterstitialAd: NSObject {
             self.interstitialPresenter = interstitalPresenterFactory.createInterstitalPresenter(with: ad, withVideoSkipOffset: UInt(videoSkipOffset), withHTMLSkipOffset: UInt(htmlSkipOffset), withCloseOnFinish: self.closeOnFinish, with: HyBidInterstitialPresenterWrapper(parent: self))
         } else if videoSkipOffset < 0 && htmlSkipOffset < 0 {
             let isEndCardOrCustomEndCard = self.ad?.hasEndCard ?? false || self.ad?.hasCustomEndCard ?? false
-            let offsetValue = isEndCardOrCustomEndCard && HyBidRenderingConfig.sharedConfig.showEndCard
+            let offsetValue = isEndCardOrCustomEndCard && HyBidConstants.showEndCard
                 ? HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_VIDEO_SKIP_OFFSET), isCustom: false)
                 : HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD), isCustom: true)
             
+            
             defaultVideoSkipOffset = offsetValue
-            HyBidRenderingConfig.sharedConfig.videoSkipOffset = HyBidSkipOffset(offset: (defaultVideoSkipOffset.offset?.intValue ?? 0) as NSNumber, isCustom: false)
+            HyBidConstants.videoSkipOffset = HyBidSkipOffset(offset: (defaultVideoSkipOffset.offset?.intValue ?? 0) as NSNumber, isCustom: false)
             self.interstitialPresenter = interstitalPresenterFactory.createInterstitalPresenter(with: ad, withVideoSkipOffset: UInt(defaultVideoSkipOffset.offset?.intValue ?? 0), withHTMLSkipOffset: UInt(defaultHtmlSkipOffset.offset?.intValue ?? 0), withCloseOnFinish: self.closeOnFinish, with: HyBidInterstitialPresenterWrapper(parent: self))
         } else if htmlSkipOffset < 0 {
             self.interstitialPresenter = interstitalPresenterFactory.createInterstitalPresenter(with: ad, withVideoSkipOffset: UInt(videoSkipOffset), withHTMLSkipOffset: UInt(defaultHtmlSkipOffset.offset?.intValue ?? 0), withCloseOnFinish: self.closeOnFinish, with: HyBidInterstitialPresenterWrapper(parent: self))
         } else if videoSkipOffset < 0{
             let isEndCardOrCustomEndCard = self.ad?.hasEndCard ?? false || self.ad?.hasCustomEndCard ?? false
-            let offsetValue = isEndCardOrCustomEndCard && HyBidRenderingConfig.sharedConfig.showEndCard
+            let offsetValue = isEndCardOrCustomEndCard && HyBidConstants.showEndCard
                 ? HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_VIDEO_SKIP_OFFSET), isCustom: false)
                 : HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD), isCustom: true)
             
             defaultVideoSkipOffset = offsetValue
-            HyBidRenderingConfig.sharedConfig.videoSkipOffset = HyBidSkipOffset(offset: (defaultVideoSkipOffset.offset?.intValue ?? 0) as NSNumber, isCustom: false)
+            HyBidConstants.videoSkipOffset = HyBidSkipOffset(offset: (defaultVideoSkipOffset.offset?.intValue ?? 0) as NSNumber, isCustom: false)
             self.interstitialPresenter = interstitalPresenterFactory.createInterstitalPresenter(with: ad, withVideoSkipOffset: UInt(defaultVideoSkipOffset.offset?.intValue ?? 0), withHTMLSkipOffset: UInt(htmlSkipOffset), withCloseOnFinish: self.closeOnFinish, with: HyBidInterstitialPresenterWrapper(parent: self))
         }
         
@@ -328,9 +302,7 @@ public class HyBidInterstitialAd: NSObject {
         if zoneID != nil{
             sessionReportingDictionaryToAppend[Common.ZONE_ID] = zoneID
         }
-        if UserDefaults.standard.object(forKey: Common.AGE_OF_APP) != nil {
-            sessionReportingDictionaryToAppend[Common.AGE_OF_APP] = UserDefaults.standard.object(forKey: Common.AGE_OF_APP)
-        }
+        sessionReportingDictionaryToAppend[Common.AGE_OF_APP] = HyBidSessionManager.sharedInstance.getAgeOfApp()
         return sessionReportingDictionaryToAppend
     }
     
@@ -514,6 +486,10 @@ extension HyBidInterstitialAd {
         if #available(iOS 14.5, *) {
             HyBidAdImpression.sharedInstance().end(for: self.ad)
         }
+    }
+    
+    func interstitialPresenterDidFinish(_ interstitialPresenter: HyBidInterstitialPresenter!) {
+        
     }
     
 }
