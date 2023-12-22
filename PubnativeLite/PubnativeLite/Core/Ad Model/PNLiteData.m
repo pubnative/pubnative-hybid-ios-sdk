@@ -59,7 +59,10 @@
 + (NSString *)mraidExpand { return @"mraid_expand"; }
 + (NSString *)customEndcardDisplay { return @"custom_endcard_display"; }
 + (NSString *)creativeAutoStorekitEnabled { return @"creative_autostorekit"; }
++ (NSString *)customCtaEnabled { return @"custom_cta_enabled"; }
++ (NSString *)customCtaDelay { return @"custom_cta_delay"; }
 + (NSString *)sdkAutoStorekitEnabled { return @"sdk_autostorekit"; }
-+ (NSString *)sdkAutoStorekitDelay {return @"sdk_autostorekit_delay";}
++ (NSString *)sdkAutoStorekitDelay { return @"sdk_autostorekit_delay"; }
++ (NSString *)atomEnabled { return @"atom_enabled"; }
 
 @end

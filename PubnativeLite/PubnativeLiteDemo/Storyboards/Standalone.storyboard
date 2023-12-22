@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GZ3-2t-GUX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GZ3-2t-GUX">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -223,7 +223,7 @@
             <objects>
                 <viewController title="HyBid Banner" id="dy8-WN-4R0" userLabel="PNLite Banner View Controller" customClass="PNLiteDemoPNLiteBannerSizeSelectionViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="X6a-4Y-Wjb">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UVp-dg-hyD" userLabel="Continue Button">
@@ -287,7 +287,7 @@
             <objects>
                 <viewController title="HyBid Interstitial" id="Q6h-xd-eET" userLabel="PNLite Interstitial View Controller" customClass="PNLiteDemoPNLiteInterstitialViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1CX-c0-XXe">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JgG-hR-A7h">
@@ -429,10 +429,10 @@
                     <navigationItem key="navigationItem" id="Z7i-fU-OJg"/>
                     <connections>
                         <outlet property="adCachingSwitch" destination="U0B-EJ-9gg" id="DKT-kQ-OqW"/>
-                        <outlet property="apiSwitch" destination="9pO-eL-S0P" id="1k1-qG-eV2"/>
                         <outlet property="creativeIdLabel" destination="zHV-Qv-g15" id="FkP-FH-QlY"/>
                         <outlet property="debugButton" destination="hAz-vi-3qm" id="hKA-kD-eTx"/>
                         <outlet property="interstitialLoaderIndicator" destination="m82-D3-ifu" id="7Ds-7N-tTT"/>
+                        <outlet property="isUsingOpenRTB" destination="9pO-eL-S0P" id="1k1-qG-eV2"/>
                         <outlet property="prepareButton" destination="zzR-Gj-vBK" id="9dt-hc-4Hh"/>
                         <outlet property="showAdButton" destination="quA-Ft-Rd8" id="t4a-CN-bHQ"/>
                         <outlet property="showAdTopConstraint" destination="xfd-pm-3ag" id="UUh-fO-nna"/>
@@ -447,7 +447,7 @@
             <objects>
                 <viewController title="HyBid Native Ad" id="PB1-bo-RNK" userLabel="PNLite Native" customClass="PNLiteDemoPNLiteNativeAdViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="inF-U7-g36">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a0W-GM-DvE">
@@ -696,7 +696,7 @@
             <objects>
                 <viewController title="HyBid Banner" id="Mxb-wD-K8I" userLabel="PNLite Banner View Controller" customClass="PNLiteDemoPNLiteBannerViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8HZ-a2-ZqI">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j1X-Dg-4lH">
@@ -949,11 +949,11 @@
                     <navigationItem key="navigationItem" id="Bcq-YC-Ywe"/>
                     <connections>
                         <outlet property="adCachingSwitch" destination="7QD-6l-vgC" id="z1m-FS-BFO"/>
-                        <outlet property="apiSwitch" destination="gEG-KG-mUn" id="eF7-DG-W8c"/>
                         <outlet property="autoRefreshSwitch" destination="pYc-h8-JhM" id="Xzr-EH-7Wh"/>
                         <outlet property="creativeIDTopConstraint" destination="f66-1v-hx2" id="u1F-8L-0Ly"/>
                         <outlet property="creativeIdLabel" destination="SyH-Vd-QNL" id="wga-08-GeO"/>
                         <outlet property="debugButton" destination="4hd-7W-ZkR" id="Uze-kp-hDi"/>
+                        <outlet property="isUsingOpenRTB" destination="gEG-KG-mUn" id="eF7-DG-W8c"/>
                         <outlet property="prepareButton" destination="EzD-qN-TJZ" id="t4H-g1-fes"/>
                         <outlet property="showAdButton" destination="5d6-Fr-Xng" id="861-gp-dUW"/>
                         <outlet property="tableView" destination="OeX-Df-uUY" id="GJ7-IP-gll"/>
@@ -968,7 +968,7 @@
             <objects>
                 <viewController id="Pkc-Np-A4K" customClass="PNLiteDemoPNLiteStickyBannerViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Exe-0v-0Xg">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="5Ar-ie-cbs">
@@ -1071,10 +1071,10 @@
                     </view>
                     <navigationItem key="navigationItem" id="9Uk-2B-Nr8"/>
                     <connections>
-                        <outlet property="apiSwitch" destination="scE-nb-Xx4" id="Znc-pw-X2G"/>
                         <outlet property="bannerLoaderIndicator" destination="wY9-ZD-kNT" id="sz3-c5-ePb"/>
                         <outlet property="creativeIdLabel" destination="0Zn-8h-skp" id="GXq-kP-ymt"/>
                         <outlet property="debugButton" destination="D9S-wR-6qh" id="Uzi-RL-dea"/>
+                        <outlet property="isUsingOpenRTB" destination="scE-nb-Xx4" id="Znc-pw-X2G"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bZH-j7-YsC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1086,7 +1086,7 @@
             <objects>
                 <viewController title="HyBid Rewarded" id="YQ3-Ig-QgH" userLabel="PNLite Rewarded View Controller" customClass="PNLiteDemoPNLiteRewardedViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CqV-vy-VAc">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Ad-e1-lpS">
@@ -1229,9 +1229,9 @@
                     <navigationItem key="navigationItem" id="LWA-7F-Sde"/>
                     <connections>
                         <outlet property="adCachingSwitch" destination="CON-Qd-26y" id="o03-Y5-VLD"/>
-                        <outlet property="apiSwitch" destination="dUU-iW-hGL" id="yIi-27-uVz"/>
                         <outlet property="creativeIdLabel" destination="PNq-ts-kC2" id="dbe-FE-zA3"/>
                         <outlet property="debugButton" destination="g1E-b3-YMA" id="tKY-3u-pET"/>
+                        <outlet property="isUsingOpenRTB" destination="dUU-iW-hGL" id="yIi-27-uVz"/>
                         <outlet property="prepareButton" destination="ShS-A0-O2B" id="PVk-rn-Sos"/>
                         <outlet property="rewardedLoaderIndicator" destination="znC-rO-N4o" id="BTg-hn-KSd"/>
                         <outlet property="showAdButton" destination="azJ-lQ-mZi" id="hQl-Wu-p3O"/>
@@ -1247,7 +1247,7 @@
             <objects>
                 <viewController title="HyBid Banner" id="FkD-oe-ams" userLabel="PNLite Sticky Banner View Controller" customClass="PNLiteDemoPNLiteStickyBannerSizeSelectionViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5b9-Fa-ahT">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dSd-Oc-qVG" userLabel="Continue Button">

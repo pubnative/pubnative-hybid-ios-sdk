@@ -117,7 +117,8 @@ enum CellType {
                 AdSetting(sectionTitle: "General", settingTitle: "Creative Autostore kit", cellType: .switchCell, isChecked: false, remoteConfigName: "creative_autostorekit", value: HyBidConstants.creativeAutoStorekitEnabled),
                 AdSetting(sectionTitle: "General", settingTitle: "MRAID Expand Enabled", cellType: .switchCell, isChecked: false, remoteConfigName: "mraid_expand", value: HyBidConstants.mraidExpand),
                 AdSetting(sectionTitle: "General", settingTitle: "SKOverlay Enabled", cellType: .switchCell, isChecked: false, remoteConfigName: "SKOverlayenabled", value: false),
-                AdSetting(sectionTitle: "General", settingTitle: ClickBehaviorStringTitle, cellType: .segmentedControlCell, isChecked: false, remoteConfigName: "fullscreen_clickability", value: boolActionBehavior(with: HyBidConstants.interstitialActionBehaviour))
+                AdSetting(sectionTitle: "General", settingTitle: ClickBehaviorStringTitle, cellType: .segmentedControlCell, isChecked: false, remoteConfigName: "fullscreen_clickability", value: boolActionBehavior(with: HyBidConstants.interstitialActionBehaviour)),
+                AdSetting(sectionTitle: "General", settingTitle: "ATOM Enabled", cellType: .switchCell, isChecked: false, remoteConfigName: "atom_enabled", value: HyBidConstants.atomEnabled)
                ],
                [
                 AdSetting(sectionTitle: "Interstitial", settingTitle: "HTML/MRAID Skip Offset", cellType: .textFieldCell, isChecked: false, remoteConfigName: "html_skip_offset", value: HyBidConstants.interstitialHtmlSkipOffset.offset),
@@ -128,7 +129,7 @@ enum CellType {
                [
                 AdSetting(sectionTitle: "Rewarded", settingTitle: "HTML/MRAID Skip Offset", cellType: .textFieldCell, isChecked: false, remoteConfigName: "rewarded_html_skip_offset", value: HyBidConstants.rewardedHtmlSkipOffset.offset),
                 AdSetting(sectionTitle: "Rewarded", settingTitle: "Video Skip Offset", cellType: .textFieldCell, isChecked: false, remoteConfigName: "rewarded_video_skip_offset", value: HyBidConstants.rewardedVideoSkipOffset.offset),
-                AdSetting(sectionTitle: "Rewarded", settingTitle: "Close After Finish", cellType: .switchCell, isChecked: false, remoteConfigName: "close_reward_after_finished", value: HyBidConstants.rewardedCloseOnFinish),
+                AdSetting(sectionTitle: "Rewarded", settingTitle: "Close After Finish", cellType: .switchCell, isChecked: false, remoteConfigName: "close_reward_after_finished", value: HyBidConstants.rewardedCloseOnFinish)
                ],
                
                [

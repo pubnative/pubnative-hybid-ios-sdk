@@ -20,14 +20,10 @@
 //  THE SOFTWARE.
 //
 
-typedef enum {
-    HyBidTimerState_Start,
-    HyBidTimerState_Pause,
-    HyBidTimerState_Stop
-} HyBidTimerState;
+#import <Foundation/Foundation.h>
 
-typedef enum {
-    HyBidCountdownPieChart = 0,
-    HyBidCountdownSkipOverlayTimer = 1,
-    HyBidCountdownSkipOverlayProgress = 2
-} HyBidCountdownStyle;
+@interface HyBidATOMFlow : NSObject
+
++ (void)initFlow;
++ (void)setAtomEnabled:(NSNumber*)enabled;
+@end

@@ -698,7 +698,6 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) HyBidSetting
 @property (nonatomic, readonly, copy) NSString * _Nonnull pxRatio;
 @property (nonatomic, readonly, copy) NSString * _Nullable language;
 @property (nonatomic, readonly, copy) NSString * _Nonnull jsValue;
-- (NSString * _Nonnull)geoFetchSupport SWIFT_WARN_UNUSED_RESULT;
 - (void)locationManager:(CLLocationManager * _Nonnull)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status;
 @property (nonatomic, readonly, copy) NSString * _Nullable languageBCP47;
 @property (nonatomic, readonly, copy) NSString * _Nullable carrierName;

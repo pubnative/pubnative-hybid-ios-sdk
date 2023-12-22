@@ -40,7 +40,7 @@ NSString * const RESPONSE_CAMPAIGN_ID_KEY = @"campaign";
 NSString * const RESPONSE_TIMESTAMP_KEY = @"timestamp";
 NSString * const RESPONSE_NONCE_KEY = @"nonce";
 NSString * const RESPONSE_FIDELITY_TYPE_KEY = @"fidelity-type";
-NSString * const RESPONSE_SOURCE_IDENTIFIER_KEY = @"sourceIdentifier";
+NSString * const RESPONSE_SOURCE_IDENTIFIER_KEY = @"sourceidentifier";
 
 NSDictionary *dict;
 

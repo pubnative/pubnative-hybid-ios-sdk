@@ -25,6 +25,8 @@
 #import "HyBidContentInfoView.h"
 #import "HyBidVideoAdCacheItem.h"
 #import "HyBidAd.h"
+#import "HyBidVASTEndCard.h"
+#import "HyBidCustomCTAViewDelegate.h"
 
 @class PNLiteVASTPlayerViewController;
 
@@ -47,6 +49,7 @@ typedef enum {
 - (void)vastPlayerDidClose:(PNLiteVASTPlayerViewController*)vastPlayer;
 - (void)vastPlayerDidCloseOffer:(PNLiteVASTPlayerViewController*)vastPlayer;
 - (void)vastPlayerWillShowEndCard:(PNLiteVASTPlayerViewController*)vastPlayer;
+- (void)vastPlayerDidShowEndCard:(PNLiteVASTPlayerViewController*)vastPlayer endcard:(HyBidVASTEndCard*) endcard;
 
 @end
 
@@ -58,6 +61,7 @@ typedef enum {
 @property (nonatomic, strong) NSObject<PNLiteVASTPlayerViewControllerDelegate> *delegate;
 @property (nonatomic, strong) HyBidVideoAdCacheItem *videoAdCacheItem;
 @property (nonatomic, assign) NSInteger skipOffset;
+@property (nonatomic, weak) NSObject<HyBidCustomCTAViewDelegate> *customCTADelegate;
 
 - (instancetype)initPlayerWithAdModel:(HyBidAd *)adModel
                          withAdFormat:(HyBidAdFormatForVASTPlayer)adFormat;

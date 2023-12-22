@@ -148,10 +148,12 @@
 }
 
 - (void)invokeFailWithError:(NSError *) error {
-    [self.vastLoadingIndicator stopAnimating];
-    self.debugButton.hidden = NO;
-    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
-    [self showAlertControllerWithMessage:error.localizedDescription];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.vastLoadingIndicator stopAnimating];
+        self.debugButton.hidden = NO;
+        [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
+        [self showAlertControllerWithMessage:error.localizedDescription];
+    });
 }
 
 

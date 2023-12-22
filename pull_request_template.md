@@ -25,4 +25,4 @@
 
 ## Validation 🧪
 - [ ] Have you tested the ticket/feature with MockDSP?
-- [ ] Have you tested the ticket/feature with with real creatives? _(Please provide the real creatives that you've tested as a comment in your PR.)_
+- [ ] Have you tested the ticket/feature with real creatives? _(Please provide the real creatives that you've tested as a comment in your PR.)_

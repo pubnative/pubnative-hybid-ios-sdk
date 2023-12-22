@@ -59,14 +59,14 @@
         case HyBidDemoAppPlacementInterstitial: {
             self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
             if (self.adResponse != nil) {
-                [self.interstitialAd prepareAdWithAdReponse: self.adResponse];
+                [self.interstitialAd prepareExchangeAdWithAdReponse: self.adResponse];
             }
             break;
         }
         case HyBidDemoAppPlacementRewarded: {
             self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:nil andWithDelegate:self];
             if (self.adResponse != nil) {
-                [self.rewardedAd prepareAdWithAdReponse:self.adResponse];
+                [self.rewardedAd prepareExchangeAdWithAdReponse:self.adResponse];
             }
             break;
         }
@@ -101,7 +101,7 @@
     self.adView.delegate = self;
     [self.adViewContainer addSubview:self.adView];
     self.adView.hidden = YES;
-    [self.adView renderAdWithAdResponse:self.adResponse withDelegate:self];
+    [self.adView renderAdWithAdResponseOpenRTB:self.adResponse withDelegate:self];
 }
 
 - (IBAction)dismissButtonTouchUpInside:(UIButton *)sender {

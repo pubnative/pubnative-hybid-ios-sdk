@@ -33,4 +33,5 @@
 + (NSString *)htmlBanner { return @"htmlbanner"; }
 + (NSString *)vast { return @"vast2"; }
 + (NSString *)customEndcard { return @"custom_endcard"; }
++ (NSString *)customCTA { return @"custom_cta"; }
 @end

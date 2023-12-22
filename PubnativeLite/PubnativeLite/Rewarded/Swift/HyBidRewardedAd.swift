@@ -106,7 +106,7 @@ public class HyBidRewardedAd: NSObject {
     @objc
     public func load() {
         cleanUp()
-        UserDefaults.standard.set(false, forKey: kIsUsingOpenRTB)
+        self.rewardedAdRequest?.isUsingOpenRTB = false
         self.initialLoadTimestamp = Date().timeIntervalSince1970
         if let zoneID = self.zoneID, zoneID.count > 0 {
             self.isReady = false
@@ -120,10 +120,10 @@ public class HyBidRewardedAd: NSObject {
     @objc
     public func loadExchangeAd() {
         cleanUp()
-        UserDefaults.standard.set(true, forKey: kIsUsingOpenRTB)
         self.initialLoadTimestamp = Date().timeIntervalSince1970
         if let zoneID = self.zoneID, zoneID.count > 0 {
             self.isReady = false
+            self.rewardedAdRequest?.isUsingOpenRTB = true
             self.rewardedAdRequest?.setIntegrationType(self.isMediation ? MEDIATION : STANDALONE, withZoneID: zoneID)
             self.rewardedAdRequest?.requestAd(with: HyBidRewardedAdRequestWrapper(parent: self), withZoneID: zoneID)
         } else {
@@ -163,6 +163,17 @@ public class HyBidRewardedAd: NSObject {
         }
     }
     
+    @objc(prepareExchangeAdWithAdReponse:)
+    public func prepareExchangeAdWithAdReponse(adReponse: String) {
+        if adReponse.count != 0 {
+            self.cleanUp()
+            self.initialLoadTimestamp = Date().timeIntervalSince1970
+            self.processExchangeAdReponse(adReponse: adReponse)
+        } else {
+            self.invokeDidFailWithError(error: NSError.hyBidInvalidAsset())
+        }
+    }
+
     @objc(prepareAdWithAdReponse:)
     public func prepareAdWithAdReponse(adReponse: String) {
         if adReponse.count != 0 {
@@ -182,6 +193,14 @@ public class HyBidRewardedAd: NSObject {
     
     func processAdReponse(adReponse: String) {
         let rewardedAdRequest = HyBidRewardedAdRequest()
+        rewardedAdRequest.openRTBAdType = HyBidOpenRTBAdVideo
+        rewardedAdRequest.delegate = HyBidRewardedAdRequestWrapper(parent: self)
+        rewardedAdRequest.processResponse(withJSON: adReponse)
+    }
+
+        func processExchangeAdReponse(adReponse: String) {
+        let rewardedAdRequest = HyBidRewardedAdRequest()
+        rewardedAdRequest.isUsingOpenRTB = true
         rewardedAdRequest.openRTBAdType = HyBidOpenRTBAdVideo
         rewardedAdRequest.delegate = HyBidRewardedAdRequestWrapper(parent: self)
         rewardedAdRequest.processResponse(withJSON: adReponse)
@@ -236,7 +255,11 @@ public class HyBidRewardedAd: NSObject {
     func renderAd(ad: HyBidAd) {
         let rewardedPresenterFactory = HyBidRewardedPresenterFactory()
         if let skipOffset = self.htmlSkipOffset?.offset?.intValue, skipOffset >= 0 {
-            self.rewardedPresenter = rewardedPresenterFactory.createRewardedPresenter(with: ad, withHTMLSkipOffset: UInt(skipOffset), withCloseOnFinish: self.closeOnFinish, with: HyBidRewardedPresenterWrapper(parent: self))
+            if skipOffset >= HyBidSkipOffset.DEFAULT_REWARDED_HTML_MAX_SKIP_OFFSET {
+                self.rewardedPresenter = rewardedPresenterFactory.createRewardedPresenter(with: ad, withHTMLSkipOffset: UInt(HyBidSkipOffset.DEFAULT_REWARDED_HTML_MAX_SKIP_OFFSET), withCloseOnFinish: self.closeOnFinish, with: HyBidRewardedPresenterWrapper(parent: self))
+            } else {
+                self.rewardedPresenter = rewardedPresenterFactory.createRewardedPresenter(with: ad, withHTMLSkipOffset: UInt(skipOffset), withCloseOnFinish: self.closeOnFinish, with: HyBidRewardedPresenterWrapper(parent: self))
+            }
         } else {
             let skipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_HTML_SKIP_OFFSET), isCustom: false);
             self.rewardedPresenter = rewardedPresenterFactory.createRewardedPresenter(with: ad, withHTMLSkipOffset: UInt(skipOffset.offset?.intValue ?? 0), withCloseOnFinish: self.closeOnFinish, with: HyBidRewardedPresenterWrapper(parent: self))

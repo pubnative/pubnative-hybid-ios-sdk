@@ -24,7 +24,7 @@
 
 @interface PNLiteDemoRequestInspectorDetailViewController : UIViewController
 
-@property (nonatomic, strong) NSString *receivedURL;
+@property (nonatomic, strong) NSArray<NSDictionary *> *receivedData;
 
 @end
 

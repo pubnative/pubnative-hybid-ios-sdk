@@ -93,7 +93,16 @@ NSInteger const HyBidSignalDataResponseStatusRequestMalformed = 422;
             [self invokeDidFail:[NSError hyBidParseError]];
         } else if ([HyBidSignalDataResponseOK isEqualToString: self.signalDataModel.status] || [HyBidSignalDataResponseSuccess isEqualToString: self.signalDataModel.status]) {
             if (self.signalDataModel.admurl && self.signalDataModel.admurl.length != 0) {
-                [[PNLiteHttpRequest alloc] startWithUrlString:self.signalDataModel.admurl withMethod:@"GET" delegate:self];
+                
+                // TODO:
+                // 1. Implement URL validation to ensure `self.signalDataModel.admurl` is a well-formed URL before proceeding.
+                // 2. Address the issue with URL encoding where "\\u0026" should be replaced with "&".
+                NSURL *url = [NSURL URLWithString:self.signalDataModel.admurl];
+                if (url) {
+                    [[PNLiteHttpRequest alloc] startWithUrlString:self.signalDataModel.admurl withMethod:@"GET" delegate:self];
+                } else {
+                    [self invokeDidFail:[NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorBadURL userInfo:nil]];
+                }
             } else if (self.signalDataModel.adm) {
                 [self processResponse:self.signalDataModel.adm];
             } else {

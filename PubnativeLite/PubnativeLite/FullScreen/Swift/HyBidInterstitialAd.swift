@@ -106,7 +106,6 @@ public class HyBidInterstitialAd: NSObject {
     @objc
     public func load() {
         cleanUp()
-        UserDefaults.standard.set(false, forKey: kIsUsingOpenRTB)
         self.initialLoadTimestamp = Date().timeIntervalSince1970
         if let zoneID = self.zoneID, zoneID.count > 0 {
             self.isReady = false
@@ -120,10 +119,10 @@ public class HyBidInterstitialAd: NSObject {
     @objc
     public func loadExchangeAd() {
         cleanUp()
-        UserDefaults.standard.set(true, forKey: kIsUsingOpenRTB)
         self.initialLoadTimestamp = Date().timeIntervalSince1970
         if let zoneID = self.zoneID, zoneID.count > 0 {
             self.isReady = false
+            self.interstitialAdRequest?.isUsingOpenRTB = true
             self.interstitialAdRequest?.setIntegrationType(self.isMediation ? MEDIATION : STANDALONE, withZoneID: zoneID)
             
             self.interstitialAdRequest?.requestAd(with: HyBidInterstitialAdRequestWrapper(parent: self), withZoneID: zoneID)
@@ -165,6 +164,17 @@ public class HyBidInterstitialAd: NSObject {
             self.invokeDidFailWithError(error: NSError.hyBidInvalidAsset())
         }
     }
+
+    @objc(prepareExchangeAdWithAdReponse:)
+    public func prepareExchangeAdWithAdReponse(adReponse: String) {
+        if adReponse.count != 0 {
+            self.cleanUp()
+            self.initialLoadTimestamp = Date().timeIntervalSince1970
+            self.processExchangeAdReponse(adReponse: adReponse)
+        } else {
+            self.invokeDidFailWithError(error: NSError.hyBidInvalidAsset())
+        }
+    }
     
     @objc(prepareVideoTagFrom:)
     public func prepareVideoTag(from url: String) {
@@ -188,6 +198,14 @@ public class HyBidInterstitialAd: NSObject {
     
     func processAdReponse(adReponse: String) {
         let interstitialAdRequest = HyBidInterstitialAdRequest()
+        interstitialAdRequest.openRTBAdType = HyBidOpenRTBAdVideo
+        interstitialAdRequest.delegate = HyBidInterstitialAdRequestWrapper(parent: self)
+        interstitialAdRequest.processResponse(withJSON: adReponse)
+    }
+
+    func processExchangeAdReponse(adReponse: String) {
+        let interstitialAdRequest = HyBidInterstitialAdRequest()
+        interstitialAdRequest.isUsingOpenRTB = true
         interstitialAdRequest.openRTBAdType = HyBidOpenRTBAdVideo
         interstitialAdRequest.delegate = HyBidInterstitialAdRequestWrapper(parent: self)
         interstitialAdRequest.processResponse(withJSON: adReponse)
@@ -252,7 +270,11 @@ public class HyBidInterstitialAd: NSObject {
         let defaultHtmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_HTML_SKIP_OFFSET), isCustom: false)
 
         if videoSkipOffset >= 0 && htmlSkipOffset >= 0 {
-            self.interstitialPresenter = interstitalPresenterFactory.createInterstitalPresenter(with: ad, withVideoSkipOffset: UInt(videoSkipOffset), withHTMLSkipOffset: UInt(htmlSkipOffset), withCloseOnFinish: self.closeOnFinish, with: HyBidInterstitialPresenterWrapper(parent: self))
+            if htmlSkipOffset >= HyBidSkipOffset.DEFAULT_INTERSTITIAL_HTML_MAX_SKIP_OFFSET {
+                self.interstitialPresenter = interstitalPresenterFactory.createInterstitalPresenter(with: ad, withVideoSkipOffset: UInt(videoSkipOffset), withHTMLSkipOffset: UInt(HyBidSkipOffset.DEFAULT_INTERSTITIAL_HTML_MAX_SKIP_OFFSET), withCloseOnFinish: self.closeOnFinish, with: HyBidInterstitialPresenterWrapper(parent: self))
+            } else {
+                self.interstitialPresenter = interstitalPresenterFactory.createInterstitalPresenter(with: ad, withVideoSkipOffset: UInt(videoSkipOffset), withHTMLSkipOffset: UInt(htmlSkipOffset), withCloseOnFinish: self.closeOnFinish, with: HyBidInterstitialPresenterWrapper(parent: self))
+            }
         } else if videoSkipOffset < 0 && htmlSkipOffset < 0 {
             let isEndCardOrCustomEndCard = self.ad?.hasEndCard ?? false || self.ad?.hasCustomEndCard ?? false
             let offsetValue = isEndCardOrCustomEndCard && HyBidConstants.showEndCard

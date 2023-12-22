@@ -125,6 +125,9 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import "HyBidSkAdNetworkRequestModel.h"
 #import "HyBidSKAdNetworkParameter.h"
 #import "HyBidWebBrowserUserAgentInfo.h"
+#import "HyBidTimerState.h"
+#import "HyBidCustomCTAViewDelegate.h"
+#import "HyBidSKOverlay.h"
 
 // For swift compatibility, we are making this file public instead of private
 // Avoid using custom module map
@@ -166,7 +169,7 @@ typedef enum {
 static NSString * const HyBidCustomEndcardDisplayExtentionValue = @"extension";
 static NSString * const HyBidCustomEndcardDisplayFallbackValue = @"fallback";
 
-#define kIsUsingOpenRTB @"isUsingOpenRTB"
+#define kStoredATOMState @"storedATOMState"
 
 //PNLiteAssetGroupType
 static const unsigned int MRAID_320x50 = 10;

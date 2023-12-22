@@ -20,20 +20,9 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
-#import <StoreKit/StoreKit.h>
-#import "HyBidAd.h"
-#import "HyBidTimerState.h"
-#import "HyBidSKOverlayTimerType.h"
 
-@interface HyBidSKOverlay : NSObject
-
-- (instancetype)initWithAd:(HyBidAd *)ad;
-- (void)presentWithAd:(HyBidAd *)ad;
-- (void)dismissEntirely:(BOOL)completed withAd:(HyBidAd *)ad causedByAutoCloseTimerCompletion:(BOOL)autoCloseTimerCompleted;
-- (void)updateTimerStateWithRemainingSeconds:(NSInteger)seconds
-                              withTimerState:(HyBidTimerState)timerState
-                                forTimerType:(HyBidSKOverlayTimerType)timerType;
-- (void)addObservers;
-
+@protocol HyBidCustomCTAViewDelegate
+- (void)customCTADidLoadWithSuccess:(BOOL)success;
+- (void)customCTAButtonDidPress;
 @end
+

@@ -22,6 +22,7 @@
 
 #import <Foundation/Foundation.h>
 #import "HyBidAd.h"
+#import "HyBidCustomCTAViewDelegate.h"
 
 @class HyBidRewardedPresenter;
 
@@ -36,10 +37,12 @@
              didFailWithError:(NSError *)error;
 
 @optional
+- (void)rewardedPresenterDidLoad:(HyBidRewardedPresenter *)rewardedPresenter viewController:(UIViewController *)viewController;
 - (void)rewardedPresenterDidAppear:(HyBidRewardedPresenter *)rewardedPresenter;
 - (void)rewardedPresenterDidDisappear:(HyBidRewardedPresenter *)rewardedPresenter;
 - (void)rewardedPresenterPresentsSKOverlay:(HyBidRewardedPresenter *)rewardedPresenter;
 - (void)rewardedPresenterDismissesSKOverlay:(HyBidRewardedPresenter *)rewardedPresenter;
+- (void)rewardedPresenterDismissesCustomCTA:(HyBidRewardedPresenter *)rewardedPresenter;
 
 @end
 
@@ -47,6 +50,7 @@
 
 @property (nonatomic, readonly) HyBidAd *ad;
 @property (nonatomic) NSObject <HyBidRewardedPresenterDelegate> *delegate;
+@property (nonatomic) NSObject <HyBidCustomCTAViewDelegate> *customCTADelegate;
 
 - (void)load;
 

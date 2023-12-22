@@ -57,6 +57,7 @@ typedef enum {
 @property (nonatomic, strong) NSString *link;
 @property (nonatomic, strong) NSString *icon;
 @property (nonatomic, strong) NSString *zoneID;
+@property (nonatomic) BOOL isCustom;
 @property (nonatomic, strong) NSArray<HyBidVASTIconViewTracking *> *viewTrackers;
 @property (nonatomic, weak) NSObject <HyBidContentInfoViewDelegate> *delegate;
 @property (nonatomic) HyBidContentInfoClickAction clickAction;

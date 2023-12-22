@@ -92,8 +92,11 @@ typedef enum {
 @property (nonatomic, readonly) NSNumber *minVisiblePercent;
 @property (nonatomic, readonly) NSString *impressionTrackingMethod;
 @property (nonatomic, readonly) NSString *customEndcardDisplay;
+@property (nonatomic, readonly) NSNumber *customCtaDelay;
+@property (nonatomic, readonly) NSString *customCtaIconURL;
 @property (nonatomic, readonly) NSNumber *sdkAutoStorekitDelay;
-// The following 9 properties are created as NSNumber instead of BOOL beacuse it'll be important whether they have a value or not when we'll decide which setting to use.
+
+// The following 10 properties are created as NSNumber instead of BOOL beacuse it'll be important whether they have a value or not when we'll decide which setting to use.
 @property (nonatomic, readonly) NSNumber *endcardEnabled;
 @property (nonatomic, readonly) NSNumber *customEndcardEnabled;
 @property (nonatomic, readonly) NSNumber *skoverlayEnabled;
@@ -102,7 +105,9 @@ typedef enum {
 @property (nonatomic, readonly) NSNumber *fullscreenClickability;
 @property (nonatomic, readonly) NSNumber *mraidExpand;
 @property (nonatomic, readonly) NSNumber *creativeAutoStorekitEnabled;
+@property (nonatomic, readonly) NSNumber *customCtaEnabled;
 @property (nonatomic, readonly) NSNumber *sdkAutoStorekitEnabled;
+@property (nonatomic, readonly) NSNumber *atomEnabled;
 
 - (instancetype)initWithData:(HyBidAdModel *)data withZoneID:(NSString *)zoneID;
 

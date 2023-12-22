@@ -65,7 +65,6 @@ NSInteger const PNLiteResponseStatusOK = 200;
 @property (nonatomic, strong) PNLiteAdRequestModel *adRequestModel;
 @property (nonatomic, assign) BOOL isSetIntegrationTypeCalled;
 @property (nonatomic, strong) PNLiteAdFactory *adFactory;
-@property (nonatomic, assign) BOOL isUsingOpenRTB;
 @property (nonatomic, assign) IntegrationType requestIntegrationType;
 @property (nonatomic, assign) NSTimeInterval initialCacheTimestamp;
 @property (nonatomic, assign) NSTimeInterval initialAdResponseTimestamp;
@@ -74,6 +73,7 @@ NSInteger const PNLiteResponseStatusOK = 200;
 @property (nonatomic, strong) NSMutableDictionary *requestReportingProperties;
 @property (nonatomic, assign) BOOL adCached;
 @property (nonatomic, strong) HyBidVASTEndCardManager *endCardManager;
+@property (nonatomic, strong) NSData *body;
 
 @end
 
@@ -91,6 +91,7 @@ NSInteger const PNLiteResponseStatusOK = 200;
     self.cacheReportingProperties = nil;
     self.adResponseReportingProperties = nil;
     self.requestReportingProperties = nil;
+    self.isUsingOpenRTB = NO;
 }
 
 - (instancetype)init {
@@ -120,9 +121,6 @@ NSInteger const PNLiteResponseStatusOK = 200;
 }
 
 - (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID withAppToken:(NSString *)appToken {
-    self.isUsingOpenRTB = ([[NSUserDefaults standardUserDefaults] objectForKey:kIsUsingOpenRTB] != nil)
-    ? [[NSUserDefaults standardUserDefaults] boolForKey:kIsUsingOpenRTB]
-    : NO;
     self.zoneID = zoneID;
     self.appToken = appToken;
     self.requestIntegrationType = integrationType;
@@ -170,6 +168,7 @@ NSInteger const PNLiteResponseStatusOK = 200;
             [self addCommonPropertiesToReportingDictionary:self.requestReportingProperties];
             [self reportEvent:HyBidReportingEventType.REQUEST withProperties:self.requestReportingProperties];
         }
+        self.body = request.body;
     }
 }
 
@@ -187,12 +186,13 @@ NSInteger const PNLiteResponseStatusOK = 200;
 
 - (PNLiteAdRequestModel *)createAdRequestModelWithIntegrationType:(IntegrationType)integrationType {
     PNLiteAdRequestModel * requestModel = [self.adFactory createAdRequestWithZoneID:self.zoneID
-                                                                      withAppToken:self.appToken
-                                                                        withAdSize:[self adSize]
-                                                        withSupportedAPIFrameworks:[self supportedAPIFrameworks]
-                                                               withIntegrationType:integrationType
-                                                                        isRewarded:[self isRewarded]
-                                                               mediationVendorName:nil];
+                                                                       withAppToken:self.appToken
+                                                                         withAdSize:[self adSize]
+                                                         withSupportedAPIFrameworks:[self supportedAPIFrameworks]
+                                                                withIntegrationType:integrationType
+                                                                         isRewarded:[self isRewarded]
+                                                                     isUsingOpenRTB:[self isUsingOpenRTB]
+                                                                mediationVendorName:nil];
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@",[self requestURLFromAdRequestModel: requestModel].absoluteString]];
     return requestModel;
 }
@@ -390,9 +390,6 @@ NSInteger const PNLiteResponseStatusOK = 200;
 
 - (void)processResponseWithJSON:(NSString*)adReponse {
     self.zoneID = @"legacy_api_tester";
-    self.isUsingOpenRTB = ([[NSUserDefaults standardUserDefaults] objectForKey:kIsUsingOpenRTB] != nil)
-    ? [[NSUserDefaults standardUserDefaults] boolForKey:kIsUsingOpenRTB]
-    : NO;
     if (self.isUsingOpenRTB && self.openRTBAdType == HyBidOpenRTBAdVideo) {
         [self processVASTTagResponseFrom:adReponse];
     } else {
@@ -437,21 +434,20 @@ NSInteger const PNLiteResponseStatusOK = 200;
             for (HyBidAdModel *adModel in (self.isUsingOpenRTB ? openRTBResponse.bids : response.ads)) {
                 HyBidAd *ad = nil;
                 if (self.isUsingOpenRTB) {
+                    NSInteger assetGroupID = 8;
+                    NSInteger type = kHyBidAdTypeHTML;
                     if (self.openRTBAdType == HyBidOpenRTBAdNative){
                         #if __has_include(<ATOM/ATOM-Swift.h>)
                         NSArray<NSString *> *cohorts = [self getCohortsFromRequestURL];
-                        NSInteger assetGroupID = 8;
                         ad = [[HyBidAd alloc] initOpenRTBWithData:adModel withZoneID:self.zoneID withCohorts:cohorts];
                         #else
                         ad = [[HyBidAd alloc] initOpenRTBWithData:adModel withZoneID:self.zoneID];
                         #endif
                     } else if (self.openRTBAdType == HyBidOpenRTBAdBanner){
                         #if __has_include(<ATOM/ATOM-Swift.h>)
-                        NSInteger type = kHyBidAdTypeHTML;
-                        NSInteger assetGroupID = 8;
                         ad = [[HyBidAd alloc] initWithAssetGroupForOpenRTB:assetGroupID withAdContent: adContent withAdType:type withBidObject:bid];
                         #else
-                        ad = [[HyBidAd alloc] initOpenRTBWithData:adModel withZoneID:self.zoneID];
+                        ad = [[HyBidAd alloc]initWithAssetGroupForOpenRTB:assetGroupID withAdContent:adContent withAdType:type withBidObject:bid];
                         #endif
                     }
                    
@@ -740,7 +736,8 @@ NSInteger const PNLiteResponseStatusOK = 200;
                 }
                 [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:self.requestURL.absoluteString
                                                         withResponse:dataString
-                                                        withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]];
+                                                        withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]
+                                                                        withRequestBody:self.body];
             } else {
                 [HyBidMarkupUtils isVastXml:dataString completion:^(BOOL isVAST, NSError *error) {
                     if (error) {
@@ -766,7 +763,8 @@ NSInteger const PNLiteResponseStatusOK = 200;
                         }
                         [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:self.requestURL.absoluteString
                                                                                    withResponse:responseStringJson
-                                                                                    withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]];
+                                                                                    withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]
+                                                                                withRequestBody:self.isUsingOpenRTB ? self.body : nil];
                         
                         [self processResponseWithData:data];
                     } else {
@@ -794,7 +792,8 @@ NSInteger const PNLiteResponseStatusOK = 200;
     }
     [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:self.requestURL.absoluteString
                                                                withResponse:error.localizedDescription
-                                                                withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]];
+                                                                withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]
+                                                            withRequestBody:nil];
     [self invokeDidFail:error];
 }
 

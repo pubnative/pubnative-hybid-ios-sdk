@@ -25,7 +25,6 @@
 @interface PNLiteDemoRequestInspectorDetailViewController ()<UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *requestTableView;
-@property (nonatomic, strong) NSArray<NSDictionary *> *parameterList;
 
 @end
 
@@ -37,7 +36,6 @@
     self.requestTableView.dataSource = self;
     self.requestTableView.delegate = self;
 
-    self.parameterList = [self parseURLAndPopulateParameters];
     [self.requestTableView reloadData];
 }
 
@@ -46,7 +44,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.parameterList.count;
+    return self.receivedData.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -56,7 +54,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"HyBidRequestInspectorDebugCell"];
     }
 
-    NSDictionary *parameterInfo = self.parameterList[indexPath.row];
+    NSDictionary *parameterInfo = self.receivedData[indexPath.row];
 
     cell.textLabel.text = parameterInfo[@"parameterKey"];
     cell.detailTextLabel.text = parameterInfo[@"parameterValue"];
@@ -70,7 +68,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-    NSDictionary *parameterInfo = self.parameterList[indexPath.row];
+    NSDictionary *parameterInfo = self.receivedData[indexPath.row];
     NSString *value = parameterInfo[@"parameterValue"];
     
     [pasteboard setString:value];
@@ -97,27 +95,6 @@
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
     [alertController addAction:okAction];
     [self presentViewController:alertController animated:YES completion:nil];
-}
-
-- (NSArray<NSDictionary *> *)parseURLAndPopulateParameters {
-    NSString *urlString = self.receivedURL;
-    NSURLComponents *components = [NSURLComponents componentsWithString:urlString];
-    NSArray<NSURLQueryItem *> *queryItems = components.queryItems;
-    NSMutableArray<NSDictionary *> *parameterList = [NSMutableArray array];
-
-    for (NSURLQueryItem *queryItem in queryItems) {
-        NSString *parameterKey = queryItem.name;
-        NSString *parameterValue = queryItem.value;
-        NSDictionary *parameterInfo = @{@"parameterKey": parameterKey, @"parameterValue": parameterValue};
-        [parameterList addObject:parameterInfo];
-    }
-
-    // Set sorting by key [a-z]
-    return [parameterList sortedArrayUsingComparator:^NSComparisonResult(NSDictionary *dict1, NSDictionary *dict2) {
-        NSString *key1 = dict1[@"parameterKey"];
-        NSString *key2 = dict2[@"parameterKey"];
-        return [key1 localizedCaseInsensitiveCompare:key2];
-    }];
 }
 
 @end

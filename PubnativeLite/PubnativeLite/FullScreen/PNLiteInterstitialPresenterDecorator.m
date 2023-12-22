@@ -42,6 +42,7 @@
 @property (nonatomic, strong) NSMutableDictionary *errorReportingProperties;
 @property (nonatomic, strong) HyBidSKOverlay *skoverlay;
 @property (nonatomic, strong) PNLiteImpressionTracker *impressionTracker;
+@property (nonatomic, strong) HyBidCustomCTAView *customCTA;
 
 @end
 
@@ -53,6 +54,7 @@
     self.interstitialPresenterDelegate = nil;
     self.errorReportingProperties = nil;
     self.skoverlay = nil;
+    self.customCTA = nil;
 }
 
 - (void)load {
@@ -132,8 +134,15 @@
             if ([self.interstitialPresenter.ad.skoverlayEnabled boolValue]) {
                 self.skoverlay = [[HyBidSKOverlay alloc] initWithAd:interstitialPresenter.ad];
             }
-        } 
+        }
         [self.interstitialPresenterDelegate interstitialPresenterDidLoad:interstitialPresenter];
+    }
+}
+
+- (void)interstitialPresenterDidLoad:(HyBidInterstitialPresenter *)interstitialPresenter viewController:(UIViewController *)viewController {
+    [self interstitialPresenterDidLoad: interstitialPresenter];
+    if ([HyBidCustomCTAView isCustomCTAValidWithAd: interstitialPresenter.ad]) {
+        self.customCTA = [[HyBidCustomCTAView alloc] initWithAd:interstitialPresenter.ad viewController:viewController delegate:interstitialPresenter.customCTADelegate adFormat:HyBidReportingAdFormat.FULLSCREEN];
     }
 }
 
@@ -143,6 +152,7 @@
         [self.interstitialPresenterDelegate interstitialPresenterDidShow:interstitialPresenter];
         [self.skoverlay addObservers];
         [self.skoverlay presentWithAd:interstitialPresenter.ad];
+        [self.customCTA presentCustomCTAWithDelay];
     }
 }
 
@@ -159,6 +169,10 @@
         [[HyBid reportingManager] reportEventFor:reportingEvent];
         [self.interstitialPresenterDelegate interstitialPresenterDidDismiss:interstitialPresenter];
         [self.skoverlay dismissEntirely:YES withAd:interstitialPresenter.ad causedByAutoCloseTimerCompletion:NO];
+    }
+    
+    if (self.customCTA) {
+        [self.customCTA removeCustomCTA];
     }
 }
 
@@ -198,6 +212,12 @@
 
 - (void)interstitialPresenterDismissesSKOverlay:(HyBidInterstitialPresenter *)interstitialPresenter {
     [self.skoverlay dismissEntirely:YES withAd:interstitialPresenter.ad causedByAutoCloseTimerCompletion:NO];
+}
+
+- (void)interstitialPresenterDismissesCustomCTA:(HyBidInterstitialPresenter *)interstitialPresenter {
+    if (self.customCTA) {
+        [self.customCTA removeCustomCTA];
+    }
 }
 
 @end

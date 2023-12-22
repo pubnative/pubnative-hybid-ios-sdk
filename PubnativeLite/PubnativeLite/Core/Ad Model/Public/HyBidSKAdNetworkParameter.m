@@ -24,7 +24,7 @@
 
 @implementation HyBidSKAdNetworkParameter
 
-+ (NSString *)sourceIdentifier { return @"sourceIdentifier"; }
++ (NSString *)sourceIdentifier { return @"sourceidentifier"; }
 + (NSString *)campaign { return @"campaign"; }
 + (NSString *)itunesitem { return @"itunesitem"; }
 + (NSString *)network { return @"network"; }

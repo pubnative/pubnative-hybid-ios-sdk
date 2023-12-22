@@ -172,6 +172,8 @@ typedef enum {
 @property (nonatomic, assign) BOOL willShowFeedbackScreen;
 @property (nonatomic, strong) HyBidSkipOffset *nativeCloseButtonDelay;
 @property (nonatomic, assign) BOOL creativeAutoStorekitEnabled;
+@property (nonatomic, strong) SKStoreProductViewController *storeViewController;
+@property (nonatomic, assign) BOOL productLoadSuccessful;
 
 @end
 
@@ -354,7 +356,7 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
 }
 
 - (void)determineCreativeAutoStorekitEnabledForAd:(HyBidAd *)ad {
-    if ([ad.creativeAutoStorekitEnabled boolValue]) {
+    if ([ad.creativeAutoStorekitEnabled boolValue] && ![ad.sdkAutoStorekitEnabled boolValue]) {
         self.creativeAutoStorekitEnabled = YES;
     } else {
         self.creativeAutoStorekitEnabled = HyBidConstants.creativeAutoStorekitEnabled;
@@ -1887,14 +1889,8 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
 
 #pragma mark Handling Auto/Manual taps
 
-- (void)openBrowserWithURLString:(NSString *)urlString {
-    if ([self.serviceDelegate respondsToSelector:@selector(mraidServiceOpenBrowserWithUrlString:)]) {
-        [self.serviceDelegate mraidServiceOpenBrowserWithUrlString:urlString];
-    }
-}
-
 - (void)doTrackingEndcardWithUrlString:(NSString *)urlString {
-    if ([self.serviceDelegate respondsToSelector:@selector(mraidServiceTrackingEndcardWithUrlString:)]) {
+    if (self.serviceDelegate != nil && [self.serviceDelegate respondsToSelector:@selector(mraidServiceTrackingEndcardWithUrlString:)]){
         [self.serviceDelegate mraidServiceTrackingEndcardWithUrlString:urlString];
     }
 }
@@ -1903,32 +1899,39 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
     if (isStoreViewControllerPresented || isStoreViewControllerBeingPresented) {
         return; // Return early if the Store VC is already being presented
     }
-    
+    [self doTrackingEndcardWithUrlString:urlString];
     isStoreViewControllerBeingPresented = YES;
     
     SKStoreProductViewController *storeViewController = [[SKStoreProductViewController alloc] init];
     storeViewController.delegate = self;
     
     NSString* appID = [self extractAppIDFromAppStoreURL:urlString];
-    
     if (appID) {
         NSDictionary *parameters = @{SKStoreProductParameterITunesItemIdentifier: appID};
         [storeViewController loadProductWithParameters:parameters completionBlock:^(BOOL result, NSError *error) {
             if (result) {
-                [self doTrackingEndcardWithUrlString:urlString];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"SKStoreProductViewIsReadyToPresent" object:nil];
+                    [[NSNotificationCenter defaultCenter] addObserver:self
+                                                             selector:@selector(storeKitPageDismissed)
+                                                                 name:@"SKStoreProductViewIsDismissed"
+                                                               object:nil];
                     [[UIApplication sharedApplication].topViewController presentViewController:storeViewController animated:YES completion:nil];
                     isStoreViewControllerPresented = YES;
+                    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"StoreKit from CREATIVE is presented"]];
                 });
             } else {
-                [self openBrowserWithURLString:urlString];
+                if (@available(iOS 17, *)){
+                    [self openBrowserWithURLString:urlString];
+                }else {
+                    [self openWithURLString:urlString];
+                }
             }
             isStoreViewControllerBeingPresented = NO;
         }];
     } else {
-        [self openBrowserWithURLString:urlString];
         isStoreViewControllerBeingPresented = NO;
+        [self openBrowserWithURLString:urlString];
     }
 }
 
@@ -1946,6 +1949,27 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
     }
     
     return nil;
+}
+
+- (void)openBrowserWithURLString:(NSString *)urlString {
+    if (urlString != nil) {
+        BOOL canOpenURL = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:urlString]];
+        if(!canOpenURL){
+            urlString = [urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet  URLQueryAllowedCharacterSet]];
+        }else {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString] options:@{} completionHandler:(nil)];
+        }
+    }
+}
+    
+- (void)openWithURLString:(NSString *)urlString {
+    if ([self.serviceDelegate respondsToSelector:@selector(mraidServiceOpenBrowserWithUrlString:)]) {
+        [self.serviceDelegate mraidServiceOpenBrowserWithUrlString:urlString];
+    }
+}
+
+- (void)storeKitPageDismissed {
+    isStoreViewControllerPresented = NO;
 }
 
 #pragma mark HyBidURLRedirectorDelegate

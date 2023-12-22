@@ -58,6 +58,7 @@
                          withSupportedAPIFrameworks:(NSArray<NSString *> *)supportedAPIFrameworks
                                 withIntegrationType:(IntegrationType)integrationType
                                          isRewarded:(BOOL)isRewarded
+                                     isUsingOpenRTB:(BOOL)isUsingOpenRTB
                                 mediationVendorName: (NSString*) mediationVendorName{
     self.adRequestModel = [[PNLiteAdRequestModel alloc] init];
     self.adRequestModel.requestParameters[HyBidRequestParameter.zoneId] = zoneID;
@@ -111,8 +112,6 @@
             self.adRequestModel.requestParameters[HyBidRequestParameter.carrierMCCMNC] = carrierMCCMNC;
         }
     }
-
-    BOOL isUsingOpenRTB = [[NSUserDefaults standardUserDefaults] boolForKey:kIsUsingOpenRTB];
     if (isUsingOpenRTB) {
         self.adRequestModel.requestParameters[HyBidRequestParameter.ip] = [HyBidSettings sharedInstance].ip;
     }
@@ -249,6 +248,8 @@
     self.adRequestModel.requestParameters[HyBidRequestParameter.clickbrowser] = @"1";
     if(![adSize isEqualTo:HyBidAdSize.SIZE_NATIVE]) {
         self.adRequestModel.requestParameters[HyBidRequestParameter.topframe] = @"1";
+        // Removed the outdated geofetch logic and replaced it with hardcoded values. Set the value to 1 for all types except 'native' to align with the new requirements.
+        self.adRequestModel.requestParameters[HyBidRequestParameter.geoFetch] = @"1";
     }
     
     NSString* darkMode = [HyBidSettings sharedInstance].isDarkModeEnabled;

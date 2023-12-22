@@ -42,6 +42,7 @@
 @property (nonatomic, strong) NSMutableDictionary *errorReportingProperties;
 @property (nonatomic, strong) HyBidSKOverlay *skoverlay;
 @property (nonatomic, strong) PNLiteImpressionTracker *impressionTracker;
+@property (nonatomic, strong) HyBidCustomCTAView *customCTA;
 
 @end
 
@@ -53,6 +54,7 @@
     self.rewardedPresenterDelegate = nil;
     self.errorReportingProperties = nil;
     self.skoverlay = nil;
+    self.customCTA = nil;
 }
 
 - (void)load {
@@ -125,12 +127,20 @@
     }
 }
 
+- (void)rewardedPresenterDidLoad:(HyBidRewardedPresenter *)rewardedPresenter viewController:(UIViewController *)viewController {
+    [self rewardedPresenterDidLoad:rewardedPresenter];
+    if ([HyBidCustomCTAView isCustomCTAValidWithAd: rewardedPresenter.ad]) {
+        self.customCTA = [[HyBidCustomCTAView alloc] initWithAd:rewardedPresenter.ad viewController: viewController delegate:rewardedPresenter.customCTADelegate adFormat:HyBidReportingAdFormat.REWARDED];
+    }
+}
+
 - (void)rewardedPresenterDidShow:(HyBidRewardedPresenter *)rewardedPresenter {
     if (self.rewardedPresenterDelegate && [self.rewardedPresenterDelegate respondsToSelector:@selector(rewardedPresenterDidShow:)] && !self.adTracker.impressionTracked) {
         [self.adTracker trackImpressionWithAdFormat:HyBidReportingAdFormat.REWARDED];
         [self.rewardedPresenterDelegate rewardedPresenterDidShow:rewardedPresenter];
         [self.skoverlay addObservers];
         [self.skoverlay presentWithAd:rewardedPresenter.ad];
+        [self.customCTA presentCustomCTAWithDelay];
     }
 }
 
@@ -145,6 +155,10 @@
     if (self.rewardedPresenterDelegate && [self.rewardedPresenterDelegate respondsToSelector:@selector(rewardedPresenterDidDismiss:)]) {
         [self.rewardedPresenterDelegate rewardedPresenterDidDismiss:rewardedPresenter];
         [self.skoverlay dismissEntirely:YES withAd:rewardedPresenter.ad causedByAutoCloseTimerCompletion:NO];
+    }
+    
+    if (self.customCTA) {
+        [self.customCTA removeCustomCTA];
     }
 }
 
@@ -185,6 +199,12 @@
 
 - (void)rewardedPresenterDismissesSKOverlay:(HyBidRewardedPresenter *)rewardedPresenter {
     [self.skoverlay dismissEntirely:YES withAd:rewardedPresenter.ad causedByAutoCloseTimerCompletion:NO];
+}
+
+- (void)rewardedPresenterDismissesCustomCTA:(HyBidRewardedPresenter *)rewardedPresenter {
+    if (self.customCTA) {
+        [self.customCTA removeCustomCTA];
+    }
 }
 
 @end

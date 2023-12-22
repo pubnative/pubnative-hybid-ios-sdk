@@ -26,6 +26,7 @@
 #import "HyBidDisplayManager.h"
 #import "PNLiteAdFactory.h"
 #import "HyBidDiagnosticsManager.h"
+#import "HyBidATOMFlow.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -35,13 +36,8 @@
     #import "HyBid-Swift.h"
 #endif
 
-#if __has_include(<ATOM/ATOM-Swift.h>)
-    #import <ATOM/ATOM-Swift.h>
-#endif
-
 BOOL isInitialized = NO;
 
-#define kATOM_API_KEY @"39a34d8d-dd1d-4fbf-aa96-fdc5f0329451"
 
 @implementation HyBid
 
@@ -72,27 +68,11 @@ BOOL isInitialized = NO;
         [HyBidDiagnosticsManager printDiagnosticsLogWithEvent:HyBidDiagnosticsEventInitialisation];
         [[HyBidSessionManager sharedInstance] setStartSession];
         [[HyBidSessionManager sharedInstance] setAgeOfAppSinceCreated];
-        [self startATOM];
+        [HyBidATOMFlow initFlow];
     }
     if (completion != nil) {
         completion(isInitialized);
     }
-}
-
-+ (void)startATOM
-{
-    #if __has_include(<ATOM/ATOM-Swift.h>)
-    NSError *atomError = nil;
-    [Atom startWithApiKey:kATOM_API_KEY isTest:NO error:&atomError withCallback:^(BOOL isSuccess) {
-        if (isSuccess) {
-            NSArray *atomCohorts = [Atom getCohorts];
-            [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: [[NSString alloc] initWithFormat: @"Received ATOM cohorts: %@", atomCohorts], NSStringFromSelector(_cmd)]];
-        } else {
-            NSString *atomInitResultMessage = [[NSString alloc] initWithFormat:@"Coultdn't initialize ATOM with error: %@", [atomError localizedDescription]];
-            [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: atomInitResultMessage, NSStringFromSelector(_cmd)]];
-        }
-    }];
-    #endif
 }
 
 + (BOOL)isInitialized {
@@ -124,7 +104,7 @@ BOOL isInitialized = NO;
 }
 
 + (NSString *)getCustomRequestSignalData:(NSString *)mediationVendorName {
-    PNLiteAdRequestModel* adRequestModel = [[PNLiteAdFactory alloc]createAdRequestWithZoneID:@"" withAppToken:@"" withAdSize:HyBidAdSize.SIZE_INTERSTITIAL withSupportedAPIFrameworks:nil withIntegrationType:IN_APP_BIDDING isRewarded:false mediationVendorName:mediationVendorName];
+    PNLiteAdRequestModel* adRequestModel = [[PNLiteAdFactory alloc]createAdRequestWithZoneID:@"" withAppToken:@"" withAdSize:HyBidAdSize.SIZE_INTERSTITIAL withSupportedAPIFrameworks:nil withIntegrationType:IN_APP_BIDDING isRewarded:false isUsingOpenRTB:false mediationVendorName:mediationVendorName];
     HyBidAdRequest* adRequest = [[HyBidAdRequest alloc]init];
     NSURL* url = [adRequest requestURLFromAdRequestModel:adRequestModel];
     if (!url) {

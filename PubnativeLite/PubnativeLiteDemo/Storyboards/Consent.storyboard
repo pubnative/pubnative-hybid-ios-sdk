@@ -707,7 +707,7 @@
         <!--App authorizations-->
         <scene sceneID="k0E-PW-DXX">
             <objects>
-                <viewController title="App authorizations" id="iZd-bo-rGX" customClass="HyBidAppAuthorizationsViewController" customModule="HyBid" sceneMemberID="viewController">
+                <viewController title="App authorizations" id="iZd-bo-rGX" customClass="HyBidAppAuthorizationsViewController" customModule="HyBidDemo" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="rSg-cq-sFq">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

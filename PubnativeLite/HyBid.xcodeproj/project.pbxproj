@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -16,7 +16,7 @@
 		3415BC8E2A8E3715003D7536 /* OMSDK_Pubnativenet.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3415BC8A2A8E36E7003D7536 /* OMSDK_Pubnativenet.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		341902E02875CEE600984D42 /* HyBidAdFeedbackView.h in Headers */ = {isa = PBXBuildFile; fileRef = 341902DE2875CEE600984D42 /* HyBidAdFeedbackView.h */; };
 		341902E22875CEE600984D42 /* HyBidAdFeedbackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 341902DF2875CEE600984D42 /* HyBidAdFeedbackView.m */; };
-		342076DC2A941D0F00044D80 /* HyBidSKOverlay.h in Headers */ = {isa = PBXBuildFile; fileRef = 342076DA2A941D0F00044D80 /* HyBidSKOverlay.h */; };
+		342076DC2A941D0F00044D80 /* HyBidSKOverlay.h in Headers */ = {isa = PBXBuildFile; fileRef = 342076DA2A941D0F00044D80 /* HyBidSKOverlay.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		342076DD2A941D0F00044D80 /* HyBidSKOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 342076DB2A941D0F00044D80 /* HyBidSKOverlay.m */; };
 		342932BC287DD619004ECE08 /* HyBidAdFeedbackMacroUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 342932BA287DD619004ECE08 /* HyBidAdFeedbackMacroUtil.h */; };
 		342932BE287DD619004ECE08 /* HyBidAdFeedbackMacroUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 342932BB287DD619004ECE08 /* HyBidAdFeedbackMacroUtil.m */; };
@@ -52,7 +52,7 @@
 		34C7A9FD282EC40D0010741D /* HyBidGADRewardedCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 34C7A9EC282EC40C0010741D /* HyBidGADRewardedCustomEvent.m */; };
 		34C7AA00282EC4740010741D /* HyBidGADUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 34C7A9FF282EC4740010741D /* HyBidGADUtils.m */; };
 		34D08DC8292B8B4600C183EB /* HyBidSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D08DC7292B8B4600C183EB /* HyBidSessionManager.swift */; };
-		34E088432AB2102E0084E782 /* HyBidSKOverlayTimerType.h in Headers */ = {isa = PBXBuildFile; fileRef = 34E088422AB2102E0084E782 /* HyBidSKOverlayTimerType.h */; };
+		34E088432AB2102E0084E782 /* HyBidSKOverlayTimerType.h in Headers */ = {isa = PBXBuildFile; fileRef = 34E088422AB2102E0084E782 /* HyBidSKOverlayTimerType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		34F0E74527DA06A9009AE0A3 /* HyBidDemoALBannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F0E74427DA06A9009AE0A3 /* HyBidDemoALBannerViewController.m */; };
 		34F0E74827DA0F5D009AE0A3 /* HyBidDemoALMRectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F0E74727DA0F5D009AE0A3 /* HyBidDemoALMRectViewController.m */; };
 		34F0E74B27DA18D8009AE0A3 /* HyBidDemoALInterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F0E74A27DA18D8009AE0A3 /* HyBidDemoALInterstitialViewController.m */; };
@@ -87,7 +87,6 @@
 		5A2EC33920C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A2EC33620C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.xib */; };
 		5A2EC33B20C829A0000F9747 /* PNLiteVASTPlayerFullScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A2EC33A20C829A0000F9747 /* PNLiteVASTPlayerFullScreenViewController.xib */; };
 		5A32CEBD2029F79B0003B450 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A32CEBC2029F79B0003B450 /* AppDelegate.m */; };
-		5A32CEC32029F79B0003B450 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A32CEC12029F79B0003B450 /* Main.storyboard */; };
 		5A32CEC52029F79B0003B450 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A32CEC42029F79B0003B450 /* Assets.xcassets */; };
 		5A32CECB2029F79B0003B450 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A32CECA2029F79B0003B450 /* main.m */; };
 		5A32CECF2029F8530003B450 /* HyBid.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A6CD0202029CD060022E206 /* HyBid.framework */; };
@@ -497,6 +496,8 @@
 		7E5A515B2A03BBD700CACEF8 /* close@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E5A51582A03BBD700CACEF8 /* close@3x.png */; };
 		7E5A515C2A03BBD700CACEF8 /* close.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E5A51592A03BBD700CACEF8 /* close.png */; };
 		7E5A515D2A03BBD700CACEF8 /* close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E5A515A2A03BBD700CACEF8 /* close@2x.png */; };
+		7E6759642B10B58C001880F7 /* HyBidATOMFlow.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E6759622B10B58C001880F7 /* HyBidATOMFlow.h */; };
+		7E6759652B10B58C001880F7 /* HyBidATOMFlow.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E6759632B10B58C001880F7 /* HyBidATOMFlow.m */; };
 		7E76FCCC2A314E0A0099C722 /* HyBidSkAdNetworkModelTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E76FCCB2A314E0A0099C722 /* HyBidSkAdNetworkModelTests.m */; };
 		7E7CC36524D9ECDE00F3A476 /* Quote.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7CC36424D9ECDE00F3A476 /* Quote.m */; };
 		7E7CC36824D9F0E700F3A476 /* QuoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7CC36724D9F0E700F3A476 /* QuoteCell.m */; };
@@ -530,6 +531,8 @@
 		7E9B1BB628C0BE0200328CBE /* HyBidAdSourceConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E9B1BB428C0BE0200328CBE /* HyBidAdSourceConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7E9B1BB728C0BE0200328CBE /* HyBidAdSourceConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9B1BB528C0BE0200328CBE /* HyBidAdSourceConfig.m */; };
 		7E9EE95F29685661002FBB42 /* HyBidViewbilityConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9EE95E29685661002FBB42 /* HyBidViewbilityConfig.swift */; };
+		7EAB9A0F2B2894F90059D9AB /* HyBidAppAuthorizationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913011592AD99730005C920F /* HyBidAppAuthorizationsViewController.swift */; };
+		7EAB9A102B2894FD0059D9AB /* HyBidAppAuthorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E751F92AE124AB009EDEDC /* HyBidAppAuthorization.swift */; };
 		7ED53E44286089A700948F8A /* HyBidVideoAdCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AB2C12B2486981100AFB4A5 /* HyBidVideoAdCache.h */; };
 		7ED53ED7286B209E00948F8A /* HyBidVASTAdTrackingEventType.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F56703726C67E8700B52B46 /* HyBidVASTAdTrackingEventType.h */; };
 		7ED53EE1286B2A6700948F8A /* CreativeTester.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7ED53EE0286B2A6700948F8A /* CreativeTester.storyboard */; };
@@ -554,19 +557,24 @@
 		7EFE8CC62AE6AD0F001C9E24 /* HyBidTextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFE8CC22AE6AD0F001C9E24 /* HyBidTextFieldTableViewCell.swift */; };
 		7EFE8CC72AE6AD0F001C9E24 /* UICheckbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFE8CC32AE6AD0F001C9E24 /* UICheckbox.swift */; };
 		91237D572ADD352B009BA7AD /* Extension+UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9145AFAB2AC4120C00F1EAE6 /* Extension+UILabel.swift */; };
-		9130115A2AD99730005C920F /* HyBidAppAuthorizationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913011592AD99730005C920F /* HyBidAppAuthorizationsViewController.swift */; };
 		913BC2E72996763B00645ABB /* HyBidMRAIDCloseCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 913BC2E42996763B00645ABB /* HyBidMRAIDCloseCardView.xib */; };
 		913BC2E92996985500645ABB /* HyBidMRAIDCloseCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913BC2E82996985500645ABB /* HyBidMRAIDCloseCardView.swift */; };
 		91435BC42AB303E80045E8F8 /* HyBidOpenRTBPrivacyDataModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 91435BC22AB303E80045E8F8 /* HyBidOpenRTBPrivacyDataModel.h */; };
 		91435BC52AB303E80045E8F8 /* HyBidOpenRTBPrivacyDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 91435BC32AB303E80045E8F8 /* HyBidOpenRTBPrivacyDataModel.m */; };
-		9187EB932975C4FF009800DF /* HyBidTimerState.h in Headers */ = {isa = PBXBuildFile; fileRef = 9187EB912975C4FF009800DF /* HyBidTimerState.h */; };
+		91704EDC2B1E0C1000A7D6BC /* HyBidLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 91704EDE2B1E0C1000A7D6BC /* HyBidLocalizable.strings */; };
+		9187EB932975C4FF009800DF /* HyBidTimerState.h in Headers */ = {isa = PBXBuildFile; fileRef = 9187EB912975C4FF009800DF /* HyBidTimerState.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9187EB972975C545009800DF /* HyBidSkipOverlay.h in Headers */ = {isa = PBXBuildFile; fileRef = 9187EB952975C545009800DF /* HyBidSkipOverlay.h */; };
 		9187EB982975C545009800DF /* HyBidSkipOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 9187EB962975C545009800DF /* HyBidSkipOverlay.m */; };
-		91E751FA2AE124AB009EDEDC /* HyBidAppAuthorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E751F92AE124AB009EDEDC /* HyBidAppAuthorization.swift */; };
+		91970BDD2B1E5798006E37B8 /* HyBidLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91970BDC2B1E5798006E37B8 /* HyBidLocalization.swift */; };
+		919A6A0F2B23700B00C44F8E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 919A6A112B23700B00C44F8E /* Main.storyboard */; };
+		919F29FE2AEBFB6B00585CB4 /* HyBidCustomCTAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 919F29FC2AEBFB6B00585CB4 /* HyBidCustomCTAView.swift */; };
+		91B1EF722B1A4F080092900C /* HyBidCustomCTAView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91B1EF732B1A4F080092900C /* HyBidCustomCTAView.xib */; };
+		91DA7E5E2AFD4DC900524123 /* HyBidCustomCTAViewDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 91DA7E5D2AFD4D8300524123 /* HyBidCustomCTAViewDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		91E751FD2AE12539009EDEDC /* Extension+UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E751FC2AE12539009EDEDC /* Extension+UIViewController.swift */; };
 		91E84FC72AD698EC00BE0EAF /* HyBidOpenRTBRequestDeviceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E84FC62AD698EC00BE0EAF /* HyBidOpenRTBRequestDeviceModel.swift */; };
 		91E84FC92AD6992800BE0EAF /* HyBidOpenRTBRequestGeolocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E84FC82AD6992800BE0EAF /* HyBidOpenRTBRequestGeolocationModel.swift */; };
 		91FB516E2AC6CF5400CB5F31 /* HyBidOpenRTBRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FB516D2AC6CF5400CB5F31 /* HyBidOpenRTBRequestModel.swift */; };
+		CE4A74162B30F19F00E62B10 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = CE4A74152B30F19F00E62B10 /* PrivacyInfo.xcprivacy */; };
 		CE729BFC2AAF61670003565D /* HyBidCustomClickUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = CE729BFA2AAF61670003565D /* HyBidCustomClickUtil.h */; };
 		CE729BFD2AAF61670003565D /* HyBidCustomClickUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = CE729BFB2AAF61670003565D /* HyBidCustomClickUtil.m */; };
 		CE8DBDDA27BE808C004ED33B /* AppLovinMediationVerveCustomNetworkAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8DBDD927BE808C004ED33B /* AppLovinMediationVerveCustomNetworkAdapter.m */; };
@@ -781,7 +789,6 @@
 		5A32CEB92029F79B0003B450 /* HyBidDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HyBidDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A32CEBB2029F79B0003B450 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		5A32CEBC2029F79B0003B450 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		5A32CEC22029F79B0003B450 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5A32CEC42029F79B0003B450 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5A32CEC92029F79B0003B450 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5A32CECA2029F79B0003B450 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -1243,6 +1250,8 @@
 		7E5A51582A03BBD700CACEF8 /* close@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close@3x.png"; sourceTree = "<group>"; };
 		7E5A51592A03BBD700CACEF8 /* close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = close.png; sourceTree = "<group>"; };
 		7E5A515A2A03BBD700CACEF8 /* close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close@2x.png"; sourceTree = "<group>"; };
+		7E6759622B10B58C001880F7 /* HyBidATOMFlow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidATOMFlow.h; sourceTree = "<group>"; };
+		7E6759632B10B58C001880F7 /* HyBidATOMFlow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidATOMFlow.m; sourceTree = "<group>"; };
 		7E76FCCB2A314E0A0099C722 /* HyBidSkAdNetworkModelTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidSkAdNetworkModelTests.m; sourceTree = "<group>"; };
 		7E7CC36324D9ECDE00F3A476 /* Quote.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Quote.h; sourceTree = "<group>"; };
 		7E7CC36424D9ECDE00F3A476 /* Quote.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Quote.m; sourceTree = "<group>"; };
@@ -1308,9 +1317,43 @@
 		91435BC22AB303E80045E8F8 /* HyBidOpenRTBPrivacyDataModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidOpenRTBPrivacyDataModel.h; sourceTree = "<group>"; };
 		91435BC32AB303E80045E8F8 /* HyBidOpenRTBPrivacyDataModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidOpenRTBPrivacyDataModel.m; sourceTree = "<group>"; };
 		9145AFAB2AC4120C00F1EAE6 /* Extension+UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UILabel.swift"; sourceTree = "<group>"; };
+		91704EDD2B1E0C1000A7D6BC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/HyBidLocalizable.strings; sourceTree = "<group>"; };
+		91704EDF2B1E0C1300A7D6BC /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/HyBidLocalizable.strings; sourceTree = "<group>"; };
 		9187EB912975C4FF009800DF /* HyBidTimerState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidTimerState.h; sourceTree = "<group>"; };
 		9187EB952975C545009800DF /* HyBidSkipOverlay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidSkipOverlay.h; sourceTree = "<group>"; };
 		9187EB962975C545009800DF /* HyBidSkipOverlay.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidSkipOverlay.m; sourceTree = "<group>"; };
+		91970BDC2B1E5798006E37B8 /* HyBidLocalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyBidLocalization.swift; sourceTree = "<group>"; };
+		919A69F02B23587300C44F8E /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/HyBidLocalizable.strings; sourceTree = "<group>"; };
+		919A69F12B23588F00C44F8E /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/HyBidLocalizable.strings; sourceTree = "<group>"; };
+		919A69F32B2358D500C44F8E /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/HyBidLocalizable.strings; sourceTree = "<group>"; };
+		919A69F52B23597100C44F8E /* kk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = kk; path = kk.lproj/HyBidLocalizable.strings; sourceTree = "<group>"; };
+		919A69F62B23598F00C44F8E /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/HyBidLocalizable.strings; sourceTree = "<group>"; };
+		919A69F72B235AA100C44F8E /* de-AT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "de-AT"; path = "de-AT.lproj/HyBidLocalizable.strings"; sourceTree = "<group>"; };
+		919A69F82B235B2E00C44F8E /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/HyBidLocalizable.strings; sourceTree = "<group>"; };
+		919A69F92B235B4200C44F8E /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/HyBidLocalizable.strings; sourceTree = "<group>"; };
+		919A69FA2B235B5D00C44F8E /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/HyBidLocalizable.strings; sourceTree = "<group>"; };
+		919A69FB2B235B7800C44F8E /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/HyBidLocalizable.strings; sourceTree = "<group>"; };
+		919A69FC2B235B9000C44F8E /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/HyBidLocalizable.strings; sourceTree = "<group>"; };
+		919A69FD2B235BCD00C44F8E /* ms */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ms; path = ms.lproj/HyBidLocalizable.strings; sourceTree = "<group>"; };
+		919A69FE2B235C0D00C44F8E /* ky */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ky; path = ky.lproj/HyBidLocalizable.strings; sourceTree = "<group>"; };
+		919A69FF2B235C2B00C44F8E /* ur */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ur; path = ur.lproj/HyBidLocalizable.strings; sourceTree = "<group>"; };
+		919A6A002B235C5100C44F8E /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/HyBidLocalizable.strings; sourceTree = "<group>"; };
+		919A6A012B235C6700C44F8E /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/HyBidLocalizable.strings; sourceTree = "<group>"; };
+		919A6A022B235C8800C44F8E /* az */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = az; path = az.lproj/HyBidLocalizable.strings; sourceTree = "<group>"; };
+		919A6A032B235D4100C44F8E /* zh */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh; path = zh.lproj/HyBidLocalizable.strings; sourceTree = "<group>"; };
+		919A6A042B235D5500C44F8E /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/HyBidLocalizable.strings; sourceTree = "<group>"; };
+		919A6A052B235D6A00C44F8E /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/HyBidLocalizable.strings; sourceTree = "<group>"; };
+		919A6A062B235D8300C44F8E /* lv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lv; path = lv.lproj/HyBidLocalizable.strings; sourceTree = "<group>"; };
+		919A6A072B235DA200C44F8E /* hy */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hy; path = hy.lproj/HyBidLocalizable.strings; sourceTree = "<group>"; };
+		919A6A082B235DBA00C44F8E /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/HyBidLocalizable.strings; sourceTree = "<group>"; };
+		919A6A092B235DCF00C44F8E /* fi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fi; path = fi.lproj/HyBidLocalizable.strings; sourceTree = "<group>"; };
+		919A6A0A2B235DE800C44F8E /* sr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sr; path = sr.lproj/HyBidLocalizable.strings; sourceTree = "<group>"; };
+		919A6A0D2B23673E00C44F8E /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/HyBidLocalizable.strings; sourceTree = "<group>"; };
+		919A6A0E2B236A6700C44F8E /* uz */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uz; path = uz.lproj/HyBidLocalizable.strings; sourceTree = "<group>"; };
+		919A6A102B23700B00C44F8E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		919F29FC2AEBFB6B00585CB4 /* HyBidCustomCTAView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HyBidCustomCTAView.swift; sourceTree = "<group>"; };
+		91B1EF732B1A4F080092900C /* HyBidCustomCTAView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HyBidCustomCTAView.xib; sourceTree = "<group>"; };
+		91DA7E5D2AFD4D8300524123 /* HyBidCustomCTAViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyBidCustomCTAViewDelegate.h; sourceTree = "<group>"; };
 		91E751F92AE124AB009EDEDC /* HyBidAppAuthorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyBidAppAuthorization.swift; sourceTree = "<group>"; };
 		91E751FC2AE12539009EDEDC /* Extension+UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIViewController.swift"; sourceTree = "<group>"; };
 		91E84FC62AD698EC00BE0EAF /* HyBidOpenRTBRequestDeviceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyBidOpenRTBRequestDeviceModel.swift; sourceTree = "<group>"; };
@@ -1319,6 +1362,7 @@
 		A5FF5EB105DD1BE3EE66911C /* Pods_HyBidDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HyBidDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEB2A97525C0C1A57CA839A8 /* Pods-HyBid.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HyBid.release.xcconfig"; path = "Target Support Files/Pods-HyBid/Pods-HyBid.release.xcconfig"; sourceTree = "<group>"; };
 		BF44EC73E74F3925E8EDDC01 /* Pods-HyBidDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HyBidDemo.release.xcconfig"; path = "Target Support Files/Pods-HyBidDemo/Pods-HyBidDemo.release.xcconfig"; sourceTree = "<group>"; };
+		CE4A74152B30F19F00E62B10 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		CE729BFA2AAF61670003565D /* HyBidCustomClickUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidCustomClickUtil.h; sourceTree = "<group>"; };
 		CE729BFB2AAF61670003565D /* HyBidCustomClickUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidCustomClickUtil.m; sourceTree = "<group>"; };
 		CE8DBDD827BE808C004ED33B /* AppLovinMediationVerveCustomNetworkAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppLovinMediationVerveCustomNetworkAdapter.h; sourceTree = "<group>"; };
@@ -1796,6 +1840,7 @@
 				5AECD5A6204034F20023ABBC /* FullScreen */,
 				6F8C114D2539BA8F00DC4151 /* Rewarded */,
 				7EA2A89225890C8C004C6A97 /* Banner */,
+				CE4A74152B30F19F00E62B10 /* PrivacyInfo.xcprivacy */,
 			);
 			path = PubnativeLite;
 			sourceTree = "<group>";
@@ -1962,7 +2007,6 @@
 				6F4A129228082A9400520C02 /* HyBidVASTEndCardView.h */,
 				6F4A129328082A9400520C02 /* HyBidVASTEndCardView.m */,
 				6F1ABAE328083734008E7442 /* HyBidVASTEndCardCloseIcon.h */,
-				9187EB912975C4FF009800DF /* HyBidTimerState.h */,
 				9187EB952975C545009800DF /* HyBidSkipOverlay.h */,
 				9187EB962975C545009800DF /* HyBidSkipOverlay.m */,
 				7EF281172A12333E00DCCDB2 /* HyBidCloseButton.h */,
@@ -1994,7 +2038,7 @@
 				7E2607FC292B84FC00CF0DD0 /* LegacyApiTester.storyboard */,
 				7ED53EE0286B2A6700948F8A /* CreativeTester.storyboard */,
 				6234936425AC66C1000B2718 /* Analytics.storyboard */,
-				5A32CEC12029F79B0003B450 /* Main.storyboard */,
+				919A6A112B23700B00C44F8E /* Main.storyboard */,
 				5AA7EC6420E4D5BB00277E2B /* Settings.storyboard */,
 				5A0779F42134429700EBD0E7 /* RequestInspector.storyboard */,
 				5AD07C0722FAD27E001BF4A1 /* Markup.storyboard */,
@@ -2468,8 +2512,10 @@
 				7EEF4F5F28CF57A0004F1385 /* HyBidSkipOffset.swift */,
 				CEED89472A9E4A4200099C76 /* HyBidImpressionConstants.swift */,
 				7E55E2422A9FED5E001E5E7E /* HyBidURLRedirector.swift */,
+				91970BDC2B1E5798006E37B8 /* HyBidLocalization.swift */,
 				34DDE2F9290305830064FA12 /* Config */,
 				7E9B1B6328C0B67C00328CBE /* Analytics */,
+				916543C22AF5476800EA0A05 /* Custom CTA */,
 			);
 			path = Swift;
 			sourceTree = "<group>";
@@ -2528,9 +2574,6 @@
 				5A1C845E25D480AD00149F27 /* HyBidURLDriller.m */,
 				6FB8ED2F2518E32600C28D5F /* HyBidSKAdNetworkViewController.h */,
 				6FB8ED302518E32600C28D5F /* HyBidSKAdNetworkViewController.m */,
-				342076DA2A941D0F00044D80 /* HyBidSKOverlay.h */,
-				342076DB2A941D0F00044D80 /* HyBidSKOverlay.m */,
-				34E088422AB2102E0084E782 /* HyBidSKOverlayTimerType.h */,
 				CE729BFA2AAF61670003565D /* HyBidCustomClickUtil.h */,
 				CE729BFB2AAF61670003565D /* HyBidCustomClickUtil.m */,
 				342932B9287DD353004ECE08 /* Ad Feedback */,
@@ -2551,6 +2594,8 @@
 				5A9B66C520BD57FE0067964E /* VAST */,
 				5A064992203DBECC00CDF925 /* Utils */,
 				6F89D36629B9DCA80037E7EE /* ATOMError.h */,
+				7E6759622B10B58C001880F7 /* HyBidATOMFlow.h */,
+				7E6759632B10B58C001880F7 /* HyBidATOMFlow.m */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -2607,6 +2652,8 @@
 				5A2EC33620C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.xib */,
 				6FEFC84B2539EA910097C5FF /* PNLiteVASTPlayerRewardedViewController.xib */,
 				913BC2E42996763B00645ABB /* HyBidMRAIDCloseCardView.xib */,
+				91B1EF732B1A4F080092900C /* HyBidCustomCTAView.xib */,
+				91704EDE2B1E0C1000A7D6BC /* HyBidLocalizable.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -2647,6 +2694,10 @@
 				5A54025B202B192C005D80E6 /* PNLiteLocationManager.m */,
 				5AA284CA233BDC38006C30A1 /* HyBidWebBrowserUserAgentInfo.h */,
 				5AA284CB233BDC39006C30A1 /* HyBidWebBrowserUserAgentInfo.m */,
+				342076DA2A941D0F00044D80 /* HyBidSKOverlay.h */,
+				342076DB2A941D0F00044D80 /* HyBidSKOverlay.m */,
+				34E088422AB2102E0084E782 /* HyBidSKOverlayTimerType.h */,
+				91DA7E5D2AFD4D8300524123 /* HyBidCustomCTAViewDelegate.h */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -2772,6 +2823,7 @@
 		7ED53EDD286B217900948F8A /* Public */ = {
 			isa = PBXGroup;
 			children = (
+				9187EB912975C4FF009800DF /* HyBidTimerState.h */,
 				6F7BFD5027FFAD5B007A13EC /* HyBidVASTIconViewTracking.h */,
 				6F7BFD5127FFAD5B007A13EC /* HyBidVASTIconViewTracking.m */,
 				6F747F0427F73BA1005A1464 /* HyBidXML.h */,
@@ -2819,6 +2871,14 @@
 				9109C4852ABB109C00543165 /* HyBidGPPSettingsViewController.swift */,
 			);
 			path = GPP;
+			sourceTree = "<group>";
+		};
+		916543C22AF5476800EA0A05 /* Custom CTA */ = {
+			isa = PBXGroup;
+			children = (
+				919F29FC2AEBFB6B00585CB4 /* HyBidCustomCTAView.swift */,
+			);
+			path = "Custom CTA";
 			sourceTree = "<group>";
 		};
 		91E751FB2AE12518009EDEDC /* Extensions */ = {
@@ -2917,6 +2977,7 @@
 				7EE35770256BC672005E6AC6 /* HyBidAuction.h in Headers */,
 				5ADF9E672149377D0081355E /* HyBidBannerAdRequest.h in Headers */,
 				5AA3D5E920319D82002BFDA3 /* PNLiteAdRequestModel.h in Headers */,
+				91DA7E5E2AFD4DC900524123 /* HyBidCustomCTAViewDelegate.h in Headers */,
 				5A6CD0252029CD060022E206 /* HyBid.h in Headers */,
 				E76DF5D125E6C0EC002CF7BA /* HyBidVGIGgl.h in Headers */,
 				5ADF9E51214911A90081355E /* HyBidAdRequest.h in Headers */,
@@ -2962,6 +3023,7 @@
 				5A3657CD203C2E75004B4347 /* PNLiteAdPresenterDecorator.h in Headers */,
 				62AED0702685F64D00CDDDD1 /* HyBidDisplayManager.h in Headers */,
 				CEC299392785E79200E40AF0 /* HyBidNavigatorGeolocation.h in Headers */,
+				7E6759642B10B58C001880F7 /* HyBidATOMFlow.h in Headers */,
 				5A54024A202B058A005D80E6 /* PNLiteCryptoUtils.h in Headers */,
 				5A8D7DC420C7E57A00EBBAEC /* PNLiteVASTInterstitialPresenter.h in Headers */,
 				5AA3D5F52031CEC2002BFDA3 /* PNLiteHttpRequest.h in Headers */,
@@ -3180,6 +3242,34 @@
 			knownRegions = (
 				en,
 				Base,
+				de,
+				hi,
+				es,
+				id,
+				kk,
+				ar,
+				"de-AT",
+				ja,
+				tr,
+				ko,
+				it,
+				vi,
+				ms,
+				ky,
+				ur,
+				pl,
+				th,
+				az,
+				zh,
+				ro,
+				fr,
+				lv,
+				hy,
+				cs,
+				fi,
+				sr,
+				pt,
+				uz,
 			);
 			mainGroup = 5A6CD0162029CD060022E206;
 			productRefGroup = 5A6CD0212029CD060022E206 /* Products */;
@@ -3209,7 +3299,7 @@
 				34B98B9A2A052AAA00218EC7 /* OpenRTBApiTester.storyboard in Resources */,
 				6FC29692256537EF00423025 /* VASTTesting.storyboard in Resources */,
 				7ED53EE1286B2A6700948F8A /* CreativeTester.storyboard in Resources */,
-				5A32CEC32029F79B0003B450 /* Main.storyboard in Resources */,
+				919A6A0F2B23700B00C44F8E /* Main.storyboard in Resources */,
 				5AD07C0822FAD27E001BF4A1 /* Markup.storyboard in Resources */,
 				5AC886E5241A9E68004E7D74 /* Mediation.storyboard in Resources */,
 				34FB950C29761EF8006FDE89 /* ur.txt in Resources */,
@@ -3243,6 +3333,7 @@
 				7E0E1C522A3865DD003413DB /* skip@2x.png in Resources */,
 				5A9B66C420BD57ED0067964E /* PNLiteExternalLink@2x.png in Resources */,
 				6F59DE332721ACAC00C117FF /* PNLiteExternalLink1@2x.png in Resources */,
+				91704EDC2B1E0C1000A7D6BC /* HyBidLocalizable.strings in Resources */,
 				5A9B66C120BD57ED0067964E /* PNLiteFullScreen.png in Resources */,
 				7EF58B2A29FA989300A6223E /* sound-off.png in Resources */,
 				5A9B66C320BD57ED0067964E /* PNLiteFullScreen@2x.png in Resources */,
@@ -3256,10 +3347,12 @@
 				5A9B66C220BD57ED0067964E /* PNLitePlay@2x.png in Resources */,
 				5A2EC33B20C829A0000F9747 /* PNLiteVASTPlayerFullScreenViewController.xib in Resources */,
 				E715F7232729A4E500E20A9E /* hybidscaling.js in Resources */,
+				CE4A74162B30F19F00E62B10 /* PrivacyInfo.xcprivacy in Resources */,
 				5A2EC33920C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.xib in Resources */,
 				7E0E1C502A3865DD003413DB /* skip@3x.png in Resources */,
 				5A9B66E920BD97530067964E /* PNLiteVASTPlayerViewController.xib in Resources */,
 				E7F24F1824E4224000160097 /* hybidmraidscaling.js in Resources */,
+				91B1EF722B1A4F080092900C /* HyBidCustomCTAView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3349,14 +3442,12 @@
 				"${PODS_ROOT}/Target Support Files/Pods-HyBidTests/Pods-HyBidTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/OCHamcrest/OCHamcrest.framework",
 				"${BUILT_PRODUCTS_DIR}/OCMockito/OCMockito.framework",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ATOM-Standalone/ATOM.framework/ATOM",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OneTrust-CMP-XCFramework/OTPublishersHeadlessSDK.framework/OTPublishersHeadlessSDK",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OCHamcrest.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OCMockito.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ATOM.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OTPublishersHeadlessSDK.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3383,7 +3474,6 @@
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ATOM-Standalone/ATOM.framework/ATOM",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OneTrust-CMP-XCFramework/OTPublishersHeadlessSDK.framework/OTPublishersHeadlessSDK",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -3400,7 +3490,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ATOM.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OTPublishersHeadlessSDK.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3456,6 +3545,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A32CEBD2029F79B0003B450 /* AppDelegate.m in Sources */,
+				7EAB9A0F2B2894F90059D9AB /* HyBidAppAuthorizationsViewController.swift in Sources */,
 				6FC2969B25653BD300423025 /* PNLiteDemoVASTTestingViewController.m in Sources */,
 				5A715B12272B69AF00899F39 /* HyBidDemoDebugMainViewController.m in Sources */,
 				7E7D1F2E2AF3F1AC0095CC3A /* HyBidAdCustomizationUtility.swift in Sources */,
@@ -3542,6 +3632,7 @@
 				34C7A9F2282EC40D0010741D /* HyBidGADMRectCustomEvent.m in Sources */,
 				7EFE8CBF2AE6AD06001C9E24 /* HyBidAdSettingsViewController.swift in Sources */,
 				34C7A9FA282EC40D0010741D /* HyBidGADBannerCustomEvent.m in Sources */,
+				7EAB9A102B2894FD0059D9AB /* HyBidAppAuthorization.swift in Sources */,
 				7E7CC36824D9F0E700F3A476 /* QuoteCell.m in Sources */,
 				5A32CECB2029F79B0003B450 /* main.m in Sources */,
 			);
@@ -3609,7 +3700,6 @@
 				E76DF5C925E6C0EC002CF7BA /* HyBidVGIGgl.m in Sources */,
 				6F75A7C326BBEC61004D2862 /* HyBidVASTAdParameters.m in Sources */,
 				5ADF9E5E21491F940081355E /* HyBidMRAIDServiceProvider.m in Sources */,
-				91E751FA2AE124AB009EDEDC /* HyBidAppAuthorization.swift in Sources */,
 				6F7BFD4F27FFA7E8007A13EC /* HyBidVASTIFrameResource.m in Sources */,
 				5ADF9E64214924C30081355E /* HyBidMRAIDView.m in Sources */,
 				6F4339D9278850650079F293 /* HyBidVASTIconUtils.m in Sources */,
@@ -3628,6 +3718,7 @@
 				62AED0722685F64D00CDDDD1 /* HyBidDisplayManager.m in Sources */,
 				6FDF742C27FF16FD00E4536C /* HyBidVASTIconClickThrough.m in Sources */,
 				5A8893A6211C40BC0073BF66 /* HyBidNativeAdRequest.m in Sources */,
+				91970BDD2B1E5798006E37B8 /* HyBidLocalization.swift in Sources */,
 				5ADF9E4A21490B9A0081355E /* HyBidRequestParameter.m in Sources */,
 				6FDB9AA7289A8F5C000E9297 /* HyBidVASTCTAButton.m in Sources */,
 				6F75A7E626C151F3004D2862 /* HyBidVASTParser.m in Sources */,
@@ -3668,6 +3759,7 @@
 				5AEC317524698D8D008FD8BD /* HyBidViewabilityNativeVideoAdSession.m in Sources */,
 				5AEC317124698D4E008FD8BD /* HyBidViewabilityWebAdSession.m in Sources */,
 				6FAA996126B14EC900726A05 /* HyBidVASTAd.m in Sources */,
+				919F29FE2AEBFB6B00585CB4 /* HyBidCustomCTAView.swift in Sources */,
 				5A9A88662108A82F006A081D /* HyBidVisibilityTracker.m in Sources */,
 				5AA284CD233BDC39006C30A1 /* HyBidWebBrowserUserAgentInfo.m in Sources */,
 				6F747F4127FDAC2A005A1464 /* HyBidVASTIconClicks.m in Sources */,
@@ -3679,7 +3771,6 @@
 				E76DF5E925E6C0EC002CF7BA /* HyBidVGIDevice.m in Sources */,
 				6F747F0F27F73BA2005A1464 /* HyBidXML.m in Sources */,
 				6F8C11832539BF6E00DC4151 /* PNLiteVASTRewardedPresenter.m in Sources */,
-				9130115A2AD99730005C920F /* HyBidAppAuthorizationsViewController.swift in Sources */,
 				5AA3D5EA20319D82002BFDA3 /* PNLiteAdRequestModel.m in Sources */,
 				5ADACD20202CBA9800617734 /* PNLiteAsset.m in Sources */,
 				6F828F9726F0F28E00180516 /* HyBidVASTAdCategory.m in Sources */,
@@ -3731,6 +3822,7 @@
 				E76DF5CD25E6C0EC002CF7BA /* HyBidVGIUser.m in Sources */,
 				6F3DAB8C28060C70002531DD /* HyBidVASTEndCard.m in Sources */,
 				6F8C11672539BC1300DC4151 /* HyBidRewardedPresenterFactory.m in Sources */,
+				7E6759652B10B58C001880F7 /* HyBidATOMFlow.m in Sources */,
 				6F7BFD4727FFA3FD007A13EC /* HyBidVASTCompanionClickTracking.m in Sources */,
 				E76DF5D525E6C0EC002CF7BA /* HyBidVGIAppVendor.m in Sources */,
 				E76DF5D725E6C0EC002CF7BA /* HyBidVGILocation.m in Sources */,
@@ -3820,10 +3912,46 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		5A32CEC12029F79B0003B450 /* Main.storyboard */ = {
+		91704EDE2B1E0C1000A7D6BC /* HyBidLocalizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				5A32CEC22029F79B0003B450 /* Base */,
+				91704EDD2B1E0C1000A7D6BC /* en */,
+				91704EDF2B1E0C1300A7D6BC /* de */,
+				919A69F02B23587300C44F8E /* hi */,
+				919A69F12B23588F00C44F8E /* es */,
+				919A69F32B2358D500C44F8E /* id */,
+				919A69F52B23597100C44F8E /* kk */,
+				919A69F62B23598F00C44F8E /* ar */,
+				919A69F72B235AA100C44F8E /* de-AT */,
+				919A69F82B235B2E00C44F8E /* ja */,
+				919A69F92B235B4200C44F8E /* tr */,
+				919A69FA2B235B5D00C44F8E /* ko */,
+				919A69FB2B235B7800C44F8E /* it */,
+				919A69FC2B235B9000C44F8E /* vi */,
+				919A69FD2B235BCD00C44F8E /* ms */,
+				919A69FE2B235C0D00C44F8E /* ky */,
+				919A69FF2B235C2B00C44F8E /* ur */,
+				919A6A002B235C5100C44F8E /* pl */,
+				919A6A012B235C6700C44F8E /* th */,
+				919A6A022B235C8800C44F8E /* az */,
+				919A6A032B235D4100C44F8E /* zh */,
+				919A6A042B235D5500C44F8E /* ro */,
+				919A6A052B235D6A00C44F8E /* fr */,
+				919A6A062B235D8300C44F8E /* lv */,
+				919A6A072B235DA200C44F8E /* hy */,
+				919A6A082B235DBA00C44F8E /* cs */,
+				919A6A092B235DCF00C44F8E /* fi */,
+				919A6A0A2B235DE800C44F8E /* sr */,
+				919A6A0D2B23673E00C44F8E /* pt */,
+				919A6A0E2B236A6700C44F8E /* uz */,
+			);
+			name = HyBidLocalizable.strings;
+			sourceTree = "<group>";
+		};
+		919A6A112B23700B00C44F8E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				919A6A102B23700B00C44F8E /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -3858,7 +3986,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = "3.0.0-beta1";
+				MARKETING_VERSION = "2.21.0-beta1";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c9fb847-6c94-4677-a844-7545db19f59a";
@@ -3902,7 +4030,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = "3.0.0-beta1";
+				MARKETING_VERSION = "2.21.0-beta1";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "9dc1e001-55bd-467a-b9a9-4db40446e5a6";
@@ -4063,7 +4191,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = "3.0.0-beta1";
+				MARKETING_VERSION = "2.21.0-beta1";
 				MODULEMAP_FILE = "";
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -4108,7 +4236,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = "3.0.0-beta1";
+				MARKETING_VERSION = "2.21.0-beta1";
 				MODULEMAP_FILE = "";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;
@@ -4134,8 +4262,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/PubnativeLiteTests/Dependencies/OCMockito-5.0.1",
-					"$(PROJECT_DIR)/PubnativeLiteTests/Dependencies/OCHamcrest-7.0.2",
 				);
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				INFOPLIST_FILE = PubnativeLiteTests/Info.plist;
@@ -4166,8 +4292,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/PubnativeLiteTests/Dependencies/OCMockito-5.0.1",
-					"$(PROJECT_DIR)/PubnativeLiteTests/Dependencies/OCHamcrest-7.0.2",
 				);
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				INFOPLIST_FILE = PubnativeLiteTests/Info.plist;

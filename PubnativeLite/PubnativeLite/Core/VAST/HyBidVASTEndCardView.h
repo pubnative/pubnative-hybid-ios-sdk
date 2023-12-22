@@ -30,6 +30,7 @@
 
 @protocol HyBidVASTEndCardViewDelegate<NSObject>
 
+- (void)vastEndCardViewDidDisplay;
 - (void)vastEndCardViewCloseButtonTapped;
 - (void)vastEndCardViewSkipButtonTapped;
 - (void)vastEndCardViewFailedToLoad;

@@ -20,7 +20,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *prepareButton;
 @property (weak, nonatomic) IBOutlet UISwitch *adCachingSwitch;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *showAdTopConstraint;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *apiSwitch;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *isUsingOpenRTB;
 
 @end
 
@@ -58,11 +58,11 @@
     
     self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
     [self.rewardedAd setIsAutoCacheOnLoad: self.adCachingSwitch.isOn];
-    if (self.apiSwitch.selectedSegmentIndex == 0) {
-        [self.rewardedAd load];
-    } else if (self.apiSwitch.selectedSegmentIndex == 1) {
-        [self.rewardedAd loadExchangeAd];
-    }
+    if (self.isUsingOpenRTB.selectedSegmentIndex == 0) {
+            [self.rewardedAd load];
+        } else if (self.isUsingOpenRTB.selectedSegmentIndex == 1) {
+            [self.rewardedAd loadExchangeAd];
+        }
 }
 
 - (IBAction)adCachingSwitchValueChanged:(UISwitch *)sender {
@@ -85,7 +85,7 @@
 
 - (void)rewardedDidLoad {
     NSLog(@"Rewarded did load");
-    if ([[NSUserDefaults standardUserDefaults] boolForKey: kIsUsingOpenRTB] == YES) {
+    if (self.isUsingOpenRTB.selectedSegmentIndex == 1) {
         [self setCreativeIDLabelWithString:self.rewardedAd.ad.openRTBCreativeID];
     } else {
         [self setCreativeIDLabelWithString:self.rewardedAd.ad.creativeID];

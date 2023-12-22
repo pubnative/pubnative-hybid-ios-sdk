@@ -13,13 +13,13 @@
         <scene sceneID="6zq-Q5-xW6">
             <objects>
                 <viewController title="Request Inspector" id="6T1-e2-SzK" customClass="PNLiteDemoRequestInspectorViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="wbM-IK-HlV">
+                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="wbM-IK-HlV">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Request:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cbD-03-bRo" userLabel="Request">
                                 <rect key="frame" x="16" y="56" width="53" height="21"/>
-                                <accessibility key="accessibilityConfiguration" identifier="requestLabel" label="Request Label"/>
+                                <accessibility key="accessibilityConfiguration" identifier="requestUrlLabel" label="Request Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="Pi6-HM-CVY"/>
                                     <constraint firstAttribute="height" constant="21" id="tQ1-o2-cvd"/>
@@ -40,22 +40,76 @@
                                 </variation>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UXG-Xc-d7L" userLabel="Request Text View">
-                                <rect key="frame" x="16" y="85" width="382" height="128"/>
+                                <rect key="frame" x="16" y="81" width="382" height="100"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <accessibility key="accessibilityConfiguration" identifier="requestTextView" label="Request TextView"/>
+                                <accessibility key="accessibilityConfiguration" identifier="requestUrlTextView" label="Request TextView"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="128" id="tFs-7J-Xpg"/>
+                                    <constraint firstAttribute="height" constant="100" id="tFs-7J-Xpg"/>
                                 </constraints>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="13"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Latency (in milliseconds):" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="duE-tV-7ew" userLabel="Latency">
-                                <rect key="frame" x="16" y="251" width="151" height="21"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hrO-mV-ff8">
+                                <rect key="frame" x="340" y="185" width="66" height="19"/>
+                                <accessibility key="accessibilityConfiguration" identifier="requestUrlBtn"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="View URL"/>
+                                <connections>
+                                    <action selector="navigateToRequestInspectorDetailViewController:" destination="6T1-e2-SzK" eventType="touchUpInside" id="Tfw-Db-a0Q"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Request Body:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Z5-T2-Xmv" userLabel="Request body">
+                                <rect key="frame" x="16" y="195" width="88" height="21"/>
+                                <accessibility key="accessibilityConfiguration" identifier="requestBodyLabel" label="Request Label"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="uCQ-bC-fDV"/>
+                                    <constraint firstAttribute="height" constant="21" id="wOE-9o-pCZ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="uCQ-bC-fDV"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="uCQ-bC-fDV"/>
+                                        <exclude reference="wOE-9o-pCZ"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Ys-yI-YOh" userLabel="Request Body Text View">
+                                <rect key="frame" x="16" y="220" width="386" height="100"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <accessibility key="accessibilityConfiguration" identifier="requestBodyTextView" label="Request TextView"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="xZA-Kt-ZOa"/>
+                                </constraints>
+                                <string key="text">To view the request body data, simply click on the 'View Request Body' button. Please note that for APIv3 requests, there is no body as they are GET requests."</string>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="13"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l0w-jT-CMR">
+                                <rect key="frame" x="273" y="324" width="133" height="32"/>
+                                <accessibility key="accessibilityConfiguration" identifier="viewRequestBodyBtn">
+                                    <bool key="isElement" value="NO"/>
+                                </accessibility>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="View Request Body"/>
+                                <connections>
+                                    <action selector="navigateToRequestInspectorDetailViewController:" destination="6T1-e2-SzK" eventType="touchUpInside" id="2UP-Ob-olO"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Latency (in milliseconds):" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="duE-tV-7ew" userLabel="Latency">
+                                <rect key="frame" x="16" y="350" width="151" height="18"/>
                                 <accessibility key="accessibilityConfiguration" identifier="latencyLabel" label="Latency Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="18" id="1xq-GF-q6y"/>
-                                    <constraint firstAttribute="height" constant="21" id="JqQ-02-NoH"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
                                 <nil key="textColor"/>
@@ -68,12 +122,11 @@
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
                                         <include reference="1xq-GF-q6y"/>
-                                        <exclude reference="JqQ-02-NoH"/>
                                     </mask>
                                 </variation>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mxi-oi-B2G" userLabel="Latency Text View">
-                                <rect key="frame" x="16" y="280" width="382" height="28"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" scrollEnabled="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mxi-oi-B2G" userLabel="Latency Text View">
+                                <rect key="frame" x="16" y="372" width="382" height="28"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <accessibility key="accessibilityConfiguration" identifier="latencyTextView" label="Latency TextView"/>
                                 <constraints>
@@ -83,8 +136,17 @@
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="13"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Response:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nO6-gW-ac8" userLabel="Response">
-                                <rect key="frame" x="16" y="326" width="62.5" height="21"/>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xrF-Hs-w9Y">
+                                <rect key="frame" x="370" y="404" width="36" height="34.5"/>
+                                <accessibility key="accessibilityConfiguration" identifier="copBtn"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Copy"/>
+                                <connections>
+                                    <action selector="copyAdReponse:" destination="6T1-e2-SzK" eventType="touchUpInside" id="7lg-dv-z4t"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Response:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nO6-gW-ac8" userLabel="Response">
+                                <rect key="frame" x="16" y="429.5" width="62.5" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="responseLabel" label="Response Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="p7G-3n-MrA"/>
@@ -105,15 +167,15 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uIj-Ad-Prm" userLabel="Response Text View">
-                                <rect key="frame" x="16" y="355" width="382" height="458"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uIj-Ad-Prm" userLabel="Response Text View">
+                                <rect key="frame" x="16" y="454.5" width="382" height="358.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <accessibility key="accessibilityConfiguration" identifier="responseTextView" label="Response TextView"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda. Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="13"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0cl-hk-Z1f" userLabel="Dismiss Button">
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0cl-hk-Z1f" userLabel="Dismiss Button">
                                 <rect key="frame" x="16" y="821" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="dismissButton" label="Dismiss Button"/>
@@ -134,71 +196,77 @@
                                     <action selector="dismissButtonTouchUpInside:" destination="6T1-e2-SzK" eventType="touchUpInside" id="C9Z-Dl-hgN"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xrF-Hs-w9Y">
-                                <rect key="frame" x="362" y="326" width="36" height="21"/>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QQ1-Bk-QAn">
+                                <rect key="frame" x="161" y="324" width="104" height="32"/>
+                                <accessibility key="accessibilityConfiguration" identifier="copyRequestBodyBtn"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="FNa-EN-KNl"/>
+                                    <constraint firstAttribute="height" constant="32" id="46V-hZ-bfI"/>
                                 </constraints>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" title="Copy"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Copy JSON">
+                                    <fontDescription key="titleFontDescription" type="system" pointSize="15"/>
+                                </buttonConfiguration>
                                 <connections>
-                                    <action selector="copyAdReponse:" destination="6T1-e2-SzK" eventType="touchUpInside" id="7lg-dv-z4t"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hrO-mV-ff8">
-                                <rect key="frame" x="341" y="226" width="70" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="32" id="3dX-ka-gpu"/>
-                                    <constraint firstAttribute="width" constant="70" id="OpD-tx-1hA"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" title="Beautify"/>
-                                <connections>
-                                    <action selector="navigateToRequestInspectorDetailViewController:" destination="6T1-e2-SzK" eventType="touchUpInside" id="e9M-LF-fbn"/>
+                                    <action selector="copyRequestBody:" destination="6T1-e2-SzK" eventType="touchUpInside" id="PCf-xO-hwU"/>
                                 </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="cGk-xB-Glb"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="xrF-Hs-w9Y" firstAttribute="centerY" secondItem="nO6-gW-ac8" secondAttribute="centerY" id="0Bl-D1-xZJ"/>
-                            <constraint firstItem="uIj-Ad-Prm" firstAttribute="top" secondItem="nO6-gW-ac8" secondAttribute="bottom" constant="8" id="1xj-ZT-OvF"/>
+                            <constraint firstItem="hrO-mV-ff8" firstAttribute="top" secondItem="UXG-Xc-d7L" secondAttribute="bottom" constant="4" id="0Bu-Cd-zkZ"/>
+                            <constraint firstItem="uIj-Ad-Prm" firstAttribute="top" secondItem="nO6-gW-ac8" secondAttribute="bottom" constant="4" id="1xj-ZT-OvF"/>
                             <constraint firstItem="cGk-xB-Glb" firstAttribute="trailing" secondItem="UXG-Xc-d7L" secondAttribute="trailing" constant="16" id="4bx-mg-YP4"/>
-                            <constraint firstItem="UXG-Xc-d7L" firstAttribute="top" secondItem="cbD-03-bRo" secondAttribute="bottom" constant="8" id="4pC-58-iMS"/>
+                            <constraint firstItem="UXG-Xc-d7L" firstAttribute="top" secondItem="cbD-03-bRo" secondAttribute="bottom" constant="4" id="4pC-58-iMS"/>
                             <constraint firstItem="cGk-xB-Glb" firstAttribute="bottom" secondItem="0cl-hk-Z1f" secondAttribute="bottom" constant="8" id="5ro-qd-GcR"/>
-                            <constraint firstItem="duE-tV-7ew" firstAttribute="top" secondItem="UXG-Xc-d7L" secondAttribute="bottom" constant="38" id="7d8-WT-6KE"/>
-                            <constraint firstItem="hrO-mV-ff8" firstAttribute="top" secondItem="UXG-Xc-d7L" secondAttribute="bottom" constant="13" id="9aE-bo-3QM"/>
+                            <constraint firstItem="QQ1-Bk-QAn" firstAttribute="top" secondItem="3Ys-yI-YOh" secondAttribute="bottom" constant="4" id="9L5-aX-oPz"/>
+                            <constraint firstItem="3Ys-yI-YOh" firstAttribute="top" secondItem="hrO-mV-ff8" secondAttribute="bottom" constant="16" id="9e1-8I-LB4"/>
+                            <constraint firstItem="l0w-jT-CMR" firstAttribute="leading" secondItem="QQ1-Bk-QAn" secondAttribute="trailing" constant="8" id="AqB-yZ-TDs"/>
                             <constraint firstItem="0cl-hk-Z1f" firstAttribute="leading" secondItem="cGk-xB-Glb" secondAttribute="leading" constant="16" id="D2j-Uz-0Od"/>
                             <constraint firstItem="0cl-hk-Z1f" firstAttribute="top" secondItem="uIj-Ad-Prm" secondAttribute="bottom" constant="8" id="DHj-Or-iGN"/>
-                            <constraint firstItem="mxi-oi-B2G" firstAttribute="top" secondItem="duE-tV-7ew" secondAttribute="bottom" constant="8" id="JTh-oT-xgD"/>
+                            <constraint firstItem="3Ys-yI-YOh" firstAttribute="top" secondItem="5Z5-T2-Xmv" secondAttribute="bottom" constant="4" id="H1y-OY-gZ4"/>
+                            <constraint firstItem="mxi-oi-B2G" firstAttribute="top" secondItem="duE-tV-7ew" secondAttribute="bottom" constant="4" id="JTh-oT-xgD"/>
+                            <constraint firstItem="cGk-xB-Glb" firstAttribute="trailing" secondItem="xrF-Hs-w9Y" secondAttribute="trailing" constant="8" id="JbT-IH-wrA"/>
                             <constraint firstItem="0cl-hk-Z1f" firstAttribute="centerX" secondItem="wbM-IK-HlV" secondAttribute="centerX" id="Jes-kB-uPg"/>
+                            <constraint firstItem="3Ys-yI-YOh" firstAttribute="leading" secondItem="cGk-xB-Glb" secondAttribute="leading" constant="16" id="Kaf-eP-LgC"/>
                             <constraint firstItem="UXG-Xc-d7L" firstAttribute="leading" secondItem="cGk-xB-Glb" secondAttribute="leading" constant="16" id="MBM-YX-Pna"/>
                             <constraint firstItem="cGk-xB-Glb" firstAttribute="trailing" secondItem="mxi-oi-B2G" secondAttribute="trailing" constant="16" id="MEn-fd-jDG"/>
-                            <constraint firstItem="cGk-xB-Glb" firstAttribute="trailing" secondItem="xrF-Hs-w9Y" secondAttribute="trailing" constant="16" id="MpV-Se-Ymh"/>
                             <constraint firstItem="uIj-Ad-Prm" firstAttribute="leading" secondItem="cGk-xB-Glb" secondAttribute="leading" constant="16" id="Oan-c8-QUS"/>
+                            <constraint firstItem="nO6-gW-ac8" firstAttribute="top" secondItem="mxi-oi-B2G" secondAttribute="bottom" constant="29.5" id="PBd-eO-a5Y"/>
+                            <constraint firstItem="mxi-oi-B2G" firstAttribute="top" secondItem="l0w-jT-CMR" secondAttribute="bottom" constant="20" id="QTd-xf-Lqw"/>
+                            <constraint firstItem="uIj-Ad-Prm" firstAttribute="top" secondItem="xrF-Hs-w9Y" secondAttribute="bottom" constant="16" id="SDC-ee-yCx"/>
                             <constraint firstItem="mxi-oi-B2G" firstAttribute="leading" secondItem="cGk-xB-Glb" secondAttribute="leading" constant="16" id="SUf-Sb-Of9"/>
                             <constraint firstItem="cGk-xB-Glb" firstAttribute="trailing" secondItem="uIj-Ad-Prm" secondAttribute="trailing" constant="16" id="UeR-R0-d4U"/>
-                            <constraint firstItem="mxi-oi-B2G" firstAttribute="top" secondItem="hrO-mV-ff8" secondAttribute="bottom" constant="22" id="Y5V-2T-3iY"/>
+                            <constraint firstItem="uIj-Ad-Prm" firstAttribute="height" secondItem="wbM-IK-HlV" secondAttribute="height" multiplier="0.4" id="YDw-fs-xjH"/>
+                            <constraint firstItem="mxi-oi-B2G" firstAttribute="top" secondItem="QQ1-Bk-QAn" secondAttribute="bottom" constant="20" id="bD9-Or-xcx"/>
                             <constraint firstItem="cbD-03-bRo" firstAttribute="top" secondItem="cGk-xB-Glb" secondAttribute="top" constant="8" id="dMm-kT-oBr"/>
+                            <constraint firstItem="l0w-jT-CMR" firstAttribute="top" secondItem="3Ys-yI-YOh" secondAttribute="bottom" constant="4" id="eji-eu-4FZ"/>
                             <constraint firstItem="duE-tV-7ew" firstAttribute="leading" secondItem="cGk-xB-Glb" secondAttribute="leading" constant="16" id="fFX-dC-Pm7"/>
                             <constraint firstItem="nO6-gW-ac8" firstAttribute="leading" secondItem="cGk-xB-Glb" secondAttribute="leading" constant="16" id="hUW-Jo-36T"/>
-                            <constraint firstItem="nO6-gW-ac8" firstAttribute="top" secondItem="mxi-oi-B2G" secondAttribute="bottom" constant="18" id="kIW-Gi-Emw"/>
-                            <constraint firstItem="cGk-xB-Glb" firstAttribute="trailing" secondItem="hrO-mV-ff8" secondAttribute="trailing" constant="3" id="kiQ-sr-mNT"/>
+                            <constraint firstItem="cGk-xB-Glb" firstAttribute="trailing" secondItem="hrO-mV-ff8" secondAttribute="trailing" constant="8" id="il8-MO-4jn"/>
+                            <constraint firstItem="cGk-xB-Glb" firstAttribute="trailing" secondItem="l0w-jT-CMR" secondAttribute="trailing" constant="8" id="kTr-Yh-3yl"/>
+                            <constraint firstItem="5Z5-T2-Xmv" firstAttribute="leading" secondItem="cGk-xB-Glb" secondAttribute="leading" constant="16" id="lE9-2e-8cy"/>
+                            <constraint firstItem="xrF-Hs-w9Y" firstAttribute="top" secondItem="mxi-oi-B2G" secondAttribute="bottom" constant="4" id="ru7-8N-dHa"/>
                             <constraint firstItem="cGk-xB-Glb" firstAttribute="trailing" secondItem="0cl-hk-Z1f" secondAttribute="trailing" constant="16" id="se9-2Z-ZOu"/>
                             <constraint firstItem="cbD-03-bRo" firstAttribute="leading" secondItem="cGk-xB-Glb" secondAttribute="leading" constant="16" id="swb-pv-dU0"/>
-                            <constraint firstItem="hrO-mV-ff8" firstAttribute="leading" secondItem="duE-tV-7ew" secondAttribute="trailing" constant="174" id="tUJ-2B-zFm"/>
+                            <constraint firstItem="cGk-xB-Glb" firstAttribute="trailing" secondItem="3Ys-yI-YOh" secondAttribute="trailing" constant="12" id="vUE-4Z-VRs"/>
+                            <constraint firstItem="5Z5-T2-Xmv" firstAttribute="top" secondItem="UXG-Xc-d7L" secondAttribute="bottom" constant="14" id="zav-f2-Cjf"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="jsonRequestBodyButton" destination="QQ1-Bk-QAn" id="yqg-su-Boq"/>
                         <outlet property="latencyTextView" destination="mxi-oi-B2G" id="xlc-ne-vS2"/>
+                        <outlet property="requestBodyTextConstraint" destination="xZA-Kt-ZOa" id="Clw-In-bs4"/>
+                        <outlet property="requestBodyTextView" destination="3Ys-yI-YOh" id="zcW-Ux-C7z"/>
+                        <outlet property="requestTextConstraint" destination="tFs-7J-Xpg" id="rmz-pc-KGQ"/>
                         <outlet property="requestTextView" destination="UXG-Xc-d7L" id="FkI-68-q5w"/>
                         <outlet property="responseTextView" destination="uIj-Ad-Prm" id="fbv-aV-p9X"/>
+                        <outlet property="viewRequestBodyButton" destination="l0w-jT-CMR" id="c6K-xy-JAG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m4z-8b-gaQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-367.19999999999999" y="192.95352323838082"/>
+            <point key="canvasLocation" x="-368.11594202898556" y="192.85714285714286"/>
         </scene>
         <!--RequestTable-->
         <scene sceneID="cUR-df-BRf">

@@ -24,7 +24,7 @@ import Foundation
 
 extension UIViewController {
     
-    func showCustomAlert(title: String, message: String? = nil, style: UIAlertController.Style = .alert, firstAction: UIAlertAction? = nil, secondAction: UIAlertAction? = nil, completionHandler: (() -> Void)? = nil){
+    public func showCustomAlert(title: String, message: String? = nil, style: UIAlertController.Style = .alert, firstAction: UIAlertAction? = nil, secondAction: UIAlertAction? = nil, completionHandler: (() -> Void)? = nil){
         
         let alertController = UIAlertController(title: title, message: message, preferredStyle: style)
         if let action = firstAction {

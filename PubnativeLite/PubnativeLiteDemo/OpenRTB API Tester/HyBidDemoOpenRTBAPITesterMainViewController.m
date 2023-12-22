@@ -50,8 +50,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setBool:YES forKey:kIsUsingOpenRTB];
     [self.adReponseTextView addDismissKeyboardButtonWithTitle:@"Done" withTarget:self withSelector:@selector(dismissKeyboard)];
 }
 
@@ -99,7 +97,7 @@
                 switch ([self.segmentedControl selectedSegmentIndex]) {
                     case 0: {
                         self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
-                        [self.interstitialAd prepareAdWithAdReponse:self.adResponse];
+                        [self.interstitialAd prepareExchangeAdWithAdReponse:self.adResponse];
                         break;
                     }
                     case 1: {
@@ -112,7 +110,7 @@
                 switch ([self.segmentedControl selectedSegmentIndex]) {
                     case 0: {
                         self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:nil andWithDelegate:self];
-                        [self.rewardedAd prepareAdWithAdReponse:self.adResponse];
+                        [self.rewardedAd prepareExchangeAdWithAdReponse:self.adResponse];
                         break;
                     }
                     case 1: {

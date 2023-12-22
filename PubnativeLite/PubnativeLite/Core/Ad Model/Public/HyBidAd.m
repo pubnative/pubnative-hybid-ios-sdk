@@ -29,6 +29,7 @@
 #import "HyBidOpenRTBAdModel.h"
 #import "HyBid.h"
 #import "HyBidSKAdNetworkParameter.h"
+#import "HyBidATOMFlow.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <HyBid/HyBid-Swift.h>
@@ -75,6 +76,7 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     if (self) {
         self.data = data;
         self._zoneID = zoneID;
+        [HyBidATOMFlow setAtomEnabled:self.atomEnabled];
     }
     return self;
 }
@@ -88,6 +90,7 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
         self.data = data;
         self._zoneID = zoneID;
         self._cohorts = cohorts;
+        [HyBidATOMFlow setAtomEnabled:self.atomEnabled];
     }
     return self;
 }
@@ -158,6 +161,7 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
         model.assets = assets;
         model.assetgroupid = [NSNumber numberWithInteger: assetGroup];
         self.data = model;
+        [HyBidATOMFlow setAtomEnabled:self.atomEnabled];
     }
     return self;
 }
@@ -439,6 +443,17 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     return result;
 }
 
+- (NSNumber *)atomEnabled {
+    NSNumber *result = nil;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.atomEnabled] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.atomEnabled];
+        }
+    }
+    return result;
+}
+
 - (NSNumber *)sdkAutoStorekitEnabled {
     NSNumber *result = nil;
     NSDictionary *jsonDictionary = [self jsonData];
@@ -633,6 +648,37 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
         if ([jsonDictionary objectForKey:PNLiteData.customEndcardDisplay] != (id)[NSNull null]) {
             result = [jsonDictionary objectForKey:PNLiteData.customEndcardDisplay];
         }
+    }
+    return result;
+}
+
+- (NSNumber *)customCtaEnabled {
+    NSNumber *result = nil;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.customCtaEnabled] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.customCtaEnabled];
+        }
+    }
+    return result;
+}
+
+- (NSNumber *)customCtaDelay {
+    NSNumber *result = nil;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.customCtaDelay] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.customCtaDelay];
+        }
+    }
+    return result;
+}
+
+- (NSString *)customCtaIconURL {
+    NSString *result = nil;
+    HyBidDataModel *data = [self assetDataWithType:PNLiteAsset.customCTA];
+    if (data) {
+        result = [data stringFieldWithKey:@"icon"];
     }
     return result;
 }

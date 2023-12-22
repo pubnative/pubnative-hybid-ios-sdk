@@ -9,7 +9,6 @@ platform :ios, '11.0'
 use_frameworks!
 
 target 'HyBid' do
-  pod 'ATOM-Standalone', '2.0.0'
   pod 'OneTrust-CMP-XCFramework','~>202308.2.0.0'
 end
 

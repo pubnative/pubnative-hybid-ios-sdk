@@ -33,5 +33,6 @@
 + (NSString *)vast;
 + (NSString *)htmlBanner;
 + (NSString *)customEndcard;
++ (NSString *)customCTA;
 
 @end

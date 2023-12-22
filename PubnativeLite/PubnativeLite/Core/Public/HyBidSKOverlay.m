@@ -85,41 +85,55 @@
         if (@available(iOS 14.0, *)) {
             self.ad = ad;
             HyBidSkAdNetworkModel* skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.ad getOpenRTBSkAdNetworkModel] : [self.ad getSkAdNetworkModel];
-            NSString *appIdentifier = [skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.itunesitem];
             SKOverlayPosition position = SKOverlayPositionBottom;
             BOOL userDismissible = YES;
-            if ([appIdentifier isKindOfClass:[NSString class]]) {
-                if (appIdentifier && appIdentifier.length > 0) {
-                    if ([skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.present] != [NSNull null] && [skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.present] && ![[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.present] boolValue]) {
-                        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Parameter \"present\" is specifically set to NO, will not create SKOverlay."];
-                    } else {
-                        if ([skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.dismissible] != [NSNull null] && [skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.dismissible]) {
-                            userDismissible = [[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.dismissible] boolValue];
-                        }
-                        if ([skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.position] != [NSNull null] && [skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.position]) {
-                            position = [[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.position] boolValue] ? SKOverlayPositionBottom : SKOverlayPositionBottomRaised;
-                        }
-                        SKOverlayAppConfiguration *configuration = [[SKOverlayAppConfiguration alloc]
-                                                                    initWithAppIdentifier:appIdentifier
-                                                                    position:position];
-                        configuration.userDismissible = userDismissible;
-                        self.overlay = [[SKOverlay alloc] initWithConfiguration:configuration];
-                        self.overlay.delegate = self;
-                        [self determineAutoCloseOffsetAndBehaviour:skAdNetworkModel];
-                        [self determineDelayOffsetAndBehaviour:skAdNetworkModel];
-                        [self determineEndCardDelayOffsetAndBehaviour:skAdNetworkModel];
-                    }
-                } else {
-                    [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Parameter \"itunesitem\" is not valid, can not create SKOverlay."];
+            if ([HyBidSKOverlay isValidToCreateSKOverlayWithModel: skAdNetworkModel]) {
+                if ([skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.dismissible] != [NSNull null] && [skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.dismissible]) {
+                    userDismissible = [[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.dismissible] boolValue];
                 }
-            } else {
-                [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Parameter \"itunesitem\" is not valid, can not create SKOverlay."];
+                if ([skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.position] != [NSNull null] && [skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.position]) {
+                    position = [[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.position] boolValue] ? SKOverlayPositionBottom : SKOverlayPositionBottomRaised;
+                }
+                NSString *appIdentifier = [skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.itunesitem];
+                SKOverlayAppConfiguration *configuration = [[SKOverlayAppConfiguration alloc]
+                                                            initWithAppIdentifier:appIdentifier
+                                                            position:position];
+                configuration.userDismissible = userDismissible;
+                self.overlay = [[SKOverlay alloc] initWithConfiguration:configuration];
+                self.overlay.delegate = self;
+                [self determineAutoCloseOffsetAndBehaviour:skAdNetworkModel];
+                [self determineDelayOffsetAndBehaviour:skAdNetworkModel];
+                [self determineEndCardDelayOffsetAndBehaviour:skAdNetworkModel];
             }
         } else {
             [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"SKOverlay is available from iOS 14.0"];
         }
     }
     return self;
+}
+
++ (BOOL)isValidToCreateSKOverlayWithModel:(HyBidSkAdNetworkModel *)skAdNetworkModel {
+    if (!skAdNetworkModel) {
+        return NO;
+    }
+    
+    NSString *appIdentifier = [skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.itunesitem];
+    if ([appIdentifier isKindOfClass:[NSString class]]) {
+        if (appIdentifier && appIdentifier.length > 0) {
+            if ([skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.present] != [NSNull null] && [skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.present] && ![[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.present] boolValue]) {
+                [HyBidLogger warningLogFromClass:NSStringFromClass([HyBidSKOverlay class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Parameter \"present\" is specifically set to NO, will not create SKOverlay."];
+                return NO;
+            }
+        } else {
+            [HyBidLogger warningLogFromClass:NSStringFromClass([HyBidSKOverlay class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Parameter \"itunesitem\" is not valid, can not create SKOverlay."];
+            return NO;
+        }
+    } else {
+        [HyBidLogger warningLogFromClass:NSStringFromClass([HyBidSKOverlay class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Parameter \"itunesitem\" is not valid, can not create SKOverlay."];
+        return NO;
+    }
+    
+    return YES;
 }
 
 - (void)determineAutoCloseOffsetAndBehaviour:(HyBidSkAdNetworkModel *)skAdNetworkModel {
@@ -199,6 +213,11 @@
                                                  name:@"SKStoreProductViewIsReadyToPresent"
                                                object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(skStoreProductViewIsReadyToPresentForSdkStorekit:)
+                                                 name:@"SKStoreProductViewIsReadyToPresentForSDKStorekit"
+                                               object:nil];
+    
    [[NSNotificationCenter defaultCenter] addObserver:self
                                             selector:@selector(skStoretoreProductViewIsDismissed:)
                                                  name:@"SKStoreProductViewIsDismissed"
@@ -239,6 +258,10 @@
 }
 
 #pragma mark SKStoreProductView Notifications
+- (void)skStoreProductViewIsReadyToPresentForSdkStorekit:(NSNotification *)notification {
+    self.isSecondViewPrepared = YES;
+    [self dismissEntirely:NO withAd:self.ad causedByAutoCloseTimerCompletion:NO];
+}
 
 - (void)skStoreProductViewIsReadyToPresent:(NSNotification *)notification {
     self.isSecondViewPrepared = YES;
