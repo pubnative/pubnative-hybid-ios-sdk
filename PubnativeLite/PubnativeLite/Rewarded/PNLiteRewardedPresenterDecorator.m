@@ -111,7 +111,7 @@
     if (self.rewardedPresenterDelegate && [self.rewardedPresenterDelegate respondsToSelector:@selector(rewardedPresenterDidLoad:)]) {
         if (self.rewardedPresenter.ad.skoverlayEnabled) {
             if ([self.rewardedPresenter.ad.skoverlayEnabled boolValue]) {
-                self.skoverlay = [[HyBidSKOverlay alloc] initWithAd:rewardedPresenter.ad];
+                self.skoverlay = [[HyBidSKOverlay alloc] initWithAd:rewardedPresenter.ad isRewarded:YES];
             }
         } 
         [self.rewardedPresenterDelegate rewardedPresenterDidLoad:rewardedPresenter];

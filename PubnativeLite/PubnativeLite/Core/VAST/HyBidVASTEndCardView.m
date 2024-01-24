@@ -831,11 +831,11 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
             if(shouldOpenBrowser) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [productParams removeObjectForKey:HyBidSKAdNetworkParameter.fidelityType];
-                    HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
-                    skAdnetworkViewController.delegate = self;
+                    HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters: productParams delegate: self];
                     self.storekitPageIsBeingPresented = YES;
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"SKStoreProductViewIsReadyToPresent" object:nil];
-                    [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
+                    [skAdnetworkViewController presentSKStoreProductViewController:^(BOOL success) {
+                        
+                    }];
                 });
             }
 
@@ -1019,12 +1019,14 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
             if(shouldOpenBrowser) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [productParams removeObjectForKey:HyBidSKAdNetworkParameter.fidelityType];
-                    HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
-                    skAdnetworkViewController.delegate = self;
+                    HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters: productParams delegate: self];
                     self.storekitPageIsBeingPresented = YES;
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"SKStoreProductViewIsReadyToPresentForSDKStorekit" object:nil];
-                    [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
-                    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"StoreKit from SDK is presented"]];
+                    [skAdnetworkViewController presentSKStoreProductViewController:^(BOOL success) {
+                        if (success) {
+                            [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"StoreKit from SDK is presented"]];
+                        }
+                    }];
                 });
             }
         } else {
@@ -1118,9 +1120,12 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
                     }
                     
                     if (@available(iOS 13.0, *)) {
-                        NSString *signature = [NSString stringWithUTF8String:skanObject.signature];
-                        
-                        [dictionary setObject:signature forKey:SKStoreProductParameterAdNetworkAttributionSignature];
+                        if (skanObject.signature != nil) {
+                            NSString *signature = [NSString stringWithUTF8String:skanObject.signature];
+                            if (signature != nil) {
+                                [dictionary setObject:signature forKey:SKStoreProductParameterAdNetworkAttributionSignature];
+                            }
+                        }
                         
                         NSString *fidelity = [NSString stringWithFormat:@"%d", skanObject.fidelity];
                         [dictionary setObject:fidelity forKey:HyBidSKAdNetworkParameter.fidelityType];

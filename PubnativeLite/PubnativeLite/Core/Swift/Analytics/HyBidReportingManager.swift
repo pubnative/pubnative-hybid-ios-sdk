@@ -34,7 +34,7 @@ public class HyBidReportingManager: NSObject {
     
     @objc public var events: [HyBidReportingEvent] = []
     @objc weak public var delegate: HyBidReportingDelegate?
-    
+    @objc public var isAtomStarted: Bool = false
     private let eventsQueue = DispatchQueue(label: "com.verve.HyBid.eventsQueue", target: nil)
 
     @objc

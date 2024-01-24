@@ -56,6 +56,7 @@ typedef enum {
 @property (nonatomic, readonly) NSString *link;
 @property (nonatomic, readonly) NSString *impressionID;
 @property (nonatomic, readonly) NSString *creativeID;
+@property (nonatomic, readonly) NSString *campaignID;
 @property (nonatomic, readonly) NSString *openRTBCreativeID;
 @property (nonatomic, readonly) NSString *zoneID;
 

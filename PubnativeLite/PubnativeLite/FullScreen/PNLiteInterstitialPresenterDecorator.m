@@ -132,7 +132,7 @@
     if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenterDidLoad:)]) {
         if (self.interstitialPresenter.ad.skoverlayEnabled) {
             if ([self.interstitialPresenter.ad.skoverlayEnabled boolValue]) {
-                self.skoverlay = [[HyBidSKOverlay alloc] initWithAd:interstitialPresenter.ad];
+                self.skoverlay = [[HyBidSKOverlay alloc] initWithAd:interstitialPresenter.ad isRewarded:NO];
             }
         }
         [self.interstitialPresenterDelegate interstitialPresenterDidLoad:interstitialPresenter];

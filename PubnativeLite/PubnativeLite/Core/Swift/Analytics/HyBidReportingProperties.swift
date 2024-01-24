@@ -105,6 +105,7 @@ public class EventType: HyBidReportingProperties  {
     @objc public static let CUSTOM_CTA_IMPRESSION = "custom_cta_show"
     @objc public static let CUSTOM_CTA_CLICK = "custom_cta_click"
     @objc public static let CUSTOM_CTA_ENDCARD_CLICK = "custom_cta_endcard_click"
+    @objc public static let SKOVERLAY_IMPRESSION = "skoverlay_impression"
 }
 
 @objc(HyBidReportingCreativeType)

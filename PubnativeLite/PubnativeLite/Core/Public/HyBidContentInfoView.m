@@ -194,6 +194,7 @@ CGFloat const HyBidIconMaximumHeight = 30.0f;
     // ContentInfo: Hardcoding Accessibility ID (xPosition to left and yPosition to bottom)
     NSString* positionString = @"bottom left";
     
+    NSString* accessibilityLabelTextView = @"isLearnAboutAdPresent";
     NSString* accessibilityLabel = @"contentInfoIconView";
     if (self.isCustom) {
         accessibilityLabel = @"Custom-contentInfoIconView";
@@ -202,7 +203,7 @@ CGFloat const HyBidIconMaximumHeight = 30.0f;
     [self.iconView setAccessibilityLabel:[NSString stringWithFormat:@"%@ - %@", accessibilityLabel, positionString]];
     
     [self.textView setIsAccessibilityElement:YES];
-    [self.textView setAccessibilityLabel:[NSString stringWithFormat:@"%@ - %@", accessibilityLabel, positionString]];
+    [self.textView setAccessibilityLabel:[NSString stringWithFormat:@"%@ - %@", accessibilityLabelTextView, positionString]];
 
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self) {

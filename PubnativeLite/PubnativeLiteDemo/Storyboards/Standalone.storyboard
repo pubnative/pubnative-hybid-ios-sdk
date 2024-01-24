@@ -223,7 +223,7 @@
             <objects>
                 <viewController title="HyBid Banner" id="dy8-WN-4R0" userLabel="PNLite Banner View Controller" customClass="PNLiteDemoPNLiteBannerSizeSelectionViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="X6a-4Y-Wjb">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UVp-dg-hyD" userLabel="Continue Button">
@@ -287,7 +287,7 @@
             <objects>
                 <viewController title="HyBid Interstitial" id="Q6h-xd-eET" userLabel="PNLite Interstitial View Controller" customClass="PNLiteDemoPNLiteInterstitialViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1CX-c0-XXe">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JgG-hR-A7h">
@@ -447,7 +447,7 @@
             <objects>
                 <viewController title="HyBid Native Ad" id="PB1-bo-RNK" userLabel="PNLite Native" customClass="PNLiteDemoPNLiteNativeAdViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="inF-U7-g36">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a0W-GM-DvE">
@@ -696,7 +696,7 @@
             <objects>
                 <viewController title="HyBid Banner" id="Mxb-wD-K8I" userLabel="PNLite Banner View Controller" customClass="PNLiteDemoPNLiteBannerViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8HZ-a2-ZqI">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j1X-Dg-4lH">
@@ -850,7 +850,7 @@
                                 </connections>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Ad caching enabled" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g9o-Rg-aBF">
-                                <rect key="frame" x="16" y="69.5" width="153" height="20.5"/>
+                                <rect key="frame" x="16" y="69.5" width="150" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -908,12 +908,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="4hd-7W-ZkR" firstAttribute="top" secondItem="OeX-Df-uUY" secondAttribute="bottom" constant="16" id="12z-O1-nhy"/>
-                            <constraint firstItem="pYc-h8-JhM" firstAttribute="leading" secondItem="zaC-6f-vvS" secondAttribute="trailing" constant="96.5" id="1f2-mk-KfZ"/>
+                            <constraint firstItem="Pja-Fy-QZC" firstAttribute="trailing" secondItem="7QD-6l-vgC" secondAttribute="trailing" constant="20" id="8kT-3N-sc3"/>
                             <constraint firstItem="4hd-7W-ZkR" firstAttribute="leading" secondItem="Pja-Fy-QZC" secondAttribute="leading" constant="16" id="9OQ-aP-0b1"/>
                             <constraint firstItem="j1X-Dg-4lH" firstAttribute="top" secondItem="7QD-6l-vgC" secondAttribute="bottom" constant="52" id="ANB-Se-jdf"/>
                             <constraint firstItem="Pja-Fy-QZC" firstAttribute="bottom" secondItem="4hd-7W-ZkR" secondAttribute="bottom" constant="8" id="BDR-kD-crz"/>
                             <constraint firstItem="5d6-Fr-Xng" firstAttribute="top" secondItem="EzD-qN-TJZ" secondAttribute="bottom" constant="8" id="BDg-33-4vb"/>
-                            <constraint firstItem="7QD-6l-vgC" firstAttribute="leading" secondItem="g9o-Rg-aBF" secondAttribute="trailing" constant="176" id="FcA-2S-PYi"/>
                             <constraint firstItem="OeX-Df-uUY" firstAttribute="top" secondItem="tR7-op-RvG" secondAttribute="bottom" constant="16" id="Gst-JH-6bk"/>
                             <constraint firstItem="Pja-Fy-QZC" firstAttribute="trailing" secondItem="EzD-qN-TJZ" secondAttribute="trailing" constant="16" id="Gtr-lN-KvS"/>
                             <constraint firstItem="Pja-Fy-QZC" firstAttribute="trailing" secondItem="5d6-Fr-Xng" secondAttribute="trailing" constant="16" id="GyN-gf-jOK"/>
@@ -968,7 +967,7 @@
             <objects>
                 <viewController id="Pkc-Np-A4K" customClass="PNLiteDemoPNLiteStickyBannerViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Exe-0v-0Xg">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="5Ar-ie-cbs">
@@ -1086,7 +1085,7 @@
             <objects>
                 <viewController title="HyBid Rewarded" id="YQ3-Ig-QgH" userLabel="PNLite Rewarded View Controller" customClass="PNLiteDemoPNLiteRewardedViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CqV-vy-VAc">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Ad-e1-lpS">
@@ -1247,7 +1246,7 @@
             <objects>
                 <viewController title="HyBid Banner" id="FkD-oe-ams" userLabel="PNLite Sticky Banner View Controller" customClass="PNLiteDemoPNLiteStickyBannerSizeSelectionViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5b9-Fa-ahT">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dSd-Oc-qVG" userLabel="Continue Button">
@@ -1300,7 +1299,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="V49-N4-zzN"/>
+        <segue reference="EqL-tj-82v"/>
     </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">

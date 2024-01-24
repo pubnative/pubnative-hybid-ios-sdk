@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GpQ-44-yA7">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GpQ-44-yA7">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -562,6 +562,52 @@
                                     <segue destination="YdD-l3-WZK" kind="show" id="WMg-mR-5an"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ATOM State:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FXQ-QT-QTS">
+                                <rect key="frame" x="20" y="394" width="76.5" height="21"/>
+                                <accessibility key="accessibilityConfiguration" identifier="atomStateLabel" label="ATOM State Label"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="kfF-B1-tPe"/>
+                                    <constraint firstAttribute="height" constant="21" id="n0m-RF-Usy"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="n0m-RF-Usy"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="kfF-B1-tPe"/>
+                                        <include reference="n0m-RF-Usy"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ATOM State" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FFj-lx-6KK">
+                                <rect key="frame" x="106.5" y="394" width="71" height="21"/>
+                                <accessibility key="accessibilityConfiguration" identifier="atomStateValue" label="ATOM State Value">
+                                    <accessibilityTraits key="traits" none="YES"/>
+                                </accessibility>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="TRg-RT-fMp"/>
+                                    <constraint firstAttribute="height" constant="21" id="oon-uf-5AM"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="TRg-RT-fMp"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="TRg-RT-fMp"/>
+                                        <exclude reference="oon-uf-5AM"/>
+                                    </mask>
+                                </variation>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="2p0-8h-m2s"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -582,12 +628,14 @@
                             <constraint firstItem="aAv-lb-I3F" firstAttribute="leading" secondItem="2p0-8h-m2s" secondAttribute="leading" constant="16" id="N2o-Zr-Gr0"/>
                             <constraint firstItem="3Q0-ii-Xf7" firstAttribute="centerY" secondItem="t7D-mO-sSx" secondAttribute="centerY" id="N8Y-zS-Bmd"/>
                             <constraint firstItem="2p0-8h-m2s" firstAttribute="trailing" secondItem="Dph-7b-Jiy" secondAttribute="trailing" constant="16" id="Okr-dd-GJP"/>
+                            <constraint firstItem="FXQ-QT-QTS" firstAttribute="leading" secondItem="2p0-8h-m2s" secondAttribute="leading" constant="20" id="Rsk-sf-Tto"/>
                             <constraint firstItem="RJO-EG-VVb" firstAttribute="leading" secondItem="2p0-8h-m2s" secondAttribute="leading" constant="16" id="S0K-Kx-9GE"/>
                             <constraint firstItem="2p0-8h-m2s" firstAttribute="trailing" secondItem="aAv-lb-I3F" secondAttribute="trailing" constant="16" id="U2i-6g-p7g"/>
                             <constraint firstItem="cFF-Hf-GKS" firstAttribute="leading" secondItem="2p0-8h-m2s" secondAttribute="leading" constant="16" id="Ukq-Ja-Sys"/>
                             <constraint firstItem="aAv-lb-I3F" firstAttribute="top" secondItem="b4J-lo-hCK" secondAttribute="bottom" constant="5" id="W4C-CS-XbA"/>
                             <constraint firstItem="RJO-EG-VVb" firstAttribute="top" secondItem="t7D-mO-sSx" secondAttribute="bottom" constant="8" id="WuT-BY-koK"/>
                             <constraint firstItem="gwp-5P-1u0" firstAttribute="leading" secondItem="2p0-8h-m2s" secondAttribute="leading" constant="16" id="Xvq-6E-GEy"/>
+                            <constraint firstItem="FFj-lx-6KK" firstAttribute="leading" secondItem="FXQ-QT-QTS" secondAttribute="trailing" constant="10" id="XzU-8V-hdD"/>
                             <constraint firstItem="2p0-8h-m2s" firstAttribute="trailing" secondItem="gwp-5P-1u0" secondAttribute="trailing" constant="16" id="a6f-0G-ZAE"/>
                             <constraint firstItem="aFq-1P-NMZ" firstAttribute="top" secondItem="2p0-8h-m2s" secondAttribute="top" constant="8" id="b7r-VB-wJW"/>
                             <constraint firstItem="2p0-8h-m2s" firstAttribute="trailing" secondItem="mWk-DB-Mfx" secondAttribute="trailing" constant="16" id="cgM-vf-2mh"/>
@@ -596,13 +644,16 @@
                             <constraint firstItem="b4J-lo-hCK" firstAttribute="top" secondItem="WK9-is-Nnu" secondAttribute="bottom" constant="8" id="e21-lY-ti6"/>
                             <constraint firstItem="2p0-8h-m2s" firstAttribute="trailing" secondItem="e81-8b-UEu" secondAttribute="trailing" constant="16" id="ejI-io-0m8"/>
                             <constraint firstItem="mWk-DB-Mfx" firstAttribute="leading" secondItem="2p0-8h-m2s" secondAttribute="leading" constant="16" id="fX7-38-gfL"/>
+                            <constraint firstItem="FFj-lx-6KK" firstAttribute="top" secondItem="gwp-5P-1u0" secondAttribute="bottom" constant="8" id="hvR-ON-3YT"/>
                             <constraint firstItem="Dph-7b-Jiy" firstAttribute="top" secondItem="aFq-1P-NMZ" secondAttribute="bottom" constant="8" id="j04-t7-yH1"/>
                             <constraint firstItem="cKm-HC-iYK" firstAttribute="top" secondItem="RJO-EG-VVb" secondAttribute="bottom" constant="8" id="jKy-rq-fWP"/>
                             <constraint firstItem="WK9-is-Nnu" firstAttribute="top" secondItem="e81-8b-UEu" secondAttribute="top" constant="5" id="knJ-ym-IAO"/>
                             <constraint firstItem="cKm-HC-iYK" firstAttribute="leading" secondItem="2p0-8h-m2s" secondAttribute="leading" constant="16" id="o3Z-rR-8I5"/>
                             <constraint firstItem="WMd-ox-EsH" firstAttribute="leading" secondItem="2p0-8h-m2s" secondAttribute="leading" constant="16" id="qlS-ig-10M"/>
+                            <constraint firstItem="FXQ-QT-QTS" firstAttribute="top" secondItem="gwp-5P-1u0" secondAttribute="bottom" constant="8" symbolic="YES" id="tTq-TX-MIR"/>
                             <constraint firstItem="2p0-8h-m2s" firstAttribute="trailing" secondItem="WMd-ox-EsH" secondAttribute="trailing" constant="16" id="tjG-Vf-zC7"/>
                             <constraint firstItem="gwp-5P-1u0" firstAttribute="top" secondItem="mWk-DB-Mfx" secondAttribute="bottom" constant="8" id="wWc-Kq-vHe"/>
+                            <constraint firstItem="FFj-lx-6KK" firstAttribute="top" secondItem="gwp-5P-1u0" secondAttribute="bottom" constant="8" id="yMN-nf-ayu"/>
                             <constraint firstItem="2p0-8h-m2s" firstAttribute="trailing" secondItem="cFF-Hf-GKS" secondAttribute="trailing" constant="16" id="zZB-2X-GVG"/>
                         </constraints>
                         <connections>
@@ -616,6 +667,7 @@
                         <outlet property="ageTextField" destination="e81-8b-UEu" id="9mZ-Ib-uhn"/>
                         <outlet property="apiURLTextField" destination="cKm-HC-iYK" id="IfQ-f3-f7x"/>
                         <outlet property="appTokenTextField" destination="Dph-7b-Jiy" id="YYM-mr-V0a"/>
+                        <outlet property="atomStateTextField" destination="FFj-lx-6KK" id="jzb-0u-Lb2"/>
                         <outlet property="coppaModeButton" destination="fyo-Uw-H2v" id="VxQ-UC-Cnw"/>
                         <outlet property="femaleButton" destination="1nI-Vc-Eqn" id="hvy-jD-2w5"/>
                         <outlet property="maleButton" destination="vtx-LB-b3S" id="jRP-2U-Lqy"/>
@@ -632,7 +684,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-6772" y="805"/>
+            <point key="canvasLocation" x="-6772.4637681159429" y="804.91071428571422"/>
         </scene>
         <!--Markup-->
         <scene sceneID="eto-bp-u9Q">

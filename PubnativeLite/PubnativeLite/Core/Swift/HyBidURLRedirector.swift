@@ -107,6 +107,8 @@ public class HyBidURLRedirector: NSObject, URLSessionTaskDelegate, URLSessionDat
     public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         if let error = error {
             invokeFail(url: task.currentRequest?.url?.absoluteString ?? "", error: error)
+        } else {
+            invokeFail(url: task.currentRequest?.url?.absoluteString ?? "", error: NSError(code: HyBidErrorCodeUnknown, localizedDescription: "Something went wrong"))
         }
     }
     

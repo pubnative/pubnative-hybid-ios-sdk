@@ -35,11 +35,21 @@
 @interface HyBidVASTEventProcessor()
 
 @property(nonatomic, strong) NSMutableArray<HyBidVASTTracking *> *events;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, NSMutableArray<NSString *> *> *eventsDictionary;
 @property(nonatomic, weak) NSObject<HyBidVASTEventProcessorDelegate> *delegate;
 
 @end
 
 @implementation HyBidVASTEventProcessor
+
+- (id)initWithEventsDictionary:(NSDictionary<NSString *, NSMutableArray<NSString *> *> *)eventDictionary delegate:(id<HyBidVASTEventProcessorDelegate>)delegate {
+    self = [super init];
+    if (self) {
+        self.eventsDictionary = [eventDictionary mutableCopy];
+        self.delegate = delegate;
+    }
+    return self;
+}
 
 - (id)initWithEvents:(NSArray<HyBidVASTTracking *> *)events delegate:(id<HyBidVASTEventProcessorDelegate>)delegate {
     self = [super init];
@@ -52,6 +62,7 @@
 
 - (void)dealloc {
     self.events = nil;
+    self.eventsDictionary = nil;
 }
 
 - (void)trackEventWithType:(HyBidVASTAdTrackingEventType)type
@@ -87,6 +98,10 @@
         [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDResumeEvent];
     } else if (type == HyBidVASTAdTrackingEventType_ctaClick) {
         eventString = HyBidVASTAdTrackingEventType_ctaClick;
+    } else if (type == HyBidVASTAdTrackingEventType_mute) {
+        eventString = HyBidVASTAdTrackingEventType_mute;
+    } else if (type == HyBidVASTAdTrackingEventType_unmute) {
+        eventString = HyBidVASTAdTrackingEventType_unmute;
     } else if ([type isEqualToString:@"click"]) {
         eventString = @"click";
         [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDClikedEvent];
@@ -96,10 +111,22 @@
     if(!eventString) {
         [self invokeDidTrackEvent:@"unknown"];
     } else {
-        for (HyBidVASTTracking *event in self.events) {
-            if ([[event event] isEqualToString:eventString]) {
-                [self sendTrackingRequest:[event url]];
-                [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Sent event '%@' to url: %@", eventString, [event url]]];
+        if (self.eventsDictionary != nil && self.eventsDictionary.count != 0) {
+            NSArray<NSString *> *urlStrings = self.eventsDictionary[eventString];
+            if (urlStrings && urlStrings.count > 0) {
+                for (NSString *urlString in urlStrings) {
+                    [self sendTrackingRequest:urlString];
+                    [HyBidLogger debugLogFromClass:NSStringFromClass([self class])
+                                        fromMethod:NSStringFromSelector(_cmd)
+                                       withMessage:[NSString stringWithFormat:@"Sent event '%@' to url: %@", eventString, urlString]];
+                }
+            }
+        }else if (self.events.count != 0) {
+            for (HyBidVASTTracking *event in self.events) {
+                if ([[event event] isEqualToString:eventString]) {
+                    [self sendTrackingRequest:[event url]];
+                    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Sent event '%@' to url: %@", eventString, [event url]]];
+                }
             }
         }
     }

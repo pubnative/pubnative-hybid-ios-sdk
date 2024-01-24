@@ -20,48 +20,72 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidSKAdNetworkViewController.h"
-
 #if __has_include(<HyBid/HyBid-Swift.h>)
-    #import <UIKit/UIKit.h>
-    #import <HyBid/HyBid-Swift.h>
+#import <UIKit/UIKit.h>
+#import <HyBid/HyBid-Swift.h>
 #else
-    #import <UIKit/UIKit.h>
-    #import "HyBid-Swift.h"
+#import <UIKit/UIKit.h>
+#import "HyBid-Swift.h"
 #endif
+#import "HyBidSKAdNetworkViewController.h"
+#import "UIApplication+PNLiteTopViewController.h"
+
+@interface HyBidSKAdNetworkViewController ()
+@property (nonatomic, strong) NSDictionary *productParameters;
+@property (nonatomic, strong) SKStoreProductViewController *skAdnetworkViewController;
+@property (nonatomic, weak) id<SKStoreProductViewControllerDelegate> delegate;
+@end
 
 @implementation HyBidSKAdNetworkViewController
 
-- (id)initWithProductParameters:(NSDictionary*)data {
+- (id)initWithProductParameters:(NSDictionary *)parameters delegate:(id<SKStoreProductViewControllerDelegate>)delegate {
     self = [super init];
-    self->productParameters = data;
+    if (self) {
+        self.productParameters = parameters;
+        self.delegate = delegate;
+    }
     
     return self;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+- (void)loadProducts:(NSDictionary *)productParameters completionHandler:(void (^)(BOOL success, SKStoreProductViewController * _Nullable skAdnetworkViewController))completionHandler {
     
-    [self loadProductWithParameters:self->productParameters completionBlock:^(BOOL result, NSError * _Nullable error) {
-        if (error || !result){
-            [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Loading the ad failed, try to load another ad or retry the current ad."];
+    SKStoreProductViewController *skAdnetworkViewController = [[SKStoreProductViewController alloc] init];
+    skAdnetworkViewController.delegate = self.delegate;
+    [skAdnetworkViewController loadProductWithParameters:productParameters completionBlock:^(BOOL result, NSError * _Nullable error) {
+        if (!error && result) {
+            completionHandler(YES, skAdnetworkViewController);
+            return;
         }
+        [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Loading the ad failed, try to load another ad or retry the current ad."];
+        completionHandler(NO, nil);
+        return;
     }];
 }
 
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"adSkAdnetworkViewControllerIsShown" object:nil];
+- (void)presentInTopViewController:(SKStoreProductViewController *)skAdnetworkViewController {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[UIApplication sharedApplication].topViewController presentViewController: skAdnetworkViewController animated: YES completion:^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"adSkAdnetworkViewControllerIsShown" object:nil];
+        }];
+    });
 }
 
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskAll;
-}
-
-- (BOOL)shouldAutorotate {
-  UIInterfaceOrientationMask applicationSupportedOrientations = [[UIApplication sharedApplication] supportedInterfaceOrientationsForWindow:[[UIApplication sharedApplication] keyWindow]];
-  UIInterfaceOrientationMask viewControllerSupportedOrientations = [self supportedInterfaceOrientations];
-  return viewControllerSupportedOrientations & applicationSupportedOrientations;
+- (void)presentSKStoreProductViewController:(void (^)(BOOL success))completionHandler {
+    if ([[UIApplication sharedApplication].topViewController isMemberOfClass: [SKStoreProductViewController class]]) {
+        [[UIApplication sharedApplication].topViewController dismissViewControllerAnimated: YES completion: nil];
+    }
+    
+    [self loadProducts: self.productParameters completionHandler:^(BOOL success, SKStoreProductViewController * _Nullable skAdnetworkViewController) {
+        if (success) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"SKStoreProductViewIsReadyToPresent" object:nil];
+            [self presentInTopViewController: skAdnetworkViewController];
+            completionHandler(YES);
+            return;
+        }
+        completionHandler(NO);
+        return;
+    }];
 }
 
 @end

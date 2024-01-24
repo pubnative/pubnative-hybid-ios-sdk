@@ -281,6 +281,15 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     return creativeID;
 }
 
+- (NSString *)campaignID {
+    NSString *campaignID = @"";
+    HyBidDataModel *data = [self metaDataWithType:PNLiteMeta.campaignId];
+    if(data) {
+        campaignID = data.text;
+    }
+    return campaignID;
+}
+
 - (NSNumber *)assetGroupID {
     NSNumber *result = nil;
     if (self.data) {

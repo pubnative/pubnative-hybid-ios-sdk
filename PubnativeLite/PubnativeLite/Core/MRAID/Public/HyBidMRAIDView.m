@@ -969,6 +969,7 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
 
     if (!isEndcard) {
         [self openBrowserWithURLString:urlString];
+        return;
     }
     
     if (!self.creativeAutoStorekitEnabled && !startedFromTap) {
@@ -1239,12 +1240,13 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
         if (modalVC != nil) {
             if (@available(iOS 11.0, *)) {
                 [constraints addObjectsFromArray: @[
-                    [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f]
+                    [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
+                    [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:modalVC.view.safeAreaLayoutGuide attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]
                 ]];
             } else {
                 [constraints addObjectsFromArray: @[
-                    [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:modalVC.view attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f]
-                ]];
+                    [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:modalVC.view attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
+                    [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:modalVC.view attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]]];
             }
         }
     }
@@ -1899,7 +1901,10 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
     if (isStoreViewControllerPresented || isStoreViewControllerBeingPresented) {
         return; // Return early if the Store VC is already being presented
     }
-    [self doTrackingEndcardWithUrlString:urlString];
+    if ([self.ad.sdkAutoStorekitEnabled boolValue]){
+        [self doTrackingEndcardWithUrlString:urlString];
+        return;
+    }
     isStoreViewControllerBeingPresented = YES;
     
     SKStoreProductViewController *storeViewController = [[SKStoreProductViewController alloc] init];
@@ -1910,6 +1915,7 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
         NSDictionary *parameters = @{SKStoreProductParameterITunesItemIdentifier: appID};
         [storeViewController loadProductWithParameters:parameters completionBlock:^(BOOL result, NSError *error) {
             if (result) {
+                [self doTrackingEndcardWithUrlString:urlString];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"SKStoreProductViewIsReadyToPresent" object:nil];
                     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -1920,12 +1926,6 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
                     isStoreViewControllerPresented = YES;
                     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"StoreKit from CREATIVE is presented"]];
                 });
-            } else {
-                if (@available(iOS 17, *)){
-                    [self openBrowserWithURLString:urlString];
-                }else {
-                    [self openWithURLString:urlString];
-                }
             }
             isStoreViewControllerBeingPresented = NO;
         }];
@@ -1950,19 +1950,8 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
     
     return nil;
 }
-
-- (void)openBrowserWithURLString:(NSString *)urlString {
-    if (urlString != nil) {
-        BOOL canOpenURL = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:urlString]];
-        if(!canOpenURL){
-            urlString = [urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet  URLQueryAllowedCharacterSet]];
-        }else {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString] options:@{} completionHandler:(nil)];
-        }
-    }
-}
     
-- (void)openWithURLString:(NSString *)urlString {
+- (void)openBrowserWithURLString:(NSString *)urlString {
     if ([self.serviceDelegate respondsToSelector:@selector(mraidServiceOpenBrowserWithUrlString:)]) {
         [self.serviceDelegate mraidServiceOpenBrowserWithUrlString:urlString];
     }
@@ -1977,6 +1966,7 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
 - (void)onURLRedirectorFailWithUrl:(NSString * _Nonnull)url withError:(NSError * _Nonnull)error {
     tapObserved = NO;
     startedFromTap = NO;
+    [self openBrowserWithURLString:url];
 }
 
 - (void)onURLRedirectorFinishWithUrl:(NSString * _Nonnull)url {
@@ -1996,7 +1986,6 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
 
 // Delegate method when Store VC is dismissed
 - (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
-    isStoreViewControllerPresented = NO;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"SKStoreProductViewIsDismissed" object:self.ad];
 }
 

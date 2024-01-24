@@ -260,7 +260,7 @@ public class HyBidInterstitialAd: NSObject {
     }
     
     func renderAd(ad: HyBidAd) {
-        if let hasEndCard = self.ad?.hasEndCard, !hasEndCard, !(videoSkipOffset?.isCustom ?? false) {
+        if let hasEndCard = self.ad?.hasEndCard, !hasEndCard, !(videoSkipOffset?.isCustom ?? false), let hasCustomEndCard = self.ad?.hasCustomEndCard, !hasCustomEndCard {
             self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD), isCustom: false)
         }
         let interstitalPresenterFactory = HyBidInterstitialPresenterFactory()

@@ -28,7 +28,7 @@
 
 @interface HyBidSKOverlay : NSObject
 
-- (instancetype)initWithAd:(HyBidAd *)ad;
+- (instancetype)initWithAd:(HyBidAd *)ad isRewarded:(BOOL) isRewarded;
 - (void)presentWithAd:(HyBidAd *)ad;
 - (void)dismissEntirely:(BOOL)completed withAd:(HyBidAd *)ad causedByAutoCloseTimerCompletion:(BOOL)autoCloseTimerCompleted;
 - (void)updateTimerStateWithRemainingSeconds:(NSInteger)seconds
