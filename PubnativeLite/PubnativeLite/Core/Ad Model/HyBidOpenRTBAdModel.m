@@ -41,17 +41,20 @@
      self = [super initWithDictionary:dictionary];
      if (self) {
          NSData *admData = [dictionary[@"adm"] dataUsingEncoding:NSUTF8StringEncoding];
-         NSError *error;
-         NSDictionary *adm = [NSJSONSerialization JSONObjectWithData:admData options:kNilOptions error:&error];
 
-         self.link = adm[@"native"][@"link"][@"url"];
-         self.assets = [NSMutableArray arrayWithArray:[HyBidOpenRTBDataModel parseArrayValuesForAssets:adm[@"native"][@"assets"]]];
-         self.creativeid = dictionary[@"crid"];
-         NSError *extError;
-         if (dictionary[@"ext"] != nil){
-             NSData *extData = [NSJSONSerialization dataWithJSONObject:dictionary[@"ext"] options:NSJSONWritingPrettyPrinted error:&extError];
-             NSDictionary *ext = [NSJSONSerialization JSONObjectWithData:extData options:kNilOptions error:&extError];
-             self.extensions = [NSMutableArray arrayWithArray:[HyBidOpenRTBDataModel parseDictionaryValuesForExtensions:ext]];
+         if(admData != nil){
+             NSError *error;
+             NSDictionary *adm = [NSJSONSerialization JSONObjectWithData:admData options:kNilOptions error:&error];
+             
+             self.link = adm[@"native"][@"link"][@"url"];
+             self.assets = [NSMutableArray arrayWithArray:[HyBidOpenRTBDataModel parseArrayValuesForAssets:adm[@"native"][@"assets"]]];
+             self.creativeid = dictionary[@"crid"];
+             NSError *extError;
+             if (dictionary[@"ext"] != nil){
+                 NSData *extData = [NSJSONSerialization dataWithJSONObject:dictionary[@"ext"] options:NSJSONWritingPrettyPrinted error:&extError];
+                 NSDictionary *ext = [NSJSONSerialization JSONObjectWithData:extData options:kNilOptions error:&extError];
+                 self.extensions = [NSMutableArray arrayWithArray:[HyBidOpenRTBDataModel parseDictionaryValuesForExtensions:ext]];
+             }
          }
      }
      return self;

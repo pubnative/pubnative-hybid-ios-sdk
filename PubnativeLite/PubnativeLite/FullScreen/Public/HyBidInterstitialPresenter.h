@@ -22,6 +22,7 @@
 
 #import <Foundation/Foundation.h>
 #import "HyBidAd.h"
+#import "HyBidCustomCTAViewDelegate.h"
 
 @class HyBidInterstitialPresenter;
 
@@ -35,10 +36,13 @@
              didFailWithError:(NSError *)error;
 
 @optional
+- (void)interstitialPresenterDidLoad:(HyBidInterstitialPresenter *)interstitialPresenter viewController:(UIViewController *)viewController;
+- (void)interstitialPresenterDidFinish:(HyBidInterstitialPresenter *)interstitialPresenter;
 - (void)interstitialPresenterDidAppear:(HyBidInterstitialPresenter *)interstitialPresenter;
 - (void)interstitialPresenterDidDisappear:(HyBidInterstitialPresenter *)interstitialPresenter;
 - (void)interstitialPresenterPresentsSKOverlay:(HyBidInterstitialPresenter *)interstitialPresenter;
 - (void)interstitialPresenterDismissesSKOverlay:(HyBidInterstitialPresenter *)interstitialPresenter;
+- (void)interstitialPresenterDismissesCustomCTA:(HyBidInterstitialPresenter *)interstitialPresenter;
 
 @end
 
@@ -46,6 +50,7 @@
 
 @property (nonatomic, readonly) HyBidAd *ad;
 @property (nonatomic) NSObject <HyBidInterstitialPresenterDelegate> *delegate;
+@property (nonatomic, weak) NSObject <HyBidCustomCTAViewDelegate> *customCTADelegate;
 
 - (void)load;
 

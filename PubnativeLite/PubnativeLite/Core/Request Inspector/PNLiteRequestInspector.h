@@ -28,6 +28,6 @@
 @property (nonatomic, strong) PNLiteRequestInspectorModel *lastInspectedRequest;
 
 + (instancetype)sharedInstance;
-- (void)setLastRequestInspectorWithURL:(NSString *)url withResponse:(NSString *)response withLatency:(NSNumber *)latency;
+- (void)setLastRequestInspectorWithURL:(NSString *)url withResponse:(NSString *)response withLatency:(NSNumber *)latency withRequestBody:(NSData *)requestBody ;
 
 @end

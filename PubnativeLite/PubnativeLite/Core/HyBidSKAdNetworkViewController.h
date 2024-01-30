@@ -22,9 +22,8 @@
 
 #import <StoreKit/SKStoreProductViewController.h>
 
-@interface HyBidSKAdNetworkViewController : SKStoreProductViewController {
-    NSDictionary* productParameters;
-}
-
-- (id)initWithProductParameters:(NSDictionary*)productParameters;
+@interface HyBidSKAdNetworkViewController: NSObject
+- (id)initWithProductParameters:(NSDictionary*)productParameters delegate:(id<SKStoreProductViewControllerDelegate>)delegate;
+- (void)presentSKStoreProductViewController:(void (^)(BOOL success))completionHandler;
 @end
+

@@ -34,6 +34,7 @@
 #import "HyBid.h"
 #import "HyBidSKAdNetworkParameter.h"
 #import "HyBidCustomClickUtil.h"
+#import "HyBidSKAdNetworkViewController.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -50,7 +51,7 @@
 NSString * const PNLiteNativeAdBeaconImpression = @"impression";
 NSString * const PNLiteNativeAdBeaconClick = @"click";
 
-@interface HyBidNativeAd () <PNLiteImpressionTrackerDelegate, HyBidContentInfoViewDelegate, HyBidURLDrillerDelegate>
+@interface HyBidNativeAd () <PNLiteImpressionTrackerDelegate, HyBidContentInfoViewDelegate, HyBidURLDrillerDelegate, SKStoreProductViewControllerDelegate>
 
 @property (nonatomic, strong) PNLiteImpressionTracker *impressionTracker;
 @property (nonatomic, strong) NSDictionary *trackingExtras;
@@ -277,8 +278,8 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
     if ([[NSUserDefaults standardUserDefaults] stringForKey: HyBidReportingCommon.SESSION_DURATION] != nil){
         [reportingDictionary setObject: [[NSUserDefaults standardUserDefaults] stringForKey: HyBidReportingCommon.SESSION_DURATION] forKey: HyBidReportingCommon.SESSION_DURATION];
     }
-    if ([[NSUserDefaults standardUserDefaults] stringForKey: HyBidReportingCommon.AGE_OF_APP] != nil){
-        [reportingDictionary setObject:[[NSUserDefaults standardUserDefaults] stringForKey: HyBidReportingCommon.AGE_OF_APP] forKey: HyBidReportingCommon.AGE_OF_APP];
+    if ([[HyBidSessionManager sharedInstance] getAgeOfApp] != nil){
+        [reportingDictionary setObject:[[HyBidSessionManager sharedInstance] getAgeOfApp] forKey: HyBidReportingCommon.AGE_OF_APP];
     }
 }
 
@@ -393,10 +394,10 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
                 [[HyBidURLDriller alloc] startDrillWithURLString:self.clickUrl delegate:self];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [productParams removeObjectForKey:HyBidSKAdNetworkParameter.fidelityType];
-                    
-                    HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
-                    
-                    [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
+                    HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters: productParams delegate: self];
+                    [skAdnetworkViewController presentSKStoreProductViewController:^(BOOL success) {
+                        
+                    }];
                 });
             } else {
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.clickUrl] options:@{} completionHandler:nil];
@@ -427,9 +428,12 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
                     }
                     
                     if (@available(iOS 13.0, *)) {
-                        NSString *signature = [NSString stringWithUTF8String:skanObject.signature];
-                        
-                        [dictionary setObject:signature forKey:SKStoreProductParameterAdNetworkAttributionSignature];
+                        if (skanObject.signature != nil) {
+                            NSString *signature = [NSString stringWithUTF8String:skanObject.signature];
+                            if (signature != nil) {
+                                [dictionary setObject:signature forKey:SKStoreProductParameterAdNetworkAttributionSignature];
+                            }
+                        }
                         
                         NSString *fidelity = [NSString stringWithFormat:@"%d", skanObject.fidelity];
                         [dictionary setObject:fidelity forKey:HyBidSKAdNetworkParameter.fidelityType];
@@ -686,5 +690,9 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
         [self.delegate nativeAdDidClick:self];
     }
 }
+
+#pragma mark SKStoreProductViewControllerDelegate
+
+- (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {}
 
 @end

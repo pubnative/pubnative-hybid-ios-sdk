@@ -179,4 +179,8 @@ NSString * const kHyBidErrorDomain = @"net.pubnative.PubnativeLite";
     return [NSError errorWithCode:HyBidErrorVASTParserNoAdResponse localizedDescription:@"An error has been detected on the root of the VAST response"];
 }
 
++ (instancetype)hyBidInvalidCustomCTAIconUrl {
+    return [NSError errorWithCode:HyBidErrorCodeInvalidCustomCTAIconUrl localizedDescription:@"Invalid icon URL of custom CTA"];
+}
+
 @end

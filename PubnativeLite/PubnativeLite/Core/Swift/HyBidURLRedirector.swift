@@ -35,10 +35,19 @@ public class HyBidURLRedirector: NSObject, URLSessionTaskDelegate, URLSessionDat
     public weak var delegate: HyBidURLRedirectorDelegate?
     public var userAgent: String?
     
-    public func drill(url: String) {
+    public func drill(url: String, skanModel: HyBidSkAdNetworkModel?) {
         guard !url.isEmpty else {
             invokeFail(url: url, error: NSError(domain: "HyBidURLRedirectError", code: 0, userInfo: [NSLocalizedDescriptionKey: "HyBidURLRedirector error: URL is null or empty"]))
             return
+        }
+        
+        if let skan = skanModel {
+            let productParams = skan.getStoreKitParameters()
+            
+            if productParams != nil && productParams!.count > 0 && skan.isSKAdNetworkIDVisible(productParams) {
+                invokeFail(url: url, error: NSError(code: HyBidErrorCodeUnknown, localizedDescription: "This ad contains StoreKit data. Cancelling redirection."))
+                return
+            }
         }
         
         if url.lowercased().contains("apps.apple.com") {
@@ -77,6 +86,7 @@ public class HyBidURLRedirector: NSObject, URLSessionTaskDelegate, URLSessionDat
         let task = session.dataTask(with: request)
         task.resume()
     }
+
     
     // URLSessionTaskDelegate method
     public func urlSession(_ session: URLSession, task: URLSessionTask, willPerformHTTPRedirection response: HTTPURLResponse, newRequest request: URLRequest, completionHandler: @escaping (URLRequest?) -> Void) {
@@ -107,6 +117,8 @@ public class HyBidURLRedirector: NSObject, URLSessionTaskDelegate, URLSessionDat
     public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         if let error = error {
             invokeFail(url: task.currentRequest?.url?.absoluteString ?? "", error: error)
+        } else {
+            invokeFail(url: task.currentRequest?.url?.absoluteString ?? "", error: NSError(code: HyBidErrorCodeUnknown, localizedDescription: "Something went wrong"))
         }
     }
     

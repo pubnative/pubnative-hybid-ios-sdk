@@ -88,6 +88,9 @@
         self.debugButton.hidden = NO;
         [self.bannerLoaderIndicator stopAnimating];
         [self.bannerContainer addSubview:self.ironSourceBanner];
+
+        [self.bannerContainer setIsAccessibilityElement:NO];
+        [self.bannerContainer setAccessibilityContainerType:UIAccessibilityContainerTypeSemanticGroup];
     });
 }
 

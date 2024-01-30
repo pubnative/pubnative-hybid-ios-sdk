@@ -35,6 +35,7 @@
                          withSupportedAPIFrameworks:(NSArray<NSString *> *)supportedAPIFrameworks
                                 withIntegrationType:(IntegrationType)integrationType
                                          isRewarded:(BOOL)isRewarded
+                                     isUsingOpenRTB:(BOOL)isUsingOpenRTB
                                 mediationVendorName: (NSString*) mediationVendorName;
 
 @end

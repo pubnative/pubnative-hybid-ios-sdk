@@ -34,6 +34,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *adCachingSwitch;
 @property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *showAdTopConstraint;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *isUsingOpenRTB;
 
 @end
 
@@ -64,7 +65,11 @@
     [self.interstitialLoaderIndicator startAnimating];
     self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
     [self.interstitialAd setIsAutoCacheOnLoad: self.adCachingSwitch.isOn];
-    [self.interstitialAd load];
+    if (self.isUsingOpenRTB.selectedSegmentIndex == 0) {
+            [self.interstitialAd load];
+        } else if (self.isUsingOpenRTB.selectedSegmentIndex == 1) {
+            [self.interstitialAd loadExchangeAd];
+        }
 }
 
 - (IBAction)showInterstitialAdButtonTapped:(UIButton *)sender {
@@ -93,7 +98,7 @@
 
 - (void)interstitialDidLoad {
     NSLog(@"Interstitial did load");
-    if ([[NSUserDefaults standardUserDefaults] boolForKey: kIsUsingOpenRTB] == YES) {
+    if (self.isUsingOpenRTB.selectedSegmentIndex == 1) {
         [self setCreativeIDLabelWithString:self.interstitialAd.ad.openRTBCreativeID];
     } else {
         [self setCreativeIDLabelWithString:self.interstitialAd.ad.creativeID];

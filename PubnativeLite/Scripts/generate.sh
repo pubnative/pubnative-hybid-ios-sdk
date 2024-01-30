@@ -2,7 +2,7 @@ export LIBXML2_CFLAGS=`xml2-config --cflags`
 export LIBXML2_LIBS=`xml2-config --libs`
 
 # Variable Declarations
-BASE_DIR=/tmp/circleci-artifacts
+BASE_DIR=/private/tmp/circleci-artifacts
 PRODUCT_NAME=HyBid
 FRAMEWORK_NAME=$PRODUCT_NAME.framework
 FRAMEWORK_DSYM_NAME=$FRAMEWORK_NAME.dSYM

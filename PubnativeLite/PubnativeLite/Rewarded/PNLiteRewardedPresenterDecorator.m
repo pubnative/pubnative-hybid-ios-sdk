@@ -42,6 +42,7 @@
 @property (nonatomic, strong) NSMutableDictionary *errorReportingProperties;
 @property (nonatomic, strong) HyBidSKOverlay *skoverlay;
 @property (nonatomic, strong) PNLiteImpressionTracker *impressionTracker;
+@property (nonatomic, strong) HyBidCustomCTAView *customCTA;
 
 @end
 
@@ -53,6 +54,7 @@
     self.rewardedPresenterDelegate = nil;
     self.errorReportingProperties = nil;
     self.skoverlay = nil;
+    self.customCTA = nil;
 }
 
 - (void)load {
@@ -107,6 +109,11 @@
 
 - (void)rewardedPresenterDidLoad:(HyBidRewardedPresenter *)rewardedPresenter {
     if (self.rewardedPresenterDelegate && [self.rewardedPresenterDelegate respondsToSelector:@selector(rewardedPresenterDidLoad:)]) {
+        if (self.rewardedPresenter.ad.skoverlayEnabled) {
+            if ([self.rewardedPresenter.ad.skoverlayEnabled boolValue]) {
+                self.skoverlay = [[HyBidSKOverlay alloc] initWithAd:rewardedPresenter.ad isRewarded:YES];
+            }
+        } 
         [self.rewardedPresenterDelegate rewardedPresenterDidLoad:rewardedPresenter];
         
         if(!self.impressionTracker) {
@@ -117,14 +124,13 @@
         if (self.impressionTracker.impressionTrackingMethod == HyBidAdImpressionTrackerRender) {
             [self.adTracker trackImpressionWithAdFormat:HyBidReportingAdFormat.REWARDED];
         }
-        
-        if (self.rewardedPresenter.ad.skoverlayEnabled) {
-            if ([self.rewardedPresenter.ad.skoverlayEnabled boolValue]) {
-                self.skoverlay = [[HyBidSKOverlay alloc] initWithAd:rewardedPresenter.ad];
-            }
-        } else if ([HyBidRenderingConfig sharedConfig].rewardedSKOverlay) {
-            self.skoverlay = [[HyBidSKOverlay alloc] initWithAd:rewardedPresenter.ad];
-        }
+    }
+}
+
+- (void)rewardedPresenterDidLoad:(HyBidRewardedPresenter *)rewardedPresenter viewController:(UIViewController *)viewController {
+    [self rewardedPresenterDidLoad:rewardedPresenter];
+    if ([HyBidCustomCTAView isCustomCTAValidWithAd: rewardedPresenter.ad]) {
+        self.customCTA = [[HyBidCustomCTAView alloc] initWithAd:rewardedPresenter.ad viewController: viewController delegate:rewardedPresenter.customCTADelegate adFormat:HyBidReportingAdFormat.REWARDED];
     }
 }
 
@@ -132,7 +138,9 @@
     if (self.rewardedPresenterDelegate && [self.rewardedPresenterDelegate respondsToSelector:@selector(rewardedPresenterDidShow:)] && !self.adTracker.impressionTracked) {
         [self.adTracker trackImpressionWithAdFormat:HyBidReportingAdFormat.REWARDED];
         [self.rewardedPresenterDelegate rewardedPresenterDidShow:rewardedPresenter];
+        [self.skoverlay addObservers];
         [self.skoverlay presentWithAd:rewardedPresenter.ad];
+        [self.customCTA presentCustomCTAWithDelay];
     }
 }
 
@@ -146,7 +154,11 @@
 - (void)rewardedPresenterDidDismiss:(HyBidRewardedPresenter *)rewardedPresenter {
     if (self.rewardedPresenterDelegate && [self.rewardedPresenterDelegate respondsToSelector:@selector(rewardedPresenterDidDismiss:)]) {
         [self.rewardedPresenterDelegate rewardedPresenterDidDismiss:rewardedPresenter];
-        [self.skoverlay dismissWithAd:rewardedPresenter.ad];
+        [self.skoverlay dismissEntirely:YES withAd:rewardedPresenter.ad causedByAutoCloseTimerCompletion:NO];
+    }
+    
+    if (self.customCTA) {
+        [self.customCTA removeCustomCTA];
     }
 }
 
@@ -174,11 +186,11 @@
 }
 
 - (void)rewardedPresenterDidAppear:(HyBidRewardedPresenter *)rewardedPresenter {
-    
+    [self.skoverlay presentWithAd:rewardedPresenter.ad];
 }
 
 - (void)rewardedPresenterDidDisappear:(HyBidRewardedPresenter *)rewardedPresenter {
-    
+    [self.skoverlay dismissEntirely:NO withAd:rewardedPresenter.ad causedByAutoCloseTimerCompletion:NO];
 }
 
 - (void)rewardedPresenterPresentsSKOverlay:(HyBidRewardedPresenter *)rewardedPresenter {
@@ -186,7 +198,13 @@
 }
 
 - (void)rewardedPresenterDismissesSKOverlay:(HyBidRewardedPresenter *)rewardedPresenter {
-    [self.skoverlay dismissWithAd:rewardedPresenter.ad];
+    [self.skoverlay dismissEntirely:YES withAd:rewardedPresenter.ad causedByAutoCloseTimerCompletion:NO];
+}
+
+- (void)rewardedPresenterDismissesCustomCTA:(HyBidRewardedPresenter *)rewardedPresenter {
+    if (self.customCTA) {
+        [self.customCTA removeCustomCTA];
+    }
 }
 
 @end

@@ -59,6 +59,7 @@
 @property (nonatomic, weak) NSTimer *autoRefreshTimer;
 @property (nonatomic, assign) BOOL shouldRunAutoRefresh;
 @property (nonatomic, assign) BOOL markup;
+@property (nonatomic, assign) BOOL isUsingOpenRTB;
 
 @end
 
@@ -79,6 +80,7 @@
     self.sessionReportingProperties = nil;
     [self cleanUp];
     [self stopAutoRefresh];
+    self.isUsingOpenRTB = NO;
 }
 
 - (void)awakeFromNib {
@@ -155,6 +157,7 @@
 
 - (void)loadWithZoneID:(NSString *)zoneID withAppToken:(NSString *)appToken andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate {
     [self cleanUp];
+    self.adRequest.isUsingOpenRTB = self.isUsingOpenRTB;
     self.initialLoadTimestamp = [[NSDate date] timeIntervalSince1970];
     
     self.delegate = delegate;
@@ -189,13 +192,11 @@
 }
 
 - (void)setOpenRTBToTrue {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setBool:YES forKey:kIsUsingOpenRTB];
+    self.isUsingOpenRTB = true;
 }
 
 - (void)setOpenRTBToFalse {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setBool:NO forKey:kIsUsingOpenRTB];
+    self.isUsingOpenRTB = false;
 }
 
 - (void)prepareCustomMarkupFrom:(NSString *)markup withPlacement:(HyBidMarkupPlacement)placement {
@@ -354,6 +355,11 @@
     }
 }
 
+- (void)renderAdWithAdResponseOpenRTB:(NSString *)adReponse withDelegate:(NSObject<HyBidAdViewDelegate> *)delegate {
+    self.isUsingOpenRTB = true;
+    [self renderAdWithAdResponse:adReponse withDelegate:delegate];
+}
+
 - (void)renderAdWithAdResponse:(NSString *)adReponse withDelegate:(NSObject<HyBidAdViewDelegate> *)delegate {
     [self cleanUp];
     self.delegate = delegate;
@@ -361,8 +367,17 @@
     
     if (adReponse && [adReponse length] != 0) {
         HyBidAdRequest* adRequest = [[HyBidAdRequest alloc]init];
+        adRequest.isUsingOpenRTB = self.isUsingOpenRTB;
         adRequest.delegate = self;
-        adRequest.openRTBAdType = HyBidOpenRTBAdBanner;
+        adRequest.adSize = self.adSize;
+        if ([self.adSize isEqualTo:HyBidAdSize.SIZE_300x250]){
+            adRequest.placement = HyBidDemoAppPlacementMRect;
+            adRequest.openRTBAdType = HyBidOpenRTBAdVideo;
+        }
+        if ([self.adSize isEqualTo:HyBidAdSize.SIZE_300x50]){
+            adRequest.placement = HyBidDemoAppPlacementBanner;
+            adRequest.openRTBAdType = HyBidOpenRTBAdBanner;
+        }
         [adRequest processResponseWithJSON:adReponse];
     } else {
         [self.delegate adView:self didFailWithError:[NSError hyBidInvalidAsset]];
@@ -437,8 +452,8 @@
     if ([[NSUserDefaults standardUserDefaults] stringForKey: HyBidReportingCommon.SESSION_DURATION] != nil){
         [reportingDictionary setObject: [[NSUserDefaults standardUserDefaults] stringForKey: HyBidReportingCommon.SESSION_DURATION] forKey: HyBidReportingCommon.SESSION_DURATION];
     }
-    if ([[NSUserDefaults standardUserDefaults] stringForKey: HyBidReportingCommon.AGE_OF_APP] != nil){
-        [reportingDictionary setObject:[[NSUserDefaults standardUserDefaults] stringForKey: HyBidReportingCommon.AGE_OF_APP] forKey: HyBidReportingCommon.AGE_OF_APP];
+    if ([[HyBidSessionManager sharedInstance] getAgeOfApp] != nil){
+        [reportingDictionary setObject:[[HyBidSessionManager sharedInstance] getAgeOfApp] forKey: HyBidReportingCommon.AGE_OF_APP];
     }
 }
 

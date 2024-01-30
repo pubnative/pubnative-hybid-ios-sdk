@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="PFa-Ei-cQM">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Ad Settings-->
+        <scene sceneID="W71-sa-PMb">
+            <objects>
+                <viewController storyboardIdentifier="HyBidAdSettingsViewController" title="Ad Settings" id="PFa-Ei-cQM" customClass="HyBidAdSettingsViewController" customModule="HyBidDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="0Fv-el-0ax">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="930-iq-9a3">
+                                <rect key="frame" x="0.0" y="59" width="393" height="793"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HyBidSwitchTableViewCell" id="JM4-sF-VJz" customClass="HyBidSwitchTableViewCell" customModule="HyBidDemo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="393" height="43.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="JM4-sF-VJz" id="X5d-83-iQC">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="43.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="chc-Tp-csW">
+                                                    <rect key="frame" x="5" y="7" width="383" height="30"/>
+                                                    <subviews>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4nk-3K-lvU" customClass="UICheckbox" customModule="HyBidDemo" customModuleProvider="target">
+                                                            <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                            <accessibility key="accessibilityConfiguration">
+                                                                <bool key="isElement" value="YES"/>
+                                                            </accessibility>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="30" id="17Y-2k-b8d"/>
+                                                                <constraint firstAttribute="width" constant="30" id="ctX-v5-a2V"/>
+                                                            </constraints>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="boxColor">
+                                                                    <color key="value" red="0.30588235289999999" green="0.20000000000000001" blue="0.99215686270000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="checkmarkColor">
+                                                                    <color key="value" red="0.30588235289999999" green="0.20000000000000001" blue="0.99215686270000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                        </view>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hTU-Q8-fQm">
+                                                            <rect key="frame" x="40" y="0.0" width="283" height="30"/>
+                                                            <accessibility key="accessibilityConfiguration" identifier="hyBidAdSettingsSwitchCellLabel" label="HyBid Ad Settings Switch Cell Label"/>
+                                                            <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qjY-xA-HLR">
+                                                            <rect key="frame" x="333" y="0.0" width="52" height="30"/>
+                                                            <accessibility key="accessibilityConfiguration" identifier="hyBidAdSettingsSwitchCellSwitch" label="HyBid Ad Settings Switch Cell Switch"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="50" id="AR9-J9-7Gr"/>
+                                                            </constraints>
+                                                            <color key="tintColor" red="0.30588235289999999" green="0.20000000000000001" blue="0.99215686270000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <color key="onTintColor" red="0.30588235289999999" green="0.20000000000000001" blue="0.99215686270000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </switch>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="chc-Tp-csW" firstAttribute="centerY" secondItem="X5d-83-iQC" secondAttribute="centerY" id="Kur-jS-LDd"/>
+                                                <constraint firstItem="chc-Tp-csW" firstAttribute="leading" secondItem="X5d-83-iQC" secondAttribute="leading" constant="5" id="SaZ-i6-9ur"/>
+                                                <constraint firstAttribute="trailing" secondItem="chc-Tp-csW" secondAttribute="trailing" constant="5" id="Zfb-Ua-3SU"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="additionalSwitch" destination="qjY-xA-HLR" id="T6t-cV-3mj"/>
+                                            <outlet property="titleLabel" destination="hTU-Q8-fQm" id="O33-NU-CGg"/>
+                                            <outlet property="toggleSwitch" destination="4nk-3K-lvU" id="jwB-AB-ykC"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HyBidTextFieldTableViewCell" id="G0h-3D-SMe" customClass="HyBidTextFieldTableViewCell" customModule="HyBidDemo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="93.666667938232422" width="393" height="43.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="G0h-3D-SMe" id="p0y-uF-5Ij">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="43.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="UpQ-Nn-Y5l">
+                                                    <rect key="frame" x="5" y="7" width="383" height="30"/>
+                                                    <subviews>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FqV-E7-MGR" customClass="UICheckbox" customModule="HyBidDemo" customModuleProvider="target">
+                                                            <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                            <accessibility key="accessibilityConfiguration">
+                                                                <bool key="isElement" value="YES"/>
+                                                            </accessibility>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="30" id="0zI-m0-Cbf"/>
+                                                                <constraint firstAttribute="width" constant="30" id="Z8n-hP-ZMf"/>
+                                                            </constraints>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="boxColor">
+                                                                    <color key="value" red="0.30588235289999999" green="0.20000000000000001" blue="0.99215686270000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="checkmarkColor">
+                                                                    <color key="value" red="0.30588235289999999" green="0.20000000000000001" blue="0.99215686270000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                        </view>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I2J-Vm-jyQ">
+                                                            <rect key="frame" x="40" y="0.0" width="183" height="30"/>
+                                                            <accessibility key="accessibilityConfiguration" identifier="hyBidAdSettingsTextFieldCellLabel" label="HyBid Ad Settings TextField Cell Label"/>
+                                                            <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="b0r-3e-bVO">
+                                                            <rect key="frame" x="233" y="0.0" width="150" height="30"/>
+                                                            <accessibility key="accessibilityConfiguration" identifier="hyBidAdSettingsTextFieldCellTextField" label="HyBid Ad Settings TextField Cell TextField"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="150" id="RCv-0p-idT"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
+                                                            <textInputTraits key="textInputTraits" textContentType="tel"/>
+                                                        </textField>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="UpQ-Nn-Y5l" secondAttribute="trailing" constant="5" id="LYp-nB-Lg3"/>
+                                                <constraint firstItem="UpQ-Nn-Y5l" firstAttribute="centerY" secondItem="p0y-uF-5Ij" secondAttribute="centerY" id="h0L-U8-8Qo"/>
+                                                <constraint firstItem="UpQ-Nn-Y5l" firstAttribute="leading" secondItem="p0y-uF-5Ij" secondAttribute="leading" constant="5" id="xo4-sZ-Esz"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="textField" destination="b0r-3e-bVO" id="j5U-bQ-cgX"/>
+                                            <outlet property="titleLabel" destination="I2J-Vm-jyQ" id="wJO-W6-Yis"/>
+                                            <outlet property="toggleSwitch" destination="FqV-E7-MGR" id="bIY-8J-uf5"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HyBidSegmentedControlTableViewCell" id="sOW-zu-3Ix" customClass="HyBidSegmentedControlTableViewCell" customModule="HyBidDemo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="137.33333587646484" width="393" height="43.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sOW-zu-3Ix" id="eLH-SY-Vec">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="43.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="RgX-FO-eEe">
+                                                    <rect key="frame" x="5" y="7" width="383" height="30"/>
+                                                    <subviews>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Eyc-h3-tbC" customClass="UICheckbox" customModule="HyBidDemo" customModuleProvider="target">
+                                                            <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                            <accessibility key="accessibilityConfiguration">
+                                                                <bool key="isElement" value="YES"/>
+                                                            </accessibility>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="30" id="GeP-3D-cuK"/>
+                                                                <constraint firstAttribute="height" constant="30" id="fff-Ia-xWu"/>
+                                                            </constraints>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="boxColor">
+                                                                    <color key="value" red="0.30588235289999999" green="0.20000000000000001" blue="0.99215686270000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="checkmarkColor">
+                                                                    <color key="value" red="0.30588235289999999" green="0.20000000000000001" blue="0.99215686270000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                        </view>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label Label Label Label Label Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rUD-Je-qSM">
+                                                            <rect key="frame" x="38.000000000000014" y="0.0" width="244.33333333333337" height="30"/>
+                                                            <accessibility key="accessibilityConfiguration" identifier="hyBidAdSettingsSegmentedControlCellLabel" label="HyBid Ad Settings SegmentedControl Cell Label"/>
+                                                            <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gAr-8a-DB7">
+                                                            <rect key="frame" x="286.33333333333331" y="0.0" width="0.0" height="30"/>
+                                                            <accessibility key="accessibilityConfiguration" identifier="hyBidAdSettingsSegmented ControlCellSegmentedControl" label="HyBid Ad Settings Segmented Control Cell Segmented Control"/>
+                                                            <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <segmentedControl opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="xDk-07-pBe">
+                                                            <rect key="frame" x="290.33333333333331" y="0.0" width="92.666666666666686" height="31"/>
+                                                            <segments>
+                                                                <segment title="First"/>
+                                                                <segment title="Second"/>
+                                                                <segment title=""/>
+                                                            </segments>
+                                                        </segmentedControl>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="RgX-FO-eEe" secondAttribute="trailing" constant="5" id="jli-yT-mfe"/>
+                                                <constraint firstItem="RgX-FO-eEe" firstAttribute="centerY" secondItem="eLH-SY-Vec" secondAttribute="centerY" id="l5n-Qe-B3b"/>
+                                                <constraint firstItem="RgX-FO-eEe" firstAttribute="leading" secondItem="eLH-SY-Vec" secondAttribute="leading" constant="5" id="odF-2F-HQt"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="segmentedControl" destination="xDk-07-pBe" id="8LW-ab-BRC"/>
+                                            <outlet property="titleLabel" destination="rUD-Je-qSM" id="y0L-Sg-4tt"/>
+                                            <outlet property="toggleSwitch" destination="Eyc-h3-tbC" id="VOy-7k-32a"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="7w4-C0-iJJ"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="930-iq-9a3" secondAttribute="bottom" id="D1x-EK-1p0"/>
+                            <constraint firstItem="930-iq-9a3" firstAttribute="top" secondItem="7w4-C0-iJJ" secondAttribute="top" id="EIH-Po-Jmo"/>
+                            <constraint firstItem="930-iq-9a3" firstAttribute="leading" secondItem="7w4-C0-iJJ" secondAttribute="leading" id="PIV-2u-ufb"/>
+                            <constraint firstItem="930-iq-9a3" firstAttribute="trailing" secondItem="7w4-C0-iJJ" secondAttribute="trailing" id="ixq-Mf-SYw"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="jOg-uc-vk2"/>
+                    <connections>
+                        <outlet property="tableView" destination="930-iq-9a3" id="aj6-5U-oYL"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aNX-L9-7JH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3997.1014492753625" y="805.58035714285711"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

@@ -37,8 +37,8 @@
     return _instance;
 }
 
-- (void)setLastRequestInspectorWithURL:(NSString *)url withResponse:(NSString *)response withLatency:(NSNumber *)latency {
-    self.lastInspectedRequest = [[PNLiteRequestInspectorModel alloc] initWithURL:url withResponse:response withLatency:latency];
+- (void)setLastRequestInspectorWithURL:(NSString *)url withResponse:(NSString *)response withLatency:(NSNumber *)latency withRequestBody:(NSData *)requestBody {
+    self.lastInspectedRequest = [[PNLiteRequestInspectorModel alloc] initWithURL:url withResponse:response withLatency:latency withRequestBody:requestBody];
 }
 
 @end

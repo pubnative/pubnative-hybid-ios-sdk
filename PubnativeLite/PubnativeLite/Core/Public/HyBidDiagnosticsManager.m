@@ -39,7 +39,7 @@ NSString * const AD_FORMAT_INTERSTITIAL_CLASS = @"HyBid.HyBidInterstitialAd";
 NSString * const AD_FORMAT_REWARDED_CLASS = @"HyBid.HyBidRewardedAd";
 NSString * const AD_FORMAT_NATIVE_CLASS = @"HyBidNativeAd";
 
-// GAD (AdMob)Mediation Adapter Classes
+// GAD Mediation Adapter Classes
 NSString * const GAD_MEDIATION_BANNER_ADAPTER_CLASS = @"HyBidGADBannerCustomEvent";
 NSString * const GAD_MEDIATION_MRECT_ADAPTER_CLASS = @"HyBidGADMRectCustomEvent";
 NSString * const GAD_MEDIATION_LEADERBOARD_ADAPTER_CLASS = @"HyBidGADLeaderboardCustomEvent";
@@ -47,7 +47,7 @@ NSString * const GAD_MEDIATION_INTERSTITIAL_ADAPTER_CLASS = @"HyBidGADInterstiti
 NSString * const GAD_MEDIATION_REWARDED_ADAPTER_CLASS = @"HyBidGADRewardedCustomEvent";
 NSString * const GAD_MEDIATION_NATIVE_ADAPTER_CLASS = @"HyBidGADNativeCustomEvent";
 
-// GAM (DFP) Header Bidding Adapter Classes
+// GAM Header Bidding Adapter Classes
 NSString * const GAM_HEADER_BIDDING_BANNER_ADAPTER_CLASS = @"HyBidGAMBannerCustomEvent";
 NSString * const GAM_HEADER_BIDDING_MRECT_ADAPTER_CLASS = @"HyBidGAMMRectCustomEvent";
 NSString * const GAM_HEADER_BIDDING_LEADERBOARD_ADAPTER_CLASS = @"HyBidGAMLeaderboardCustomEvent";
@@ -75,7 +75,7 @@ NSString * const GAM_HEADER_BIDDING_INTERSTITIAL_ADAPTER_CLASS = @"HyBidGAMInter
         [diagnosticsLogString appendFormat:@"\nApp Token: %@", [HyBidSDKConfig sharedConfig].appToken];
         [diagnosticsLogString appendFormat:@"\nTest Mode: %@", [HyBidSDKConfig sharedConfig].test ? @"true" : @"false"];
         [diagnosticsLogString appendFormat:@"\nCOPPA: %@", [HyBidConsentConfig sharedConfig].coppa ? @"true" : @"false"];
-        [diagnosticsLogString appendFormat:@"\nApp Level Video Audio State: %@", [self getVideoAudioStateString:[HyBidRenderingConfig sharedConfig].audioStatus]];
+        [diagnosticsLogString appendFormat:@"\nApp Level Video Audio State: %@", [self getVideoAudioStateString:HyBidConstants.audioStatus]];
         [diagnosticsLogString appendFormat:@"\nLocation Tracking: %@", [HyBidLocationConfig sharedConfig].locationTrackingEnabled ? @"true" : @"false"];
         [diagnosticsLogString appendFormat:@"\nLocation Updates: %@", [HyBidLocationConfig sharedConfig].locationUpdatesEnabled ? @"true" : @"false"];
         [diagnosticsLogString appendFormat:@"\nDate & Time: %@", [self currentDateAndTime]];

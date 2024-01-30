@@ -25,6 +25,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <AppTrackingTransparency/AppTrackingTransparency.h>
 #import <AppLovinSDK/AppLovinSDK.h>
+#import <HyBidDemo-Swift.h>
 
 #if __has_include(<ATOM/ATOM-Swift.h>)
     #import <ATOM/ATOM-Swift.h>
@@ -41,8 +42,6 @@
 
 @implementation AppDelegate
 
-CLLocationManager *locationManager;
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [HyBidLogger setLogLevel:HyBidLogLevelDebug];
@@ -53,8 +52,6 @@ CLLocationManager *locationManager;
     [FIRApp configure];
     
     [PNLiteDemoSettings sharedInstance];
-    locationManager = [[CLLocationManager alloc] init];
-    [locationManager requestWhenInUseAuthorization];
     // setLocationTracking: Allowing SDK to track location, default is true.
     [HyBid setLocationTracking:YES];
     // setLocationUpdates: Allowing SDK to update location, default is false.
@@ -66,16 +63,9 @@ CLLocationManager *locationManager;
     [[ALSdk shared] initializeSdkWithCompletionHandler:^(ALSdkConfiguration *configuration) {}];
     
     [HyBid setAppStoreAppID:kHyBidDemoAppID];
-    
-    [HyBid setInterstitialActionBehaviour:HB_CREATIVE];
-//    [HyBid setVideoInterstitialSkipOffset:1];
-//    [HyBid setHTMLInterstitialSkipOffset:2];
-//    [HyBid setEndCardCloseOffset:@5];
-    [HyBid setVideoAudioStatus:HyBidAudioStatusON];
-    [HyBid setInterstitialSKOverlay:YES];
-    [HyBid setRewardedSKOverlay:YES];
-//    [HyBid setShowEndCard:NO];
     [HyBid getCustomRequestSignalData];
+    
+    [HyBidGPPSDKInitializer initOneTrustSDK];
     return YES;
 }
 
@@ -95,45 +85,6 @@ CLLocationManager *locationManager;
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
 }
-
-
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    
-    if (@available(iOS 14.5, *)) {
-        [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler: ^(ATTrackingManagerAuthorizationStatus status) {
-            switch (status) {
-                case ATTrackingManagerAuthorizationStatusAuthorized:
-                    NSLog(@"IDFA Tracking authorized.");
-                    break;
-                case ATTrackingManagerAuthorizationStatusDenied:
-                    NSLog(@"IDFA Tracking denied.");
-                    break;
-                case ATTrackingManagerAuthorizationStatusRestricted:
-                    NSLog(@"IDFA Tracking restricted.");
-                    break;
-                case ATTrackingManagerAuthorizationStatusNotDetermined:
-                    NSLog(@"IDFA Tracking permission not determined.");
-                    break;
-                default:
-                    break;
-            }
-        }];
-    }
-    
-    #if __has_include(<ATOM/ATOM-Swift.h>)
-    NSError *atomError = nil;
-    [Atom startWithApiKey:kATOM_API_KEY isTest:NO error:&atomError withCallback:^(BOOL isSuccess) {
-        if (isSuccess) {
-            NSArray *atomCohorts = [Atom getCohorts];
-            [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: [[NSString alloc] initWithFormat: @"Received ATOM cohorts: %@", atomCohorts], NSStringFromSelector(_cmd)]];
-        } else {
-            NSString *atomInitResultMessage = [[NSString alloc] initWithFormat:@"Coultdn't initialize ATOM with error: %@", [atomError localizedDescription]];
-            [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: atomInitResultMessage, NSStringFromSelector(_cmd)]];
-        }
-    }];
-    #endif
-}
-
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.

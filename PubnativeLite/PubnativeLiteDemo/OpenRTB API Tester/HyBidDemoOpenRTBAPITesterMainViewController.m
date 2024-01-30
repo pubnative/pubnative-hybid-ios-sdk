@@ -50,8 +50,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setBool:YES forKey:kIsUsingOpenRTB];
     [self.adReponseTextView addDismissKeyboardButtonWithTitle:@"Done" withTarget:self withSelector:@selector(dismissKeyboard)];
 }
 
@@ -99,7 +97,7 @@
                 switch ([self.segmentedControl selectedSegmentIndex]) {
                     case 0: {
                         self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
-                        [self.interstitialAd prepareAdWithAdReponse:self.adResponse];
+                        [self.interstitialAd prepareExchangeAdWithAdReponse:self.adResponse];
                         break;
                     }
                     case 1: {
@@ -112,7 +110,7 @@
                 switch ([self.segmentedControl selectedSegmentIndex]) {
                     case 0: {
                         self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:nil andWithDelegate:self];
-                        [self.rewardedAd prepareAdWithAdReponse:self.adResponse];
+                        [self.rewardedAd prepareExchangeAdWithAdReponse:self.adResponse];
                         break;
                     }
                     case 1: {
@@ -125,7 +123,22 @@
     }
 }
 
-- (void)loadWithURL:(HyBidMarkupPlacement)placement {}
+- (void)loadWithURL:(HyBidMarkupPlacement)placement {
+    NSString *urlString = [[self.adReponseTextView text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] ;
+    [self requestWithUrlForPlacement:urlString forPlacement:placement];
+}
+
+- (void)requestWithUrlForPlacement:(NSString *)urlString forPlacement:(HyBidMarkupPlacement)placement {
+    NSMutableURLRequest *urlRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString: urlString]];
+    [urlRequest setHTTPMethod:@"GET"];
+    [[[NSURLSession sharedSession] dataTaskWithRequest: urlRequest completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
+        if(!error){
+            [self invokeFinishWithResponse:response placement: placement withData: data];
+        } else {
+            [self invokeFailWithError: error];
+        }
+    }] resume];
+}
 
 - (void)loadWithAdResponse: (NSString*)adResponse {
     HyBidDemoOpenRTBAPITesterDetailViewController *openRTBAPITesterDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HyBidDemoOpenRTBAPITesterDetailViewController"];

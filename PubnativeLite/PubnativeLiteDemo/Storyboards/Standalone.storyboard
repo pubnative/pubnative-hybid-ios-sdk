@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GZ3-2t-GUX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GZ3-2t-GUX">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Format" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mpy-mT-cGa" userLabel="Format">
-                                <rect key="frame" x="16" y="52" width="42.5" height="21"/>
+                                <rect key="frame" x="16" y="56" width="42.5" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="formatLabel" label="Format Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="ps8-n6-QbF"/>
@@ -33,7 +33,7 @@
                                 </variation>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wCy-Ce-81X" userLabel="Native Button">
-                                <rect key="frame" x="16" y="81" width="382" height="33"/>
+                                <rect key="frame" x="16" y="85" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="nativeButton" label="Native Button"/>
                                 <constraints>
@@ -64,7 +64,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jhc-wd-Wtp" userLabel="Banner Button">
-                                <rect key="frame" x="16" y="122" width="382" height="33"/>
+                                <rect key="frame" x="16" y="126" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="bannerButton" label="Banner Button"/>
                                 <constraints>
@@ -95,7 +95,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1nq-Ka-aeK" userLabel="Interstitial Button">
-                                <rect key="frame" x="16" y="204" width="382" height="33"/>
+                                <rect key="frame" x="16" y="208" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="interstitialButton" label="Interstitial Button"/>
                                 <constraints>
@@ -126,7 +126,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HFm-hh-c49" userLabel="Rewarded Button">
-                                <rect key="frame" x="16" y="245" width="382" height="33"/>
+                                <rect key="frame" x="16" y="249" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="rewardedButton" label="Rewarded Button"/>
                                 <constraints>
@@ -157,7 +157,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sor-HG-uHQ" userLabel="Sticky Banner Button">
-                                <rect key="frame" x="16" y="163" width="382" height="33"/>
+                                <rect key="frame" x="16" y="167" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="stickyBannerButton" label="Sticky Banner Button"/>
                                 <constraints>
@@ -223,11 +223,11 @@
             <objects>
                 <viewController title="HyBid Banner" id="dy8-WN-4R0" userLabel="PNLite Banner View Controller" customClass="PNLiteDemoPNLiteBannerSizeSelectionViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="X6a-4Y-Wjb">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UVp-dg-hyD" userLabel="Continue Button">
-                                <rect key="frame" x="20" y="276" width="374" height="30"/>
+                                <rect key="frame" x="20" y="232" width="374" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="continueButton" label="Continue Button"/>
                                 <constraints>
@@ -241,7 +241,7 @@
                                 </connections>
                             </button>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mUH-wn-Do7">
-                                <rect key="frame" x="16" y="52" width="382" height="216"/>
+                                <rect key="frame" x="16" y="8" width="382" height="216"/>
                                 <accessibility key="accessibilityConfiguration" identifier="bannerSizePickerView" label="Banner Size PickerView">
                                     <bool key="isElement" value="YES"/>
                                 </accessibility>
@@ -287,11 +287,11 @@
             <objects>
                 <viewController title="HyBid Interstitial" id="Q6h-xd-eET" userLabel="PNLite Interstitial View Controller" customClass="PNLiteDemoPNLiteInterstitialViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1CX-c0-XXe">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JgG-hR-A7h">
-                                <rect key="frame" x="16" y="109" width="382" height="30"/>
+                                <rect key="frame" x="16" y="101" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
                                 <constraints>
@@ -305,11 +305,11 @@
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="m82-D3-ifu">
-                                <rect key="frame" x="188.5" y="402.5" width="37" height="37"/>
+                                <rect key="frame" x="188.5" y="424.5" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hAz-vi-3qm" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="801" width="382" height="33"/>
+                                <rect key="frame" x="16" y="845" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -332,21 +332,21 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Creative ID:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X6n-xp-Ywa" userLabel="Creative ID Label">
-                                <rect key="frame" x="16" y="227" width="83.5" height="18"/>
+                                <rect key="frame" x="16" y="219" width="83.5" height="18"/>
                                 <accessibility key="accessibilityConfiguration" identifier="creativeIdLabel" label="Creative ID Label"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                 <color key="textColor" red="0.49025756120000002" green="0.086343444879999995" blue="0.50198733809999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zHV-Qv-g15" userLabel="Creative ID Value Label">
-                                <rect key="frame" x="107.5" y="227" width="9" height="18"/>
+                                <rect key="frame" x="107.5" y="219" width="9" height="18"/>
                                 <accessibility key="accessibilityConfiguration" identifier="creativeIdValueLabel" label="Creative ID Value Label"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="quA-Ft-Rd8">
-                                <rect key="frame" x="16" y="185" width="382" height="30"/>
+                                <rect key="frame" x="16" y="177" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="showAdButton" label="Show Ad Button"/>
                                 <constraints>
@@ -360,20 +360,20 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ad caching enabled" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ivS-yn-BB8">
-                                <rect key="frame" x="16" y="64" width="150" height="21"/>
+                                <rect key="frame" x="16" y="20" width="150" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="U0B-EJ-9gg">
-                                <rect key="frame" x="347" y="59" width="51" height="31"/>
+                                <rect key="frame" x="347" y="15" width="51" height="31"/>
                                 <accessibility key="accessibilityConfiguration" identifier="autoCacheSwitch" label="Auto Cache Switch"/>
                                 <connections>
                                     <action selector="adCachingSwitchValueChanged:" destination="Q6h-xd-eET" eventType="valueChanged" id="yl0-A9-Nuh"/>
                                 </connections>
                             </switch>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zzR-Gj-vBK">
-                                <rect key="frame" x="16" y="147" width="382" height="30"/>
+                                <rect key="frame" x="16" y="139" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="prepareButton" label="Prepare Button"/>
                                 <constraints>
@@ -386,6 +386,13 @@
                                     <action selector="prepareButtonTapped:" destination="Q6h-xd-eET" eventType="touchUpInside" id="5Nn-HA-YfL"/>
                                 </connections>
                             </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9pO-eL-S0P">
+                                <rect key="frame" x="16" y="55" width="168" height="33"/>
+                                <segments>
+                                    <segment title="APIv3"/>
+                                    <segment title="OpenRTB"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="eGv-tU-BFH"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -393,7 +400,11 @@
                             <constraint firstItem="zHV-Qv-g15" firstAttribute="centerY" secondItem="X6n-xp-Ywa" secondAttribute="centerY" id="0ZN-RW-mLT"/>
                             <constraint firstItem="eGv-tU-BFH" firstAttribute="trailing" secondItem="JgG-hR-A7h" secondAttribute="trailing" constant="16" id="2EM-QI-pzy"/>
                             <constraint firstItem="m82-D3-ifu" firstAttribute="centerX" secondItem="eGv-tU-BFH" secondAttribute="centerX" id="3To-Jl-GUL"/>
+                            <constraint firstItem="JgG-hR-A7h" firstAttribute="top" secondItem="9pO-eL-S0P" secondAttribute="bottom" constant="14" id="4LN-sl-mMi"/>
+                            <constraint firstItem="eGv-tU-BFH" firstAttribute="trailing" secondItem="9pO-eL-S0P" secondAttribute="trailing" constant="230" id="A1B-Np-6zm"/>
                             <constraint firstItem="U0B-EJ-9gg" firstAttribute="centerY" secondItem="ivS-yn-BB8" secondAttribute="centerY" id="BYQ-Kx-4Ys"/>
+                            <constraint firstItem="JgG-hR-A7h" firstAttribute="top" secondItem="ivS-yn-BB8" secondAttribute="bottom" constant="60" id="EsC-As-qGa"/>
+                            <constraint firstItem="9pO-eL-S0P" firstAttribute="leading" secondItem="eGv-tU-BFH" secondAttribute="leading" constant="16" id="Ger-Sk-Ara"/>
                             <constraint firstItem="quA-Ft-Rd8" firstAttribute="leading" secondItem="eGv-tU-BFH" secondAttribute="leading" constant="16" id="L7L-6a-U59"/>
                             <constraint firstItem="ivS-yn-BB8" firstAttribute="leading" secondItem="eGv-tU-BFH" secondAttribute="leading" constant="16" id="L9z-qa-fJw"/>
                             <constraint firstItem="zzR-Gj-vBK" firstAttribute="top" secondItem="JgG-hR-A7h" secondAttribute="bottom" constant="8" id="LRf-qM-UD1"/>
@@ -403,7 +414,6 @@
                             <constraint firstItem="zzR-Gj-vBK" firstAttribute="leading" secondItem="eGv-tU-BFH" secondAttribute="leading" constant="16" id="V28-HW-40n"/>
                             <constraint firstItem="X6n-xp-Ywa" firstAttribute="leading" secondItem="eGv-tU-BFH" secondAttribute="leading" constant="16" id="V5c-Yz-NdM"/>
                             <constraint firstItem="eGv-tU-BFH" firstAttribute="bottom" secondItem="hAz-vi-3qm" secondAttribute="bottom" constant="8" id="Yqj-p1-95r"/>
-                            <constraint firstItem="JgG-hR-A7h" firstAttribute="top" secondItem="ivS-yn-BB8" secondAttribute="bottom" constant="24" id="Zrb-by-d8V"/>
                             <constraint firstItem="eGv-tU-BFH" firstAttribute="trailing" secondItem="U0B-EJ-9gg" secondAttribute="trailing" constant="18" id="b8l-Sr-ipM"/>
                             <constraint firstItem="eGv-tU-BFH" firstAttribute="trailing" secondItem="zzR-Gj-vBK" secondAttribute="trailing" constant="16" id="chr-Bk-7g2"/>
                             <constraint firstItem="eGv-tU-BFH" firstAttribute="trailing" secondItem="quA-Ft-Rd8" secondAttribute="trailing" constant="16" id="dik-hD-iPg"/>
@@ -411,6 +421,7 @@
                             <constraint firstItem="JgG-hR-A7h" firstAttribute="leading" secondItem="eGv-tU-BFH" secondAttribute="leading" constant="16" id="jHI-XF-9c0"/>
                             <constraint firstItem="zHV-Qv-g15" firstAttribute="leading" secondItem="X6n-xp-Ywa" secondAttribute="trailing" constant="8" id="lLM-T3-yab"/>
                             <constraint firstItem="ivS-yn-BB8" firstAttribute="top" secondItem="eGv-tU-BFH" secondAttribute="top" constant="20" id="mBa-zq-6hc"/>
+                            <constraint firstItem="9pO-eL-S0P" firstAttribute="top" secondItem="ivS-yn-BB8" secondAttribute="bottom" constant="14" id="pJK-Em-jKq"/>
                             <constraint firstItem="quA-Ft-Rd8" firstAttribute="top" secondItem="JgG-hR-A7h" secondAttribute="bottom" constant="46" id="xfd-pm-3ag"/>
                             <constraint firstItem="X6n-xp-Ywa" firstAttribute="top" secondItem="quA-Ft-Rd8" secondAttribute="bottom" constant="12" id="yKU-y1-Tr5"/>
                         </constraints>
@@ -421,6 +432,7 @@
                         <outlet property="creativeIdLabel" destination="zHV-Qv-g15" id="FkP-FH-QlY"/>
                         <outlet property="debugButton" destination="hAz-vi-3qm" id="hKA-kD-eTx"/>
                         <outlet property="interstitialLoaderIndicator" destination="m82-D3-ifu" id="7Ds-7N-tTT"/>
+                        <outlet property="isUsingOpenRTB" destination="9pO-eL-S0P" id="1k1-qG-eV2"/>
                         <outlet property="prepareButton" destination="zzR-Gj-vBK" id="9dt-hc-4Hh"/>
                         <outlet property="showAdButton" destination="quA-Ft-Rd8" id="t4a-CN-bHQ"/>
                         <outlet property="showAdTopConstraint" destination="xfd-pm-3ag" id="UUh-fO-nna"/>
@@ -435,11 +447,11 @@
             <objects>
                 <viewController title="HyBid Native Ad" id="PB1-bo-RNK" userLabel="PNLite Native" customClass="PNLiteDemoPNLiteNativeAdViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="inF-U7-g36">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a0W-GM-DvE">
-                                <rect key="frame" x="16" y="102" width="382" height="30"/>
+                                <rect key="frame" x="16" y="58" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
                                 <constraints>
@@ -453,7 +465,7 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ve6-Tb-stk" userLabel="Native Ad Background">
-                                <rect key="frame" x="35.5" y="140" width="343" height="242"/>
+                                <rect key="frame" x="35.5" y="96" width="343" height="242"/>
                                 <subviews>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XDP-rs-Lgv" userLabel="Native Ad Container View">
                                         <rect key="frame" x="8" y="8" width="327" height="226"/>
@@ -579,11 +591,11 @@
                                 </constraints>
                             </view>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="oi7-S5-HsA" userLabel="Native Ad Loader Indicator">
-                                <rect key="frame" x="188.5" y="246" width="37" height="37"/>
+                                <rect key="frame" x="188.5" y="202" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f2U-LB-h2a" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="801" width="382" height="33"/>
+                                <rect key="frame" x="16" y="845" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -606,27 +618,27 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Creative ID:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kj2-LG-iao" userLabel="Creative ID Label">
-                                <rect key="frame" x="16" y="390" width="83.5" height="18"/>
+                                <rect key="frame" x="16" y="346" width="83.5" height="18"/>
                                 <accessibility key="accessibilityConfiguration" identifier="creativeIdLabel" label="Creative ID Label"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                 <color key="textColor" red="0.49025756120000002" green="0.086343444879999995" blue="0.50198733809999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J2H-G7-WQG" userLabel="Creative ID Value Label">
-                                <rect key="frame" x="107.5" y="390" width="9" height="18"/>
+                                <rect key="frame" x="107.5" y="346" width="9" height="18"/>
                                 <accessibility key="accessibilityConfiguration" identifier="creativeIdValueLabel" label="Creative ID Value Label"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Auto Refresh Enabled (30 sec)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rm2-Iu-cve">
-                                <rect key="frame" x="20" y="64" width="232.5" height="20.5"/>
+                                <rect key="frame" x="20" y="20" width="232.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="XR2-YV-R8Z">
-                                <rect key="frame" x="345" y="59" width="51" height="31"/>
+                                <rect key="frame" x="345" y="15" width="51" height="31"/>
                                 <accessibility key="accessibilityConfiguration" identifier="autoRefreshSwitch" label="Auto Refresh Switch"/>
                                 <connections>
                                     <action selector="autoRefreshSwitchValueChanged:" destination="PB1-bo-RNK" eventType="valueChanged" id="KwK-ME-UEI"/>
@@ -684,11 +696,11 @@
             <objects>
                 <viewController title="HyBid Banner" id="Mxb-wD-K8I" userLabel="PNLite Banner View Controller" customClass="PNLiteDemoPNLiteBannerViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8HZ-a2-ZqI">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j1X-Dg-4lH">
-                                <rect key="frame" x="16" y="141" width="382" height="30"/>
+                                <rect key="frame" x="16" y="150" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
                                 <constraints>
@@ -702,11 +714,11 @@
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="OeX-Df-uUY">
-                                <rect key="frame" x="16" y="293" width="382" height="492"/>
+                                <rect key="frame" x="16" y="302" width="382" height="527"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="quoteCell" rowHeight="245" id="byB-XM-ADP" customClass="QuoteCell">
-                                        <rect key="frame" x="0.0" y="44.5" width="382" height="245"/>
+                                        <rect key="frame" x="0.0" y="50" width="382" height="245"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="byB-XM-ADP" id="yrg-ai-ZtN">
                                             <rect key="frame" x="0.0" y="0.0" width="382" height="245"/>
@@ -746,7 +758,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="bannerAdViewCell" rowHeight="245" id="Tss-OX-0Xj" userLabel="Banner Ad View Cell" customClass="BannerAdViewCell">
-                                        <rect key="frame" x="0.0" y="289.5" width="382" height="245"/>
+                                        <rect key="frame" x="0.0" y="295" width="382" height="245"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Tss-OX-0Xj" id="4Tq-RI-hHu">
                                             <rect key="frame" x="0.0" y="0.0" width="382" height="245"/>
@@ -794,7 +806,7 @@
                                 </connections>
                             </tableView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4hd-7W-ZkR" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="801" width="382" height="33"/>
+                                <rect key="frame" x="16" y="845" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -817,47 +829,41 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Creative ID:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tR7-op-RvG" userLabel="Creative ID Label">
-                                <rect key="frame" x="16" y="259" width="83.5" height="18"/>
+                                <rect key="frame" x="16" y="268" width="83.5" height="18"/>
                                 <accessibility key="accessibilityConfiguration" identifier="creativeIdLabel" label="Creative ID Label"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                 <color key="textColor" red="0.49025756120000002" green="0.086343444879999995" blue="0.50198733809999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SyH-Vd-QNL" userLabel="Creative ID Value Label">
-                                <rect key="frame" x="107.5" y="259" width="9" height="18"/>
+                                <rect key="frame" x="107.5" y="268" width="9" height="18"/>
                                 <accessibility key="accessibilityConfiguration" identifier="creativeIdValueLabel" label="Creative ID Value Label"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Auto Refresh Enabled (30 sec)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zaC-6f-vvS">
-                                <rect key="frame" x="16" y="64" width="232.5" height="20.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="pYc-h8-JhM">
-                                <rect key="frame" x="345" y="59" width="51" height="31"/>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="752" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="pYc-h8-JhM">
+                                <rect key="frame" x="345" y="28" width="51" height="31"/>
                                 <accessibility key="accessibilityConfiguration" identifier="autoRefreshSwitch" label="Auto Refresh Switch"/>
                                 <connections>
                                     <action selector="autoRefreshSwitchValueChanged:" destination="Mxb-wD-K8I" eventType="valueChanged" id="Fxj-2v-pKg"/>
                                 </connections>
                             </switch>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ad caching enabled" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g9o-Rg-aBF">
-                                <rect key="frame" x="16" y="74" width="150" height="78.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Ad caching enabled" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g9o-Rg-aBF">
+                                <rect key="frame" x="16" y="69.5" width="150" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7QD-6l-vgC">
-                                <rect key="frame" x="345" y="98" width="51" height="31"/>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7QD-6l-vgC">
+                                <rect key="frame" x="345" y="67" width="51" height="31"/>
                                 <accessibility key="accessibilityConfiguration" identifier="autoCacheSwitch" label="Auto Cache Switch"/>
                                 <connections>
                                     <action selector="adCachingSwitchValueChanged:" destination="Mxb-wD-K8I" eventType="valueChanged" id="dMF-Je-hNd"/>
                                 </connections>
                             </switch>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EzD-qN-TJZ">
-                                <rect key="frame" x="16" y="179" width="382" height="30"/>
+                                <rect key="frame" x="16" y="188" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="prepareButton" label="Prepare Button"/>
                                 <constraints>
@@ -871,7 +877,7 @@
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5d6-Fr-Xng">
-                                <rect key="frame" x="16" y="217" width="382" height="30"/>
+                                <rect key="frame" x="16" y="226" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="showAdButton" label="Show Ad Button"/>
                                 <constraints>
@@ -884,40 +890,59 @@
                                     <action selector="showBannerAdButtonTapped:" destination="Mxb-wD-K8I" eventType="touchUpInside" id="rru-m1-idQ"/>
                                 </connections>
                             </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="gEG-KG-mUn">
+                                <rect key="frame" x="16" y="104" width="168" height="33"/>
+                                <segments>
+                                    <segment title="APIv3"/>
+                                    <segment title="OpenRTB"/>
+                                </segments>
+                            </segmentedControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Auto Refresh Enabled (30 sec)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zaC-6f-vvS">
+                                <rect key="frame" x="16" y="28" width="232.5" height="17.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Pja-Fy-QZC"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="4hd-7W-ZkR" firstAttribute="top" secondItem="OeX-Df-uUY" secondAttribute="bottom" constant="16" id="12z-O1-nhy"/>
+                            <constraint firstItem="Pja-Fy-QZC" firstAttribute="trailing" secondItem="7QD-6l-vgC" secondAttribute="trailing" constant="20" id="8kT-3N-sc3"/>
                             <constraint firstItem="4hd-7W-ZkR" firstAttribute="leading" secondItem="Pja-Fy-QZC" secondAttribute="leading" constant="16" id="9OQ-aP-0b1"/>
-                            <constraint firstItem="j1X-Dg-4lH" firstAttribute="top" secondItem="7QD-6l-vgC" secondAttribute="bottom" constant="12" id="ANB-Se-jdf"/>
+                            <constraint firstItem="j1X-Dg-4lH" firstAttribute="top" secondItem="7QD-6l-vgC" secondAttribute="bottom" constant="52" id="ANB-Se-jdf"/>
                             <constraint firstItem="Pja-Fy-QZC" firstAttribute="bottom" secondItem="4hd-7W-ZkR" secondAttribute="bottom" constant="8" id="BDR-kD-crz"/>
                             <constraint firstItem="5d6-Fr-Xng" firstAttribute="top" secondItem="EzD-qN-TJZ" secondAttribute="bottom" constant="8" id="BDg-33-4vb"/>
-                            <constraint firstItem="g9o-Rg-aBF" firstAttribute="top" secondItem="zaC-6f-vvS" secondAttribute="top" constant="10" id="GOE-Ah-Tur"/>
                             <constraint firstItem="OeX-Df-uUY" firstAttribute="top" secondItem="tR7-op-RvG" secondAttribute="bottom" constant="16" id="Gst-JH-6bk"/>
                             <constraint firstItem="Pja-Fy-QZC" firstAttribute="trailing" secondItem="EzD-qN-TJZ" secondAttribute="trailing" constant="16" id="Gtr-lN-KvS"/>
                             <constraint firstItem="Pja-Fy-QZC" firstAttribute="trailing" secondItem="5d6-Fr-Xng" secondAttribute="trailing" constant="16" id="GyN-gf-jOK"/>
-                            <constraint firstItem="pYc-h8-JhM" firstAttribute="centerY" secondItem="zaC-6f-vvS" secondAttribute="centerY" id="LlD-W6-AYQ"/>
                             <constraint firstItem="Pja-Fy-QZC" firstAttribute="trailing" secondItem="pYc-h8-JhM" secondAttribute="trailing" constant="20" id="LoZ-aV-TAa"/>
                             <constraint firstItem="Pja-Fy-QZC" firstAttribute="trailing" secondItem="OeX-Df-uUY" secondAttribute="trailing" constant="16" id="MBu-DY-JOd"/>
                             <constraint firstItem="zaC-6f-vvS" firstAttribute="leading" secondItem="Pja-Fy-QZC" secondAttribute="leading" constant="16" id="Mby-HN-lll"/>
                             <constraint firstItem="5d6-Fr-Xng" firstAttribute="leading" secondItem="Pja-Fy-QZC" secondAttribute="leading" constant="16" id="Mur-Ku-dcB"/>
                             <constraint firstItem="tR7-op-RvG" firstAttribute="leading" secondItem="Pja-Fy-QZC" secondAttribute="leading" constant="16" id="NRd-md-tRA"/>
-                            <constraint firstItem="g9o-Rg-aBF" firstAttribute="centerY" secondItem="7QD-6l-vgC" secondAttribute="centerY" id="QuO-QE-Cpm"/>
-                            <constraint firstItem="zaC-6f-vvS" firstAttribute="top" secondItem="Pja-Fy-QZC" secondAttribute="top" constant="20" id="R0x-iT-8Cy"/>
+                            <constraint firstItem="zaC-6f-vvS" firstAttribute="top" secondItem="Pja-Fy-QZC" secondAttribute="top" constant="28" id="V95-pv-4IP"/>
                             <constraint firstItem="OeX-Df-uUY" firstAttribute="leading" secondItem="Pja-Fy-QZC" secondAttribute="leading" constant="16" id="W3M-6K-5q8"/>
                             <constraint firstItem="7QD-6l-vgC" firstAttribute="top" secondItem="pYc-h8-JhM" secondAttribute="bottom" constant="8" symbolic="YES" id="Y6y-YN-m9g"/>
+                            <constraint firstItem="Pja-Fy-QZC" firstAttribute="trailing" secondItem="gEG-KG-mUn" secondAttribute="trailing" constant="230" id="YRD-Mk-ANi"/>
+                            <constraint firstItem="g9o-Rg-aBF" firstAttribute="leading" secondItem="Pja-Fy-QZC" secondAttribute="leading" constant="16" id="YeR-TS-7nG"/>
                             <constraint firstItem="Pja-Fy-QZC" firstAttribute="trailing" secondItem="j1X-Dg-4lH" secondAttribute="trailing" constant="16" id="aTh-ve-p8e"/>
                             <constraint firstItem="j1X-Dg-4lH" firstAttribute="leading" secondItem="Pja-Fy-QZC" secondAttribute="leading" constant="16" id="d4G-HO-7o2"/>
                             <constraint firstItem="pYc-h8-JhM" firstAttribute="trailing" secondItem="7QD-6l-vgC" secondAttribute="trailing" id="eFo-OG-QSJ"/>
                             <constraint firstItem="4hd-7W-ZkR" firstAttribute="centerX" secondItem="Pja-Fy-QZC" secondAttribute="centerX" id="eXW-Zp-jPQ"/>
                             <constraint firstItem="tR7-op-RvG" firstAttribute="top" secondItem="j1X-Dg-4lH" secondAttribute="bottom" constant="88" id="f66-1v-hx2"/>
-                            <constraint firstItem="g9o-Rg-aBF" firstAttribute="leading" secondItem="zaC-6f-vvS" secondAttribute="leading" id="f9G-Eb-YMy"/>
                             <constraint firstItem="SyH-Vd-QNL" firstAttribute="leading" secondItem="tR7-op-RvG" secondAttribute="trailing" constant="8" id="fdk-hF-3aM"/>
+                            <constraint firstItem="gEG-KG-mUn" firstAttribute="leading" secondItem="Pja-Fy-QZC" secondAttribute="leading" constant="16" id="gQA-mD-7Ib"/>
                             <constraint firstItem="EzD-qN-TJZ" firstAttribute="leading" secondItem="Pja-Fy-QZC" secondAttribute="leading" constant="16" id="izH-Eq-8Va"/>
+                            <constraint firstItem="g9o-Rg-aBF" firstAttribute="top" secondItem="zaC-6f-vvS" secondAttribute="bottom" constant="24" id="j18-lQ-fsc"/>
                             <constraint firstItem="EzD-qN-TJZ" firstAttribute="top" secondItem="j1X-Dg-4lH" secondAttribute="bottom" constant="8" id="kJO-HW-Rpz"/>
+                            <constraint firstItem="gEG-KG-mUn" firstAttribute="top" secondItem="g9o-Rg-aBF" secondAttribute="bottom" constant="14" id="kPI-os-Gdc"/>
+                            <constraint firstItem="j1X-Dg-4lH" firstAttribute="top" secondItem="7QD-6l-vgC" secondAttribute="bottom" constant="52" id="mRh-dx-VmW"/>
+                            <constraint firstItem="j1X-Dg-4lH" firstAttribute="top" secondItem="gEG-KG-mUn" secondAttribute="bottom" constant="14" id="mvr-Tz-6Vt"/>
                             <constraint firstItem="Pja-Fy-QZC" firstAttribute="trailing" secondItem="4hd-7W-ZkR" secondAttribute="trailing" constant="16" id="rLc-Fm-jFX"/>
+                            <constraint firstItem="pYc-h8-JhM" firstAttribute="top" secondItem="Pja-Fy-QZC" secondAttribute="top" constant="28" id="rbA-18-YuZ"/>
                             <constraint firstItem="SyH-Vd-QNL" firstAttribute="centerY" secondItem="tR7-op-RvG" secondAttribute="centerY" id="xxr-rT-zwJ"/>
+                            <constraint firstItem="j1X-Dg-4lH" firstAttribute="top" secondItem="g9o-Rg-aBF" secondAttribute="bottom" constant="60" id="yFN-yv-5TH"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Bcq-YC-Ywe"/>
@@ -927,6 +952,7 @@
                         <outlet property="creativeIDTopConstraint" destination="f66-1v-hx2" id="u1F-8L-0Ly"/>
                         <outlet property="creativeIdLabel" destination="SyH-Vd-QNL" id="wga-08-GeO"/>
                         <outlet property="debugButton" destination="4hd-7W-ZkR" id="Uze-kp-hDi"/>
+                        <outlet property="isUsingOpenRTB" destination="gEG-KG-mUn" id="eF7-DG-W8c"/>
                         <outlet property="prepareButton" destination="EzD-qN-TJZ" id="t4H-g1-fes"/>
                         <outlet property="showAdButton" destination="5d6-Fr-Xng" id="861-gp-dUW"/>
                         <outlet property="tableView" destination="OeX-Df-uUY" id="GJ7-IP-gll"/>
@@ -934,18 +960,18 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oz6-th-FOz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-5031" y="1153"/>
+            <point key="canvasLocation" x="-5031.884057971015" y="1152.4553571428571"/>
         </scene>
         <!--Lite DemoPN Lite Sticky Banner View Controller-->
         <scene sceneID="Ods-0H-HvD">
             <objects>
                 <viewController id="Pkc-Np-A4K" customClass="PNLiteDemoPNLiteStickyBannerViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Exe-0v-0Xg">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="5Ar-ie-cbs">
-                                <rect key="frame" x="16" y="60" width="382" height="32"/>
+                                <rect key="frame" x="16" y="16" width="382" height="32"/>
                                 <segments>
                                     <segment title="Top"/>
                                     <segment title="Bottom"/>
@@ -955,7 +981,7 @@
                                 </connections>
                             </segmentedControl>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u9r-lH-Mbk">
-                                <rect key="frame" x="16" y="99" width="382" height="30"/>
+                                <rect key="frame" x="16" y="107" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
                                 <constraints>
@@ -970,11 +996,11 @@
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="wY9-ZD-kNT">
-                                <rect key="frame" x="188.5" y="191" width="37" height="37"/>
+                                <rect key="frame" x="188.5" y="199" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D9S-wR-6qh" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="801" width="382" height="33"/>
+                                <rect key="frame" x="16" y="845" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -997,28 +1023,39 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Creative ID:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lE7-Tq-3Qa" userLabel="Creative ID Label">
-                                <rect key="frame" x="16" y="141" width="83.5" height="18"/>
+                                <rect key="frame" x="16" y="149" width="83.5" height="18"/>
                                 <accessibility key="accessibilityConfiguration" identifier="creativeIdLabel" label="Creative ID Label"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                 <color key="textColor" red="0.49025756120000002" green="0.086343444879999995" blue="0.50198733809999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Zn-8h-skp" userLabel="Creative ID Value Label">
-                                <rect key="frame" x="107.5" y="141" width="9" height="18"/>
+                                <rect key="frame" x="107.5" y="149" width="9" height="18"/>
                                 <accessibility key="accessibilityConfiguration" identifier="creativeIdValueLabel" label="Creative ID Value Label"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="scE-nb-Xx4">
+                                <rect key="frame" x="16" y="61" width="168" height="33"/>
+                                <segments>
+                                    <segment title="APIv3"/>
+                                    <segment title="OpenRTB"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="zPo-kg-6tK"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="zPo-kg-6tK" firstAttribute="bottom" secondItem="D9S-wR-6qh" secondAttribute="bottom" constant="8" id="DUe-Ui-CbV"/>
                             <constraint firstItem="lE7-Tq-3Qa" firstAttribute="leading" secondItem="zPo-kg-6tK" secondAttribute="leading" constant="16" id="I22-0f-BWK"/>
-                            <constraint firstItem="u9r-lH-Mbk" firstAttribute="top" secondItem="5Ar-ie-cbs" secondAttribute="bottom" constant="8" symbolic="YES" id="VUH-fi-YQj"/>
+                            <constraint firstItem="scE-nb-Xx4" firstAttribute="top" secondItem="5Ar-ie-cbs" secondAttribute="bottom" constant="14" id="VLN-AM-PLz"/>
+                            <constraint firstItem="u9r-lH-Mbk" firstAttribute="top" secondItem="5Ar-ie-cbs" secondAttribute="bottom" constant="60" id="VUH-fi-YQj"/>
+                            <constraint firstItem="u9r-lH-Mbk" firstAttribute="top" secondItem="scE-nb-Xx4" secondAttribute="bottom" constant="14" id="W4V-Wm-KDp"/>
                             <constraint firstItem="u9r-lH-Mbk" firstAttribute="leading" secondItem="zPo-kg-6tK" secondAttribute="leading" constant="16" id="Xo5-pR-m2g"/>
                             <constraint firstItem="D9S-wR-6qh" firstAttribute="leading" secondItem="zPo-kg-6tK" secondAttribute="leading" constant="16" id="g9H-PY-ukm"/>
+                            <constraint firstItem="zPo-kg-6tK" firstAttribute="trailing" secondItem="scE-nb-Xx4" secondAttribute="trailing" constant="230" id="gsT-xm-vT0"/>
+                            <constraint firstItem="scE-nb-Xx4" firstAttribute="leading" secondItem="zPo-kg-6tK" secondAttribute="leading" constant="16" id="h4o-5y-Cxb"/>
                             <constraint firstItem="lE7-Tq-3Qa" firstAttribute="top" secondItem="u9r-lH-Mbk" secondAttribute="bottom" constant="12" id="iow-7B-Yrs"/>
                             <constraint firstItem="zPo-kg-6tK" firstAttribute="trailing" secondItem="5Ar-ie-cbs" secondAttribute="trailing" constant="16" id="jeh-ha-eYh"/>
                             <constraint firstItem="wY9-ZD-kNT" firstAttribute="centerX" secondItem="zPo-kg-6tK" secondAttribute="centerX" id="lgZ-jY-khz"/>
@@ -1036,6 +1073,7 @@
                         <outlet property="bannerLoaderIndicator" destination="wY9-ZD-kNT" id="sz3-c5-ePb"/>
                         <outlet property="creativeIdLabel" destination="0Zn-8h-skp" id="GXq-kP-ymt"/>
                         <outlet property="debugButton" destination="D9S-wR-6qh" id="Uzi-RL-dea"/>
+                        <outlet property="isUsingOpenRTB" destination="scE-nb-Xx4" id="Znc-pw-X2G"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bZH-j7-YsC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1047,11 +1085,11 @@
             <objects>
                 <viewController title="HyBid Rewarded" id="YQ3-Ig-QgH" userLabel="PNLite Rewarded View Controller" customClass="PNLiteDemoPNLiteRewardedViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CqV-vy-VAc">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Ad-e1-lpS">
-                                <rect key="frame" x="16" y="109" width="382" height="30"/>
+                                <rect key="frame" x="16" y="101" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
                                 <constraints>
@@ -1065,11 +1103,11 @@
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="znC-rO-N4o">
-                                <rect key="frame" x="188.5" y="402.5" width="37" height="37"/>
+                                <rect key="frame" x="188.5" y="424.5" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g1E-b3-YMA" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="801" width="382" height="33"/>
+                                <rect key="frame" x="16" y="845" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -1092,7 +1130,7 @@
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="azJ-lQ-mZi">
-                                <rect key="frame" x="16" y="185" width="382" height="30"/>
+                                <rect key="frame" x="16" y="177" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="showAdButton" label="Show Ad Button"/>
                                 <constraints>
@@ -1106,27 +1144,27 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Creative ID:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="97R-36-PX7" userLabel="Creative ID Label">
-                                <rect key="frame" x="16" y="227" width="83.5" height="18"/>
+                                <rect key="frame" x="16" y="219" width="83.5" height="18"/>
                                 <accessibility key="accessibilityConfiguration" identifier="creativeIdLabel" label="Creative ID Label"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                 <color key="textColor" red="0.49025756120000002" green="0.086343444879999995" blue="0.50198733809999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PNq-ts-kC2" userLabel="Creative ID Value Label">
-                                <rect key="frame" x="107.5" y="227" width="9" height="18"/>
+                                <rect key="frame" x="107.5" y="219" width="9" height="18"/>
                                 <accessibility key="accessibilityConfiguration" identifier="creativeIdValueLabel" label="Creative ID Value Label"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ad caching enabled" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5zf-yA-aXo">
-                                <rect key="frame" x="16" y="64" width="150" height="21"/>
+                                <rect key="frame" x="16" y="20" width="150" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CON-Qd-26y">
-                                <rect key="frame" x="349" y="59" width="51" height="31"/>
+                                <rect key="frame" x="349" y="15" width="51" height="31"/>
                                 <accessibility key="accessibilityConfiguration" identifier="autoCacheSwitch" label="Auto Cache Switch"/>
                                 <connections>
                                     <action selector="adCachingSwitchValueChanged:" destination="Q6h-xd-eET" eventType="valueChanged" id="bCD-cV-VVR"/>
@@ -1134,7 +1172,7 @@
                                 </connections>
                             </switch>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ShS-A0-O2B">
-                                <rect key="frame" x="16" y="147" width="382" height="30"/>
+                                <rect key="frame" x="16" y="139" width="382" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="prepareButton" label="Prepare Button"/>
                                 <constraints>
@@ -1147,6 +1185,13 @@
                                     <action selector="prepareButtonTapped:" destination="YQ3-Ig-QgH" eventType="touchUpInside" id="em6-go-jSA"/>
                                 </connections>
                             </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="dUU-iW-hGL">
+                                <rect key="frame" x="16" y="55" width="168" height="33"/>
+                                <segments>
+                                    <segment title="APIv3"/>
+                                    <segment title="OpenRTB"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="xyh-fw-ReX"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1162,17 +1207,21 @@
                             <constraint firstItem="znC-rO-N4o" firstAttribute="centerX" secondItem="xyh-fw-ReX" secondAttribute="centerX" id="KSJ-iw-E9w"/>
                             <constraint firstItem="xyh-fw-ReX" firstAttribute="trailing" secondItem="g1E-b3-YMA" secondAttribute="trailing" constant="16" id="OhF-Af-xsh"/>
                             <constraint firstItem="g1E-b3-YMA" firstAttribute="centerX" secondItem="xyh-fw-ReX" secondAttribute="centerX" id="Qyn-tp-zs0"/>
+                            <constraint firstItem="dUU-iW-hGL" firstAttribute="top" secondItem="5zf-yA-aXo" secondAttribute="bottom" constant="14" id="TV3-Eo-06v"/>
                             <constraint firstItem="ShS-A0-O2B" firstAttribute="top" secondItem="4Ad-e1-lpS" secondAttribute="bottom" constant="8" id="TcT-qr-rFr"/>
                             <constraint firstItem="ShS-A0-O2B" firstAttribute="leading" secondItem="xyh-fw-ReX" secondAttribute="leading" constant="16" id="VAI-zK-hfS"/>
                             <constraint firstItem="xyh-fw-ReX" firstAttribute="bottom" secondItem="g1E-b3-YMA" secondAttribute="bottom" constant="8" id="Xml-B9-3kI"/>
                             <constraint firstItem="5zf-yA-aXo" firstAttribute="leading" secondItem="xyh-fw-ReX" secondAttribute="leading" constant="16" id="aUM-qN-M5a"/>
                             <constraint firstItem="azJ-lQ-mZi" firstAttribute="leading" secondItem="xyh-fw-ReX" secondAttribute="leading" constant="16" id="cZS-gI-xq1"/>
                             <constraint firstItem="g1E-b3-YMA" firstAttribute="leading" secondItem="xyh-fw-ReX" secondAttribute="leading" constant="16" id="fej-X4-JTe"/>
-                            <constraint firstItem="4Ad-e1-lpS" firstAttribute="top" secondItem="5zf-yA-aXo" secondAttribute="bottom" constant="24" id="hqj-bW-gm4"/>
+                            <constraint firstItem="4Ad-e1-lpS" firstAttribute="top" secondItem="5zf-yA-aXo" secondAttribute="bottom" constant="60" id="hqj-bW-gm4"/>
                             <constraint firstItem="xyh-fw-ReX" firstAttribute="trailing" secondItem="CON-Qd-26y" secondAttribute="trailing" constant="16" id="k4l-LY-KsC"/>
+                            <constraint firstItem="4Ad-e1-lpS" firstAttribute="top" secondItem="dUU-iW-hGL" secondAttribute="bottom" constant="14" id="nSS-No-tUd"/>
                             <constraint firstItem="xyh-fw-ReX" firstAttribute="trailing" secondItem="azJ-lQ-mZi" secondAttribute="trailing" constant="16" id="o20-WA-jTH"/>
+                            <constraint firstItem="xyh-fw-ReX" firstAttribute="trailing" secondItem="dUU-iW-hGL" secondAttribute="trailing" constant="230" id="ozJ-Ca-i7G"/>
                             <constraint firstItem="azJ-lQ-mZi" firstAttribute="top" secondItem="4Ad-e1-lpS" secondAttribute="bottom" constant="46" id="p2W-8D-4o8"/>
                             <constraint firstItem="4Ad-e1-lpS" firstAttribute="leading" secondItem="xyh-fw-ReX" secondAttribute="leading" constant="16" id="v51-GL-vgb"/>
+                            <constraint firstItem="dUU-iW-hGL" firstAttribute="leading" secondItem="xyh-fw-ReX" secondAttribute="leading" constant="16" id="vea-nx-Mrs"/>
                             <constraint firstItem="xyh-fw-ReX" firstAttribute="trailing" secondItem="ShS-A0-O2B" secondAttribute="trailing" constant="16" id="wJb-6B-w06"/>
                         </constraints>
                     </view>
@@ -1181,6 +1230,7 @@
                         <outlet property="adCachingSwitch" destination="CON-Qd-26y" id="o03-Y5-VLD"/>
                         <outlet property="creativeIdLabel" destination="PNq-ts-kC2" id="dbe-FE-zA3"/>
                         <outlet property="debugButton" destination="g1E-b3-YMA" id="tKY-3u-pET"/>
+                        <outlet property="isUsingOpenRTB" destination="dUU-iW-hGL" id="yIi-27-uVz"/>
                         <outlet property="prepareButton" destination="ShS-A0-O2B" id="PVk-rn-Sos"/>
                         <outlet property="rewardedLoaderIndicator" destination="znC-rO-N4o" id="BTg-hn-KSd"/>
                         <outlet property="showAdButton" destination="azJ-lQ-mZi" id="hQl-Wu-p3O"/>
@@ -1189,18 +1239,18 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kpl-QB-XLk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2921" y="403"/>
+            <point key="canvasLocation" x="-2921.739130434783" y="402.45535714285711"/>
         </scene>
         <!--PNLite Sticky Banner View Controller-->
         <scene sceneID="3a4-os-o6I">
             <objects>
                 <viewController title="HyBid Banner" id="FkD-oe-ams" userLabel="PNLite Sticky Banner View Controller" customClass="PNLiteDemoPNLiteStickyBannerSizeSelectionViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5b9-Fa-ahT">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dSd-Oc-qVG" userLabel="Continue Button">
-                                <rect key="frame" x="20" y="276" width="374" height="30"/>
+                                <rect key="frame" x="20" y="232" width="374" height="30"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="continueButton" label="Continue Button"/>
                                 <constraints>
@@ -1214,7 +1264,7 @@
                                 </connections>
                             </button>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FHj-AQ-9Vk">
-                                <rect key="frame" x="16" y="52" width="382" height="216"/>
+                                <rect key="frame" x="16" y="8" width="382" height="216"/>
                                 <accessibility key="accessibilityConfiguration" identifier="bannerSizePickerView" label="Banner Size PickerView">
                                     <bool key="isElement" value="YES"/>
                                 </accessibility>

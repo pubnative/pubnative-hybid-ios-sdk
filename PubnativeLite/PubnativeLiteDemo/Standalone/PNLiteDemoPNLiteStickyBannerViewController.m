@@ -30,6 +30,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *debugButton;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bannerLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UILabel *creativeIdLabel;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *isUsingOpenRTB;
 
 @property (nonatomic, strong) HyBidAdView *bannerAdView;
 @property (nonatomic) HyBidBannerPosition bannerPosition;
@@ -72,7 +73,11 @@
     self.bannerAdView.hidden = YES;
     self.debugButton.hidden = YES;
     [self.bannerLoaderIndicator startAnimating];
-    [self.bannerAdView loadWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] withPosition:self.bannerPosition andWithDelegate:self];
+    if (self.isUsingOpenRTB.selectedSegmentIndex == 0) {
+        [self.bannerAdView loadWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] withPosition:self.bannerPosition andWithDelegate:self];
+    } else if (self.isUsingOpenRTB.selectedSegmentIndex == 1) {
+        [self.bannerAdView loadExchangeAdWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] withPosition:self.bannerPosition andWithDelegate:self];
+    }
 }
 
 - (void)setCreativeIDLabelWithString:(NSString *)string {
@@ -84,7 +89,7 @@
 
 - (void)adViewDidLoad:(HyBidAdView *)adView {
     NSLog(@"Banner Ad View did load:");
-    if (self.bannerAdView.ad.isUsingOpenRTB) {
+    if (self.isUsingOpenRTB.selectedSegmentIndex == 1) {
         [self setCreativeIDLabelWithString:self.bannerAdView.ad.openRTBCreativeID];
     } else {
         [self setCreativeIDLabelWithString:self.bannerAdView.ad.creativeID];

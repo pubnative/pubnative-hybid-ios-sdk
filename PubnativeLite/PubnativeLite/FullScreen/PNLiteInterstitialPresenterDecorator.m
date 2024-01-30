@@ -42,6 +42,7 @@
 @property (nonatomic, strong) NSMutableDictionary *errorReportingProperties;
 @property (nonatomic, strong) HyBidSKOverlay *skoverlay;
 @property (nonatomic, strong) PNLiteImpressionTracker *impressionTracker;
+@property (nonatomic, strong) HyBidCustomCTAView *customCTA;
 
 @end
 
@@ -53,6 +54,7 @@
     self.interstitialPresenterDelegate = nil;
     self.errorReportingProperties = nil;
     self.skoverlay = nil;
+    self.customCTA = nil;
 }
 
 - (void)load {
@@ -128,14 +130,19 @@
     }
     
     if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenterDidLoad:)]) {
-        [self.interstitialPresenterDelegate interstitialPresenterDidLoad:interstitialPresenter];
         if (self.interstitialPresenter.ad.skoverlayEnabled) {
             if ([self.interstitialPresenter.ad.skoverlayEnabled boolValue]) {
-                self.skoverlay = [[HyBidSKOverlay alloc] initWithAd:interstitialPresenter.ad];
+                self.skoverlay = [[HyBidSKOverlay alloc] initWithAd:interstitialPresenter.ad isRewarded:NO];
             }
-        } else if ([HyBidRenderingConfig sharedConfig].interstitialSKOverlay) {
-            self.skoverlay = [[HyBidSKOverlay alloc] initWithAd:interstitialPresenter.ad];
         }
+        [self.interstitialPresenterDelegate interstitialPresenterDidLoad:interstitialPresenter];
+    }
+}
+
+- (void)interstitialPresenterDidLoad:(HyBidInterstitialPresenter *)interstitialPresenter viewController:(UIViewController *)viewController {
+    [self interstitialPresenterDidLoad: interstitialPresenter];
+    if ([HyBidCustomCTAView isCustomCTAValidWithAd: interstitialPresenter.ad]) {
+        self.customCTA = [[HyBidCustomCTAView alloc] initWithAd:interstitialPresenter.ad viewController:viewController delegate:interstitialPresenter.customCTADelegate adFormat:HyBidReportingAdFormat.FULLSCREEN];
     }
 }
 
@@ -143,7 +150,9 @@
     if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenterDidShow:)] && !self.adTracker.impressionTracked) {
         [self.adTracker trackImpressionWithAdFormat:HyBidReportingAdFormat.FULLSCREEN];
         [self.interstitialPresenterDelegate interstitialPresenterDidShow:interstitialPresenter];
+        [self.skoverlay addObservers];
         [self.skoverlay presentWithAd:interstitialPresenter.ad];
+        [self.customCTA presentCustomCTAWithDelay];
     }
 }
 
@@ -159,7 +168,19 @@
         HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.INTERSTITIAL_CLOSED adFormat:HyBidReportingAdFormat.FULLSCREEN properties:nil];
         [[HyBid reportingManager] reportEventFor:reportingEvent];
         [self.interstitialPresenterDelegate interstitialPresenterDidDismiss:interstitialPresenter];
-        [self.skoverlay dismissWithAd:interstitialPresenter.ad];
+        [self.skoverlay dismissEntirely:YES withAd:interstitialPresenter.ad causedByAutoCloseTimerCompletion:NO];
+    }
+    
+    if (self.customCTA) {
+        [self.customCTA removeCustomCTA];
+    }
+}
+
+- (void)interstitialPresenterDidFinish:(HyBidInterstitialPresenter *)interstitialPresenter {
+    if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenterDidFinish:)]) {
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.VIDEO_FINISHED adFormat:HyBidReportingAdFormat.FULLSCREEN properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
+        [self.interstitialPresenterDelegate interstitialPresenterDidFinish:interstitialPresenter];
     }
 }
 
@@ -178,11 +199,11 @@
 }
 
 - (void)interstitialPresenterDidAppear:(HyBidInterstitialPresenter *)interstitialPresenter {
-    
+    [self.skoverlay presentWithAd:interstitialPresenter.ad];
 }
 
 - (void)interstitialPresenterDidDisappear:(HyBidInterstitialPresenter *)interstitialPresenter {
-    
+    [self.skoverlay dismissEntirely:NO withAd:interstitialPresenter.ad causedByAutoCloseTimerCompletion:NO];
 }
 
 - (void)interstitialPresenterPresentsSKOverlay:(HyBidInterstitialPresenter *)interstitialPresenter {
@@ -190,7 +211,13 @@
 }
 
 - (void)interstitialPresenterDismissesSKOverlay:(HyBidInterstitialPresenter *)interstitialPresenter {
-    [self.skoverlay dismissWithAd:interstitialPresenter.ad];
+    [self.skoverlay dismissEntirely:YES withAd:interstitialPresenter.ad causedByAutoCloseTimerCompletion:NO];
+}
+
+- (void)interstitialPresenterDismissesCustomCTA:(HyBidInterstitialPresenter *)interstitialPresenter {
+    if (self.customCTA) {
+        [self.customCTA removeCustomCTA];
+    }
 }
 
 @end

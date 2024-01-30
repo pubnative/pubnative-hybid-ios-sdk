@@ -71,7 +71,7 @@
     if (self.ad.audioState) {
         return self.ad.audioState;
     } else {
-        switch ([HyBidRenderingConfig sharedConfig].audioStatus) {
+        switch (HyBidConstants.audioStatus) {
             case HyBidAudioStatusMuted:
                 return @"muted";
                 break;

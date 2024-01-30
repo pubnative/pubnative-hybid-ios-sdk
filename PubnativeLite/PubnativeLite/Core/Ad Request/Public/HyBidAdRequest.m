@@ -26,6 +26,7 @@
 #import "PNLiteAdRequestModel.h"
 #import "PNLiteResponseModel.h"
 #import "PNLiteOpenRTBResponseModel.h"
+#import "HyBidXMLEx.h"
 #import "HyBidAdModel.h"
 #import "HyBidAdCache.h"
 #import "PNLiteRequestInspector.h"
@@ -64,7 +65,6 @@ NSInteger const PNLiteResponseStatusOK = 200;
 @property (nonatomic, strong) PNLiteAdRequestModel *adRequestModel;
 @property (nonatomic, assign) BOOL isSetIntegrationTypeCalled;
 @property (nonatomic, strong) PNLiteAdFactory *adFactory;
-@property (nonatomic, assign) BOOL isUsingOpenRTB;
 @property (nonatomic, assign) IntegrationType requestIntegrationType;
 @property (nonatomic, assign) NSTimeInterval initialCacheTimestamp;
 @property (nonatomic, assign) NSTimeInterval initialAdResponseTimestamp;
@@ -73,7 +73,7 @@ NSInteger const PNLiteResponseStatusOK = 200;
 @property (nonatomic, strong) NSMutableDictionary *requestReportingProperties;
 @property (nonatomic, assign) BOOL adCached;
 @property (nonatomic, strong) HyBidVASTEndCardManager *endCardManager;
-@property (nonatomic, assign) HyBidMarkupPlacement placement;
+@property (nonatomic, strong) NSData *body;
 
 @end
 
@@ -91,6 +91,7 @@ NSInteger const PNLiteResponseStatusOK = 200;
     self.cacheReportingProperties = nil;
     self.adResponseReportingProperties = nil;
     self.requestReportingProperties = nil;
+    self.isUsingOpenRTB = NO;
 }
 
 - (instancetype)init {
@@ -120,9 +121,6 @@ NSInteger const PNLiteResponseStatusOK = 200;
 }
 
 - (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID withAppToken:(NSString *)appToken {
-    self.isUsingOpenRTB = ([[NSUserDefaults standardUserDefaults] objectForKey:kIsUsingOpenRTB] != nil)
-    ? [[NSUserDefaults standardUserDefaults] boolForKey:kIsUsingOpenRTB]
-    : NO;
     self.zoneID = zoneID;
     self.appToken = appToken;
     self.requestIntegrationType = integrationType;
@@ -170,6 +168,7 @@ NSInteger const PNLiteResponseStatusOK = 200;
             [self addCommonPropertiesToReportingDictionary:self.requestReportingProperties];
             [self reportEvent:HyBidReportingEventType.REQUEST withProperties:self.requestReportingProperties];
         }
+        self.body = request.body;
     }
 }
 
@@ -187,12 +186,13 @@ NSInteger const PNLiteResponseStatusOK = 200;
 
 - (PNLiteAdRequestModel *)createAdRequestModelWithIntegrationType:(IntegrationType)integrationType {
     PNLiteAdRequestModel * requestModel = [self.adFactory createAdRequestWithZoneID:self.zoneID
-                                                                      withAppToken:self.appToken
-                                                                        withAdSize:[self adSize]
-                                                        withSupportedAPIFrameworks:[self supportedAPIFrameworks]
-                                                               withIntegrationType:integrationType
-                                                                        isRewarded:[self isRewarded]
-                                                               mediationVendorName:nil];
+                                                                       withAppToken:self.appToken
+                                                                         withAdSize:[self adSize]
+                                                         withSupportedAPIFrameworks:[self supportedAPIFrameworks]
+                                                                withIntegrationType:integrationType
+                                                                         isRewarded:[self isRewarded]
+                                                                     isUsingOpenRTB:[self isUsingOpenRTB]
+                                                                mediationVendorName:nil];
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@",[self requestURLFromAdRequestModel: requestModel].absoluteString]];
     return requestModel;
 }
@@ -342,26 +342,26 @@ NSInteger const PNLiteResponseStatusOK = 200;
                         }
                         ad.isUsingOpenRTB = self.isUsingOpenRTB;
                         
-                        NSArray *endCards = [self fetchEndCardsFromVastAd:vastModel.ads.firstObject];
-                        if ([ad.endcardEnabled boolValue] || (ad.endcardEnabled == nil && [HyBidRenderingConfig sharedConfig].showEndCard)) {
+                        NSArray *endCards = [self fetchEndCardsFromVastAd:vastModel.vastArray];
+                        if ([ad.endcardEnabled boolValue] || (ad.endcardEnabled == nil && HyBidConstants.showEndCard)) {
                             if ([endCards count] > 0) {
                                 [ad setHasEndCard:YES];
-                                if ([ad.customEndcardEnabled boolValue] || (ad.customEndcardEnabled == nil && [HyBidRenderingConfig sharedConfig].customEndCard)) {
-                                    if ([self customEndcardDisplayBehaviourFromString:ad.customEndcardDisplay] == HyBidCustomEndcardDisplayExtention || (ad.customEndcardDisplay == nil && [HyBidRenderingConfig sharedConfig].customEndcardDisplay == HyBidCustomEndcardDisplayExtention)) {
+                                if ([ad.customEndcardEnabled boolValue] || (ad.customEndcardEnabled == nil && HyBidConstants.showCustomEndCard)) {
+                                    if ([self customEndcardDisplayBehaviourFromString:ad.customEndcardDisplay] == HyBidCustomEndcardDisplayExtention || (ad.customEndcardDisplay == nil && HyBidConstants.customEndcardDisplay == HyBidCustomEndcardDisplayExtention)) {
                                         if (ad.customEndCardData && ad.customEndCardData.length > 0) {
                                             [ad setHasCustomEndCard:YES];
                                         }
                                     }
                                 }
                             } else if ([endCards count] == 0) {
-                                if ([ad.customEndcardEnabled boolValue] || (ad.customEndcardEnabled == nil && [HyBidRenderingConfig sharedConfig].customEndCard)){
+                                if ([ad.customEndcardEnabled boolValue] || (ad.customEndcardEnabled == nil && HyBidConstants.showCustomEndCard)){
                                     if (ad.customEndCardData && ad.customEndCardData.length > 0) {
                                         [ad setHasCustomEndCard:YES];
                                     }
                                 }
                             }
-                        } else if (ad.endcardEnabled != nil || (ad.endcardEnabled == nil && ![HyBidRenderingConfig sharedConfig].showEndCard)) {
-                            if ([ad.customEndcardEnabled boolValue] || (ad.customEndcardEnabled == nil && [HyBidRenderingConfig sharedConfig].customEndCard)) {
+                        } else if (ad.endcardEnabled != nil || (ad.endcardEnabled == nil && !HyBidConstants.showEndCard)) {
+                            if ([ad.customEndcardEnabled boolValue] || (ad.customEndcardEnabled == nil && HyBidConstants.showCustomEndCard)) {
                                 if (ad.customEndCardData && ad.customEndCardData.length > 0) {
                                     [ad setHasCustomEndCard:YES];
                                 }
@@ -390,9 +390,6 @@ NSInteger const PNLiteResponseStatusOK = 200;
 
 - (void)processResponseWithJSON:(NSString*)adReponse {
     self.zoneID = @"legacy_api_tester";
-    self.isUsingOpenRTB = ([[NSUserDefaults standardUserDefaults] objectForKey:kIsUsingOpenRTB] != nil)
-    ? [[NSUserDefaults standardUserDefaults] boolForKey:kIsUsingOpenRTB]
-    : NO;
     if (self.isUsingOpenRTB && self.openRTBAdType == HyBidOpenRTBAdVideo) {
         [self processVASTTagResponseFrom:adReponse];
     } else {
@@ -437,21 +434,20 @@ NSInteger const PNLiteResponseStatusOK = 200;
             for (HyBidAdModel *adModel in (self.isUsingOpenRTB ? openRTBResponse.bids : response.ads)) {
                 HyBidAd *ad = nil;
                 if (self.isUsingOpenRTB) {
+                    NSInteger assetGroupID = 8;
+                    NSInteger type = kHyBidAdTypeHTML;
                     if (self.openRTBAdType == HyBidOpenRTBAdNative){
                         #if __has_include(<ATOM/ATOM-Swift.h>)
                         NSArray<NSString *> *cohorts = [self getCohortsFromRequestURL];
-                        NSInteger assetGroupID = 8;
                         ad = [[HyBidAd alloc] initOpenRTBWithData:adModel withZoneID:self.zoneID withCohorts:cohorts];
                         #else
                         ad = [[HyBidAd alloc] initOpenRTBWithData:adModel withZoneID:self.zoneID];
                         #endif
                     } else if (self.openRTBAdType == HyBidOpenRTBAdBanner){
                         #if __has_include(<ATOM/ATOM-Swift.h>)
-                        NSInteger type = kHyBidAdTypeHTML;
-                        NSInteger assetGroupID = 8;
                         ad = [[HyBidAd alloc] initWithAssetGroupForOpenRTB:assetGroupID withAdContent: adContent withAdType:type withBidObject:bid];
                         #else
-                        ad = [[HyBidAd alloc] initOpenRTBWithData:adModel withZoneID:self.zoneID];
+                        ad = [[HyBidAd alloc]initWithAssetGroupForOpenRTB:assetGroupID withAdContent:adContent withAdType:type withBidObject:bid];
                         #endif
                     }
                    
@@ -578,26 +574,26 @@ NSInteger const PNLiteResponseStatusOK = 200;
                 videoAdCacheItem.vastModel = vastModel;
                 [[HyBidVideoAdCache sharedInstance] putVideoAdCacheItemToCache:videoAdCacheItem withZoneID:self.zoneID];
                 
-                NSArray *endCards = [self fetchEndCardsFromVastAd:vastModel.ads.firstObject];
-                if ([ad.endcardEnabled boolValue] || (ad.endcardEnabled == nil && [HyBidRenderingConfig sharedConfig].showEndCard)) {
+                NSArray *endCards = [self fetchEndCardsFromVastAd:vastModel.vastArray];
+                if ([ad.endcardEnabled boolValue] || (ad.endcardEnabled == nil && HyBidConstants.showEndCard)) {
                     if ([endCards count] > 0) {
                         [ad setHasEndCard:YES];
-                        if ([ad.customEndcardEnabled boolValue] || (ad.customEndcardEnabled == nil && [HyBidRenderingConfig sharedConfig].customEndCard)) {
-                            if ([self customEndcardDisplayBehaviourFromString:ad.customEndcardDisplay] == HyBidCustomEndcardDisplayExtention || (ad.customEndcardDisplay == nil && [HyBidRenderingConfig sharedConfig].customEndcardDisplay == HyBidCustomEndcardDisplayExtention)) {
+                        if ([ad.customEndcardEnabled boolValue] || (ad.customEndcardEnabled == nil && HyBidConstants.showCustomEndCard)) {
+                            if ([self customEndcardDisplayBehaviourFromString:ad.customEndcardDisplay] == HyBidCustomEndcardDisplayExtention || (ad.customEndcardDisplay == nil && HyBidConstants.customEndcardDisplay == HyBidCustomEndcardDisplayExtention)) {
                                 if (ad.customEndCardData && ad.customEndCardData.length > 0) {
                                     [ad setHasCustomEndCard:YES];
                                 }
                             }
                         }
                     } else if ([endCards count] == 0) {
-                        if ([ad.customEndcardEnabled boolValue] || (ad.customEndcardEnabled == nil && [HyBidRenderingConfig sharedConfig].customEndCard)){
+                        if ([ad.customEndcardEnabled boolValue] || (ad.customEndcardEnabled == nil && HyBidConstants.showCustomEndCard)){
                             if (ad.customEndCardData && ad.customEndCardData.length > 0) {
                                 [ad setHasCustomEndCard:YES];
                             }
                         }
                     }
-                } else if (ad.endcardEnabled != nil || (ad.endcardEnabled == nil && ![HyBidRenderingConfig sharedConfig].showEndCard)) {
-                    if ([ad.customEndcardEnabled boolValue] || (ad.customEndcardEnabled == nil && [HyBidRenderingConfig sharedConfig].customEndCard)) {
+                } else if (ad.endcardEnabled != nil || (ad.endcardEnabled == nil && !HyBidConstants.showEndCard)) {
+                    if ([ad.customEndcardEnabled boolValue] || (ad.customEndcardEnabled == nil && HyBidConstants.showCustomEndCard)) {
                         if (ad.customEndCardData && ad.customEndCardData.length > 0) {
                             [ad setHasCustomEndCard:YES];
                         }
@@ -628,24 +624,41 @@ NSInteger const PNLiteResponseStatusOK = 200;
     }
 }
 
-- (NSArray<HyBidVASTEndCard *> *)fetchEndCardsFromVastAd:(HyBidVASTAd *)ad
-{
-    if (ad == nil) {
-        return [NSArray new];
-    }
-        
-    NSArray<HyBidVASTCreative *> *creatives = [[ad inLine] creatives];
+- (NSArray<HyBidVASTEndCard *> *)fetchEndCardsFromVastAd:(NSArray *)vastModel {
     HyBidVASTCompanionAds *companionAds;
-    
-    for (HyBidVASTCreative *creative in creatives) {
-        if ([creative companionAds] != nil) {
-            companionAds = [creative companionAds];
-            break;
+    NSOrderedSet *vastSet = [[NSOrderedSet alloc] initWithArray:vastModel];
+    NSArray *vastArray = [[NSMutableArray alloc] initWithArray:[vastSet array]];
+    for (NSData *vast in vastArray){
+        NSString *xml = [[NSString alloc] initWithData:vast encoding:NSUTF8StringEncoding];
+        HyBidXMLEx *parser = [HyBidXMLEx parserWithXML:xml];
+        NSArray *result = [[parser rootElement] query:@"Ad"];
+        for (int i = 0; i < [result count]; i++) {
+            HyBidVASTAd * ad;
+            if (result[i]) {
+                ad = [[HyBidVASTAd alloc] initWithXMLElement:result[i]];
+            }
+            if ([ad wrapper] != nil){
+                NSArray<HyBidVASTCreative *> *creatives = [[ad wrapper] creatives];
+                for (HyBidVASTCreative *creative in creatives) {
+                    if ([creative companionAds] != nil) {
+                        companionAds = [creative companionAds];
+                        for (HyBidVASTCompanion *companion in [companionAds companions]) {
+                            [self.endCardManager addCompanion:companion];
+                        }
+                    }
+                }
+            }else if ([ad inLine]!=nil){
+                NSArray<HyBidVASTCreative *> *creatives = [[ad inLine] creatives];
+                for (HyBidVASTCreative *creative in creatives) {
+                    if ([creative companionAds] != nil) {
+                        companionAds = [creative companionAds];
+                        for (HyBidVASTCompanion *companion in [companionAds companions]) {
+                            [self.endCardManager addCompanion:companion];
+                        }
+                    }
+                }
+            }
         }
-    }
-    
-    for (HyBidVASTCompanion *companion in [companionAds companions]) {
-        [self.endCardManager addCompanion:companion];
     }
     
     NSArray<HyBidVASTEndCard *> *endCards = [[NSArray alloc] initWithArray:[self.endCardManager endCards]];
@@ -723,7 +736,8 @@ NSInteger const PNLiteResponseStatusOK = 200;
                 }
                 [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:self.requestURL.absoluteString
                                                         withResponse:dataString
-                                                        withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]];
+                                                        withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]
+                                                                        withRequestBody:self.body];
             } else {
                 [HyBidMarkupUtils isVastXml:dataString completion:^(BOOL isVAST, NSError *error) {
                     if (error) {
@@ -749,7 +763,8 @@ NSInteger const PNLiteResponseStatusOK = 200;
                         }
                         [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:self.requestURL.absoluteString
                                                                                    withResponse:responseStringJson
-                                                                                    withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]];
+                                                                                    withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]
+                                                                                withRequestBody:self.isUsingOpenRTB ? self.body : nil];
                         
                         [self processResponseWithData:data];
                     } else {
@@ -777,7 +792,8 @@ NSInteger const PNLiteResponseStatusOK = 200;
     }
     [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:self.requestURL.absoluteString
                                                                withResponse:error.localizedDescription
-                                                                withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]];
+                                                                withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]
+                                                            withRequestBody:nil];
     [self invokeDidFail:error];
 }
 

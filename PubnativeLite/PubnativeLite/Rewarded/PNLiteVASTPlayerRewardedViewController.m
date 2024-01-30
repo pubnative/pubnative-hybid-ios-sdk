@@ -76,6 +76,7 @@
 
 - (void)loadFullScreenPlayerWithPresenter:(HyBidRewardedPresenter *)rewardedPresenter withAd:(HyBidAd *)ad {
     self.presenter = rewardedPresenter;
+    self.presenter.customCTADelegate = self.player.customCTADelegate;
     self.adModel = ad;
     self.player = [[PNLiteVASTPlayerViewController alloc] initPlayerWithAdModel:self.adModel withAdFormat:HyBidAdFormatRewarded];
     self.player.delegate = self;
@@ -101,7 +102,8 @@
     self.player = vastPlayer;
     self.player.view.frame = self.playerContainer.bounds;
     [self.playerContainer addSubview:self.player.view];
-    [self.presenter.delegate rewardedPresenterDidLoad:self.presenter];
+    self.presenter.customCTADelegate = self.player.customCTADelegate;
+    [self.presenter.delegate rewardedPresenterDidLoad:self.presenter viewController:self];
 }
 
 - (void)vastPlayer:(PNLiteVASTPlayerViewController *)vastPlayer didFailLoadingWithError:(NSError *)error {
@@ -139,10 +141,18 @@
 
 - (void)vastPlayerWillShowEndCard:(PNLiteVASTPlayerViewController *)vastPlayer {
     self.skAdModel = self.adModel.isUsingOpenRTB ? self.adModel.getOpenRTBSkAdNetworkModel : self.adModel.getSkAdNetworkModel;
-    if ([self.skAdModel.productParameters objectForKey:HyBidSKAdNetworkParameter.endcardDelay] && [[self.skAdModel.productParameters objectForKey:HyBidSKAdNetworkParameter.endcardDelay] intValue] == -1) {
+    if ([self.skAdModel.productParameters objectForKey:HyBidSKAdNetworkParameter.endcardDelay] != [NSNull null] && [self.skAdModel.productParameters objectForKey:HyBidSKAdNetworkParameter.endcardDelay] && [[self.skAdModel.productParameters objectForKey:HyBidSKAdNetworkParameter.endcardDelay] intValue] == -1) {
         if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(rewardedPresenterDismissesSKOverlay:)]) {
             [self.presenter.delegate rewardedPresenterDismissesSKOverlay:self.presenter];
         }
+    } else {        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"VASTEndCardWillShow" object:nil];
+    }
+}
+
+- (void)vastPlayerDidShowEndCard:(PNLiteVASTPlayerViewController *)vastPlayer endcard:(HyBidVASTEndCard *)endcard {
+    if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(rewardedPresenterDismissesCustomCTA:)] && endcard.isCustomEndCard) {
+        [self.presenter.delegate rewardedPresenterDismissesCustomCTA:self.presenter];
     }
 }
 

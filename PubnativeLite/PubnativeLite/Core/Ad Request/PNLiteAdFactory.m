@@ -58,6 +58,7 @@
                          withSupportedAPIFrameworks:(NSArray<NSString *> *)supportedAPIFrameworks
                                 withIntegrationType:(IntegrationType)integrationType
                                          isRewarded:(BOOL)isRewarded
+                                     isUsingOpenRTB:(BOOL)isUsingOpenRTB
                                 mediationVendorName: (NSString*) mediationVendorName{
     self.adRequestModel = [[PNLiteAdRequestModel alloc] init];
     self.adRequestModel.requestParameters[HyBidRequestParameter.zoneId] = zoneID;
@@ -71,7 +72,6 @@
     }
     self.adRequestModel.requestParameters[HyBidRequestParameter.os] = [HyBidSettings sharedInstance].os;
     self.adRequestModel.requestParameters[HyBidRequestParameter.osVersion] = [HyBidSettings sharedInstance].osVersion;
-    self.adRequestModel.requestParameters[HyBidRequestParameter.deviceOsVersion] = [HyBidSettings sharedInstance].osVersion;
     self.adRequestModel.requestParameters[HyBidRequestParameter.deviceModel] = [HyBidSettings sharedInstance].deviceModel;
     self.adRequestModel.requestParameters[HyBidRequestParameter.deviceMake] = [HyBidSettings sharedInstance].deviceMake;
     self.adRequestModel.requestParameters[HyBidRequestParameter.deviceType] = [HyBidSettings sharedInstance].deviceType;
@@ -90,7 +90,7 @@
         self.adRequestModel.requestParameters[HyBidRequestParameter.batteryLevel] = [HyBidSettings sharedInstance].batteryLevel;
     }
     self.adRequestModel.requestParameters[HyBidRequestParameter.batterySaver] = [HyBidSettings sharedInstance].batterySaver;
-    if ([HyBidSettings sharedInstance].isAirplaneModeEnabled) {
+    if ([HyBidSettings sharedInstance].hasSIM && [HyBidSettings sharedInstance].isAirplaneModeEnabled) {
         self.adRequestModel.requestParameters[HyBidRequestParameter.airplaneMode] = [HyBidSettings sharedInstance].isAirplaneModeEnabled;
     }
     [self setIDFA:self.adRequestModel];
@@ -112,8 +112,6 @@
             self.adRequestModel.requestParameters[HyBidRequestParameter.carrierMCCMNC] = carrierMCCMNC;
         }
     }
-
-    BOOL isUsingOpenRTB = [[NSUserDefaults standardUserDefaults] boolForKey:kIsUsingOpenRTB];
     if (isUsingOpenRTB) {
         self.adRequestModel.requestParameters[HyBidRequestParameter.ip] = [HyBidSettings sharedInstance].ip;
     }
@@ -139,7 +137,7 @@
         HyBidSkAdNetworkRequestModel *skAdNetworkRequestModel = [[HyBidSkAdNetworkRequestModel alloc] init];
     
         NSString *adIDs = [skAdNetworkRequestModel getSkAdNetworkAdNetworkIDsString];
-        if ([adIDs length] > 0) {
+        if (adIDs != nil && [adIDs length] > 0) {
             if ([skAdNetworkRequestModel getAppID] && [[skAdNetworkRequestModel getAppID] length] > 0) {
                 self.adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkAppID] = [skAdNetworkRequestModel getAppID];
             } else {
@@ -153,13 +151,24 @@
     }
     
     NSString* privacyString = [[HyBidUserDataManager sharedInstance] getIABUSPrivacyString];
-    if (!([privacyString length] == 0)) {
+    if (privacyString != nil && !([privacyString length] == 0)) {
         self.adRequestModel.requestParameters[HyBidRequestParameter.usprivacy] = privacyString;
     }
     
     NSString* consentString = [[HyBidUserDataManager sharedInstance] getIABGDPRConsentString];
-    if (!([consentString length] == 0)) {
+    if (consentString != nil && !([consentString length] == 0)) {
         self.adRequestModel.requestParameters[HyBidRequestParameter.userconsent] = consentString;
+    }
+    
+    NSString* gppString = [[HyBidUserDataManager sharedInstance] getInternalGPPString];
+    if (gppString != nil && !([gppString length] == 0)) {
+        self.adRequestModel.requestParameters[HyBidRequestParameter.gppstring] = gppString;
+    }
+    
+    NSString* gppSID = [[HyBidUserDataManager sharedInstance] getInternalGPPSID];
+    if (gppSID != nil && !([gppSID length] == 0)) {
+        self.adRequestModel.requestParameters[HyBidRequestParameter.gppsid] = [gppSID stringByReplacingOccurrencesOfString:@"_"
+                                                                                                                    withString:@","];;
     }
     
     if (![HyBidConsentConfig sharedConfig].coppa && ![[HyBidUserDataManager sharedInstance] isCCPAOptOut] && ![[HyBidUserDataManager sharedInstance] isConsentDenied]) {
@@ -237,7 +246,11 @@
     
     // Impression data
     self.adRequestModel.requestParameters[HyBidRequestParameter.clickbrowser] = @"1";
-    self.adRequestModel.requestParameters[HyBidRequestParameter.topframe] = @"1";
+    if(![adSize isEqualTo:HyBidAdSize.SIZE_NATIVE]) {
+        self.adRequestModel.requestParameters[HyBidRequestParameter.topframe] = @"1";
+        // Removed the outdated geofetch logic and replaced it with hardcoded values. Set the value to 1 for all types except 'native' to align with the new requirements.
+        self.adRequestModel.requestParameters[HyBidRequestParameter.geoFetch] = @"1";
+    }
     
     NSString* darkMode = [HyBidSettings sharedInstance].isDarkModeEnabled;
     if (darkMode) {

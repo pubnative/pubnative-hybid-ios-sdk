@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HyBidCustomCTAView" customModule="HyBid" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="i5M-Pr-FkT" id="zPe-sD-Hm7"/>
+                <outlet property="ctaActionButton" destination="ODn-Bq-gvw" id="UHF-Nv-5a9"/>
+                <outlet property="ctaIconImageView" destination="K5l-Fd-au7" id="h0c-3G-GOz"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="187" height="62"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ODn-Bq-gvw">
+                    <rect key="frame" x="57" y="10" width="120" height="42"/>
+                    <color key="backgroundColor" red="0.20392158630000001" green="0.47058826679999999" blue="0.96470588450000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="42" id="A8E-Fg-7jC"/>
+                        <constraint firstAttribute="width" constant="120" id="stT-F2-fKa"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                    <color key="tintColor" systemColor="systemBackgroundColor"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="GET"/>
+                    <connections>
+                        <action selector="openOffer" destination="-1" eventType="touchUpInside" id="Gq1-sO-Heh"/>
+                    </connections>
+                </button>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="K5l-Fd-au7">
+                    <rect key="frame" x="10" y="10" width="42" height="42"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="42" id="ZH4-Kb-ZeG"/>
+                        <constraint firstAttribute="width" constant="42" id="ifX-CS-fJi"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="K5l-Fd-au7" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="10" id="1bD-0G-EyP"/>
+                <constraint firstItem="ODn-Bq-gvw" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="9wD-85-moa"/>
+                <constraint firstAttribute="bottom" secondItem="K5l-Fd-au7" secondAttribute="bottom" constant="10" id="BZH-1A-MlZ"/>
+                <constraint firstItem="ODn-Bq-gvw" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="10" id="D4d-9i-DxH"/>
+                <constraint firstItem="ODn-Bq-gvw" firstAttribute="leading" secondItem="K5l-Fd-au7" secondAttribute="trailing" constant="5" id="Pyt-BH-1Kk"/>
+                <constraint firstItem="K5l-Fd-au7" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="eOT-Nf-DtV"/>
+                <constraint firstAttribute="bottom" secondItem="ODn-Bq-gvw" secondAttribute="bottom" constant="10" id="p7a-JK-1Cr"/>
+                <constraint firstAttribute="trailing" secondItem="ODn-Bq-gvw" secondAttribute="trailing" constant="10" id="xpq-8R-r3S"/>
+            </constraints>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="142.74809160305344" y="-214.08450704225353"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

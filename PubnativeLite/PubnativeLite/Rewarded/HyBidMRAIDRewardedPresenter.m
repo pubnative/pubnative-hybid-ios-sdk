@@ -146,10 +146,12 @@
             [[HyBidURLDriller alloc] startDrillWithURLString:url.absoluteString delegate:self];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [productParams removeObjectForKey:HyBidSKAdNetworkParameter.fidelityType];
-                HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
-                skAdnetworkViewController.delegate = self;
-                [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
-                [self.delegate rewardedPresenterDidDisappear:self];
+                HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters: productParams delegate: self];
+                [skAdnetworkViewController presentSKStoreProductViewController:^(BOOL success) {
+                    if (success) {
+                        [self.delegate rewardedPresenterDidDisappear:self];
+                    }
+                }];
             });
         } else {
             [self.serviceProvider openBrowser:url.absoluteString];
@@ -190,11 +192,12 @@
             [[HyBidURLDriller alloc] startDrillWithURLString:urlString delegate:self];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [productParams removeObjectForKey:HyBidSKAdNetworkParameter.fidelityType];
-                HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters:productParams];
-                skAdnetworkViewController.delegate = self;
-                [[UIApplication sharedApplication].topViewController presentViewController:skAdnetworkViewController animated:true completion:nil];
-                [self.delegate rewardedPresenterDidDisappear:self];
-                
+                HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters: productParams delegate: self];
+                [skAdnetworkViewController presentSKStoreProductViewController:^(BOOL success) {
+                    if (success) {
+                        [self.delegate rewardedPresenterDidDisappear:self];
+                    }
+                }];
             });
         } else {
             [self.serviceProvider openBrowser:urlString];
@@ -224,9 +227,12 @@
                     }
                     
                     if (@available(iOS 13.0, *)) {
-                        NSString *signature = [NSString stringWithUTF8String:skanObject.signature];
-                        
-                        [dictionary setObject:signature forKey:SKStoreProductParameterAdNetworkAttributionSignature];
+                        if (skanObject.signature != nil) {
+                            NSString *signature = [NSString stringWithUTF8String:skanObject.signature];
+                            if (signature != nil) {
+                                [dictionary setObject:signature forKey:SKStoreProductParameterAdNetworkAttributionSignature];
+                            }
+                        }
                         
                         NSString *fidelity = [NSString stringWithFormat:@"%d", skanObject.fidelity];
                         [dictionary setObject:fidelity forKey:HyBidSKAdNetworkParameter.fidelityType];

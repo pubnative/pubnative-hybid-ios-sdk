@@ -41,6 +41,7 @@
 @property (nonatomic, strong) NSMutableArray *dataSource;
 @property (nonatomic, strong) UIActivityIndicatorView *bannerLoaderIndicator;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *creativeIDTopConstraint;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *isUsingOpenRTB;
 
 @end
 
@@ -80,7 +81,11 @@
     self.prepareButton.enabled = NO;
     [self.bannerLoaderIndicator startAnimating];
     [self.bannerAdView setIsAutoCacheOnLoad:self.adCachingSwitch.isOn];
-    [self.bannerAdView loadWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
+    if (self.isUsingOpenRTB.selectedSegmentIndex == 0) {
+       [self.bannerAdView loadWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
+   } else if (self.isUsingOpenRTB.selectedSegmentIndex == 1) {
+       [self.bannerAdView loadExchangeAdWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
+   }
 }
 
 - (IBAction)adCachingSwitchValueChanged:(UISwitch *)sender {
@@ -119,7 +124,7 @@
 
 - (void)adViewDidLoad:(HyBidAdView *)adView {
     NSLog(@"Banner Ad View did load:");
-    if (self.bannerAdView.ad.isUsingOpenRTB) {
+    if (self.isUsingOpenRTB.selectedSegmentIndex == 1) {
         [self setCreativeIDLabelWithString:self.bannerAdView.ad.openRTBCreativeID];
     } else {
         [self setCreativeIDLabelWithString:self.bannerAdView.ad.creativeID];

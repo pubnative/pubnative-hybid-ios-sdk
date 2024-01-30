@@ -22,7 +22,7 @@
 
 #import "AppLovinMediationVerveCustomNetworkAdapter.h"
 
-#define VERVE_ADAPTER_VERSION @"2.20.0.0"
+#define VERVE_ADAPTER_VERSION @"2.21.0.0"
 #define MAX_MEDIATION_VENDOR @"m"
 #define PARAM_APP_TOKEN @"pn_app_token"
 #define PARAM_TEST_MODE @"pn_test"
@@ -196,11 +196,11 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
         BOOL muted = [serverParameters al_numberForKey: @"is_muted"].boolValue;
         if ( muted )
         {
-            [HyBidRenderingConfig sharedConfig].audioStatus = HyBidAudioStatusMuted;
+            HyBidConstants.audioStatus = HyBidAudioStatusMuted;
         }
         else
         {
-            [HyBidRenderingConfig sharedConfig].audioStatus = HyBidAudioStatusDefault;
+            HyBidConstants.audioStatus = HyBidAudioStatusDefault;
         }
     }
 }

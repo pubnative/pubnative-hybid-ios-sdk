@@ -140,19 +140,6 @@ public class HyBidSettings: NSObject, CLLocationManagerDelegate {
     @objc public var jsValue: String {
         return "1"
     }
-
-    @objc public func geoFetchSupport() -> String {
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager = CLLocationManager()
-            locationManager?.delegate = self
-            locationManager?.requestWhenInUseAuthorization()
-
-            if CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways {
-                return "1"
-            }
-        }
-        return "0"
-    }
     
     public func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if status == .denied || status == .restricted {
@@ -387,6 +374,20 @@ public class HyBidSettings: NSObject, CLLocationManagerDelegate {
             return radioAccessTechnology.isEmpty ? "1" : "0"
         }
         return nil
+    }
+    
+    @objc public var hasSIM: Bool {
+        if #available(iOS 12, *) {
+            let networkInfo = CTTelephonyNetworkInfo()
+            guard let serviceSubscriberCellularProviders = networkInfo.serviceSubscriberCellularProviders else { return false }
+            let carriers = serviceSubscriberCellularProviders.values
+            let validCarriers = carriers.compactMap() {
+                $0.isoCountryCode
+            }
+            return !validCarriers.isEmpty
+        } else {
+            return false;
+        }
     }
 }
 

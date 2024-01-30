@@ -57,8 +57,8 @@ typedef enum {
     HyBidErrorCodeAdFeedbackFormNotLoaded = 30,
     HyBidErrorCodeInvalidHTML = 31,
     HyBidErrorVASTParserNoAdResponse = 32,
-    HyBidErrorVASTParserBothAdAndErrorPresentInRootResponse = 33
-
+    HyBidErrorVASTParserBothAdAndErrorPresentInRootResponse = 33,
+    HyBidErrorCodeInvalidCustomCTAIconUrl = 34
 } HyBidErrorCode;
 
 @interface NSError (HyBid)
@@ -99,5 +99,6 @@ typedef enum {
 + (instancetype)hyBidInvalidHTML;
 + (instancetype)hyBidVASTNoAdResponse;
 + (instancetype)hyBidVASTBothAdAndErrorPresentInRootResponse;
++ (instancetype)hyBidInvalidCustomCTAIconUrl;
 
 @end

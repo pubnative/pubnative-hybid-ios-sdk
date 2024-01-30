@@ -98,6 +98,14 @@ public class EventType: HyBidReportingProperties  {
     @objc public static let SESSION_REPORT_INFO = "session_report_info"
     @objc public static let CUSTOM_ENDCARD_IMPRESSION = "custom_endcard_impression"
     @objc public static let CUSTOM_ENDCARD_CLICK = "custom_endcard_click"
+    @objc public static let ATOM_ACTIVATED = "atom_activated"
+    @objc public static let ATOM_DEACTIVATED = "atom_deactivated"
+    @objc public static let ATOM_ACTIVATED_RECEIVED = "atom_activated_received"
+    @objc public static let ATOM_DEACTIVATED_RECEIVED  = "atom_deactivated_received"
+    @objc public static let CUSTOM_CTA_IMPRESSION = "custom_cta_show"
+    @objc public static let CUSTOM_CTA_CLICK = "custom_cta_click"
+    @objc public static let CUSTOM_CTA_ENDCARD_CLICK = "custom_cta_endcard_click"
+    @objc public static let SKOVERLAY_IMPRESSION = "skoverlay_impression"
 }
 
 @objc(HyBidReportingCreativeType)
