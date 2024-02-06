@@ -195,7 +195,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 @import UIKit;
 #endif
 
-#import <HyBid/HyBid.h>
+#import <HyBid.h>
 
 #pragma clang diagnostic ignored "-Wproperty-attribute-mismatch"
 #pragma clang diagnostic ignored "-Wduplicate-method-arg"
