@@ -116,4 +116,7 @@ BOOL isInitialized = NO;
     return url.query;
 }
 
++ (void)setReporting:(BOOL)enabled {
+    [HyBidSDKConfig sharedConfig].reporting = enabled;
+}
 @end

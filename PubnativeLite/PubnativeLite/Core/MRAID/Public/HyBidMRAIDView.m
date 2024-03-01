@@ -49,6 +49,7 @@
 #import "HyBidTimerState.h"
 #import <StoreKit/StoreKit.h>
 #import "UIApplication+PNLiteTopViewController.h"
+#import "HyBidSKAdNetworkViewController.h"
 
 #define kCloseButtonSize 30
 
@@ -986,7 +987,15 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
     if(tapObserved) {
         HyBidURLRedirector *redirector = [[HyBidURLRedirector alloc] init];
         redirector.delegate = self;
-        [redirector drillWithUrl:urlString];
+        HyBidSkAdNetworkModel* skanModel = nil;
+        if (self.ad && [self.ad getSkAdNetworkModel]) {
+            skanModel = [self.ad getSkAdNetworkModel];
+        }
+        [redirector drillWithUrl:urlString skanModel:skanModel];
+        
+        // Report Endcard click (DEFAULT_ENDCARD_CLICK)
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.DEFAULT_ENDCARD_CLICK adFormat:isInterstitial ? HyBidReportingAdFormat.FULLSCREEN : HyBidReportingAdFormat.REWARDED properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
         return;
     }
 
@@ -1905,30 +1914,20 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
         [self doTrackingEndcardWithUrlString:urlString];
         return;
     }
-    isStoreViewControllerBeingPresented = YES;
-    
-    SKStoreProductViewController *storeViewController = [[SKStoreProductViewController alloc] init];
-    storeViewController.delegate = self;
     
     NSString* appID = [self extractAppIDFromAppStoreURL:urlString];
     if (appID) {
         NSDictionary *parameters = @{SKStoreProductParameterITunesItemIdentifier: appID};
-        [storeViewController loadProductWithParameters:parameters completionBlock:^(BOOL result, NSError *error) {
-            if (result) {
+        HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters: parameters delegate: self];
+        isStoreViewControllerBeingPresented = YES;
+        [skAdnetworkViewController presentSKStoreProductViewController:^(BOOL success) {
+            if (success) {
                 [self doTrackingEndcardWithUrlString:urlString];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"SKStoreProductViewIsReadyToPresent" object:nil];
-                    [[NSNotificationCenter defaultCenter] addObserver:self
-                                                             selector:@selector(storeKitPageDismissed)
-                                                                 name:@"SKStoreProductViewIsDismissed"
-                                                               object:nil];
-                    [[UIApplication sharedApplication].topViewController presentViewController:storeViewController animated:YES completion:nil];
-                    isStoreViewControllerPresented = YES;
-                    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"StoreKit from CREATIVE is presented"]];
-                });
+                isStoreViewControllerPresented = YES;
+                [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"StoreKit from CREATIVE is presented"]];
             }
-            isStoreViewControllerBeingPresented = NO;
         }];
+        isStoreViewControllerBeingPresented = NO;
     } else {
         isStoreViewControllerBeingPresented = NO;
         [self openBrowserWithURLString:urlString];
@@ -1957,10 +1956,6 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
     }
 }
 
-- (void)storeKitPageDismissed {
-    isStoreViewControllerPresented = NO;
-}
-
 #pragma mark HyBidURLRedirectorDelegate
 
 - (void)onURLRedirectorFailWithUrl:(NSString * _Nonnull)url withError:(NSError * _Nonnull)error {
@@ -1986,6 +1981,7 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
 
 // Delegate method when Store VC is dismissed
 - (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
+    isStoreViewControllerPresented = NO;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"SKStoreProductViewIsDismissed" object:self.ad];
 }
 

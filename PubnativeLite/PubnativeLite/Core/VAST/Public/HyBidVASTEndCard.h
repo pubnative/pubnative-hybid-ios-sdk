@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2021 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,18 +20,29 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteMeta.h"
+#import <Foundation/Foundation.h>
+#import "HyBidVASTTrackingEvents.h"
 
-@implementation PNLiteMeta
+typedef enum {
+    HyBidEndCardType_STATIC,
+    HyBidEndCardType_HTML,
+    HyBidEndCardType_IFRAME,
+} HyBidVASTEndCardType;
 
-+ (NSString *)points { return @"points"; }
-+ (NSString *)revenueModel { return @"revenuemodel"; }
-+ (NSString *)campaignId { return @"campaignid"; }
-+ (NSString *)creativeId { return @"creativeid"; }
-+ (NSString *)bundleId { return @"bundleid"; }
-+ (NSString *)contentInfo { return @"contentinfo"; }
-+ (NSString *)skadnetwork { return @"skadnetwork"; }
-+ (NSString *)skadnetworkInputValue { return @"skadnetwork_input_value"; }
-+ (NSString *)remoteconfigs { return @"remoteconfigs"; }
+@interface HyBidVASTEndCard : NSObject
+
+@property (nonatomic) HyBidVASTEndCardType type;
+
+@property (nonatomic, strong) NSString *content;
+
+@property (nonatomic, strong) NSString *clickThrough;
+
+@property (nonatomic, strong) NSArray<NSString *> *clickTrackings;
+
+@property (nonatomic, strong) HyBidVASTTrackingEvents *events;
+
+@property (nonatomic, assign) BOOL isCustomEndCard;
+
+@property (nonatomic, assign) BOOL isCustomEndCardClicked;
 
 @end

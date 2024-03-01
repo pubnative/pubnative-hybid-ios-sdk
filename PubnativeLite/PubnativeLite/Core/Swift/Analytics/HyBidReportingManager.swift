@@ -36,9 +36,10 @@ public class HyBidReportingManager: NSObject {
     @objc weak public var delegate: HyBidReportingDelegate?
     @objc public var isAtomStarted: Bool = false
     private let eventsQueue = DispatchQueue(label: "com.verve.HyBid.eventsQueue", target: nil)
-
+    
     @objc
     public func reportEvent(for event: HyBidReportingEvent) {
+        guard HyBidSDKConfig.sharedConfig.reporting == true else { return }
         eventsQueue.async { [weak self] in
             guard let self = self else { return }
             self.events.append(event)
@@ -51,6 +52,7 @@ public class HyBidReportingManager: NSObject {
     
     @objc
     public func reportEvents(for events: [HyBidReportingEvent]) {
+        guard HyBidSDKConfig.sharedConfig.reporting == true else { return }
         eventsQueue.async { [weak self] in
             guard let self = self else { return }
             self.events.append(contentsOf: events)
@@ -71,4 +73,52 @@ public class HyBidReportingManager: NSObject {
         }
     }
     
+    @objc
+    public func addCommonProperties(forAd ad: HyBidAd?, withRequest request: HyBidAdRequest?) -> [String: String] {
+        var commonProperties = [String: String]()
+        if HyBidSDKConfig.sharedConfig.reporting == true {
+            if let appToken = HyBidSDKConfig.sharedConfig.appToken, appToken.count > 0 {
+                commonProperties[Common.APPTOKEN] = appToken
+            }
+            
+            if request != nil {
+                if let integrationType = request?.integrationType, let integrationTypeString = HyBidIntegrationType.integrationType(toString: integrationType), integrationTypeString.count > 0 {
+                    commonProperties[Common.INTEGRATION_TYPE] = integrationTypeString
+                }
+                
+                if let adSize = request?.adSize, adSize.description.count > 0 {
+                    commonProperties[Common.AD_SIZE] = adSize.description
+                }
+            }
+            
+            if ad != nil {
+                if let zoneID = ad?.zoneID, zoneID.count > 0 {
+                    commonProperties[Common.ZONE_ID] = zoneID
+                }
+                
+                var assetGroupId: NSInteger = 0;
+                if ad?.isUsingOpenRTB != nil && ad?.isUsingOpenRTB == true {
+                    assetGroupId = NSInteger(truncating: ad?.openRTBAssetGroupID ?? 0)
+                } else {
+                    assetGroupId = NSInteger(truncating: ad?.assetGroupID ?? 0)
+                }
+                
+                switch UInt32(assetGroupId) {
+                case VAST_MRECT, VAST_REWARDED, VAST_INTERSTITIAL:
+                    commonProperties[Common.AD_TYPE] = "VAST"
+                    if let vastString = ad?.vast {
+                        commonProperties[Common.CREATIVE] = vastString
+                    }
+                    break
+                default:
+                    commonProperties[Common.AD_TYPE] = "HTML"
+                    if let htmlDataString = ad?.htmlData {
+                        commonProperties[Common.CREATIVE] = htmlDataString
+                    }
+                    break
+                }
+            }
+        }
+        return commonProperties
+    }
 }

@@ -54,8 +54,17 @@ enum CustomEndcardBehaviorString: String {
 enum CellType {
     case switchCell
     case textFieldCell
+    case numberFieldCell
+    case dictionaryFieldCell
     case segmentedControlCell
 }
+
+enum TextInputType {
+    case textField(UITextField? = nil)
+    case textView(UITextView? = nil)
+}
+
+private typealias HyBidAdSettingsDictionary = Dictionary<String,Any>
 
 @objc public protocol HyBidAdSettingsSamplingEndpoint: AnyObject {
     func didReceiveResponse(response: String)
@@ -77,6 +86,7 @@ enum CellType {
     @objc public var adContent = ""
     
     var activeTextField: UITextField?
+    var activeTextView: UITextView?
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,11 +94,20 @@ enum CellType {
         tableView.dataSource = self
         tableView.delegate = self
         let saveButton = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveButtonTapped))
+        self.navigationItem.title = "Ad Settings"
         self.navigationItem.rightBarButtonItem = saveButton
         self.navigationItem.rightBarButtonItem?.accessibilityLabel = "SaveButton"
 
         createAndCenterSpinner(in: self.view)
         loadAdSettingsFromUserDefaults()
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    public override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     func createAndCenterSpinner(in view: UIView) {
@@ -112,7 +131,7 @@ enum CellType {
     func setupAdSettings() {
            adSettings = [
                [
-                AdSetting(sectionTitle: "General", settingTitle: "Native Close Button Delay", cellType: .textFieldCell, isChecked: false, remoteConfigName: "close_button_delay" , value: HyBidConstants.nativeCloseButtonOffset.offset),
+                AdSetting(sectionTitle: "General", settingTitle: "Native Close Button Delay", cellType: .numberFieldCell, isChecked: false, remoteConfigName: "close_button_delay" , value: HyBidConstants.nativeCloseButtonOffset.offset),
                 AdSetting(sectionTitle: "General", settingTitle: AudioStatusStringTitle, cellType: .segmentedControlCell, isChecked: false, remoteConfigName: "audiostate", value: stringifyAudioStatus(with: HyBidConstants.audioStatus)),
                 AdSetting(sectionTitle: "General", settingTitle: "Creative Autostore kit", cellType: .switchCell, isChecked: false, remoteConfigName: "creative_autostorekit", value: HyBidConstants.creativeAutoStorekitEnabled),
                 AdSetting(sectionTitle: "General", settingTitle: "MRAID Expand Enabled", cellType: .switchCell, isChecked: false, remoteConfigName: "mraid_expand", value: HyBidConstants.mraidExpand),
@@ -121,22 +140,31 @@ enum CellType {
                 AdSetting(sectionTitle: "General", settingTitle: "ATOM Enabled", cellType: .switchCell, isChecked: false, remoteConfigName: "atom_enabled", value: HyBidConstants.atomEnabled)
                ],
                [
-                AdSetting(sectionTitle: "Interstitial", settingTitle: "HTML/MRAID Skip Offset", cellType: .textFieldCell, isChecked: false, remoteConfigName: "html_skip_offset", value: HyBidConstants.interstitialHtmlSkipOffset.offset),
-                AdSetting(sectionTitle: "Interstitial", settingTitle: "Video Skip Offset", cellType: .textFieldCell, isChecked: false, remoteConfigName: "video_skip_offset", value: HyBidConstants.videoSkipOffset.offset),
+                AdSetting(sectionTitle: "Interstitial", settingTitle: "HTML/MRAID Skip Offset", cellType: .numberFieldCell, isChecked: false, remoteConfigName: "html_skip_offset", value: HyBidConstants.interstitialHtmlSkipOffset.offset),
+                AdSetting(sectionTitle: "Interstitial", settingTitle: "Video Skip Offset", cellType: .numberFieldCell, isChecked: false, remoteConfigName: "video_skip_offset", value: HyBidConstants.videoSkipOffset.offset),
                 AdSetting(sectionTitle: "Interstitial", settingTitle: "Close After Finish", cellType: .switchCell, isChecked: false, remoteConfigName: "close_inter_after_finished", value: HyBidConstants.interstitialCloseOnFinish)
                ],
                
                [
-                AdSetting(sectionTitle: "Rewarded", settingTitle: "HTML/MRAID Skip Offset", cellType: .textFieldCell, isChecked: false, remoteConfigName: "rewarded_html_skip_offset", value: HyBidConstants.rewardedHtmlSkipOffset.offset),
-                AdSetting(sectionTitle: "Rewarded", settingTitle: "Video Skip Offset", cellType: .textFieldCell, isChecked: false, remoteConfigName: "rewarded_video_skip_offset", value: HyBidConstants.rewardedVideoSkipOffset.offset),
+                AdSetting(sectionTitle: "Rewarded", settingTitle: "HTML/MRAID Skip Offset", cellType: .numberFieldCell, isChecked: false, remoteConfigName: "rewarded_html_skip_offset", value: HyBidConstants.rewardedHtmlSkipOffset.offset),
+                AdSetting(sectionTitle: "Rewarded", settingTitle: "Video Skip Offset", cellType: .numberFieldCell, isChecked: false, remoteConfigName: "rewarded_video_skip_offset", value: HyBidConstants.rewardedVideoSkipOffset.offset),
                 AdSetting(sectionTitle: "Rewarded", settingTitle: "Close After Finish", cellType: .switchCell, isChecked: false, remoteConfigName: "close_reward_after_finished", value: HyBidConstants.rewardedCloseOnFinish)
                ],
                
                [
                 AdSetting(sectionTitle: "Endcard", settingTitle: "Show EndCard", cellType: .switchCell, isChecked: false, remoteConfigName: "endcardenabled", value: HyBidConstants.showEndCard),
-                AdSetting(sectionTitle: "Endcard", settingTitle: "EndCard Close Delay", cellType: .textFieldCell, isChecked: false, remoteConfigName: "endcard_close_delay", value: HyBidConstants.endCardCloseOffset.offset),
+                AdSetting(sectionTitle: "Endcard", settingTitle: "EndCard Close Delay", cellType: .numberFieldCell, isChecked: false, remoteConfigName: "endcard_close_delay", value: HyBidConstants.endCardCloseOffset.offset),
                 AdSetting(sectionTitle: "Endcard", settingTitle: "Custom EndCard", cellType: .switchCell, isChecked: false, remoteConfigName: "custom_endcard_enabled", value: HyBidConstants.showCustomEndCard),
-                AdSetting(sectionTitle: "Endcard", settingTitle: CustomEndcardBehaviorStringTitle, cellType: .segmentedControlCell, isChecked: false, remoteConfigName: "custom_endcard_display", value: stringifyDisplayBehavior(with: HyBidConstants.customEndcardDisplay))
+                AdSetting(sectionTitle: "Endcard", settingTitle: CustomEndcardBehaviorStringTitle, cellType: .segmentedControlCell, isChecked: false, remoteConfigName: "custom_endcard_display", value: stringifyDisplayBehavior(with: HyBidConstants.customEndcardDisplay)),
+                AdSetting(sectionTitle: "Endcard", settingTitle: "Custom EndCard Value", cellType: .textFieldCell, isChecked: true, remoteConfigName: HyBidAdCustomizationKeys.customEndcardInputValue.rawValue, value: HyBidConstants.customEndCardInputValue),
+               ],
+               [
+                AdSetting(sectionTitle: "Custom CTA", settingTitle: "Custom CTA Value", cellType: .textFieldCell, isChecked: true, remoteConfigName: HyBidAdCustomizationKeys.customCTAInputValue.rawValue, value: HyBidConstants.customCTAInputValue)
+               ],
+               [
+                AdSetting(sectionTitle: "SKAN", settingTitle: "SKAN value", cellType: .dictionaryFieldCell, isChecked: true, remoteConfigName: "skadnetwork_input_value", value: HyBidConstants.skAdNetworkModelInputValue),
+                AdSetting(sectionTitle: "SKAN", settingTitle: "Itunes ID", cellType: .textFieldCell, isChecked: true, remoteConfigName: "itunesid_value", value: HyBidConstants.itunesIdValue)
+
                ]
            ]
        }
@@ -154,6 +182,37 @@ enum CellType {
             return adSettings[section][0].sectionTitle
         }
         return nil
+    }
+    
+    public func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        if !adSettings[section].isEmpty, adSettings[section].contains(where: {$0.cellType == .dictionaryFieldCell && $0.remoteConfigName == HyBidAdCustomizationKeys.skAdNetworkModelInputValue.rawValue}){
+            
+            guard let row = adSettings[section].firstIndex(where: {$0.cellType == .dictionaryFieldCell && $0.remoteConfigName == HyBidAdCustomizationKeys.skAdNetworkModelInputValue.rawValue }) else { return }
+            let indexPath = IndexPath(row: row, section: section)
+            
+            let sectionHeaderView = tableView.headerView(forSection: section)
+            let clearTextButtonframe = CGRect(x: view.frame.size.width - 100, y: 0, width: 100, height: view.frame.size.height)
+
+            let clearTextButton = UIButton(type: .system)
+            clearTextButton.frame = clearTextButtonframe
+            clearTextButton.tag = section * 1000 + indexPath.row
+            clearTextButton.accessibilityLabel = "Clean Button " + adSettings[section][row].remoteConfigName
+            clearTextButton.accessibilityValue = "Clean Button " + adSettings[section][row].remoteConfigName
+            clearTextButton.isAccessibilityElement = true
+            //in order to make clearTextButton visible 
+            view.isAccessibilityElement = false
+            clearTextButton.setTitle("Clean", for: .normal)
+            clearTextButton.addTarget(self, action: #selector(cleanTextView), for: .touchUpInside)
+            
+            view.addSubview(clearTextButton)
+            
+            clearTextButton.translatesAutoresizingMaskIntoConstraints = false
+            let verticalConstraint = clearTextButton.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            let trailingConstraint = clearTextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            let widthConstraint = clearTextButton.widthAnchor.constraint(equalToConstant: clearTextButtonframe.width)
+            let heightConstraint = clearTextButton.heightAnchor.constraint(equalToConstant: clearTextButtonframe.height)
+            view.addConstraints([verticalConstraint, trailingConstraint, widthConstraint, heightConstraint])
+        }
     }
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -182,7 +241,7 @@ enum CellType {
             cell.toggleSwitch.addTarget(self, action: #selector(toggleSwitchValueChanged(_:)), for: .valueChanged)
             return cell
 
-        case .textFieldCell:
+        case .numberFieldCell:
             let cell = tableView.dequeueReusableCell(withIdentifier: "HyBidTextFieldTableViewCell", for: indexPath) as! HyBidTextFieldTableViewCell
             cell.selectionStyle = .none
 
@@ -195,7 +254,7 @@ enum CellType {
             cell.textField.accessibilityLabel = "Textfield "+adSetting.settingTitle
             cell.textField.isEnabled = adSetting.isChecked
             cell.textField.delegate = self
-            setupDoneButtonOnKeyboard(with: cell.textField)
+            setupDoneButtonOnKeyboard(with: .textField(cell.textField))
             cell.textField.keyboardType = .numberPad
 
             if let value = adSetting.value {
@@ -213,6 +272,36 @@ enum CellType {
             cell.toggleSwitch.addTarget(self, action: #selector(toggleSwitchValueChanged(_:)), for: .valueChanged)
             return cell
 
+        case .textFieldCell:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "HyBidTextInputOnlyTableViewCell", for: indexPath) as! HyBidTextInputOnlyTableViewCell
+            cell.selectionStyle = .none
+            cell.textField.placeholder = adSetting.settingTitle
+            cell.textField.accessibilityLabel = "Textfield "+adSetting.settingTitle
+            cell.textField.isEnabled = adSetting.isChecked
+            cell.textField.delegate = self
+            setupDoneButtonOnKeyboard(with: .textField(cell.textField))
+           
+            cell.textField.text = adSetting.value as? String
+            cell.textField.tag = indexPath.section * 1000 + indexPath.row
+            cell.textField.addTarget(self, action: #selector(textFieldValueChanged(_:)), for: .editingChanged)
+            return cell
+        case .dictionaryFieldCell:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "HyBidTextViewTableViewCell", for: indexPath) as! HyBidTextViewTableViewCell
+            cell.textViewHeight = self.view.frame.size.height / 4
+            cell.selectionStyle = .none
+            cell.placeholder = adSetting.settingTitle
+            cell.textView.accessibilityLabel = "TextView "+adSetting.settingTitle
+            cell.textView.isEditable = adSetting.isChecked
+            cell.textView.delegate = self
+            setupDoneButtonOnKeyboard(with: .textView(cell.textView))
+            
+            if let data = (adSetting.value as? HyBidAdSettingsDictionary), !data.isEmpty {
+                let sortedData = data.sorted(by: {$0.key > $1.key })
+                cell.textView.text = sortedData.description
+                cell.placeholder = String()
+            }
+            cell.textView.tag = indexPath.section * 1000 + indexPath.row
+            return cell
         case .segmentedControlCell:
             let cell = tableView.dequeueReusableCell(withIdentifier: "HyBidSegmentedControlTableViewCell", for: indexPath) as! HyBidSegmentedControlTableViewCell
             cell.selectionStyle = .none
@@ -342,10 +431,32 @@ enum CellType {
     }
 
     @objc func textFieldValueChanged(_ sender: UITextField) {
-        let row = sender.tag % 1000
-        let section = sender.tag / 1000
+        guard let text = sender.text else { return }
+        fieldValueChange(text: text, senderTag: sender.tag)
+    }
+    
+    func fieldValueChange(text: String, senderTag: Int) {
+        let row = senderTag % 1000
+        let section = senderTag / 1000
         var adSetting = adSettings[section][row]
-        adSetting.value = Int(sender.text ?? "")
+        
+        switch adSetting.cellType {
+        case .textFieldCell:
+            adSetting.value = text
+        case .numberFieldCell:
+            adSetting.value = Int(text) ?? nil
+        case .dictionaryFieldCell:
+            if let data = text.data(using: .utf8) {
+                do {
+                    adSetting.value = try JSONSerialization.jsonObject(with: data, options: []) as? HyBidAdSettingsDictionary
+                } catch {
+                    adSetting.value = nil
+                }
+            }
+        default:
+            break;
+        }
+
         adSettings[section][row] = adSetting
     }
 
@@ -359,18 +470,30 @@ extension HyBidAdSettingsViewController {
 
         for section in adSettings {
             for setting in section {
-                if setting.isChecked, var value = setting.value {
+                if setting.isChecked, let value = setting.value {
                     let name = setting.remoteConfigName
                     var castedValue: Any?
-                    if let boolValue = value as? Bool {
-                        castedValue = boolValue
-                    } else if let intValue = value as? Int {
-                        castedValue = intValue
-                    } else if let stringValue = value as? String {
-                        castedValue = stringValue
+                    
+                    switch setting.cellType {
+                    case .switchCell: if let boolValue = value as? Bool { castedValue = boolValue }
+                    case .numberFieldCell: if let intValue = value as? Int { castedValue = intValue }
+                    case .textFieldCell: if let stringValue = value as? String, !stringValue.trimmingCharacters(in: .whitespaces).isEmpty { castedValue = stringValue }
+                    case .dictionaryFieldCell: if let dictValue = value as? HyBidAdSettingsDictionary, !dictValue.isEmpty {
+                        castedValue = dictValue
                     }
-                    let config: [String: Any] = ["name": name, "value": castedValue ?? ""]
-                    configs.append(config)
+                    case .segmentedControlCell:
+                        if let boolValue = value as? Bool {
+                            castedValue = boolValue
+                        } else if let stringValue = value as? String,
+                                    !stringValue.trimmingCharacters(in: .whitespaces).isEmpty {
+                            castedValue = stringValue
+                        }
+                    }
+
+                    if let castedValue = castedValue {
+                        let config: [String: Any] = ["name": name, "value": castedValue]
+                        configs.append(config)
+                    }
                 }
             }
         }
@@ -379,6 +502,7 @@ extension HyBidAdSettingsViewController {
            let jsonString = String(data: jsonData, encoding: .utf8) {
             print(jsonString)
             UserDefaults.standard.setValue(jsonString, forKey: "AdSettings")
+            self.dismissKeyboard()
             self.showAlertConfigSamplingEndpointFinished(with: true)
         } else {
             self.showAlertConfigSamplingEndpointFinished(with: false)
@@ -386,7 +510,7 @@ extension HyBidAdSettingsViewController {
 
     }
 
-    func loadAdSettingsFromUserDefaults() {
+    private func loadAdSettingsFromUserDefaults() {
         
         let configs = HyBidAdCustomizationUtility.checkSavedHyBidAdSettings()
         guard !configs.isEmpty else {
@@ -398,12 +522,30 @@ extension HyBidAdSettingsViewController {
             
             for (sectionIndex, section) in adSettings.enumerated() {
                 if let settingIndex = section.firstIndex(where: { $0.remoteConfigName == name }) {
-                    if let boolValue = value as? Bool {
-                        adSettings[sectionIndex][settingIndex].value = boolValue
-                    } else if let intValue = value as? Int {
-                        adSettings[sectionIndex][settingIndex].value = intValue
-                    } else if let stringValue = value as? String {
-                        adSettings[sectionIndex][settingIndex].value = stringValue
+                    
+                    switch adSettings[sectionIndex][settingIndex].cellType {
+                    case .switchCell:
+                        if let boolValue = value as? Bool {
+                            adSettings[sectionIndex][settingIndex].value = boolValue
+                        }
+                    case .segmentedControlCell:
+                        if let boolValue = value as? Bool {
+                            adSettings[sectionIndex][settingIndex].value = boolValue
+                        } else if let stringValue = value as? String {
+                            adSettings[sectionIndex][settingIndex].value = stringValue
+                        }
+                    case .textFieldCell:
+                        if let stringValue = value as? String {
+                            adSettings[sectionIndex][settingIndex].value = stringValue
+                        }
+                    case .numberFieldCell:
+                        if let intValue = value as? Int {
+                            adSettings[sectionIndex][settingIndex].value = intValue
+                        }
+                    case .dictionaryFieldCell:
+                        if let dictValue = value as? HyBidAdSettingsDictionary {
+                            adSettings[sectionIndex][settingIndex].value = dictValue
+                        }
                     }
                     adSettings[sectionIndex][settingIndex].isChecked = true
                 }
@@ -449,7 +591,50 @@ extension HyBidAdSettingsViewController: UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
+    
+    public func textFieldDidBeginEditing(_ textField: UITextField) {
+        DispatchQueue.main.async {
+            let endPosition = textField.endOfDocument
+            textField.selectedTextRange = textField.textRange(from: endPosition, to: endPosition)
+        }
+        self.activeTextField = textField
+    }
+}
 
+extension HyBidAdSettingsViewController: UITextViewDelegate {
+    
+    public func textViewDidChange(_ textView: UITextView) {
+        fieldValueChange(text: textView.text, senderTag: textView.tag)
+        determinePlaceholderVisibility(textView: textView)
+    }
+    
+    public func textViewDidEndEditing(_ textView: UITextView) {
+        determinePlaceholderVisibility(textView: textView)
+    }
+    public func textViewDidBeginEditing(_ textView: UITextView) {
+        determinePlaceholderVisibility(textView: textView)
+        self.activeTextView = textView
+    }
+    
+    private func determinePlaceholderVisibility(textView: UITextView) {
+        let placeholderLabel = textView.subviews.compactMap { $0 as? UILabel }.first
+        if (placeholderLabel != nil) {
+            placeholderLabel?.isHidden = !textView.text.isEmpty
+        }
+    }
+    
+    @objc private func cleanTextView(sender: UIButton){
+        let row = sender.tag % 1000
+        let section = sender.tag / 1000
+        let indexPath = IndexPath(row: row, section: section)
+        
+        let cell = tableView.cellForRow(at: indexPath)
+        guard let dictionaryCell = cell as? HyBidTextViewTableViewCell else { return }
+        
+        dictionaryCell.textView.text = nil
+        textViewDidChange(dictionaryCell.textView)
+        tableView.reloadRows(at: [indexPath], with: .automatic)
+    }
 }
 
 extension HyBidAdSettingsViewController {
@@ -474,21 +659,7 @@ extension HyBidAdSettingsViewController {
         present(alertController, animated: true, completion: nil)
     }
     
-    func showAlertEmptyTextField() {
-
-        let message = "Please provide a valid value"
-        let okButtonTitle = "OK"
-        
-        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-        
-        alertController.addAction(UIAlertAction(title: okButtonTitle, style: .default, handler: { _ in
-            self.dismiss(animated: true)
-        }))
-        
-        present(alertController, animated: true, completion: nil)
-    }
-    
-    func setupDoneButtonOnKeyboard(with textField: UITextField) {
+    private func setupDoneButtonOnKeyboard(with sender: TextInputType) {
         let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44))
         toolbar.sizeToFit()
         
@@ -496,19 +667,48 @@ extension HyBidAdSettingsViewController {
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissKeyboard))
         
         toolbar.setItems([flexibleSpace, doneButton], animated: false)
-        textField.inputAccessoryView = toolbar
-        self.activeTextField = textField
+        
+        switch sender {
+        case .textField(let textField):
+            textField?.inputAccessoryView = toolbar
+            self.activeTextField = textField
+        case .textView(let textView):
+            textView?.inputAccessoryView = toolbar
+            self.activeTextView = textView
+        }
+    }
+
+    @objc func dismissKeyboard() {
+        self.view.endEditing(true)
     }
     
-    @objc func dismissKeyboard() {
-        guard let activeTF = activeTextField else {
-            view.endEditing(true)
-            return
+    @objc func keyboardWillShow(notification: NSNotification) {
+        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
+        
+        let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardSize.height, right: 0.0)
+        
+        tableView.contentInset = contentInsets
+        self.tableView.layoutIfNeeded()
+        
+        var activeField: UIView? = nil
+        if let activeTextField = self.activeTextField, activeTextField.isFirstResponder {
+            activeField = activeTextField
         }
         
-        if activeTF.text?.isEmpty ?? false {
-            showAlertEmptyTextField()
+        if let activeTextView = self.activeTextView, activeTextView.isFirstResponder {
+            activeField = activeTextView
         }
+        
+        guard let activeField else { return }
+        
+        let row = activeField.tag % 1000
+        let section = activeField.tag / 1000
+        let activeTextFieldIndexPath = IndexPath(row: row, section: section)
+        tableView.scrollToRow(at: activeTextFieldIndexPath, at: .bottom, animated: true)
+        tableView.scrollIndicatorInsets = tableView.contentInset
     }
     
+    @objc func keyboardWillHide(notification: NSNotification) {
+        tableView.contentInset = .zero
+    }
 }

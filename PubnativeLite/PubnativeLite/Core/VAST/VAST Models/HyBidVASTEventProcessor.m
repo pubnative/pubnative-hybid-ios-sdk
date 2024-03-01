@@ -90,6 +90,8 @@
         eventString = HyBidVASTAdTrackingEventType_creativeView;
     } else if (type == HyBidVASTAdTrackingEventType_close) {
         eventString = HyBidVASTAdTrackingEventType_close;
+    } else if (type == HyBidVASTAdTrackingEventType_closeLinear) {
+        eventString = HyBidVASTAdTrackingEventType_closeLinear;
     } else if (type == HyBidVASTAdTrackingEventType_pause) {
         eventString = HyBidVASTAdTrackingEventType_pause;
         [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDPauseEvent];

@@ -37,6 +37,7 @@
 + (NSString *)audioState { return @"audiostate"; }
 + (NSString *)endcardEnabled { return @"endcardenabled"; }
 + (NSString *)customEndcardEnabled { return @"custom_endcard_enabled"; }
++ (NSString *)customEndCardInputValue { return @"custom_endcard_input_value"; }
 + (NSString *)endcardCloseDelay { return @"endcard_close_delay"; }
 + (NSString *)nativeCloseButtonDelay { return @"close_button_delay"; }
 + (NSString *)interstitialHtmlSkipOffset { return @"html_skip_offset"; }
@@ -61,8 +62,10 @@
 + (NSString *)creativeAutoStorekitEnabled { return @"creative_autostorekit"; }
 + (NSString *)customCtaEnabled { return @"custom_cta_enabled"; }
 + (NSString *)customCtaDelay { return @"custom_cta_delay"; }
++ (NSString *)customCtaInputValue { return @"custom_cta_input_value"; }
 + (NSString *)sdkAutoStorekitEnabled { return @"sdk_autostorekit"; }
 + (NSString *)sdkAutoStorekitDelay { return @"sdk_autostorekit_delay"; }
 + (NSString *)atomEnabled { return @"atom_enabled"; }
++ (NSString *)itunesIdValue { return @"itunesid_value"; }
 
 @end

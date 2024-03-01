@@ -86,25 +86,6 @@
     return self;
 }
 
-- (void)addCommonPropertiesToReportingDictionary:(NSMutableDictionary *)reportingDictionary withRewardedPresenter:(HyBidRewardedPresenter *)rewardedPresenter {
-    if ([HyBidSDKConfig sharedConfig].appToken != nil && [HyBidSDKConfig sharedConfig].appToken.length > 0) {
-        [reportingDictionary setObject:[HyBidSDKConfig sharedConfig].appToken forKey:HyBidReportingCommon.APPTOKEN];
-    }
-    if (rewardedPresenter.ad.zoneID != nil && rewardedPresenter.ad.zoneID.length > 0) {
-        [reportingDictionary setObject:rewardedPresenter.ad.zoneID forKey:HyBidReportingCommon.ZONE_ID];
-    }
-    if (rewardedPresenter.ad.assetGroupID) {
-        [reportingDictionary setObject:@"VAST" forKey:HyBidReportingCommon.AD_TYPE];
-    }
-
-    NSString *vast = rewardedPresenter.ad.isUsingOpenRTB
-            ? rewardedPresenter.ad.openRtbVast
-            : rewardedPresenter.ad.vast;
-    if (vast) {
-        [reportingDictionary setObject:vast forKey:HyBidReportingCommon.CREATIVE];
-    }
-}
-
 #pragma mark HyBidRewardedPresenterDelegate
 
 - (void)rewardedPresenterDidLoad:(HyBidRewardedPresenter *)rewardedPresenter {
@@ -176,8 +157,8 @@
         if (error != nil && error.localizedDescription != nil && error.localizedDescription.length > 0) {
             [self.errorReportingProperties setObject:error.localizedDescription forKey:HyBidReportingCommon.ERROR_MESSAGE];
         }
-        [self addCommonPropertiesToReportingDictionary:self.errorReportingProperties withRewardedPresenter:rewardedPresenter];
         if(self.errorReportingProperties){
+            [self.errorReportingProperties addEntriesFromDictionary:[[HyBid reportingManager] addCommonPropertiesForAd:rewardedPresenter.ad withRequest:nil]];
             HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR adFormat:HyBidReportingAdFormat.REWARDED properties:self.errorReportingProperties];
             [[HyBid reportingManager] reportEventFor:reportingEvent];
         }

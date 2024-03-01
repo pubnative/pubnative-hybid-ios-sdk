@@ -206,5 +206,6 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 + (NSString*)getSDKVersionInfo;
 + (NSString*)getCustomRequestSignalData;
 + (NSString*)getCustomRequestSignalData:(NSString*) mediationVendorName;
++ (void)setReporting:(BOOL)enabled;
 
 @end

@@ -22,6 +22,7 @@
 
 #import "HyBidDemoALMediationSettingsViewController.h"
 #import "PNLiteDemoSettings.h"
+#import <AppLovinSDK/AppLovinSDK.h>
 
 @interface HyBidDemoALMediationSettingsViewController () <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *nativeAdUnitIDTextField;
@@ -43,6 +44,7 @@
     self.interstitialAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidALMediationInterstitialAdUnitIDKey];
     self.rewardedAdUnitIDTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidALMediationRewardedAdUnitIDKey];
 }
+
 - (IBAction)saveAppLovinMediationSettingsTouchUpInside:(UIButton *)sender
 {
     [[NSUserDefaults standardUserDefaults] setObject:self.nativeAdUnitIDTextField.text forKey:kHyBidALMediationNativeAdUnitIDKey];

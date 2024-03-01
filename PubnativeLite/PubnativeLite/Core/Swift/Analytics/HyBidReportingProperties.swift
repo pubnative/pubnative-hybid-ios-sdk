@@ -80,8 +80,8 @@ public class EventType: HyBidReportingProperties  {
     @objc public static let VIDEO_AD_MIDPOINT = "midpoint"
     @objc public static let VIDEO_AD_THIRD_QUARTILE = "third_quartile"
     @objc public static let VIDEO_AD_COMPLETE = "ad_complete"
-    @objc public static let VIDEO_AD_PAUSE = "pause"
-    @objc public static let VIDEO_AD_RESUME = "resume"
+    @objc public static let VIDEO_AD_PAUSE = "video_pause"
+    @objc public static let VIDEO_AD_RESUME = "video_resume"
     @objc public static let VIDEO_AD_BUFFER_START = "buffer_start"
     @objc public static let VIDEO_AD_BUFFER_FINISH = "buffer_finish"
     @objc public static let VIDEO_AD_VOLUME_CHANGE = "volume_change"
@@ -97,6 +97,11 @@ public class EventType: HyBidReportingProperties  {
     @objc public static let REWARD = "reward"
     @objc public static let SESSION_REPORT_INFO = "session_report_info"
     @objc public static let CUSTOM_ENDCARD_IMPRESSION = "custom_endcard_impression"
+    @objc public static let DEFAULT_ENDCARD_SKIP = "default_endcard_skipped";
+    @objc public static let DEFAULT_ENDCARD_CLOSE = "default_endcard_closed";
+    @objc public static let DEFAULT_ENDCARD_IMPRESSION = "default_endcard_impression";
+    @objc public static let DEFAULT_ENDCARD_CLICK = "default_endcard_click";
+    @objc public static let CUSTOM_ENDCARD_CLOSE = "custom_endcard_closed"
     @objc public static let CUSTOM_ENDCARD_CLICK = "custom_endcard_click"
     @objc public static let ATOM_ACTIVATED = "atom_activated"
     @objc public static let ATOM_DEACTIVATED = "atom_deactivated"

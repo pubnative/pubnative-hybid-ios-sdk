@@ -385,10 +385,21 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
         [self.rootViewController dismissViewControllerAnimated:NO completion:^{
             [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_close];
             [self.delegate vastEndCardViewCloseButtonTapped];
+            if (!self.endCard.isCustomEndCard) {
+                HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.DEFAULT_ENDCARD_CLOSE adFormat:nil properties:nil];
+                [[HyBid reportingManager] reportEventFor:reportingEvent];
+            } else {
+                HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.CUSTOM_ENDCARD_CLOSE adFormat:nil properties:nil];
+                [[HyBid reportingManager] reportEventFor:reportingEvent];
+            }
         }];
     } else {
         if (self.closeButton != nil) {
             [self.closeButton removeFromSuperview];
+        }
+        if (!self.endCard.isCustomEndCard) {
+            HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.DEFAULT_ENDCARD_SKIP adFormat:nil properties:nil];
+            [[HyBid reportingManager] reportEventFor:reportingEvent];
         }
         [self.delegate vastEndCardViewSkipButtonTapped];
     }
@@ -456,7 +467,7 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
                                              selector:@selector(deviceOrientationDidChange:)
                                                  name:UIDeviceOrientationDidChangeNotification
                                                object:nil];
-    [self trackCustomEndCardImpression];
+    [self trackEndCardImpression];
     [self.delegate vastEndCardViewDidDisplay];
 }
 
@@ -645,8 +656,8 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
         [self.vastEventProcessor sendVASTUrls:[self.endCard clickTrackings]];
     }
     [self vastEndCardClickedWithType:[self.endCard type] withURL:nil withShouldOpenBrowser:YES];
+    [self trackEndCardClick];
     [self.delegate vastEndCardViewClicked: self.shouldTriggerAdClick];
-    [self trackCustomEndCardClick];
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
@@ -1065,16 +1076,20 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
     }
 }
 
-- (void)trackCustomEndCardImpression {
+- (void)trackEndCardImpression {
     if (!self.endCard.isCustomEndCard) {
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.DEFAULT_ENDCARD_IMPRESSION adFormat: self.isInterstitial ? HyBidReportingAdFormat.FULLSCREEN : HyBidReportingAdFormat.REWARDED properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
         return;
     }
     
     [self.adTracker trackCustomEndCardImpressionWithAdFormat: self.isInterstitial ? HyBidReportingAdFormat.FULLSCREEN : HyBidReportingAdFormat.REWARDED];
 }
 
-- (void)trackCustomEndCardClick {
+- (void)trackEndCardClick {
     if (!self.endCard.isCustomEndCard) {
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.DEFAULT_ENDCARD_CLICK adFormat:self.isInterstitial ? HyBidReportingAdFormat.FULLSCREEN : HyBidReportingAdFormat.REWARDED properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
         return;
     }
     
@@ -1096,7 +1111,7 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
         self.shouldTriggerAdClick = NO;
     }
     [self vastEndCardClickedWithType:[self.endCard type] withURL:url.absoluteString withShouldOpenBrowser:YES];
-    [self trackCustomEndCardClick];
+    [self trackEndCardClick];
     [self.delegate vastEndCardViewClicked:self.shouldTriggerAdClick];
 }
 

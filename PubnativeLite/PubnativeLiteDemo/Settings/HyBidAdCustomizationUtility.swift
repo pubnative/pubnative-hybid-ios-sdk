@@ -50,6 +50,18 @@ public class HyBidAdCustomizationUtility: NSObject {
             "adm": adContent,
             "configs": configs
         ]
+
+        if let customEndcardInputValue = getCustomInputValue(from: configs, key: .customEndcardInputValue) {
+            postParams[HyBidAdCustomizationKeys.customEndcardInputValue.rawValue] = customEndcardInputValue
+        }
+        
+        if let customCTAInputValue = getCustomInputValue(from: configs, key: .customCTAInputValue) {
+            postParams[HyBidAdCustomizationKeys.customCTAInputValue.rawValue] = customCTAInputValue
+        }
+        
+        if let skAdNetworkModel = getCustomInputValue(from: configs, key: .skAdNetworkModelInputValue) {
+            postParams[HyBidAdCustomizationKeys.skAdNetworkModelInputValue.rawValue] = skAdNetworkModel
+        }
         
         if width != 0 && height != 0 {
             postParams["width"] = width
@@ -88,5 +100,27 @@ public class HyBidAdCustomizationUtility: NSObject {
             completion(true, responseString)
         }
         task.resume()
+    }
+
+    static private func getCustomInputValue(from configs:[[String: Any]], key: HyBidAdCustomizationKeys) -> Any? {
+        let filteredArray = configs.filter { config in
+            guard let name = config[HyBidAdCustomizationKeys.name.rawValue] as? String,
+                  name == key.rawValue else { return false }
+            return true
+        }
+        
+        guard let customInput = filteredArray.first,
+              let customInputValue = customInput[HyBidAdCustomizationKeys.value.rawValue] else { return nil }
+        
+        switch key {
+        case .customCTAInputValue, .customEndcardInputValue:
+            guard let customInputValueString = customInputValue as? String else { return nil }
+            return customInputValueString
+        case .skAdNetworkModelInputValue:
+            guard let skAdNetworkModelData = try? JSONSerialization.data(withJSONObject: customInputValue, options: []) else { return nil }
+            return String(data: skAdNetworkModelData, encoding: .utf8)
+        default:
+            return nil
+        }
     }
 }

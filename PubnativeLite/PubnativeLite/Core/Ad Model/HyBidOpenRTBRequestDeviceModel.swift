@@ -46,6 +46,7 @@ struct HyBidOpenRTBRequestDeviceModel {
             HyBidRequestParameter.pxRatio(): Float(parameters[HyBidRequestParameter.pxRatio()] as? String ?? ""),
             HyBidRequestParameter.js(): Int(parameters[HyBidRequestParameter.js()] as? String ?? ""),
             HyBidRequestParameter.language(): parameters[HyBidRequestParameter.language()] as? String,
+            HyBidRequestParameter.geoFetch(): Int(parameters[HyBidRequestParameter.geoFetch()] as? String ?? ""),
         ]
         
         if #available(iOS 16.0, *) {} else {

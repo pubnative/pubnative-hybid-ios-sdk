@@ -22,7 +22,7 @@
 
 #import "AppLovinMediationVerveCustomNetworkAdapter.h"
 
-#define VERVE_ADAPTER_VERSION @"2.21.0-beta2.0"
+#define VERVE_ADAPTER_VERSION @"3.0.0-beta1.0"
 #define MAX_MEDIATION_VENDOR @"m"
 #define PARAM_APP_TOKEN @"pn_app_token"
 #define PARAM_TEST_MODE @"pn_test"
@@ -424,7 +424,7 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
 
 - (void)loadNativeAdForParameters:(id<MAAdapterResponseParameters>)parameters andNotify:(id<MANativeAdAdapterDelegate>)delegate
 {
-    [self log: @"Loading rewarded ad"];
+    [self log: @"Loading native ad"];
     
     NSString* zoneId = [parameters thirdPartyAdPlacementIdentifier];
     NSString *appToken = [parameters.customParameters al_stringForKey: PARAM_APP_TOKEN];
@@ -625,7 +625,7 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
 {
     [self.parentAdapter log: @"Native ad loaded"];
     
-    if ( !self.parentAdapter.nativeAd )
+    if (!nativeAd)
     {
         [self.parentAdapter log: @"Native ad failed to load: no fill"];
         [self.delegate didFailToLoadNativeAdWithError: MAAdapterError.noFill];
@@ -659,7 +659,7 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
 
 - (void)nativeAdDidFinishFetching:(HyBidNativeAd *)nativeAd
 {
-    
+    [self processNativeAd];
 }
 
 - (void)nativeAd:(HyBidNativeAd *)nativeAd didFailFetchingWithError:(NSError *)error

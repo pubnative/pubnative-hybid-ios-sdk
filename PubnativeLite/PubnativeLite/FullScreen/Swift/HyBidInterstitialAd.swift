@@ -305,7 +305,7 @@ public class HyBidInterstitialAd: NSObject {
             
             self.renderErrorReportingProperties[Common.ERROR_MESSAGE] = NSError.hyBidUnsupportedAsset().localizedDescription
             self.renderErrorReportingProperties[Common.ERROR_CODE] = String(format: "%ld", NSError.hyBidUnsupportedAsset().code)
-            self.renderReportingProperties.update(other: self.addCommonPropertiesToReportingDictionary())
+            self.renderReportingProperties.update(other: HyBid.reportingManager().addCommonProperties(forAd: self.ad, withRequest: self.interstitialAdRequest))
             self.reportEvent(EventType.RENDER_ERROR, properties: self.renderReportingProperties)
             return
         } else {
@@ -315,53 +315,20 @@ public class HyBidInterstitialAd: NSObject {
     
     func addSessionReportingProperties() -> [String:Any] {
         var sessionReportingDictionaryToAppend = [String:Any]()
-        if !HyBidSessionManager.sharedInstance.impressionCounter.isEmpty{
+        if !HyBidSessionManager.sharedInstance.impressionCounter.isEmpty {
             sessionReportingDictionaryToAppend[Common.IMPRESSION_SESSION_COUNT] = HyBidSessionManager.sharedInstance.impressionCounter
         }
-        if UserDefaults.standard.object(forKey: Common.SESSION_DURATION) != nil {
-            sessionReportingDictionaryToAppend[Common.SESSION_DURATION] = UserDefaults.standard.object(forKey: Common.SESSION_DURATION)
+        if let sessionDuration = UserDefaults.standard.string(forKey: Common.SESSION_DURATION), !sessionDuration.isEmpty{
+            sessionReportingDictionaryToAppend[Common.SESSION_DURATION] = sessionDuration
         }
-        if zoneID != nil{
+        if zoneID != nil {
             sessionReportingDictionaryToAppend[Common.ZONE_ID] = zoneID
         }
-        sessionReportingDictionaryToAppend[Common.AGE_OF_APP] = HyBidSessionManager.sharedInstance.getAgeOfApp()
+        let ageOfApp = HyBidSessionManager.sharedInstance.getAgeOfApp()
+        if !ageOfApp.isEmpty {
+            sessionReportingDictionaryToAppend[Common.AGE_OF_APP] = ageOfApp
+        }
         return sessionReportingDictionaryToAppend
-    }
-    
-    func addCommonPropertiesToReportingDictionary() -> [String: String] {
-        var reportingDictionaryToAppend = [String: String]()
-        if let appToken = HyBidSDKConfig.sharedConfig.appToken, appToken.count > 0 {
-            reportingDictionaryToAppend[Common.APPTOKEN] = appToken
-        }
-        if let zoneID = self.zoneID, zoneID.count > 0 {
-            reportingDictionaryToAppend[Common.ZONE_ID] = zoneID
-        }
-        if let integrationType = self.interstitialAdRequest?.integrationType, let integrationTypeString = HyBidIntegrationType.integrationType(toString: integrationType), integrationTypeString.count > 0 {
-            reportingDictionaryToAppend[Common.INTEGRATION_TYPE] = integrationTypeString
-        }
-        
-        var assetGroupId: NSInteger = 0;
-        if self.ad?.isUsingOpenRTB != nil && self.ad?.isUsingOpenRTB == true {
-            assetGroupId = NSInteger(truncating: self.ad?.openRTBAssetGroupID ?? 0)
-        } else {
-            assetGroupId = NSInteger(truncating: self.ad?.assetGroupID ?? 0)
-        }
-        
-        switch UInt32(assetGroupId) {
-            case VAST_REWARDED:
-                reportingDictionaryToAppend[Common.AD_TYPE] = "VAST"
-                if let vastString = self.ad?.vast {
-                    reportingDictionaryToAppend[Common.CREATIVE] = vastString
-                }
-                break
-            default:
-                reportingDictionaryToAppend[Common.AD_TYPE] = "HTML"
-                if let htmlDataString = self.ad?.htmlData {
-                    reportingDictionaryToAppend[Common.CREATIVE] = htmlDataString
-                }
-                break
-        }
-        return reportingDictionaryToAppend
     }
     
     func reportEvent(_ eventType: String, properties: [String: Any]) {
@@ -379,7 +346,7 @@ public class HyBidInterstitialAd: NSObject {
         }
         
         self.loadReportingProperties[Common.HAS_END_CARD] = self.ad?.hasEndCard
-        self.loadReportingProperties = self.addCommonPropertiesToReportingDictionary()
+        self.loadReportingProperties = HyBid.reportingManager().addCommonProperties(forAd: self.ad, withRequest: self.interstitialAdRequest)
         self.reportEvent(EventType.LOAD, properties: self.loadReportingProperties)
         guard let delegate = self.delegate else { return }
         delegate.interstitialDidLoad()
@@ -389,7 +356,7 @@ public class HyBidInterstitialAd: NSObject {
         if let initialLoadTimestamp = self.initialLoadTimestamp, initialLoadTimestamp != -1 {
             self.loadReportingProperties[Common.TIME_TO_LOAD] = String(format: "%f", elapsedTimeSince(initialLoadTimestamp))
         }
-        self.loadReportingProperties = self.addCommonPropertiesToReportingDictionary()
+        self.loadReportingProperties = HyBid.reportingManager().addCommonProperties(forAd: self.ad, withRequest: self.interstitialAdRequest)
         self.reportEvent(EventType.LOAD_FAIL, properties: self.loadReportingProperties)
         HyBidLogger.errorLog(fromClass: String(describing: HyBidInterstitialAd.self), fromMethod: #function, withMessage: error.localizedDescription)
         
@@ -492,7 +459,7 @@ extension HyBidInterstitialAd {
             self.loadReportingProperties[Common.RENDER_TIME] = String(format: "%f",
                                                                       elapsedTimeSince(initialRenderTimestamp))
         }
-        self.renderReportingProperties = self.addCommonPropertiesToReportingDictionary()
+        self.renderReportingProperties = HyBid.reportingManager().addCommonProperties(forAd: self.ad, withRequest: self.interstitialAdRequest)
         self.sessionReportingProperties = self.addSessionReportingProperties()
         self.reportEvent(EventType.RENDER, properties: self.renderReportingProperties)
         self.reportEvent(EventType.SESSION_REPORT_INFO, properties: self.sessionReportingProperties)

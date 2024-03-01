@@ -165,7 +165,7 @@ NSInteger const PNLiteResponseStatusOK = 200;
         self.initialAdResponseTimestamp = [[NSDate date] timeIntervalSince1970];
         [request startWithUrlString:self.requestURL.absoluteString withMethod:method delegate:self];
         if(self.requestReportingProperties) {
-            [self addCommonPropertiesToReportingDictionary:self.requestReportingProperties];
+            [self.requestReportingProperties addEntriesFromDictionary:[[HyBid reportingManager] addCommonPropertiesForAd:nil withRequest:self]];
             [self reportEvent:HyBidReportingEventType.REQUEST withProperties:self.requestReportingProperties];
         }
         self.body = request.body;
@@ -369,7 +369,7 @@ NSInteger const PNLiteResponseStatusOK = 200;
                         }
                         [self invokeDidLoad:ad];
                         if (self.cacheReportingProperties) {
-                            [self addCommonPropertiesToReportingDictionary:self.cacheReportingProperties];
+                            [self.cacheReportingProperties addEntriesFromDictionary:[[HyBid reportingManager] addCommonPropertiesForAd:ad withRequest:self]];
                             [self reportEvent:HyBidReportingEventType.CACHE withProperties:self.cacheReportingProperties];
                         }
                     }
@@ -601,7 +601,7 @@ NSInteger const PNLiteResponseStatusOK = 200;
                 }
                 [self invokeDidLoad:ad];
                 if(self.cacheReportingProperties) {
-                    [self addCommonPropertiesToReportingDictionary:self.cacheReportingProperties];
+                    [self.cacheReportingProperties addEntriesFromDictionary:[[HyBid reportingManager] addCommonPropertiesForAd:ad withRequest:self]];
                     [self reportEvent:HyBidReportingEventType.CACHE withProperties:self.cacheReportingProperties];
                 }
                 self.adCached = YES;
@@ -676,21 +676,6 @@ NSInteger const PNLiteResponseStatusOK = 200;
     }
 }
 
-- (void)addCommonPropertiesToReportingDictionary:(NSMutableDictionary *)reportingDictionary {
-    if ([HyBidSDKConfig sharedConfig].appToken != nil && [HyBidSDKConfig sharedConfig].appToken.length > 0) {
-        [reportingDictionary setObject:[HyBidSDKConfig sharedConfig].appToken forKey:HyBidReportingCommon.APPTOKEN];
-    }
-    if (self.zoneID != nil && self.zoneID.length > 0) {
-        [reportingDictionary setObject:self.zoneID forKey:HyBidReportingCommon.ZONE_ID];
-    }
-    if ([HyBidIntegrationType integrationTypeToString:self.integrationType] != nil && [HyBidIntegrationType integrationTypeToString:self.integrationType].length > 0) {
-        [reportingDictionary setObject:[HyBidIntegrationType integrationTypeToString:self.integrationType] forKey:HyBidReportingCommon.INTEGRATION_TYPE];
-    }
-    if (self.requestURL != nil && self.requestURL.absoluteString.length > 0) {
-        [reportingDictionary setObject:self.requestURL.absoluteString forKey:HyBidReportingCommon.AD_REQUEST];
-    }
-}
-
 - (void)reportEvent:(NSString *)eventType withProperties:(NSMutableDictionary *)properties {
     NSString *adFormat;
     if ([self isRewarded]) {
@@ -706,6 +691,9 @@ NSInteger const PNLiteResponseStatusOK = 200;
                 [properties setObject:[self adSize].description forKey:HyBidReportingCommon.AD_SIZE];
             }
         }
+    }
+    if (self.requestURL != nil && self.requestURL.absoluteString.length > 0) {
+        [properties setObject:self.requestURL.absoluteString forKey:HyBidReportingCommon.AD_REQUEST];
     }
     HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc] initWith:eventType
                                                                        adFormat:adFormat
@@ -731,7 +719,7 @@ NSInteger const PNLiteResponseStatusOK = 200;
                 [self processVASTTagResponseFrom:dataString];
                 [self.adResponseReportingProperties setObject:@"ortb" forKey:HyBidReportingCommon.REQUEST_TYPE];
                 if (self.adResponseReportingProperties) {
-                    [self addCommonPropertiesToReportingDictionary:self.adResponseReportingProperties];
+                    [self.adResponseReportingProperties addEntriesFromDictionary:[[HyBid reportingManager] addCommonPropertiesForAd:nil withRequest:self]];
                     [self reportEvent:HyBidReportingEventType.RESPONSE withProperties:self.adResponseReportingProperties];
                 }
                 [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:self.requestURL.absoluteString
@@ -758,7 +746,7 @@ NSInteger const PNLiteResponseStatusOK = 200;
                             [self.adResponseReportingProperties setObject:@"apiv3" forKey:HyBidReportingCommon.REQUEST_TYPE];
                         }
                         if(self.adResponseReportingProperties) {
-                            [self addCommonPropertiesToReportingDictionary:self.adResponseReportingProperties];
+                            [self.adResponseReportingProperties addEntriesFromDictionary:[[HyBid reportingManager] addCommonPropertiesForAd:nil withRequest:self]];
                             [self reportEvent:HyBidReportingEventType.RESPONSE withProperties:self.adResponseReportingProperties];
                         }
                         [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:self.requestURL.absoluteString
@@ -787,7 +775,7 @@ NSInteger const PNLiteResponseStatusOK = 200;
         [self.adResponseReportingProperties setObject:error.debugDescription forKey:HyBidReportingCommon.AD_RESPONSE];
     }
     if (self.adResponseReportingProperties){
-        [self addCommonPropertiesToReportingDictionary:self.adResponseReportingProperties];
+        [self.adResponseReportingProperties addEntriesFromDictionary:[[HyBid reportingManager] addCommonPropertiesForAd:nil withRequest:self]];
         [self reportEvent:HyBidReportingEventType.RESPONSE withProperties:self.adResponseReportingProperties];
     }
     [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:self.requestURL.absoluteString

@@ -87,36 +87,6 @@
     return self;
 }
 
-- (void)addCommonPropertiesToReportingDictionary:(NSMutableDictionary *)reportingDictionary withInterstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter {
-    if ([HyBidSDKConfig sharedConfig].appToken != nil && [HyBidSDKConfig sharedConfig].appToken.length > 0) {
-        [reportingDictionary setObject:[HyBidSDKConfig sharedConfig].appToken forKey:HyBidReportingCommon.APPTOKEN];
-    }
-    if (interstitialPresenter.ad.zoneID != nil && interstitialPresenter.ad.zoneID.length > 0) {
-        [reportingDictionary setObject:interstitialPresenter.ad.zoneID forKey:HyBidReportingCommon.ZONE_ID];
-    }
-    if (interstitialPresenter.ad.assetGroupID) {
-        switch (interstitialPresenter.ad.assetGroupID.integerValue) {
-            case VAST_INTERSTITIAL: {
-                [reportingDictionary setObject:@"VAST" forKey:HyBidReportingCommon.AD_TYPE];
-                
-                NSString *vast = interstitialPresenter.ad.isUsingOpenRTB
-                ? interstitialPresenter.ad.openRtbVast
-                : interstitialPresenter.ad.vast;
-                if (vast) {
-                    [reportingDictionary setObject:vast forKey:HyBidReportingCommon.CREATIVE];
-                }
-                break;
-            }
-            default:
-                [reportingDictionary setObject:@"HTML" forKey:HyBidReportingCommon.AD_TYPE];
-                if (interstitialPresenter.ad.htmlData) {
-                    [reportingDictionary setObject:interstitialPresenter.ad.htmlData forKey:HyBidReportingCommon.CREATIVE];
-                }
-                break;
-        }
-    }
-}
-
 #pragma mark HyBidInterstitialPresenterDelegate
 
 - (void)interstitialPresenterDidLoad:(HyBidInterstitialPresenter *)interstitialPresenter {
@@ -190,7 +160,7 @@
             [self.errorReportingProperties setObject:error.localizedDescription forKey:HyBidReportingCommon.ERROR_MESSAGE];
         }
         if(self.errorReportingProperties){
-            [self addCommonPropertiesToReportingDictionary:self.errorReportingProperties withInterstitialPresenter:interstitialPresenter];
+            [self.errorReportingProperties addEntriesFromDictionary:[[HyBid reportingManager] addCommonPropertiesForAd:interstitialPresenter.ad withRequest:nil]];
             HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR adFormat:HyBidReportingAdFormat.FULLSCREEN properties:self.errorReportingProperties];
             [[HyBid reportingManager] reportEventFor:reportingEvent];
         }

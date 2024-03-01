@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018 PubNative. All rights reserved.
+//  Copyright © 2021 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,18 +20,12 @@
 //  THE SOFTWARE.
 //
 
-#import "PNLiteMeta.h"
+import Foundation
 
-@implementation PNLiteMeta
-
-+ (NSString *)points { return @"points"; }
-+ (NSString *)revenueModel { return @"revenuemodel"; }
-+ (NSString *)campaignId { return @"campaignid"; }
-+ (NSString *)creativeId { return @"creativeid"; }
-+ (NSString *)bundleId { return @"bundleid"; }
-+ (NSString *)contentInfo { return @"contentinfo"; }
-+ (NSString *)skadnetwork { return @"skadnetwork"; }
-+ (NSString *)skadnetworkInputValue { return @"skadnetwork_input_value"; }
-+ (NSString *)remoteconfigs { return @"remoteconfigs"; }
-
-@end
+enum HyBidAdCustomizationKeys: String {
+    case name = "name"
+    case value = "value"
+    case customEndcardInputValue = "custom_endcard_input_value"
+    case skAdNetworkModelInputValue = "skadnetwork_input_value"
+    case customCTAInputValue = "custom_cta_input_value"
+}

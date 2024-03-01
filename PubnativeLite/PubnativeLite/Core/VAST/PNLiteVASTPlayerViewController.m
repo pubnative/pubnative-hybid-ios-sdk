@@ -714,7 +714,9 @@ typedef enum {
         [self removeObservers];
         [self stopLoadTimeoutTimer];
         if(self.shown) {
+            self.vastEventProcessor = [[HyBidVASTEventProcessor alloc] initWithEventsDictionary:self.events delegate:self];
             [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_close];
+            [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_closeLinear];
         }
         [self.player pause];
         [self.layer removeFromSuperlayer];
@@ -1825,6 +1827,7 @@ typedef enum {
         [customEndCard setType:HyBidEndCardType_HTML];
         [customEndCard setContent:self.ad.customEndCardData];
         [customEndCard setIsCustomEndCard:YES];
+        self.ad.customEndCard = customEndCard;
         [self.endCards addObject:customEndCard];
     }
     if (self.vastArray != nil && self.vastArray.count != 0) {

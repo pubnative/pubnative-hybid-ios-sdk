@@ -63,6 +63,7 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     self.data = nil;
     self.contentInfoView = nil;
     self._zoneID = nil;
+    self.customEndCard = nil;
     
     #if __has_include(<ATOM/ATOM-Swift.h>)
     self._cohorts = nil;
@@ -221,13 +222,25 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     return result;
 }
 
-- (NSString *)customEndCardData {
+- (NSString *)customEndCardInputValue {
     NSString *result = nil;
-    HyBidDataModel *data = [self assetDataWithType:PNLiteAsset.customEndcard];
-    if (data) {
-        result = data.html;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.customEndCardInputValue] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.customEndCardInputValue];
+        }
     }
     return result;
+}
+
+- (NSString *)customEndCardData {
+    NSString *customEndCardInputValue = [self customEndCardInputValue];
+    
+    if (customEndCardInputValue) {
+        return customEndCardInputValue;
+    }
+    HyBidDataModel *data = [self assetDataWithType:PNLiteAsset.customEndcard];
+    return (data) ? data.html : nil;
 }
 
 - (NSString *)link {
@@ -683,7 +696,35 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     return result;
 }
 
+- (NSString *)customCtaInputValue {
+    NSString *result = nil;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.customCtaInputValue] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.customCtaInputValue];
+        }
+    }
+    return result;
+}
+
+- (NSString *)itunesIdValue {
+    NSString *result = nil;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.itunesIdValue] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.itunesIdValue];
+        }
+    }
+    return result;
+}
+
 - (NSString *)customCtaIconURL {
+    
+    NSString *customCtaInputValue = [self customCtaInputValue];
+    if (customCtaInputValue) {
+        return customCtaInputValue;
+    }
+    
     NSString *result = nil;
     HyBidDataModel *data = [self assetDataWithType:PNLiteAsset.customCTA];
     if (data) {
@@ -803,7 +844,9 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
 }
 
 - (HyBidSkAdNetworkModel *)getOpenRTBSkAdNetworkModel {
-    HyBidOpenRTBDataModel *data = [self extensionDataWithType:PNLiteMeta.skadnetwork];
+    HyBidOpenRTBDataModel *data = [self skAdNetworkModelInputValue]
+                                ? [[HyBidOpenRTBDataModel alloc] initWithDictionary: [self skAdNetworkModelInputValue]]
+                                : [self extensionDataWithType:PNLiteMeta.skadnetwork];
     HyBidSkAdNetworkModel *model = [[HyBidSkAdNetworkModel alloc] init];
     
     if (data) {
@@ -815,9 +858,15 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
         if ([data stringFieldWithKey:HyBidSKAdNetworkParameter.campaign] != nil) {
             [dict setValue:[data stringFieldWithKey:HyBidSKAdNetworkParameter.campaign] forKey:HyBidSKAdNetworkParameter.campaign];
         }
-        if ([data stringFieldWithKey:HyBidSKAdNetworkParameter.itunesitem] != nil) {
-            [dict setValue:[data stringFieldWithKey:HyBidSKAdNetworkParameter.itunesitem] forKey:HyBidSKAdNetworkParameter.itunesitem];
+        
+        if ([self itunesIdValue]) {
+            [dict setValue:[self itunesIdValue] forKey:HyBidSKAdNetworkParameter.itunesitem];
+        } else {
+            if ([data stringFieldWithKey:HyBidSKAdNetworkParameter.itunesitem] != nil) {
+                [dict setValue:[data stringFieldWithKey:HyBidSKAdNetworkParameter.itunesitem] forKey:HyBidSKAdNetworkParameter.itunesitem];
+            }
         }
+        
         if ([data stringFieldWithKey:HyBidSKAdNetworkParameter.network] != nil) {
             [dict setValue:[data stringFieldWithKey:HyBidSKAdNetworkParameter.network] forKey:HyBidSKAdNetworkParameter.network];
         }
@@ -891,7 +940,9 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
 
 - (HyBidSkAdNetworkModel *)getSkAdNetworkModel {
     HyBidSkAdNetworkModel *model = [[HyBidSkAdNetworkModel alloc] init];
-    HyBidDataModel *data = [self metaDataWithType:PNLiteMeta.skadnetwork];
+    HyBidDataModel *data = [self skAdNetworkModelInputValue]
+                         ? [[HyBidDataModel alloc] initWithDictionary: [self skAdNetworkModelInputValue]]
+                         : [self metaDataWithType:PNLiteMeta.skadnetwork];
     
     if (data) {
         NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
@@ -902,9 +953,15 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
         if ([data stringFieldWithKey:HyBidSKAdNetworkParameter.campaign] != nil) {
             [dict setValue:[data stringFieldWithKey:HyBidSKAdNetworkParameter.campaign] forKey:HyBidSKAdNetworkParameter.campaign];
         }
-        if ([data stringFieldWithKey:HyBidSKAdNetworkParameter.itunesitem] != nil) {
-            [dict setValue:[data stringFieldWithKey:HyBidSKAdNetworkParameter.itunesitem] forKey:HyBidSKAdNetworkParameter.itunesitem];
+        
+        if ([self itunesIdValue]) {
+            [dict setValue:[self itunesIdValue] forKey:HyBidSKAdNetworkParameter.itunesitem];
+        } else {
+            if ([data stringFieldWithKey:HyBidSKAdNetworkParameter.itunesitem] != nil) {
+                [dict setValue:[data stringFieldWithKey:HyBidSKAdNetworkParameter.itunesitem] forKey:HyBidSKAdNetworkParameter.itunesitem];
+            }
         }
+
         if ([data stringFieldWithKey:HyBidSKAdNetworkParameter.network] != nil) {
             [dict setValue:[data stringFieldWithKey:HyBidSKAdNetworkParameter.network] forKey:HyBidSKAdNetworkParameter.network];
         }
@@ -974,6 +1031,17 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     }
     
     return model;
+}
+
+- (NSDictionary *)skAdNetworkModelInputValue {
+    NSDictionary *result = nil;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteMeta.skadnetworkInputValue] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteMeta.skadnetworkInputValue];
+        }
+    }
+    return result;
 }
 
 - (HyBidDataModel *)assetDataWithType:(NSString *)type {

@@ -268,6 +268,7 @@
 
 - (void)skStoreProductViewIsReadyToPresent:(NSNotification *)notification {
     self.isSecondViewPrepared = YES;
+    [self dismissEntirely:NO withAd:self.ad causedByAutoCloseTimerCompletion:NO];
 }
 
 - (void)skStoretoreProductViewIsDismissed:(NSNotification *)notification {

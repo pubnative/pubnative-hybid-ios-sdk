@@ -101,8 +101,10 @@ NSString *const PNLiteAdCustomEndCardClick = @"custom_endcard_click";
     }
     
     [self trackURLs:self.clickURLs withTrackType:PNLiteAdTrackerClick];
-    HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.CLICK adFormat:adFormat properties:nil];
-    [[HyBid reportingManager] reportEventFor:reportingEvent];
+    if (!self.ad.customEndCard.isCustomEndCardClicked) {
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.CLICK adFormat:adFormat properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
+    }
     self.clickTracked = YES;
 }
 
@@ -136,6 +138,7 @@ NSString *const PNLiteAdCustomEndCardClick = @"custom_endcard_click";
     [self trackURLs:self.clickURLs withTrackType:PNLiteAdCustomEndCardClick];
     HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.CUSTOM_ENDCARD_CLICK adFormat:adFormat properties:nil];
     [[HyBid reportingManager] reportEventFor:reportingEvent];
+    self.ad.customEndCard.isCustomEndCardClicked = YES;
     self.customEndCardClickTracked = YES;
 }
 

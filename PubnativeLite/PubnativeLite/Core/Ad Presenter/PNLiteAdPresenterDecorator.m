@@ -105,35 +105,6 @@ NSString * const kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey = @"kUser
     return self;
 }
 
-- (void)addCommonPropertiesToReportingDictionary:(NSMutableDictionary *)reportingDictionary withAdPresenter:(HyBidAdPresenter *)adPresenter {
-    if ([HyBidSDKConfig sharedConfig].appToken != nil && [HyBidSDKConfig sharedConfig].appToken.length > 0) {
-        [reportingDictionary setObject:[HyBidSDKConfig sharedConfig].appToken forKey:HyBidReportingCommon.APPTOKEN];
-    }
-    if (adPresenter.ad.zoneID != nil && adPresenter.ad.zoneID.length > 0) {
-        [reportingDictionary setObject:adPresenter.ad.zoneID forKey:HyBidReportingCommon.ZONE_ID];
-    }
-    if (adPresenter.ad.assetGroupID) {
-        switch (adPresenter.ad.assetGroupID.integerValue) {
-            case VAST_MRECT: {
-                [reportingDictionary setObject:@"VAST" forKey:HyBidReportingCommon.AD_TYPE];
-                NSString *vast = adPresenter.ad.isUsingOpenRTB
-                ? adPresenter.ad.openRtbVast
-                : adPresenter.ad.vast;
-                if (vast) {
-                    [reportingDictionary setObject:vast forKey:HyBidReportingCommon.CREATIVE];
-                }
-                break;
-            }
-            default:
-                [reportingDictionary setObject:@"HTML" forKey:HyBidReportingCommon.AD_TYPE];
-                if (adPresenter.ad.htmlData) {
-                    [reportingDictionary setObject:adPresenter.ad.htmlData forKey:HyBidReportingCommon.CREATIVE];
-                }
-                break;
-        }
-    }
-}
-
 #pragma mark HyBidAdPresenterDelegate
 
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didLoadWithAd:(UIView *)adView {
@@ -171,7 +142,7 @@ NSString * const kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey = @"kUser
             [self.errorReportingProperties setObject:error.localizedDescription forKey:HyBidReportingCommon.ERROR_MESSAGE];
         }
         if(self.errorReportingProperties) {
-            [self addCommonPropertiesToReportingDictionary:self.errorReportingProperties withAdPresenter:adPresenter];
+            [self.errorReportingProperties addEntriesFromDictionary:[[HyBid reportingManager] addCommonPropertiesForAd:adPresenter.ad withRequest:nil]];
             HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR adFormat:HyBidReportingAdFormat.BANNER properties:self.errorReportingProperties];
             [[HyBid reportingManager] reportEventFor:reportingEvent];
         }
