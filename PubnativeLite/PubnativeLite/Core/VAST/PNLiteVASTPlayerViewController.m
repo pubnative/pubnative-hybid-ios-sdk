@@ -157,6 +157,7 @@ HyBidCloseButton *closeButton;
 @property (nonatomic, strong) NSMutableArray<HyBidVASTEndCard *> *endCards;
 @property (nonatomic, strong) HyBidVASTEndCardManager *endCardManager;
 @property (nonatomic, strong) HyBidVASTEndCardView *endCardView;
+@property (nonatomic, strong) NSMutableArray<NSString *> *vastCompanionsClicksThrough;
 @property (nonatomic) HyBidInterstitialActionBehaviour fullscreenClickabilityBehaviour;
 @property (nonatomic, assign) HyBidCountdownStyle countdownStyle;
 @property (nonatomic, strong) HyBidSkipOverlay *skipOverlay;
@@ -222,6 +223,7 @@ typedef enum {
         self.companionEvents = [[NSMutableDictionary alloc] init];
         self.customCTADelegate = self;
         self.endCards = [[NSMutableArray alloc] init];
+        self.vastCompanionsClicksThrough = [[NSMutableArray alloc] init];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(preparePlayerForAdFeedbackView)
                                                      name:@"adFeedbackViewIsReady"
@@ -743,6 +745,7 @@ typedef enum {
         self.events = nil;
         self.companionEvents = nil;
         closeButton = nil;
+        self.vastCompanionsClicksThrough = nil;
     }
 }
 
@@ -1798,6 +1801,10 @@ typedef enum {
                         companionAds = [creative companionAds];
                         for (HyBidVASTCompanion *companion in [companionAds companions]) {
                             [self.endCardManager addCompanion:companion];
+                            NSString *companionClickThrougContent = [[companion companionClickThrough] content];
+                            if (companionClickThrougContent) {
+                                [self.vastCompanionsClicksThrough addObject: companionClickThrougContent];
+                            }
                         }
                     }
                 }
@@ -1809,6 +1816,10 @@ typedef enum {
                         companionAds = [creative companionAds];
                         for (HyBidVASTCompanion *companion in [companionAds companions]) {
                             [self.endCardManager addCompanion:companion];
+                            NSString *companionClickThrougContent = [[companion companionClickThrough] content];
+                            if (companionClickThrougContent) {
+                                [self.vastCompanionsClicksThrough addObject: companionClickThrougContent];
+                            }
                         }
                     }
                 }
@@ -1882,8 +1893,8 @@ typedef enum {
                                                                         isInterstitial:(self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded)
                                                                          iconXposition:self.iconPositionX
                                                                          iconYposition:self.iconPositionY
-                                                                        withSkipButton:self.endCards.count == endCardCount];
-
+                                                                        withSkipButton:self.endCards.count == endCardCount
+                                               vastCompanionsClicksThrough:[self.vastCompanionsClicksThrough copy]];
     [self.endCardView displayEndCard:endCard withCTAButton:self.ctaButton withViewController:self];
     [self.view addSubview:self.endCardView];
     if (!endCard.isCustomEndCard && self.companionEvents != nil && self.companionEvents.count != 0) {

@@ -108,7 +108,7 @@
 @property (nonatomic, strong) NSTimer *delayTimer;
 @property (nonatomic, strong) NSDate *storekitDelayTimerStartDate;
 @property (nonatomic, assign) NSTimeInterval storekitDelayTimeElapsed;
-
+@property (nonatomic, strong) NSArray<NSString *> *vastCompanionsClicksThrough;
 @end
 
 @implementation HyBidVASTEndCardView
@@ -122,7 +122,8 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
                   isInterstitial:(BOOL)isInterstitial
                    iconXposition:(NSString *)iconXposition
                    iconYposition:(NSString *)iconYposition
-                  withSkipButton:(BOOL)withSkipButton {
+                  withSkipButton:(BOOL)withSkipButton 
+      vastCompanionsClicksThrough:(NSArray<NSString *>*) vastCompanionsClicksThrough {
     self = [super init];
     if (self) {
         self.delegate = delegate;
@@ -134,6 +135,7 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
         self.iconYposition = iconYposition;
         self.isInterstitial = isInterstitial;
         self.withSkipButton = withSkipButton;
+        self.vastCompanionsClicksThrough = vastCompanionsClicksThrough;
         self.shouldOpenBrowser = NO;
         self.storekitPageIsPresented = NO;
         self.storekitPageIsBeingPresented = NO;
@@ -682,6 +684,7 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
     self.isExtensionDisplay = nil;
     self.shouldOpenBrowser = nil;
     self.storekitDelayTimeElapsed = 0;
+    self.vastCompanionsClicksThrough = nil;
 }
 
 // MARK: - Helper methods
@@ -797,6 +800,26 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
                 throughClickURL = [[videoClicksObject clickThrough] content];
             }
             break;
+        }
+    }
+    
+    NSArray *companionClicksThroughOfLastInline = [creatives filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(HyBidVASTCreative *creative, NSDictionary *bindings) {
+        if ([creative companionAds] != nil) {
+            HyBidVASTCompanionAds *companionAds = [creative companionAds];
+            for (HyBidVASTCompanion *companion in [companionAds companions]) {
+                NSString *clickThrough = [[companion companionClickThrough] content];
+                if ([clickThrough length] != 0){
+                    return YES;
+                }
+            }
+        }
+        return NO;
+    }]];
+    
+    if (companionClicksThroughOfLastInline.count == 0) {
+        NSString *lastCompanionsClickThrough = self.vastCompanionsClicksThrough.lastObject;
+        if (lastCompanionsClickThrough && lastCompanionsClickThrough.length != 0) {
+            throughClickURL = lastCompanionsClickThrough;
         }
     }
     
