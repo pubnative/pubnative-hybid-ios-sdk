@@ -109,28 +109,8 @@ BOOL const HyBidVASTModel_ValidateWithSchema = NO;
     if (!vastDataString) {
         return HyBidVASTParserError_XMLParse;
     }
-    // having XML namespace in the XML causes parsing issues
-    // therefore we are replacing the starting <VAST> line
-    NSString *regexExp = @"<VAST .*?>";
-    NSError *error = NULL;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexExp options:NSRegularExpressionCaseInsensitive error:&error];
-    NSTextCheckingResult *match = [regex firstMatchInString:vastDataString options:0 range: NSMakeRange(0, [vastDataString length])];
     
-    NSString *newXmlString = vastDataString;
-    
-    if ([match numberOfRanges] > 0) {
-        NSString *matchedString = [vastDataString substringWithRange:[match rangeAtIndex:0]];
-        
-        HyBidXMLEx *parser = [HyBidXMLEx parserWithXML:vastDataString];
-        NSString *vastVersion = [[parser rootElement] attribute:@"version"];
-        
-        if (vastVersion != nil) {
-            NSString *customVASTLine = [[NSString alloc] initWithFormat: @"<VAST version=\"%@\">", vastVersion];
-            newXmlString = [vastDataString stringByReplacingOccurrencesOfString:matchedString withString:customVASTLine options:0 range:NSMakeRange(0, [vastDataString length])];
-        }
-    }
-    
-    vastData = [newXmlString dataUsingEncoding:NSUTF8StringEncoding];
+    vastData = [vastDataString dataUsingEncoding:NSUTF8StringEncoding];
     @synchronized (self.vastArray) {
         [self.vastArray addObject:vastData];
     }

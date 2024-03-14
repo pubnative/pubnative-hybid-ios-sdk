@@ -641,7 +641,6 @@
 		E7E8E8F826CAE780000E877B /* HyBidError.h in Headers */ = {isa = PBXBuildFile; fileRef = E7E8E8F626CAE780000E877B /* HyBidError.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E7E8E8FA26CAE780000E877B /* HyBidError.m in Sources */ = {isa = PBXBuildFile; fileRef = E7E8E8F726CAE780000E877B /* HyBidError.m */; };
 		E7F24F1824E4224000160097 /* hybidmraidscaling.js in Resources */ = {isa = PBXBuildFile; fileRef = E7F24F1724E4224000160097 /* hybidmraidscaling.js */; };
-		F573E9B78EA90F24824ABB71 /* Pods_HyBid.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B3101E66E12FF8ED57915D /* Pods_HyBid.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -687,8 +686,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		129BA614A0B2657185E120F4 /* Pods-HyBid.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HyBid.debug.xcconfig"; path = "Target Support Files/Pods-HyBid/Pods-HyBid.debug.xcconfig"; sourceTree = "<group>"; };
-		15B3101E66E12FF8ED57915D /* Pods_HyBid.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HyBid.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		340BCA042AA771B400AB0268 /* ISVerveCustomBanner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVerveCustomBanner.h; sourceTree = "<group>"; };
 		340BCA052AA771B400AB0268 /* ISVerveCustomBanner.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVerveCustomBanner.m; sourceTree = "<group>"; };
 		340BCA072AA79E1500AB0268 /* HyBidDemoISBannerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidDemoISBannerViewController.h; sourceTree = "<group>"; };
@@ -732,7 +729,6 @@
 		3461B9D028BECF1700448739 /* ISVerveCustomInterstitial.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVerveCustomInterstitial.h; sourceTree = "<group>"; };
 		3461B9D128BECF1700448739 /* ISVerveUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVerveUtils.m; sourceTree = "<group>"; };
 		3461B9D228BECF1700448739 /* ISVerveCustomRewardedVideo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVerveCustomRewardedVideo.h; sourceTree = "<group>"; };
-		34786B55145EFA9E253C4206 /* Pods-HyBid.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HyBid.release.xcconfig"; path = "Target Support Files/Pods-HyBid/Pods-HyBid.release.xcconfig"; sourceTree = "<group>"; };
 		347B1C802B7E7042006750A5 /* HyBidDemoChartboostInterstitialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidDemoChartboostInterstitialViewController.h; sourceTree = "<group>"; };
 		349DC2332A69393900D4DA2E /* HyBidSKAdNetworkParameter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidSKAdNetworkParameter.h; sourceTree = "<group>"; };
 		349DC2342A69393900D4DA2E /* HyBidSKAdNetworkParameter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidSKAdNetworkParameter.m; sourceTree = "<group>"; };
@@ -1454,7 +1450,6 @@
 				5A9B66CD20BD63810067964E /* libxml2.2.tbd in Frameworks */,
 				5A9B66CB20BD63590067964E /* libxml2.tbd in Frameworks */,
 				CE43DB212B5993160022395B /* OMSDK_Pubnativenet.xcframework in Frameworks */,
-				F573E9B78EA90F24824ABB71 /* Pods_HyBid.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1921,7 +1916,6 @@
 				5A8903D0203DE1D400D86051 /* WebKit.framework */,
 				A5FF5EB105DD1BE3EE66911C /* Pods_HyBidDemo.framework */,
 				6AF6D274890240B10116604E /* Pods_HyBidTests.framework */,
-				15B3101E66E12FF8ED57915D /* Pods_HyBid.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2946,8 +2940,6 @@
 				BF44EC73E74F3925E8EDDC01 /* Pods-HyBidDemo.release.xcconfig */,
 				F8BC655E404E6BCE821E24B1 /* Pods-HyBidTests.debug.xcconfig */,
 				F21D4F5D1DE0796EEE0AB48E /* Pods-HyBidTests.release.xcconfig */,
-				129BA614A0B2657185E120F4 /* Pods-HyBid.debug.xcconfig */,
-				34786B55145EFA9E253C4206 /* Pods-HyBid.release.xcconfig */,
 			);
 			name = Pods;
 			path = ../Pods;
@@ -3196,7 +3188,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5A6CD0282029CD060022E206 /* Build configuration list for PBXNativeTarget "HyBid" */;
 			buildPhases = (
-				0FBF64115068AE586D8E2185 /* [CP] Check Pods Manifest.lock */,
 				5A6CD01D2029CD060022E206 /* Headers */,
 				5A6CD01B2029CD060022E206 /* Sources */,
 				5A6CD01C2029CD060022E206 /* Frameworks */,
@@ -3364,28 +3355,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0FBF64115068AE586D8E2185 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-HyBid-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		555017A403B6B46033C15687 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3435,13 +3404,11 @@
 				"${PODS_ROOT}/Target Support Files/Pods-HyBidTests/Pods-HyBidTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/OCHamcrest/OCHamcrest.framework",
 				"${BUILT_PRODUCTS_DIR}/OCMockito/OCMockito.framework",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ATOM-Standalone/ATOM.framework/ATOM",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OCHamcrest.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OCMockito.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ATOM.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -3468,7 +3435,6 @@
 				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OneTrust-CMP-XCFramework/OTPublishersHeadlessSDK.framework/OTPublishersHeadlessSDK",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ATOM-Standalone/ATOM.framework/ATOM",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -3485,7 +3451,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OTPublishersHeadlessSDK.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ATOM.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -3956,7 +3921,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = "3.0.0-beta2";
+				MARKETING_VERSION = "3.0.0-beta3";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c9fb847-6c94-4677-a844-7545db19f59a";
@@ -4000,7 +3965,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = "3.0.0-beta2";
+				MARKETING_VERSION = "3.0.0-beta3";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "9dc1e001-55bd-467a-b9a9-4db40446e5a6";
@@ -4130,7 +4095,6 @@
 		};
 		5A6CD0292029CD060022E206 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 129BA614A0B2657185E120F4 /* Pods-HyBid.debug.xcconfig */;
 			buildSettings = {
 				BITCODE_GENERATION_MODE = marker;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -4161,7 +4125,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = "3.0.0-beta2";
+				MARKETING_VERSION = "3.0.0-beta3";
 				MODULEMAP_FILE = "";
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -4175,7 +4139,6 @@
 		};
 		5A6CD02A2029CD060022E206 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 34786B55145EFA9E253C4206 /* Pods-HyBid.release.xcconfig */;
 			buildSettings = {
 				BITCODE_GENERATION_MODE = bitcode;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -4206,7 +4169,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = "3.0.0-beta2";
+				MARKETING_VERSION = "3.0.0-beta3";
 				MODULEMAP_FILE = "";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;

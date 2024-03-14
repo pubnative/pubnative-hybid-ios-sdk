@@ -8,10 +8,6 @@ platform :ios, '11.0'
 
 use_frameworks!
 
-target 'HyBid' do
-  pod 'ATOM-Standalone', '3.0.1-beta'
-end
-
 target 'HyBidDemo' do
   # Pods for HyBidDemo
   pod 'FLEX', :configurations => ['Debug']

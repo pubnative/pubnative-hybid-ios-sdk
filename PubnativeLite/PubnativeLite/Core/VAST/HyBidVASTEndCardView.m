@@ -109,6 +109,8 @@
 @property (nonatomic, strong) NSDate *storekitDelayTimerStartDate;
 @property (nonatomic, assign) NSTimeInterval storekitDelayTimeElapsed;
 @property (nonatomic, strong) NSArray<NSString *> *vastCompanionsClicksThrough;
+@property (nonatomic, strong) NSArray<NSString *> *vastCompanionsClicksTracking;
+@property (nonatomic, strong) NSArray<NSString *> *vastVideoClicksTracking;
 @end
 
 @implementation HyBidVASTEndCardView
@@ -122,8 +124,10 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
                   isInterstitial:(BOOL)isInterstitial
                    iconXposition:(NSString *)iconXposition
                    iconYposition:(NSString *)iconYposition
-                  withSkipButton:(BOOL)withSkipButton 
-      vastCompanionsClicksThrough:(NSArray<NSString *>*) vastCompanionsClicksThrough {
+                  withSkipButton:(BOOL)withSkipButton
+     vastCompanionsClicksThrough:(NSArray<NSString *>*)vastCompanionsClicksThrough
+    vastCompanionsClicksTracking:(NSArray<NSString *>*)vastCompanionsClicksTracking
+         vastVideoClicksTracking:(NSArray<NSString *>*)vastVideoClicksTracking {
     self = [super init];
     if (self) {
         self.delegate = delegate;
@@ -136,6 +140,9 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
         self.isInterstitial = isInterstitial;
         self.withSkipButton = withSkipButton;
         self.vastCompanionsClicksThrough = vastCompanionsClicksThrough;
+        self.vastCompanionsClicksTracking = vastCompanionsClicksTracking;
+        self.vastVideoClicksTracking = vastVideoClicksTracking;
+        
         self.shouldOpenBrowser = NO;
         self.storekitPageIsPresented = NO;
         self.storekitPageIsBeingPresented = NO;
@@ -654,9 +661,6 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
 
 - (void)vastEndCardViewClicked
 {
-    if ([[self.endCard clickTrackings] count] > 0) {
-        [self.vastEventProcessor sendVASTUrls:[self.endCard clickTrackings]];
-    }
     [self vastEndCardClickedWithType:[self.endCard type] withURL:nil withShouldOpenBrowser:YES];
     [self trackEndCardClick];
     [self.delegate vastEndCardViewClicked: self.shouldTriggerAdClick];
@@ -685,6 +689,8 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
     self.shouldOpenBrowser = nil;
     self.storekitDelayTimeElapsed = 0;
     self.vastCompanionsClicksThrough = nil;
+    self.vastCompanionsClicksTracking = nil;
+    self.vastVideoClicksTracking = nil;
 }
 
 // MARK: - Helper methods
@@ -766,6 +772,9 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
 
 - (void)vastEndCardClickedWithType:(HyBidVASTEndCardType)endCardType withURL:(NSString *)url withShouldOpenBrowser:(BOOL)shouldOpenBrowser {
     if (self.vastAd == nil || self.shouldTriggerAdClick) {
+        if ([[self.endCard clickTrackings] count] > 0) {
+            [self.vastEventProcessor sendVASTUrls:[self.endCard clickTrackings]];
+        }
         return;
     }
     NSArray<HyBidVASTCreative *> *creatives = [[self.vastAd inLine] creatives];
@@ -803,34 +812,35 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
         }
     }
     
-    NSArray *companionClicksThroughOfLastInline = [creatives filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(HyBidVASTCreative *creative, NSDictionary *bindings) {
+    NSMutableArray<NSString*> *companionClicksThroughOfLastInline = [NSMutableArray new];
+    for (HyBidVASTCreative *creative in creatives) {
         if ([creative companionAds] != nil) {
-            HyBidVASTCompanionAds *companionAds = [creative companionAds];
+            companionAds = [creative companionAds];
             for (HyBidVASTCompanion *companion in [companionAds companions]) {
                 NSString *clickThrough = [[companion companionClickThrough] content];
-                if ([clickThrough length] != 0){
-                    return YES;
+                if (clickThrough && [clickThrough length] != 0){
+                    [companionClicksThroughOfLastInline addObject: clickThrough];
                 }
             }
         }
-        return NO;
-    }]];
+    }
     
-    if (companionClicksThroughOfLastInline.count == 0) {
-        NSString *lastCompanionsClickThrough = self.vastCompanionsClicksThrough.lastObject;
-        if (lastCompanionsClickThrough && lastCompanionsClickThrough.length != 0) {
-            throughClickURL = lastCompanionsClickThrough;
-        }
+    
+    NSString *lastCompanionClickThrough = companionClicksThroughOfLastInline.count == 0
+                                        ? self.vastCompanionsClicksThrough.lastObject
+                                        : companionClicksThroughOfLastInline.firstObject;
+    if (lastCompanionClickThrough && lastCompanionClickThrough.length != 0) {
+        throughClickURL = lastCompanionClickThrough;
     }
     
     NSMutableArray<NSString *> *trackingClickURLs = [[NSMutableArray alloc] init];
     
-    for (HyBidVASTVideoClicks *videoClick in videoClicks) {
-        for (HyBidVASTClickTracking *tracking in [videoClick clickTrackings]) {
-            if([tracking content] != nil) {
-                [trackingClickURLs addObject:[tracking content]];
-            }
-        }
+    if (self.vastVideoClicksTracking && self.vastVideoClicksTracking.count > 0) {
+        [trackingClickURLs addObjectsFromArray: [[self.vastVideoClicksTracking reverseObjectEnumerator] allObjects]];
+    }
+    
+    if (self.vastCompanionsClicksTracking && self.vastCompanionsClicksTracking.count > 0) {
+        [trackingClickURLs addObjectsFromArray: [[self.vastCompanionsClicksTracking reverseObjectEnumerator] allObjects]];
     }
     
     if ([trackingClickURLs count] > 0) {

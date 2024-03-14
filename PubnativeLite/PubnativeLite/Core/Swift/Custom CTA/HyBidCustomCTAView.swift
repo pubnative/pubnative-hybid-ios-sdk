@@ -38,7 +38,6 @@ public class HyBidCustomCTAView: UIView {
     @IBOutlet private weak var ctaIconImageView: UIImageView!
     
     //MARK: - Variables
-    private let bundleIdentifier = "net.pubnative.PubnativeLite"
     private let ctaNibName = "HyBidCustomCTAView"
     private let ctaAccessibilityLabel = "HyBidCustomCTAView"
     private let ctaIconAccessibilityLabel = "HyBidCustomCTAIcon"
@@ -272,7 +271,7 @@ extension HyBidCustomCTAView {
 extension HyBidCustomCTAView {
     
     private func loadViewFromNib() -> UIView? {
-        let bundle = Bundle(identifier: bundleIdentifier)
+        let bundle = Bundle(for: HyBidCustomCTAView.self)
         let nib = UINib(nibName: ctaNibName, bundle: bundle)
         guard let view = nib.instantiate(withOwner: self, options: nil).first as? UIView else { return nil }
         return view

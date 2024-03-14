@@ -53,7 +53,9 @@
                    iconXposition:(NSString *)iconXposition
                    iconYposition:(NSString *)iconYposition
                   withSkipButton:(BOOL)withSkipButton
-          vastCompanionsClicksThrough:(NSArray<NSString *>*) vastCompanionsClicksThrough;
+          vastCompanionsClicksThrough:(NSArray<NSString *>*)vastCompanionsClicksThrough
+    vastCompanionsClicksTracking:(NSArray<NSString *>*)vastCompanionsClicksTracking
+         vastVideoClicksTracking:(NSArray<NSString *>*)vastVideoClicksTracking;
 - (void)displayEndCard:(HyBidVASTEndCard *)endCard withViewController:(UIViewController*) viewController;
 - (void)displayEndCard:(HyBidVASTEndCard *)endCard withCTAButton:(HyBidVASTCTAButton *)ctaButton withViewController:(UIViewController*) viewController;
 - (void)setupUI;

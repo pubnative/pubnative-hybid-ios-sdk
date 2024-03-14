@@ -260,6 +260,7 @@
 #pragma mark SKStoreProductViewControllerDelegate
 
 - (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"adSkAdnetworkViewControllerIsDismissed" object:nil];
     [self.delegate interstitialPresenterDidAppear:self];
 }
 

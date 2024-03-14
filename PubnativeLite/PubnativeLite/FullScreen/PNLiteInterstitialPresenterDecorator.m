@@ -148,8 +148,6 @@
 
 - (void)interstitialPresenterDidFinish:(HyBidInterstitialPresenter *)interstitialPresenter {
     if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenterDidFinish:)]) {
-        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.VIDEO_FINISHED adFormat:HyBidReportingAdFormat.FULLSCREEN properties:nil];
-        [[HyBid reportingManager] reportEventFor:reportingEvent];
         [self.interstitialPresenterDelegate interstitialPresenterDidFinish:interstitialPresenter];
     }
 }

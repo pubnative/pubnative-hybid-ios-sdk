@@ -41,6 +41,7 @@
 - (void)trackEventWithType:(HyBidVASTAdTrackingEventType)type;
 
 - (void)trackImpression:(HyBidVASTImpression*)impression;
+- (void)trackImpressionWith:(NSString*)impressionURL;
 
 // sends the set of http requests to supplied URLs, used for Impressions, ClickTracking, and Errors.
 - (void)sendVASTUrls:(NSArray *)urls;

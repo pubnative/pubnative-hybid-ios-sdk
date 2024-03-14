@@ -144,6 +144,15 @@
 
 }
 
+- (void)trackImpressionWith:(NSString *)impressionURL {
+    if (impressionURL && impressionURL.length != 0) {
+        [self sendTrackingRequest:impressionURL];
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Sent event impression to url: %@", impressionURL]];
+    } else {
+        [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Error while sending event impression"]];
+    }
+}
+
 - (void)invokeDidTrackEvent:(HyBidVASTAdTrackingEventType)event {
     if ([self.delegate respondsToSelector:@selector(eventProcessorDidTrackEventType:)]) {
         [self.delegate eventProcessorDidTrackEventType:event];

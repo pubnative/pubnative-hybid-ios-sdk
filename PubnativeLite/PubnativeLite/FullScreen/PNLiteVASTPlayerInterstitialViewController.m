@@ -26,6 +26,14 @@
 #import "HyBidVideoAdCacheItem.h"
 #import "HyBidSKAdNetworkParameter.h"
 
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
+
 @interface PNLiteVASTPlayerInterstitialViewController () <PNLiteVASTPlayerViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *playerContainer;
@@ -123,6 +131,8 @@
     if (self.closeOnFinish) {
         [self.presenter hideFromViewController:self];
     }
+    HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.VIDEO_FINISHED adFormat:HyBidReportingAdFormat.FULLSCREEN properties:nil];
+    [[HyBid reportingManager] reportEventFor:reportingEvent];
     [self.presenter.delegate interstitialPresenterDidFinish:self.presenter];
 }
 

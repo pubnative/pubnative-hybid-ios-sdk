@@ -170,6 +170,7 @@ typedef enum {
 @property (nonatomic, assign) HyBidCountdownStyle countdownStyle;
 @property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, assign) BOOL isFeedbackScreenShown;
+@property (nonatomic, assign) BOOL isSKStoreKitVisible;
 @property (nonatomic, assign) BOOL willShowFeedbackScreen;
 @property (nonatomic, strong) HyBidSkipOffset *nativeCloseButtonDelay;
 @property (nonatomic, assign) BOOL creativeAutoStorekitEnabled;
@@ -390,11 +391,21 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
                                              selector: @selector(feedbackScreenIsDismissed:)
                                                  name: @"adFeedbackViewIsDismissed"
                                                object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(skStoreProductViewIsPresented:)
+                                                 name: @"adSkAdnetworkViewControllerIsShown"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(skStoreProductViewIsDismissed:)
+                                                 name: @"adSkAdnetworkViewControllerIsDismissed"
+                                               object: nil];
 }
 
 - (void)applicationDidBecomeActive:(NSNotification*)notification {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (modalVC != nil && !self.isFeedbackScreenShown) {
+        if (modalVC != nil && !self.isFeedbackScreenShown && !self.isSKStoreKitVisible) {
             [self playCountdownView];
             [self playCloseButtonDelay];
         }
@@ -402,7 +413,7 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
 }
 
 - (void)applicationDidEnterBackground:(NSNotification*)notification {
-    if (modalVC != nil && !self.isFeedbackScreenShown) {
+    if (modalVC != nil && !self.isFeedbackScreenShown && !self.isSKStoreKitVisible) {
         [self pauseCountdownView];
         [self pauseCloseButtonDelay];
     }
@@ -414,6 +425,24 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
 - (void)feedbackScreenDidShow:(NSNotification*)notification {
     self.isFeedbackScreenShown = YES;
     if (modalVC != nil) {
+        [self pauseCountdownView];
+        [self pauseCloseButtonDelay];
+    }
+}
+
+- (void)skStoreProductViewIsDismissed:(NSNotification*)notification {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (modalVC != nil && !self.isFeedbackScreenShown) {
+            self.isSKStoreKitVisible = NO;
+            [self playCountdownView];
+            [self playCloseButtonDelay];
+        }
+    });
+}
+
+- (void)skStoreProductViewIsPresented:(NSNotification*)notification {
+    if (modalVC != nil && !self.isFeedbackScreenShown) {
+        self.isSKStoreKitVisible = YES;
         [self pauseCountdownView];
         [self pauseCloseButtonDelay];
     }
