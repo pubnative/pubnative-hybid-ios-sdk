@@ -134,6 +134,8 @@
 
 - (void)rewardedPresenterDidDismiss:(HyBidRewardedPresenter *)rewardedPresenter {
     if (self.rewardedPresenterDelegate && [self.rewardedPresenterDelegate respondsToSelector:@selector(rewardedPresenterDidDismiss:)]) {
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.REWARDED_CLOSED adFormat:HyBidReportingAdFormat.FULLSCREEN properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
         [self.rewardedPresenterDelegate rewardedPresenterDidDismiss:rewardedPresenter];
         [self.skoverlay dismissEntirely:YES withAd:rewardedPresenter.ad causedByAutoCloseTimerCompletion:NO];
     }

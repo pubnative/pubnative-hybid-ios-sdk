@@ -71,7 +71,7 @@
 }
 
 - (void)loadNativeExchangeAdWithDelegate:(NSObject<HyBidNativeAdLoaderDelegate> *)delegate withZoneID:(NSString *)zoneID {
-    //TODO: add load with open rtb logic when using this func
+    //TODO: Add load with open rtb logic when using this func
     [self loadNativeAdWithDelegate:delegate withZoneID:zoneID withAppToken:nil];
 }
 

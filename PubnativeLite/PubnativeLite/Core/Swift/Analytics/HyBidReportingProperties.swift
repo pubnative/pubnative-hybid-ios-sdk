@@ -67,6 +67,7 @@ public class EventType: HyBidReportingProperties  {
     @objc public static let CLICK = "click"
     @objc public static let ERROR = "error"
     @objc public static let INTERSTITIAL_CLOSED = "interstitial_closed"
+    @objc public static let REWARDED_CLOSED = "rewarded_closed"
     @objc public static let VIDEO_STARTED = "video_started"
     @objc public static let VIDEO_DISMISSED = "video_dismissed"
     @objc public static let VIDEO_FINISHED = "video_finished"

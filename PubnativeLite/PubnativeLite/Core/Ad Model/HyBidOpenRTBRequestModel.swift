@@ -83,7 +83,8 @@ typealias DictionaryWithAnyValues = [String : Any?]
             let arr: [DictionaryWithAnyValues] = [
                 [
                     "id": uuidString,
-                    "video": getVideoRequestBody()
+                    "video": getVideoRequestBody(),
+                    "banner": getBannerRequestBody()
                 ]
             ]
             return self.appendSkAdNetworkParametersTo(array: arr)

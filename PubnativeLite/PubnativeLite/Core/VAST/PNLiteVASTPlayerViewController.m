@@ -244,11 +244,7 @@ typedef enum {
                                                  selector: @selector(feedbackScreenIsDismissed:)
                                                      name: @"adFeedbackViewIsDismissed"
                                                    object: nil];
-        
-        [[NSNotificationCenter defaultCenter] addObserver: self
-                                                 selector: @selector(skAdnetworkViewControllerIsShown:)
-                                                     name: @"adSkAdnetworkViewControllerIsShown"
-                                                   object: nil];
+
     }
     return self;
 }
@@ -624,12 +620,25 @@ typedef enum {
     }
 }
 
-- (void)setCustomCountdown
-{
+- (BOOL)isValidToShowCustomCountdown {
     Float64 duration = ([self duration] - (int) [self duration]) > 0.5 ? ((int) [self duration] + 1) : (int) [self duration];
-    if (duration > HyBidSkipOffset.DEFAULT_INTERSTITIAL_VIDEO_MAX_SKIP_OFFSET && self.skipOffset >= HyBidSkipOffset.DEFAULT_INTERSTITIAL_VIDEO_MAX_SKIP_OFFSET) {
+    
+    if (duration > HyBidSkipOffset.DEFAULT_INTERSTITIAL_VIDEO_MAX_SKIP_OFFSET &&
+        self.skipOffset >= HyBidSkipOffset.DEFAULT_INTERSTITIAL_VIDEO_MAX_SKIP_OFFSET) {
         self.skipOffset = HyBidSkipOffset.DEFAULT_INTERSTITIAL_VIDEO_MAX_SKIP_OFFSET;
-    } else if(duration <= HyBidSkipOffset.DEFAULT_INTERSTITIAL_VIDEO_MAX_SKIP_OFFSET && self.skipOffset > duration) {
+    }
+    
+    if (duration <= self.skipOffset &&
+        duration <= HyBidSkipOffset.DEFAULT_INTERSTITIAL_VIDEO_MAX_SKIP_OFFSET) {
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (void)setCustomCountdown {
+    
+    if (![self isValidToShowCustomCountdown]) {
         return;
     }
     
@@ -914,12 +923,11 @@ typedef enum {
 }
 
 - (void)skipRewardedAfterSelectedTime:(NSInteger)skipOffset {
-    Float64 duration = ([self duration] - (int) [self duration]) > 0.5 ? ((int) [self duration] + 1) : (int) [self duration];
-    if (skipOffset > duration && duration > HyBidSkipOffset.DEFAULT_REWARDED_VIDEO_MAX_SKIP_OFFSET) {
-        self.skipOffset = HyBidSkipOffset.DEFAULT_REWARDED_VIDEO_MAX_SKIP_OFFSET;
-    } else if (skipOffset > duration && duration < HyBidSkipOffset.DEFAULT_REWARDED_VIDEO_MAX_SKIP_OFFSET) {
+    
+    if (![self isValidToShowCustomCountdown]) {
         return;
     }
+    
     if (!self.isCountdownTimerStarted) {
         self.skipOffset = skipOffset;
         [self.skipOverlay updateTimerStateWithRemainingSeconds:self.skipOffset withTimerState:HyBidTimerState_Start];
@@ -1149,7 +1157,9 @@ typedef enum {
                 [productParams removeObjectForKey:HyBidSKAdNetworkParameter.fidelityType];
                 HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters: productParams delegate: self];
                 [skAdnetworkViewController presentSKStoreProductViewController:^(BOOL success) {
-                    
+                    if (success) {
+                        [self skAdnetworkViewControllerIsShown:nil];
+                    }
                 }];
             });
         } else {
@@ -2067,8 +2077,7 @@ typedef enum {
 
 - (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
     [self.delegate vastPlayerDidCloseOffer:self];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"adSkAdnetworkViewControllerIsDismissed" object:self.ad];
-    
+    [self skAdnetworkViewControllerIsDismissed:nil];
     [self resumeAd];
     
     if ([HyBidCustomCTAView isCustomCTAValidWithAd:self.ad]){

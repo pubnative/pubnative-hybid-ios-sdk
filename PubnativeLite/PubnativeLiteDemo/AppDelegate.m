@@ -72,8 +72,8 @@
     
     [HyBid setAppStoreAppID:kHyBidDemoAppID];
     [HyBid getCustomRequestSignalData];
-    
-    [HyBidGPPSDKInitializer initOneTrustSDK];
+// FIXME: Replace OneTrust with UserCentrics
+//    [HyBidGPPSDKInitializer initOneTrustSDK];
     return YES;
 }
 

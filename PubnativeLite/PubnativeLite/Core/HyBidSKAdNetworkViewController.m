@@ -71,13 +71,14 @@ NSDictionary *productParameters;
     #endif
 }
 
-- (void)presentInTopViewController:(SKStoreProductViewController *)skAdnetworkViewController {
+- (void)presentInTopViewController:(SKStoreProductViewController *)skAdnetworkViewController completionHandler:(void (^)(BOOL success))completionHandler {
     if ([[UIApplication sharedApplication].topViewController isMemberOfClass: [SKStoreProductViewController class]]) {
+        completionHandler(NO);
         return;
     }
     
     [[UIApplication sharedApplication].topViewController presentViewController: skAdnetworkViewController animated: YES completion:^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"adSkAdnetworkViewControllerIsShown" object:nil];
+        completionHandler(YES);
     }];
 }
 
@@ -85,12 +86,13 @@ NSDictionary *productParameters;
     [self loadProducts: productParameters completionHandler:^(BOOL success, SKStoreProductViewController * _Nullable skAdnetworkViewController) {
         if (success) {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"SKStoreProductViewIsReadyToPresent" object:nil];
-            [self presentInTopViewController: skAdnetworkViewController];
-            completionHandler(YES);
-            return;
+            [self presentInTopViewController:skAdnetworkViewController completionHandler:^(BOOL success) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"adSkAdnetworkViewControllerIsShown" object:nil];
+                completionHandler(success);
+            }];
+        } else {
+            completionHandler(NO);
         }
-        completionHandler(NO);
-        return;
     }];
 }
 
