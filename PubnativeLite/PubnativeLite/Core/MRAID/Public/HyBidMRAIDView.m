@@ -1566,9 +1566,12 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
     if ([HyBidLocationConfig sharedConfig].locationTrackingEnabled) {
         CLLocation* location = [HyBidSettings sharedInstance].location;
         if (location) {
+            NSString* formattedLatitude = [[NSString alloc] initWithFormat:@"%.2f", location.coordinate.latitude];
+            NSString* formattedLongitude = [[NSString alloc] initWithFormat:@"%.2f", location.coordinate.longitude];
+            
             NSArray *objects = [[NSArray alloc] initWithObjects:
-                                [NSNumber numberWithDouble:location.coordinate.latitude],
-                                [NSNumber numberWithDouble:location.coordinate.longitude],
+                                [NSNumber numberWithDouble:[formattedLatitude floatValue]],
+                                [NSNumber numberWithDouble:[formattedLongitude floatValue]],
                                 [NSNumber numberWithInt:1],
                                 [NSNumber numberWithDouble:[location horizontalAccuracy]],
                                 [NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:location.timestamp]], nil];
