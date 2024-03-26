@@ -53,7 +53,7 @@
     NSMutableDictionary *keychainQuery = [self keychainQueryForKey:key];
     [self deleteObjectForKey:key];
     
-    [keychainQuery setObject:[NSKeyedArchiver archivedDataWithRootObject:object] forKey:(__bridge id)kSecValueData];
+    [keychainQuery setObject:[NSKeyedArchiver archivedDataWithRootObject:object requiringSecureCoding:true error:nil] forKey:(__bridge id)kSecValueData];
     return [self checkOSStatus:SecItemAdd((__bridge CFDictionaryRef)keychainQuery, NULL)];
 }
 
@@ -69,7 +69,7 @@
     
     if ([self checkOSStatus:SecItemCopyMatching((__bridge CFDictionaryRef)keychainQuery, (CFTypeRef *)&keyData)]) {
         @try {
-            object = [NSKeyedUnarchiver unarchiveObjectWithData:(__bridge NSData *)keyData];
+            object = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSObject class] fromData:(__bridge NSData *)keyData error:nil];
         } @catch (NSException *exception) {
             [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Unarchiving for key %@ failed with exception %@"];
             object = nil;

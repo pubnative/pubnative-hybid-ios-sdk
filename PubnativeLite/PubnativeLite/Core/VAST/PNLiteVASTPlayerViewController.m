@@ -1382,7 +1382,7 @@ typedef enum {
 - (void)updateVideoFrameToLastInterruption {
     Float64 duration = [self currentPlaybackTime] < [self duration] ? [self currentPlaybackTime] : floor([self duration] * 4) / 4;
     CMTime lastFrameSecond = CMTimeMakeWithSeconds(duration, NSEC_PER_SEC);
-    [self.playerItem seekToTime:lastFrameSecond toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
+    [self.playerItem seekToTime:lastFrameSecond toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero completionHandler:nil];
 }
 
 - (void)playCountdownView {

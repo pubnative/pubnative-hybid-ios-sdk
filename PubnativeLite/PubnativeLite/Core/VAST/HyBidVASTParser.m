@@ -198,6 +198,9 @@ BOOL const HyBidVASTModel_ValidateWithSchema = NO;
     // therefore we are replacing the starting <VAST> line
     NSString *regexExp = @"<VAST .*?>";
     NSError *error = NULL;
+    if (vastDataString == nil) {
+        return [@"" dataUsingEncoding:NSUTF8StringEncoding];
+    }
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexExp options:NSRegularExpressionCaseInsensitive error:&error];
     NSTextCheckingResult *match = [regex firstMatchInString:vastDataString options:0 range: NSMakeRange(0, [vastDataString length])];
 
