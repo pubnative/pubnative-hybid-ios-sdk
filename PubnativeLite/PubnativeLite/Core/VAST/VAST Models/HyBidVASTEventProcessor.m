@@ -90,6 +90,8 @@
         eventString = HyBidVASTAdTrackingEventType_creativeView;
     } else if (type == HyBidVASTAdTrackingEventType_close) {
         eventString = HyBidVASTAdTrackingEventType_close;
+    } else if (type == HyBidVASTAdTrackingEventType_closeLinear) {
+        eventString = HyBidVASTAdTrackingEventType_closeLinear;
     } else if (type == HyBidVASTAdTrackingEventType_pause) {
         eventString = HyBidVASTAdTrackingEventType_pause;
         [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDPauseEvent];
@@ -140,6 +142,15 @@
         [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Error while sending event impression"]];
     }
 
+}
+
+- (void)trackImpressionWith:(NSString *)impressionURL {
+    if (impressionURL && impressionURL.length != 0) {
+        [self sendTrackingRequest:impressionURL];
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Sent event impression to url: %@", impressionURL]];
+    } else {
+        [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Error while sending event impression"]];
+    }
 }
 
 - (void)invokeDidTrackEvent:(HyBidVASTAdTrackingEventType)event {

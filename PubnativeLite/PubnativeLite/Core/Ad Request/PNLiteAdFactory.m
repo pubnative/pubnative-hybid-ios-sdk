@@ -180,8 +180,8 @@
             CLLocation* location = [HyBidSettings sharedInstance].location;
             
             if (location && location.coordinate.latitude != 0.0 && location.coordinate.longitude != 0.0) {
-                NSString* lat = [NSString stringWithFormat:@"%.2f", location.coordinate.latitude];
-                NSString* lon = [NSString stringWithFormat:@"%.2f", location.coordinate.longitude];
+                NSString* lat = [NSString stringWithFormat:@"%f", location.coordinate.latitude];
+                NSString* lon = [NSString stringWithFormat:@"%f", location.coordinate.longitude];
                 NSString *accuracy = [NSString stringWithFormat:@"%d", (int)round(location.horizontalAccuracy)];
 
                 self.adRequestModel.requestParameters[HyBidRequestParameter.lat] = lat;
@@ -274,6 +274,8 @@
             self.adRequestModel.requestParameters[HyBidRequestParameter.placement] = HyBidImpressionConstants.VIDEO_PLACEMENT_TYPE_INTERSTITIAL;
             self.adRequestModel.requestParameters[HyBidRequestParameter.placementSubtype] = HyBidImpressionConstants.VIDEO_PLACEMENT_SUBTYPE_INTERSTITIAL;
             self.adRequestModel.requestParameters[HyBidRequestParameter.playbackmethod] = [NSString stringWithFormat:@"%@,%@", HyBidImpressionConstants.VIDEO_PLAYBACK_METHOD_PAGE_LOAD_SOUND_ON, HyBidImpressionConstants.VIDEO_PLAYBACK_METHOD_PAGE_LOAD_SOUND_OFF];
+            self.adRequestModel.requestParameters[HyBidRequestParameter.width] = [@(HyBidAdSize.SIZE_320x480.width) stringValue];
+            self.adRequestModel.requestParameters[HyBidRequestParameter.height] = [@(HyBidAdSize.SIZE_320x480.height) stringValue];
         } else {
             self.adRequestModel.requestParameters[HyBidRequestParameter.interstitial] = @"0";
             self.adRequestModel.requestParameters[HyBidRequestParameter.pos] = HyBidImpressionConstants.PLACEMENT_POSITION_UNKNOWN;

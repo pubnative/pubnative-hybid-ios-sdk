@@ -65,6 +65,7 @@
 @property (nonatomic, assign) BOOL endCardReadyToShow;
 
 @property (nonatomic, assign) BOOL isRewarded;
+@property (nonatomic, assign) BOOL impressionEventFired;
 
 @end
 
@@ -268,6 +269,7 @@
 
 - (void)skStoreProductViewIsReadyToPresent:(NSNotification *)notification {
     self.isSecondViewPrepared = YES;
+    [self dismissEntirely:NO withAd:self.ad causedByAutoCloseTimerCompletion:NO];
 }
 
 - (void)skStoretoreProductViewIsDismissed:(NSNotification *)notification {
@@ -594,20 +596,23 @@
 }
 
 - (void)storeOverlay:(SKOverlay *)overlay didFinishPresentation:(SKOverlayTransitionContext *)transitionContext  API_AVAILABLE(ios(14.0)){
-    NSMutableDictionary* reportingDictionary = [NSMutableDictionary new];
-    if ([HyBidSDKConfig sharedConfig].appToken != nil && [HyBidSDKConfig sharedConfig].appToken.length > 0) {
-        [reportingDictionary setObject:[HyBidSDKConfig sharedConfig].appToken forKey:HyBidReportingCommon.APPTOKEN];
+    if (!self.impressionEventFired) {
+        NSMutableDictionary* reportingDictionary = [NSMutableDictionary new];
+        if ([HyBidSDKConfig sharedConfig].appToken != nil && [HyBidSDKConfig sharedConfig].appToken.length > 0) {
+            [reportingDictionary setObject:[HyBidSDKConfig sharedConfig].appToken forKey:HyBidReportingCommon.APPTOKEN];
+        }
+        if (self.ad != nil && self.ad.zoneID != nil && self.ad.zoneID.length > 0) {
+            [reportingDictionary setObject:self.ad.zoneID forKey:HyBidReportingCommon.ZONE_ID];
+        }
+        if (self.ad != nil && self.ad.campaignID != nil && self.ad.campaignID.length > 0) {
+            [reportingDictionary setObject:self.ad.campaignID forKey:HyBidReportingCommon.CAMPAIGN_ID];
+        }
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc] initWith:HyBidReportingEventType.SKOVERLAY_IMPRESSION
+                                                                           adFormat:self.isRewarded ? HyBidReportingAdFormat.REWARDED : HyBidReportingAdFormat.FULLSCREEN
+                                                                         properties:[NSDictionary dictionaryWithDictionary:reportingDictionary]];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
+        self.impressionEventFired = YES;
     }
-    if (self.ad != nil && self.ad.zoneID != nil && self.ad.zoneID.length > 0) {
-        [reportingDictionary setObject:self.ad.zoneID forKey:HyBidReportingCommon.ZONE_ID];
-    }
-    if (self.ad != nil && self.ad.campaignID != nil && self.ad.campaignID.length > 0) {
-        [reportingDictionary setObject:self.ad.campaignID forKey:HyBidReportingCommon.CAMPAIGN_ID];
-    }
-    HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc] initWith:HyBidReportingEventType.SKOVERLAY_IMPRESSION
-                                                                       adFormat:self.isRewarded ? HyBidReportingAdFormat.REWARDED : HyBidReportingAdFormat.FULLSCREEN
-                                                                     properties:[NSDictionary dictionaryWithDictionary:reportingDictionary]];
-    [[HyBid reportingManager] reportEventFor:reportingEvent];
 }
 
 - (void)storeOverlay:(SKOverlay *)overlay willStartDismissal:(SKOverlayTransitionContext *)transitionContext  API_AVAILABLE(ios(14.0)){

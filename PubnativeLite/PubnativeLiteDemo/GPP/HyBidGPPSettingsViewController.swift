@@ -21,7 +21,8 @@
 //
 
 import UIKit
-import OTPublishersHeadlessSDK
+// FIXME: Replace OneTrust with UserCentrics
+//import OTPublishersHeadlessSDK
 import HyBid
 
 // MARK: - Enums and Protocols
@@ -59,10 +60,13 @@ protocol HyBidGPPSDKInitializerDelegate: AnyObject {
     
     @objc static func retryInitOneTrustSDK(){
         oneTrustSDKState = .noInitialized
-        initOneTrustSDK()
+// FIXME: Replace OneTrust with UserCentrics
+//        initOneTrustSDK()
     }
     
     @objc static func initOneTrustSDK(){
+// FIXME: Replace OneTrust with UserCentrics
+       /*
         if HyBidGPPSDKInitializer.sdkState() == .noInitialized {
             oneTrustSDKState = .loading
             OTPublishersHeadlessSDK.shared.startSDK(storageLocation: storageLocation, domainIdentifier: mobile_app_ID, languageCode: "en") { response  in
@@ -77,6 +81,7 @@ protocol HyBidGPPSDKInitializerDelegate: AnyObject {
                 }
             }
         }
+        */
     }
 }
 
@@ -105,13 +110,14 @@ class HyBidGPPSettingsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        OTPublishersHeadlessSDK.shared.addEventListener(self)
+        // FIXME: Replace OneTrust with UserCentrics
+//        OTPublishersHeadlessSDK.shared.addEventListener(self)
         HyBidGPPSDKInitializer.delegate = self
         userDataManagerSharedInstance.delegate = self
         gppInternalStringTextField.addDismissKeyboardButton(withTitle: "Done", withTarget: self, with: #selector(doneButtonAction))
         gppInternalSIDTextField.addDismissKeyboardButton(withTitle: "Done", withTarget: self, with: #selector(doneButtonAction))
-        configureView()
+        // FIXME: Replace OneTrust with UserCentrics
+//        configureView()
     }
     
     private func configureView(){
@@ -221,6 +227,8 @@ class HyBidGPPSettingsViewController: UIViewController {
     // MARK: - Actions
     
     @IBAction private func showOneTrustConsentDialog(_ sender: Any) {
+// FIXME: Replace OneTrust with UserCentrics
+        /*
         if OTPublishersHeadlessSDK.shared.shouldShowBanner() {
             OTPublishersHeadlessSDK.shared.setupUI(self)
             OTPublishersHeadlessSDK.shared.showBannerUI()
@@ -229,6 +237,7 @@ class HyBidGPPSettingsViewController: UIViewController {
             OTPublishersHeadlessSDK.shared.setupUI(self)
             OTPublishersHeadlessSDK.shared.showPreferenceCenterUI()
         }
+         */
     }
     
     
@@ -325,32 +334,33 @@ extension HyBidGPPSettingsViewController: HyBidGPPSDKInitializerDelegate {
     }
 }
 
-extension HyBidGPPSettingsViewController: OTEventListener {
-    func onHideBanner() {}
-    func onShowBanner() {}
-    func onBannerClickedRejectAll() {
-        removeGPPData(type: .gppData)
-    }
-    func onBannerClickedAcceptAll() {
-        setGPPData(type: .gppPublicString, value: gppStringDummyValue)
-        setGPPData(type: .gppPublicSID, value: gppSIDDummyValue)
-    }
-    func onShowPreferenceCenter() {}
-    func onHidePreferenceCenter() {}
-    func onPreferenceCenterRejectAll() {
-        removeGPPData(type: .gppData)
-    }
-    func onPreferenceCenterAcceptAll() {
-        setGPPData(type: .gppPublicString, value: gppStringDummyValue)
-        setGPPData(type: .gppPublicSID, value: gppSIDDummyValue)
-    }
-    func onPreferenceCenterConfirmChoices() {}
-    func onPreferenceCenterPurposeLegitimateInterestChanged(purposeId: String, legitInterest: Int8) {}
-    func onPreferenceCenterPurposeConsentChanged(purposeId: String, consentStatus: Int8) {}
-    func onShowVendorList() {}
-    func onHideVendorList() {}
-    func onVendorListVendorConsentChanged(vendorId: String, consentStatus: Int8) {}
-    func onVendorListVendorLegitimateInterestChanged(vendorId: String, legitInterest: Int8) {}
-    func onVendorConfirmChoices() {}
-    func allSDKViewsDismissed(interactionType: ConsentInteractionType) {}
-}
+// FIXME: Replace OneTrust with UserCentrics
+//extension HyBidGPPSettingsViewController: OTEventListener {
+//    func onHideBanner() {}
+//    func onShowBanner() {}
+//    func onBannerClickedRejectAll() {
+//        removeGPPData(type: .gppData)
+//    }
+//    func onBannerClickedAcceptAll() {
+//        setGPPData(type: .gppPublicString, value: gppStringDummyValue)
+//        setGPPData(type: .gppPublicSID, value: gppSIDDummyValue)
+//    }
+//    func onShowPreferenceCenter() {}
+//    func onHidePreferenceCenter() {}
+//    func onPreferenceCenterRejectAll() {
+//        removeGPPData(type: .gppData)
+//    }
+//    func onPreferenceCenterAcceptAll() {
+//        setGPPData(type: .gppPublicString, value: gppStringDummyValue)
+//        setGPPData(type: .gppPublicSID, value: gppSIDDummyValue)
+//    }
+//    func onPreferenceCenterConfirmChoices() {}
+//    func onPreferenceCenterPurposeLegitimateInterestChanged(purposeId: String, legitInterest: Int8) {}
+//    func onPreferenceCenterPurposeConsentChanged(purposeId: String, consentStatus: Int8) {}
+//    func onShowVendorList() {}
+//    func onHideVendorList() {}
+//    func onVendorListVendorConsentChanged(vendorId: String, consentStatus: Int8) {}
+//    func onVendorListVendorLegitimateInterestChanged(vendorId: String, legitInterest: Int8) {}
+//    func onVendorConfirmChoices() {}
+//    func allSDKViewsDismissed(interactionType: ConsentInteractionType) {}
+//}

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="PFa-Ei-cQM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="PFa-Ei-cQM">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="930-iq-9a3">
-                                <rect key="frame" x="0.0" y="59" width="393" height="793"/>
+                                <rect key="frame" x="0.0" y="59" width="393" height="783"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HyBidSwitchTableViewCell" id="JM4-sF-VJz" customClass="HyBidSwitchTableViewCell" customModule="HyBidDemo" customModuleProvider="target">
@@ -208,13 +208,84 @@
                                             <outlet property="toggleSwitch" destination="Eyc-h3-tbC" id="VOy-7k-32a"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HyBidTextInputOnlyTableViewCell" id="UwZ-Us-0fU" customClass="HyBidTextInputOnlyTableViewCell" customModule="HyBidDemo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="181.00000381469727" width="393" height="43.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="UwZ-Us-0fU" id="bAI-F3-O5h">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="43.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="RIp-cd-q0p">
+                                                    <rect key="frame" x="5" y="5" width="383" height="34"/>
+                                                    <subviews>
+                                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pja-Td-av1">
+                                                            <rect key="frame" x="0.0" y="0.0" width="383" height="34"/>
+                                                            <accessibility key="accessibilityConfiguration" identifier="hyBidAdSettingsTextFieldCellTextField" label="HyBid Ad Settings TextField Cell TextField"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="150" id="j8U-bQ-fE4"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
+                                                            <textInputTraits key="textInputTraits" textContentType="tel"/>
+                                                        </textField>
+                                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xk5-NH-i81">
+                                                            <rect key="frame" x="0.0" y="0.0" width="0.0" height="34"/>
+                                                            <accessibility key="accessibilityConfiguration" identifier="hyBidAdSettingsSegmented ControlCellSegmentedControl" label="HyBid Ad Settings Segmented Control Cell Segmented Control"/>
+                                                            <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="RIp-cd-q0p" secondAttribute="trailing" constant="5" id="0wI-P8-s7H"/>
+                                                <constraint firstItem="RIp-cd-q0p" firstAttribute="centerY" secondItem="bAI-F3-O5h" secondAttribute="centerY" id="UlP-Vm-Tw4"/>
+                                                <constraint firstItem="RIp-cd-q0p" firstAttribute="leading" secondItem="bAI-F3-O5h" secondAttribute="leading" constant="5" id="aay-IT-8PT"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="textField" destination="pja-Td-av1" id="IHu-Wr-oYl"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HyBidTextViewTableViewCell" rowHeight="131" id="ReV-6g-4XD" customClass="HyBidTextViewTableViewCell" customModule="HyBidDemo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="224.66667175292969" width="393" height="131"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ReV-6g-4XD" id="vu8-ZG-Tuj">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="131"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="abi-vJ-HQ7">
+                                                    <rect key="frame" x="5" y="21.333333333333336" width="383" height="88.333333333333314"/>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="100" id="MS2-Zd-dKP"/>
+                                                    </constraints>
+                                                    <color key="textColor" systemColor="labelColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                </textView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="abi-vJ-HQ7" firstAttribute="top" secondItem="vu8-ZG-Tuj" secondAttribute="top" constant="21.333328247070312" id="DD3-Dr-Z6a"/>
+                                                <constraint firstItem="abi-vJ-HQ7" firstAttribute="centerY" secondItem="vu8-ZG-Tuj" secondAttribute="centerY" id="X8j-He-w9W"/>
+                                                <constraint firstItem="abi-vJ-HQ7" firstAttribute="leading" secondItem="vu8-ZG-Tuj" secondAttribute="leading" constant="5" id="YEa-Ty-R14"/>
+                                                <constraint firstAttribute="trailing" secondItem="abi-vJ-HQ7" secondAttribute="trailing" constant="5" id="dyQ-zE-NnL"/>
+                                                <constraint firstAttribute="bottom" secondItem="abi-vJ-HQ7" secondAttribute="bottom" constant="21.333333333333343" id="gU7-Zd-P5z"/>
+                                                <constraint firstItem="abi-vJ-HQ7" firstAttribute="centerX" secondItem="vu8-ZG-Tuj" secondAttribute="centerX" id="sCr-d6-vNM"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="textView" destination="abi-vJ-HQ7" id="FPd-EW-Lkl"/>
+                                            <outlet property="textViewHeightConstraint" destination="MS2-Zd-dKP" id="yjL-pD-vMn"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="7w4-C0-iJJ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="930-iq-9a3" secondAttribute="bottom" id="D1x-EK-1p0"/>
+                            <constraint firstAttribute="bottom" secondItem="930-iq-9a3" secondAttribute="bottom" constant="10" id="144-48-xEH"/>
                             <constraint firstItem="930-iq-9a3" firstAttribute="top" secondItem="7w4-C0-iJJ" secondAttribute="top" id="EIH-Po-Jmo"/>
                             <constraint firstItem="930-iq-9a3" firstAttribute="leading" secondItem="7w4-C0-iJJ" secondAttribute="leading" id="PIV-2u-ufb"/>
                             <constraint firstItem="930-iq-9a3" firstAttribute="trailing" secondItem="7w4-C0-iJJ" secondAttribute="trailing" id="ixq-Mf-SYw"/>
@@ -227,10 +298,13 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aNX-L9-7JH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3997.1014492753625" y="805.58035714285711"/>
+            <point key="canvasLocation" x="-3997.709923664122" y="804.92957746478874"/>
         </scene>
     </scenes>
     <resources>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

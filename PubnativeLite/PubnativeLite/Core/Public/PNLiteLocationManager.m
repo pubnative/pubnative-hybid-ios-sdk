@@ -46,7 +46,7 @@
     if (self) {
         self.manager = [[CLLocationManager alloc] init];
         self.manager.delegate = self;
-        self.manager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
+        self.manager.desiredAccuracy = kCLLocationAccuracyKilometer;
     }
     return self;
 }

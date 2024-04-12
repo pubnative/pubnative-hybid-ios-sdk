@@ -36,8 +36,10 @@
 @property (weak, nonatomic) IBOutlet UIButton *maleButton;
 @property (weak, nonatomic) IBOutlet UIButton *femaleButton;
 @property (weak, nonatomic) IBOutlet UISwitch *viewabilitySwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *reportingSwitch;
 @property (nonatomic, assign) BOOL testModeSelected;
 @property (nonatomic, assign) BOOL coppaModeSelected;
+@property (nonatomic, assign) BOOL reportingEnabled;
 @property (nonatomic, strong) HyBidTargetingModel *targetingModel;
 @property (weak, nonatomic) IBOutlet UILabel *atomStateTextField;
 @property (nonatomic, strong) NSString *gender;
@@ -56,10 +58,12 @@
     self.appTokenTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey];
     self.testModeSelected = [[NSUserDefaults standardUserDefaults] boolForKey:kHyBidDemoTestModeKey];
     self.coppaModeSelected = [[NSUserDefaults standardUserDefaults] boolForKey:kHyBidDemoCOPPAModeKey];
+    self.reportingEnabled = [[NSUserDefaults standardUserDefaults] boolForKey:kHyBidDemoReportingKey];
     self.targetingModel = [PNLiteDemoSettings sharedInstance].targetingModel;
     self.gender = [PNLiteDemoSettings sharedInstance].targetingModel.gender;
     self.apiURLTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAPIURLKey];
     self.openRTBApiURLTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoOpenRTBAPIURLKey];
+    [self.reportingSwitch setOn:self.reportingEnabled];
     [self setInitialStateForModeButtons];
     [self setInitialStateForGenderButtons];
     if (self.targetingModel.age.integerValue > 0) {
@@ -124,6 +128,7 @@
     [PNLiteDemoSettings sharedInstance].targetingModel = [self configureTargetingModel];
     [[NSUserDefaults standardUserDefaults] setBool:self.testModeSelected forKey:kHyBidDemoTestModeKey];
     [[NSUserDefaults standardUserDefaults] setBool:self.coppaModeSelected forKey:kHyBidDemoCOPPAModeKey];
+    [[NSUserDefaults standardUserDefaults] setBool:self.reportingEnabled forKey:kHyBidDemoReportingKey];
     [[NSUserDefaults standardUserDefaults] setObject:self.apiURLTextField.text forKey:kHyBidDemoAPIURLKey];
     [[NSUserDefaults standardUserDefaults] setObject:self.openRTBApiURLTextField.text forKey:kHyBidDemoOpenRTBAPIURLKey];
     [HyBidSDKConfig sharedConfig].apiURL = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAPIURLKey];
@@ -139,6 +144,7 @@
     } else {
         [HyBidConsentConfig sharedConfig].coppa = NO;
     }
+    [HyBid setReporting:self.reportingEnabled];
     
     [HyBid initWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey] completion:^(BOOL success) {
         if (success) {
@@ -209,6 +215,10 @@
 
 - (IBAction)viewabilitySwitchValueChanged:(UISwitch *)sender {
     [HyBidViewabilityManager sharedInstance].viewabilityMeasurementEnabled = sender.on;
+}
+
+- (IBAction)reportingSwitchValueChanged:(UISwitch *)sender {
+    self.reportingEnabled = sender.on;
 }
 
 #pragma mark UITextFieldDelegate

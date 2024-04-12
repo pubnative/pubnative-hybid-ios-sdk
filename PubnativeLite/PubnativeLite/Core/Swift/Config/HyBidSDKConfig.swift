@@ -30,6 +30,7 @@ public class HyBidSDKConfig: NSObject {
     private override init() {}
     
     @objc public var test: Bool = false
+    @objc public var reporting: Bool = false
     @objc public var targeting: HyBidTargetingModel?
     @objc public var appToken: String?
     @objc public var apiURL: String {

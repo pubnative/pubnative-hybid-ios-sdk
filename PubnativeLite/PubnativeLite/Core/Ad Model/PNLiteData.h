@@ -37,6 +37,7 @@
 + (NSString *)audioState;
 + (NSString *)endcardEnabled;
 + (NSString *)customEndcardEnabled;
++ (NSString *)customEndCardInputValue;
 + (NSString *)endcardCloseDelay;
 + (NSString *)nativeCloseButtonDelay;
 + (NSString *)interstitialHtmlSkipOffset;
@@ -61,8 +62,10 @@
 + (NSString *)creativeAutoStorekitEnabled;
 + (NSString *)customCtaEnabled;
 + (NSString *)customCtaDelay;
++ (NSString *)customCtaInputValue;
 + (NSString *)sdkAutoStorekitEnabled;
 + (NSString *)sdkAutoStorekitDelay;
 + (NSString *)atomEnabled;
++ (NSString *)itunesIdValue;
 
 @end

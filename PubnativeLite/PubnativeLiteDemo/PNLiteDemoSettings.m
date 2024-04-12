@@ -39,11 +39,20 @@
 #define kHyBidDemoOpenRTBAPIURL @"https://dsp.pubnative.net"
 #define kIsAppLaunchedPreviouslyKey @"isAppLaunchedPreviously"
 #define kHyBidISAppID @"1224c378d"
-#define kHyBidALMediationNativeAdUnitID @"571f33f570a7f6f1"
-#define kHyBidALMediationBannerAdUnitID @"fd30fd06782c6796"
-#define kHyBidALMediationMRectAdUnitID @"6497187b975fa9cc"
-#define kHyBidALMediationInterstitialAdUnitID @"2cc94ba50f6c04a9"
-#define kHyBidALMediationRewardedAdUnitID @"be31375eb2f3f111"
+#define kHyBidALMediationNativeAdUnitID @"9f0b0f8353e2c66b"
+#define kHyBidALMediationBannerAdUnitID @"5bf23910ded6430b"
+#define kHyBidALMediationMRectAdUnitID @"23993b2ff0e8b324"
+#define kHyBidALMediationInterstitialAdUnitID @"b4e84023ebd34e19"
+#define kHyBidALMediationRewardedAdUnitID @"0b5163532e4dc1a5"
+#define kHyBidChartboostAppID @"65c244faf5066be5b001df1b"
+#define kHyBidChartboostAppSignature @"05cff89cca5270c0257319817d9c8fdc242a41c1"
+#define kHyBidChartboostBannerPosition @"hybid-ios-banner"
+#define kHyBidChartboostMRectHTMLPosition @"hybid-ios-mrect-html"
+#define kHyBidChartboostMRectVideoPosition @"hybid-ios-mrect-video"
+#define kHyBidChartboostInterstitialHTMLPosition @"hybid-ios-interstitial-html"
+#define kHyBidChartboostInterstitialVideoPosition @"hybid-ios-interstitial-video"
+#define kHyBidChartboostRewardedHTMLPosition @"hybid-ios-rewarded-html"
+#define kHyBidChartboostRewardedVideoPosition @"hybid-ios-rewarded-video"
 
 @implementation PNLiteDemoSettings
 
@@ -99,6 +108,15 @@
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidALMediationMRectAdUnitID forKey:kHyBidALMediationMRectAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidALMediationInterstitialAdUnitID forKey:kHyBidALMediationInterstitialAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidALMediationRewardedAdUnitID forKey:kHyBidALMediationRewardedAdUnitIDKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidChartboostAppID forKey:kHyBidChartboostAppIDKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidChartboostAppSignature forKey:kHyBidChartboostAppSignatureKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidChartboostBannerPosition forKey:kHyBidChartboostBannerPositionKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidChartboostMRectHTMLPosition forKey:kHyBidChartboostMRectHTMLPositionKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidChartboostMRectVideoPosition forKey:kHyBidChartboostMRectVideoPositionKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidChartboostInterstitialHTMLPosition forKey:kHyBidChartboostInterstitialHTMLPositionKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidChartboostInterstitialVideoPosition forKey:kHyBidChartboostInterstitialVideoPositionKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidChartboostRewardedHTMLPosition forKey:kHyBidChartboostRewardedHTMLPositionKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidChartboostRewardedVideoPosition forKey:kHyBidChartboostRewardedVideoPositionKey];
     }
 }
 

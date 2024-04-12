@@ -109,28 +109,8 @@ BOOL const HyBidVASTModel_ValidateWithSchema = NO;
     if (!vastDataString) {
         return HyBidVASTParserError_XMLParse;
     }
-    // having XML namespace in the XML causes parsing issues
-    // therefore we are replacing the starting <VAST> line
-    NSString *regexExp = @"<VAST .*?>";
-    NSError *error = NULL;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexExp options:NSRegularExpressionCaseInsensitive error:&error];
-    NSTextCheckingResult *match = [regex firstMatchInString:vastDataString options:0 range: NSMakeRange(0, [vastDataString length])];
     
-    NSString *newXmlString = vastDataString;
-    
-    if ([match numberOfRanges] > 0) {
-        NSString *matchedString = [vastDataString substringWithRange:[match rangeAtIndex:0]];
-        
-        HyBidXMLEx *parser = [HyBidXMLEx parserWithXML:vastDataString];
-        NSString *vastVersion = [[parser rootElement] attribute:@"version"];
-        
-        if (vastVersion != nil) {
-            NSString *customVASTLine = [[NSString alloc] initWithFormat: @"<VAST version=\"%@\">", vastVersion];
-            newXmlString = [vastDataString stringByReplacingOccurrencesOfString:matchedString withString:customVASTLine options:0 range:NSMakeRange(0, [vastDataString length])];
-        }
-    }
-    
-    vastData = [newXmlString dataUsingEncoding:NSUTF8StringEncoding];
+    vastData = [self removingVastFirstLineParamsFrom: vastDataString];
     @synchronized (self.vastArray) {
         [self.vastArray addObject:vastData];
     }
@@ -199,6 +179,7 @@ BOOL const HyBidVASTModel_ValidateWithSchema = NO;
                 vastData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]]];
                 if(vastData) {
                     vastDataString = [[NSString alloc] initWithData:vastData encoding:NSUTF8StringEncoding];
+                    vastData = [self removingVastFirstLineParamsFrom: vastDataString];
                     @synchronized (self.vastArray) {
                         [self.vastArray addObject:vastData];
                     }
@@ -210,6 +191,34 @@ BOOL const HyBidVASTModel_ValidateWithSchema = NO;
     }
     
     return HyBidVASTParserError_None;
+}
+
+- (NSData *)removingVastFirstLineParamsFrom:(NSString *)vastDataString {
+    // having XML namespace in the XML causes parsing issues
+    // therefore we are replacing the starting <VAST> line
+    NSString *regexExp = @"<VAST .*?>";
+    NSError *error = NULL;
+    if (vastDataString == nil) {
+        return [@"" dataUsingEncoding:NSUTF8StringEncoding];
+    }
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexExp options:NSRegularExpressionCaseInsensitive error:&error];
+    NSTextCheckingResult *match = [regex firstMatchInString:vastDataString options:0 range: NSMakeRange(0, [vastDataString length])];
+
+    NSString *newXmlString = vastDataString;
+
+    if ([match numberOfRanges] > 0) {
+        NSString *matchedString = [vastDataString substringWithRange:[match rangeAtIndex:0]];
+
+        HyBidXMLEx *parser = [HyBidXMLEx parserWithXML:vastDataString];
+        NSString *vastVersion = [[parser rootElement] attribute:@"version"];
+
+        if (vastVersion != nil) {
+            NSString *customVASTLine = [[NSString alloc] initWithFormat: @"<VAST version=\"%@\">", vastVersion];
+            newXmlString = [vastDataString stringByReplacingOccurrencesOfString:matchedString withString:customVASTLine options:0 range:NSMakeRange(0, [vastDataString length])];
+        }
+    }
+
+    return [newXmlString dataUsingEncoding:NSUTF8StringEncoding];
 }
 
 - (NSString *)content:(NSDictionary *)node {

@@ -26,6 +26,7 @@
 #import "HyBidContentInfoView.h"
 #import "HyBidSkAdNetworkModel.h"
 #import "HyBidOpenRTBDataModel.h"
+#import "HyBidVASTEndCard.h"
 
 #define kHyBidAdTypeHTML 0
 #define kHyBidAdTypeVideo 1
@@ -63,7 +64,7 @@ typedef enum {
 #if __has_include(<ATOM/ATOM-Swift.h>)
 @property (nonatomic, readonly) NSArray<NSString *> *cohorts;
 #endif
-
+@property (nonatomic, strong) HyBidVASTEndCard *customEndCard;
 @property (nonatomic, readonly) NSNumber *assetGroupID;
 @property (nonatomic, readonly) NSNumber *openRTBAssetGroupID;
 @property (nonatomic, readonly) NSNumber *eCPM;
@@ -95,11 +96,15 @@ typedef enum {
 @property (nonatomic, readonly) NSString *customEndcardDisplay;
 @property (nonatomic, readonly) NSNumber *customCtaDelay;
 @property (nonatomic, readonly) NSString *customCtaIconURL;
+@property (nonatomic, readonly) NSString *customCtaInputValue;
 @property (nonatomic, readonly) NSNumber *sdkAutoStorekitDelay;
+@property (nonatomic, readonly) NSDictionary *skAdNetworkModelInputValue;
+@property (nonatomic, readonly) NSString *itunesIdValue;
 
 // The following 10 properties are created as NSNumber instead of BOOL beacuse it'll be important whether they have a value or not when we'll decide which setting to use.
 @property (nonatomic, readonly) NSNumber *endcardEnabled;
 @property (nonatomic, readonly) NSNumber *customEndcardEnabled;
+@property (nonatomic, readonly) NSString *customEndCardInputValue;
 @property (nonatomic, readonly) NSNumber *skoverlayEnabled;
 @property (nonatomic, readonly) NSNumber *closeInterstitialAfterFinish;
 @property (nonatomic, readonly) NSNumber *closeRewardedAfterFinish;

@@ -34,8 +34,6 @@
     #import <ATOM/ATOM-Swift.h>
 #endif
 
-#define kATOM_API_KEY @"39a34d8d-dd1d-4fbf-aa96-fdc5f0329451"
-
 @implementation HyBidATOMFlow
 
 typedef NS_ENUM(NSInteger, HyBidATOMStatus) {
@@ -75,7 +73,8 @@ static HyBidATOMStatus atomStatus = HyBidATOMStatusIdle;
 {
     #if __has_include(<ATOM/ATOM-Swift.h>)
     NSError *atomError = nil;
-    [Atom startWithApiKey:kATOM_API_KEY isTest:NO error:&atomError withCallback:^(BOOL isSuccess) {
+    NSString *bundleID = [[NSBundle mainBundle] bundleIdentifier];
+    [Atom startWithApiKey:bundleID isTest:NO error:&atomError withCallback:^(BOOL isSuccess) {
         if (isSuccess) {
             NSArray *atomCohorts = [Atom getCohorts];
             [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: [[NSString alloc] initWithFormat: @"ATOM: Received ATOM cohorts: %@", atomCohorts], NSStringFromSelector(_cmd)]];

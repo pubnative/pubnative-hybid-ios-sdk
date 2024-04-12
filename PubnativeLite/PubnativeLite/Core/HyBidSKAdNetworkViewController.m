@@ -33,7 +33,6 @@
 NSDictionary *productParameters;
 
 @interface HyBidSKAdNetworkViewController ()
-@property (nonatomic, strong) SKStoreProductViewController *skAdnetworkViewController;
 @property (nonatomic, weak) id<SKStoreProductViewControllerDelegate> delegate;
 @end
 
@@ -54,38 +53,46 @@ NSDictionary *productParameters;
     SKStoreProductViewController *skAdnetworkViewController = [[SKStoreProductViewController alloc] init];
     skAdnetworkViewController.delegate = self.delegate;
     [skAdnetworkViewController loadProductWithParameters:productParameters completionBlock:^(BOOL result, NSError * _Nullable error) {
-        if (!error && result) {
-            completionHandler(YES, skAdnetworkViewController);
+        #if !(TARGET_IPHONE_SIMULATOR)
+            if (!error && result) {
+                completionHandler(YES, skAdnetworkViewController);
+                return;
+            }
+
+            [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Loading the ad failed, try to load another ad or retry the current ad."];
+            completionHandler(NO, nil);
             return;
-        }
-        [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Loading the ad failed, try to load another ad or retry the current ad."];
-        completionHandler(NO, nil);
-        return;
+        #endif
     }];
+    
+    #if TARGET_IPHONE_SIMULATOR
+        completionHandler(YES, skAdnetworkViewController);
+        return;
+    #endif
 }
 
-- (void)presentInTopViewController:(SKStoreProductViewController *)skAdnetworkViewController {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if ([[UIApplication sharedApplication].topViewController isMemberOfClass: [SKStoreProductViewController class]]) {
-            return;
-        }
-        
-        [[UIApplication sharedApplication].topViewController presentViewController: skAdnetworkViewController animated: YES completion:^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"adSkAdnetworkViewControllerIsShown" object:nil];
-        }];
-    });
+- (void)presentInTopViewController:(SKStoreProductViewController *)skAdnetworkViewController completionHandler:(void (^)(BOOL success))completionHandler {
+    if ([[UIApplication sharedApplication].topViewController isMemberOfClass: [SKStoreProductViewController class]]) {
+        completionHandler(NO);
+        return;
+    }
+    
+    [[UIApplication sharedApplication].topViewController presentViewController: skAdnetworkViewController animated: YES completion:^{
+        completionHandler(YES);
+    }];
 }
 
 - (void)presentSKStoreProductViewController:(void (^)(BOOL success))completionHandler {
     [self loadProducts: productParameters completionHandler:^(BOOL success, SKStoreProductViewController * _Nullable skAdnetworkViewController) {
         if (success) {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"SKStoreProductViewIsReadyToPresent" object:nil];
-            [self presentInTopViewController: skAdnetworkViewController];
-            completionHandler(YES);
-            return;
+            [self presentInTopViewController:skAdnetworkViewController completionHandler:^(BOOL success) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"adSkAdnetworkViewControllerIsShown" object:nil];
+                completionHandler(success);
+            }];
+        } else {
+            completionHandler(NO);
         }
-        completionHandler(NO);
-        return;
     }];
 }
 
@@ -98,6 +105,16 @@ NSDictionary *productParameters;
     if (@available(iOS 17.2, *)) {
         [self loadProductWithParameters:productParameters completionBlock:nil];
     }
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskAll;
+}
+
+- (BOOL)shouldAutorotate {
+    UIInterfaceOrientationMask applicationSupportedOrientations = [[UIApplication sharedApplication] supportedInterfaceOrientationsForWindow:[[UIApplication sharedApplication] keyWindow]];
+    UIInterfaceOrientationMask viewControllerSupportedOrientations = [self supportedInterfaceOrientations];
+    return viewControllerSupportedOrientations & applicationSupportedOrientations;
 }
 
 @end

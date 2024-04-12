@@ -26,6 +26,7 @@
 #import <AppTrackingTransparency/AppTrackingTransparency.h>
 #import <AppLovinSDK/AppLovinSDK.h>
 #import <HyBidDemo-Swift.h>
+#import <ChartboostSDK/Chartboost.h>
 
 #if __has_include(<ATOM/ATOM-Swift.h>)
     #import <ATOM/ATOM-Swift.h>
@@ -47,7 +48,8 @@
     [HyBidLogger setLogLevel:HyBidLogLevelDebug];
     [PNLiteDemoSettings sharedInstance];
     [HyBid initWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey] completion:nil];
-    [HyBid setTestMode:YES];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kHyBidDemoReportingKey];
+    [HyBid setReporting:YES];
     // Configure Firebase app
     [FIRApp configure];
     
@@ -58,14 +60,20 @@
     [HyBid setLocationUpdates:NO];
     
     [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
-    
-    [ALSdk shared].mediationProvider = @"max";
-    [[ALSdk shared] initializeSdkWithCompletionHandler:^(ALSdkConfiguration *configuration) {}];
+    [Chartboost startWithAppID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidChartboostAppIDKey]
+                  appSignature:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidChartboostAppSignatureKey]
+                    completion:^(CHBStartError * _Nullable error) {
+        if (error) {
+            NSLog(@"Chartboost SDK initialization finished with error %@", error);
+        } else {
+            NSLog(@"Chartboost SDK initialization finished with success");
+        }
+    }];
     
     [HyBid setAppStoreAppID:kHyBidDemoAppID];
     [HyBid getCustomRequestSignalData];
-    
-    [HyBidGPPSDKInitializer initOneTrustSDK];
+// FIXME: Replace OneTrust with UserCentrics
+//    [HyBidGPPSDKInitializer initOneTrustSDK];
     return YES;
 }
 

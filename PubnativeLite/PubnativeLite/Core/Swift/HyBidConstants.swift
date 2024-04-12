@@ -26,7 +26,7 @@ import Foundation
 public class HyBidConstants: NSObject {
     
     @objc public static let HYBID_SDK_NAME = "HyBid"
-    @objc public static let HYBID_SDK_VERSION = "2.21.2"
+    @objc public static let HYBID_SDK_VERSION = "3.0.0"
     @objc public static let HYBID_OMSDK_VERSION = "1.4.10"
     @objc public static let HYBID_OMSDK_IDENTIFIER = "Pubnativenet"
     
@@ -34,6 +34,7 @@ public class HyBidConstants: NSObject {
     @objc public static var mraidExpand: Bool = true
     @objc public static var showEndCard: Bool = true
     @objc public static var showCustomEndCard: Bool = false
+    @objc public static var customEndCardInputValue: String = ""
     @objc public static var customEndcardDisplay: HyBidCustomEndcardDisplayBehaviour = HyBidCustomEndcardDisplayFallback
     @objc public static var interstitialCloseOnFinish: Bool = false
     @objc public static var rewardedCloseOnFinish: Bool = false
@@ -48,4 +49,7 @@ public class HyBidConstants: NSObject {
     @objc public static var creativeAutoStorekitEnabled: Bool = false
     @objc public static var atomEnabled: Bool = UserDefaults.standard.bool(forKey: kStoredATOMState)
     @objc public static var sdkAutoStorekitEnabled: Bool = false
+    @objc public static var skAdNetworkModelInputValue: NSDictionary = NSDictionary()
+    @objc public static var itunesIdValue: String = String()
+    @objc public static var customCTAInputValue: String = String()
 }

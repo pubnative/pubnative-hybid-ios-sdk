@@ -27,6 +27,7 @@
 #import "HyBidVASTCTAButton.h"
 #import "HyBidAd.h"
 #import "HyBidVASTAd.h"
+#import "HyBidVASTEndCardManager.h"
 
 @protocol HyBidVASTEndCardViewDelegate<NSObject>
 
@@ -51,8 +52,10 @@
                   isInterstitial:(BOOL)isInterstitial
                    iconXposition:(NSString *)iconXposition
                    iconYposition:(NSString *)iconYposition
-                  withSkipButton:(BOOL)withSkipButton;
-
+                  withSkipButton:(BOOL)withSkipButton
+          vastCompanionsClicksThrough:(NSArray<NSString *>*)vastCompanionsClicksThrough
+    vastCompanionsClicksTracking:(NSArray<NSString *>*)vastCompanionsClicksTracking
+         vastVideoClicksTracking:(NSArray<NSString *>*)vastVideoClicksTracking;
 - (void)displayEndCard:(HyBidVASTEndCard *)endCard withViewController:(UIViewController*) viewController;
 - (void)displayEndCard:(HyBidVASTEndCard *)endCard withCTAButton:(HyBidVASTCTAButton *)ctaButton withViewController:(UIViewController*) viewController;
 - (void)setupUI;

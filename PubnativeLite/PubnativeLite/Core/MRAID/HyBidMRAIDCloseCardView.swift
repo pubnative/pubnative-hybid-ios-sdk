@@ -145,7 +145,7 @@ public class HyBidMRAIDCloseCardView: UIView {
     
     func setRatingValues(){
         guard let ratingAsset = self.adModel.asset(withType: "rating"),
-              let rating = ratingAsset.data["number"] as? Int else { return }
+              let _ = ratingAsset.data["number"] as? Int else { return }
     }
     
     // MARK: Actions
