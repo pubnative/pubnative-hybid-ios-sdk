@@ -125,8 +125,8 @@
     CLLocation* clLocation = [HyBidSettings sharedInstance].location;
     
     if (location != nil) {
-        location.lat = [[NSString alloc] initWithFormat:@"%f", clLocation.coordinate.latitude];
-        location.lon = [[NSString alloc] initWithFormat:@"%f", clLocation.coordinate.longitude];
+        location.lat = [[NSString alloc] initWithFormat:@"%.2f", clLocation.coordinate.latitude];
+        location.lon = [[NSString alloc] initWithFormat:@"%.2f", clLocation.coordinate.longitude];
         location.accuracy = [[NSString alloc] initWithFormat:@"%f", [clLocation horizontalAccuracy]];
         location.ts = [[NSString alloc] initWithFormat:@"%f", [[NSDate date] timeIntervalSince1970]];
         
