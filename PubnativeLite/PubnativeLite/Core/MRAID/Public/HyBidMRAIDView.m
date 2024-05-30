@@ -28,7 +28,7 @@
 #import "HyBidMRAIDServiceDelegate.h"
 #import "PNLiteMRAIDUtil.h"
 #import "PNLiteMRAIDSettings.h"
-#import "HyBidViewabilityManager.h"
+
 #import "HyBidViewabilityWebAdSession.h"
 #import "HyBidNavigatorGeolocation.h"
 #import "HyBidCloseButton.h"
@@ -95,8 +95,6 @@ typedef enum {
     
     PNLiteMRAIDParser *mraidParser;
     PNLiteMRAIDModalViewController *modalVC;
-    
-    NSString *omSDKjs;
     
     NSURL *baseURL;
     
@@ -307,11 +305,6 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
         baseURL = bsURL;
         state = PNLiteMRAIDStateLoading;
         
-        omSDKjs = [[HyBidViewabilityManager sharedInstance] getOMIDJS];
-        if (omSDKjs) {
-            [self injectJavaScript:omSDKjs];
-        }
-        
         if (baseURL != nil && [[baseURL absoluteString] length]!= 0) {
             __block NSString *htmlData = htmlData;
             [self htmlFromUrl:baseURL handler:^(NSString *html, NSError *error) {
@@ -514,7 +507,7 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
 
 - (void)loadHTMLData:(NSString *)htmlData {
     if (htmlData) {
-        [currentWebView loadHTMLString:htmlData baseURL:baseURL];
+        [currentWebView loadHTMLString:htmlData baseURL:[NSURL URLWithString:@"https://example.com"]];
     } else {
         [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Ad HTML is invalid, cannot load."];
         if ([self.delegate respondsToSelector:@selector(mraidViewAdFailed:)]) {
@@ -889,10 +882,6 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
         currentWebView = webViewPart2;
         [navigatorGeolocation assignWebView:webViewPart2];
         bonafideTapObserved = YES; // by definition for 2 part expand a valid tap has occurred
-        
-        if (omSDKjs) {
-            [self injectJavaScript:omSDKjs];
-        }
         
         // Check to see whether we've been given an absolute or relative URL.
         // If it's relative, prepend the base URL.
@@ -1600,9 +1589,12 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
     if ([HyBidLocationConfig sharedConfig].locationTrackingEnabled) {
         CLLocation* location = [HyBidSettings sharedInstance].location;
         if (location) {
+            NSString* formattedLatitude = [[NSString alloc] initWithFormat:@"%.2f", location.coordinate.latitude];
+            NSString* formattedLongitude = [[NSString alloc] initWithFormat:@"%.2f", location.coordinate.longitude];
+            
             NSArray *objects = [[NSArray alloc] initWithObjects:
-                                [NSNumber numberWithDouble:location.coordinate.latitude],
-                                [NSNumber numberWithDouble:location.coordinate.longitude],
+                                [NSNumber numberWithDouble:[formattedLatitude floatValue]],
+                                [NSNumber numberWithDouble:[formattedLongitude floatValue]],
                                 [NSNumber numberWithInt:1],
                                 [NSNumber numberWithDouble:[location horizontalAccuracy]],
                                 [NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:location.timestamp]], nil];
@@ -1630,6 +1622,13 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
 
 - (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@", NSStringFromSelector(_cmd)]];
+}
+
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler {
+    NSURL *url = [navigationResponse.response URL];
+    
+    [self.delegate mraidViewNavigate:self withURL:url];
+    decisionHandler(WKNavigationResponsePolicyCancel);
 }
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
@@ -1819,6 +1818,12 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
     wv.navigationDelegate = self;
     wv.UIDelegate = self;
     wv.opaque = NO;
+    
+#if DEBUG
+    if (@available(iOS 16.4, *)) {
+        [wv setInspectable: YES];
+    }
+#endif
     
     // disable scrolling
     UIScrollView *scrollView;

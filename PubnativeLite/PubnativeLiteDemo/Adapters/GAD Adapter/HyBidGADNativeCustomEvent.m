@@ -48,18 +48,13 @@ typedef id<GADMediationNativeAdEventDelegate> _Nullable(^HyBidGADNativeCustomEve
                      completionHandler:(GADMediationNativeLoadCompletionHandler)completionHandler {
     self.completionBlock = completionHandler;
     NSString *serverParameter = [adConfiguration.credentials.settings objectForKey:@"parameter"];
-    if ([HyBidGADUtils areExtrasValid:serverParameter]) {
-        if ([HyBidGADUtils appToken:serverParameter] != nil && [[HyBidGADUtils appToken:serverParameter] isEqualToString:[HyBidSDKConfig sharedConfig].appToken]) {
-            if (HyBid.isInitialized) {
-                [self loadNativeAdWithZoneID:[HyBidGADUtils zoneID:serverParameter]];
-            } else {
-                [HyBid initWithAppToken:[HyBidGADUtils appToken:serverParameter] completion:^(BOOL success) {
-                    [self loadNativeAdWithZoneID:[HyBidGADUtils zoneID:serverParameter]];
-                }];
-            }
+    if ([HyBidGADUtils areExtrasValid:serverParameter] && [HyBidGADUtils appToken:serverParameter] != nil) {
+        if (HyBid.isInitialized && [[HyBidGADUtils appToken:serverParameter] isEqualToString:[HyBidSDKConfig sharedConfig].appToken]) {
+            [self loadNativeAdWithZoneID:[HyBidGADUtils zoneID:serverParameter]];
         } else {
-            [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
-            return;
+            [HyBid initWithAppToken:[HyBidGADUtils appToken:serverParameter] completion:^(BOOL success) {
+                [self loadNativeAdWithZoneID:[HyBidGADUtils zoneID:serverParameter]];
+            }];
         }
     } else {
         [self invokeFailWithMessage:@"Failed native ad fetch. Missing required server extras."];

@@ -578,6 +578,8 @@
 		91E84FC72AD698EC00BE0EAF /* HyBidOpenRTBRequestDeviceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E84FC62AD698EC00BE0EAF /* HyBidOpenRTBRequestDeviceModel.swift */; };
 		91E84FC92AD6992800BE0EAF /* HyBidOpenRTBRequestGeolocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E84FC82AD6992800BE0EAF /* HyBidOpenRTBRequestGeolocationModel.swift */; };
 		91FB516E2AC6CF5400CB5F31 /* HyBidOpenRTBRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FB516D2AC6CF5400CB5F31 /* HyBidOpenRTBRequestModel.swift */; };
+		CE21BD712BFF409600CD9892 /* HyBidStoreKitUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = CE21BD6F2BFF409600CD9892 /* HyBidStoreKitUtils.h */; };
+		CE21BD722BFF409600CD9892 /* HyBidStoreKitUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = CE21BD702BFF409600CD9892 /* HyBidStoreKitUtils.m */; };
 		CE43DB212B5993160022395B /* OMSDK_Pubnativenet.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE43DB202B5993160022395B /* OMSDK_Pubnativenet.xcframework */; };
 		CE4A74162B30F19F00E62B10 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = CE4A74152B30F19F00E62B10 /* PrivacyInfo.xcprivacy */; };
 		CE729BFC2AAF61670003565D /* HyBidCustomClickUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = CE729BFA2AAF61670003565D /* HyBidCustomClickUtil.h */; };
@@ -1354,6 +1356,8 @@
 		91FB516D2AC6CF5400CB5F31 /* HyBidOpenRTBRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyBidOpenRTBRequestModel.swift; sourceTree = "<group>"; };
 		A5FF5EB105DD1BE3EE66911C /* Pods_HyBidDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HyBidDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF44EC73E74F3925E8EDDC01 /* Pods-HyBidDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HyBidDemo.release.xcconfig"; path = "Target Support Files/Pods-HyBidDemo/Pods-HyBidDemo.release.xcconfig"; sourceTree = "<group>"; };
+		CE21BD6F2BFF409600CD9892 /* HyBidStoreKitUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidStoreKitUtils.h; sourceTree = "<group>"; };
+		CE21BD702BFF409600CD9892 /* HyBidStoreKitUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidStoreKitUtils.m; sourceTree = "<group>"; };
 		CE43DB202B5993160022395B /* OMSDK_Pubnativenet.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = OMSDK_Pubnativenet.xcframework; sourceTree = "<group>"; };
 		CE4A74152B30F19F00E62B10 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		CE729BFA2AAF61670003565D /* HyBidCustomClickUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidCustomClickUtil.h; sourceTree = "<group>"; };
@@ -1553,6 +1557,8 @@
 				5A064993203DC55D00CDF925 /* Crypto */,
 				6F4339D6278850650079F293 /* HyBidVASTIconUtils.h */,
 				6F4339D7278850650079F293 /* HyBidVASTIconUtils.m */,
+				CE21BD6F2BFF409600CD9892 /* HyBidStoreKitUtils.h */,
+				CE21BD702BFF409600CD9892 /* HyBidStoreKitUtils.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -2221,13 +2227,6 @@
 			path = "OMSDK-1.4.10";
 			sourceTree = "<group>";
 		};
-		62E8D74026CFAA8900828E6A /* Tracking */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Tracking;
-			sourceTree = "<group>";
-		};
 		6F54A74D25A49D0800576A09 /* VGI ID */ = {
 			isa = PBXGroup;
 			children = (
@@ -2330,7 +2329,6 @@
 		6FAA995D26B14C1200726A05 /* VAST Models */ = {
 			isa = PBXGroup;
 			children = (
-				62E8D74026CFAA8900828E6A /* Tracking */,
 				6F75A7EC26C310BB004D2862 /* HyBidVASTModel.h */,
 				6F75A7ED26C310BB004D2862 /* HyBidVASTModel.m */,
 				6FAA995E26B14EC900726A05 /* HyBidVASTAd.h */,
@@ -2960,6 +2958,7 @@
 				342076DC2A941D0F00044D80 /* HyBidSKOverlay.h in Headers */,
 				E7CD0E4D252221A300F976D6 /* HyBidSKAdNetworkViewController.h in Headers */,
 				5ADF9EA3214962340081355E /* HyBidAdModel.h in Headers */,
+				CE21BD712BFF409600CD9892 /* HyBidStoreKitUtils.h in Headers */,
 				5AFF730620B451C100052F2D /* PNLiteConsentPageViewController.h in Headers */,
 				E76DF5EB25E6C0EC002CF7BA /* HyBidVGIManager.h in Headers */,
 				5ADF9E9721495A710081355E /* HyBidHeaderBiddingUtils.h in Headers */,
@@ -3783,6 +3782,7 @@
 				CE729BFD2AAF61670003565D /* HyBidCustomClickUtil.m in Sources */,
 				5ADACD1C202CB88A00617734 /* PNLiteData.m in Sources */,
 				5AA3D5F62031CEC2002BFDA3 /* PNLiteHttpRequest.m in Sources */,
+				CE21BD722BFF409600CD9892 /* HyBidStoreKitUtils.m in Sources */,
 				5ACAA3AF2705F86B00FCC47A /* HyBidProtocol.m in Sources */,
 				7EF2811A2A12333E00DCCDB2 /* HyBidCloseButton.m in Sources */,
 				5A9A886F2108BE59006A081D /* PNLiteImpressionTracker.m in Sources */,
@@ -3940,7 +3940,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = "3.0.0-beta7";
+				MARKETING_VERSION = 3.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c9fb847-6c94-4677-a844-7545db19f59a";
@@ -3984,7 +3984,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = "3.0.0-beta7";
+				MARKETING_VERSION = 3.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "9dc1e001-55bd-467a-b9a9-4db40446e5a6";
@@ -4144,7 +4144,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = "3.0.0-beta7";
+				MARKETING_VERSION = 3.0.1;
 				MODULEMAP_FILE = "";
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -4188,7 +4188,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = "3.0.0-beta7";
+				MARKETING_VERSION = 3.0.1;
 				MODULEMAP_FILE = "";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;

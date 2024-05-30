@@ -47,6 +47,7 @@
 #import "PNLiteOrientationManager.h"
 #import "HyBidSKAdNetworkParameter.h"
 #import "HyBidCustomClickUtil.h"
+#import "HyBidStoreKitUtils.h"
 
 #define kContentInfoContainerTag 2343
 
@@ -1146,7 +1147,7 @@ typedef enum {
     } else if (self.skAdModel) {
         NSMutableDictionary* productParams = [[self.skAdModel getStoreKitParameters] mutableCopy];
         
-        [self insertFidelitiesIntoDictionaryIfNeeded:productParams];
+        [HyBidStoreKitUtils insertFidelitiesIntoDictionaryIfNeeded:productParams];
         
         if ([productParams count] > 0) {
             if (throughClickURL != nil) {
@@ -1154,8 +1155,7 @@ typedef enum {
             }
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                [productParams removeObjectForKey:HyBidSKAdNetworkParameter.fidelityType];
-                HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters: productParams delegate: self];
+                HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters: [HyBidStoreKitUtils cleanUpProductParams:productParams] delegate: self];
                 [skAdnetworkViewController presentSKStoreProductViewController:^(BOOL success) {
                     if (success) {
                         [self skAdnetworkViewControllerIsShown:nil];
@@ -1184,47 +1184,6 @@ typedef enum {
     [[UIApplication sharedApplication] openURL:clickUrl options:@{} completionHandler:^(BOOL success) {
         [self togglePlaybackStateOnSuccess: success];
     }];
-}
-
-- (NSMutableDictionary *)insertFidelitiesIntoDictionaryIfNeeded:(NSMutableDictionary *)dictionary {
-    double skanVersion = [dictionary[@"adNetworkPayloadVersion"] doubleValue];
-    if ([[HyBidSettings sharedInstance] supportMultipleFidelities] && skanVersion >= 2.2 && [dictionary[HyBidSKAdNetworkParameter.fidelities] count] > 0) {
-        NSArray<NSData *> *fidelitiesDataArray = dictionary[HyBidSKAdNetworkParameter.fidelities];
-        
-        if ([fidelitiesDataArray count] > 0) {
-            for (NSData *fidelity in fidelitiesDataArray) {
-                SKANObject skanObject;
-                [fidelity getBytes:&skanObject length:sizeof(skanObject)];
-                
-                if (skanObject.fidelity == 1) {
-                    if (@available(iOS 11.3, *)) {
-                        [dictionary setObject:[NSString stringWithUTF8String:skanObject.timestamp] forKey:SKStoreProductParameterAdNetworkTimestamp];
-                        
-                        NSString *nonce = [NSString stringWithUTF8String:skanObject.nonce];
-                        [dictionary setObject:[[NSUUID alloc] initWithUUIDString:nonce] forKey:SKStoreProductParameterAdNetworkNonce];
-                    }
-                    
-                    if (@available(iOS 13.0, *)) {
-                        if (skanObject.signature != nil) {
-                            NSString *signature = [NSString stringWithUTF8String:skanObject.signature];
-                            if (signature != nil) {
-                                [dictionary setObject:signature forKey:SKStoreProductParameterAdNetworkAttributionSignature];
-                            }
-                        }
-                        
-                        NSString *fidelity = [NSString stringWithFormat:@"%d", skanObject.fidelity];
-                        [dictionary setObject:fidelity forKey:HyBidSKAdNetworkParameter.fidelityType];
-                    }
-                    
-                    dictionary[HyBidSKAdNetworkParameter.fidelities] = nil;
-                    
-                    break; // Currently we support only 1 fidelity for each kind
-                }
-            }
-        }
-    }
-    
-    return dictionary;
 }
 
 - (void)setConstraintsForPlayerElementsInFullscreen:(BOOL)isFullscreen {

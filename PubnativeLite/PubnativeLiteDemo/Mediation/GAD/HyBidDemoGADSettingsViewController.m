@@ -23,6 +23,8 @@
 #import "HyBidDemoGADSettingsViewController.h"
 #import "PNLiteDemoSettings.h"
 
+@import GoogleMobileAds;
+
 @interface HyBidDemoGADSettingsViewController () <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *appIDTextField;
 @property (weak, nonatomic) IBOutlet UITextField *leaderboardAdUnitIDTextField;
@@ -58,6 +60,14 @@
     [[NSUserDefaults standardUserDefaults] setObject:self.interstitialAdUnitIDTextField.text forKey:kHyBidGADInterstitialAdUnitIDKey];
     [[NSUserDefaults standardUserDefaults] setObject:self.rewardedAdUnitIDTextField.text forKey:kHyBidGADRewardedAdUnitIDKey];
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)openGADMediationTesterTouchUpInside:(UIButton *)sender
+{
+    [[GADMobileAds sharedInstance] presentAdInspectorFromViewController:self
+          completionHandler:^(NSError *error) {
+        NSLog(@"Mediation debugger error");
+    }];
 }
 
 #pragma mark UITextFieldDelegate

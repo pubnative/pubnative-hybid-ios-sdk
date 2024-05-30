@@ -48,24 +48,18 @@ typedef id<GADMediationBannerAdEventDelegate> _Nullable(^HyBidGADBannerCustomEve
                    completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
     self.completionBlock = completionHandler;
     NSString *serverParameter = [adConfiguration.credentials.settings objectForKey:@"parameter"];
-    if ([HyBidGADUtils areExtrasValid:serverParameter]) {
-        if ([HyBidGADUtils appToken:serverParameter] != nil && [[HyBidGADUtils appToken:serverParameter] isEqualToString:[HyBidSDKConfig sharedConfig].appToken]) {
-            if (HyBid.isInitialized) {
-                [self loadBannerWithZoneID:[HyBidGADUtils zoneID:serverParameter]];
-            } else {
-                [HyBid initWithAppToken:[HyBidGADUtils appToken:serverParameter] completion:^(BOOL success) {
-                    [self loadBannerWithZoneID:[HyBidGADUtils zoneID:serverParameter]];
-                }];
-            }
+    if ([HyBidGADUtils areExtrasValid:serverParameter] && [HyBidGADUtils appToken:serverParameter] != nil) {
+        if (HyBid.isInitialized && [[HyBidGADUtils appToken:serverParameter] isEqualToString:[HyBidSDKConfig sharedConfig].appToken]) {
+            [self loadBannerWithZoneID:[HyBidGADUtils zoneID:serverParameter]];
         } else {
-            [self invokeFailWithMessage:@"The provided app token doesn't match the one used to initialise HyBid."];
-            return;
+            [HyBid initWithAppToken:[HyBidGADUtils appToken:serverParameter] completion:^(BOOL success) {
+                [self loadBannerWithZoneID:[HyBidGADUtils zoneID:serverParameter]];
+            }];
         }
     } else {
         [self invokeFailWithMessage:@"Failed banner ad fetch. Missing required server extras."];
         return;
     }
-
 }
 
 - (void)loadBannerWithZoneID:(NSString *)zoneID {

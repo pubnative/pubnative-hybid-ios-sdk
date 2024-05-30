@@ -35,6 +35,7 @@
 #import "HyBidSKAdNetworkParameter.h"
 #import "HyBidCustomClickUtil.h"
 #import "HyBidSKAdNetworkViewController.h"
+#import "HyBidStoreKitUtils.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -388,13 +389,12 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
         } else if (skAdNetworkModel) {
             NSMutableDictionary* productParams = [[skAdNetworkModel getStoreKitParameters] mutableCopy];
             
-            [self insertStoreKitFidelityIntoDictionaryIfNeeded:productParams];
+            [HyBidStoreKitUtils insertFidelitiesIntoDictionaryIfNeeded:productParams];
             
             if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams]) {
                 [[HyBidURLDriller alloc] startDrillWithURLString:self.clickUrl delegate:self];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [productParams removeObjectForKey:HyBidSKAdNetworkParameter.fidelityType];
-                    HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters: productParams delegate: self];
+                    HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters: [HyBidStoreKitUtils cleanUpProductParams:productParams] delegate: self];
                     [skAdnetworkViewController presentSKStoreProductViewController:^(BOOL success) {
                         
                     }];
@@ -406,48 +406,6 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.clickUrl] options:@{} completionHandler:nil];
         }
     }
-}
-
-- (NSMutableDictionary *)insertStoreKitFidelityIntoDictionaryIfNeeded:(NSMutableDictionary *)dictionary
-{
-    double skanVersion = [dictionary[@"adNetworkPayloadVersion"] doubleValue];
-    if ([[HyBidSettings sharedInstance] supportMultipleFidelities] && skanVersion >= 2.2 && [dictionary[HyBidSKAdNetworkParameter.fidelities] count] > 0) {
-        NSArray<NSData *> *fidelitiesDataArray = dictionary[HyBidSKAdNetworkParameter.fidelities];
-        
-        if ([fidelitiesDataArray count] > 0) {
-            for (NSData *fidelity in fidelitiesDataArray) {
-                SKANObject skanObject;
-                [fidelity getBytes:&skanObject length:sizeof(skanObject)];
-                
-                if (skanObject.fidelity == 1) { // As we handle tap event
-                    if (@available(iOS 11.3, *)) {
-                        [dictionary setObject:[NSString stringWithUTF8String:skanObject.timestamp] forKey:SKStoreProductParameterAdNetworkTimestamp];
-                        
-                        NSString *nonce = [NSString stringWithUTF8String:skanObject.nonce];
-                        [dictionary setObject:[[NSUUID alloc] initWithUUIDString:nonce] forKey:SKStoreProductParameterAdNetworkNonce];
-                    }
-                    
-                    if (@available(iOS 13.0, *)) {
-                        if (skanObject.signature != nil) {
-                            NSString *signature = [NSString stringWithUTF8String:skanObject.signature];
-                            if (signature != nil) {
-                                [dictionary setObject:signature forKey:SKStoreProductParameterAdNetworkAttributionSignature];
-                            }
-                        }
-                        
-                        NSString *fidelity = [NSString stringWithFormat:@"%d", skanObject.fidelity];
-                        [dictionary setObject:fidelity forKey:HyBidSKAdNetworkParameter.fidelityType];
-                    }
-                    
-                    dictionary[HyBidSKAdNetworkParameter.fidelities] = nil;
-                    
-                    break; // Currently we support only 1 fidelity for each kind
-                }
-            }
-        }
-    }
-    
-    return dictionary;
 }
 
 #pragma Confirm Beacons

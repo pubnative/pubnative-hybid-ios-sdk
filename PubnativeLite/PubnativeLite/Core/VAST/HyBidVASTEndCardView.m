@@ -34,6 +34,7 @@
 #import "HyBidSKAdNetworkParameter.h"
 #import "HyBidCustomClickUtil.h"
 #import "HyBidAdTracker.h"
+#import "HyBidStoreKitUtils.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -391,6 +392,7 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
 - (void)close
 {
     if (!self.withSkipButton) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
         [self.rootViewController dismissViewControllerAnimated:NO completion:^{
             [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_close];
             [self.delegate vastEndCardViewCloseButtonTapped];
@@ -673,6 +675,7 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
 
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     self.endCardImageView = nil;
     self.mraidView = nil;
     self.serviceProvider = nil;
@@ -861,7 +864,7 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
     } else if (skAdNetworkModel) {
         NSMutableDictionary* productParams = [[skAdNetworkModel getStoreKitParameters] mutableCopy];
         
-        [self insertFidelitiesIntoDictionaryIfNeeded:productParams];
+        [HyBidStoreKitUtils insertFidelitiesIntoDictionaryIfNeeded:productParams];
         
         if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams]) {
             if(endCardType == HyBidEndCardType_STATIC) {
@@ -874,8 +877,7 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
             
             if(shouldOpenBrowser) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [productParams removeObjectForKey:HyBidSKAdNetworkParameter.fidelityType];
-                    HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters: productParams delegate: self];
+                    HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters: [HyBidStoreKitUtils cleanUpProductParams:productParams] delegate: self];
                     self.storekitPageIsBeingPresented = YES;
                     [skAdnetworkViewController presentSKStoreProductViewController:^(BOOL success) {
                         
@@ -1049,7 +1051,8 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
             }];
         }
     } else if (productParams.count != 0) {
-        [self insertFidelitiesIntoDictionaryIfNeeded:productParams];
+        
+        [HyBidStoreKitUtils insertFidelitiesIntoDictionaryIfNeeded:productParams];
         
         if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams]) {
             if(endCardType == HyBidEndCardType_STATIC) {
@@ -1062,8 +1065,7 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
             
             if(shouldOpenBrowser) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [productParams removeObjectForKey:HyBidSKAdNetworkParameter.fidelityType];
-                    HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters: productParams delegate: self];
+                    HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters: [HyBidStoreKitUtils cleanUpProductParams:productParams] delegate: self];
                     self.storekitPageIsBeingPresented = YES;
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"SKStoreProductViewIsReadyToPresentForSDKStorekit" object:nil];
                     [skAdnetworkViewController presentSKStoreProductViewController:^(BOOL success) {
@@ -1146,48 +1148,6 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
     [self vastEndCardClickedWithType:[self.endCard type] withURL:url.absoluteString withShouldOpenBrowser:YES];
     [self trackEndCardClick];
     [self.delegate vastEndCardViewClicked:self.shouldTriggerAdClick];
-}
-
-- (NSMutableDictionary *)insertFidelitiesIntoDictionaryIfNeeded:(NSMutableDictionary *)dictionary
-{
-    double skanVersion = [dictionary[@"adNetworkPayloadVersion"] doubleValue];
-    if ([[HyBidSettings sharedInstance] supportMultipleFidelities] && skanVersion >= 2.2 && [dictionary[HyBidSKAdNetworkParameter.fidelities] count] > 0) {
-        NSArray<NSData *> *fidelitiesDataArray = dictionary[HyBidSKAdNetworkParameter.fidelities];
-        
-        if ([fidelitiesDataArray count] > 0) {
-            for (NSData *fidelity in fidelitiesDataArray) {
-                SKANObject skanObject;
-                [fidelity getBytes:&skanObject length:sizeof(skanObject)];
-                
-                if (skanObject.fidelity == 1) {
-                    if (@available(iOS 11.3, *)) {
-                        [dictionary setObject:[NSString stringWithUTF8String:skanObject.timestamp] forKey:SKStoreProductParameterAdNetworkTimestamp];
-                        
-                        NSString *nonce = [NSString stringWithUTF8String:skanObject.nonce];
-                        [dictionary setObject:[[NSUUID alloc] initWithUUIDString:nonce] forKey:SKStoreProductParameterAdNetworkNonce];
-                    }
-                    
-                    if (@available(iOS 13.0, *)) {
-                        if (skanObject.signature != nil) {
-                            NSString *signature = [NSString stringWithUTF8String:skanObject.signature];
-                            if (signature != nil) {
-                                [dictionary setObject:signature forKey:SKStoreProductParameterAdNetworkAttributionSignature];
-                            }
-                        }
-                        
-                        NSString *fidelity = [NSString stringWithFormat:@"%d", skanObject.fidelity];
-                        [dictionary setObject:fidelity forKey:HyBidSKAdNetworkParameter.fidelityType];
-                    }
-                    
-                    dictionary[HyBidSKAdNetworkParameter.fidelities] = nil;
-                    
-                    break; // Currently we support only 1 fidelity for each kind
-                }
-            }
-        }
-    }
-    
-    return dictionary;
 }
 
 - (BOOL)mraidViewShouldResize:(HyBidMRAIDView *)mraidView toPosition:(CGRect)position allowOffscreen:(BOOL)allowOffscreen {

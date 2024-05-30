@@ -322,6 +322,8 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 + (NSString * _Nonnull)ERROR SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull INTERSTITIAL_CLOSED;)
 + (NSString * _Nonnull)INTERSTITIAL_CLOSED SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull REWARDED_CLOSED;)
++ (NSString * _Nonnull)REWARDED_CLOSED SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull VIDEO_STARTED;)
 + (NSString * _Nonnull)VIDEO_STARTED SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull VIDEO_DISMISSED;)
@@ -382,6 +384,16 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 + (NSString * _Nonnull)SESSION_REPORT_INFO SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull CUSTOM_ENDCARD_IMPRESSION;)
 + (NSString * _Nonnull)CUSTOM_ENDCARD_IMPRESSION SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull DEFAULT_ENDCARD_SKIP;)
++ (NSString * _Nonnull)DEFAULT_ENDCARD_SKIP SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull DEFAULT_ENDCARD_CLOSE;)
++ (NSString * _Nonnull)DEFAULT_ENDCARD_CLOSE SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull DEFAULT_ENDCARD_IMPRESSION;)
++ (NSString * _Nonnull)DEFAULT_ENDCARD_IMPRESSION SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull DEFAULT_ENDCARD_CLICK;)
++ (NSString * _Nonnull)DEFAULT_ENDCARD_CLICK SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull CUSTOM_ENDCARD_CLOSE;)
++ (NSString * _Nonnull)CUSTOM_ENDCARD_CLOSE SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull CUSTOM_ENDCARD_CLICK;)
 + (NSString * _Nonnull)CUSTOM_ENDCARD_CLICK SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull ATOM_ACTIVATED;)
@@ -415,6 +427,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) HyBidConsent
 @end
 
 @class HyBidSkipOffset;
+@class NSDictionary;
 
 SWIFT_CLASS("_TtC5HyBid14HyBidConstants")
 @interface HyBidConstants : NSObject
@@ -435,6 +448,9 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class) BOOL showEndCard;)
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class) BOOL showCustomEndCard;)
 + (BOOL)showCustomEndCard SWIFT_WARN_UNUSED_RESULT;
 + (void)setShowCustomEndCard:(BOOL)value;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, copy) NSString * _Nonnull customEndCardInputValue;)
++ (NSString * _Nonnull)customEndCardInputValue SWIFT_WARN_UNUSED_RESULT;
++ (void)setCustomEndCardInputValue:(NSString * _Nonnull)value;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class) HyBidCustomEndcardDisplayBehaviour customEndcardDisplay;)
 + (HyBidCustomEndcardDisplayBehaviour)customEndcardDisplay SWIFT_WARN_UNUSED_RESULT;
 + (void)setCustomEndcardDisplay:(HyBidCustomEndcardDisplayBehaviour)value;
@@ -477,6 +493,15 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class) BOOL atomEnabled;)
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class) BOOL sdkAutoStorekitEnabled;)
 + (BOOL)sdkAutoStorekitEnabled SWIFT_WARN_UNUSED_RESULT;
 + (void)setSdkAutoStorekitEnabled:(BOOL)value;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) NSDictionary * _Nonnull skAdNetworkModelInputValue;)
++ (NSDictionary * _Nonnull)skAdNetworkModelInputValue SWIFT_WARN_UNUSED_RESULT;
++ (void)setSkAdNetworkModelInputValue:(NSDictionary * _Nonnull)value;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, copy) NSString * _Nonnull itunesIdValue;)
++ (NSString * _Nonnull)itunesIdValue SWIFT_WARN_UNUSED_RESULT;
++ (void)setItunesIdValue:(NSString * _Nonnull)value;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, copy) NSString * _Nonnull customCTAInputValue;)
++ (NSString * _Nonnull)customCTAInputValue SWIFT_WARN_UNUSED_RESULT;
++ (void)setCustomCTAInputValue:(NSString * _Nonnull)value;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -592,7 +617,6 @@ SWIFT_CLASS("_TtC5HyBid11HyBidLogger")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class NSDictionary;
 
 SWIFT_CLASS("_TtC5HyBid23HyBidMRAIDCloseCardView")
 @interface HyBidMRAIDCloseCardView : UIView
@@ -636,6 +660,7 @@ SWIFT_CLASS("_TtC5HyBid19HyBidReportingEvent")
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
+@class HyBidAdRequest;
 
 SWIFT_CLASS("_TtC5HyBid21HyBidReportingManager")
 @interface HyBidReportingManager : NSObject
@@ -647,6 +672,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) HyBidReporti
 - (void)reportEventFor:(HyBidReportingEvent * _Nonnull)event;
 - (void)reportEventsFor:(NSArray<HyBidReportingEvent *> * _Nonnull)events;
 - (void)clearEvents;
+- (NSDictionary<NSString *, NSString *> * _Nonnull)addCommonPropertiesForAd:(HyBidAd * _Nullable)ad withRequest:(HyBidAdRequest * _Nullable)request SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -698,6 +724,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) HyBidSDKConf
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @property (nonatomic) BOOL test;
+@property (nonatomic) BOOL reporting;
 @property (nonatomic, strong) HyBidTargetingModel * _Nullable targeting;
 @property (nonatomic, copy) NSString * _Nullable appToken;
 @property (nonatomic, copy) NSString * _Nonnull apiURL;
