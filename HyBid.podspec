@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "HyBid"
-  s.version      = "3.0.0"
+  s.version      = "3.0.1"
   s.summary      = "This is the iOS SDK of HyBid. You can read more about it at https://pubnative.net."
   s.description = <<-DESC
                      HyBid leverages first-look prebid technology to maximize yield for the publishers across
@@ -40,7 +40,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios
 
   s.ios.deployment_target = "12.0"
-  s.source       = { :git => "https://github.com/pubnative/pubnative-hybid-ios-sdk.git", :tag => "3.0.0" }
+  s.source       = { :git => "https://github.com/pubnative/pubnative-hybid-ios-sdk.git", :tag => "3.0.1" }
   s.resource_bundle = {
     "#{s.module_name}_Privacy" => "PubnativeLite/PubnativeLite/PrivacyInfo.xcprivacy"
   }
@@ -50,11 +50,8 @@ Pod::Spec.new do |s|
 
   s.swift_version = '5.0'
   s.pod_target_xcconfig = {
-    'OTHER_SWIFT_FLAGS' => '-Xcc -Wno-incomplete-umbrella',
-    'FRAMEWORK_SEARCH_PATHS' => '${PODS_ROOT}/ATOM-Standalone ${PODS_XCFRAMEWORKS_BUILD_DIR}/ATOM-Standalone'
+    'OTHER_SWIFT_FLAGS' => '-Xcc -Wno-incomplete-umbrella'
   }
-
-  s.dependency 'ATOM-Standalone', '~> 3.0.7'
 
   s.subspec 'Core' do |core|
     core.source_files          = 'PubnativeLite/PubnativeLite/Core/**/*.{swift,h,m}'
