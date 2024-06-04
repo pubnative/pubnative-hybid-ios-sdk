@@ -1624,13 +1624,6 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@", NSStringFromSelector(_cmd)]];
 }
 
-- (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler {
-    NSURL *url = [navigationResponse.response URL];
-    
-    [self.delegate mraidViewNavigate:self withURL:url];
-    decisionHandler(WKNavigationResponsePolicyCancel);
-}
-
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
     @synchronized(self) {
         [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@", NSStringFromSelector(_cmd)]];
@@ -1711,7 +1704,8 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
         [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Found URL %@ with type %@", absUrlString, @(navigationAction.navigationType)]];
         
         // Links, Form submissions
-        if (navigationAction.navigationType == WKNavigationTypeLinkActivated) {
+        if (navigationAction.navigationType == WKNavigationTypeLinkActivated
+            || (navigationAction.navigationType == WKNavigationTypeOther && tapObserved)) {
             // For banner views
             if ([self.delegate respondsToSelector:@selector(mraidViewNavigate:withURL:)]) {
                 [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"JS webview load: %@",
