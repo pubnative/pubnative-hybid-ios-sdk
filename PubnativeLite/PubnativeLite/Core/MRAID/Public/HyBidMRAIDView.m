@@ -611,10 +611,10 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
 - (CGRect)visibleRect{
     CGRect visibleRectangle =  CGRectMake(0,0,0,0);
     if(_isViewable){
-        UIWindow *parentWindow = currentWebView.window;
+        CGRect parentFrame = currentWebView.frame;
         // We need to call convertRect:toView: on this view's superview rather than on this view itself.
-        CGRect viewFrameInWindowCoordinates = [currentWebView.superview convertRect:currentWebView.frame toView:parentWindow];
-        visibleRectangle = CGRectIntersection(viewFrameInWindowCoordinates, parentWindow.frame);
+        CGRect viewFrameInWindowCoordinates = [currentWebView.superview convertRect:currentWebView.frame toView:currentWebView];
+        visibleRectangle = CGRectIntersection(viewFrameInWindowCoordinates, parentFrame);
     }
     return visibleRectangle;
 }
@@ -1500,20 +1500,20 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
         visibleRect = updatedVisibleRectangle;
         
         NSString* jsonExposureChange = @"";
-        if (exposedPercentage <=0 ) {
+        if (exposedPercentage <= 0) {
             // If exposure percentage is 0 then send visibleRectangle as null.
-            jsonExposureChange = [NSString stringWithFormat:@"{\"exposedPercentage\":0.0,\"visibleRectangle\":null,\"occlusionRectangles\":null}"];
+            exposedPercentage = 0;
+            jsonExposureChange = [NSString stringWithFormat:@"null"];
         } else {
-            
             int offsetX = (visibleRect.origin.x > 0) ? floorf(visibleRect.origin.x) : ceilf(visibleRect.origin.x);
             int offsetY = (visibleRect.origin.y > 0) ? floorf(visibleRect.origin.y) : ceilf(visibleRect.origin.y);
             int width = floorf(visibleRect.size.width);
             int height = floorf(visibleRect.size.height);
             
-            jsonExposureChange = [NSString stringWithFormat:@"{\"exposedPercentage\":%.01f,\"visibleRectangle\":{\"x\":%i,\"y\":%i,\"width\":%i,\"height\":%i},\"occlusionRectangles\":null}",exposedPercentage,offsetX,offsetY,width,height];
+            jsonExposureChange = [NSString stringWithFormat:@"{\"x\":%i,\"y\":%i,\"width\":%i,\"height\":%i}",offsetX,offsetY,width,height];
         }
 
-        [self injectJavaScript:[NSString stringWithFormat:@"mraid.fireExposureChangeEvent(%@);", jsonExposureChange]];
+        [self injectJavaScript:[NSString stringWithFormat:@"mraid.fireExposureChangeEvent(%0.1f,%@,null);", exposedPercentage, jsonExposureChange]];
     }
 }
 
