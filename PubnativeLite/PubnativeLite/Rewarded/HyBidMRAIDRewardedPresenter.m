@@ -99,6 +99,37 @@
     [self.mraidView hide];
 }
 
+- (void)handleClick:(NSString*) url {
+    [self.delegate rewardedPresenterDidClick:self];
+    
+    HyBidSkAdNetworkModel* skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.adModel getOpenRTBSkAdNetworkModel] : [self.adModel getSkAdNetworkModel];
+    
+    NSString *customUrl = [HyBidCustomClickUtil extractPNClickUrl:url];
+    if (customUrl != nil) {
+        [self.serviceProvider openBrowser:customUrl];
+    } else if (skAdNetworkModel) {
+        NSMutableDictionary* productParams = [[skAdNetworkModel getStoreKitParameters] mutableCopy];
+
+        [HyBidStoreKitUtils insertFidelitiesIntoDictionaryIfNeeded:productParams];
+        
+        if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams]) {
+            [[HyBidURLDriller alloc] startDrillWithURLString:url delegate:self];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters: [HyBidStoreKitUtils cleanUpProductParams:productParams] delegate: self];
+                [skAdnetworkViewController presentSKStoreProductViewController:^(BOOL success) {
+                    if (success) {
+                        [self.delegate rewardedPresenterDidDisappear:self];
+                    }
+                }];
+            });
+        } else {
+            [self.serviceProvider openBrowser:url];
+        }
+    } else {
+        [self.serviceProvider openBrowser:url];
+    }
+}
+
 #pragma mark HyBidMRAIDViewDelegate
 
 - (void)mraidViewAdReady:(HyBidMRAIDView *)mraidView {
@@ -131,34 +162,7 @@
 - (void)mraidViewNavigate:(HyBidMRAIDView *)mraidView withURL:(NSURL *)url {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"MRAID navigate with URL:%@",url]];
     
-    [self.delegate rewardedPresenterDidClick:self];
-    
-    HyBidSkAdNetworkModel* skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.adModel getOpenRTBSkAdNetworkModel] : [self.adModel getSkAdNetworkModel];
-    
-    NSString *customUrl = [HyBidCustomClickUtil extractPNClickUrl:url.absoluteString];
-    if (customUrl != nil) {
-        [self.serviceProvider openBrowser:customUrl];
-    } else if (skAdNetworkModel) {
-        NSMutableDictionary* productParams = [[skAdNetworkModel getStoreKitParameters] mutableCopy];
-
-        [HyBidStoreKitUtils insertFidelitiesIntoDictionaryIfNeeded:productParams];
-        
-        if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams]) {
-            [[HyBidURLDriller alloc] startDrillWithURLString:url.absoluteString delegate:self];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters: [HyBidStoreKitUtils cleanUpProductParams:productParams] delegate: self];
-                [skAdnetworkViewController presentSKStoreProductViewController:^(BOOL success) {
-                    if (success) {
-                        [self.delegate rewardedPresenterDidDisappear:self];
-                    }
-                }];
-            });
-        } else {
-            [self.serviceProvider openBrowser:url.absoluteString];
-        }
-    } else {
-        [self.serviceProvider openBrowser:url.absoluteString];
-    }
+    [self handleClick:url.absoluteString];
 }
 
 - (BOOL)mraidViewShouldResize:(HyBidMRAIDView *)mraidView toPosition:(CGRect)position allowOffscreen:(BOOL)allowOffscreen {
@@ -176,34 +180,7 @@
 }
 
 - (void)mraidServiceOpenBrowserWithUrlString:(NSString *)urlString {
-    [self.delegate rewardedPresenterDidClick:self];
-    
-    HyBidSkAdNetworkModel* skAdNetworkModel = [self.adModel getSkAdNetworkModel];
-    
-    NSString *customUrl = [HyBidCustomClickUtil extractPNClickUrl:urlString];
-    if (customUrl != nil) {
-        [self.serviceProvider openBrowser:customUrl];
-    } else if (skAdNetworkModel) {
-        NSMutableDictionary* productParams = [[skAdNetworkModel getStoreKitParameters] mutableCopy];
-        
-        [HyBidStoreKitUtils insertFidelitiesIntoDictionaryIfNeeded:productParams];
-            
-        if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams]) {
-            [[HyBidURLDriller alloc] startDrillWithURLString:urlString delegate:self];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters: [HyBidStoreKitUtils cleanUpProductParams:productParams] delegate: self];
-                [skAdnetworkViewController presentSKStoreProductViewController:^(BOOL success) {
-                    if (success) {
-                        [self.delegate rewardedPresenterDidDisappear:self];
-                    }
-                }];
-            });
-        } else {
-            [self.serviceProvider openBrowser:urlString];
-        }
-    } else {
-        [self.serviceProvider openBrowser:urlString];
-    }
+    [self handleClick:urlString];
 }
 
 - (void)mraidServicePlayVideoWithUrlString:(NSString *)urlString {

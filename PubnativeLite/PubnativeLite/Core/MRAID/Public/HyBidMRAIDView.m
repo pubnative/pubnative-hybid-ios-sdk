@@ -124,6 +124,8 @@ typedef enum {
     BOOL isStoreViewControllerPresented;
     BOOL isStoreViewControllerBeingPresented;
     BOOL startedFromTap;
+    
+    NSString* urlFromMraidOpen;
 
     CGFloat adWidth;
     CGFloat adHeight;
@@ -987,6 +989,7 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
     urlString = [urlString stringByRemovingPercentEncoding];
 
     if (!isEndcard) {
+        urlFromMraidOpen = urlString;
         [self openBrowserWithURLString:urlString];
         return;
     }
@@ -1706,6 +1709,7 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
         // Links, Form submissions
         if (navigationAction.navigationType == WKNavigationTypeLinkActivated
             || (navigationAction.navigationType == WKNavigationTypeOther && tapObserved)) {
+            tapObserved = NO;
             // For banner views
             if ([self.delegate respondsToSelector:@selector(mraidViewNavigate:withURL:)]) {
                 [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"JS webview load: %@",
@@ -1722,7 +1726,11 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
                         [self close];
                     }
                 } else {
-                    [self.delegate mraidViewNavigate:self withURL:url];
+                    if (urlFromMraidOpen && [urlFromMraidOpen isEqualToString:absUrlString]) {
+                        urlFromMraidOpen = nil;
+                    } else {
+                        [self.delegate mraidViewNavigate:self withURL:url];
+                    }
                 }
             }
         } else {
