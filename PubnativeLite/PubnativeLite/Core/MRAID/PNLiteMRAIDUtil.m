@@ -101,26 +101,9 @@
     }
     
     NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    
-    NSString *mraidJSPath = [bundle pathForResource: [self nameForResource:@"hybidmraidscaling" :@"js"] ofType:@"js"];
-    NSData *mraidJSData = [NSData dataWithContentsOfFile:mraidJSPath];
-    NSString *mraidjs = [[NSString alloc] initWithData:mraidJSData encoding:NSUTF8StringEncoding];
-    mraidjs = [NSString stringWithFormat:
-                   @"<script>\n"
-                    "%@"
-                    "\n</script>",
-                    mraidjs
-    ];
-    
-    NSString *scalingJSPath = [bundle pathForResource: [self nameForResource:@"hybidscaling" :@"js"] ofType:@"js"];
-    NSData *scalingJSData = [NSData dataWithContentsOfFile:scalingJSPath];
-    NSString *scalingjs = [[NSString alloc] initWithData:scalingJSData encoding:NSUTF8StringEncoding];
-    scalingjs = [NSString stringWithFormat:
-                  @"<script>\n"
-                   "%@"
-                   "\n</script>",
-                   scalingjs
-    ];
+    NSString *mraidjs = [self loadJavaScriptFile:@"hybidmraidscaling" fromBundle:bundle];
+    NSString *omjs = [self loadJavaScriptFile:@"omsdk" fromBundle:bundle];
+    NSString *scalingjs = [self loadJavaScriptFile:@"hybidscaling" fromBundle:bundle];
     
     // Add meta and style tags to head tag.
     NSString *metaTag =
@@ -138,17 +121,30 @@
                                                       options:NSRegularExpressionCaseInsensitive
                                                         error:&error];
 
-    
-    NSArray<NSTextCheckingResult *> *macthes = [regex matchesInString:processedHtml options:0 range:NSMakeRange(0, [processedHtml length])];
-    
-    for (NSTextCheckingResult* match in macthes) {
-        processedHtml = [regex stringByReplacingMatchesInString:processedHtml
-                                                        options:0
-                                                          range:match.range
-                                                   withTemplate:[NSString stringWithFormat:@"$0\n%@\n%@\n%@\n%@", metaTag, styleTag, mraidjs, scalingjs]];
+    NSArray<NSTextCheckingResult *> *matches = [regex matchesInString:processedHtml options:0 range:NSMakeRange(0, [processedHtml length])];
+
+    for (NSTextCheckingResult* match in matches) {
+        NSRange matchRange = [match rangeAtIndex:0];
+        NSString *replacementString = [NSString stringWithFormat:@"%@\n%@\n%@\n%@\n%@", metaTag, styleTag, mraidjs, omjs, scalingjs];
+        processedHtml = [processedHtml stringByReplacingCharactersInRange:matchRange withString:replacementString];
         break;
     }
+    
     return processedHtml;
+}
+
++ (NSString *) loadJavaScriptFile:(NSString *) fileName fromBundle:(NSBundle*) bundle {
+    if (bundle && fileName && ![fileName isEqualToString:@""]) {
+        NSString *filePath = [bundle pathForResource:fileName ofType:@"js"];
+        if (filePath) {
+            NSError *error = nil;
+            NSString *javascript = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:&error];
+            if (!error) {
+                return [NSString stringWithFormat:@"<script>\n%@\n</script>", javascript];
+            }
+        }
+    }
+    return @"";
 }
 
 + (NSString*) removeAllScripts:(NSString*) htmlString {

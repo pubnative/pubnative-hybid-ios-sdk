@@ -20,32 +20,11 @@
 //  THE SOFTWARE.
 //
 
-#import "ISVerveCustomAdapter.h"
-#import "ISVerveUtils.h"
+#import <Foundation/Foundation.h>
 
-@implementation ISVerveCustomAdapter
+@interface HyBidStoreKitUtils : NSObject
 
-- (void)init:(ISAdData *)adData delegate:(id<ISNetworkInitializationDelegate>)delegate {
-       if (![ISVerveUtils isAppTokenValid:adData]) {
-           if (delegate && [delegate respondsToSelector:@selector(onInitDidFailWithErrorCode:errorMessage:)]) {
-               [delegate onInitDidFailWithErrorCode:ISAdapterErrorMissingParams
-                                       errorMessage:@"HyBid initialisation failed: Missing app token"];
-           }
-       } else {
-           [HyBid initWithAppToken:[ISVerveUtils appToken:adData] completion:^(BOOL success) {
-               if (delegate && [delegate respondsToSelector:@selector(onInitDidSucceed)]) {
-                   [delegate onInitDidSucceed];
-               }
-           }];
-       }
-}
-
-- (NSString *)networkSDKVersion {
-    return @"3.0.2";
-}
-
-- (NSString *)adapterVersion {
-    return @"3.0.2.0";
-}
++ (NSMutableDictionary *)insertFidelitiesIntoDictionaryIfNeeded:(NSMutableDictionary *)dictionary;
++ (NSDictionary *)cleanUpProductParams:(NSDictionary *)productParams;
 
 @end

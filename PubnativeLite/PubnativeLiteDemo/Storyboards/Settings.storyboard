@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GpQ-44-yA7">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GpQ-44-yA7">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -625,8 +625,8 @@
                                 </variation>
                                 <variation key="heightClass=compact">
                                     <mask key="constraints">
-                                        <include reference="Svp-FS-mbp"/>
                                         <exclude reference="IG7-dR-UTq"/>
+                                        <include reference="Svp-FS-mbp"/>
                                     </mask>
                                 </variation>
                             </label>
@@ -1970,6 +1970,14 @@
                                     <outlet property="delegate" destination="FdI-pw-Xqn" id="9td-QI-lv6"/>
                                 </connections>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kiF-2J-Hol">
+                                <rect key="frame" x="16" y="547" width="382" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Open Mediation Tester"/>
+                                <connections>
+                                    <action selector="openGADMediationTesterTouchUpInside:" destination="FdI-pw-Xqn" eventType="touchUpInside" id="v33-La-lqa"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="rxp-Yz-GrM"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1982,6 +1990,7 @@
                             <constraint firstItem="KAz-le-jVm" firstAttribute="leading" secondItem="rxp-Yz-GrM" secondAttribute="leading" constant="16" id="5Cn-DI-sMY"/>
                             <constraint firstItem="rxp-Yz-GrM" firstAttribute="trailing" secondItem="y31-PY-92r" secondAttribute="trailing" constant="16" id="83L-Km-bSK"/>
                             <constraint firstItem="tgy-VF-whW" firstAttribute="leading" secondItem="rxp-Yz-GrM" secondAttribute="leading" constant="16" id="8et-Qx-fun"/>
+                            <constraint firstItem="kiF-2J-Hol" firstAttribute="leading" secondItem="rxp-Yz-GrM" secondAttribute="leading" constant="16" id="A9n-Zg-occ"/>
                             <constraint firstItem="Jvv-fz-YDZ" firstAttribute="leading" secondItem="rxp-Yz-GrM" secondAttribute="leading" constant="16" id="FsZ-gz-E3Y"/>
                             <constraint firstItem="KAz-le-jVm" firstAttribute="top" secondItem="0S6-Wc-PM8" secondAttribute="bottom" constant="8" id="IsU-bS-yu1"/>
                             <constraint firstItem="rxp-Yz-GrM" firstAttribute="bottom" secondItem="Jvv-fz-YDZ" secondAttribute="bottom" constant="8" id="JOU-F1-jCi"/>
@@ -1993,10 +2002,13 @@
                             <constraint firstItem="rxp-Yz-GrM" firstAttribute="trailing" secondItem="Jvv-fz-YDZ" secondAttribute="trailing" constant="16" id="Uk8-aX-YzO"/>
                             <constraint firstItem="sdH-YT-DSf" firstAttribute="top" secondItem="wu7-Tf-qKG" secondAttribute="bottom" constant="8" id="Vlp-ac-IP4"/>
                             <constraint firstItem="y31-PY-92r" firstAttribute="leading" secondItem="rxp-Yz-GrM" secondAttribute="leading" constant="16" id="Vtn-qP-V53"/>
+                            <constraint firstItem="kiF-2J-Hol" firstAttribute="top" secondItem="KAz-le-jVm" secondAttribute="bottom" constant="18" id="WZ4-MI-yb4"/>
+                            <constraint firstItem="kiF-2J-Hol" firstAttribute="centerX" secondItem="on7-Oo-dc7" secondAttribute="centerX" id="YZC-7l-76h"/>
                             <constraint firstItem="dHC-JQ-mXM" firstAttribute="leading" secondItem="rxp-Yz-GrM" secondAttribute="leading" constant="16" id="Zup-Df-qy8"/>
                             <constraint firstItem="wu7-Tf-qKG" firstAttribute="leading" secondItem="rxp-Yz-GrM" secondAttribute="leading" constant="16" id="aSL-f5-xF8"/>
                             <constraint firstItem="Pra-Or-dFT" firstAttribute="top" secondItem="tgy-VF-whW" secondAttribute="bottom" constant="8" id="aeN-Rz-vFY"/>
                             <constraint firstItem="Ms9-Fa-kbf" firstAttribute="top" secondItem="mfv-EV-D1B" secondAttribute="bottom" constant="8" id="ako-LR-JmC"/>
+                            <constraint firstItem="rxp-Yz-GrM" firstAttribute="trailing" secondItem="kiF-2J-Hol" secondAttribute="trailing" constant="16" id="d1T-87-y8C"/>
                             <constraint firstItem="rxp-Yz-GrM" firstAttribute="trailing" secondItem="Ms9-Fa-kbf" secondAttribute="trailing" constant="16" id="dga-bF-uut"/>
                             <constraint firstItem="mfv-EV-D1B" firstAttribute="top" secondItem="sdH-YT-DSf" secondAttribute="bottom" constant="18" id="eRj-j9-hdD"/>
                             <constraint firstItem="TN9-Xd-BHC" firstAttribute="top" secondItem="dHC-JQ-mXM" secondAttribute="bottom" constant="8" id="mtl-XK-bk5"/>

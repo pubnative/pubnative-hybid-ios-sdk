@@ -28,7 +28,7 @@
 #import "HyBidMRAIDServiceDelegate.h"
 #import "PNLiteMRAIDUtil.h"
 #import "PNLiteMRAIDSettings.h"
-#import "HyBidViewabilityManager.h"
+
 #import "HyBidViewabilityWebAdSession.h"
 #import "HyBidNavigatorGeolocation.h"
 #import "HyBidCloseButton.h"
@@ -96,8 +96,6 @@ typedef enum {
     PNLiteMRAIDParser *mraidParser;
     PNLiteMRAIDModalViewController *modalVC;
     
-    NSString *omSDKjs;
-    
     NSURL *baseURL;
     
     NSArray *mraidFeatures;
@@ -126,6 +124,8 @@ typedef enum {
     BOOL isStoreViewControllerPresented;
     BOOL isStoreViewControllerBeingPresented;
     BOOL startedFromTap;
+    
+    NSString* urlFromMraidOpen;
 
     CGFloat adWidth;
     CGFloat adHeight;
@@ -306,11 +306,6 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
        
         baseURL = bsURL;
         state = PNLiteMRAIDStateLoading;
-        
-        omSDKjs = [[HyBidViewabilityManager sharedInstance] getOMIDJS];
-        if (omSDKjs) {
-            [self injectJavaScript:omSDKjs];
-        }
         
         if (baseURL != nil && [[baseURL absoluteString] length]!= 0) {
             __block NSString *htmlData = htmlData;
@@ -514,7 +509,7 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
 
 - (void)loadHTMLData:(NSString *)htmlData {
     if (htmlData) {
-        [currentWebView loadHTMLString:htmlData baseURL:baseURL];
+        [currentWebView loadHTMLString:htmlData baseURL:[NSURL URLWithString:@"https://example.com"]];
     } else {
         [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Ad HTML is invalid, cannot load."];
         if ([self.delegate respondsToSelector:@selector(mraidViewAdFailed:)]) {
@@ -618,10 +613,10 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
 - (CGRect)visibleRect{
     CGRect visibleRectangle =  CGRectMake(0,0,0,0);
     if(_isViewable){
-        UIWindow *parentWindow = currentWebView.window;
+        CGRect parentFrame = currentWebView.frame;
         // We need to call convertRect:toView: on this view's superview rather than on this view itself.
-        CGRect viewFrameInWindowCoordinates = [currentWebView.superview convertRect:currentWebView.frame toView:parentWindow];
-        visibleRectangle = CGRectIntersection(viewFrameInWindowCoordinates, parentWindow.frame);
+        CGRect viewFrameInWindowCoordinates = [currentWebView.superview convertRect:currentWebView.frame toView:currentWebView];
+        visibleRectangle = CGRectIntersection(viewFrameInWindowCoordinates, parentFrame);
     }
     return visibleRectangle;
 }
@@ -890,10 +885,6 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
         [navigatorGeolocation assignWebView:webViewPart2];
         bonafideTapObserved = YES; // by definition for 2 part expand a valid tap has occurred
         
-        if (omSDKjs) {
-            [self injectJavaScript:omSDKjs];
-        }
-        
         // Check to see whether we've been given an absolute or relative URL.
         // If it's relative, prepend the base URL.
         if (!supportVerve) {
@@ -998,6 +989,7 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
     urlString = [urlString stringByRemovingPercentEncoding];
 
     if (!isEndcard) {
+        urlFromMraidOpen = urlString;
         [self openBrowserWithURLString:urlString];
         return;
     }
@@ -1511,20 +1503,20 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
         visibleRect = updatedVisibleRectangle;
         
         NSString* jsonExposureChange = @"";
-        if (exposedPercentage <=0 ) {
+        if (exposedPercentage <= 0) {
             // If exposure percentage is 0 then send visibleRectangle as null.
-            jsonExposureChange = [NSString stringWithFormat:@"{\"exposedPercentage\":0.0,\"visibleRectangle\":null,\"occlusionRectangles\":null}"];
+            exposedPercentage = 0;
+            jsonExposureChange = [NSString stringWithFormat:@"null"];
         } else {
-            
             int offsetX = (visibleRect.origin.x > 0) ? floorf(visibleRect.origin.x) : ceilf(visibleRect.origin.x);
             int offsetY = (visibleRect.origin.y > 0) ? floorf(visibleRect.origin.y) : ceilf(visibleRect.origin.y);
             int width = floorf(visibleRect.size.width);
             int height = floorf(visibleRect.size.height);
             
-            jsonExposureChange = [NSString stringWithFormat:@"{\"exposedPercentage\":%.01f,\"visibleRectangle\":{\"x\":%i,\"y\":%i,\"width\":%i,\"height\":%i},\"occlusionRectangles\":null}",exposedPercentage,offsetX,offsetY,width,height];
+            jsonExposureChange = [NSString stringWithFormat:@"{\"x\":%i,\"y\":%i,\"width\":%i,\"height\":%i}",offsetX,offsetY,width,height];
         }
 
-        [self injectJavaScript:[NSString stringWithFormat:@"mraid.fireExposureChangeEvent(%@);", jsonExposureChange]];
+        [self injectJavaScript:[NSString stringWithFormat:@"mraid.fireExposureChangeEvent(%0.1f,%@,null);", exposedPercentage, jsonExposureChange]];
     }
 }
 
@@ -1715,7 +1707,9 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
         [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Found URL %@ with type %@", absUrlString, @(navigationAction.navigationType)]];
         
         // Links, Form submissions
-        if (navigationAction.navigationType == WKNavigationTypeLinkActivated) {
+        if (navigationAction.navigationType == WKNavigationTypeLinkActivated
+            || (navigationAction.navigationType == WKNavigationTypeOther && tapObserved)) {
+            tapObserved = NO;
             // For banner views
             if ([self.delegate respondsToSelector:@selector(mraidViewNavigate:withURL:)]) {
                 [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"JS webview load: %@",
@@ -1732,7 +1726,11 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
                         [self close];
                     }
                 } else {
-                    [self.delegate mraidViewNavigate:self withURL:url];
+                    if (urlFromMraidOpen && [urlFromMraidOpen isEqualToString:absUrlString]) {
+                        urlFromMraidOpen = nil;
+                    } else {
+                        [self.delegate mraidViewNavigate:self withURL:url];
+                    }
                 }
             }
         } else {
@@ -1822,6 +1820,12 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
     wv.navigationDelegate = self;
     wv.UIDelegate = self;
     wv.opaque = NO;
+    
+#if DEBUG
+    if (@available(iOS 16.4, *)) {
+        [wv setInspectable: YES];
+    }
+#endif
     
     // disable scrolling
     UIScrollView *scrollView;

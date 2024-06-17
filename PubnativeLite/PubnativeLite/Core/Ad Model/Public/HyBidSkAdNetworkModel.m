@@ -56,9 +56,9 @@ NSString * const REQUEST_SKADNETWORK_V4 = @"4.0";
         
         NSString* skAdNetworkVersion = [self.productParameters objectForKey:HyBidSKAdNetworkParameter.version];
         
-        BOOL isSkAdNetworkHigher_v2 = [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V2] || [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V2_2] || [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V3];
+        BOOL isSkAdNetworkHigher_v2 = [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V2] || [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V2_2] || [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V3] || [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V4];
         
-        BOOL isSkAdNetworkHigher_v2_2 = [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V2_2] || [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V3];
+        BOOL isSkAdNetworkHigher_v2_2 = [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V2_2] || [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V3] || [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V4];
         
         BOOL isSkAdNetworkHigher_v4_0 = [skAdNetworkVersion isEqualToString:REQUEST_SKADNETWORK_V4];
         
@@ -71,8 +71,8 @@ NSString * const REQUEST_SKADNETWORK_V4 = @"4.0";
             // SkAdNetwork v4.0
             if (isSkAdNetworkHigher_v4_0) {
                 if (@available(iOS 16.1, *)) {
-                    if ([self.productParameters objectForKey:HyBidSKAdNetworkParameter.signature] != nil) {
-                        [storeKitParameters setObject:[self.productParameters objectForKey:HyBidSKAdNetworkParameter.sourceIdentifier] forKey:HyBidSKAdNetworkParameter.sourceIdentifier];
+                    if ([self.productParameters objectForKey:HyBidSKAdNetworkParameter.sourceIdentifier] != nil) {
+                        [storeKitParameters setObject:[self.productParameters objectForKey:HyBidSKAdNetworkParameter.sourceIdentifier] forKey:SKStoreProductParameterAdNetworkSourceIdentifier];
                     }
                 }
             } else {
@@ -300,8 +300,9 @@ NSString * const REQUEST_SKADNETWORK_V4 = @"4.0";
     }
 
    for (NSDictionary* skAdNetworkID in networkItems) {
-       if ([[NSString stringWithFormat:@"%@",skAdNetworkID[@"SKAdNetworkIdentifier"]] isEqual:
-            [NSString stringWithFormat:@"%@",productParams[@"adNetworkId"]]]) {
+       NSString *skAdNetworkIdentifier = [[NSString stringWithFormat:@"%@",skAdNetworkID[@"SKAdNetworkIdentifier"]] lowercaseString];
+       NSString *adNetworkId = [[NSString stringWithFormat:@"%@",productParams[@"adNetworkId"]] lowercaseString];
+       if ([skAdNetworkIdentifier isEqualToString: adNetworkId]) {
            return YES;
        }
    }

@@ -48,7 +48,7 @@
 	<array>
 		<dict>
 			<key>SKAdNetworkIdentifier</key>
-			<string>TL55SBB4FM.skadnetwork</string>
+			<string>tl55sbb4fm.skadnetwork</string>
 		</dict>
 		<dict>
 			<key>SKAdNetworkIdentifier</key>
@@ -305,10 +305,6 @@
 		<dict>
 			<key>SKAdNetworkIdentifier</key>
 			<string>t38b2kh725.skadnetwork</string>
-		</dict>
-		<dict>
-			<key>SKAdNetworkIdentifier</key>
-			<string>tl55sbb4fm.skadnetwork</string>
 		</dict>
 		<dict>
 			<key>SKAdNetworkIdentifier</key>
