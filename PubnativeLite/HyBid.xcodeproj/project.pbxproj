@@ -420,6 +420,7 @@
 		6F828F9326EBAA1900180516 /* HyBidVASTMediaFilePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F828F9126EBAA1900180516 /* HyBidVASTMediaFilePicker.m */; };
 		6F828F9626F0F28E00180516 /* HyBidVASTAdCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F828F9426F0F28E00180516 /* HyBidVASTAdCategory.h */; };
 		6F828F9726F0F28E00180516 /* HyBidVASTAdCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F828F9526F0F28E00180516 /* HyBidVASTAdCategory.m */; };
+		6F861BB82C2AFD30006AD109 /* ATOM.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F861BB72C2AFD30006AD109 /* ATOM.xcframework */; };
 		6F89D36729B9DCA80037E7EE /* ATOMError.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F89D36629B9DCA80037E7EE /* ATOMError.h */; };
 		6F8B1B3725ADDD0100E455C6 /* HyBidEncryption.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8B1B3525ADDD0100E455C6 /* HyBidEncryption.h */; };
 		6F8B1B3825ADDD0100E455C6 /* HyBidEncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8B1B3625ADDD0100E455C6 /* HyBidEncryption.m */; };
@@ -1188,6 +1189,7 @@
 		6F828F9126EBAA1900180516 /* HyBidVASTMediaFilePicker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidVASTMediaFilePicker.m; sourceTree = "<group>"; };
 		6F828F9426F0F28E00180516 /* HyBidVASTAdCategory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidVASTAdCategory.h; sourceTree = "<group>"; };
 		6F828F9526F0F28E00180516 /* HyBidVASTAdCategory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidVASTAdCategory.m; sourceTree = "<group>"; };
+		6F861BB72C2AFD30006AD109 /* ATOM.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = ATOM.xcframework; path = "../../../Downloads/ATOM-3/ATOM.xcframework"; sourceTree = "<group>"; };
 		6F89D36629B9DCA80037E7EE /* ATOMError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ATOMError.h; sourceTree = "<group>"; };
 		6F8B1B3525ADDD0100E455C6 /* HyBidEncryption.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidEncryption.h; sourceTree = "<group>"; };
 		6F8B1B3625ADDD0100E455C6 /* HyBidEncryption.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidEncryption.m; sourceTree = "<group>"; };
@@ -1451,6 +1453,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F861BB82C2AFD30006AD109 /* ATOM.xcframework in Frameworks */,
 				5A9B66CD20BD63810067964E /* libxml2.2.tbd in Frameworks */,
 				5A9B66CB20BD63590067964E /* libxml2.tbd in Frameworks */,
 				CE43DB212B5993160022395B /* OMSDK_Pubnativenet.xcframework in Frameworks */,
@@ -1904,6 +1907,7 @@
 		5A8903CF203DE1D400D86051 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6F861BB72C2AFD30006AD109 /* ATOM.xcframework */,
 				5A9B66CC20BD63810067964E /* libxml2.2.tbd */,
 				5A9B66CA20BD63580067964E /* libxml2.tbd */,
 				5A8903EA203DE24500D86051 /* AdSupport.framework */,
@@ -3941,7 +3945,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.0.2;
+				MARKETING_VERSION = 3.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c9fb847-6c94-4677-a844-7545db19f59a";
@@ -3987,7 +3991,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.0.2;
+				MARKETING_VERSION = 3.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pubnative.HyBid.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "9dc1e001-55bd-467a-b9a9-4db40446e5a6";
@@ -4148,8 +4152,12 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.0.2;
+				MARKETING_VERSION = 3.0.3;
 				MODULEMAP_FILE = "";
+				OTHER_LDFLAGS = (
+					"-weak_framework",
+					"\"ATOM\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4192,9 +4200,13 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.0.2;
+				MARKETING_VERSION = 3.0.3;
 				MODULEMAP_FILE = "";
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-weak_framework",
+					"\"ATOM\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
