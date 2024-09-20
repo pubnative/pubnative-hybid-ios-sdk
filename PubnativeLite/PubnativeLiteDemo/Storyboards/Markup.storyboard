@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Q9g-pB-WIY">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Q9g-pB-WIY">
+    <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -14,18 +15,18 @@
             <objects>
                 <viewController title="Custom Markup" id="Q9g-pB-WIY" customClass="PNLiteDemoMarkupMainViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="AwM-4x-1z3">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="nZA-SP-hpf" userLabel="Markup Text View">
-                                <rect key="frame" x="16" y="159" width="382" height="531"/>
+                                <rect key="frame" x="16" y="200.66666666666666" width="343" height="405.33333333333337"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="markupTextView" label="Markup Text View"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UUt-fc-4G8" userLabel="Load Markup Button">
-                                <rect key="frame" x="16" y="821" width="382" height="33"/>
+                                <rect key="frame" x="16" y="737" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="loadMarkupButton" label="Load Markup Button"/>
                                 <constraints>
@@ -46,7 +47,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add your Markup down below and choose a placement" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gkt-rD-xcj">
-                                <rect key="frame" x="16" y="56" width="382" height="21"/>
+                                <rect key="frame" x="16" y="58" width="343" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="currentKeywordsLabel" label="Current Keywords Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="sYB-7U-8va"/>
@@ -68,13 +69,13 @@
                                 </variation>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="VWP-dK-fVO">
-                                <rect key="frame" x="16" y="698" width="382" height="115"/>
+                                <rect key="frame" x="16" y="614" width="343" height="115"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="X30-Jc-6ZT">
-                                        <rect key="frame" x="0.0" y="0.0" width="382" height="33"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="33"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BcN-Rw-vmz" userLabel="Banner Button">
-                                                <rect key="frame" x="0.0" y="0.0" width="187" height="33"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="167.66666666666666" height="33"/>
                                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="bannerButton" label="Banner Button"/>
                                                 <constraints>
@@ -98,7 +99,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jKS-2C-YmJ" userLabel="MRect Button">
-                                                <rect key="frame" x="195" y="0.0" width="187" height="33"/>
+                                                <rect key="frame" x="175.66666666666663" y="0.0" width="167.33333333333337" height="33"/>
                                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="mRectButton" label="MRect Button"/>
                                                 <constraints>
@@ -124,7 +125,7 @@
                                         </subviews>
                                     </stackView>
                                     <button hidden="YES" opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yhC-CT-DDv" userLabel="Leaderboard Button">
-                                        <rect key="frame" x="0.0" y="37" width="382" height="33"/>
+                                        <rect key="frame" x="0.0" y="37" width="343" height="33"/>
                                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         <accessibility key="accessibilityConfiguration" identifier="leaderboardButton" label="Leaderboard Button"/>
                                         <constraints>
@@ -149,10 +150,10 @@
                                         </connections>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="zdG-Y3-lbQ">
-                                        <rect key="frame" x="0.0" y="41" width="382" height="33"/>
+                                        <rect key="frame" x="0.0" y="41" width="343" height="33"/>
                                         <subviews>
                                             <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kgL-LC-cfw" userLabel="Interstitial Button">
-                                                <rect key="frame" x="0.0" y="0.0" width="187" height="33"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="167.66666666666666" height="33"/>
                                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="interstitialButton" label="Interstitial Button"/>
                                                 <constraints>
@@ -176,7 +177,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C3b-rU-GWD" userLabel="Rewarded Button">
-                                                <rect key="frame" x="195" y="0.0" width="187" height="33"/>
+                                                <rect key="frame" x="175.66666666666663" y="0.0" width="167.33333333333337" height="33"/>
                                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="rewardedButton" label="Rewarded Button"/>
                                                 <constraints>
@@ -202,7 +203,7 @@
                                         </subviews>
                                     </stackView>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vei-46-gDc" userLabel="Debug Button">
-                                        <rect key="frame" x="0.0" y="78" width="382" height="33"/>
+                                        <rect key="frame" x="0.0" y="78" width="343" height="33"/>
                                         <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                         <constraints>
@@ -225,7 +226,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ESA-Jn-72K" userLabel="Debug Button">
-                                        <rect key="frame" x="0.0" y="82" width="382" height="33"/>
+                                        <rect key="frame" x="0.0" y="82" width="343" height="33"/>
                                         <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <accessibility key="accessibilityConfiguration" identifier="adCustomizationButton" label="Ad Customization Button"/>
                                         <constraints>
@@ -247,27 +248,50 @@
                                     </button>
                                 </subviews>
                             </stackView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="dBn-Lg-ftL" userLabel="Markup SegmentedControl">
-                                <rect key="frame" x="16" y="120" width="382" height="32"/>
-                                <segments>
-                                    <segment title="Creative ID"/>
-                                    <segment title="URL"/>
-                                </segments>
-                            </segmentedControl>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="99" translatesAutoresizingMaskIntoConstraints="NO" id="ZG7-ZT-Ay2">
-                                <rect key="frame" x="16" y="81" width="382" height="31"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="zBJ-hF-GcM">
+                                <rect key="frame" x="16" y="83" width="343" height="109"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wrap in Universal Rendering" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zfN-8k-kxq">
-                                        <rect key="frame" x="0.0" y="0.0" width="205.5" height="31"/>
-                                        <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="ghN-Pv-O6D">
-                                        <rect key="frame" x="304.5" y="0.0" width="79.5" height="31"/>
-                                        <accessibility key="accessibilityConfiguration" identifier="urSwitch"/>
-                                    </switch>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="ZG7-ZT-Ay2">
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="31"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wrap in Universal Rendering" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zfN-8k-kxq">
+                                                <rect key="frame" x="0.0" y="0.0" width="265.66666666666669" height="31"/>
+                                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="ghN-Pv-O6D">
+                                                <rect key="frame" x="266.66666666666669" y="0.0" width="78.333333333333314" height="31"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="urSwitch"/>
+                                            </switch>
+                                        </subviews>
+                                    </stackView>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="dBn-Lg-ftL" userLabel="Markup SegmentedControl">
+                                        <rect key="frame" x="0.0" y="39" width="343" height="32"/>
+                                        <segments>
+                                            <segment title="Creative ID"/>
+                                            <segment title="URL"/>
+                                        </segments>
+                                    </segmentedControl>
+                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AOV-jO-Pwc" userLabel="Clear Text Button">
+                                        <rect key="frame" x="0.0" y="78" width="343" height="31"/>
+                                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="clearTextButton" label="Clear Text Button"/>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal" title="Clear Text">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <state key="selected">
+                                            <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="clearMarkupTextView:" destination="Q9g-pB-WIY" eventType="touchUpInside" id="k8E-PH-xCn"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
+                                <variation key="heightClass=compact" axis="horizontal"/>
+                                <variation key="heightClass=compact-widthClass=compact" distribution="fillProportionally" spacing="6"/>
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="qB6-6l-fJL"/>
@@ -275,19 +299,16 @@
                         <constraints>
                             <constraint firstItem="UUt-fc-4G8" firstAttribute="leading" secondItem="qB6-6l-fJL" secondAttribute="leading" constant="16" id="2cb-bE-rGM"/>
                             <constraint firstItem="UUt-fc-4G8" firstAttribute="top" secondItem="VWP-dK-fVO" secondAttribute="bottom" constant="8" id="2f4-Fm-XDb"/>
+                            <constraint firstItem="zBJ-hF-GcM" firstAttribute="top" secondItem="gkt-rD-xcj" secondAttribute="bottom" constant="4" id="31r-cV-CxK"/>
                             <constraint firstItem="VWP-dK-fVO" firstAttribute="top" secondItem="nZA-SP-hpf" secondAttribute="bottom" constant="8" id="3VB-aj-hZf"/>
                             <constraint firstItem="qB6-6l-fJL" firstAttribute="trailing" secondItem="UUt-fc-4G8" secondAttribute="trailing" constant="16" id="6vS-Ai-8of"/>
                             <constraint firstItem="qB6-6l-fJL" firstAttribute="trailing" secondItem="VWP-dK-fVO" secondAttribute="trailing" constant="16" id="7mt-YD-J2I"/>
-                            <constraint firstItem="dBn-Lg-ftL" firstAttribute="leading" secondItem="qB6-6l-fJL" secondAttribute="leading" constant="16" id="ATq-05-0Rr"/>
-                            <constraint firstItem="ZG7-ZT-Ay2" firstAttribute="top" secondItem="gkt-rD-xcj" secondAttribute="bottom" constant="4" id="DTs-Ye-UWX"/>
-                            <constraint firstItem="qB6-6l-fJL" firstAttribute="trailing" secondItem="ZG7-ZT-Ay2" secondAttribute="trailing" constant="16" id="EPP-ft-I49"/>
-                            <constraint firstItem="nZA-SP-hpf" firstAttribute="top" secondItem="dBn-Lg-ftL" secondAttribute="bottom" constant="8" id="IjU-e8-fnY"/>
-                            <constraint firstItem="dBn-Lg-ftL" firstAttribute="top" secondItem="ZG7-ZT-Ay2" secondAttribute="bottom" constant="8" id="Tvl-dX-Ldh"/>
+                            <constraint firstItem="qB6-6l-fJL" firstAttribute="trailing" secondItem="zBJ-hF-GcM" secondAttribute="trailing" constant="16" id="DQI-h1-N4m"/>
                             <constraint firstItem="gkt-rD-xcj" firstAttribute="leading" secondItem="qB6-6l-fJL" secondAttribute="leading" constant="16" id="Twe-8T-vww"/>
-                            <constraint firstItem="qB6-6l-fJL" firstAttribute="trailing" secondItem="dBn-Lg-ftL" secondAttribute="trailing" constant="16" id="WVm-qT-IyD"/>
-                            <constraint firstItem="ZG7-ZT-Ay2" firstAttribute="leading" secondItem="qB6-6l-fJL" secondAttribute="leading" constant="16" id="ebA-cn-tsC"/>
+                            <constraint firstItem="nZA-SP-hpf" firstAttribute="top" secondItem="zBJ-hF-GcM" secondAttribute="bottom" constant="8.5" id="jjj-3L-t09"/>
                             <constraint firstItem="qB6-6l-fJL" firstAttribute="trailing" secondItem="gkt-rD-xcj" secondAttribute="trailing" constant="16" id="k6V-ko-NsB"/>
                             <constraint firstItem="VWP-dK-fVO" firstAttribute="leading" secondItem="qB6-6l-fJL" secondAttribute="leading" constant="16" id="kaI-sY-eay"/>
+                            <constraint firstItem="zBJ-hF-GcM" firstAttribute="leading" secondItem="qB6-6l-fJL" secondAttribute="leading" constant="16" id="lgY-3A-1iO"/>
                             <constraint firstItem="gkt-rD-xcj" firstAttribute="top" secondItem="qB6-6l-fJL" secondAttribute="top" constant="8" id="oYN-CT-wjz"/>
                             <constraint firstItem="nZA-SP-hpf" firstAttribute="leading" secondItem="qB6-6l-fJL" secondAttribute="leading" constant="16" id="pDq-DJ-RZn"/>
                             <constraint firstItem="qB6-6l-fJL" firstAttribute="trailing" secondItem="nZA-SP-hpf" secondAttribute="trailing" constant="16" id="toO-79-CAH"/>
@@ -308,7 +329,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XnD-T8-Rgg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-168.11594202898553" y="149.33035714285714"/>
+            <point key="canvasLocation" x="-168.75" y="149.27536231884059"/>
         </scene>
         <!--Debug-->
         <scene sceneID="ICR-Dd-QBm">
@@ -333,11 +354,11 @@
             <objects>
                 <viewController storyboardIdentifier="MarkupDetailViewController" id="t3g-UM-WGa" customClass="PNLiteDemoMarkupDetailViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4Q3-s6-hSk">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Co1-fo-dsl">
-                                <rect key="frame" x="202" y="443" width="10" height="10"/>
+                                <rect key="frame" x="182.66666666666666" y="401" width="10" height="10"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="10" id="8xM-uK-Az9"/>
@@ -345,7 +366,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Based on the Markup that you've provided, your ad will look like this;" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D3a-kx-wxR">
-                                <rect key="frame" x="16" y="56" width="382" height="40"/>
+                                <rect key="frame" x="16" y="58" width="343" height="40"/>
                                 <accessibility key="accessibilityConfiguration" identifier="currentKeywordsLabel" label="Current Keywords Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="Pv9-Vn-ubv"/>
@@ -367,10 +388,10 @@
                                 </variation>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hAO-uc-kLa">
-                                <rect key="frame" x="16" y="104" width="344" height="31"/>
+                                <rect key="frame" x="16" y="106" width="305" height="31.333333333333343"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Creative-id:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rxm-FZ-gQm">
-                                        <rect key="frame" x="0.0" y="0.0" width="75" height="31"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="75" height="31.333333333333332"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="75" id="97I-oH-hrf"/>
                                         </constraints>
@@ -379,7 +400,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ve2-JL-TMg">
-                                        <rect key="frame" x="75" y="0.0" width="269" height="31"/>
+                                        <rect key="frame" x="75" y="0.0" width="230" height="31.333333333333332"/>
                                         <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -387,7 +408,7 @@
                                 </subviews>
                             </stackView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NpG-sl-cty" userLabel="Show Ad Button">
-                                <rect key="frame" x="16" y="143" width="382" height="33"/>
+                                <rect key="frame" x="16" y="145.33333333333334" width="343" height="33"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" identifier="showAdButton" label="Show Ad Button"/>
                                 <constraints>
@@ -411,7 +432,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vaL-GW-gek" userLabel="Dismiss Button">
-                                <rect key="frame" x="16" y="821" width="382" height="33"/>
+                                <rect key="frame" x="16" y="737" width="343" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="dismissButton" label="Dismiss Button"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
@@ -424,7 +445,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5iC-MZ-Eeb">
-                                <rect key="frame" x="368" y="101" width="30" height="34"/>
+                                <rect key="frame" x="329" y="103" width="30" height="34.333333333333343"/>
                                 <accessibility key="accessibilityConfiguration" identifier="customMarkupBrowserButton"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="30" id="8VB-U7-uz4"/>
@@ -476,22 +497,22 @@
             <objects>
                 <viewController title="Ad Settings" id="lGU-KA-WlS" customClass="AdSettingsViewController" customModule="HyBidDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="n2i-jE-B2I">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="ioN-WK-gkc">
-                                <rect key="frame" x="0.0" y="48" width="414" height="848"/>
+                                <rect key="frame" x="0.0" y="50" width="375" height="762"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HyBidSwitchTableViewCell" id="D4D-b6-Bed" customClass="HyBidSwitchTableViewCell" customModule="HyBidDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="50" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="50" width="375" height="43.666667938232422"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="D4D-b6-Bed" id="x3U-j5-Z9i">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.666667938232422"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="TaD-FE-3WD">
-                                                    <rect key="frame" x="5" y="7" width="404" height="30"/>
+                                                    <rect key="frame" x="5" y="7" width="365" height="30"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fN1-C0-zTb" customClass="UICheckbox" customModule="HyBidDemo" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
@@ -510,14 +531,14 @@
                                                             </userDefinedRuntimeAttributes>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Up-RC-b19">
-                                                            <rect key="frame" x="40" y="0.0" width="304" height="30"/>
+                                                            <rect key="frame" x="40" y="0.0" width="265" height="30"/>
                                                             <accessibility key="accessibilityConfiguration" identifier="hyBidAdSettingsSwitchCellLabel" label="HyBid Ad Settings Switch Cell Label"/>
                                                             <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ova-AG-3bx">
-                                                            <rect key="frame" x="354" y="0.0" width="52" height="30"/>
+                                                            <rect key="frame" x="315" y="0.0" width="52" height="30"/>
                                                             <accessibility key="accessibilityConfiguration" identifier="hyBidAdSettingsSwitchCellSwitch" label="HyBid Ad Settings Switch Cell Switch"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="50" id="YSh-MH-Qgf"/>
@@ -541,14 +562,14 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HyBidTextFieldTableViewCell" id="O20-LF-hZ2" customClass="HyBidTextFieldTableViewCell" customModule="HyBidDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="93.5" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="93.666667938232422" width="375" height="43.666667938232422"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="O20-LF-hZ2" id="XeJ-Kv-n1j">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.666667938232422"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="wWh-u3-hKs">
-                                                    <rect key="frame" x="5" y="7" width="404" height="30"/>
+                                                    <rect key="frame" x="5" y="7" width="365" height="30"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sht-cx-xiQ" customClass="UICheckbox" customModule="HyBidDemo" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
@@ -567,14 +588,14 @@
                                                             </userDefinedRuntimeAttributes>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Edi-qb-vCn">
-                                                            <rect key="frame" x="40" y="0.0" width="204" height="30"/>
+                                                            <rect key="frame" x="40" y="0.0" width="165" height="30"/>
                                                             <accessibility key="accessibilityConfiguration" identifier="hyBidAdSettingsTextFieldCellLabel" label="HyBid Ad Settings TextField Cell Label"/>
                                                             <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zT1-KV-28B">
-                                                            <rect key="frame" x="254" y="0.0" width="150" height="30"/>
+                                                            <rect key="frame" x="215" y="0.0" width="150" height="30"/>
                                                             <accessibility key="accessibilityConfiguration" identifier="hyBidAdSettingsTextFieldCellTextField" label="HyBid Ad Settings TextField Cell TextField"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="150" id="X6k-tK-hv4"/>
@@ -598,14 +619,14 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HyBidSegmentedControlTableViewCell" id="FbB-vl-JGg" customClass="HyBidSegmentedControlTableViewCell" customModule="HyBidDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="137" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="137.33333587646484" width="375" height="43.666667938232422"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="FbB-vl-JGg" id="jNc-Ls-65j">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.666667938232422"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="JhE-IR-16E">
-                                                    <rect key="frame" x="5" y="7" width="404" height="30"/>
+                                                    <rect key="frame" x="5" y="7" width="365" height="30"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7QC-Ve-8pW" customClass="UICheckbox" customModule="HyBidDemo" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
@@ -624,21 +645,21 @@
                                                             </userDefinedRuntimeAttributes>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="esW-P7-BFy">
-                                                            <rect key="frame" x="40" y="0.0" width="38" height="30"/>
+                                                            <rect key="frame" x="40" y="0.0" width="37.666666666666657" height="30"/>
                                                             <accessibility key="accessibilityConfiguration" identifier="hyBidAdSettingsSegmentedControlCellLabel" label="HyBid Ad Settings SegmentedControl Cell Label"/>
                                                             <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s1Q-gf-JG5">
-                                                            <rect key="frame" x="83" y="0.0" width="0.0" height="30"/>
+                                                            <rect key="frame" x="82.666666666666671" y="0.0" width="0.0" height="30"/>
                                                             <accessibility key="accessibilityConfiguration" identifier="hyBidAdSettingsSegmented ControlCellSegmentedControl" label="HyBid Ad Settings Segmented Control Cell Segmented Control"/>
                                                             <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="t8R-f1-q5G">
-                                                            <rect key="frame" x="88" y="0.0" width="316" height="31"/>
+                                                            <rect key="frame" x="87.666666666666657" y="0.0" width="277.33333333333337" height="31"/>
                                                             <segments>
                                                                 <segment title="First"/>
                                                                 <segment title="Second"/>

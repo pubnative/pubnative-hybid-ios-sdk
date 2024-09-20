@@ -54,6 +54,10 @@
     [PNLiteRequestInspector sharedInstance].lastInspectedRequest = nil;
 }
 
+- (void)clearTextFrom:(UITextView *)textView {
+    textView.text = nil;
+}
+
 - (void)showAlertControllerWithMessage:(NSString *)message {
     UIAlertController *alertController = [UIAlertController
                                           alertControllerWithTitle:@"I have a bad feeling about this... 🙄"
@@ -70,8 +74,10 @@
 }
 
 - (void)reportEvent:(NSString *)eventType adFormat:(NSString *)adFormat properties:(NSDictionary<NSString *,NSString *> *)properties {
-    HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:eventType adFormat:adFormat properties:properties];
-    [[HyBid reportingManager]reportEventFor:reportingEvent];
+    if ([HyBidSDKConfig sharedConfig].reporting) {
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:eventType adFormat:adFormat properties:properties];
+        [[HyBid reportingManager]reportEventFor:reportingEvent];
+    }
 }
 
 @end

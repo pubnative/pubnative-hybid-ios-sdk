@@ -285,10 +285,12 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
 }
 
 - (void)reportEvent:(NSString *)eventType withProperties:(NSMutableDictionary *)properties {
-    HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc] initWith:eventType
-                                                                       adFormat:HyBidReportingAdFormat.NATIVE
-                                                                     properties:[NSDictionary dictionaryWithDictionary:properties]];
-    [[HyBid reportingManager] reportEventFor:reportingEvent];
+    if ([HyBidSDKConfig sharedConfig].reporting) {
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc] initWith:eventType
+                                                                           adFormat:HyBidReportingAdFormat.NATIVE
+                                                                         properties:[NSDictionary dictionaryWithDictionary:properties]];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
+    }
 }
 #pragma mark Tracking & Clicking
 
@@ -651,6 +653,11 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
 
 #pragma mark SKStoreProductViewControllerDelegate
 
-- (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {}
+- (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
+    if ([HyBidSDKConfig sharedConfig].reporting) {
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.STOREKIT_PRODUCT_VIEW_DISMISS adFormat:HyBidReportingAdFormat.NATIVE properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
+    }
+}
 
 @end

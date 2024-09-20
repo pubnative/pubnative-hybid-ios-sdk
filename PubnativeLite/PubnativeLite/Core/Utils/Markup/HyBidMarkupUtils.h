@@ -21,8 +21,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HyBidVASTParserError.h"
 
-typedef void (^isVASTXmlCompletionBlock)(BOOL isVAST, NSError *error);
+typedef void (^isVASTXmlCompletionBlock)(BOOL isVAST, HyBidVASTParserError *error);
 
 @interface HyBidMarkupUtils : NSObject
 

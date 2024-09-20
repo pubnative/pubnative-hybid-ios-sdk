@@ -133,8 +133,10 @@ CGFloat const HyBidIconMaximumHeight = 30.0f;
             if (!error) {
                 completionBlock(YES, data);
             } else{
-                HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR errorMessage: error.localizedDescription properties:nil];
-                [[HyBid reportingManager] reportEventFor:reportingEvent];
+                if ([HyBidSDKConfig sharedConfig].reporting) {
+                    HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR errorMessage: error.localizedDescription properties:nil];
+                    [[HyBid reportingManager] reportEventFor:reportingEvent];
+                }
                 completionBlock(NO, nil);
             }
         }];
@@ -456,9 +458,9 @@ CGFloat const HyBidIconMaximumHeight = 30.0f;
         if(self.superview){
             self.superview.frame = CGRectMake(self.superview.frame.origin.x - self.openSize, self.superview.frame.origin.y, self.openSize, self.superview.frame.size.height);
             if (@available(iOS 11.0, *)) {
-                [self.trailingAnchor constraintEqualToAnchor:self.superview.safeAreaLayoutGuide.trailingAnchor].active = YES;
+                [[self.trailingAnchor constraintEqualToAnchor:self.superview.safeAreaLayoutGuide.trailingAnchor] setActive: YES];
             } else {
-                [self.trailingAnchor constraintEqualToAnchor:self.superview.trailingAnchor].active = YES;
+                [[self.trailingAnchor constraintEqualToAnchor:self.superview.trailingAnchor] setActive: YES];
             }
         }
         
@@ -507,7 +509,7 @@ CGFloat const HyBidIconMaximumHeight = 30.0f;
         if(filteredArray.count > 0){
               [self.superview removeConstraints: filteredArray];
         }
-        [self.superview.widthAnchor constraintGreaterThanOrEqualToConstant: self.frame.size.width].active = YES;
+        [[self.superview.widthAnchor constraintGreaterThanOrEqualToConstant: self.frame.size.width] setActive: YES];
     }
 }
 

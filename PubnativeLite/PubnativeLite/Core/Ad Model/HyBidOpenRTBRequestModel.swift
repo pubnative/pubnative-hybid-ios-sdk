@@ -83,9 +83,8 @@ typealias DictionaryWithAnyValues = [String : Any?]
             let arr: [DictionaryWithAnyValues] = [
                 [
                     "id": uuidString,
-                    "video": getVideoRequestBody(),
-                    "banner": getBannerRequestBody()
-                ]
+                    "video": getVideoRequestBody()                
+                ] as DictionaryWithAnyValues
             ]
             return self.appendSkAdNetworkParametersTo(array: arr)
         case HyBidOpenRTBAdBanner:
@@ -107,7 +106,6 @@ typealias DictionaryWithAnyValues = [String : Any?]
             HyBidRequestParameter.screenHeightInPixels(): Int(adRequestModel.requestParameters[HyBidRequestParameter.height()] as? String ?? ""),
             HyBidRequestParameter.api(): intArray(from: (adRequestModel.requestParameters[HyBidRequestParameter.api()] as? String) ?? ""),
             HyBidRequestParameter.expandDirection(): intArray(from: (adRequestModel.requestParameters[HyBidRequestParameter.expandDirection()] as? String) ?? ""),
-            HyBidRequestParameter.btype(): intArray(from: (adRequestModel.requestParameters[HyBidRequestParameter.placementSubtype()] as? String) ?? ""),
             HyBidRequestParameter.topframe(): Int(adRequestModel.requestParameters[HyBidRequestParameter.topframe()] as? String ?? ""),
             HyBidRequestParameter.pos(): Int(adRequestModel.requestParameters[HyBidRequestParameter.pos()] as? String ?? ""),
             HyBidRequestParameter.mimes(): [adRequestModel.requestParameters[HyBidRequestParameter.mimes()]],
@@ -119,7 +117,7 @@ typealias DictionaryWithAnyValues = [String : Any?]
         let requestBody: DictionaryWithAnyValues = [
             HyBidRequestParameter.videomimes(): [adRequestModel.requestParameters[HyBidRequestParameter.videomimes()]],
             HyBidRequestParameter.protocol(): intArray(from: (adRequestModel.requestParameters[HyBidRequestParameter.protocol()] as? String) ?? ""),
-            HyBidRequestParameter.placementSubtype(): adRequestModel.requestParameters[HyBidRequestParameter.placementSubtype()],
+            HyBidRequestParameter.placementSubtype(): Int(adRequestModel.requestParameters[HyBidRequestParameter.placementSubtype()] as? String ?? ""),
             HyBidRequestParameter.videoPosition(): Int(adRequestModel.requestParameters[HyBidRequestParameter.videoPosition()] as? String ?? ""),
             HyBidRequestParameter.mraidendcard(): adRequestModel.requestParameters[HyBidRequestParameter.mraidendcard()],
             HyBidRequestParameter.playbackmethod(): intArray(from: (adRequestModel.requestParameters[HyBidRequestParameter.playbackmethod()] as? String) ?? ""),

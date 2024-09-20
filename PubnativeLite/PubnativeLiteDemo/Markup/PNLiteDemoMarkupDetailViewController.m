@@ -183,7 +183,7 @@ NSString *const ADM_MACRO = @"{[{ .Adm | base64EncodeString | safeHTML }]}";
             int mrectWidth = isMRECT ? 300 : 0;
             int mrectHeight = isMRECT ? 250 : 0;
             
-            [HyBidMarkupUtils isVastXml:markupText completion:^(BOOL isVAST, NSError *error) {
+            [HyBidMarkupUtils isVastXml:markupText completion:^(BOOL isVAST, HyBidVASTParserError* error) {
                 [HyBidAdCustomizationUtility postConfigToSamplingEndoingWithAdFormat:isVAST ? @"video" : @"html"
                                                                                width:isBanner ? bannerWidth : mrectWidth
                                                                               height:isBanner ? bannerHeight : mrectHeight

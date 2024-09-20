@@ -27,6 +27,14 @@
 #import "HyBidAd.h"
 #import "HyBidVASTEndCard.h"
 #import "HyBidCustomCTAViewDelegate.h"
+#import "HyBidSKOverlayDelegate.h"
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 
 @class PNLiteVASTPlayerViewController;
 
@@ -48,8 +56,10 @@ typedef enum {
 @optional
 - (void)vastPlayerDidClose:(PNLiteVASTPlayerViewController*)vastPlayer;
 - (void)vastPlayerDidCloseOffer:(PNLiteVASTPlayerViewController*)vastPlayer;
-- (void)vastPlayerWillShowEndCard:(PNLiteVASTPlayerViewController*)vastPlayer;
+- (void)vastPlayerWillShowEndCard:(PNLiteVASTPlayerViewController*)vastPlayer endcard:(HyBidVASTEndCard*) endcard;;
 - (void)vastPlayerDidShowEndCard:(PNLiteVASTPlayerViewController*)vastPlayer endcard:(HyBidVASTEndCard*) endcard;
+- (void)vastPlayerDidShowSKOverlay;
+- (void)vastPlayerDidShowAutoStorekit;
 
 @end
 
@@ -60,8 +70,9 @@ typedef enum {
 @property (nonatomic, assign) BOOL closeOnFinish;
 @property (nonatomic, strong) NSObject<PNLiteVASTPlayerViewControllerDelegate> *delegate;
 @property (nonatomic, strong) HyBidVideoAdCacheItem *videoAdCacheItem;
-@property (nonatomic, assign) NSInteger skipOffset;
+@property (nonatomic, strong) HyBidSkipOffset *skipOffset;
 @property (nonatomic, weak) NSObject<HyBidCustomCTAViewDelegate> *customCTADelegate;
+@property (nonatomic, weak) NSObject<HyBidSKOverlayDelegate> *skoverlayDelegate;
 
 - (instancetype)initPlayerWithAdModel:(HyBidAd *)adModel
                          withAdFormat:(HyBidAdFormatForVASTPlayer)adFormat;

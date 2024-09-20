@@ -35,6 +35,7 @@
 @property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *showAdTopConstraint;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *isUsingOpenRTB;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *adFormatSwitch;
 
 @end
 
@@ -51,6 +52,8 @@
     self.showAdTopConstraint.constant = 8.0;
     self.prepareButton.enabled = NO;
     self.showAdButton.enabled = NO;
+    self.adFormatSwitch.accessibilityIdentifier = @"openRTBAdFormatSwitch";
+    self.adFormatSwitch.hidden = YES;
 }
 
 - (IBAction)requestInterstitialTouchUpInside:(id)sender {
@@ -66,10 +69,23 @@
     self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] andWithDelegate:self];
     [self.interstitialAd setIsAutoCacheOnLoad: self.adCachingSwitch.isOn];
     if (self.isUsingOpenRTB.selectedSegmentIndex == 0) {
-            [self.interstitialAd load];
+        [self.interstitialAd load];
+    } else if (self.isUsingOpenRTB.selectedSegmentIndex == 1) {
+        if (self.adFormatSwitch.selectedSegmentIndex == 0) {
+            [self.interstitialAd setOpenRTBAdTypeWithAdFormat:HyBidOpenRTBAdBanner];
         } else if (self.isUsingOpenRTB.selectedSegmentIndex == 1) {
-            [self.interstitialAd loadExchangeAd];
+            [self.interstitialAd setOpenRTBAdTypeWithAdFormat:HyBidOpenRTBAdVideo];
         }
+        [self.interstitialAd loadExchangeAd];
+    }
+}
+
+- (IBAction)requestTypeChanged:(id)sender {
+    if (self.isUsingOpenRTB.selectedSegmentIndex == 1){
+        self.adFormatSwitch.hidden = NO;
+    } else{
+        self.adFormatSwitch.hidden = YES;
+    }
 }
 
 - (IBAction)showInterstitialAdButtonTapped:(UIButton *)sender {

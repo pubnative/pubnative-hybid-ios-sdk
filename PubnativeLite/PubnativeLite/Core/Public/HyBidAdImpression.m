@@ -168,8 +168,10 @@ API_AVAILABLE(ios(14.5))
             [SKAdNetwork startImpression:impression completionHandler:^(NSError * _Nullable error) {
                 if (error != nil) {
                     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Error: %@",error.localizedDescription]];
-                    HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR errorMessage: error.localizedDescription properties:nil];
-                    [[HyBid reportingManager] reportEventFor:reportingEvent];
+                    if ([HyBidSDKConfig sharedConfig].reporting) {
+                        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR errorMessage: error.localizedDescription properties:nil];
+                        [[HyBid reportingManager] reportEventFor:reportingEvent];
+                    }
                 } else {
                     [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Impression started successfully."];
                     [self addImpression:impression forAd:ad];
@@ -191,8 +193,10 @@ API_AVAILABLE(ios(14.5))
             [SKAdNetwork endImpression:impression completionHandler:^(NSError * _Nullable error) {
                 if (error != nil) {
                     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Error: %@",error.localizedDescription]];
-                    HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR errorMessage: error.localizedDescription properties:nil];
-                    [[HyBid reportingManager] reportEventFor:reportingEvent];
+                    if ([HyBidSDKConfig sharedConfig].reporting) {
+                        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR errorMessage: error.localizedDescription properties:nil];
+                        [[HyBid reportingManager] reportEventFor:reportingEvent];
+                    }
                 }
                 
                 [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Impression ended successfully."];

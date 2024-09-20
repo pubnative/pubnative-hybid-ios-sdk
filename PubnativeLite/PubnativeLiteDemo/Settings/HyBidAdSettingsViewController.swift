@@ -133,7 +133,8 @@ private typealias HyBidAdSettingsDictionary = Dictionary<String,Any>
                [
                 AdSetting(sectionTitle: "General", settingTitle: "Native Close Button Delay", cellType: .numberFieldCell, isChecked: false, remoteConfigName: "close_button_delay" , value: HyBidConstants.nativeCloseButtonOffset.offset),
                 AdSetting(sectionTitle: "General", settingTitle: AudioStatusStringTitle, cellType: .segmentedControlCell, isChecked: false, remoteConfigName: "audiostate", value: stringifyAudioStatus(with: HyBidConstants.audioStatus)),
-                AdSetting(sectionTitle: "General", settingTitle: "Creative Autostore kit", cellType: .switchCell, isChecked: false, remoteConfigName: "creative_autostorekit", value: HyBidConstants.creativeAutoStorekitEnabled),
+                AdSetting(sectionTitle: "General", settingTitle: "Creative Autostore Kit", cellType: .switchCell, isChecked: false, remoteConfigName: "creative_autostorekit", value: HyBidConstants.creativeAutoStorekitEnabled),
+                AdSetting(sectionTitle: "General", settingTitle: "SDK Autostore Kit", cellType: .switchCell, isChecked: false, remoteConfigName: "sdk_autostorekit", value: HyBidConstants.sdkAutoStorekitEnabled),
                 AdSetting(sectionTitle: "General", settingTitle: "MRAID Expand Enabled", cellType: .switchCell, isChecked: false, remoteConfigName: "mraid_expand", value: HyBidConstants.mraidExpand),
                 AdSetting(sectionTitle: "General", settingTitle: "SKOverlay Enabled", cellType: .switchCell, isChecked: false, remoteConfigName: "SKOverlayenabled", value: false),
                 AdSetting(sectionTitle: "General", settingTitle: ClickBehaviorStringTitle, cellType: .segmentedControlCell, isChecked: false, remoteConfigName: "fullscreen_clickability", value: boolActionBehavior(with: HyBidConstants.interstitialActionBehaviour)),
@@ -142,6 +143,8 @@ private typealias HyBidAdSettingsDictionary = Dictionary<String,Any>
                [
                 AdSetting(sectionTitle: "Interstitial", settingTitle: "HTML/MRAID Skip Offset", cellType: .numberFieldCell, isChecked: false, remoteConfigName: "html_skip_offset", value: HyBidConstants.interstitialHtmlSkipOffset.offset),
                 AdSetting(sectionTitle: "Interstitial", settingTitle: "Video Skip Offset", cellType: .numberFieldCell, isChecked: false, remoteConfigName: "video_skip_offset", value: HyBidConstants.videoSkipOffset.offset),
+                AdSetting(sectionTitle: "Interstitial", settingTitle: "PC HTML/MRAID Skip Offset", cellType: .numberFieldCell, isChecked: false, remoteConfigName: "pc_html_skip_offset", value: HyBidConstants.pcInterstitialHtmlSkipOffset.offset),
+                AdSetting(sectionTitle: "Interstitial", settingTitle: "PC Video Skip Offset", cellType: .numberFieldCell, isChecked: false, remoteConfigName: "pc_video_skip_offset", value: HyBidConstants.pcVideoSkipOffset.offset),
                 AdSetting(sectionTitle: "Interstitial", settingTitle: "Close After Finish", cellType: .switchCell, isChecked: false, remoteConfigName: "close_inter_after_finished", value: HyBidConstants.interstitialCloseOnFinish)
                ],
                
@@ -157,6 +160,12 @@ private typealias HyBidAdSettingsDictionary = Dictionary<String,Any>
                 AdSetting(sectionTitle: "Endcard", settingTitle: "Custom EndCard", cellType: .switchCell, isChecked: false, remoteConfigName: "custom_endcard_enabled", value: HyBidConstants.showCustomEndCard),
                 AdSetting(sectionTitle: "Endcard", settingTitle: CustomEndcardBehaviorStringTitle, cellType: .segmentedControlCell, isChecked: false, remoteConfigName: "custom_endcard_display", value: stringifyDisplayBehavior(with: HyBidConstants.customEndcardDisplay)),
                 AdSetting(sectionTitle: "Endcard", settingTitle: "Custom EndCard Value", cellType: .textFieldCell, isChecked: true, remoteConfigName: HyBidAdCustomizationKeys.customEndcardInputValue.rawValue, value: HyBidConstants.customEndCardInputValue),
+               ],
+               [
+                AdSetting(sectionTitle: "Reduce skip/close buttons size", settingTitle: "Reduced skip/close buttons", cellType: .switchCell, isChecked: false, remoteConfigName: HyBidAdCustomizationKeys.iconSizeReducedInputValue.rawValue, value: HyBidConstants.iconSizeReducedInputValue)
+               ],
+               [
+                AdSetting(sectionTitle: "Bundle ID", settingTitle: "Custom Bundle ID Value", cellType: .textFieldCell, isChecked: true, remoteConfigName: HyBidAdCustomizationKeys.customBundleIdValue.rawValue, value: HyBidConstants.customBundleId),
                ],
                [
                 AdSetting(sectionTitle: "Custom CTA", settingTitle: "Custom CTA Value", cellType: .textFieldCell, isChecked: true, remoteConfigName: HyBidAdCustomizationKeys.customCTAInputValue.rawValue, value: HyBidConstants.customCTAInputValue)

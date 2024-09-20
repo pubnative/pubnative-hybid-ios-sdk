@@ -49,7 +49,9 @@ NSString *const PNLiteAdCustomEndCardClick = @"custom_endcard_click";
 @property (nonatomic, strong) WKWebView *wkWebView;
 @property (nonatomic, strong) HyBidAdTrackerRequest *adTrackerRequest;
 @property (nonatomic, strong) NSArray *impressionURLs;
+@property (nonatomic, strong) NSArray *customEndcardImpressionURLs;
 @property (nonatomic, strong) NSArray *clickURLs;
+@property (nonatomic, strong) NSArray *customEndcardClickURLs;
 @property (nonatomic, assign) BOOL clickTracked;
 @property (nonatomic, assign) BOOL customEndCardClickTracked;
 @property (nonatomic, assign) BOOL customEndCardImpressionTracked;
@@ -74,22 +76,28 @@ NSString *const PNLiteAdCustomEndCardClick = @"custom_endcard_click";
 }
 
 - (instancetype)initWithImpressionURLs:(NSArray *)impressionURLs
+       withCustomEndcardImpressionURLs:(NSArray *)customEndcardImpressionURLs
                          withClickURLs:(NSArray *)clickURLs
+            withCustomEndcardClickURLs:(NSArray *)customEndcardClickURLs
                                  forAd:(HyBidAd *)ad {
     self.trackedURLsDictionary = [NSMutableDictionary new];
     self.ad = ad;
     HyBidAdTrackerRequest *adTrackerRequest = [[HyBidAdTrackerRequest alloc] init];
-    return [self initWithAdTrackerRequest:adTrackerRequest withImpressionURLs:impressionURLs withClickURLs:clickURLs];
+    return [self initWithAdTrackerRequest:adTrackerRequest withImpressionURLs:impressionURLs withCustomEndcardImpressionURLs:customEndcardImpressionURLs withClickURLs:clickURLs withCustomEndcardClickURLs:customEndcardClickURLs];
 }
 
 - (instancetype)initWithAdTrackerRequest:(HyBidAdTrackerRequest *)adTrackerRequest
                       withImpressionURLs:(NSArray *)impressionURLs
-                           withClickURLs:(NSArray *)clickURLs {
+         withCustomEndcardImpressionURLs:(NSArray *)customEndcardImpressionURLs
+                           withClickURLs:(NSArray *)clickURLs 
+              withCustomEndcardClickURLs:(NSArray *)customEndcardClickURLs {
     self = [super init];
     if (self) {
         self.adTrackerRequest = adTrackerRequest;
         self.impressionURLs = impressionURLs;
+        self.customEndcardImpressionURLs = customEndcardImpressionURLs;
         self.clickURLs = clickURLs;
+        self.customEndcardClickURLs = customEndcardClickURLs;
         self.wkWebView = [[WKWebView alloc]initWithFrame:CGRectZero];
     }
     return self;
@@ -101,9 +109,11 @@ NSString *const PNLiteAdCustomEndCardClick = @"custom_endcard_click";
     }
     
     [self trackURLs:self.clickURLs withTrackType:PNLiteAdTrackerClick];
-    if (!self.ad.customEndCard.isCustomEndCardClicked) {
-        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.CLICK adFormat:adFormat properties:nil];
-        [[HyBid reportingManager] reportEventFor:reportingEvent];
+    if (!self.ad.customEndCard.isCustomEndCardClicked && !self.ad.isEndcard) {
+        if ([HyBidSDKConfig sharedConfig].reporting) {
+            HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.CLICK adFormat:adFormat properties:nil];
+            [[HyBid reportingManager] reportEventFor:reportingEvent];
+        }
     }
     self.clickTracked = YES;
 }
@@ -114,8 +124,10 @@ NSString *const PNLiteAdCustomEndCardClick = @"custom_endcard_click";
     }
     
     [self trackURLs:self.impressionURLs withTrackType:PNLiteAdTrackerImpression];
-    HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.IMPRESSION adFormat:adFormat properties:nil];
-    [[HyBid reportingManager] reportEventFor:reportingEvent];
+    if ([HyBidSDKConfig sharedConfig].reporting) {
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.IMPRESSION adFormat:adFormat properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
+    }
     self.impressionTracked = YES;
 }
 
@@ -124,9 +136,11 @@ NSString *const PNLiteAdCustomEndCardClick = @"custom_endcard_click";
         return;
     }
     
-    [self trackURLs:self.impressionURLs withTrackType:PNLiteAdCustomEndCardImpression];
-    HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.CUSTOM_ENDCARD_IMPRESSION adFormat:adFormat properties:nil];
-    [[HyBid reportingManager] reportEventFor:reportingEvent];
+    [self trackURLs:self.customEndcardImpressionURLs withTrackType:PNLiteAdCustomEndCardImpression];
+    if ([HyBidSDKConfig sharedConfig].reporting) {
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.CUSTOM_ENDCARD_IMPRESSION adFormat:adFormat properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
+    }
     self.customEndCardImpressionTracked = YES;
 }
 
@@ -135,9 +149,14 @@ NSString *const PNLiteAdCustomEndCardClick = @"custom_endcard_click";
         return;
     }
     
-    [self trackURLs:self.clickURLs withTrackType:PNLiteAdCustomEndCardClick];
-    HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.CUSTOM_ENDCARD_CLICK adFormat:adFormat properties:nil];
-    [[HyBid reportingManager] reportEventFor:reportingEvent];
+    [self trackURLs:self.customEndcardClickURLs withTrackType:PNLiteAdCustomEndCardClick];
+    if(self.clickTracked == NO) {
+        [self trackURLs:self.clickURLs withTrackType:PNLiteAdTrackerClick];
+    }
+    if ([HyBidSDKConfig sharedConfig].reporting) {
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.CUSTOM_ENDCARD_CLICK adFormat:adFormat properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
+    }
     self.ad.customEndCard.isCustomEndCardClicked = YES;
     self.customEndCardClickTracked = YES;
 }

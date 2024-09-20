@@ -22,21 +22,10 @@
 
 #import <Foundation/Foundation.h>
 #import "HyBidVASTModel.h"
-
-typedef enum : NSInteger {
-    HyBidVASTParserError_None,
-    HyBidVASTParserError_XMLParse,
-    HyBidVASTParserError_SchemaValidation,
-    HyBidVASTParserError_TooManyWrappers,
-    HyBidVASTParserError_NoCompatibleMediaFile,
-    HyBidVASTParserError_NoInternetConnection,
-    HyBidVASTParserError_MovieTooShort,
-    HyBidVASTParserError_BothAdAndErrorPresentInRootResponse,
-    HyBidVASTParserError_NoAdResponse
-} HyBidVASTParserError;
+#import "HyBidVASTParserError.h"
 
 @class HyBidVASTAd;
-typedef void (^HyBidVastParserCompletionBlock)(HyBidVASTModel*, HyBidVASTParserError);
+typedef void (^HyBidVastParserCompletionBlock)(HyBidVASTModel*, HyBidVASTParserError*);
 
 @interface HyBidVASTParser : NSObject
 

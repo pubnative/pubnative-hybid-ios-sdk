@@ -41,6 +41,8 @@
 #import "HyBidError.h"
 #import "HyBidAdFeedbackParameters.h"
 #import "HyBidVASTEndCardManager.h"
+#import "HyBidVASTEventProcessor.h"
+#import "HyBidVASTParserError.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -74,6 +76,7 @@ NSInteger const PNLiteResponseStatusOK = 200;
 @property (nonatomic, assign) BOOL adCached;
 @property (nonatomic, strong) HyBidVASTEndCardManager *endCardManager;
 @property (nonatomic, strong) NSData *body;
+@property (nonatomic, strong) HyBidVASTEventProcessor *vastEventProcessor;
 
 @end
 
@@ -92,6 +95,7 @@ NSInteger const PNLiteResponseStatusOK = 200;
     self.adResponseReportingProperties = nil;
     self.requestReportingProperties = nil;
     self.isUsingOpenRTB = NO;
+    self.vastEventProcessor = nil;
 }
 
 - (instancetype)init {
@@ -104,6 +108,7 @@ NSInteger const PNLiteResponseStatusOK = 200;
         self.adResponseReportingProperties = [NSMutableDictionary new];
         self.requestReportingProperties = [NSMutableDictionary new];
         self.endCardManager = [[HyBidVASTEndCardManager alloc] init];
+        self.vastEventProcessor = [[HyBidVASTEventProcessor alloc] init];
     }
     return self;
 }
@@ -306,9 +311,10 @@ NSInteger const PNLiteResponseStatusOK = 200;
     }
     
     if ([adContent length] != 0) {
-        [HyBidMarkupUtils isVastXml:adContent completion:^(BOOL isVAST, NSError *error) {
+        [HyBidMarkupUtils isVastXml:adContent completion:^(BOOL isVAST, HyBidVASTParserError* error) {
             if (error) {
                 [self invokeDidFail:error];
+                [self.vastEventProcessor sendVASTUrls:error.errorTagURLs];
                 return;
             }
             
@@ -320,16 +326,23 @@ NSInteger const PNLiteResponseStatusOK = 200;
                 }
                 self.initialCacheTimestamp = [[NSDate date] timeIntervalSince1970];
                 HyBidVideoAdProcessor *videoAdProcessor = [[HyBidVideoAdProcessor alloc] init];
-                [videoAdProcessor processVASTString:adContent completion:^(HyBidVASTModel *vastModel, NSError *error) {
+                [videoAdProcessor processVASTString:adContent completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError *error) {
                     adContent = vastModel.vastString;
                     if (!vastModel) {
                         [self invokeDidFail:error];
+                        [self.vastEventProcessor sendVASTUrls: error.errorTagURLs];
                     } else {
                         [self.cacheReportingProperties setObject:[NSString stringWithFormat:@"%f", [self elapsedTimeSince:self.initialCacheTimestamp]] forKey:HyBidReportingCommon.CACHE_TIME];
                         NSInteger assetGroupID = (self.placement == HyBidDemoAppPlacementMRect) ? 4 : 15;
                         NSString *zoneID = @"4";
                         NSInteger type = kHyBidAdTypeVideo;
-                        
+                        if (self.openRTBAdType == HyBidOpenRTBAdVideo &&
+                            self.zoneID != nil &&
+                            ![self.zoneID isEqualToString:@"4"] &&
+                            ![self.zoneID isEqualToString:@"6"] &&
+                            ![self.zoneID isEqualToString:@"legacy_api_tester"]) {
+                            assetGroupID = 4;
+                        }
                         HyBidVideoAdCacheItem *videoAdCacheItem = [[HyBidVideoAdCacheItem alloc] init];
                         videoAdCacheItem.vastModel = vastModel;
                         [[HyBidVideoAdCache sharedInstance] putVideoAdCacheItemToCache:videoAdCacheItem withZoneID:zoneID];
@@ -434,7 +447,7 @@ NSInteger const PNLiteResponseStatusOK = 200;
             for (HyBidAdModel *adModel in (self.isUsingOpenRTB ? openRTBResponse.bids : response.ads)) {
                 HyBidAd *ad = nil;
                 if (self.isUsingOpenRTB) {
-                    NSInteger assetGroupID = 8;
+                    NSInteger assetGroupID = 21;
                     NSInteger type = kHyBidAdTypeHTML;
                     if (self.openRTBAdType == HyBidOpenRTBAdNative){
                         #if __has_include(<ATOM/ATOM-Swift.h>)
@@ -565,9 +578,10 @@ NSInteger const PNLiteResponseStatusOK = 200;
         }
         self.initialCacheTimestamp = [[NSDate date] timeIntervalSince1970];
         HyBidVideoAdProcessor *videoAdProcessor = [[HyBidVideoAdProcessor alloc] init];
-        [videoAdProcessor processVASTString:vast completion:^(HyBidVASTModel *vastModel, NSError *error) {
+        [videoAdProcessor processVASTString:vast completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError *error) {
             if (!vastModel) {
                 [self invokeDidFail:error];
+                [self.vastEventProcessor sendVASTUrls: error.errorTagURLs];
             } else {
                 [self.cacheReportingProperties setObject:[NSString stringWithFormat:@"%f", [self elapsedTimeSince:self.initialCacheTimestamp]] forKey:HyBidReportingCommon.CACHE_TIME];
                 HyBidVideoAdCacheItem *videoAdCacheItem = [[HyBidVideoAdCacheItem alloc] init];
@@ -695,10 +709,12 @@ NSInteger const PNLiteResponseStatusOK = 200;
     if (self.requestURL != nil && self.requestURL.absoluteString.length > 0) {
         [properties setObject:self.requestURL.absoluteString forKey:HyBidReportingCommon.AD_REQUEST];
     }
-    HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc] initWith:eventType
-                                                                       adFormat:adFormat
-                                                                     properties:[NSDictionary dictionaryWithDictionary: properties]];
-    [[HyBid reportingManager] reportEventFor:reportingEvent];
+    if ([HyBidSDKConfig sharedConfig].reporting) {
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc] initWith:eventType
+                                                                           adFormat:adFormat
+                                                                         properties:[NSDictionary dictionaryWithDictionary: properties]];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
+    }
 }
 
 - (NSTimeInterval)elapsedTimeSince:(NSTimeInterval)timestamp {
@@ -727,9 +743,10 @@ NSInteger const PNLiteResponseStatusOK = 200;
                                                         withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:self.startTime] * 1000.0]
                                                                         withRequestBody:self.body];
             } else {
-                [HyBidMarkupUtils isVastXml:dataString completion:^(BOOL isVAST, NSError *error) {
+                [HyBidMarkupUtils isVastXml:dataString completion:^(BOOL isVAST, HyBidVASTParserError* error) {
                     if (error) {
                         [self invokeDidFail:error];
+                        [self.vastEventProcessor sendVASTUrls:error.errorTagURLs];
                         return;
                     }
                     if (!isVAST) {

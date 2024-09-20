@@ -43,5 +43,6 @@
 + (NSString *)delay { return @"delay";}
 + (NSString *)endcardDelay { return @"endcarddelay"; }
 + (NSString *)autoClose { return @"autoclose"; }
++ (NSString *)click { return @"click"; }
 
 @end

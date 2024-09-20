@@ -78,7 +78,7 @@ typedef id<GADMediationInterstitialAdEventDelegate> _Nullable(^HyBidGADInterstit
         }
         
         self.interstitialPresenter = [self.interstitalPresenterFactory createInterstitalPresenterWithAd:self.ad
-                                                                                    withVideoSkipOffset:videoSkipOffset.offset.integerValue
+                                                                                    withVideoSkipOffset:videoSkipOffset
                                                                                      withHTMLSkipOffset:htmlSkipOffset.offset.integerValue
                                                                                       withCloseOnFinish:closeOnFinish
                                                                                            withDelegate:self];

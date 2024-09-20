@@ -29,10 +29,6 @@
 }
 
 - (UIViewController *)topViewController:(UIViewController *)rootViewController {
-    if (!rootViewController.presentedViewController) {
-        return rootViewController;
-    }
-    
     if ([rootViewController.presentedViewController isMemberOfClass:[UINavigationController class]]) {
         UINavigationController *navigationController = (UINavigationController *)rootViewController.presentedViewController;
         UIViewController *lastViewController = [[navigationController viewControllers] lastObject];
@@ -45,7 +41,15 @@
         return [self topViewController:lastViewController];
     }
     
-    UIViewController *presentedViewController = (UIViewController *)rootViewController.presentedViewController;
+    if (rootViewController.childViewControllers.count > 0) {
+        return [self topViewController: rootViewController.childViewControllers.lastObject];
+    }
+    
+    if (!rootViewController.presentedViewController) {
+        return rootViewController;
+    }
+    
+    UIViewController* presentedViewController = rootViewController.presentedViewController;
     return [self topViewController:presentedViewController];
 }
 

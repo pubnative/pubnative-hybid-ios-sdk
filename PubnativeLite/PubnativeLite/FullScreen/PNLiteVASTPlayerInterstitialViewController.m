@@ -82,9 +82,10 @@
     [self.player stop];
 }
 
-- (void)loadFullScreenPlayerWithPresenter:(HyBidInterstitialPresenter *)interstitialPresenter withAd:(HyBidAd *)ad withSkipOffset:(NSInteger)skipOffset {
+- (void)loadFullScreenPlayerWithPresenter:(HyBidInterstitialPresenter *)interstitialPresenter withAd:(HyBidAd *)ad withSkipOffset:(HyBidSkipOffset *)skipOffset {
     self.presenter = interstitialPresenter;
     self.presenter.customCTADelegate = self.player.customCTADelegate;
+    self.presenter.skoverlayDelegate = self.player.skoverlayDelegate;
     self.adModel = ad;
     self.player = [[PNLiteVASTPlayerViewController alloc] initPlayerWithAdModel:self.adModel withAdFormat:HyBidAdFormatInterstitial];
     self.player.delegate = self;
@@ -112,6 +113,7 @@
     self.player.view.frame = self.playerContainer.bounds;
     [self.playerContainer addSubview:self.player.view];
     self.presenter.customCTADelegate = self.player.customCTADelegate;
+    self.presenter.skoverlayDelegate = self.player.skoverlayDelegate;
     [self.presenter.delegate interstitialPresenterDidLoad:self.presenter viewController: self];
 }
 
@@ -131,14 +133,20 @@
     if (self.closeOnFinish) {
         [self.presenter hideFromViewController:self];
     }
-    HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.VIDEO_FINISHED adFormat:HyBidReportingAdFormat.FULLSCREEN properties:nil];
-    [[HyBid reportingManager] reportEventFor:reportingEvent];
     [self.presenter.delegate interstitialPresenterDidFinish:self.presenter];
 }
 
 - (void)vastPlayerDidOpenOffer:(PNLiteVASTPlayerViewController *)vastPlayer {
     [self.presenter.delegate interstitialPresenterDidClick:self.presenter];
     [self.presenter.delegate interstitialPresenterDidDisappear:self.presenter];
+}
+
+- (void)vastPlayerDidShowSKOverlay {
+    [self.presenter.delegate interstitialPresenterDidClick:self.presenter];
+}
+
+- (void)vastPlayerDidShowAutoStorekit {
+    [self.presenter.delegate interstitialPresenterDidClick:self.presenter];
 }
 
 - (void)vastPlayerDidClose:(PNLiteVASTPlayerViewController *)vastPlayer {
@@ -150,7 +158,11 @@
     [self.presenter.delegate interstitialPresenterDidAppear:self.presenter];
 }
 
-- (void)vastPlayerWillShowEndCard:(PNLiteVASTPlayerViewController *)vastPlayer {
+- (void)vastPlayerWillShowEndCard:(PNLiteVASTPlayerViewController *)vastPlayer endcard:(HyBidVASTEndCard *)endcard {
+    if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(interstitialPresenterWillPresentEndCard:endcard:)]) {
+        [self.presenter.delegate interstitialPresenterWillPresentEndCard:self.presenter endcard:endcard];
+    }
+    
     self.skAdModel = self.adModel.isUsingOpenRTB ? self.adModel.getOpenRTBSkAdNetworkModel : self.adModel.getSkAdNetworkModel;
     if ([self.skAdModel.productParameters objectForKey:HyBidSKAdNetworkParameter.endcardDelay] != [NSNull null] && [self.skAdModel.productParameters objectForKey:HyBidSKAdNetworkParameter.endcardDelay] && [[self.skAdModel.productParameters objectForKey:HyBidSKAdNetworkParameter.endcardDelay] intValue] == -1) {
         if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(interstitialPresenterDismissesSKOverlay:)]) {
@@ -164,6 +176,9 @@
 - (void)vastPlayerDidShowEndCard:(PNLiteVASTPlayerViewController *)vastPlayer endcard:(HyBidVASTEndCard *)endcard {
     if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(interstitialPresenterDismissesCustomCTA:)] && endcard.isCustomEndCard) {
         [self.presenter.delegate interstitialPresenterDismissesCustomCTA:self.presenter];
+    }
+    if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(interstitialPresenterDidPresentCustomEndCard:)] && endcard.isCustomEndCard) {
+        [self.presenter.delegate interstitialPresenterDidPresentCustomEndCard:self.presenter];
     }
 }
 

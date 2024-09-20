@@ -2334,6 +2334,17 @@
                                     <outlet property="delegate" destination="KDy-sg-J0V" id="Xrx-67-Wzv"/>
                                 </connections>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w8b-UV-0hY">
+                                <rect key="frame" x="16" y="393" width="382" height="33"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="Sjl-fa-f2c"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Open AppLovin Mediation Debugger"/>
+                                <connections>
+                                    <action selector="openAppLovinMediationDebuggerTouchUpInside:" destination="KDy-sg-J0V" eventType="touchUpInside" id="1pp-TM-9gL"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="51a-zV-f7F"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2344,8 +2355,11 @@
                             <constraint firstItem="51a-zV-f7F" firstAttribute="trailing" secondItem="Sw8-6Y-KzW" secondAttribute="trailing" constant="16" id="2qB-x2-WQw"/>
                             <constraint firstItem="69T-3g-eyw" firstAttribute="top" secondItem="Sw8-6Y-KzW" secondAttribute="bottom" constant="18" id="6UQ-4r-yBs"/>
                             <constraint firstItem="M7H-eo-cKC" firstAttribute="leading" secondItem="51a-zV-f7F" secondAttribute="leading" constant="16" id="8gM-2V-2Qd"/>
+                            <constraint firstItem="w8b-UV-0hY" firstAttribute="leading" secondItem="51a-zV-f7F" secondAttribute="leading" constant="16" id="AlS-K3-Cai"/>
+                            <constraint firstItem="w8b-UV-0hY" firstAttribute="centerX" secondItem="K3D-dN-s65" secondAttribute="centerX" id="BOj-Fa-bSS"/>
                             <constraint firstItem="Sw8-6Y-KzW" firstAttribute="leading" secondItem="51a-zV-f7F" secondAttribute="leading" constant="16" id="Bn7-tD-pAd"/>
                             <constraint firstItem="D4O-2t-nGS" firstAttribute="leading" secondItem="51a-zV-f7F" secondAttribute="leading" constant="16" id="CAj-kt-hcX"/>
+                            <constraint firstItem="w8b-UV-0hY" firstAttribute="top" secondItem="EAC-LO-4m4" secondAttribute="bottom" constant="18" id="CvU-q2-yOi"/>
                             <constraint firstItem="9IE-X1-Txf" firstAttribute="leading" secondItem="51a-zV-f7F" secondAttribute="leading" constant="16" id="EgU-2s-yE4"/>
                             <constraint firstItem="dVy-3Y-5n4" firstAttribute="leading" secondItem="51a-zV-f7F" secondAttribute="leading" constant="16" id="JHH-E8-tBo"/>
                             <constraint firstItem="51a-zV-f7F" firstAttribute="trailing" secondItem="EAC-LO-4m4" secondAttribute="trailing" constant="16" id="N0e-wd-Wrh"/>
@@ -2357,6 +2371,7 @@
                             <constraint firstItem="69T-3g-eyw" firstAttribute="leading" secondItem="51a-zV-f7F" secondAttribute="leading" constant="16" id="X1F-PH-vs5"/>
                             <constraint firstItem="sOw-iZ-Gu6" firstAttribute="top" secondItem="xMJ-g5-7qG" secondAttribute="bottom" constant="8" id="bbf-8a-Sbh"/>
                             <constraint firstItem="dVy-3Y-5n4" firstAttribute="top" secondItem="69T-3g-eyw" secondAttribute="bottom" constant="8" id="gRX-vZ-C6A"/>
+                            <constraint firstItem="51a-zV-f7F" firstAttribute="trailing" secondItem="w8b-UV-0hY" secondAttribute="trailing" constant="16" id="juY-15-4at"/>
                             <constraint firstItem="51a-zV-f7F" firstAttribute="trailing" secondItem="D4O-2t-nGS" secondAttribute="trailing" constant="16" id="jwl-jC-KAo"/>
                             <constraint firstItem="Sw8-6Y-KzW" firstAttribute="top" secondItem="Ofi-BK-Ha7" secondAttribute="bottom" constant="8" id="l8X-tj-Hr3"/>
                             <constraint firstItem="QQ8-JR-kyV" firstAttribute="top" secondItem="D4O-2t-nGS" secondAttribute="bottom" constant="18" id="lP1-PL-WUJ"/>

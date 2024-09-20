@@ -123,8 +123,10 @@ static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
 }
 
 - (void)reportEvent:(NSString *)eventType {
-    HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:eventType adFormat:nil properties:nil];
-    [[HyBid reportingManager]reportEventFor:reportingEvent];
+    if ([HyBidSDKConfig sharedConfig].reporting) {
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:eventType adFormat:nil properties:nil];
+        [[HyBid reportingManager]reportEventFor:reportingEvent];
+    }
 }
 
 @end

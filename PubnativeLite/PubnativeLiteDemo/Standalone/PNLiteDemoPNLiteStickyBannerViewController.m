@@ -31,6 +31,7 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bannerLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UILabel *creativeIdLabel;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *isUsingOpenRTB;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *adFormatSwitch;
 
 @property (nonatomic, strong) HyBidAdView *bannerAdView;
 @property (nonatomic) HyBidBannerPosition bannerPosition;
@@ -50,6 +51,16 @@
     self.navigationItem.title = @"HyBid Sticky Banner";
     self.bannerAdView = [[HyBidAdView alloc] initWithSize:[PNLiteDemoSettings sharedInstance].adSize];
     self.bannerPosition = BANNER_POSITION_TOP;
+    self.adFormatSwitch.accessibilityIdentifier = @"openRTBAdFormatSwitch";
+    self.adFormatSwitch.hidden = YES;
+}
+
+- (IBAction)requestedAdFormat:(id)sender {
+    if (self.isUsingOpenRTB.selectedSegmentIndex == 1){
+        self.adFormatSwitch.hidden = NO;
+    } else {
+        self.adFormatSwitch.hidden = YES;
+    }
 }
 
 - (IBAction)requestBannerTouchUpInside:(id)sender {
@@ -76,6 +87,11 @@
     if (self.isUsingOpenRTB.selectedSegmentIndex == 0) {
         [self.bannerAdView loadWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] withPosition:self.bannerPosition andWithDelegate:self];
     } else if (self.isUsingOpenRTB.selectedSegmentIndex == 1) {
+        if (self.adFormatSwitch.selectedSegmentIndex == 0) {
+            [self.bannerAdView setOpenRTBAdTypeWithAdFormat:HyBidOpenRTBAdBanner];
+        } else if (self.isUsingOpenRTB.selectedSegmentIndex == 1) {
+            [self.bannerAdView setOpenRTBAdTypeWithAdFormat:HyBidOpenRTBAdVideo];
+        }
         [self.bannerAdView loadExchangeAdWithZoneID:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoZoneIDKey] withPosition:self.bannerPosition andWithDelegate:self];
     }
 }

@@ -70,7 +70,6 @@ public class EventType: HyBidReportingProperties  {
     @objc public static let REWARDED_CLOSED = "rewarded_closed"
     @objc public static let VIDEO_STARTED = "video_started"
     @objc public static let VIDEO_DISMISSED = "video_dismissed"
-    @objc public static let VIDEO_FINISHED = "video_finished"
     @objc public static let VIDEO_MUTE = "video_mute"
     @objc public static let VIDEO_UNMUTE = "video_unmute"
     @objc public static let AD_SESSION_INITIALIZED = "session_initialized"
@@ -112,6 +111,7 @@ public class EventType: HyBidReportingProperties  {
     @objc public static let CUSTOM_CTA_CLICK = "custom_cta_click"
     @objc public static let CUSTOM_CTA_ENDCARD_CLICK = "custom_cta_endcard_click"
     @objc public static let SKOVERLAY_IMPRESSION = "skoverlay_impression"
+    @objc public static let STOREKIT_PRODUCT_VIEW_DISMISS = "storekit_product_view_dismiss"
 }
 
 @objc(HyBidReportingCreativeType)

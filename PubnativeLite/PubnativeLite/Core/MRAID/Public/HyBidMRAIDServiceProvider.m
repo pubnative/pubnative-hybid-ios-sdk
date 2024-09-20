@@ -63,8 +63,10 @@
               UIImage *image = [[UIImage alloc] initWithData:data];
               completionBlock(YES,image);
           } else {
-              HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR errorMessage: error.localizedDescription properties:nil];
-              [[HyBid reportingManager] reportEventFor:reportingEvent];
+              if ([HyBidSDKConfig sharedConfig].reporting) {
+                  HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR errorMessage: error.localizedDescription properties:nil];
+                  [[HyBid reportingManager] reportEventFor:reportingEvent];
+              }
               completionBlock(NO,nil);
           }
       }] resume];

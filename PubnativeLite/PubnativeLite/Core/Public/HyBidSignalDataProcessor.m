@@ -31,6 +31,8 @@
 #import "PNLiteHttpRequest.h"
 #import "HyBidError.h"
 #import "HyBidVASTEndCardManager.h"
+#import "HyBidVASTEventProcessor.h"
+#import "HyBidVASTParserError.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -149,9 +151,11 @@ NSInteger const HyBidSignalDataResponseStatusRequestMalformed = 422;
                     ? ad.openRtbVast
                     : ad.vast;
                     HyBidVideoAdProcessor *videoAdProcessor = [[HyBidVideoAdProcessor alloc] init];
-                    [videoAdProcessor processVASTString:vast completion:^(HyBidVASTModel *vastModel, NSError *error) {
+                    [videoAdProcessor processVASTString:vast completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError *error) {
                         if (!vastModel) {
-                            [self invokeDidFail:error];
+                            [self invokeDidFail: error];
+                            HyBidVASTEventProcessor *vastEventProcessor = [[HyBidVASTEventProcessor alloc] init];
+                            [vastEventProcessor sendVASTUrls: error.errorTagURLs];
                         } else {
                             NSArray *endCards = [self fetchEndCardsFromVastAd:vastModel.ads.firstObject];
                             if ([ad.endcardEnabled boolValue] || (ad.endcardEnabled == nil && HyBidConstants.showEndCard)) {

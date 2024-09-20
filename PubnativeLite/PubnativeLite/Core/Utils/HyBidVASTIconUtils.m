@@ -24,6 +24,8 @@
 #import "HyBidVideoAdProcessor.h"
 #import "HyBidVASTAd.h"
 #import "HyBidXMLEx.h"
+#import "HyBidVASTEventProcessor.h"
+#import "HyBidVASTParserError.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -47,10 +49,12 @@
 - (void)getVASTIconFrom:(NSString *)adContent completion:(vastIconCompletionBlock)block
 {
     HyBidVideoAdProcessor *videoAdProcessor = [[HyBidVideoAdProcessor alloc] init];
-    [videoAdProcessor processVASTString:adContent completion:^(HyBidVASTModel *vastModel, NSError *error) {
+    [videoAdProcessor processVASTString:adContent completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError *error) {
         NSOrderedSet *vastSet = [[NSOrderedSet alloc] initWithArray:vastModel.vastArray];
         NSMutableArray* vastArray = [[NSMutableArray alloc] initWithArray:[vastSet array]];
         if (error) {
+            HyBidVASTEventProcessor *vastEventProcessor = [[HyBidVASTEventProcessor alloc] init];
+            [vastEventProcessor sendVASTUrls: error.errorTagURLs];
             block(nil, error);
         } else {
             NSArray<HyBidVASTIcon *> *icons;

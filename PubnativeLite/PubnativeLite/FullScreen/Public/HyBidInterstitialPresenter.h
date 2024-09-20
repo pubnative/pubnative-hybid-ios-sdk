@@ -23,6 +23,7 @@
 #import <Foundation/Foundation.h>
 #import "HyBidAd.h"
 #import "HyBidCustomCTAViewDelegate.h"
+#import "HyBidSKOverlayDelegate.h"
 
 @class HyBidInterstitialPresenter;
 
@@ -43,7 +44,9 @@
 - (void)interstitialPresenterPresentsSKOverlay:(HyBidInterstitialPresenter *)interstitialPresenter;
 - (void)interstitialPresenterDismissesSKOverlay:(HyBidInterstitialPresenter *)interstitialPresenter;
 - (void)interstitialPresenterDismissesCustomCTA:(HyBidInterstitialPresenter *)interstitialPresenter;
-
+- (void)interstitialPresenterWillPresentEndCard:(HyBidInterstitialPresenter *)interstitialPresenter
+                                        endcard:(HyBidVASTEndCard *)endcard;
+- (void)interstitialPresenterDidPresentCustomEndCard:(HyBidInterstitialPresenter *)interstitialPresenter;
 @end
 
 @interface HyBidInterstitialPresenter : NSObject
@@ -51,6 +54,7 @@
 @property (nonatomic, readonly) HyBidAd *ad;
 @property (nonatomic) NSObject <HyBidInterstitialPresenterDelegate> *delegate;
 @property (nonatomic, weak) NSObject <HyBidCustomCTAViewDelegate> *customCTADelegate;
+@property (nonatomic, weak) NSObject <HyBidSKOverlayDelegate> *skoverlayDelegate;
 
 - (void)load;
 

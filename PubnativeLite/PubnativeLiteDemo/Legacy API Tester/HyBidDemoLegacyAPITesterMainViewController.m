@@ -57,6 +57,10 @@
     [self.view endEditing:YES];
 }
 
+- (IBAction)clearAdReponseTextView:(UIButton *)sender {
+    [self clearTextFrom: self.adReponseTextView];
+}
+
 - (IBAction)loadAdReponseTouchUpInside:(UIButton *)sender {
     [self requestAd];
 }

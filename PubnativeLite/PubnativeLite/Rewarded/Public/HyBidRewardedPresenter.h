@@ -23,6 +23,8 @@
 #import <Foundation/Foundation.h>
 #import "HyBidAd.h"
 #import "HyBidCustomCTAViewDelegate.h"
+#import "HyBidSKOverlay.h"
+#import "HyBidSKOverlayDelegate.h"
 
 @class HyBidRewardedPresenter;
 
@@ -43,6 +45,9 @@
 - (void)rewardedPresenterPresentsSKOverlay:(HyBidRewardedPresenter *)rewardedPresenter;
 - (void)rewardedPresenterDismissesSKOverlay:(HyBidRewardedPresenter *)rewardedPresenter;
 - (void)rewardedPresenterDismissesCustomCTA:(HyBidRewardedPresenter *)rewardedPresenter;
+- (void)rewardedPresenteWillPresentEndCard:(HyBidRewardedPresenter *)rewardedPresenter
+                                         endcard:(HyBidVASTEndCard *)endcard;
+- (void)rewardedPresenteDidPresentCustomEndCard:(HyBidRewardedPresenter *)rewardedPresenter;
 
 @end
 
@@ -51,6 +56,7 @@
 @property (nonatomic, readonly) HyBidAd *ad;
 @property (nonatomic) NSObject <HyBidRewardedPresenterDelegate> *delegate;
 @property (nonatomic) NSObject <HyBidCustomCTAViewDelegate> *customCTADelegate;
+@property (nonatomic) NSObject <HyBidSKOverlayDelegate> *skoverlayDelegate;
 
 - (void)load;
 

@@ -53,6 +53,11 @@
     return [self.trackingXMLElement value];
 }
 
+- (NSString *)offset
+{
+    return [self.trackingXMLElement attribute:@"offset"];
+}
+
 
 
 @end

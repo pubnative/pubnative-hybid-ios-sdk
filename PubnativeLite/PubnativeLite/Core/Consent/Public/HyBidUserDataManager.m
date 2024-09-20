@@ -32,16 +32,16 @@
     #import "HyBid-Swift.h"
 #endif
 
-#define kCCPAPrivacyKey @"CCPA_Privacy"
-#define kGDPRConsentKey @"GDPR_Consent"
-#define kGDPRAppliesKey @"IABTCF_gdprApplies"
-#define kCCPAPublicPrivacyKey @"IABUSPrivacy_String"
-#define kGDPRPublicConsentKey @"IABConsent_ConsentString"
-#define kGDPRPublicConsentV2Key @"IABTCF_TCString"
-#define kGPPPublicString @"IABGPP_HDR_GppString"
-#define kGPPPublicID @"IABGPP_GppSID"
-#define kGPPString @"gpp_string"
-#define kGPPID @"gpp_id"
+NSString *kCCPAPrivacyKey;
+NSString *kGDPRConsentKey;
+NSString *kGDPRAppliesKey;
+NSString *kCCPAPublicPrivacyKey;
+NSString *kGDPRPublicConsentKey;
+NSString *kGDPRPublicConsentV2Key;
+NSString *kGPPPublicString;
+NSString *kGPPPublicID;
+NSString *kGPPString;
+NSString *kGPPID;
 
 NSString *const PNLiteDeviceIDType = @"idfa";
 NSString *const PNLiteGDPRConsentStateKey = @"gdpr_consent_state";
@@ -68,6 +68,7 @@ NSArray *HyBidUserDataManagerPublicPrivacyKeys;
     self = [super init];
     if (self) {
         self.consentState = PNLiteConsentStateDenied;
+        [self setGDPRKeyValues];
         [self setIABUSPrivacyStringFromPublicKey];
         [self setIABGDPRConsentStringFromPublicKey];
         [self setInternalGPPStringFromPublicKey];
@@ -84,26 +85,36 @@ NSArray *HyBidUserDataManagerPublicPrivacyKeys;
     [self removeObservers];
 }
 
+- (void)setGDPRKeyValues {
+    kCCPAPrivacyKey = [HyBidGDPR stringValueForKey: HyBidGDPRkCCPAPrivacyKey];
+    kGDPRConsentKey = [HyBidGDPR stringValueForKey: HyBidGDPRkGDPRConsentKey];
+    kGDPRAppliesKey = [HyBidGDPR stringValueForKey: HyBidGDPRkGDPRAppliesKey];
+    kCCPAPublicPrivacyKey = [HyBidGDPR stringValueForKey: HyBidGDPRkCCPAPublicPrivacyKey];
+    kGDPRPublicConsentKey = [HyBidGDPR stringValueForKey: HyBidGDPRkGDPRPublicConsentKey];
+    kGDPRPublicConsentV2Key = [HyBidGDPR stringValueForKey: HyBidGDPRkGDPRPublicConsentV2Key];
+    kGPPPublicString = [HyBidGDPR stringValueForKey: HyBidGDPRkGPPPublicString];
+    kGPPPublicID = [HyBidGDPR stringValueForKey: HyBidGDPRkGPPPublicID];
+    kGPPString = [HyBidGDPR stringValueForKey: HyBidGDPRkGPPString];
+    kGPPID = [HyBidGDPR stringValueForKey: HyBidGDPRkGPPID];
+}
+
 - (void)addObservers {
-    [[NSUserDefaults standardUserDefaults] addObserver:self
-                                            forKeyPath:kCCPAPublicPrivacyKey options:NSKeyValueObservingOptionNew
-                                               context:NULL];
-    [[NSUserDefaults standardUserDefaults] addObserver:self
-                                            forKeyPath:kGDPRPublicConsentKey options:NSKeyValueObservingOptionNew
-                                               context:NULL];
-    [[NSUserDefaults standardUserDefaults] addObserver:self
-                                            forKeyPath:kGPPPublicString options:NSKeyValueObservingOptionNew
-                                               context:NULL];
-    [[NSUserDefaults standardUserDefaults] addObserver:self
-                                            forKeyPath:kGPPPublicID options:NSKeyValueObservingOptionNew
-                                               context:NULL];
+    for (NSString *keyPath in [self keyPathsForGDPRObservers]) {
+        [[NSUserDefaults standardUserDefaults] addObserver:self
+                                                forKeyPath:keyPath
+                                                   options:NSKeyValueObservingOptionNew
+                                                   context:NULL];
+    }
 }
 
 - (void)removeObservers {
-    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:kCCPAPublicPrivacyKey];
-    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:kGDPRPublicConsentKey];
-    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:kGPPPublicString];
-    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:kGPPPublicID];
+    for (NSString *keyPath in [self keyPathsForGDPRObservers]) {
+        [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:keyPath];
+    }
+}
+
+- (NSArray<NSString *> * _Nonnull)keyPathsForGDPRObservers {
+    return @[kCCPAPublicPrivacyKey, kGDPRPublicConsentKey, kGPPPublicString, kGPPPublicID];
 }
 
 + (instancetype)sharedInstance {
@@ -482,9 +493,11 @@ NSArray *HyBidUserDataManagerPublicPrivacyKeys;
 - (void)showConsentPage:(void (^)(void))didShow didDismiss:(void (^)(void))didDismiss {
     if (self.isConsentPageLoaded) {
         UIViewController *viewController = [UIApplication sharedApplication].topViewController;
-        [viewController presentViewController:self.consentPageViewController
-                                     animated:YES
-                                   completion:didShow];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [viewController presentViewController:self.consentPageViewController
+                                         animated:YES
+                                       completion:didShow];
+        });
         self.consentPageDidDismissCompletionBlock = didDismiss;
     }
 }

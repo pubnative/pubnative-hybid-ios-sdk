@@ -73,6 +73,7 @@ NSTimeInterval const kHyBidURLDrillerTimeout = 5; // seconds
 
 - (void)startDrill {
     self.lastURL = self.url;
+    NSString *className = NSStringFromClass([self class]);
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.url
                                                            cachePolicy:NSURLRequestUseProtocolCachePolicy
                                                        timeoutInterval:kHyBidURLDrillerTimeout];
@@ -89,10 +90,13 @@ NSTimeInterval const kHyBidURLDrillerTimeout = 5; // seconds
                                             completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
             [self invokeDidFailWithURL:self.lastURL andError:error];
-            HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR errorMessage: error.localizedDescription properties:nil];
-            [[HyBid reportingManager] reportEventFor:reportingEvent];
+            if ([HyBidSDKConfig sharedConfig].reporting) {
+                HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR errorMessage: error.localizedDescription properties:nil];
+                [[HyBid reportingManager] reportEventFor:reportingEvent];
+            }
         } else {
             [self invokeDidFinishWithURL:response.URL];
+            [HyBidLogger debugLogFromClass:className fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Tracking url: %@", response.URL]];
         }
     }];
     
