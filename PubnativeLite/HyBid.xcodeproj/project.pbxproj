@@ -20,6 +20,10 @@
 		342932BE287DD619004ECE08 /* HyBidAdFeedbackMacroUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 342932BB287DD619004ECE08 /* HyBidAdFeedbackMacroUtil.m */; };
 		342932C2287DD6EC004ECE08 /* HyBidAdFeedbackParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 342932C0287DD6EC004ECE08 /* HyBidAdFeedbackParameters.h */; };
 		342932C4287DD6EC004ECE08 /* HyBidAdFeedbackParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 342932C1287DD6EC004ECE08 /* HyBidAdFeedbackParameters.m */; };
+		342987322CA6C03700572DBC /* OMSDK_Pubnativenet.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 342987312CA6C03700572DBC /* OMSDK_Pubnativenet.xcframework */; };
+		342987352CA6C04F00572DBC /* omsdk.js in Resources */ = {isa = PBXBuildFile; fileRef = 342987342CA6C04F00572DBC /* omsdk.js */; };
+		342987362CA6C07300572DBC /* OMSDK_Pubnativenet.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 342987312CA6C03700572DBC /* OMSDK_Pubnativenet.xcframework */; };
+		342987382CA6C0C900572DBC /* OMSDK_Pubnativenet.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 342987312CA6C03700572DBC /* OMSDK_Pubnativenet.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3437B54B2831763C00632AC7 /* HyBidGAMBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 3437B5372831763800632AC7 /* HyBidGAMBannerCustomEvent.m */; };
 		3437B54D2831763C00632AC7 /* HyBidGAMBaseCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 3437B5392831763900632AC7 /* HyBidGAMBaseCustomEvent.m */; };
 		3437B54E2831763C00632AC7 /* HyBidGAMInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 3437B53B2831763900632AC7 /* HyBidGAMInterstitialCustomEvent.m */; };
@@ -34,10 +38,6 @@
 		344B78B929ED9F0100CA1E78 /* ISVerveCustomInterstitial.m in Sources */ = {isa = PBXBuildFile; fileRef = 3461B9CC28BECF1500448739 /* ISVerveCustomInterstitial.m */; };
 		344B78BA29ED9F0500CA1E78 /* ISVerveCustomRewardedVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 3461B9CD28BECF1600448739 /* ISVerveCustomRewardedVideo.m */; };
 		344B78BB29ED9F0800CA1E78 /* ISVerveUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3461B9D128BECF1700448739 /* ISVerveUtils.m */; };
-		344BC1C02C9ADF1000465FF2 /* OMSDK_Pubnativenet.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 344BC1BF2C9ADF1000465FF2 /* OMSDK_Pubnativenet.xcframework */; };
-		344BC1C32C9ADF4600465FF2 /* omsdk.js in Resources */ = {isa = PBXBuildFile; fileRef = 344BC1C22C9ADF4600465FF2 /* omsdk.js */; };
-		344BC1C42C9ADFB100465FF2 /* OMSDK_Pubnativenet.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 344BC1BF2C9ADF1000465FF2 /* OMSDK_Pubnativenet.xcframework */; };
-		344BC1C62C9ADFD400465FF2 /* OMSDK_Pubnativenet.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 344BC1BF2C9ADF1000465FF2 /* OMSDK_Pubnativenet.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		345708122B7CF5B300B56B2D /* HyBidDemoChartboostSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 345708112B7CF5B300B56B2D /* HyBidDemoChartboostSettingsViewController.m */; };
 		3459051129008162003369E2 /* HyBidConsentConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3459051029008162003369E2 /* HyBidConsentConfig.swift */; };
 		3459051329015FDA003369E2 /* HyBidLocationConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3459051229015FDA003369E2 /* HyBidLocationConfig.swift */; };
@@ -680,7 +680,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				344BC1C62C9ADFD400465FF2 /* OMSDK_Pubnativenet.xcframework in Embed Frameworks */,
+				342987382CA6C0C900572DBC /* OMSDK_Pubnativenet.xcframework in Embed Frameworks */,
 				5A32CED02029F8530003B450 /* HyBid.framework in Embed Frameworks */,
 				7EAC3ED22C08C39600CD3860 /* ATOM.xcframework in Embed Frameworks */,
 			);
@@ -724,6 +724,8 @@
 		342932BB287DD619004ECE08 /* HyBidAdFeedbackMacroUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdFeedbackMacroUtil.m; sourceTree = "<group>"; };
 		342932C0287DD6EC004ECE08 /* HyBidAdFeedbackParameters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidAdFeedbackParameters.h; sourceTree = "<group>"; };
 		342932C1287DD6EC004ECE08 /* HyBidAdFeedbackParameters.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidAdFeedbackParameters.m; sourceTree = "<group>"; };
+		342987312CA6C03700572DBC /* OMSDK_Pubnativenet.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = OMSDK_Pubnativenet.xcframework; sourceTree = "<group>"; };
+		342987342CA6C04F00572DBC /* omsdk.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = omsdk.js; sourceTree = "<group>"; };
 		3434830D2A03F65A008D8B47 /* HyBidDemoEnumConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidDemoEnumConstants.h; sourceTree = "<group>"; };
 		3437B5352831763800632AC7 /* HyBidGAMUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyBidGAMUtils.h; sourceTree = "<group>"; };
 		3437B5372831763800632AC7 /* HyBidGAMBannerCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HyBidGAMBannerCustomEvent.m; sourceTree = "<group>"; };
@@ -742,8 +744,6 @@
 		344764E72B7E4D20006A82B2 /* HyBidDemoChartboostInterstitialViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidDemoChartboostInterstitialViewController.m; sourceTree = "<group>"; };
 		344B78B529ED9C6900CA1E78 /* HyBidDemoISRewardedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidDemoISRewardedViewController.h; sourceTree = "<group>"; };
 		344B78B629ED9C6900CA1E78 /* HyBidDemoISRewardedViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidDemoISRewardedViewController.m; sourceTree = "<group>"; };
-		344BC1BF2C9ADF1000465FF2 /* OMSDK_Pubnativenet.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = OMSDK_Pubnativenet.xcframework; sourceTree = "<group>"; };
-		344BC1C22C9ADF4600465FF2 /* omsdk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = omsdk.js; sourceTree = "<group>"; };
 		345708102B7CF5B300B56B2D /* HyBidDemoChartboostSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HyBidDemoChartboostSettingsViewController.h; sourceTree = "<group>"; };
 		345708112B7CF5B300B56B2D /* HyBidDemoChartboostSettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HyBidDemoChartboostSettingsViewController.m; sourceTree = "<group>"; };
 		3459051029008162003369E2 /* HyBidConsentConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyBidConsentConfig.swift; sourceTree = "<group>"; };
@@ -1466,7 +1466,7 @@
 				5A8903E5203DE22A00D86051 /* CoreMedia.framework in Frameworks */,
 				7EAC3ED12C08C39600CD3860 /* ATOM.xcframework in Frameworks */,
 				5A8903E3203DE22300D86051 /* CoreTelephony.framework in Frameworks */,
-				344BC1C42C9ADFB100465FF2 /* OMSDK_Pubnativenet.xcframework in Frameworks */,
+				342987362CA6C07300572DBC /* OMSDK_Pubnativenet.xcframework in Frameworks */,
 				5A8903E1203DE21D00D86051 /* Foundation.framework in Frameworks */,
 				5A8903DF203DE21400D86051 /* MediaPlayer.framework in Frameworks */,
 				5A8903DD203DE20800D86051 /* MessageUI.framework in Frameworks */,
@@ -1486,7 +1486,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A9B66CD20BD63810067964E /* libxml2.2.tbd in Frameworks */,
-				344BC1C02C9ADF1000465FF2 /* OMSDK_Pubnativenet.xcframework in Frameworks */,
+				342987322CA6C03700572DBC /* OMSDK_Pubnativenet.xcframework in Frameworks */,
 				5A9B66CB20BD63590067964E /* libxml2.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1513,13 +1513,13 @@
 			path = "OpenRTB API Tester";
 			sourceTree = "<group>";
 		};
-		342043C92C46BE80009F4EC8 /* OMSDK-1.5.1 */ = {
+		342043C92C46BE80009F4EC8 /* OMSDK-1.5.2 */ = {
 			isa = PBXGroup;
 			children = (
-				344BC1BF2C9ADF1000465FF2 /* OMSDK_Pubnativenet.xcframework */,
-				344BC1C22C9ADF4600465FF2 /* omsdk.js */,
+				342987312CA6C03700572DBC /* OMSDK_Pubnativenet.xcframework */,
+				342987342CA6C04F00572DBC /* omsdk.js */,
 			);
-			path = "OMSDK-1.5.1";
+			path = "OMSDK-1.5.2";
 			sourceTree = "<group>";
 		};
 		342932B9287DD353004ECE08 /* Ad Feedback */ = {
@@ -1894,7 +1894,7 @@
 		5A6CD0222029CD060022E206 /* PubnativeLite */ = {
 			isa = PBXGroup;
 			children = (
-				342043C92C46BE80009F4EC8 /* OMSDK-1.5.1 */,
+				342043C92C46BE80009F4EC8 /* OMSDK-1.5.2 */,
 				5A6CD0242029CD060022E206 /* Info.plist */,
 				7EA2A96B2589F730004C6A97 /* Resources */,
 				7EA2A89125890C3A004C6A97 /* Core */,
@@ -3387,7 +3387,7 @@
 				5A2EC33B20C829A0000F9747 /* PNLiteVASTPlayerFullScreenViewController.xib in Resources */,
 				E715F7232729A4E500E20A9E /* hybidscaling.js in Resources */,
 				CE4A74162B30F19F00E62B10 /* PrivacyInfo.xcprivacy in Resources */,
-				344BC1C32C9ADF4600465FF2 /* omsdk.js in Resources */,
+				342987352CA6C04F00572DBC /* omsdk.js in Resources */,
 				5A2EC33920C80A82000F9747 /* PNLiteVASTPlayerInterstitialViewController.xib in Resources */,
 				7E0E1C502A3865DD003413DB /* skip@3x.png in Resources */,
 				5A9B66E920BD97530067964E /* PNLiteVASTPlayerViewController.xib in Resources */,
@@ -3555,12 +3555,16 @@
 				"${PODS_ROOT}/Target Support Files/Pods-HyBidDemo/Pods-HyBidDemo-resources.sh",
 				"${PODS_ROOT}/AppLovinSDK/applovin-ios-sdk-12.3.1/AppLovinSDKResources.bundle",
 				"${PODS_ROOT}/ChartboostSDK/ChartboostSDKResources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/Google-Mobile-Ads-SDK/GoogleMobileAdsResources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/GoogleUserMessagingPlatform/UserMessagingPlatformResources.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/IronSourceSDK/IronSourcePrivacyInfo.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AppLovinSDKResources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ChartboostSDKResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMobileAdsResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/UserMessagingPlatformResources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/IronSourcePrivacyInfo.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4044,7 +4048,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = "3.1.0-beta";
+				MARKETING_VERSION = "3.1.0-beta2";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -4094,7 +4098,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = "3.1.0-beta";
+				MARKETING_VERSION = "3.1.0-beta2";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -4254,7 +4258,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/PubnativeLite",
-					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.5.1",
+					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.5.2",
 				);
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
@@ -4267,7 +4271,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = "3.1.0-beta";
+				MARKETING_VERSION = "3.1.0-beta2";
 				MODULEMAP_FILE = "";
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -4298,7 +4302,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/PubnativeLite",
-					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.5.1",
+					"$(PROJECT_DIR)/PubnativeLite/OMSDK-1.5.2",
 				);
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
@@ -4311,7 +4315,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = "3.1.0-beta";
+				MARKETING_VERSION = "3.1.0-beta2";
 				MODULEMAP_FILE = "";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;

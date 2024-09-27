@@ -13,7 +13,7 @@ target 'HyBidDemo' do
   pod 'FLEX', :configurations => ['Debug']
   pod 'Firebase/Performance', '8.13.0'
   pod 'Firebase/Crashlytics', '8.13.0'
-  pod 'Google-Mobile-Ads-SDK', '~> 10.0'
+  pod 'Google-Mobile-Ads-SDK', '~> 11.0'
   pod 'AppLovinSDK', '>= 12.0.0'
   pod 'IronSourceSDK','~> 8.0'
   pod 'ChartboostSDK'
