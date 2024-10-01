@@ -143,8 +143,10 @@ NSString * const kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey = @"kUser
         }
         if(self.errorReportingProperties) {
             [self.errorReportingProperties addEntriesFromDictionary:[[HyBid reportingManager] addCommonPropertiesForAd:adPresenter.ad withRequest:nil]];
-            HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR adFormat:HyBidReportingAdFormat.BANNER properties:self.errorReportingProperties];
-            [[HyBid reportingManager] reportEventFor:reportingEvent];
+            if ([HyBidSDKConfig sharedConfig].reporting) {
+                HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR adFormat:HyBidReportingAdFormat.BANNER properties:self.errorReportingProperties];
+                [[HyBid reportingManager] reportEventFor:reportingEvent];
+            }
         }
         [self.adPresenterDelegate adPresenter:adPresenter didFailWithError:error];
     }

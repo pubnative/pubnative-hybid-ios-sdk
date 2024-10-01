@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="JlX-Br-dQ5">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="JlX-Br-dQ5">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Ali-lg-019" userLabel="Signal Data Text View">
-                                <rect key="frame" x="16" y="106" width="382" height="543"/>
+                                <rect key="frame" x="16" y="147" width="382" height="502"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="signalDataTextView" label="Signal Data Text View"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
@@ -215,23 +215,42 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3b3-Ek-rwg" userLabel="Clear Text Button">
+                                <rect key="frame" x="16" y="106" width="382" height="33"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration" identifier="clearTextButton" label="Clear Text Button"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Clear Text">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="selected">
+                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <connections>
+                                    <action selector="clearSignalDataTextView:" destination="JlX-Br-dQ5" eventType="touchUpInside" id="Raa-E2-1Ii"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="xIN-Qz-K5Y"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="PbU-kT-Hxp" firstAttribute="top" secondItem="xIN-Qz-K5Y" secondAttribute="top" constant="8" id="1VB-kz-MoG"/>
                             <constraint firstItem="PbU-kT-Hxp" firstAttribute="leading" secondItem="xIN-Qz-K5Y" secondAttribute="leading" constant="16" id="CAH-LS-OXX"/>
+                            <constraint firstItem="xIN-Qz-K5Y" firstAttribute="trailing" secondItem="3b3-Ek-rwg" secondAttribute="trailing" constant="16" id="EOb-B5-lxZ"/>
+                            <constraint firstItem="3b3-Ek-rwg" firstAttribute="top" secondItem="PbU-kT-Hxp" secondAttribute="bottom" constant="8" symbolic="YES" id="H7X-53-sus"/>
                             <constraint firstItem="Lcc-31-2dW" firstAttribute="top" secondItem="eex-ZJ-pCK" secondAttribute="bottom" constant="8" id="Hxy-km-7nR"/>
                             <constraint firstItem="Ali-lg-019" firstAttribute="leading" secondItem="xIN-Qz-K5Y" secondAttribute="leading" constant="16" id="JbD-Lc-Qqt"/>
                             <constraint firstItem="xIN-Qz-K5Y" firstAttribute="trailing" secondItem="eex-ZJ-pCK" secondAttribute="trailing" constant="16" id="MQE-Ks-wMt"/>
                             <constraint firstItem="xIN-Qz-K5Y" firstAttribute="trailing" secondItem="Lcc-31-2dW" secondAttribute="trailing" constant="16" id="Quq-b5-OEh"/>
                             <constraint firstItem="xIN-Qz-K5Y" firstAttribute="bottom" secondItem="Lcc-31-2dW" secondAttribute="bottom" constant="8" id="Rt5-eJ-jn8"/>
+                            <constraint firstItem="3b3-Ek-rwg" firstAttribute="leading" secondItem="xIN-Qz-K5Y" secondAttribute="leading" constant="16" id="X2u-Kw-PD3"/>
                             <constraint firstItem="eex-ZJ-pCK" firstAttribute="top" secondItem="Ali-lg-019" secondAttribute="bottom" constant="8" id="dKM-qh-dNq"/>
                             <constraint firstItem="xIN-Qz-K5Y" firstAttribute="trailing" secondItem="Ali-lg-019" secondAttribute="trailing" constant="16" id="ndn-jn-O4m"/>
                             <constraint firstItem="xIN-Qz-K5Y" firstAttribute="trailing" secondItem="PbU-kT-Hxp" secondAttribute="trailing" constant="16" id="pMo-1E-vhJ"/>
-                            <constraint firstItem="Ali-lg-019" firstAttribute="top" secondItem="PbU-kT-Hxp" secondAttribute="bottom" constant="8" id="rGf-cB-2L8"/>
                             <constraint firstItem="Lcc-31-2dW" firstAttribute="leading" secondItem="xIN-Qz-K5Y" secondAttribute="leading" constant="16" id="tGy-AB-6bV"/>
                             <constraint firstItem="eex-ZJ-pCK" firstAttribute="leading" secondItem="xIN-Qz-K5Y" secondAttribute="leading" constant="16" id="xDO-w5-aKt"/>
+                            <constraint firstItem="Ali-lg-019" firstAttribute="top" secondItem="3b3-Ek-rwg" secondAttribute="bottom" constant="8" symbolic="YES" id="xR4-ot-prW"/>
                         </constraints>
                     </view>
                     <connections>
@@ -246,7 +265,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XkY-2A-0O1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-167.19999999999999" y="149.77511244377811"/>
+            <point key="canvasLocation" x="-168.11594202898553" y="149.33035714285714"/>
         </scene>
         <!--Debug-->
         <scene sceneID="MOh-Jc-cMU">

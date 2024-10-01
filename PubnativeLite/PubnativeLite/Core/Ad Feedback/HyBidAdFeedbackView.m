@@ -56,6 +56,7 @@
     self = [super init];
     if (self) {
         self.zoneID = zoneID;
+        
         if (url && url.length != 0) {
             NSURLComponents *components = [NSURLComponents componentsWithString:url];
             NSMutableArray *mutableQueryItems;

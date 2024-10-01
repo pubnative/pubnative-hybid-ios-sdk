@@ -1,5 +1,5 @@
 //
-//  Copyright © 2021 PubNative. All rights reserved.
+//  Copyright © 2024 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,7 @@
 
 #import "AppLovinMediationVerveCustomNetworkAdapter.h"
 
-#define VERVE_ADAPTER_VERSION @"3.0.3.0"
+#define VERVE_ADAPTER_VERSION @"3.1.0.0"
 #define MAX_MEDIATION_VENDOR @"m"
 #define PARAM_APP_TOKEN @"pn_app_token"
 #define PARAM_TEST_MODE @"pn_test"
@@ -161,12 +161,6 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
         }
 
         // 3. all other cases -> no change
-    }
-        
-    NSNumber *isAgeRestrictedUser = parameters.ageRestrictedUser;
-    if ( isAgeRestrictedUser )
-    {
-        [HyBidConsentConfig sharedConfig].coppa = isAgeRestrictedUser.boolValue;
     }
         
     if ( ALSdk.versionCode >= 61100 )
@@ -574,7 +568,6 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
 {
     [self.parentAdapter log: @"Rewarded ad did track impression"];
     [self.delegate didDisplayRewardedAd];
-    [self.delegate didStartRewardedAdVideo];
 }
 
 - (void)rewardedDidTrackClick
@@ -592,7 +585,6 @@ static MAAdapterInitializationStatus ALVerveInitializationStatus = NSIntegerMin;
 - (void)rewardedDidDismiss
 {
     [self.parentAdapter log: @"Rewarded ad did disappear"];
-    [self.delegate didCompleteRewardedAdVideo];
     
     if ( [self hasGrantedReward] || [self.parentAdapter shouldAlwaysRewardUser] )
     {

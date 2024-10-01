@@ -33,5 +33,6 @@
 + (NSString *)skadnetwork;
 + (NSString *)skadnetworkInputValue;
 + (NSString *)remoteconfigs;
-
++ (NSString *)adExperience;
++ (NSString *)customBundleIdValue;
 @end

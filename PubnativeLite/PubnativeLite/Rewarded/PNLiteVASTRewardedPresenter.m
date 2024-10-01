@@ -60,11 +60,15 @@
 }
 
 - (void)show {
-    [[UIApplication sharedApplication].topViewController presentViewController:self.vastViewController animated:NO completion:nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[UIApplication sharedApplication].topViewController presentViewController:self.vastViewController animated:NO completion:nil];
+    });
 }
 
 - (void)showFromViewController:(UIViewController *)viewController {
-    [viewController presentViewController:self.vastViewController animated:NO completion:nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [viewController presentViewController:self.vastViewController animated:NO completion:nil];
+    });
 }
 
 - (void)hideFromViewController:(UIViewController *)viewController {

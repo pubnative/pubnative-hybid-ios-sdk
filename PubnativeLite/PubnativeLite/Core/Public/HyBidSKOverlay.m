@@ -67,12 +67,15 @@
 @property (nonatomic, assign) BOOL isRewarded;
 @property (nonatomic, assign) BOOL impressionEventFired;
 
+@property (nonatomic, strong) NSObject <HyBidSKOverlayDelegate> *delegate;
+
 @end
 
 @implementation HyBidSKOverlay
 
 - (void)dealloc {
     self.ad = nil;
+    self.delegate = nil;
     if (@available(iOS 14.0, *)) {
         if (self.overlay) {
             self.overlay = nil;
@@ -82,12 +85,13 @@
     }
 }
 
-- (instancetype)initWithAd:(HyBidAd *)ad isRewarded:(BOOL)isRewarded {
+- (instancetype)initWithAd:(HyBidAd *)ad isRewarded:(BOOL)isRewarded delegate:(NSObject <HyBidSKOverlayDelegate> *)delegate {
     self = [super init];
     if (self) {
         if (@available(iOS 14.0, *)) {
             self.ad = ad;
             self.isRewarded = isRewarded;
+            self.delegate = delegate;
             HyBidSkAdNetworkModel* skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.ad getOpenRTBSkAdNetworkModel] : [self.ad getSkAdNetworkModel];
             SKOverlayPosition position = SKOverlayPositionBottom;
             BOOL userDismissible = YES;
@@ -212,20 +216,20 @@
                                                  name:@"VASTEndCardWillShow"
                                                object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(skStoreProductViewIsReadyToPresent:)
-                                                 name:@"SKStoreProductViewIsReadyToPresent"
-                                               object:nil];
+    [HyBidNotificationCenter.shared addObserver: self
+                                       selector: @selector(skStoreProductViewIsReadyToPresent:)
+                               notificationType: HyBidNotificationTypeSKStoreProductViewIsReadyToPresent
+                                         object: nil];
+
+    [HyBidNotificationCenter.shared addObserver: self
+                                       selector: @selector(skStoreProductViewIsReadyToPresentForSdkStorekit:)
+                               notificationType: HyBidNotificationTypeSKStoreProductViewIsReadyToPresentForSDKStorekit
+                                         object: nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(skStoreProductViewIsReadyToPresentForSdkStorekit:)
-                                                 name:@"SKStoreProductViewIsReadyToPresentForSDKStorekit"
-                                               object:nil];
-    
-   [[NSNotificationCenter defaultCenter] addObserver:self
-                                            selector:@selector(skStoretoreProductViewIsDismissed:)
-                                                 name:@"SKStoreProductViewIsDismissed"
-                                               object:nil];
+    [HyBidNotificationCenter.shared addObserver: self
+                                       selector: @selector(skStoretoreProductViewIsDismissed:)
+                               notificationType: HyBidNotificationTypeSKStoreProductViewIsDismissed
+                                         object: nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(feedbackScreenWillShow:)
@@ -335,6 +339,8 @@
         if (self.overlay) {
             [SKOverlay dismissOverlayInScene:[UIApplication sharedApplication].topViewController.view.window.windowScene];
             if (isSKOverlayDismissedEntirely) {
+                self.overlay = nil;
+                [self removeObservers];
                 if(self.autoCloseTimer && [self.autoCloseTimer isValid]) {
                     [self.autoCloseTimer invalidate];
                     self.autoCloseTimer = nil;
@@ -350,8 +356,6 @@
                     self.endCardDelayTimer = nil;
                     self.endCardReadyToShow = NO;
                 }
-                [self removeObservers];
-                self.overlay = nil;
             } else {
                 if(self.delayTimerNeeded) {
                     if((self.delayTimer && [self.delayTimer isValid]) && (!self.delayTimerCompleted || !self.delayPerformsDefaultBehaviour)) {
@@ -383,107 +387,114 @@
 -(void)updateTimerStateWithRemainingSeconds:(NSInteger)seconds
                              withTimerState:(HyBidTimerState)timerState
                                forTimerType:(HyBidSKOverlayTimerType)timerType {
-    switch (timerType) {
-        case HyBidSKOverlayTimerType_AutoClose:
-            if (seconds <= 0 && self.autoCloseTimeRemaining <= 0) {
-                [self timerFinishedForType:timerType];
-                return;
+    if (@available(iOS 14.0, *)) {
+        if (self.overlay) {
+            switch (timerType) {
+                case HyBidSKOverlayTimerType_AutoClose:
+                    if (seconds <= 0 && self.autoCloseTimeRemaining <= 0) {
+                        [self timerFinishedForType:timerType];
+                        return;
+                    }
+                    break;
+                case HyBidSKOverlayTimerType_Delay:
+                    if (seconds <= 0 && self.delayTimeRemaining <= 0) {
+                        [self timerFinishedForType:timerType];
+                        return;
+                    }
+                    break;
+                case HyBidSKOverlayTimerType_EndCardDelay:
+                    if (seconds <= 0 && self.endCardDelayTimeRemaining <= 0) {
+                        [self timerFinishedForType:timerType];
+                        return;
+                    }
+                    break;
             }
-            break;
-        case HyBidSKOverlayTimerType_Delay:
-            if (seconds <= 0 && self.delayTimeRemaining <= 0) {
-                [self timerFinishedForType:timerType];
-                return;
+            
+            switch (timerState) {
+                case HyBidTimerState_Start:
+                    switch (timerType) {
+                        case HyBidSKOverlayTimerType_AutoClose:
+                            if (self.autoCloseTimeRemaining != -1) {
+                                __weak typeof(self) weakSelf = self;
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    weakSelf.autoCloseTimeRemaining = seconds;
+                                    if(!weakSelf.autoCloseTimer) {
+                                        weakSelf.autoCloseTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:weakSelf selector:@selector(autoCloseTimerTicked) userInfo:nil repeats:YES];
+                                        weakSelf.autoCloseTimerCompleted = NO;
+                                    }
+                                });
+                            }
+                            break;
+                        case HyBidSKOverlayTimerType_Delay:
+                            if (self.delayTimeRemaining != -1) {
+                                __weak typeof(self) weakSelf = self;
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    weakSelf.delayTimeRemaining = seconds;
+                                    if(!weakSelf.delayTimer) {
+                                        weakSelf.delayTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:weakSelf selector:@selector(delayTimerTicked) userInfo:nil repeats:YES];
+                                        weakSelf.delayTimerCompleted = NO;
+                                    }
+                                });
+                            }
+                            break;
+                        case HyBidSKOverlayTimerType_EndCardDelay:
+                            if (self.endCardDelayTimeRemaining != -1) {
+                                __weak typeof(self) weakSelf = self;
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    weakSelf.endCardDelayTimeRemaining = seconds;
+                                    if(!weakSelf.endCardDelayTimer) {
+                                        weakSelf.endCardDelayTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:weakSelf selector:@selector(endCardDelayTimerTicked) userInfo:nil repeats:YES];
+                                        weakSelf.endCardDelayTimerCompleted = NO;
+                                    }
+                                });
+                            }
+                            break;
+                    }
+                    break;
+                case HyBidTimerState_Pause:
+                    switch (timerType) {
+                        case HyBidSKOverlayTimerType_AutoClose:
+                            if ([self.autoCloseTimer isValid]) {
+                                [self invalidateTimerForType:timerType];
+                                self.autoCloseTimeRemaining = seconds;
+                            }
+                            break;
+                        case HyBidSKOverlayTimerType_Delay:
+                            if ([self.delayTimer isValid]) {
+                                [self invalidateTimerForType:timerType];
+                                self.delayTimeRemaining = seconds;
+                            }
+                            break;
+                        case HyBidSKOverlayTimerType_EndCardDelay:
+                            if ([self.endCardDelayTimer isValid]) {
+                                [self invalidateTimerForType:timerType];
+                                self.endCardDelayTimeRemaining = seconds;
+                            }
+                            break;
+                    }
+                    break;
+                case HyBidTimerState_Stop:
+                    switch (timerType) {
+                        case HyBidSKOverlayTimerType_AutoClose:
+                            [self invalidateTimerForType:timerType];
+                            self.autoCloseTimeRemaining = -1;
+                            break;
+                        case HyBidSKOverlayTimerType_Delay:
+                            [self invalidateTimerForType:timerType];
+                            self.delayTimeRemaining = -1;
+                            break;
+                        case HyBidSKOverlayTimerType_EndCardDelay:
+                            [self invalidateTimerForType:timerType];
+                            self.endCardDelayTimeRemaining = -1;
+                            break;
+                    }
+                    break;
             }
-            break;
-        case HyBidSKOverlayTimerType_EndCardDelay:
-            if (seconds <= 0 && self.endCardDelayTimeRemaining <= 0) {
-                [self timerFinishedForType:timerType];
-                return;
-            }
-            break;
+        }
+    } else {
+        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"SKOverlay is available from iOS 14.0"];
     }
     
-    switch (timerState) {
-        case HyBidTimerState_Start:
-            switch (timerType) {
-                case HyBidSKOverlayTimerType_AutoClose:
-                    if (self.autoCloseTimeRemaining != -1) {
-                        __weak typeof(self) weakSelf = self;
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            weakSelf.autoCloseTimeRemaining = seconds;
-                            if(!weakSelf.autoCloseTimer) {
-                                weakSelf.autoCloseTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:weakSelf selector:@selector(autoCloseTimerTicked) userInfo:nil repeats:YES];
-                                weakSelf.autoCloseTimerCompleted = NO;
-                            }
-                        });
-                    }
-                    break;
-                case HyBidSKOverlayTimerType_Delay:
-                    if (self.delayTimeRemaining != -1) {
-                        __weak typeof(self) weakSelf = self;
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            weakSelf.delayTimeRemaining = seconds;
-                            if(!weakSelf.delayTimer) {
-                                weakSelf.delayTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:weakSelf selector:@selector(delayTimerTicked) userInfo:nil repeats:YES];
-                                weakSelf.delayTimerCompleted = NO;
-                            }
-                        });
-                    }
-                    break;
-                case HyBidSKOverlayTimerType_EndCardDelay:
-                    if (self.endCardDelayTimeRemaining != -1) {
-                        __weak typeof(self) weakSelf = self;
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            weakSelf.endCardDelayTimeRemaining = seconds;
-                            if(!weakSelf.endCardDelayTimer) {
-                                weakSelf.endCardDelayTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:weakSelf selector:@selector(endCardDelayTimerTicked) userInfo:nil repeats:YES];
-                                weakSelf.endCardDelayTimerCompleted = NO;
-                            }
-                        });
-                    }
-                    break;
-            }
-            break;
-        case HyBidTimerState_Pause:
-            switch (timerType) {
-                case HyBidSKOverlayTimerType_AutoClose:
-                    if ([self.autoCloseTimer isValid]) {
-                        [self invalidateTimerForType:timerType];
-                        self.autoCloseTimeRemaining = seconds;
-                    }
-                    break;
-                case HyBidSKOverlayTimerType_Delay:
-                    if ([self.delayTimer isValid]) {
-                        [self invalidateTimerForType:timerType];
-                        self.delayTimeRemaining = seconds;
-                    }
-                    break;
-                case HyBidSKOverlayTimerType_EndCardDelay:
-                    if ([self.endCardDelayTimer isValid]) {
-                        [self invalidateTimerForType:timerType];
-                        self.endCardDelayTimeRemaining = seconds;
-                    }
-                    break;
-            }
-            break;
-        case HyBidTimerState_Stop:
-            switch (timerType) {
-                case HyBidSKOverlayTimerType_AutoClose:
-                    [self invalidateTimerForType:timerType];
-                    self.autoCloseTimeRemaining = -1;
-                    break;
-                case HyBidSKOverlayTimerType_Delay:
-                    [self invalidateTimerForType:timerType];
-                    self.delayTimeRemaining = -1;
-                    break;
-                case HyBidSKOverlayTimerType_EndCardDelay:
-                    [self invalidateTimerForType:timerType];
-                    self.endCardDelayTimeRemaining = -1;
-                    break;
-            }
-            break;
-    }
 }
 
 - (NSInteger)getRemainingTimeForTimerType:(HyBidSKOverlayTimerType)timerType {
@@ -593,6 +604,10 @@
     if ([overlay isEqual:self.overlay]) {
         self.isOverlayShown = YES;
     }
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(skoverlayDidShowOnCreative)]){
+        [self.delegate skoverlayDidShowOnCreative];
+    }
 }
 
 - (void)storeOverlay:(SKOverlay *)overlay didFinishPresentation:(SKOverlayTransitionContext *)transitionContext  API_AVAILABLE(ios(14.0)){
@@ -607,10 +622,12 @@
         if (self.ad != nil && self.ad.campaignID != nil && self.ad.campaignID.length > 0) {
             [reportingDictionary setObject:self.ad.campaignID forKey:HyBidReportingCommon.CAMPAIGN_ID];
         }
-        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc] initWith:HyBidReportingEventType.SKOVERLAY_IMPRESSION
-                                                                           adFormat:self.isRewarded ? HyBidReportingAdFormat.REWARDED : HyBidReportingAdFormat.FULLSCREEN
-                                                                         properties:[NSDictionary dictionaryWithDictionary:reportingDictionary]];
-        [[HyBid reportingManager] reportEventFor:reportingEvent];
+        if ([HyBidSDKConfig sharedConfig].reporting) {
+            HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc] initWith:HyBidReportingEventType.SKOVERLAY_IMPRESSION
+                                                                               adFormat:self.isRewarded ? HyBidReportingAdFormat.REWARDED : HyBidReportingAdFormat.FULLSCREEN
+                                                                             properties:[NSDictionary dictionaryWithDictionary:reportingDictionary]];
+            [[HyBid reportingManager] reportEventFor:reportingEvent];
+        }
         self.impressionEventFired = YES;
     }
 }
@@ -650,6 +667,12 @@
 
 - (void)feedbackScreenIsDismissed:(NSNotification*)notification {
     [self presentWithAd:self.ad];
+}
+
+#pragma mark HyBidSKOverlayDelegate
+
+- (void)changeDelegateFor:(NSObject <HyBidSKOverlayDelegate> *)delegate {
+    self.delegate = delegate;
 }
 
 @end

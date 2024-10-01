@@ -22,6 +22,7 @@
 
 #import <Foundation/Foundation.h>
 #import "HyBidVASTTrackingEvents.h"
+#import "HyBidSKOverlayDelegate.h"
 
 typedef enum {
     HyBidEndCardType_STATIC,
@@ -45,4 +46,5 @@ typedef enum {
 
 @property (nonatomic, assign) BOOL isCustomEndCardClicked;
 
+@property (nonatomic, weak) NSObject <HyBidSKOverlayDelegate> *skoverlayDelegate;
 @end

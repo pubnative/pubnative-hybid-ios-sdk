@@ -32,20 +32,22 @@
     #import "HyBid-Swift.h"
 #endif
 
+
 @interface HyBidVASTEventProcessor()
 
 @property(nonatomic, strong) NSMutableArray<HyBidVASTTracking *> *events;
 @property (nonatomic, strong) NSMutableDictionary<NSString *, NSMutableArray<NSString *> *> *eventsDictionary;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, NSString *> *progressEvents;
 @property(nonatomic, weak) NSObject<HyBidVASTEventProcessorDelegate> *delegate;
 
 @end
 
 @implementation HyBidVASTEventProcessor
-
-- (id)initWithEventsDictionary:(NSDictionary<NSString *, NSMutableArray<NSString *> *> *)eventDictionary delegate:(id<HyBidVASTEventProcessorDelegate>)delegate {
+- (id)initWithEventsDictionary:(NSDictionary<NSString *, NSMutableArray<NSString *> *> *)eventDictionary progressEventsDictionary:(NSDictionary<NSString *, NSString *> *)progressEventDictionary delegate:(id<HyBidVASTEventProcessorDelegate>)delegate {
     self = [super init];
     if (self) {
         self.eventsDictionary = [eventDictionary mutableCopy];
+        self.progressEvents = [progressEventDictionary mutableCopy];
         self.delegate = delegate;
     }
     return self;
@@ -63,6 +65,7 @@
 - (void)dealloc {
     self.events = nil;
     self.eventsDictionary = nil;
+    self.progressEvents = nil;
 }
 
 - (void)trackEventWithType:(HyBidVASTAdTrackingEventType)type
@@ -133,6 +136,16 @@
         }
     }
 }
+- (void)trackProgressEvent:(NSString*)offset {
+    if (self.progressEvents != nil && self.progressEvents.count != 0) {
+        NSString* urlString = self.progressEvents[offset];
+        [self sendTrackingRequest:urlString];
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class])
+                            fromMethod:NSStringFromSelector(_cmd)
+                           withMessage:[NSString stringWithFormat:@"Sent event '%@' to url: %@", HyBidVASTAdTrackingEventType_progress, urlString]];
+    }
+}
+
 
 - (void)trackImpression:(HyBidVASTImpression *)impression {
     if (impression != NULL) {
@@ -196,8 +209,10 @@
                     }
                 } else {
                     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Tracking url %@ error: %@", response.URL, error]];
-                    HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR errorMessage: error.localizedDescription properties:nil];
-                    [[HyBid reportingManager] reportEventFor:reportingEvent];
+                    if ([HyBidSDKConfig sharedConfig].reporting) {
+                        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR errorMessage: error.localizedDescription properties:nil];
+                        [[HyBid reportingManager] reportEventFor:reportingEvent];
+                    }
                 }
             }] resume];
         });

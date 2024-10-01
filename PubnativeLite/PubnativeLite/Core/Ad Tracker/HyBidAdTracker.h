@@ -34,7 +34,9 @@ extern NSString *const PNLiteAdCustomEndCardClick;
 @property (nonatomic, assign) BOOL impressionTracked;
 
 - (instancetype)initWithImpressionURLs:(NSArray *)impressionURLs
+       withCustomEndcardImpressionURLs:(NSArray *)customEndcardImpressionURLs
                          withClickURLs:(NSArray *)clickURLs
+            withCustomEndcardClickURLs:(NSArray *)customEndcardClickURLs
                                  forAd:(HyBidAd *)ad;
 - (void)trackClickWithAdFormat:(NSString *)adFormat;
 - (void)trackImpressionWithAdFormat:(NSString *)adFormat;

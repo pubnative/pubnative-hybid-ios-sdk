@@ -29,6 +29,13 @@
 #endif
 #import "HyBidSKAdNetworkViewController.h"
 #import "UIApplication+PNLiteTopViewController.h"
+#import <objc/runtime.h>
+
+typedef NS_ENUM(NSInteger) {
+    HyBidOverrideSuperClassOption,
+    HyBidOverrideWithPresentingViewControllerOption,
+    HyBidOverrideWithCustomImplementationOption
+} HyBidOverrideOptionsType;
 
 NSDictionary *productParameters;
 
@@ -46,6 +53,12 @@ NSDictionary *productParameters;
     }
     
     return self;
+}
+
+- (void)dealloc
+{
+    productParameters = nil;
+    self.delegate = nil;
 }
 
 - (void)loadProducts:(NSDictionary *)productParameters completionHandler:(void (^)(BOOL success, SKStoreProductViewController * _Nullable skAdnetworkViewController))completionHandler {
@@ -71,23 +84,30 @@ NSDictionary *productParameters;
     #endif
 }
 
-- (void)presentInTopViewController:(SKStoreProductViewController *)skAdnetworkViewController completionHandler:(void (^)(BOOL success))completionHandler {
-    if ([[UIApplication sharedApplication].topViewController isMemberOfClass: [SKStoreProductViewController class]]) {
-        completionHandler(NO);
-        return;
+- (void)presentInTopViewController:(SKStoreProductViewController *)skAdnetworkViewController presenterViewController:(UIViewController *)presenterViewController completionHandler:(void (^)(BOOL success))completionHandler {
+    if ([presenterViewController.presentedViewController isMemberOfClass: [SKStoreProductViewController class]]) {
+        [skAdnetworkViewController loadProductWithParameters:productParameters completionBlock:nil];
+        return completionHandler(NO);
+    }
+
+    if (![presenterViewController isEqual: [UIApplication sharedApplication].topViewController] || presenterViewController.isBeingDismissed) {
+        return completionHandler(NO);
     }
     
-    [[UIApplication sharedApplication].topViewController presentViewController: skAdnetworkViewController animated: YES completion:^{
-        completionHandler(YES);
-    }];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [presenterViewController presentViewController: skAdnetworkViewController animated: YES completion:^{
+            return completionHandler(YES);
+        }];
+    });
 }
 
 - (void)presentSKStoreProductViewController:(void (^)(BOOL success))completionHandler {
+    UIViewController *presenterViewController = [UIApplication sharedApplication].topViewController;
     [self loadProducts: productParameters completionHandler:^(BOOL success, SKStoreProductViewController * _Nullable skAdnetworkViewController) {
         if (success) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"SKStoreProductViewIsReadyToPresent" object:nil];
-            [self presentInTopViewController:skAdnetworkViewController completionHandler:^(BOOL success) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"adSkAdnetworkViewControllerIsShown" object:nil];
+            [HyBidNotificationCenter.shared post: HyBidNotificationTypeSKStoreProductViewIsReadyToPresent object: nil userInfo: nil];
+            [self presentInTopViewController:skAdnetworkViewController presenterViewController: presenterViewController completionHandler:^(BOOL success) {
+                [HyBidNotificationCenter.shared post: HyBidNotificationTypeSKStoreProductViewIsShown object: nil userInfo: nil];
                 completionHandler(success);
             }];
         } else {
@@ -98,7 +118,7 @@ NSDictionary *productParameters;
 
 @end
 
-@implementation SKStoreProductViewController (CustomMethods)
+@implementation SKStoreProductViewController (HyBidCustomMethods)
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [super touchesBegan:touches withEvent:event];
@@ -108,13 +128,67 @@ NSDictionary *productParameters;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskAll;
+    
+    HyBidOverrideOptionsType overrideOption = [self hyBidDetermineOverrideOptionWith: self.presentingViewController selector: @selector(supportedInterfaceOrientations)];
+    switch (overrideOption) {
+        case HyBidOverrideSuperClassOption:
+            return super.supportedInterfaceOrientations;
+        case HyBidOverrideWithPresentingViewControllerOption:
+            return self.presentingViewController.supportedInterfaceOrientations;
+        case HyBidOverrideWithCustomImplementationOption:
+            return UIInterfaceOrientationMaskAll;
+    }
 }
 
 - (BOOL)shouldAutorotate {
-    UIInterfaceOrientationMask applicationSupportedOrientations = [[UIApplication sharedApplication] supportedInterfaceOrientationsForWindow:[[UIApplication sharedApplication] keyWindow]];
-    UIInterfaceOrientationMask viewControllerSupportedOrientations = [self supportedInterfaceOrientations];
-    return viewControllerSupportedOrientations & applicationSupportedOrientations;
+    
+    HyBidOverrideOptionsType overrideOption = [self hyBidDetermineOverrideOptionWith: self.presentingViewController selector: @selector(shouldAutorotate)];
+    switch (overrideOption) {
+        case HyBidOverrideSuperClassOption:
+            return super.shouldAutorotate;
+        case HyBidOverrideWithPresentingViewControllerOption:
+            return self.presentingViewController.shouldAutorotate;
+        case HyBidOverrideWithCustomImplementationOption:{
+            UIInterfaceOrientationMask applicationSupportedOrientations = [[UIApplication sharedApplication] supportedInterfaceOrientationsForWindow:[[UIApplication sharedApplication] keyWindow]];
+            UIInterfaceOrientationMask viewControllerSupportedOrientations = [self supportedInterfaceOrientations];
+            return viewControllerSupportedOrientations & applicationSupportedOrientations;
+        }
+    }
+}
+
+- (HyBidOverrideOptionsType)hyBidDetermineOverrideOptionWith:(UIViewController * _Nullable)presentingViewController selector:(SEL)selector {
+    if (!presentingViewController) { return HyBidOverrideSuperClassOption; }
+
+    NSString *presentingVCBundleID = [NSBundle bundleForClass: [presentingViewController class]].bundleIdentifier;
+    if (!presentingVCBundleID) { return HyBidOverrideSuperClassOption; }
+    
+    NSString *hyBidBundleID = [NSBundle bundleForClass: [HyBidSKAdNetworkViewController class]].bundleIdentifier;
+    if (!hyBidBundleID) { return HyBidOverrideSuperClassOption; }
+    
+    if (![presentingVCBundleID isEqualToString: hyBidBundleID]) {
+        return doesClassHasMethod([presentingViewController class], selector)
+        ? HyBidOverrideWithPresentingViewControllerOption
+        : HyBidOverrideSuperClassOption;
+    }
+    
+    return HyBidOverrideWithCustomImplementationOption;
+}
+
+// Method to detect during run time whether the presentingViewController overrides or not shouldAutorotate & supportedInterfaceOrientations method (due the use of a Category)
+BOOL doesClassHasMethod(Class cls, SEL sel) {
+    unsigned int methodCount;
+    Method *methods = class_copyMethodList(cls, &methodCount);
+
+    BOOL result = NO;
+    for (unsigned int i = 0; i < methodCount; ++i) {
+        if (method_getName(methods[i]) == sel) {
+            result = YES;
+            break;
+        }
+    }
+
+    free(methods);
+    return result;
 }
 
 @end

@@ -22,8 +22,9 @@
 
 #import <Foundation/Foundation.h>
 #import "HyBidVASTModel.h"
+#import "HyBidVASTParserError.h"
 
-typedef void (^videoAdProcessorCompletionBlock)(HyBidVASTModel *, NSError *);
+typedef void (^videoAdProcessorCompletionBlock)(HyBidVASTModel *, HyBidVASTParserError *);
 
 @interface HyBidVideoAdProcessor : NSObject
 

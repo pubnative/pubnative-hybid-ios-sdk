@@ -68,7 +68,7 @@
     return ads;
 }
 
-- (NSArray<NSString *> *)errors
+- (HyBidVASTErrorTagURLs)errors
 {
     NSMutableArray *errors = [[NSMutableArray alloc] init];
     

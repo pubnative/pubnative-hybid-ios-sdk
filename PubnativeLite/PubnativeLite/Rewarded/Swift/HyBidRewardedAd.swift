@@ -132,6 +132,11 @@ public class HyBidRewardedAd: NSObject {
     }
     
     @objc
+    public func setOpenRTBAdType(adFormat: HyBidOpenRTBAdType) {
+        self.rewardedAdRequest?.openRTBAdType = adFormat
+    }
+    
+    @objc
     public func prepare() {
         if self.rewardedAdRequest != nil && self.ad != nil {
             self.rewardedAdRequest?.cacheAd(self.ad)
@@ -299,8 +304,10 @@ public class HyBidRewardedAd: NSObject {
     }
     
     func reportEvent(_ eventType: String, properties: [String: Any]) {
-        let reportingEvent = HyBidReportingEvent(with: eventType, adFormat: AdFormat.REWARDED, properties: properties)
-        HyBid.reportingManager().reportEvent(for: reportingEvent)
+        if HyBidSDKConfig.sharedConfig.reporting == true {
+            let reportingEvent = HyBidReportingEvent(with: eventType, adFormat: AdFormat.REWARDED, properties: properties)
+            HyBid.reportingManager().reportEvent(for: reportingEvent)
+        }
     }
     
     func elapsedTimeSince(_ timestamp: TimeInterval) -> TimeInterval {

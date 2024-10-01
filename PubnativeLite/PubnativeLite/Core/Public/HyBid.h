@@ -128,6 +128,8 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import "HyBidTimerState.h"
 #import "HyBidCustomCTAViewDelegate.h"
 #import "HyBidSKOverlay.h"
+#import "NSUserDefaults+HyBidCustomMethods.h"
+#import "HyBidSKOverlayDelegate.h"
 
 // For swift compatibility, we are making this file public instead of private
 // Avoid using custom module map
@@ -168,6 +170,8 @@ typedef enum {
 
 static NSString * const HyBidCustomEndcardDisplayExtentionValue = @"extension";
 static NSString * const HyBidCustomEndcardDisplayFallbackValue = @"fallback";
+static NSString * const HyBidAdExperiencePerformanceValue = @"performance";
+static NSString * const HyBidAdExperienceBrandValue = @"brand";
 
 #define kStoredATOMState @"storedATOMState"
 
@@ -207,5 +211,6 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 + (NSString*)getCustomRequestSignalData;
 + (NSString*)getCustomRequestSignalData:(NSString*) mediationVendorName;
 + (void)setReporting:(BOOL)enabled;
++ (void)rightToBeForgotten;
 
 @end

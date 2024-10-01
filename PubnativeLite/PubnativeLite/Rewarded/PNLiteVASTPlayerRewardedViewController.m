@@ -77,6 +77,7 @@
 - (void)loadFullScreenPlayerWithPresenter:(HyBidRewardedPresenter *)rewardedPresenter withAd:(HyBidAd *)ad {
     self.presenter = rewardedPresenter;
     self.presenter.customCTADelegate = self.player.customCTADelegate;
+    self.presenter.skoverlayDelegate = self.player.skoverlayDelegate;
     self.adModel = ad;
     self.player = [[PNLiteVASTPlayerViewController alloc] initPlayerWithAdModel:self.adModel withAdFormat:HyBidAdFormatRewarded];
     self.player.delegate = self;
@@ -103,6 +104,7 @@
     self.player.view.frame = self.playerContainer.bounds;
     [self.playerContainer addSubview:self.player.view];
     self.presenter.customCTADelegate = self.player.customCTADelegate;
+    self.presenter.skoverlayDelegate = self.player.skoverlayDelegate;
     [self.presenter.delegate rewardedPresenterDidLoad:self.presenter viewController:self];
 }
 
@@ -130,6 +132,14 @@
     [self.presenter.delegate rewardedPresenterDidDisappear:self.presenter];
 }
 
+- (void)vastPlayerDidShowSKOverlay {
+    [self.presenter.delegate rewardedPresenterDidClick:self.presenter];
+}
+
+- (void)vastPlayerDidShowAutoStorekit {
+    [self.presenter.delegate rewardedPresenterDidClick:self.presenter];
+}
+
 - (void)vastPlayerDidClose:(PNLiteVASTPlayerViewController *)vastPlayer {
     [self.presenter hideFromViewController:self];
     [self.presenter.delegate rewardedPresenterDidDismiss:self.presenter];
@@ -139,7 +149,11 @@
     [self.presenter.delegate rewardedPresenterDidAppear:self.presenter];
 }
 
-- (void)vastPlayerWillShowEndCard:(PNLiteVASTPlayerViewController *)vastPlayer {
+- (void)vastPlayerWillShowEndCard:(PNLiteVASTPlayerViewController *)vastPlayer endcard:(HyBidVASTEndCard *)endcard {
+    if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(rewardedPresenteWillPresentEndCard:endcard:)]) {
+        [self.presenter.delegate rewardedPresenteWillPresentEndCard:self.presenter endcard:endcard];
+    }
+    
     self.skAdModel = self.adModel.isUsingOpenRTB ? self.adModel.getOpenRTBSkAdNetworkModel : self.adModel.getSkAdNetworkModel;
     if ([self.skAdModel.productParameters objectForKey:HyBidSKAdNetworkParameter.endcardDelay] != [NSNull null] && [self.skAdModel.productParameters objectForKey:HyBidSKAdNetworkParameter.endcardDelay] && [[self.skAdModel.productParameters objectForKey:HyBidSKAdNetworkParameter.endcardDelay] intValue] == -1) {
         if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(rewardedPresenterDismissesSKOverlay:)]) {
@@ -153,6 +167,9 @@
 - (void)vastPlayerDidShowEndCard:(PNLiteVASTPlayerViewController *)vastPlayer endcard:(HyBidVASTEndCard *)endcard {
     if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(rewardedPresenterDismissesCustomCTA:)] && endcard.isCustomEndCard) {
         [self.presenter.delegate rewardedPresenterDismissesCustomCTA:self.presenter];
+    }
+    if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(rewardedPresenteDidPresentCustomEndCard:)] && endcard.isCustomEndCard) {
+        [self.presenter.delegate rewardedPresenteDidPresentCustomEndCard:self.presenter];
     }
 }
 

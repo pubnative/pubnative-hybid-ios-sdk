@@ -34,16 +34,26 @@
 + (NSString *)height;
 + (NSString *)jsonData;
 + (NSString *)skoverlayEnabled;
++ (NSString *)pcSKoverlayEnabled;
 + (NSString *)audioState;
 + (NSString *)endcardEnabled;
++ (NSString *)pcEndcardEnabled;
 + (NSString *)customEndcardEnabled;
 + (NSString *)customEndCardInputValue;
 + (NSString *)endcardCloseDelay;
++ (NSString *)pcEndcardCloseDelay;
++ (NSString *)bcEndcardCloseDelay;
 + (NSString *)nativeCloseButtonDelay;
 + (NSString *)interstitialHtmlSkipOffset;
++ (NSString *)pcInterstitialHtmlSkipOffset;
 + (NSString *)rewardedHtmlSkipOffset;
++ (NSString *)pcRewardedHtmlSkipOffset;
 + (NSString *)videoSkipOffset;
++ (NSString *)pcVideoSkipOffset;
++ (NSString *)bcVideoSkipOffset;
 + (NSString *)rewardedVideoSkipOffset;
++ (NSString *)pcRewardedVideoSkipOffset;
++ (NSString *)bcRewardedVideoSkipOffset;
 + (NSString *)closeInterstitialAfterFinish;
 + (NSString *)closeRewardedAfterFinish;
 + (NSString *)fullscreenClickability;
@@ -64,8 +74,12 @@
 + (NSString *)customCtaDelay;
 + (NSString *)customCtaInputValue;
 + (NSString *)sdkAutoStorekitEnabled;
++ (NSString *)pcSDKAutoStorekitEnabled;
 + (NSString *)sdkAutoStorekitDelay;
 + (NSString *)atomEnabled;
 + (NSString *)itunesIdValue;
++ (NSString *)reducedIconSizes;
++ (NSString *)reducedIconSizesInputValue;
++ (NSString *)hideControls;
 
 @end

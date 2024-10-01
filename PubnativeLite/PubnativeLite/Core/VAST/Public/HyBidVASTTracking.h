@@ -34,4 +34,6 @@
 
 - (NSString *)event;
 
+- (NSString *)offset;
+
 @end

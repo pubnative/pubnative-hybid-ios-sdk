@@ -33,13 +33,14 @@
 
 @interface HyBidVASTEventProcessor : NSObject
 
-- (id)initWithEventsDictionary:(NSDictionary<NSString *, NSMutableArray<NSString *> *> *)eventDictionary delegate:(id<HyBidVASTEventProcessorDelegate>)delegate;
+- (id)initWithEventsDictionary:(NSDictionary<NSString *, NSMutableArray<NSString *> *> *)eventDictionary progressEventsDictionary:(NSDictionary<NSString *, NSString *> *)progressEventDictionary delegate:(id<HyBidVASTEventProcessorDelegate>)delegate;
+
 
 - (id)initWithEvents:(NSArray<HyBidVASTTracking *> *)events delegate:(id<HyBidVASTEventProcessorDelegate>)delegate;
 
 // sends the given VASTEvent
 - (void)trackEventWithType:(HyBidVASTAdTrackingEventType)type;
-
+- (void)trackProgressEvent:(NSString*)offset;
 - (void)trackImpression:(HyBidVASTImpression*)impression;
 - (void)trackImpressionWith:(NSString*)impressionURL;
 

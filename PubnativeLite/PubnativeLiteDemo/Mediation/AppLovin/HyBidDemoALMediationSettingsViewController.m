@@ -55,6 +55,11 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (IBAction)openAppLovinMediationDebuggerTouchUpInside:(UIButton *)sender
+{
+    [[ALSdk shared] showMediationDebugger];
+}
+
 #pragma mark UITextFieldDelegate
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {

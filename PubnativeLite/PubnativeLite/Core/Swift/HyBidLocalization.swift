@@ -22,7 +22,6 @@
 
 import Foundation
 
-private let bundleIdentifier = "net.pubnative.PubnativeLite"
 private let localizationTableName = "HyBidLocalizable"
 private let defaultLanguage = "en"
 
@@ -36,9 +35,8 @@ extension HyBidLocalization {
     }
     
     private var localizationFramework: Bundle {
-        guard let localizationBundle = Bundle(identifier: bundleIdentifier),
-              let bundlePath = localizationBundle.path(forResource: preferredLanguage(of: localizationBundle),
-                                                       ofType: "lproj"),
+        let localizationBundle = Bundle(for: HyBidCustomCTAView.self)
+        guard let bundlePath = localizationBundle.path(forResource: preferredLanguage(of: localizationBundle), ofType: "lproj"),
               let bundle = Bundle(path: bundlePath) else { return .main }
         
         return bundle

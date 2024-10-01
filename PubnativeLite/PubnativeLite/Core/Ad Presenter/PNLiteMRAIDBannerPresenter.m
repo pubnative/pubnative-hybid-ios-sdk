@@ -209,6 +209,10 @@
 #pragma mark SKStoreProductViewControllerDelegate
 
 - (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
+    if ([HyBidSDKConfig sharedConfig].reporting) {
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.STOREKIT_PRODUCT_VIEW_DISMISS adFormat:HyBidReportingAdFormat.BANNER properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
+    }
     if ([self.delegate respondsToSelector:@selector(adPresenterDidAppear:)]) {
         [self.delegate adPresenterDidAppear:self];
     }

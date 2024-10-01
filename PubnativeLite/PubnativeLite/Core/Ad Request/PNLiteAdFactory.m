@@ -259,7 +259,7 @@
     
     if (adSize && ![adSize isEqualTo:HyBidAdSize.SIZE_NATIVE]) {
         self.adRequestModel.requestParameters[HyBidRequestParameter.mimes] = @"text/html,text/javascript";
-        self.adRequestModel.requestParameters[HyBidRequestParameter.videomimes] = @"video/mp4,video/webm";
+        self.adRequestModel.requestParameters[HyBidRequestParameter.videomimes] = @"video/mp4,video/3gpp,video/3gpp2,video/quicktime,video/x-m4v";
         self.adRequestModel.requestParameters[HyBidRequestParameter.boxingallowed] = @"0"; // No boxing
         self.adRequestModel.requestParameters[HyBidRequestParameter.linearity] = @"1"; // Linear
         self.adRequestModel.requestParameters[HyBidRequestParameter.playbackend] = @"1"; // Video finish or user action
@@ -339,6 +339,15 @@
     if (![newMetaFields containsObject:PNLiteMeta.creativeId]) {
         [newMetaFields addObject:PNLiteMeta.creativeId];
     }
+    
+    if (![newMetaFields containsObject:PNLiteMeta.bundleId]) {
+        [newMetaFields addObject:PNLiteMeta.bundleId];
+    }
+    
+    if (![newMetaFields containsObject:PNLiteMeta.adExperience]) {
+        [newMetaFields addObject:PNLiteMeta.adExperience];
+    }
+    
     adRequestModel.requestParameters[HyBidRequestParameter.metaField] = [newMetaFields componentsJoinedByString:@","];
 }
 

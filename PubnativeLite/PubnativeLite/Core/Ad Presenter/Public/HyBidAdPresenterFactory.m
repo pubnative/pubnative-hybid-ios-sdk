@@ -31,8 +31,12 @@
     if (!adPresenter) {
         return nil;
     }
-    
-    HyBidAdTracker *adTracker = [[HyBidAdTracker alloc] initWithImpressionURLs:[ad beaconsDataWithType:PNLiteAdTrackerImpression] withClickURLs:[ad beaconsDataWithType:PNLiteAdTrackerClick] forAd:ad];
+    NSArray *impressionBeacons = [ad beaconsDataWithType:PNLiteAdTrackerImpression];
+    NSArray *customEndcardImpressionBeacons = [ad beaconsDataWithType:PNLiteAdCustomEndCardImpression];
+    NSArray *clickBeacons = [ad beaconsDataWithType:PNLiteAdTrackerClick];
+    NSArray *customEndcardClickBeacons = [ad beaconsDataWithType:PNLiteAdCustomEndCardClick];
+
+    HyBidAdTracker *adTracker = [[HyBidAdTracker alloc] initWithImpressionURLs:impressionBeacons withCustomEndcardImpressionURLs:customEndcardImpressionBeacons withClickURLs:clickBeacons withCustomEndcardClickURLs:customEndcardClickBeacons forAd:ad];
     PNLiteAdPresenterDecorator *adPresenterDecorator = [[PNLiteAdPresenterDecorator alloc] initWithAdPresenter:adPresenter
                                                                                                  withAdTracker: adTracker
                                                                                                   withDelegate:delegate];

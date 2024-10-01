@@ -119,4 +119,9 @@ BOOL isInitialized = NO;
 + (void)setReporting:(BOOL)enabled {
     [HyBidSDKConfig sharedConfig].reporting = enabled;
 }
+
++ (void)rightToBeForgotten {
+    for (NSString *key in [HyBidGDPR allGDPRKeys]) { [NSUserDefaults.standardUserDefaults removeObjectForKey: key]; }
+}
+
 @end

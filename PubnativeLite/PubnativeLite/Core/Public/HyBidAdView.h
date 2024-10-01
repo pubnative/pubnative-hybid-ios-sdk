@@ -64,6 +64,7 @@ typedef enum {
 - (void)loadWithZoneID:(NSString *)zoneID withAppToken:(NSString *)appToken andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate;
 - (void)loadWithZoneID:(NSString *)zoneID withPosition:(HyBidBannerPosition)bannerPosition andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate;
 - (void)loadExchangeAdWithZoneID:(NSString *)zoneID withPosition:(HyBidBannerPosition)bannerPosition andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate;
+- (void)setOpenRTBAdTypeWithAdFormat:(HyBidOpenRTBAdType)adFormat;
 - (void)setupAdView:(UIView *)adView;
 - (void)renderAd;
 - (void)renderAdWithContent:(NSString *)adContent withDelegate:(NSObject<HyBidAdViewDelegate> *)delegate;

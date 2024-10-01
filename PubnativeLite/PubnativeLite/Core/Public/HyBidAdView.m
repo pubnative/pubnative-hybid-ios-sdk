@@ -170,6 +170,10 @@
     }
 }
 
+- (void)setOpenRTBAdTypeWithAdFormat:(HyBidOpenRTBAdType)adFormat {
+    self.adRequest.openRTBAdType = adFormat;
+}
+
 - (void)requestAd {
     self.adRequest.adSize = self.adSize;
     [self.adRequest setIntegrationType:self.isMediation ? MEDIATION : STANDALONE withZoneID:self.zoneID withAppToken:self.appToken];
@@ -275,13 +279,13 @@
 
 - (void)setStickyBannerConstraintsAtPosition:(HyBidBannerPosition)position forView:(UIView *)adView {
     adView.translatesAutoresizingMaskIntoConstraints = NO;
-    [adView.widthAnchor constraintEqualToConstant:self.adSize.width].active = YES;
-    [adView.heightAnchor constraintEqualToConstant:self.adSize.height].active = YES;
-    [adView.centerXAnchor constraintEqualToAnchor:[self containerViewController].view.centerXAnchor].active = YES;
+    [[adView.widthAnchor constraintEqualToConstant:self.adSize.width] setActive: YES];
+    [[adView.heightAnchor constraintEqualToConstant:self.adSize.height] setActive: YES];
+    [[adView.centerXAnchor constraintEqualToAnchor:[self containerViewController].view.centerXAnchor] setActive: YES];
     if (@available(iOS 11.0, *)) {
-        [position == BANNER_POSITION_TOP ? adView.topAnchor : adView.bottomAnchor
-                                     constraintEqualToAnchor:
-         position == BANNER_POSITION_TOP ? [self containerViewController].view.safeAreaLayoutGuide.topAnchor : [self containerViewController].view.safeAreaLayoutGuide.bottomAnchor constant:position == BANNER_POSITION_TOP ? 8.0 : -8.0].active = YES;
+        [[position == BANNER_POSITION_TOP ? adView.topAnchor : adView.bottomAnchor
+                                      constraintEqualToAnchor:
+          position == BANNER_POSITION_TOP ? [self containerViewController].view.safeAreaLayoutGuide.topAnchor : [self containerViewController].view.safeAreaLayoutGuide.bottomAnchor constant:position == BANNER_POSITION_TOP ? 8.0 : -8.0] setActive: YES];
     } else {
         // Fallback on earlier versions
     }
@@ -473,10 +477,12 @@
 }
 
 - (void)reportEvent:(NSString *)eventType withProperties:(NSMutableDictionary *)properties {
-    HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc] initWith:eventType
-                                                                       adFormat:HyBidReportingAdFormat.BANNER
-                                                                     properties:[NSDictionary dictionaryWithDictionary:properties]];
-    [[HyBid reportingManager] reportEventFor:reportingEvent];
+    if ([HyBidSDKConfig sharedConfig].reporting) {
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc] initWith:eventType
+                                                                           adFormat:HyBidReportingAdFormat.BANNER
+                                                                         properties:[NSDictionary dictionaryWithDictionary:properties]];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
+    }
 }
 
 - (NSTimeInterval)elapsedTimeSince:(NSTimeInterval)timestamp {

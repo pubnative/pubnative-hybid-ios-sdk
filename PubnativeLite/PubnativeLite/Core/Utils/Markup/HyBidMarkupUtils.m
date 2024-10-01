@@ -22,7 +22,7 @@
 
 #import "HyBidMarkupUtils.h"
 #import "HyBidError.h"
-#import "HyBidVASTModel.h"
+#import "HyBidVASTParserError.h"
 
 @implementation HyBidMarkupUtils
 
@@ -38,10 +38,10 @@
         // Check if contains VAST
         if (upperCaseMatch || lowerCaseMatch) {
             if ([[localVASTModel ads] count] > 0) {
-                // Check if ads count > 0
-                block([[localVASTModel ads] count] > 0, nil);
+                block(YES, nil);
             } else {
-                block([[localVASTModel ads] count] > 0, [NSError hyBidNullAd]);
+                HyBidVASTParserError *error = [HyBidVASTParserError initWithError: [NSError hyBidNullAd] errorTagURLs: localVASTModel.errors];
+                block(YES, error);
             }
         } else {
             block(NO, nil);

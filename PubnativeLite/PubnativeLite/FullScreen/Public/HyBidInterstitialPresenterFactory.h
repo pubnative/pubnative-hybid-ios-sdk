@@ -24,10 +24,12 @@
 #import "HyBidInterstitialPresenter.h"
 #import "HyBidAd.h"
 
+@class HyBidSkipOffset;
+
 @interface HyBidInterstitialPresenterFactory : NSObject
 
 - (HyBidInterstitialPresenter *)createInterstitalPresenterWithAd:(HyBidAd *)ad
-                                             withVideoSkipOffset:(NSUInteger)videoSkipOffset
+                                             withVideoSkipOffset:(HyBidSkipOffset *)videoSkipOffset
                                               withHTMLSkipOffset:(NSUInteger)htmlSkipOffset
                                                withCloseOnFinish:(BOOL)closeOnFinish
                                                     withDelegate:(NSObject<HyBidInterstitialPresenterDelegate> *)delegate;

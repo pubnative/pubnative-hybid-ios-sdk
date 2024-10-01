@@ -59,6 +59,10 @@
     [self.view endEditing:YES];
 }
 
+- (IBAction)clearMarkupTextView:(UIButton *)sender {
+    [self clearTextFrom: self.markupTextView];
+}
+
 - (IBAction)loadMarkupTouchUpInside:(UIButton *)sender {
     [self setURTemplate];
     [self checkIfWrappedInUr];

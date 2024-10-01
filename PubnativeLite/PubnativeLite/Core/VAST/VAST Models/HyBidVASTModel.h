@@ -23,6 +23,7 @@
 #import <Foundation/Foundation.h>
 #import "HyBidVASTAd.h"
 
+typedef NSArray<NSString *> * HyBidVASTErrorTagURLs;
 @interface HyBidVASTModel : NSObject
 
 - (instancetype)initWithData:(NSData *)data;
@@ -40,7 +41,7 @@
 /**
  An array of errors.
  */
-- (NSArray<NSString *> *)errors;
+- (HyBidVASTErrorTagURLs)errors;
 
 - (NSString *)vastString;
 

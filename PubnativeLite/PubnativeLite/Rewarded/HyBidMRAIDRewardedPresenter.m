@@ -194,7 +194,11 @@
 #pragma mark SKStoreProductViewControllerDelegate
 
 - (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"adSkAdnetworkViewControllerIsDismissed" object:nil];
+    if ([HyBidSDKConfig sharedConfig].reporting) {
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.STOREKIT_PRODUCT_VIEW_DISMISS adFormat:HyBidReportingAdFormat.REWARDED properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
+    }
+    [HyBidNotificationCenter.shared post: HyBidNotificationTypeSKStoreProductViewIsDismissed object: nil userInfo: nil];
     [self.delegate rewardedPresenterDidAppear:self];
 }
 

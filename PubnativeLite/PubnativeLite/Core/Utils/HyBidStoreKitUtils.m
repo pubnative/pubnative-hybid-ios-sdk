@@ -83,6 +83,7 @@
     [cleanDictionary removeObjectForKey:HyBidSKAdNetworkParameter.endcardDelay];
     [cleanDictionary removeObjectForKey:HyBidSKAdNetworkParameter.position];
     [cleanDictionary removeObjectForKey:HyBidSKAdNetworkParameter.present];
+    [cleanDictionary removeObjectForKey:HyBidSKAdNetworkParameter.click];
 
     return cleanDictionary;
 }

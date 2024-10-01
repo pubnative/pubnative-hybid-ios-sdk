@@ -134,13 +134,17 @@ static HyBidATOMStatus atomStatus = HyBidATOMStatusIdle;
     if (status == HyBidATOMStatusStarted) {
         reportingType = HyBidReportingEventType.ATOM_ACTIVATED;
     }
-    HyBidReportingEvent *reportingEvent = [[HyBidReportingEvent alloc] initWith:reportingType adFormat:nil properties:nil];
-    [[HyBid reportingManager] reportEventFor:reportingEvent];
+    if ([HyBidSDKConfig sharedConfig].reporting) {
+        HyBidReportingEvent *reportingEvent = [[HyBidReportingEvent alloc] initWith:reportingType adFormat:nil properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
+    }
 }
 
 + (void)reportReceivedRemoteConfig:(NSString*)name{
-    HyBidReportingEvent *reportingEvent = [[HyBidReportingEvent alloc] initWith:name adFormat:nil properties:nil];
-    [[HyBid reportingManager] reportEventFor:reportingEvent];
+    if ([HyBidSDKConfig sharedConfig].reporting) {
+        HyBidReportingEvent *reportingEvent = [[HyBidReportingEvent alloc] initWith:name adFormat:nil properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
+    }
 }
 
 @end

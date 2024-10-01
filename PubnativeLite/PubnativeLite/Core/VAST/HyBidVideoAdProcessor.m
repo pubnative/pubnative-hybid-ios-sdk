@@ -46,41 +46,9 @@
 - (void)processVASTString:(NSString *)vastString completion:(videoAdProcessorCompletionBlock)block {
 
    [self.parser parseWithData:[vastString dataUsingEncoding:NSUTF8StringEncoding]
-                   completion:^(HyBidVASTModel *model, HyBidVASTParserError error) {
+                   completion:^(HyBidVASTModel *model, HyBidVASTParserError* error) {
        if (!model) {
-           NSError *parseError = [NSError hyBidParseError];
-           
-           switch(error) {
-               case 0: // HyBidVASTParserError_None
-                   parseError = [NSError hyBidUnknownError];
-                   break;
-               case 1: // HyBidVASTParserError_XMLParse
-                   parseError = [NSError hyBidParseError];
-                   break;
-               case 2: // HyBidVASTParserError_SchemaValidation
-                   parseError = [NSError hyBidVASTParserSchemaValidationError];
-                   break;
-               case 3: // HyBidVASTParserError_TooManyWrappers
-                   parseError = [NSError hyBidVASTParserTooManyWrappersError];
-                   break;
-               case 4: // HyBidVASTParserError_NoCompatibleMediaFile
-                   parseError = [NSError hyBidVASTParserNoCompatibleMediaFileError];
-                   break;
-               case 5: // HyBidVASTParserError_NoInternetConnection
-                   parseError = [NSError hyBidVASTParserNoInternetConnectionError];
-                   break;
-               case 6: // HyBidVASTParserError_MovieTooShort
-                   parseError = [NSError hyBidVASTParserMovieTooShortError];
-                   break;
-               case 7: // HyBidVASTParserError_BothAdAndErrorPresentInRootResponse
-                   parseError = [NSError hyBidVASTBothAdAndErrorPresentInRootResponse];
-                   break;
-               case 8: // HyBidVASTParserError_NoAdResponse:
-                   parseError = [NSError hyBidVASTNoAdResponse];
-                   break;
-           }
-           
-           block(nil, parseError);
+           block(nil, error);
        } else {
            block(model, nil);
        }

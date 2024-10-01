@@ -324,9 +324,11 @@
     if ([self respondsToSelector:@selector(presentViewController:animated:completion:)] &&
         [self respondsToSelector:@selector(dismissViewControllerAnimated:completion:)]) {
         // iOS 6+
-        [self dismissViewControllerAnimated:NO completion:^{
-             [presentingVC presentViewController:self animated:NO completion:nil];
-         }];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self dismissViewControllerAnimated:NO completion:^{
+                [presentingVC presentViewController:self animated:NO completion:nil];
+            }];
+        });
     } else {
         // < iOS 6
         // Turn off the warning about using a deprecated method.

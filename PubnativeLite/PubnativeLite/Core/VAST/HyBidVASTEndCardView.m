@@ -92,7 +92,6 @@
 @property (nonatomic, assign) BOOL shouldTriggerAdClick;
 
 @property (nonatomic, assign) BOOL withSkipButton;
-@property (nonatomic, strong) HyBidAdTracker *adTracker;
 @property (nonatomic, strong) NSString *throughClickURL;
 @property (nonatomic, strong) NSString *appID;
 @property (nonatomic, assign) BOOL showStorekitEnabled;
@@ -102,6 +101,7 @@
 @property (nonatomic, assign) BOOL isExtensionDisplay;
 @property (nonatomic, assign) BOOL shouldOpenBrowser;
 @property (nonatomic, assign) BOOL shouldResumeTimer;
+@property (nonatomic, assign) BOOL isTimerPaused;
 
 @property (nonatomic, assign) NSInteger delayTimeRemaining;
 @property (nonatomic, assign) BOOL storekitPageIsPresented;
@@ -112,6 +112,7 @@
 @property (nonatomic, strong) NSArray<NSString *> *vastCompanionsClicksThrough;
 @property (nonatomic, strong) NSArray<NSString *> *vastCompanionsClicksTracking;
 @property (nonatomic, strong) NSArray<NSString *> *vastVideoClicksTracking;
+@property (nonatomic, assign) BOOL autoClickHasBeenTracked;
 @end
 
 @implementation HyBidVASTEndCardView
@@ -135,6 +136,7 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
         self.rootViewController = viewController;
         [self determineEndCardCloseDelayForAd:ad];
         self.ad = ad;
+        self.ad.isEndcard = YES;
         self.vastAd = vastAd;
         self.iconXposition = iconXposition;
         self.iconYposition = iconYposition;
@@ -143,7 +145,6 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
         self.vastCompanionsClicksThrough = vastCompanionsClicksThrough;
         self.vastCompanionsClicksTracking = vastCompanionsClicksTracking;
         self.vastVideoClicksTracking = vastVideoClicksTracking;
-        
         self.shouldOpenBrowser = NO;
         self.storekitPageIsPresented = NO;
         self.storekitPageIsBeingPresented = NO;
@@ -153,9 +154,7 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
         
         self.horizontalConstraints = [NSMutableArray new];
         self.verticalConstraints = [NSMutableArray new];
-        
-        self.adTracker = [[HyBidAdTracker alloc] initWithImpressionURLs:[self.ad beaconsDataWithType:PNLiteAdCustomEndCardImpression] withClickURLs:[self.ad beaconsDataWithType:PNLiteAdCustomEndCardClick] forAd:self.ad];
-        
+                
         [self obtainContentInfoFromSuperView:self.rootViewController.view completionHandler:^(UIView * _Nullable contentInfoView) {
             if (contentInfoView) {
                 [contentInfoView setHidden:YES];
@@ -168,8 +167,9 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
 }
 
 - (void)determineEndCardCloseDelayForAd:(HyBidAd *)ad {
-    if (ad.endcardCloseDelay) {
-        self.endCardCloseDelay = [[HyBidSkipOffset alloc] initWithOffset:ad.endcardCloseDelay isCustom:YES];
+    NSNumber *skipOffset = ad.endcardCloseDelay;
+    if (skipOffset && [skipOffset doubleValue] >= 0) {
+        self.endCardCloseDelay = [[HyBidSkipOffset alloc] initWithOffset:skipOffset isCustom:YES];
     } else {
         self.endCardCloseDelay = HyBidConstants.endCardCloseOffset;
     }
@@ -186,36 +186,36 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
 
 - (void)addHorizontalConstraintsInRelationToView:(UIView *)view
 {
-    [self.horizontalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.mainView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
-    [self.horizontalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.mainView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
-    [self.horizontalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.mainView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeLeading multiplier:1 constant:0]];
+    [self.horizontalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.mainView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+    [self.horizontalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.mainView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:view.safeAreaLayoutGuide attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
+    [self.horizontalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.mainView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:view.safeAreaLayoutGuide attribute:NSLayoutAttributeLeading multiplier:1 constant:0]];
     
     if (self.ctaButton != nil) {
-        [self.horizontalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.mainView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeWidth multiplier:0.7 constant:0]];
-        [self.horizontalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.companionView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
-        [self.horizontalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.companionView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeWidth multiplier:0.3 constant:0]];
-        [self.horizontalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.companionView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
+        [self.horizontalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.mainView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:view.safeAreaLayoutGuide attribute:NSLayoutAttributeWidth multiplier:0.7 constant:0]];
+        [self.horizontalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.companionView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:view.safeAreaLayoutGuide attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
+        [self.horizontalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.companionView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:view.safeAreaLayoutGuide attribute:NSLayoutAttributeWidth multiplier:0.3 constant:0]];
+        [self.horizontalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.companionView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:view.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
     } else {
-        [self.horizontalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.mainView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
-        [self.horizontalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.mainView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
+        [self.horizontalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.mainView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:view.safeAreaLayoutGuide attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
+        [self.horizontalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.mainView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:view.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
     }
 }
 
 - (void)addVerticalConstraintsInRelationToView:(UIView *)view
 {
-    [self.verticalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.mainView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
-    [self.verticalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.mainView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeLeading multiplier:1 constant:0]];
-    [self.verticalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.mainView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
+    [self.verticalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.mainView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+    [self.verticalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.mainView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:view.safeAreaLayoutGuide attribute:NSLayoutAttributeLeading multiplier:1 constant:0]];
+    [self.verticalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.mainView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:view.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
 
     if (self.ctaButton != nil) {
         [self.verticalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.companionView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.mainView attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
-        [self.verticalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.companionView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeHeight multiplier:0.2 constant:0]];
-        [self.verticalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.companionView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeLeading multiplier:1 constant:0]];
-        [self.verticalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.companionView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
-        [self.verticalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.mainView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeHeight multiplier:0.8 constant:0]];
+        [self.verticalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.companionView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:view.safeAreaLayoutGuide attribute:NSLayoutAttributeHeight multiplier:0.2 constant:0]];
+        [self.verticalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.companionView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:view.safeAreaLayoutGuide attribute:NSLayoutAttributeLeading multiplier:1 constant:0]];
+        [self.verticalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.companionView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:view.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
+        [self.verticalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.mainView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:view.safeAreaLayoutGuide attribute:NSLayoutAttributeHeight multiplier:0.8 constant:0]];
     } else {
-        [self.verticalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.mainView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
-        [self.verticalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.mainView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
+        [self.verticalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.mainView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:view.safeAreaLayoutGuide attribute:NSLayoutAttributeHeight multiplier:1 constant:0]];
+        [self.verticalConstraints addObject:[NSLayoutConstraint constraintWithItem:self.mainView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:view.safeAreaLayoutGuide attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
     }
 }
 
@@ -244,8 +244,8 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
                                                object: nil];
     
     [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(applicationDidEnterBackground:)
-                                                 name: UIApplicationDidEnterBackgroundNotification
+                                             selector: @selector(applicationWillResignActive:)
+                                                 name: UIApplicationWillResignActiveNotification
                                                object: nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -268,23 +268,37 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
                                                  name:@"adFeedbackViewDidShow"
                                                object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(pauseStorekitDelayTimer)
-                                                 name:@"adSkAdnetworkViewControllerIsShown"
-                                               object:nil];
+    [HyBidNotificationCenter.shared addObserver: self
+                                       selector: @selector(pauseStorekitDelayTimer)
+                               notificationType: HyBidNotificationTypeSKStoreProductViewIsShown
+                                         object: nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(resumeStorekitDelayTimer)
-                                                 name:@"adSkAdnetworkViewControllerIsDismissed"
-                                               object:nil];
+    [HyBidNotificationCenter.shared addObserver: self
+                                       selector: @selector(resumeStorekitDelayTimer)
+                               notificationType: HyBidNotificationTypeSKStoreProductViewIsDismissed
+                                         object: nil];
     
+    [HyBidNotificationCenter.shared addObserver:self
+                                        selector:@selector(handleSKStoreProductViewIsShown:)
+                               notificationType:HyBidNotificationTypeSKStoreProductViewIsShown
+                                          object:nil];
+    
+    [HyBidNotificationCenter.shared addObserver:self
+                                        selector:@selector(handleSKStoreProductViewIsDismissed:)
+                               notificationType:HyBidNotificationTypeSKStoreProductViewIsDismissedFromVideo
+                                          object:nil];
 }
 
-- (void)applicationDidBecomeActive:(NSNotification*)notification {
+- (void)applicationDidBecomeActive:(NSNotification *)notification {
     [self resumeCloseButtonTimer];
     if (self.shouldResumeTimer && self.storekitPageIsBeingPresented == NO) {
         [self resumeStorekitDelayTimer];
     }
+}
+
+- (void)applicationWillResignActive:(NSNotification *)notification {
+    [self pauseCloseButtonTimer];
+    [self pauseStorekitDelayTimer];
 }
 
 - (void)resumeCloseButtonTimer {
@@ -302,7 +316,7 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
 - (void)resumeStorekitDelayTimer {
     if (!self.isInterstitial) { return; }
 
-    if (self.storekitDelayTimeElapsed > 0) {
+    if (self.storekitDelayTimeElapsed > 0 && self.isTimerPaused) {
         NSTimeInterval remainingTime = self.sdkAutoStorekitDelay - self.storekitDelayTimeElapsed;
         if (remainingTime > 0) {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -310,12 +324,8 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
             });
             self.storekitDelayTimerStartDate = [NSDate date];
         }
+        self.isTimerPaused = NO;
     }
-}
-
-- (void)applicationDidEnterBackground:(NSNotification*)notification {
-    [self pauseCloseButtonTimer];
-    [self pauseStorekitDelayTimer];
 }
 
 - (void)pauseCloseButtonTimer {
@@ -327,11 +337,22 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
 }
 
 - (void)pauseStorekitDelayTimer {
-    if ([self.delayTimer isValid]) {
+    if ([self.delayTimer isValid] && !self.isTimerPaused) {
         [self.delayTimer invalidate];
         self.delayTimer = nil;
         self.storekitDelayTimeElapsed += [[NSDate date] timeIntervalSinceDate:self.storekitDelayTimerStartDate];
+        self.isTimerPaused = YES;
     }
+}
+
+- (void)handleSKStoreProductViewIsShown:(NSNotification *)notification {
+    NSNumber *isShownNumber = notification.object;
+    self.storekitPageIsBeingPresented = [isShownNumber boolValue];
+}
+
+- (void)handleSKStoreProductViewIsDismissed:(NSNotification *)notification {
+    NSNumber *isDismissedNumber = notification.object;
+    self.storekitPageIsBeingPresented = ![isDismissedNumber boolValue];
 }
 
 - (void)setupUI
@@ -358,7 +379,7 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
     self.closeButtonTimeElapsed = -1;
         
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.closeButton = [[HyBidCloseButton alloc] initWithRootView:self.rootViewController.view action:@selector(close) target:self showSkipButton:self.withSkipButton];
+        self.closeButton = [[HyBidCloseButton alloc] initWithRootView:self.rootViewController.view action:@selector(close) target:self showSkipButton:self.withSkipButton ad:self.ad];
         if([self isContentInfoInTopLeftPosition]){
             if (@available(iOS 11.0, *)) {
                 [NSLayoutConstraint activateConstraints:@[
@@ -397,11 +418,15 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
             [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_close];
             [self.delegate vastEndCardViewCloseButtonTapped];
             if (!self.endCard.isCustomEndCard) {
-                HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.DEFAULT_ENDCARD_CLOSE adFormat:nil properties:nil];
-                [[HyBid reportingManager] reportEventFor:reportingEvent];
+                if ([HyBidSDKConfig sharedConfig].reporting) {
+                    HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.DEFAULT_ENDCARD_CLOSE adFormat:nil properties:nil];
+                    [[HyBid reportingManager] reportEventFor:reportingEvent];
+                }
             } else {
-                HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.CUSTOM_ENDCARD_CLOSE adFormat:nil properties:nil];
-                [[HyBid reportingManager] reportEventFor:reportingEvent];
+                if ([HyBidSDKConfig sharedConfig].reporting) {
+                    HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.CUSTOM_ENDCARD_CLOSE adFormat:nil properties:nil];
+                    [[HyBid reportingManager] reportEventFor:reportingEvent];
+                }
             }
         }];
     } else {
@@ -409,8 +434,10 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
             [self.closeButton removeFromSuperview];
         }
         if (!self.endCard.isCustomEndCard) {
-            HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.DEFAULT_ENDCARD_SKIP adFormat:nil properties:nil];
-            [[HyBid reportingManager] reportEventFor:reportingEvent];
+            if ([HyBidSDKConfig sharedConfig].reporting) {
+                HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.DEFAULT_ENDCARD_SKIP adFormat:nil properties:nil];
+                [[HyBid reportingManager] reportEventFor:reportingEvent];
+            }
         }
         [self.delegate vastEndCardViewSkipButtonTapped];
     }
@@ -522,7 +549,6 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
 {
     [self obtainContentInfoFromSuperView:self.rootViewController.view completionHandler:^(UIView * _Nullable contentInfoView) {
         if (contentInfoView) {
-            [self.rootViewController.view bringSubviewToFront: contentInfoView];
             [self addingConstrainstForDynamicPosition: contentInfoView iconXposition: self.iconXposition iconYposition: self.iconYposition];
             [contentInfoView setHidden: NO];
         }
@@ -530,6 +556,9 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
 }
 
 - (void)obtainContentInfoFromSuperView:(UIView *) superview completionHandler:(void (^)(UIView * _Nullable contentInfoView)) completionHandler {
+    if (self.endCard.isCustomEndCard) {
+        return completionHandler(nil);
+    }
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"tag == %d", kContentInfoContainerTag];
     NSArray<UIView *> *subviews = [superview.subviews filteredArrayUsingPredicate:predicate];
     completionHandler(subviews.firstObject);
@@ -544,32 +573,41 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
 }
 
 - (void)addingConstrainstForDynamicPosition:(UIView *) contentInfoViewContainer iconXposition:(NSString *) iconXposition iconYposition:(NSString *) iconYposition {
+    
+    if (!contentInfoViewContainer) { return; }
+    [contentInfoViewContainer removeFromSuperview];
+    [self addSubview:contentInfoViewContainer];
+    
     contentInfoViewContainer.translatesAutoresizingMaskIntoConstraints = false;
+    
+    [[contentInfoViewContainer.widthAnchor constraintEqualToConstant: contentInfoViewContainer.frame.size.width] setActive: YES];
+    [[contentInfoViewContainer.heightAnchor constraintEqualToConstant: contentInfoViewContainer.frame.size.height] setActive: YES];
+    
     if([iconXposition isEqualToString: @"right"]){
         if (@available(iOS 11.0, *)) {
-            [contentInfoViewContainer.trailingAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.trailingAnchor].active = YES;
+            [[contentInfoViewContainer.trailingAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.trailingAnchor] setActive: YES];
         } else {
-            [contentInfoViewContainer.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
+            [[contentInfoViewContainer.trailingAnchor constraintEqualToAnchor:self.trailingAnchor] setActive: YES];
         }
     } else {
         if (@available(iOS 11.0, *)) {
-            [contentInfoViewContainer.leadingAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.leadingAnchor].active = YES;
+            [[contentInfoViewContainer.leadingAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.leadingAnchor] setActive: YES];
         } else {
-            [contentInfoViewContainer.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
+            [[contentInfoViewContainer.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive: YES];
         }
     }
 
     if([iconYposition isEqualToString: @"bottom"]){
         if (@available(iOS 11.0, *)) {
-            [contentInfoViewContainer.bottomAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.bottomAnchor].active = YES;
+            [[contentInfoViewContainer.bottomAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.bottomAnchor] setActive: YES];
         } else {
-            [contentInfoViewContainer.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = YES;
+            [[contentInfoViewContainer.bottomAnchor constraintEqualToAnchor:self.bottomAnchor] setActive: YES];
         }
     } else {
         if (@available(iOS 11.0, *)) {
-            [contentInfoViewContainer.topAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.topAnchor].active = YES;
+            [[contentInfoViewContainer.topAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.topAnchor] setActive: YES];
         } else {
-            [contentInfoViewContainer.topAnchor constraintEqualToAnchor:self.topAnchor].active = YES;
+            [[contentInfoViewContainer.topAnchor constraintEqualToAnchor:self.topAnchor] setActive: YES];
         }
     }
 }
@@ -706,8 +744,10 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
               UIImage *image = [[UIImage alloc] initWithData:data];
               completionBlock(YES,image);
           } else {
-              HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR errorMessage: error.localizedDescription properties:nil];
-              [[HyBid reportingManager] reportEventFor:reportingEvent];
+              if ([HyBidSDKConfig sharedConfig].reporting) {
+                  HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR errorMessage: error.localizedDescription properties:nil];
+                  [[HyBid reportingManager] reportEventFor:reportingEvent];
+              }
               completionBlock(NO,nil);
           }
       }] resume];
@@ -780,73 +820,16 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
         }
         return;
     }
-    NSArray<HyBidVASTCreative *> *creatives = [[self.vastAd inLine] creatives];
-    NSMutableArray<HyBidVASTVideoClicks *> *videoClicks = [NSMutableArray new];
-    HyBidVASTCompanionAds *companionAds;
-    NSString *throughClickURL;
     
     if (self.sdkAutoStorekitEnabled && self.sdkAutoStorekitDelay > 0){
         [self pauseStorekitDelayTimer];
     }
     
-    if ([[self.endCard clickThrough] length] > 0) {
-        throughClickURL = [self.endCard clickThrough];
-    }
+    NSDictionary *trackersDictionary = [self gettingTrackingAndThroughClickURLWith:endCardType];
+    NSMutableArray<NSString *> *trackingClickURLs = [trackersDictionary objectForKey: @"trackingClickURLs"];
+    NSString *throughClickURL = [trackersDictionary objectForKey: @"throughClickURL"];
     
-    for (HyBidVASTCreative *creative in creatives) {
-        if ([creative companionAds] != nil) {
-            companionAds = [creative companionAds];
-            for (HyBidVASTCompanion *companion in [companionAds companions]) {
-                NSString *clickThrough = [[companion companionClickThrough] content];
-                if ([clickThrough length] != 0){
-                    throughClickURL = [[companion companionClickThrough] content];
-                }
-            }
-        }
-        if ([creative linear] != nil && [[creative linear] videoClicks] != nil) {
-            HyBidVASTLinear* linear = [creative linear];
-            HyBidVASTVideoClicks* videoClicksObject = [linear videoClicks];
-            [videoClicks addObject:[[creative linear] videoClicks]];
-            
-            if([[videoClicksObject clickThrough] content] != nil && [throughClickURL length] == 0) {
-                throughClickURL = [[videoClicksObject clickThrough] content];
-            }
-            break;
-        }
-    }
-    
-    NSMutableArray<NSString*> *companionClicksThroughOfLastInline = [NSMutableArray new];
-    for (HyBidVASTCreative *creative in creatives) {
-        if ([creative companionAds] != nil) {
-            companionAds = [creative companionAds];
-            for (HyBidVASTCompanion *companion in [companionAds companions]) {
-                NSString *clickThrough = [[companion companionClickThrough] content];
-                if (clickThrough && [clickThrough length] != 0){
-                    [companionClicksThroughOfLastInline addObject: clickThrough];
-                }
-            }
-        }
-    }
-    
-    
-    NSString *lastCompanionClickThrough = companionClicksThroughOfLastInline.count == 0
-                                        ? self.vastCompanionsClicksThrough.lastObject
-                                        : companionClicksThroughOfLastInline.firstObject;
-    if (lastCompanionClickThrough && lastCompanionClickThrough.length != 0) {
-        throughClickURL = lastCompanionClickThrough;
-    }
-    
-    NSMutableArray<NSString *> *trackingClickURLs = [[NSMutableArray alloc] init];
-    
-    if (self.vastVideoClicksTracking && self.vastVideoClicksTracking.count > 0) {
-        [trackingClickURLs addObjectsFromArray: [[self.vastVideoClicksTracking reverseObjectEnumerator] allObjects]];
-    }
-    
-    if (self.vastCompanionsClicksTracking && self.vastCompanionsClicksTracking.count > 0) {
-        [trackingClickURLs addObjectsFromArray: [[self.vastCompanionsClicksTracking reverseObjectEnumerator] allObjects]];
-    }
-    
-    if ([trackingClickURLs count] > 0) {
+    if (trackingClickURLs && [trackingClickURLs count] > 0) {
         [self.vastEventProcessor sendVASTUrls:trackingClickURLs];
     }
     
@@ -921,6 +904,104 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
     }
 }
 
+- (NSDictionary*)gettingTrackingAndThroughClickURLWith:(HyBidVASTEndCardType)endCardType {
+    NSArray<HyBidVASTCreative *> *creatives = [[self.vastAd inLine] creatives];
+    NSMutableArray<HyBidVASTVideoClicks *> *videoClicks = [NSMutableArray new];
+    HyBidVASTCompanionAds *companionAds;
+    NSString *throughClickURL;
+    
+    if ([[self.endCard clickThrough] length] > 0) {
+        throughClickURL = [self.endCard clickThrough];
+    }
+    
+    NSMutableArray<NSString *> *trackingClickURLs = [[NSMutableArray alloc] init];
+    
+    for (HyBidVASTCreative *creative in creatives) {
+        if ([creative companionAds] != nil) {
+            companionAds = [creative companionAds];
+            for (HyBidVASTCompanion *companion in [companionAds companions]) {
+                NSString *clickThrough = [[companion companionClickThrough] content];
+                if ([clickThrough length] != 0){
+                    throughClickURL = [[companion companionClickThrough] content];
+                }
+            }
+        }
+        if ([creative linear] != nil && [[creative linear] videoClicks] != nil) {
+            HyBidVASTLinear* linear = [creative linear];
+            HyBidVASTVideoClicks* videoClicksObject = [linear videoClicks];
+            [videoClicks addObject:[[creative linear] videoClicks]];
+            
+            if([[videoClicksObject clickThrough] content] != nil && [throughClickURL length] == 0) {
+                throughClickURL = [[videoClicksObject clickThrough] content];
+            }
+        }
+    }
+    
+    NSMutableArray<NSString*> *companionClicksThroughOfLastInline = [NSMutableArray new];
+    for (HyBidVASTCreative *creative in creatives) {
+        if ([creative companionAds] != nil) {
+            companionAds = [creative companionAds];
+            for (HyBidVASTCompanion *companion in [companionAds companions]) {
+                NSString *clickThrough = [[companion companionClickThrough] content];
+                if (clickThrough && [clickThrough length] != 0){
+                    [companionClicksThroughOfLastInline addObject: clickThrough];
+                }
+            }
+        }
+    }
+    
+    
+    NSString *lastCompanionClickThrough = companionClicksThroughOfLastInline.count == 0
+                                        ? self.vastCompanionsClicksThrough.lastObject
+                                        : companionClicksThroughOfLastInline.firstObject;
+    if (lastCompanionClickThrough && lastCompanionClickThrough.length != 0) {
+        throughClickURL = lastCompanionClickThrough;
+    }
+    
+    if (self.vastVideoClicksTracking && self.vastVideoClicksTracking.count > 0) {
+        [trackingClickURLs addObjectsFromArray: [[self.vastVideoClicksTracking reverseObjectEnumerator] allObjects]];
+    }
+    
+    if (self.vastCompanionsClicksTracking && self.vastCompanionsClicksTracking.count > 0) {
+        [trackingClickURLs addObjectsFromArray: [[self.vastCompanionsClicksTracking reverseObjectEnumerator] allObjects]];
+    }
+    
+    NSMutableDictionary *values = [NSMutableDictionary dictionary];
+    if (trackingClickURLs) { values[@"trackingClickURLs"] = trackingClickURLs; }
+    if (throughClickURL) { values[@"throughClickURL"] = throughClickURL; }
+    
+    return values;
+}
+
+- (NSDictionary*)gettingTrackingAndThroughClickURLForAutoStorekit:(HyBidVASTEndCardType)endCardType {
+    NSArray<HyBidVASTCreative *> *creatives = [[self.vastAd inLine] creatives];
+    NSMutableArray<HyBidVASTVideoClicks *> *videoClicks = [NSMutableArray new];
+    NSMutableArray<NSString *> *trackingClickURLs = [[NSMutableArray alloc] init];
+    NSString *throughClickURL;
+    
+    for (HyBidVASTCreative *creative in creatives) {
+        if ([creative linear] != nil && [[creative linear] videoClicks] != nil) {
+            HyBidVASTLinear* linear = [creative linear];
+            HyBidVASTVideoClicks* videoClicksObject = [linear videoClicks];
+            [videoClicks addObject:[[creative linear] videoClicks]];
+            
+            if([[videoClicksObject clickThrough] content]) {
+                throughClickURL = [[videoClicksObject clickThrough] content];
+            }
+        }
+    }
+    
+    if (self.vastVideoClicksTracking && self.vastVideoClicksTracking.count > 0) {
+        [trackingClickURLs addObjectsFromArray: [[self.vastVideoClicksTracking reverseObjectEnumerator] allObjects]];
+    }
+    
+    NSMutableDictionary *values = [NSMutableDictionary dictionary];
+    if (trackingClickURLs) { values[@"trackingClickURLs"] = trackingClickURLs; }
+    if (throughClickURL) { values[@"throughClickURL"] = throughClickURL; }
+    
+    return values;
+}
+
 - (HyBidCustomEndcardDisplayBehaviour)customEndcardDisplayBehaviourFromString:(NSString *)customEndcardDisplayBehaviour {
     if([customEndcardDisplayBehaviour isKindOfClass:[NSString class]]) {
         if ([customEndcardDisplayBehaviour isEqualToString:HyBidCustomEndcardDisplayFallbackValue]) {
@@ -949,8 +1030,8 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
 
     self.isFallbackDisplay = ([self customEndcardDisplayBehaviourFromString:ad.customEndcardDisplay] == HyBidCustomEndcardDisplayFallback);
     self.isExtensionDisplay = ([self customEndcardDisplayBehaviourFromString:ad.customEndcardDisplay] == HyBidCustomEndcardDisplayExtention);
-    BOOL isCustomEndcardEnabled = [ad.customEndcardEnabled boolValue];
-    BOOL isEndcardEnabled = [ad.endcardEnabled boolValue];
+    BOOL isCustomEndcardEnabled = [ad.customEndcardEnabled boolValue] ? [ad.customEndcardEnabled boolValue] : HyBidConstants.showCustomEndCard;
+    BOOL isEndcardEnabled = [ad.endcardEnabled boolValue] ? [ad.endcardEnabled boolValue] : HyBidConstants.showEndCard;
 
     if (isEndcardEnabled) {
         if ([ad.customEndcardEnabled boolValue] && self.isExtensionDisplay) {
@@ -1016,7 +1097,7 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
 }
 
 - (void)presentSdkAutoStorekitPage {
-    if (self.showStorekitEnabled &&  self.isInterstitial) {
+    if (self.showStorekitEnabled && self.isInterstitial) {
         if(self.endCard.isCustomEndCard && self.isExtensionDisplay) {
             self.shouldOpenBrowser = YES;
             if (self.sdkAutoStorekitDelay > 0) {
@@ -1064,16 +1145,21 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
             }
             
             if(shouldOpenBrowser) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters: [HyBidStoreKitUtils cleanUpProductParams:productParams] delegate: self];
-                    self.storekitPageIsBeingPresented = YES;
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"SKStoreProductViewIsReadyToPresentForSDKStorekit" object:nil];
-                    [skAdnetworkViewController presentSKStoreProductViewController:^(BOOL success) {
-                        if (success) {
-                            [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"StoreKit from SDK is presented"]];
-                        }
-                    }];
-                });
+                if(!self.storekitPageIsBeingPresented) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters: [HyBidStoreKitUtils cleanUpProductParams:productParams] delegate: self];
+                        self.storekitPageIsBeingPresented = YES;
+                        [HyBidNotificationCenter.shared post: HyBidNotificationTypeSKStoreProductViewIsReadyToPresentForSDKStorekit object: nil userInfo: nil];
+                        [skAdnetworkViewController presentSKStoreProductViewController:^(BOOL success) {
+                            if (success) {
+                                if ([skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] != [NSNull null] && [[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] boolValue]){
+                                    [self fireClicksForAutoStorekit];
+                                }
+                                [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"StoreKit from SDK is presented"]];
+                            }
+                        }];
+                    });
+                }
             }
         } else {
             if(endCardType == HyBidEndCardType_STATIC) {
@@ -1113,22 +1199,66 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
 
 - (void)trackEndCardImpression {
     if (!self.endCard.isCustomEndCard) {
-        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.DEFAULT_ENDCARD_IMPRESSION adFormat: self.isInterstitial ? HyBidReportingAdFormat.FULLSCREEN : HyBidReportingAdFormat.REWARDED properties:nil];
-        [[HyBid reportingManager] reportEventFor:reportingEvent];
+        if ([HyBidSDKConfig sharedConfig].reporting) {
+            HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.DEFAULT_ENDCARD_IMPRESSION adFormat: self.isInterstitial ? HyBidReportingAdFormat.FULLSCREEN : HyBidReportingAdFormat.REWARDED properties:nil];
+            [[HyBid reportingManager] reportEventFor:reportingEvent];
+        }
         return;
-    }
+    }   
     
-    [self.adTracker trackCustomEndCardImpressionWithAdFormat: self.isInterstitial ? HyBidReportingAdFormat.FULLSCREEN : HyBidReportingAdFormat.REWARDED];
 }
 
 - (void)trackEndCardClick {
     if (!self.endCard.isCustomEndCard) {
-        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.DEFAULT_ENDCARD_CLICK adFormat:self.isInterstitial ? HyBidReportingAdFormat.FULLSCREEN : HyBidReportingAdFormat.REWARDED properties:nil];
-        [[HyBid reportingManager] reportEventFor:reportingEvent];
+        if ([HyBidSDKConfig sharedConfig].reporting) {
+            HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.DEFAULT_ENDCARD_CLICK adFormat:self.isInterstitial ? HyBidReportingAdFormat.FULLSCREEN : HyBidReportingAdFormat.REWARDED properties:nil];
+            [[HyBid reportingManager] reportEventFor:reportingEvent];
+        }
         return;
     }
-    
-    [self.adTracker trackCustomEndCardClickWithAdFormat: self.isInterstitial ? HyBidReportingAdFormat.FULLSCREEN : HyBidReportingAdFormat.REWARDED];
+}
+
+- (void)fireClicksForAutoStorekit {
+    if (!self.autoClickHasBeenTracked) {
+        HyBidSkAdNetworkModel* skAdNetworkModel = [self.ad getSkAdNetworkModel];
+        if ([skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] != [NSNull null] && [[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] boolValue]) {
+            
+            self.shouldTriggerAdClick = [self.endCard.content containsString: adClickTriggerFlag] ? YES : NO;
+            if (self.vastAd == nil || self.shouldTriggerAdClick) {
+                if ([[self.endCard clickTrackings] count] > 0) {
+                    [self.vastEventProcessor sendVASTUrls:[self.endCard clickTrackings]];
+                }
+            } else {
+                HyBidVASTEndCardType endCardType = [self.endCard type];
+                NSDictionary *trackersDictionary = [self gettingTrackingAndThroughClickURLForAutoStorekit:endCardType];
+                NSMutableArray<NSString *> *trackingClickURLs = [trackersDictionary objectForKey: @"trackingClickURLs"];
+                NSString *throughClickURL = [trackersDictionary objectForKey: @"throughClickURL"];
+                
+                if (trackingClickURLs && [trackingClickURLs count] > 0) {
+                    [self.vastEventProcessor sendVASTUrls:trackingClickURLs];
+                }
+                
+                [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_click];
+                
+                HyBidSkAdNetworkModel *skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.ad getOpenRTBSkAdNetworkModel] : [self.ad getSkAdNetworkModel];
+                
+                NSString *customUrl = [HyBidCustomClickUtil extractPNClickUrl:throughClickURL];
+                if (!customUrl && skAdNetworkModel) {
+                    NSMutableDictionary* productParams = [[skAdNetworkModel getStoreKitParameters] mutableCopy];
+                    
+                    [HyBidStoreKitUtils insertFidelitiesIntoDictionaryIfNeeded:productParams];
+                    if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams] && throughClickURL) {
+                        [[HyBidURLDriller alloc] startDrillWithURLString:throughClickURL delegate:self];
+                    }
+                }
+            }
+            
+            [self trackEndCardClick];
+            [self.delegate vastEndCardViewAutoStorekitClicked: self.shouldTriggerAdClick];
+            
+            self.autoClickHasBeenTracked = YES;
+        }
+    }
 }
 
 - (void)determineIfAdClickIsTriggeredWithURL:(NSString *)url withShouldOpenBrowser:(BOOL)shouldOpenBrowser {
@@ -1224,9 +1354,59 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
 #pragma mark SKStoreProductViewControllerDelegate
 
 - (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"SKStoreProductViewIsDismissed" object:self.ad];
+    if ([HyBidSDKConfig sharedConfig].reporting) {
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.STOREKIT_PRODUCT_VIEW_DISMISS adFormat:self.isInterstitial ? HyBidReportingAdFormat.FULLSCREEN : HyBidReportingAdFormat.REWARDED properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
+    }
+    [HyBidNotificationCenter.shared post: HyBidNotificationTypeSKStoreProductViewIsDismissed object: self.ad userInfo: nil];
     self.storekitPageIsBeingPresented = NO;
     [self resumeStorekitDelayTimer];
+}
+
+#pragma mark HyBidSKOverlayDelegate
+
+- (void)skoverlayDidShowOnCreative {
+
+    if (!self.autoClickHasBeenTracked) {
+        HyBidSkAdNetworkModel* skAdNetworkModel = [self.ad getSkAdNetworkModel];
+        if ([skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] != [NSNull null] && [[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] boolValue]) {
+            
+            self.shouldTriggerAdClick = [self.endCard.content containsString: adClickTriggerFlag] ? YES : NO;
+            if (self.vastAd == nil || self.shouldTriggerAdClick) {
+                if ([[self.endCard clickTrackings] count] > 0) {
+                    [self.vastEventProcessor sendVASTUrls:[self.endCard clickTrackings]];
+                }
+            } else {
+                HyBidVASTEndCardType endCardType = [self.endCard type];
+                NSDictionary *trackersDictionary = [self gettingTrackingAndThroughClickURLWith:endCardType];
+                NSMutableArray<NSString *> *trackingClickURLs = [trackersDictionary objectForKey: @"trackingClickURLs"];
+                NSString *throughClickURL = [trackersDictionary objectForKey: @"throughClickURL"];
+                
+                if (trackingClickURLs && [trackingClickURLs count] > 0) {
+                    [self.vastEventProcessor sendVASTUrls:trackingClickURLs];
+                }
+                
+                [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_click];
+                
+                HyBidSkAdNetworkModel *skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.ad getOpenRTBSkAdNetworkModel] : [self.ad getSkAdNetworkModel];
+                
+                NSString *customUrl = [HyBidCustomClickUtil extractPNClickUrl:throughClickURL];
+                if (!customUrl && skAdNetworkModel) {
+                    NSMutableDictionary* productParams = [[skAdNetworkModel getStoreKitParameters] mutableCopy];
+                    
+                    [HyBidStoreKitUtils insertFidelitiesIntoDictionaryIfNeeded:productParams];
+                    if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams] && throughClickURL) {
+                        [[HyBidURLDriller alloc] startDrillWithURLString:throughClickURL delegate:self];
+                    }
+                }
+            }
+            
+            [self trackEndCardClick];
+            [self.delegate vastEndCardViewSKOverlayClicked: self.shouldTriggerAdClick];
+            
+            self.autoClickHasBeenTracked = YES;
+        }
+    }
 }
 
 @end

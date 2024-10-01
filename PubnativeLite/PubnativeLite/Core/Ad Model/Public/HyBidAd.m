@@ -286,6 +286,42 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     return creativeID;
 }
 
+- (NSString *)bundleID {
+    NSString *customBundleIdValue = [self customBundleIdValue];
+    if (customBundleIdValue) {
+        return customBundleIdValue;
+    }
+    
+    NSString *bundleID = nil;
+    HyBidDataModel *data = [self metaDataWithType:PNLiteMeta.bundleId];
+    if(data) {
+        bundleID = data.text;
+    }
+    return bundleID;
+}
+
+- (NSString *)adExperience {
+    NSString *adExperience = nil;
+    HyBidDataModel *data = [self metaDataWithType:PNLiteMeta.adExperience];
+    if(data && [data.text isKindOfClass:[NSString class]]) {
+        if ([data.text isEqualToString:HyBidAdExperienceBrandValue] || [data.text isEqualToString:HyBidAdExperiencePerformanceValue]) {
+            adExperience = data.text;
+        }
+    }
+    return adExperience;
+}
+
+- (NSString *)customBundleIdValue {
+    NSString *result = nil;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteMeta.customBundleIdValue] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteMeta.customBundleIdValue];
+        }
+    }
+    return result;
+}
+
 - (NSString *)openRTBCreativeID {
     NSString *creativeID = nil;
     if(self.openRTBData) {
@@ -357,10 +393,25 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
 
 - (NSNumber *)skoverlayEnabled {
     NSNumber *result = nil;
+    if ([self.adExperience isEqualToString:HyBidAdExperiencePerformanceValue] && self.isPerformanceCompatible) {
+        return self.pcSKoverlayEnabled;
+    } else {
+        NSDictionary *jsonDictionary = [self jsonData];
+        if (jsonDictionary) {
+            if ([jsonDictionary objectForKey:PNLiteData.skoverlayEnabled] != (id)[NSNull null]) {
+                result = [jsonDictionary objectForKey:PNLiteData.skoverlayEnabled];
+            }
+        }
+    }
+    return result;
+}
+
+- (NSNumber *)pcSKoverlayEnabled {
+    NSNumber *result = nil;
     NSDictionary *jsonDictionary = [self jsonData];
     if (jsonDictionary) {
-        if ([jsonDictionary objectForKey:PNLiteData.skoverlayEnabled] != (id)[NSNull null]) {
-            result = [jsonDictionary objectForKey:PNLiteData.skoverlayEnabled];
+        if ([jsonDictionary objectForKey:PNLiteData.pcSKoverlayEnabled] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.pcSKoverlayEnabled];
         }
     }
     return result;
@@ -478,10 +529,25 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
 
 - (NSNumber *)sdkAutoStorekitEnabled {
     NSNumber *result = nil;
+    if ([self.adExperience isEqualToString:HyBidAdExperiencePerformanceValue] && self.isPerformanceCompatible) {
+        return self.pcSDKAutoStorekitEnabled;
+    } else {
+        NSDictionary *jsonDictionary = [self jsonData];
+        if (jsonDictionary) {
+            if ([jsonDictionary objectForKey:PNLiteData.sdkAutoStorekitEnabled] != (id)[NSNull null]) {
+                result = [jsonDictionary objectForKey:PNLiteData.sdkAutoStorekitEnabled];
+            }
+        }
+    }
+    return result;
+}
+
+- (NSNumber *)pcSDKAutoStorekitEnabled {
+    NSNumber *result = nil;
     NSDictionary *jsonDictionary = [self jsonData];
     if (jsonDictionary) {
-        if ([jsonDictionary objectForKey:PNLiteData.sdkAutoStorekitEnabled] != (id)[NSNull null]) {
-            result = [jsonDictionary objectForKey:PNLiteData.sdkAutoStorekitEnabled];
+        if ([jsonDictionary objectForKey:PNLiteData.pcSDKAutoStorekitEnabled] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.pcSDKAutoStorekitEnabled];
         }
     }
     return result;
@@ -500,10 +566,25 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
 
 - (NSNumber *)endcardEnabled {
     NSNumber *result = nil;
+    if ([self.adExperience isEqualToString:HyBidAdExperiencePerformanceValue] && self.isPerformanceCompatible) {
+        return self.pcEndcardEnabled;
+    } else {
+        NSDictionary *jsonDictionary = [self jsonData];
+        if (jsonDictionary) {
+            if ([jsonDictionary objectForKey:PNLiteData.endcardEnabled] != (id)[NSNull null]) {
+                result = [jsonDictionary objectForKey:PNLiteData.endcardEnabled];
+            }
+        }
+    }
+    return result;
+}
+
+- (NSNumber *)pcEndcardEnabled {
+    NSNumber *result = nil;
     NSDictionary *jsonDictionary = [self jsonData];
     if (jsonDictionary) {
-        if ([jsonDictionary objectForKey:PNLiteData.endcardEnabled] != (id)[NSNull null]) {
-            result = [jsonDictionary objectForKey:PNLiteData.endcardEnabled];
+        if ([jsonDictionary objectForKey:PNLiteData.pcEndcardEnabled] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.pcEndcardEnabled];
         }
     }
     return result;
@@ -522,10 +603,38 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
 
 - (NSNumber *)endcardCloseDelay {
     NSNumber *result = nil;
+    if ([self.adExperience isEqualToString:HyBidAdExperiencePerformanceValue] && self.isPerformanceCompatible) {
+        return self.pcEndcardCloseDelay;
+    } else if ([self.adExperience isEqualToString:HyBidAdExperienceBrandValue] && self.isBrandCompatible) {
+        return self.bcEndcardCloseDelay;
+    } else {
+        NSDictionary *jsonDictionary = [self jsonData];
+        if (jsonDictionary) {
+            if ([jsonDictionary objectForKey:PNLiteData.endcardCloseDelay] != (id)[NSNull null]) {
+                result = [jsonDictionary objectForKey:PNLiteData.endcardCloseDelay];
+            }
+        }
+    }
+    return result;
+}
+
+- (NSNumber *)pcEndcardCloseDelay {
+    NSNumber *result = nil;
     NSDictionary *jsonDictionary = [self jsonData];
     if (jsonDictionary) {
-        if ([jsonDictionary objectForKey:PNLiteData.endcardCloseDelay] != (id)[NSNull null]) {
-            result = [jsonDictionary objectForKey:PNLiteData.endcardCloseDelay];
+        if ([jsonDictionary objectForKey:PNLiteData.pcEndcardCloseDelay] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.pcEndcardCloseDelay];
+        }
+    }
+    return result;
+}
+
+- (NSNumber *)bcEndcardCloseDelay {
+    NSNumber *result = nil;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.bcEndcardCloseDelay] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.bcEndcardCloseDelay];
         }
     }
     return result;
@@ -544,10 +653,25 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
 
 - (NSNumber *)interstitialHtmlSkipOffset {
     NSNumber *result = nil;
+    if ([self.adExperience isEqualToString:HyBidAdExperiencePerformanceValue] && self.isPerformanceCompatible) {
+        return self.pcInterstitialHtmlSkipOffset;
+    } else {
+        NSDictionary *jsonDictionary = [self jsonData];
+        if (jsonDictionary) {
+            if ([jsonDictionary objectForKey:PNLiteData.interstitialHtmlSkipOffset] != (id)[NSNull null]) {
+                result = [jsonDictionary objectForKey:PNLiteData.interstitialHtmlSkipOffset];
+            }
+        }
+    }
+    return result;
+}
+
+- (NSNumber *)pcInterstitialHtmlSkipOffset {
+    NSNumber *result = nil;
     NSDictionary *jsonDictionary = [self jsonData];
     if (jsonDictionary) {
-        if ([jsonDictionary objectForKey:PNLiteData.interstitialHtmlSkipOffset] != (id)[NSNull null]) {
-            result = [jsonDictionary objectForKey:PNLiteData.interstitialHtmlSkipOffset];
+        if ([jsonDictionary objectForKey:PNLiteData.pcInterstitialHtmlSkipOffset] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.pcInterstitialHtmlSkipOffset];
         }
     }
     return result;
@@ -555,10 +679,25 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
 
 - (NSNumber *)rewardedHtmlSkipOffset {
     NSNumber *result = nil;
+    if ([self.adExperience isEqualToString:HyBidAdExperiencePerformanceValue] && self.isPerformanceCompatible) {
+        return self.pcRewardedHtmlSkipOffset;
+    } else {
+        NSDictionary *jsonDictionary = [self jsonData];
+        if (jsonDictionary) {
+            if ([jsonDictionary objectForKey:PNLiteData.rewardedHtmlSkipOffset] != (id)[NSNull null]) {
+                result = [jsonDictionary objectForKey:PNLiteData.rewardedHtmlSkipOffset];
+            }
+        }
+    }
+    return result;
+}
+
+- (NSNumber *)pcRewardedHtmlSkipOffset {
+    NSNumber *result = nil;
     NSDictionary *jsonDictionary = [self jsonData];
     if (jsonDictionary) {
-        if ([jsonDictionary objectForKey:PNLiteData.rewardedHtmlSkipOffset] != (id)[NSNull null]) {
-            result = [jsonDictionary objectForKey:PNLiteData.rewardedHtmlSkipOffset];
+        if ([jsonDictionary objectForKey:PNLiteData.pcRewardedHtmlSkipOffset] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.pcRewardedHtmlSkipOffset];
         }
     }
     return result;
@@ -566,10 +705,38 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
 
 - (NSNumber *)videoSkipOffset {
     NSNumber *result = nil;
+    if ([self.adExperience isEqualToString:HyBidAdExperiencePerformanceValue] && self.isPerformanceCompatible) {
+        return self.pcVideoSkipOffset;
+    }  else if ([self.adExperience isEqualToString:HyBidAdExperienceBrandValue] && self.isBrandCompatible) {
+        return self.bcVideoSkipOffset;
+    } else {
+        NSDictionary *jsonDictionary = [self jsonData];
+        if (jsonDictionary) {
+            if ([jsonDictionary objectForKey:PNLiteData.videoSkipOffset] != (id)[NSNull null]) {
+                result = [jsonDictionary objectForKey:PNLiteData.videoSkipOffset];
+            }
+        }
+    }
+    return result;
+}
+
+- (NSNumber *)pcVideoSkipOffset {
+    NSNumber *result = nil;
     NSDictionary *jsonDictionary = [self jsonData];
     if (jsonDictionary) {
-        if ([jsonDictionary objectForKey:PNLiteData.videoSkipOffset] != (id)[NSNull null]) {
-            result = [jsonDictionary objectForKey:PNLiteData.videoSkipOffset];
+        if ([jsonDictionary objectForKey:PNLiteData.pcVideoSkipOffset] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.pcVideoSkipOffset];
+        }
+    }
+    return result;
+}
+
+- (NSNumber *)bcVideoSkipOffset {
+    NSNumber *result = nil;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.bcVideoSkipOffset] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.bcVideoSkipOffset];
         }
     }
     return result;
@@ -577,10 +744,38 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
 
 - (NSNumber *)rewardedVideoSkipOffset {
     NSNumber *result = nil;
+    if ([self.adExperience isEqualToString:HyBidAdExperiencePerformanceValue] && self.isPerformanceCompatible) {
+        return self.pcRewardedVideoSkipOffset;
+    } else if ([self.adExperience isEqualToString:HyBidAdExperienceBrandValue] && self.isBrandCompatible) {
+        return self.bcRewardedVideoSkipOffset;
+    } else {
+        NSDictionary *jsonDictionary = [self jsonData];
+        if (jsonDictionary) {
+            if ([jsonDictionary objectForKey:PNLiteData.rewardedVideoSkipOffset] != (id)[NSNull null]) {
+                result = [jsonDictionary objectForKey:PNLiteData.rewardedVideoSkipOffset];
+            }
+        }
+    }
+    return result;
+}
+
+- (NSNumber *)pcRewardedVideoSkipOffset {
+    NSNumber *result = nil;
     NSDictionary *jsonDictionary = [self jsonData];
     if (jsonDictionary) {
-        if ([jsonDictionary objectForKey:PNLiteData.rewardedVideoSkipOffset] != (id)[NSNull null]) {
-            result = [jsonDictionary objectForKey:PNLiteData.rewardedVideoSkipOffset];
+        if ([jsonDictionary objectForKey:PNLiteData.pcRewardedVideoSkipOffset] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.pcRewardedVideoSkipOffset];
+        }
+    }
+    return result;
+}
+
+- (NSNumber *)bcRewardedVideoSkipOffset {
+    NSNumber *result = nil;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.bcRewardedVideoSkipOffset] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.bcRewardedVideoSkipOffset];
         }
     }
     return result;
@@ -719,7 +914,6 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
 }
 
 - (NSString *)customCtaIconURL {
-    
     NSString *customCtaInputValue = [self customCtaInputValue];
     if (customCtaInputValue) {
         return customCtaInputValue;
@@ -729,6 +923,44 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     HyBidDataModel *data = [self assetDataWithType:PNLiteAsset.customCTA];
     if (data) {
         result = [data stringFieldWithKey:@"icon"];
+    }
+    return result;
+}
+
+- (BOOL)iconSizeReduced {
+    NSNumber *iconSizeReducedInputValue = [self iconSizeReducedInputValue];
+    if (iconSizeReducedInputValue) {
+        return [iconSizeReducedInputValue boolValue];
+    }
+    
+    BOOL result = false;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.reducedIconSizes] != (id)[NSNull null]) {
+            result = [[jsonDictionary objectForKey:PNLiteData.reducedIconSizes] boolValue];
+        }
+    }
+    return result;
+}
+
+- (BOOL)hideControls {
+    BOOL result = false;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.hideControls] != (id)[NSNull null]) {
+            result = [[jsonDictionary objectForKey:PNLiteData.hideControls] boolValue];
+        }
+    }
+    return result;
+}
+
+- (NSNumber *)iconSizeReducedInputValue {
+    NSNumber *result = nil;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.reducedIconSizesInputValue] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.reducedIconSizesInputValue];
+        }
     }
     return result;
 }
@@ -989,6 +1221,9 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
         if ([data numberFieldWithKey:HyBidSKAdNetworkParameter.autoClose] != nil) {
             [dict setValue:[data numberFieldWithKey:HyBidSKAdNetworkParameter.autoClose] forKey:HyBidSKAdNetworkParameter.autoClose];
         }
+        if ([data numberFieldWithKey:HyBidSKAdNetworkParameter.click] != nil) {
+            [dict setValue:[data numberFieldWithKey:HyBidSKAdNetworkParameter.click] forKey:HyBidSKAdNetworkParameter.click];
+        }
         
         double skanVersion = [[data dictionary][@"data"][HyBidSKAdNetworkParameter.version] doubleValue];
         if ([[HyBidSettings sharedInstance] supportMultipleFidelities] && skanVersion >= 2.2 && [data.dictionary[@"data"][HyBidSKAdNetworkParameter.fidelities] count] > 0) {
@@ -1091,8 +1326,16 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     return queryItem.value;
 }
 
-- (NSComparisonResult)compare:(HyBidAd*)other
-{
+- (NSComparisonResult)compare:(HyBidAd*)other {
     return [self.eCPM compare:other.eCPM];
 }
+
+- (BOOL)isPerformanceCompatible {
+    return ([self.assetGroupID intValue] == VAST_INTERSTITIAL || [self.assetGroupID intValue] == MRAID_320x480 || [self.assetGroupID intValue] == MRAID_480x320 || [self.assetGroupID intValue] == MRAID_768x1024 || [self.assetGroupID intValue] == MRAID_1024x768 || [self.assetGroupID intValue] == MRAID_300x600);
+}
+
+- (BOOL)isBrandCompatible {
+    return [self.assetGroupID intValue] == VAST_INTERSTITIAL;
+}
+
 @end

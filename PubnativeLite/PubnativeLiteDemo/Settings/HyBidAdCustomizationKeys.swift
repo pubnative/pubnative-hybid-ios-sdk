@@ -28,4 +28,6 @@ enum HyBidAdCustomizationKeys: String {
     case customEndcardInputValue = "custom_endcard_input_value"
     case skAdNetworkModelInputValue = "skadnetwork_input_value"
     case customCTAInputValue = "custom_cta_input_value"
+    case customBundleIdValue = "custom_bundle_id_value"
+    case iconSizeReducedInputValue = "pc_reduced_icon_sizes_input_value"
 }

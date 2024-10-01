@@ -59,6 +59,10 @@
     [self.view endEditing:YES];
 }
 
+- (IBAction)clearSignalDataTextView:(UIButton *)sender {
+    [self clearTextFrom: self.signalDataTextView];
+}
+
 - (IBAction)loadSignalDataTouchUpInside:(UIButton *)sender {
     [self requestAd];
 }
