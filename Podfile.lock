@@ -1,6 +1,6 @@
 PODS:
   - AppLovinSDK (13.0.1)
-  - ATOM-Standalone (3.3.2)
+  - ATOM-Standalone (3.3.3)
   - ChartboostSDK (9.8.0)
   - Firebase/CoreOnly (8.13.0):
     - FirebaseCore (= 8.13.0)
@@ -86,7 +86,7 @@ PODS:
 
 DEPENDENCIES:
   - AppLovinSDK (>= 13.0.0)
-  - ATOM-Standalone (= 3.3.2)
+  - ATOM-Standalone (= 3.3.3)
   - ChartboostSDK
   - Firebase/Crashlytics (= 8.13.0)
   - Firebase/Performance (= 8.13.0)
@@ -121,7 +121,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   AppLovinSDK: fdae6a4361c9c9b09f8d7d18ede792368221d987
-  ATOM-Standalone: 176675fcd627e44ab1997581b1047e7048ca1550
+  ATOM-Standalone: c1700b7804de58b3cc44018547cff77969318957
   ChartboostSDK: f8422957daa675fa4a0bb9f159144b3b59ef5c27
   Firebase: ee9b1d9b1801371e29f5591eda89eb5a314ab599
   FirebaseABTesting: 10cbce8db9985ae2e3847ea44e9947dd18f94e10
@@ -142,6 +142,6 @@ SPEC CHECKSUMS:
   OCMockito: 780f04370226f81a9d972c97d1203864ef609f5b
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
 
-PODFILE CHECKSUM: f54e199cf192b37aef3bdd5349456298bc3084dc
+PODFILE CHECKSUM: b3210fedaeade8c54459cba305a46ef0a1c093c0
 
-COCOAPODS: 1.16.0
+COCOAPODS: 1.16.2
