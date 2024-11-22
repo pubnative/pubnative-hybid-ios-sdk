@@ -221,6 +221,37 @@
     self.reportingEnabled = sender.on;
 }
 
+- (IBAction)sdkConfigButtonTouchUpInside:(UIButton *)sender {
+    UIAlertController *sdkConfigURLAlert = [UIAlertController alertControllerWithTitle:kHyBidSDKConfigAlertTitle
+                                                                               message:@""
+                                                                        preferredStyle:UIAlertControllerStyleAlert];
+    [sdkConfigURLAlert setValue:[[NSAttributedString alloc] initWithString:[PNLiteDemoSettings sharedInstance].sdkConfigAlertMessage
+                                                                attributes:[PNLiteDemoSettings sharedInstance].sdkConfigAlertAttributes]
+                         forKey:@"attributedMessage"];
+    
+    [sdkConfigURLAlert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.keyboardType = UIKeyboardTypeASCIICapable;
+        textField.placeholder = kHyBidSDKConfigAlertTextFieldPlaceholder;
+    }];
+    
+    __weak UITextField *weakTextField = [sdkConfigURLAlert.textFields firstObject];
+    UIAlertAction *testingURL = [UIAlertAction actionWithTitle:kHyBidSDKConfigAlertActionTitleForTesting
+                                                         style:UIAlertActionStyleDestructive
+                                                       handler:^(UIAlertAction *action) {
+        [[HyBidConfigManager sharedManager] setHyBidConfigURLToTestingWithURL:weakTextField.text];
+        [HyBid initWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey] completion:nil];
+    }];
+    UIAlertAction *productionURL = [UIAlertAction actionWithTitle:kHyBidSDKConfigAlertActionTitleForProduction
+                                                            style:UIAlertActionStyleCancel
+                                                          handler:^(UIAlertAction *action) {
+        [[HyBidConfigManager sharedManager] setHyBidConfigURLToProduction];
+        [HyBid initWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey] completion:nil];
+    }];
+    [sdkConfigURLAlert addAction:testingURL];
+    [sdkConfigURLAlert addAction:productionURL];
+    [self presentViewController:sdkConfigURLAlert animated:YES completion:nil];
+}
+
 #pragma mark UITextFieldDelegate
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {

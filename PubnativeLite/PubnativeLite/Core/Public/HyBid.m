@@ -27,6 +27,7 @@
 #import "PNLiteAdFactory.h"
 #import "HyBidDiagnosticsManager.h"
 #import "HyBidATOMFlow.h"
+#import "HyBidConfigManager.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -37,7 +38,6 @@
 #endif
 
 BOOL isInitialized = NO;
-
 
 @implementation HyBid
 
@@ -65,10 +65,21 @@ BOOL isInitialized = NO;
         [HyBidSDKConfig sharedConfig].appToken = appToken;
         [HyBidViewabilityManager sharedInstance];
         isInitialized = YES;
+        [[HyBidConfigManager sharedManager] requestConfigWithCompletion:^(HyBidConfig *config, NSError *error) {
+            if (error == nil) {
+                if (config.atomEnabled) {
+                    [HyBidSDKConfig sharedConfig].atomEnabled = config.atomEnabled;
+                } else {
+                    [HyBidSDKConfig sharedConfig].atomEnabled = NO;
+                }
+            } else {
+                [HyBidSDKConfig sharedConfig].atomEnabled = NO;
+            }
+            [HyBidATOMFlow initFlow];
+        }];
         [HyBidDiagnosticsManager printDiagnosticsLogWithEvent:HyBidDiagnosticsEventInitialisation];
         [[HyBidSessionManager sharedInstance] setStartSession];
         [[HyBidSessionManager sharedInstance] setAgeOfAppSinceCreated];
-        [HyBidATOMFlow initFlow];
     }
     if (completion != nil) {
         completion(isInitialized);

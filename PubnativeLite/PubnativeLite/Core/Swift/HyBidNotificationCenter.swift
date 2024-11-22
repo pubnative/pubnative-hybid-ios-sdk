@@ -31,6 +31,12 @@ public enum HyBidNotificationType: Int32 {
     case SKStoreProductViewIsDismissed
     case SKStoreProductViewIsDismissedFromVideo
     
+    case AdFeedbackViewIsDismissed
+    case AdFeedbackViewDidShow
+    
+    case InternalWebBrowserDidShow
+    case InternalWebBrowserDidDismissed
+    
     var name: String {
         
         switch self {
@@ -39,6 +45,12 @@ public enum HyBidNotificationType: Int32 {
         case .SKStoreProductViewIsShown: return "SKStoreProductViewIsShown"
         case .SKStoreProductViewIsDismissed: return "SKStoreProductViewIsDismissed"
         case .SKStoreProductViewIsDismissedFromVideo: return "SKStoreProductViewIsDismissedFromVideo"
+            
+        case .AdFeedbackViewIsDismissed: return "adFeedbackViewIsDismissed"
+        case .AdFeedbackViewDidShow: return "adFeedbackViewDidShow"
+            
+        case .InternalWebBrowserDidShow: return "internalWebBrowserDidShow"
+        case .InternalWebBrowserDidDismissed: return "internalWebBrowserDidDismissed"
         }
     }
 }

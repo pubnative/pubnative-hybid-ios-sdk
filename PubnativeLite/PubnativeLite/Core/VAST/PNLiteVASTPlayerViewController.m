@@ -104,7 +104,7 @@ HyBidCloseButton *closeButton;
 #define HYBID_PNLiteVAST_CLOSE_BUTTON_TAG 1001
 #define kAudioMuteSize 30
 
-@interface PNLiteVASTPlayerViewController ()<HyBidVASTEventProcessorDelegate, HyBidContentInfoViewDelegate, HyBidURLDrillerDelegate, SKStoreProductViewControllerDelegate, HyBidVASTEndCardViewDelegate, HyBidSkipOverlayDelegate, PNLiteOrientationManagerDelegate, HyBidCustomCTAViewDelegate, HyBidSKOverlayDelegate>
+@interface PNLiteVASTPlayerViewController ()<HyBidVASTEventProcessorDelegate, HyBidContentInfoViewDelegate, HyBidURLDrillerDelegate, SKStoreProductViewControllerDelegate, HyBidVASTEndCardViewDelegate, HyBidSkipOverlayDelegate, PNLiteOrientationManagerDelegate, HyBidCustomCTAViewDelegate, HyBidSKOverlayDelegate, HyBidInternalWebBrowserDelegate>
 
 @property (nonatomic, assign) BOOL shown;
 @property (nonatomic, assign) BOOL wantsToPlay;
@@ -173,6 +173,8 @@ HyBidCloseButton *closeButton;
 @property (nonatomic, strong) HyBidSkipOffset *vastSkipOffset;
 @property (nonatomic, assign) BOOL isFeedbackScreenShown;
 @property (nonatomic, assign) BOOL isSkAdnetworkViewControllerIsShown;
+@property (nonatomic, assign) BOOL isInternalWebBrowserVisible;
+@property (nonatomic, assign) BOOL isInternalWebBrowserWillBeVisible;
 @property (nonatomic, strong) NSString *iconPositionX;
 @property (nonatomic, strong) NSString *iconPositionY;
 @property (nonatomic, assign) BOOL skipOverlayConstraintsAdded;
@@ -185,7 +187,6 @@ HyBidCloseButton *closeButton;
 @property (nonatomic, strong) NSMutableArray<NSString *> *vastCompanionsClicksTracking;
 @property (nonatomic, strong) NSMutableArray<NSString *> *vastVideoClicksTracking;
 @property (nonatomic, strong) NSMutableArray<NSString *> *vastImpressions;
-@property (nonatomic, assign) BOOL autoClickHasBeenTracked;
 @property (nonatomic, assign) BOOL hideUserInterfaceElementsForBrandExperience;
 
 @end
@@ -254,16 +255,25 @@ typedef enum {
                                                      name:@"adFeedbackViewIsReady"
                                                    object:nil];
         
-        [[NSNotificationCenter defaultCenter] addObserver: self
-                                                 selector: @selector(feedbackScreenDidShow:)
-                                                     name: @"adFeedbackViewDidShow"
-                                                   object: nil];
+        [HyBidNotificationCenter.shared addObserver:self
+                                           selector:@selector(feedbackScreenDidShow:)
+                                   notificationType:HyBidNotificationTypeAdFeedbackViewDidShow
+                                             object:nil];
         
-        [[NSNotificationCenter defaultCenter] addObserver: self
-                                                 selector: @selector(feedbackScreenIsDismissed:)
-                                                     name: @"adFeedbackViewIsDismissed"
-                                                   object: nil];
-
+        [HyBidNotificationCenter.shared addObserver:self
+                                           selector:@selector(feedbackScreenIsDismissed:)
+                                   notificationType:HyBidNotificationTypeAdFeedbackViewIsDismissed
+                                             object:nil];
+        
+        [HyBidNotificationCenter.shared addObserver:self
+                                           selector:@selector(internalWebBrowserDidShowNotification)
+                                   notificationType:HyBidNotificationTypeInternalWebBrowserDidShow
+                                             object:nil];
+        
+        [HyBidNotificationCenter.shared addObserver:self
+                                           selector:@selector(internalWebBrowserDidDismissNotification)
+                                   notificationType:HyBidNotificationTypeInternalWebBrowserDidDismissed
+                                             object:nil];
     }
     return self;
 }
@@ -286,13 +296,6 @@ typedef enum {
         layerFrame.origin.x = CGRectGetMidX(safeArea) - (CGRectGetWidth(layerFrame) / 2.0);
         layerFrame.origin.y = CGRectGetMidY(safeArea) - (CGRectGetHeight(layerFrame) / 2.0);
         self.layer.frame = layerFrame;
-        if (self.btnMute) {
-            [self setMuteButtonPosition:TOP_RIGHT withLayerFrame:layerFrame];
-        }
-        
-        if (self.skipOverlay && !self.skipOverlay.isCloseButtonShown) {
-            [self setCloseButtonPosition:TOP_LEFT withLayerFrame:layerFrame];
-        }
     }
 }
 
@@ -351,6 +354,8 @@ typedef enum {
     } else {
         [self setHiddenBtnOpenOffer: self.adFormat == HyBidAdFormatBanner ? YES: self.isCustomCTAValid];
     }
+
+    [self setViewPositionConstraints:self.btnMute position:TOP_RIGHT];
 
     NSString *vast = self.ad.isUsingOpenRTB ? self.ad.openRtbVast: self.ad.vast ;
     
@@ -415,7 +420,7 @@ typedef enum {
                 for (HyBidVASTIconViewTracking *viewTracking in contentInfoViewFromIcon.viewTrackers) {
                     [stringViewTrackers addObject:[viewTracking content]];
                 }
-                [[[HyBidVASTEventProcessor alloc] init] sendVASTUrls:stringViewTrackers];
+                [[[HyBidVASTEventProcessor alloc] init] sendVASTUrls:stringViewTrackers withType:HyBidVASTImpressionURL];
             }
         }
     }
@@ -499,7 +504,7 @@ typedef enum {
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
-    if (self.adFormat == HyBidAdFormatBanner) {
+    if (self.adFormat == HyBidAdFormatBanner && !self.isInternalWebBrowserVisible) {
         [self stop];
     }
     self.shown = NO;
@@ -561,14 +566,17 @@ typedef enum {
 
 - (void)stop {
     @synchronized (self) {
-        if (self.isAdFeedbackViewReady) {
+        if (self.isAdFeedbackViewReady || self.isInternalWebBrowserVisible) {
             if (!self.isMoviePlaybackFinished) {
                 [self setState:PNLiteVASTPlayerState_PAUSE];
                 if(self.adFormat == HyBidAdFormatBanner) {
                     self.shown = NO;
                 }
             }
-            self.isAdFeedbackViewReady = NO;
+            
+            if (self.isAdFeedbackViewReady) {
+                self.isAdFeedbackViewReady = NO;
+            }
         } else {
             [self stopAdSession];
             [self setState:PNLiteVASTPlayerState_IDLE];
@@ -704,7 +712,7 @@ typedef enum {
     }
     
     self.skipOverlay = [[HyBidSkipOverlay alloc] initWithSkipOffset:[self.skipOffset.offset integerValue] withCountdownStyle:HyBidCountdownPieChart withContentInfoPositionTopLeft:[self isContentInfoInTopLeftPosition] withShouldShowSkipButton:(self.ad.hasEndCard || self.ad.hasCustomEndCard) && !self.closeOnFinish ad:self.ad];
-    [self.skipOverlay addSkipOverlayViewIn:self.view delegate:self withIsMRAID:NO];
+    [self.skipOverlay addSkipOverlayViewIn:self.view delegate:self];
     [self hideUserInterfaceVideoElementsWith: self.ad hideByDefault:NO isOnClick:NO];
 }
 
@@ -730,6 +738,61 @@ typedef enum {
         [self setCloseButtonPositionConstraints: self.skipOverlay];
     }
     [self.view layoutIfNeeded];
+}
+
+- (void)setViewPositionConstraints:(UIView *)view position:(HyBidVASTButtonPosition)position {
+    
+    BOOL isViewShown = [self.view.subviews containsObject:view];
+    
+    if (!isViewShown) { return; }
+    
+    view.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [view.superview.constraints enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSLayoutConstraint *constraint = (NSLayoutConstraint *)obj;
+        if (constraint.firstItem == view || constraint.secondItem == view) {
+            [view.superview removeConstraint:constraint];
+        }
+    }];
+    
+    [view removeConstraints:view.constraints];
+    
+    NSMutableArray<NSLayoutConstraint *> *constraints = [NSMutableArray arrayWithObjects:
+                                                         [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:buttonSize.width],
+                                                         [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:buttonSize.height], nil];
+    
+    switch (position) {
+        case TOP_RIGHT:
+            if (@available(iOS 11.0, *)) {
+                [constraints addObjectsFromArray: @[
+                    [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:2.f],
+                    [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant:2.f]
+                ]];
+            } else {
+                [constraints addObjectsFromArray: @[
+                    [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
+                    [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]
+                ]];
+            }
+            break;
+            
+        case TOP_LEFT:
+        default:
+            if (@available(iOS 11.0, *)) {
+                [constraints addObjectsFromArray: @[
+                    [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
+                    [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.view.safeAreaLayoutGuide attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]
+                ]];
+            } else {
+                [constraints addObjectsFromArray: @[
+                    [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
+                    [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]
+                ]];
+            }
+            break;
+    }
+    
+    [NSLayoutConstraint activateConstraints:constraints];
 }
 
 - (void)setCloseButtonPositionConstraints:(UIView *) closeButtonView {
@@ -1111,7 +1174,7 @@ typedef enum {
             self.vastEventProcessor = [[HyBidVASTEventProcessor alloc] initWithEventsDictionary:self.events progressEventsDictionary:self.progressTrackingEvents delegate:self];
         }
         
-        [self.vastEventProcessor sendVASTUrls: allVastErrorsToSend];
+        [self.vastEventProcessor sendVASTUrls:allVastErrorsToSend withType:HyBidVASTErrorURL];
     }
 }
 
@@ -1125,7 +1188,17 @@ typedef enum {
     }
 }
 
+- (void)configureAudioSessionForAdPlayback {
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback
+                                     withOptions:AVAudioSessionCategoryOptionMixWithOthers
+                                           error:nil];
+    
+    [[AVAudioSession sharedInstance] setActive:YES error:nil];
+}
+
 - (void)setAdAudioMuted:(BOOL)muted {
+    [self configureAudioSessionForAdPlayback];
+
     NSString *newImageName = muted ? PNLiteVASTPlayerMuteImageName : PNLiteVASTPlayerUnMuteImageName;
     UIImage *newImage = [self bundledImageNamed:newImageName];
     [self.btnMute setImage:newImage forState:UIControlStateNormal];
@@ -1201,7 +1274,7 @@ typedef enum {
     NSString *throughClickURL = [trackersDictionary objectForKey: @"throughClickURL"];
     
     if ([trackingClickURLs count] > 0) {
-        [self.vastEventProcessor sendVASTUrls:trackingClickURLs];
+        [self.vastEventProcessor sendVASTUrls:trackingClickURLs withType:HyBidVASTClickTrackingURL];
     }
     
     [self invokeDidClickOffer];
@@ -1241,17 +1314,17 @@ typedef enum {
     }
 }
 
-- (void)trackClickForSKOverlay {
+- (void)trackClickForSKOverlayWithClickType:(HyBidSKOverlayAutomaticCLickType)clickType {
     NSDictionary *trackersDictionary = [self gettingTrackingAndThroughClickURL];
     if (!trackersDictionary) { return; }
     
     NSMutableArray<NSString *> *trackingClickURLs = [trackersDictionary objectForKey: @"trackingClickURLs"];
     NSString *throughClickURL = [trackersDictionary objectForKey: @"throughClickURL"];
     if (trackingClickURLs && [trackingClickURLs count] > 0) {
-        [self.vastEventProcessor sendVASTUrls:trackingClickURLs];
+        [self.vastEventProcessor sendVASTUrls:trackingClickURLs withType:HyBidVASTClickTrackingURL];
     }
     
-    [self invokeDidClickForSKOverlay];
+    [self invokeDidClickForSKOverlayWithClickType:clickType];
     [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_click];
     
     NSString *customUrl = [HyBidCustomClickUtil extractPNClickUrl:throughClickURL];
@@ -1264,33 +1337,30 @@ typedef enum {
     }
 }
 
-- (void)trackClickForAutoStorekit {
-    if (!self.autoClickHasBeenTracked) {
-        HyBidSkAdNetworkModel* skAdNetworkModel = [self.ad getSkAdNetworkModel];
-        if ([skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] != [NSNull null]
-            && [[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] boolValue]) {
-            
-            NSDictionary *trackersDictionary = [self gettingTrackingAndThroughClickURL];
-            if (!trackersDictionary) { return; }
-            
-            NSMutableArray<NSString *> *trackingClickURLs = [trackersDictionary objectForKey: @"trackingClickURLs"];
-            NSString *throughClickURL = [trackersDictionary objectForKey: @"throughClickURL"];
-            if (trackingClickURLs && [trackingClickURLs count] > 0) {
-                [self.vastEventProcessor sendVASTUrls:trackingClickURLs];
+- (void)trackClickForAutoStorekit:(HyBidStorekitAutomaticClickType)clickType {
+    HyBidSkAdNetworkModel* skAdNetworkModel = [self.ad getSkAdNetworkModel];
+    if ([skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] != [NSNull null]
+        && [[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] boolValue]) {
+        
+        NSDictionary *trackersDictionary = [self gettingTrackingAndThroughClickURL];
+        if (!trackersDictionary) { return; }
+        
+        NSMutableArray<NSString *> *trackingClickURLs = [trackersDictionary objectForKey: @"trackingClickURLs"];
+        NSString *throughClickURL = [trackersDictionary objectForKey: @"throughClickURL"];
+        if (trackingClickURLs && [trackingClickURLs count] > 0) {
+            [self.vastEventProcessor sendVASTUrls:trackingClickURLs withType:HyBidVASTClickTrackingURL];
+        }
+        
+        [self invokeDidClickForAutoStorekit:clickType];
+        [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_click];
+        
+        NSString *customUrl = [HyBidCustomClickUtil extractPNClickUrl:throughClickURL];
+        if (!customUrl && self.skAdModel) {
+            NSMutableDictionary* productParams = [[self.skAdModel getStoreKitParameters] mutableCopy];
+            [HyBidStoreKitUtils insertFidelitiesIntoDictionaryIfNeeded:productParams];
+            if (throughClickURL && [productParams count] > 0) {
+                [[HyBidURLDriller alloc] startDrillWithURLString:throughClickURL delegate:self];
             }
-            
-            [self invokeDidClickForAutoStorekit];
-            [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_click];
-            
-            NSString *customUrl = [HyBidCustomClickUtil extractPNClickUrl:throughClickURL];
-            if (!customUrl && self.skAdModel) {
-                NSMutableDictionary* productParams = [[self.skAdModel getStoreKitParameters] mutableCopy];
-                [HyBidStoreKitUtils insertFidelitiesIntoDictionaryIfNeeded:productParams];
-                if (throughClickURL && [productParams count] > 0) {
-                    [[HyBidURLDriller alloc] startDrillWithURLString:throughClickURL delegate:self];
-                }
-            }
-            self.autoClickHasBeenTracked = YES;
         }
     }
 }
@@ -1392,15 +1462,22 @@ typedef enum {
 }
 
 - (void)openUrlInBrowser:(NSString*) url {
-    NSURL *clickUrl = [NSURL URLWithString:url];
-    BOOL canOpenURL = [[UIApplication sharedApplication] canOpenURL:clickUrl];
-    if(!canOpenURL){
-        url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet  URLQueryAllowedCharacterSet]];
-        clickUrl = [NSURL URLWithString:url];
+    
+    HyBidWebBrowserNavigation navigation = [HyBidInternalWebBrowserNavigationController.shared webBrowserNavigationBehaviourFromString: self.ad.navigationMode];
+    
+    if (navigation == HyBidWebBrowserNavigationInternal) {
+        [HyBidInternalWebBrowserNavigationController.shared navigateToURL:url delegate:self];
+    } else {
+        NSURL *clickUrl = [NSURL URLWithString:url];
+        BOOL canOpenURL = [[UIApplication sharedApplication] canOpenURL:clickUrl];
+        if(!canOpenURL){
+            url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet  URLQueryAllowedCharacterSet]];
+            clickUrl = [NSURL URLWithString:url];
+        }
+        [[UIApplication sharedApplication] openURL:clickUrl options:@{} completionHandler:^(BOOL success) {
+            [self togglePlaybackStateOnSuccess: success];
+        }];
     }
-    [[UIApplication sharedApplication] openURL:clickUrl options:@{} completionHandler:^(BOOL success) {
-        [self togglePlaybackStateOnSuccess: success];
-    }];
 }
 
 - (void)setConstraintsForPlayerElementsInFullscreen:(BOOL)isFullscreen {
@@ -1440,15 +1517,15 @@ typedef enum {
     }
 }
 
-- (void)invokeDidClickForSKOverlay {
-    if ([self.delegate respondsToSelector:@selector(vastPlayerDidShowSKOverlay)]) {
-        [self.delegate vastPlayerDidShowSKOverlay];
+- (void)invokeDidClickForSKOverlayWithClickType:(HyBidSKOverlayAutomaticCLickType)clickType {
+    if ([self.delegate respondsToSelector:@selector(vastPlayerDidShowSKOverlayWithClickType:)]) {
+        [self.delegate vastPlayerDidShowSKOverlayWithClickType:clickType];
     }
 }
 
-- (void)invokeDidClickForAutoStorekit {
-    if ([self.delegate respondsToSelector:@selector(vastPlayerDidShowAutoStorekit)]) {
-        [self.delegate vastPlayerDidShowAutoStorekit];
+- (void)invokeDidClickForAutoStorekit:(HyBidStorekitAutomaticClickType)clickType {
+    if ([self.delegate respondsToSelector:@selector(vastPlayerDidShowStorekitWithClickType:)]) {
+        [self.delegate vastPlayerDidShowStorekitWithClickType:clickType];
     }
 }
 
@@ -1505,6 +1582,20 @@ typedef enum {
     }
 }
 
+- (void)invokeDidShowCustomCTA {
+    if ([self.delegate respondsToSelector:@selector(vastPlayerDidShowCustomCTA)]) {
+        [self.delegate vastPlayerDidShowCustomCTA];
+    }
+}
+
+- (void)invokeDidClickCustomCTAOnEndCard:(BOOL)onEndCard {
+    if ([self.delegate respondsToSelector:@selector(vastPlayerDidClickCustomCTAOnEndCard:)]) {
+        [self.delegate vastPlayerDidClickCustomCTAOnEndCard:onEndCard];
+    }
+    
+    [self btnOpenOfferPush:nil];
+}
+
 #pragma mark - AVPlayer notifications
 
 - (void)addObservers {
@@ -1541,7 +1632,7 @@ typedef enum {
 - (void)applicationDidBecomeActive:(NSNotification *)notification {
     if(self.currentState == PNLiteVASTPlayerState_PLAY ||
        self.currentState == PNLiteVASTPlayerState_PAUSE) {
-        if(!self.isFeedbackScreenShown && !self.isSkAdnetworkViewControllerIsShown){
+        if(!self.isFeedbackScreenShown && !self.isSkAdnetworkViewControllerIsShown && !self.isInternalWebBrowserVisible){
             [self setState:PNLiteVASTPlayerState_PLAY];
         }
     }
@@ -1569,6 +1660,14 @@ typedef enum {
     }
 }
 
+- (void)internalWebBrowserDidShowNotification {
+    [self setIsInternalWebBrowserVisible:YES];
+}
+
+- (void)internalWebBrowserDidDismissNotification {
+    [self setIsInternalWebBrowserVisible:NO];
+}
+
 - (void)updateVideoFrameToLastInterruption {
     Float64 duration = [self currentPlaybackTime] < [self duration] ? [self currentPlaybackTime] : floor([self duration] * 4) / 4;
     CMTime lastFrameSecond = CMTimeMakeWithSeconds(duration, NSEC_PER_SEC);
@@ -1587,6 +1686,7 @@ typedef enum {
 
 - (void)moviePlayBackDidFinish:(NSNotification*)notification {
     // when endcard is presented the play already will seek to end to complete the video. Then this callback will be called. so intercept here
+    [self hideUserInterfaceVideoElementsWith:self.ad hideByDefault:YES isOnClick:NO];
     if (self.endCardShown || self.isMoviePlaybackFinished) {return;}
     [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_complete];
     [self.player pause];
@@ -1912,7 +2012,7 @@ typedef enum {
     [self.loadingSpin stopAnimating];
     
     // Start playback
-    if(!self.isFeedbackScreenShown && !self.isSkAdnetworkViewControllerIsShown){
+    if(!self.isFeedbackScreenShown && !self.isSkAdnetworkViewControllerIsShown && !self.isInternalWebBrowserWillBeVisible){
         [self.player play];
         if(self.skipOverlay){
             [self playCountdownView];
@@ -2106,7 +2206,7 @@ typedef enum {
     }
     if (self.vastSkipOffset != nil) {
         self.skipOffset = self.vastSkipOffset;
-    } else if (remoteConfigSkipOffset > 0) {
+    } else if ([remoteConfigSkipOffset integerValue] > 0) {
         HyBidSkipOffset *customSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:remoteConfigSkipOffset isCustom:NO];
         self.skipOffset = customSkipOffset;
     }
@@ -2139,7 +2239,8 @@ typedef enum {
                         }
                     }
                 }
-            } else if ([ad inLine]!=nil) {
+            }
+            if ([ad inLine] != nil) {
                 self.ctaButton = [[ad inLine] ctaButton];
                 NSArray<HyBidVASTCreative *> *creatives = [[ad inLine] creatives];
                 for (HyBidVASTCreative *creative in creatives) {
@@ -2198,7 +2299,6 @@ typedef enum {
         endCard = [self.endCards lastObject];
         endCardCount = PNLiteVASTPlayerWrapperMaximumValue;
     }
-    self.autoClickHasBeenTracked = NO;
     self.endCardView = [[HyBidVASTEndCardView alloc] initWithDelegate:self
                                                                     withViewController:self
                                                                                 withAd:self.ad
@@ -2211,10 +2311,12 @@ typedef enum {
                                          vastCompanionsClicksTracking:[self.vastCompanionsClicksTracking copy]
                                          vastVideoClicksTracking:[self.vastVideoClicksTracking copy]];
     
-    endCard.skoverlayDelegate = self.endCardView;
     
-    if (self.delegate && [self.delegate respondsToSelector:@selector(vastPlayerWillShowEndCard:endcard:)]) {
-        [self.delegate vastPlayerWillShowEndCard:self endcard:endCard];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(vastPlayerWillShowEndCard:isCustomEndCard:skoverlayDelegate:customCTADelegate:)]) {
+        [self.delegate vastPlayerWillShowEndCard:self
+                                 isCustomEndCard:endCard.isCustomEndCard
+                               skoverlayDelegate:self.endCardView
+                               customCTADelegate:self.endCardView];
     }
     if (self.isSkAdnetworkViewControllerIsShown) {
         [HyBidNotificationCenter.shared post: HyBidNotificationTypeSKStoreProductViewIsShown object: [NSNumber numberWithBool: self.isSkAdnetworkViewControllerIsShown] userInfo: nil];
@@ -2281,12 +2383,16 @@ typedef enum {
         if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams]) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters: [HyBidStoreKitUtils cleanUpProductParams:productParams] delegate: self];
-                [skAdnetworkViewController presentSKStoreProductViewController:^(BOOL success) {
+                [skAdnetworkViewController presentSKStoreProductViewControllerWithBlock:^(BOOL success, NSError *error) {
                     if (success) {
                         if ([skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] != [NSNull null] && [[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] boolValue]) {
-                            [self trackClickForAutoStorekit];
+                            [self trackClickForAutoStorekit:HyBidStorekitAutomaticClickVideo];
                         }
                         [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"StoreKit from SDK is presented"]];
+                        
+                        [[HyBidVASTEventBeaconsManager shared] reportVASTEventWithType:HyBidReportingEventType.AUTO_STORE_KIT_IMPRESSION ad:self.ad onTopOf:HyBidOnTopOfTypeDISPLAY];
+                    } else {
+                        [[HyBidVASTEventBeaconsManager shared] reportVASTEventWithType:HyBidReportingEventType.AUTO_STORE_KIT_IMPRESSION_ERROR ad:self.ad onTopOf:HyBidOnTopOfTypeDISPLAY errorCode: error.code];
                     }
                 }];
             });
@@ -2333,19 +2439,27 @@ typedef enum {
     }
 }
 
-- (void)vastEndCardViewSKOverlayClicked:(BOOL)triggerAdClick {
+- (void)vastEndCardViewCustomCTAClicked {
+    [self invokeDidClickCustomCTAOnEndCard:YES];
+}
+
+- (void)vastEndCardViewCustomCTAPresented {
+    [self invokeDidShowCustomCTA];
+}
+
+- (void)vastEndCardViewSKOverlayClicked:(BOOL)triggerAdClick clickType:(HyBidSKOverlayAutomaticCLickType)clickType {
     if(triggerAdClick){
-        [self trackClickForSKOverlay];
+        [self trackClickForSKOverlayWithClickType:clickType];
     } else {
-        [self invokeDidClickForSKOverlay];
+        [self invokeDidClickForSKOverlayWithClickType:clickType];
     }
 }
 
-- (void)vastEndCardViewAutoStorekitClicked:(BOOL)triggerAdClick {
+- (void)vastEndCardViewAutoStorekitClicked:(BOOL)triggerAdClick clickType:(HyBidStorekitAutomaticClickType)clickType {
     if(triggerAdClick){
-        [self trackClickForAutoStorekit];
+        [self trackClickForAutoStorekit:clickType];
     } else {
-        [self invokeDidClickForAutoStorekit];
+        [self invokeDidClickForAutoStorekit:clickType];
     }
 }
 
@@ -2462,42 +2576,54 @@ typedef enum {
     [self setHiddenBtnOpenOffer: self.isCustomCTAValid];
 }
 
-- (void)customCTAButtonDidPress {
-    [self btnOpenOfferPush:nil];
-    
-    NSString *adFormat;
-    if (self.adFormat == HyBidAdFormatInterstitial){
-        adFormat = HyBidReportingAdFormat.FULLSCREEN;
-    } else if (self.adFormat == HyBidAdFormatRewarded){
-        adFormat = HyBidReportingAdFormat.REWARDED;
-    }
-    if ([HyBidSDKConfig sharedConfig].reporting) {
-        HyBidReportingEvent *reportingEvent = [[HyBidReportingEvent alloc]
-                                               initWith: self.endCardIsDisplayed
-                                               ? HyBidReportingEventType.CUSTOM_CTA_ENDCARD_CLICK
-                                               : HyBidReportingEventType.CUSTOM_CTA_CLICK
-                                               adFormat: adFormat
-                                               properties: nil];
-        
-        [[HyBid reportingManager] reportEventFor:reportingEvent];
-    }
+- (void)customCTADidShow {
+    [self invokeDidShowCustomCTA];
+}
+
+- (void)customCTADidClick {
+    [self invokeDidClickCustomCTAOnEndCard:NO];
 }
 
 #pragma mark - HyBidSKOverlayDelegate
 
 - (void)skoverlayDidShowOnCreative {
-    if (!self.autoClickHasBeenTracked) {
+    HyBidSkAdNetworkModel* skAdNetworkModel = [self.ad getSkAdNetworkModel];
+    if ([skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] != [NSNull null] && [[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] boolValue]) {
         
-        HyBidSkAdNetworkModel* skAdNetworkModel = [self.ad getSkAdNetworkModel];
-        if ([skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] != [NSNull null] && [[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] boolValue]) {
+        NSNumber *adAssetGroupID = self.ad.assetGroupID;
+        if(adAssetGroupID.integerValue == VAST_INTERSTITIAL || adAssetGroupID.integerValue == VAST_REWARDED) {
             
-            NSNumber *adAssetGroupID = self.ad.assetGroupID;
-            if(adAssetGroupID.integerValue == VAST_INTERSTITIAL || adAssetGroupID.integerValue == VAST_REWARDED) {
-                
-                [self trackClickForSKOverlay];
-                self.autoClickHasBeenTracked = YES;
-            }
+            [self trackClickForSKOverlayWithClickType: HyBidSKOverlayAutomaticCLickVideo];
         }
+    }
+}
+
+#pragma mark HyBidInternalWebBrowserDelegate
+
+- (void)internalWebBrowserWillShow {
+    [self setIsInternalWebBrowserWillBeVisible:YES];
+}
+
+- (void)internalWebBrowserDidShow {
+    [self setIsInternalWebBrowserVisible:YES];
+    [self pause];
+    [self updateVideoFrameToLastInterruption];
+}
+
+- (void)internalWebBrowserDidFail {
+    if(!self.isFeedbackScreenShown){
+        [self resumeAd];
+    }
+}
+
+- (void)internalWebBrowserWillDismiss {
+    [self setIsInternalWebBrowserWillBeVisible:NO];
+}
+
+- (void)internalWebBrowserDidDismiss {
+    [self setIsInternalWebBrowserVisible:NO];
+    if(!self.isFeedbackScreenShown){
+        [self resumeAd];
     }
 }
 

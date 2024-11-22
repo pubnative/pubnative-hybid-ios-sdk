@@ -102,6 +102,10 @@
     return [self dictionaryFieldWithKey:PNLiteData.jsonData];
 }
 
+- (BOOL)boolean {
+    return [[self numberFieldWithKey:PNLiteData.boolean] boolValue];
+}
+
 - (NSString *)stringFieldWithKey:(NSString *)key {
     return (NSString *) [self dataForKey:key];
 }

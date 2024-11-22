@@ -27,7 +27,7 @@ public class HyBidConstants: NSObject {
     
     @objc public static let HYBID_SDK_NAME = "HyBid"
     @objc public static let HYBID_OMSDK_VERSION = "1.5.2"
-    @objc public static let HYBID_SDK_VERSION = "3.1.0-beta2"
+    @objc public static let HYBID_SDK_VERSION = "3.1.3"
     @objc public static let HYBID_OMSDK_IDENTIFIER = "Pubnativenet"
     
     //Rendering Constants
@@ -38,7 +38,7 @@ public class HyBidConstants: NSObject {
     @objc public static var customEndcardDisplay: HyBidCustomEndcardDisplayBehaviour = HyBidCustomEndcardDisplayFallback
     @objc public static var interstitialCloseOnFinish: Bool = false
     @objc public static var rewardedCloseOnFinish: Bool = false
-    @objc public static var rewardedHtmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_HTML_SKIP_OFFSET), isCustom: false)
+    @objc public static var rewardedHtmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_REWARDED_HTML_SKIP_OFFSET), isCustom: false)
     @objc public static var rewardedVideoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_REWARDED_VIDEO_MAX_SKIP_OFFSET), isCustom: false)
     @objc public static var interstitialHtmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_HTML_SKIP_OFFSET), isCustom: false)
     @objc public static var pcInterstitialHtmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_PC_INTERSTITIAL_SKIP_OFFSET), isCustom: false)
@@ -49,11 +49,11 @@ public class HyBidConstants: NSObject {
     @objc public static var nativeCloseButtonOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_NATIVE_CLOSE_BUTTON_OFFSET), isCustom: false)
     @objc public static var audioStatus: HyBidAudioStatus = HyBidAudioStatusON
     @objc public static var creativeAutoStorekitEnabled: Bool = false
-    @objc public static var atomEnabled: Bool = UserDefaults.standard.bool(forKey: kStoredATOMState)
     @objc public static var sdkAutoStorekitEnabled: Bool = false
     @objc public static var skAdNetworkModelInputValue: NSDictionary = NSDictionary()
     @objc public static var itunesIdValue: String = String()
     @objc public static var customCTAInputValue: String = String()
     @objc public static var customBundleId: String = String()
     @objc public static var iconSizeReducedInputValue: Bool = false
+    @objc public static var navigationModeInputValue: String = String()
 }

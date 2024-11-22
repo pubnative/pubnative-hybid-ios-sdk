@@ -46,7 +46,6 @@ NSInteger const MAX_RETRIES = 1;
 @interface PNLiteHttpRequest ()
 
 @property (nonatomic, strong) NSObject<PNLiteHttpRequestDelegate> *delegate;
-@property (nonatomic, strong) NSString *urlString;
 @property (nonatomic, strong) NSString *method;
 @property (nonatomic, assign) NSInteger retryCount;
 @property (nonatomic, strong) NSDictionary *jsonBodyDict;
@@ -65,6 +64,12 @@ NSInteger const MAX_RETRIES = 1;
     self.body = nil;
     self.isUsingOpenRTB = nil;
     self.adRequestModel = nil;
+    self.trackingType = nil;
+}
+
+- (void)startWithUrlString:(NSString *)urlString withMethod:(NSString *)method delegate:(NSObject<PNLiteHttpRequestDelegate> *)delegate withTrackingType:(NSString *)trackingType {
+    self.trackingType = trackingType;
+    [self startWithUrlString:urlString withMethod:method delegate:delegate];
 }
 
 - (void)startWithUrlString:(NSString *)urlString withMethod:(NSString *)method delegate:(NSObject<PNLiteHttpRequestDelegate> *)delegate

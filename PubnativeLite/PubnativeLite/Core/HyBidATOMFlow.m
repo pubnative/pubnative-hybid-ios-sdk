@@ -45,26 +45,8 @@ typedef NS_ENUM(NSInteger, HyBidATOMStatus) {
 static HyBidATOMStatus atomStatus = HyBidATOMStatusIdle;
 
 + (void)initFlow {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didChangeAtomEnabled:)
-                                                 name:@"didChangeAtomEnabledNotification"
-                                               object:nil];
-    
-    if (HyBidConstants.atomEnabled) {
+    if ([HyBidSDKConfig sharedConfig].atomEnabled) {
         [self startATOM];
-    }
-}
-
-+ (void)didChangeAtomEnabled:(NSNotification *)notification {
-    BOOL atomEnabled = [notification.userInfo[kStoredATOMState] boolValue];
-    if (atomEnabled) {
-        if (atomStatus != HyBidATOMStatusStarted) {
-            [self startATOM];
-        }
-    } else {
-        if (atomStatus != HyBidATOMStatusStopped) {
-            [self stopATOM];
-        }
     }
 }
 
@@ -104,26 +86,6 @@ static HyBidATOMStatus atomStatus = HyBidATOMStatusIdle;
         }
     }];
     #endif
-}
-
-// MARK: Triggering Notification based on atomEnabled value
-+ (void)setAtomEnabled:(NSNumber*)enabled {
-    if (enabled) {
-        BOOL savedATOMState = [[NSUserDefaults standardUserDefaults] boolForKey:kStoredATOMState];
-        BOOL remoteConfigATOMState = enabled.intValue >= 0 ? [enabled boolValue] : savedATOMState;
-        [self reportReceivedRemoteConfig: (remoteConfigATOMState ? HyBidReportingEventType.ATOM_ACTIVATED_RECEIVED : HyBidReportingEventType.ATOM_DEACTIVATED_RECEIVED)];
-        if (savedATOMState != remoteConfigATOMState) {
-            [[NSUserDefaults standardUserDefaults] setBool:remoteConfigATOMState forKey:kStoredATOMState];
-            [self postAtomEnabledDidChangeNotification:remoteConfigATOMState];
-        }
-    }
-}
-
-+ (void)postAtomEnabledDidChangeNotification:(BOOL)enabled {
-    NSDictionary *userInfo = @{kStoredATOMState: @(enabled)};
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"didChangeAtomEnabledNotification"
-                                                        object:self
-                                                      userInfo:userInfo];
 }
 
 // MARK: Reporting events

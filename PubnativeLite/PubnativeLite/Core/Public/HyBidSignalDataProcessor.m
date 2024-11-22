@@ -155,7 +155,7 @@ NSInteger const HyBidSignalDataResponseStatusRequestMalformed = 422;
                         if (!vastModel) {
                             [self invokeDidFail: error];
                             HyBidVASTEventProcessor *vastEventProcessor = [[HyBidVASTEventProcessor alloc] init];
-                            [vastEventProcessor sendVASTUrls: error.errorTagURLs];
+                            [vastEventProcessor sendVASTUrls: error.errorTagURLs withType:HyBidVASTParserErrorURL];
                         } else {
                             NSArray *endCards = [self fetchEndCardsFromVastAd:vastModel.ads.firstObject];
                             if ([ad.endcardEnabled boolValue] || (ad.endcardEnabled == nil && HyBidConstants.showEndCard)) {

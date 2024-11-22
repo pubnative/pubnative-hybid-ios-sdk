@@ -25,6 +25,13 @@
 #import "HyBidVASTTracking.h"
 #import "HyBidVASTImpression.h"
 
+typedef NS_ENUM(NSInteger, HyBidVASTUrlType) {
+    HyBidVASTImpressionURL,
+    HyBidVASTClickTrackingURL,
+    HyBidVASTParserErrorURL,
+    HyBidVASTErrorURL,
+};
+
 @protocol HyBidVASTEventProcessorDelegate <NSObject>
 
 - (void)eventProcessorDidTrackEventType:(HyBidVASTAdTrackingEventType)event;
@@ -44,8 +51,9 @@
 - (void)trackImpression:(HyBidVASTImpression*)impression;
 - (void)trackImpressionWith:(NSString*)impressionURL;
 
+- (void)sendVASTBeaconUrl:(NSString *)url withTrackingType:(NSString *)trackingType;
 // sends the set of http requests to supplied URLs, used for Impressions, ClickTracking, and Errors.
-- (void)sendVASTUrls:(NSArray *)urls;
+- (void)sendVASTUrls:(NSArray *)urls withType:(HyBidVASTUrlType)type;
 
 - (void)setCustomEvents:(NSArray<HyBidVASTTracking *> *)events;
 

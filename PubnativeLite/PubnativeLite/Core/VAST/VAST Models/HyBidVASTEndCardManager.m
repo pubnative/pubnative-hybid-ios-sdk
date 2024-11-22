@@ -21,6 +21,7 @@
 //
 
 #import "HyBidVASTEndCardManager.h"
+#import <UIKit/UIKit.h>
 
 @interface HyBidVASTEndCardManager ()
 
@@ -44,8 +45,11 @@
     if ([[companion staticResources] count] > 0) {
         for (HyBidVASTStaticResource *resource in [companion staticResources]) {
             if ([[resource content] length] > 0) {
-                HyBidVASTEndCard *endCard = [self createEndCardWithType:HyBidEndCardType_STATIC fromCompanion:companion withContent:[resource content]];
-                [self.endCardsStorage addObject:endCard];
+                BOOL isAvailable = [self verifyImageAtURL:[resource content]];
+                if (isAvailable) {
+                    HyBidVASTEndCard *endCard = [self createEndCardWithType:HyBidEndCardType_STATIC fromCompanion:companion withContent:[resource content]];
+                    [self.endCardsStorage addObject:endCard];
+                }
             }
         }
     }
@@ -65,6 +69,21 @@
             }
         }
     }
+}
+
+- (BOOL)verifyImageAtURL:(NSString *)urlString {
+    __block BOOL isAvailable = NO;
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        isAvailable = (data != nil && error == nil && ((NSHTTPURLResponse *)response).statusCode == 200 && [UIImage imageWithData:data]);
+        dispatch_semaphore_signal(semaphore);
+    }];
+    [dataTask resume];
+
+    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+    return isAvailable;
 }
 
 - (HyBidVASTEndCard *)createEndCardWithType:(HyBidVASTEndCardType)type fromCompanion:(HyBidVASTCompanion *)companion withContent:(NSString *)content

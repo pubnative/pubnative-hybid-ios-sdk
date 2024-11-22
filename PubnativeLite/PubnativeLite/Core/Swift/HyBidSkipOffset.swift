@@ -27,6 +27,7 @@ public class HyBidSkipOffset: NSObject {
     
     @objc public static let DEFAULT_VIDEO_SKIP_OFFSET = 10
     @objc public static let DEFAULT_HTML_SKIP_OFFSET = 3
+    @objc public static let DEFAULT_REWARDED_HTML_SKIP_OFFSET = 30
     @objc public static let DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD = 15
     @objc public static let DEFAULT_END_CARD_CLOSE_OFFSET = 3
     @objc public static let DEFAULT_REWARDED_VIDEO_MAX_SKIP_OFFSET = 30

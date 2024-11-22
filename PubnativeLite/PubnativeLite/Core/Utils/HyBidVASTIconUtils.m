@@ -54,7 +54,7 @@
         NSMutableArray* vastArray = [[NSMutableArray alloc] initWithArray:[vastSet array]];
         if (error) {
             HyBidVASTEventProcessor *vastEventProcessor = [[HyBidVASTEventProcessor alloc] init];
-            [vastEventProcessor sendVASTUrls: error.errorTagURLs];
+            [vastEventProcessor sendVASTUrls: error.errorTagURLs withType:HyBidVASTParserErrorURL];
             block(nil, error);
         } else {
             NSArray<HyBidVASTIcon *> *icons;

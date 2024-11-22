@@ -435,7 +435,7 @@
     [[view.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:0] setActive:YES];
 }
 
-- (void)addSkipOverlayViewIn:(UIView *)adView delegate:(id<HyBidSkipOverlayDelegate>)delegate withIsMRAID:(BOOL)isMRAID
+- (void)addSkipOverlayViewIn:(UIView *)adView delegate:(id<HyBidSkipOverlayDelegate>)delegate
 {
     self.adView = adView;
     if([adView isEqual: nil] || [adView.subviews containsObject:self]){
@@ -462,9 +462,8 @@
     positionConstraints = [self getSkipOverlayTopPositionConstraintsIn:adView];
     
     [constraints addObjectsFromArray: [self getSkipOverlaySizeConstraints]];
-    if (isMRAID) {
-        [constraints addObjectsFromArray: positionConstraints];
-    }
+    [constraints addObjectsFromArray: positionConstraints];
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         [NSLayoutConstraint activateConstraints: constraints];
     });

@@ -27,6 +27,7 @@
 @interface HyBidDemoDebugMainViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *inspectRequestButton;
 @property (weak, nonatomic) IBOutlet UIButton *sdkEventsButton;
+@property (weak, nonatomic) IBOutlet UIButton *beaconsButton;
 
 @end
 
@@ -38,9 +39,12 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated {
-    if ([PNLiteRequestInspector sharedInstance].lastInspectedRequest && [PNLiteRequestInspector sharedInstance].lastInspectedRequest.url) {
-        self.inspectRequestButton.hidden = NO;
+    PNLiteRequestInspectorModel *lastRequest = [PNLiteRequestInspector sharedInstance].lastInspectedRequest;
+    if (lastRequest) {
+        self.inspectRequestButton.hidden = !lastRequest.url;
+        self.beaconsButton.hidden = !lastRequest.response;
     }
+    
     if ([HyBid reportingManager].events.count > 0) {
         self.sdkEventsButton.hidden = NO;
     }

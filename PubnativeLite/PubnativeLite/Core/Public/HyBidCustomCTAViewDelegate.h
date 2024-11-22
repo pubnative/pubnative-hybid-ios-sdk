@@ -21,8 +21,9 @@
 //
 
 
-@protocol HyBidCustomCTAViewDelegate
+@protocol HyBidCustomCTAViewDelegate <NSObject>
 - (void)customCTADidLoadWithSuccess:(BOOL)success;
-- (void)customCTAButtonDidPress;
+- (void)customCTADidShow;
+- (void)customCTADidClick;
 @end
 

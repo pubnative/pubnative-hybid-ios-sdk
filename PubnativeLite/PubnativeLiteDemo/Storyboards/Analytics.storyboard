@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="5Cl-GS-MXG">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23094" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="5Cl-GS-MXG">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23084"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -12,27 +12,27 @@
         <!--SDK Events-->
         <scene sceneID="HzB-vT-A9t">
             <objects>
-                <viewController title="SDK Events" id="5Cl-GS-MXG" customClass="AnalyticsViewController" sceneMemberID="viewController">
+                <viewController title="SDK Events" id="5Cl-GS-MXG" customClass="AnalyticsViewController" customModule="HyBidDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="9ss-AI-tgV">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HGf-11-lv9">
-                                <rect key="frame" x="16" y="44" width="382" height="769"/>
+                                <rect key="frame" x="16" y="48" width="382" height="765"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AnalyticsEventTableViewCell" rowHeight="44" id="6ZF-YG-OPC" customClass="AnalyticsEventTableViewCell">
-                                        <rect key="frame" x="0.0" y="44.5" width="382" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AnalyticsEventTableViewCell" rowHeight="44" id="6ZF-YG-OPC" customClass="AnalyticsEventTableViewCell" customModule="HyBidDemo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="382" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="6ZF-YG-OPC" id="uKi-dr-v2L">
-                                            <rect key="frame" x="0.0" y="0.0" width="352.5" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="351.5" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Rjh-a8-UFY">
-                                                    <rect key="frame" x="20" y="11" width="324.5" height="22"/>
+                                                    <rect key="frame" x="20" y="11" width="323.5" height="22"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Key-Qh-KzQ">
-                                                            <rect key="frame" x="0.0" y="0.0" width="324.5" height="22"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="323.5" height="22"/>
                                                             <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -51,13 +51,13 @@
                                             <bool key="isElement" value="YES"/>
                                         </accessibility>
                                         <connections>
-                                            <outlet property="analyticsEventName" destination="Key-Qh-KzQ" id="WlI-Ga-B0k"/>
+                                            <outlet property="analyticsEventName" destination="Key-Qh-KzQ" id="i5e-aW-uGg"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
-                                    <outlet property="dataSource" destination="5Cl-GS-MXG" id="a4X-Jo-Hsc"/>
-                                    <outlet property="delegate" destination="5Cl-GS-MXG" id="zZT-VT-rn2"/>
+                                    <outlet property="dataSource" destination="5Cl-GS-MXG" id="SIt-ig-9zF"/>
+                                    <outlet property="delegate" destination="5Cl-GS-MXG" id="8Iy-76-u13"/>
                                 </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mYl-eU-uGO" userLabel="Dismiss Button">
@@ -78,7 +78,7 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <action selector="dismissButtonTouchUpInside:" destination="5Cl-GS-MXG" eventType="touchUpInside" id="vzP-7J-Cdu"/>
+                                    <action selector="dismissButtonTouchUpInside:" destination="5Cl-GS-MXG" eventType="touchUpInside" id="pjP-RX-5Mi"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -96,7 +96,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="tableView" destination="HGf-11-lv9" id="znd-on-Pte"/>
+                        <outlet property="tableView" destination="HGf-11-lv9" id="0WK-u3-uWV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y3R-zL-FnE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -112,14 +112,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EbN-tz-8MC">
-                                <rect key="frame" x="16" y="60" width="33" height="18"/>
+                                <rect key="frame" x="16" y="64" width="33" height="18"/>
                                 <accessibility key="accessibilityConfiguration" identifier="eventTypeLabel" label="Event Type Label"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="K7j-5a-AvL">
-                                <rect key="frame" x="16" y="86" width="382" height="727"/>
+                                <rect key="frame" x="16" y="90" width="382" height="723"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <accessibility key="accessibilityConfiguration" identifier="eventJSONTextView" label="Event JSON Text View"/>
                                 <color key="textColor" systemColor="labelColor"/>

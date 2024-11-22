@@ -54,6 +54,8 @@
 #define kHyBidChartboostRewardedHTMLPosition @"hybid-ios-rewarded-html"
 #define kHyBidChartboostRewardedVideoPosition @"hybid-ios-rewarded-video"
 
+static NSString * const bullet = @"•  ";
+
 @implementation PNLiteDemoSettings
 
 - (void)dealloc {
@@ -75,6 +77,10 @@
     if (self) {
         self.targetingModel = [[HyBidTargetingModel alloc] init];
         [self createBannerSizeArray];
+        [self createSDKConfigAlertMessage];
+        [self createSDKConfigAlertAttributes];
+        [self createPublisherModeAlertMessage];
+        [self createPublisherModeAlertAttributes];
         [self setInitialValuesForUserDefaults];
     }
     return self;
@@ -120,4 +126,39 @@
     }
 }
 
+- (void)createSDKConfigAlertMessage {
+    NSMutableArray<NSString *> *strings = [NSMutableArray array];
+    [strings addObject:@"Production: Tap \"Production URL\""];
+    [strings addObject:@"Testing: Provide the SDK Config URL, then tap \"Testing URL\""];
+    for (NSUInteger i = 0; i < strings.count; i++) {
+        strings[i] = [bullet stringByAppendingString:strings[i]];
+    }
+    self.sdkConfigAlertMessage = [@"\n" stringByAppendingString: [strings componentsJoinedByString:@"\n\n"]];
+}
+
+- (void)createSDKConfigAlertAttributes {
+    self.sdkConfigAlertAttributes = [NSMutableDictionary dictionary];
+    self.sdkConfigAlertAttributes[NSFontAttributeName] = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.headIndent = [bullet sizeWithAttributes:self.sdkConfigAlertAttributes].width;
+    self.sdkConfigAlertAttributes[NSParagraphStyleAttributeName] = paragraphStyle;
+}
+
+- (void)createPublisherModeAlertMessage {
+    NSMutableArray<NSString *> *strings = [NSMutableArray array];
+    [strings addObject:@"Initialisation: Next run cycle"];
+    [strings addObject:@"Everything else: Ready"];
+    for (NSUInteger i = 0; i < strings.count; i++) {
+        strings[i] = [bullet stringByAppendingString:strings[i]];
+    }
+    self.publisherModeAlertMessage = [@"\n" stringByAppendingString: [strings componentsJoinedByString:@"\n\n"]];
+}
+
+- (void)createPublisherModeAlertAttributes {
+    self.publisherModeAlertAttributes = [NSMutableDictionary dictionary];
+    self.publisherModeAlertAttributes[NSFontAttributeName] = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.headIndent = [bullet sizeWithAttributes:self.publisherModeAlertAttributes].width;
+    self.publisherModeAlertAttributes[NSParagraphStyleAttributeName] = paragraphStyle;
+}
 @end

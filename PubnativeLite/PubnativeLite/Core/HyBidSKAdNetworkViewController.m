@@ -61,25 +61,25 @@ NSDictionary *productParameters;
     self.delegate = nil;
 }
 
-- (void)loadProducts:(NSDictionary *)productParameters completionHandler:(void (^)(BOOL success, SKStoreProductViewController * _Nullable skAdnetworkViewController))completionHandler {
+- (void)loadProducts:(NSDictionary *)productParameters completionHandler:(void (^)(BOOL success, SKStoreProductViewController * _Nullable skAdnetworkViewController, NSError * _Nullable error))completionHandler {
     
     SKStoreProductViewController *skAdnetworkViewController = [[SKStoreProductViewController alloc] init];
     skAdnetworkViewController.delegate = self.delegate;
     [skAdnetworkViewController loadProductWithParameters:productParameters completionBlock:^(BOOL result, NSError * _Nullable error) {
         #if !(TARGET_IPHONE_SIMULATOR)
             if (!error && result) {
-                completionHandler(YES, skAdnetworkViewController);
+                completionHandler(YES, skAdnetworkViewController, nil);
                 return;
             }
 
             [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Loading the ad failed, try to load another ad or retry the current ad."];
-            completionHandler(NO, nil);
+            completionHandler(NO, nil, error);
             return;
         #endif
     }];
     
     #if TARGET_IPHONE_SIMULATOR
-        completionHandler(YES, skAdnetworkViewController);
+        completionHandler(YES, skAdnetworkViewController, nil);
         return;
     #endif
 }
@@ -102,16 +102,22 @@ NSDictionary *productParameters;
 }
 
 - (void)presentSKStoreProductViewController:(void (^)(BOOL success))completionHandler {
+    [self presentSKStoreProductViewControllerWithBlock:^(BOOL success, NSError *error) {
+        completionHandler(success);
+    }];
+}
+
+- (void)presentSKStoreProductViewControllerWithBlock:(HyBidSKProductViewBlock)completionHandler {
     UIViewController *presenterViewController = [UIApplication sharedApplication].topViewController;
-    [self loadProducts: productParameters completionHandler:^(BOOL success, SKStoreProductViewController * _Nullable skAdnetworkViewController) {
+    [self loadProducts: productParameters completionHandler:^(BOOL success, SKStoreProductViewController * _Nullable skAdnetworkViewController, NSError *error) {
         if (success) {
             [HyBidNotificationCenter.shared post: HyBidNotificationTypeSKStoreProductViewIsReadyToPresent object: nil userInfo: nil];
             [self presentInTopViewController:skAdnetworkViewController presenterViewController: presenterViewController completionHandler:^(BOOL success) {
                 [HyBidNotificationCenter.shared post: HyBidNotificationTypeSKStoreProductViewIsShown object: nil userInfo: nil];
-                completionHandler(success);
+                completionHandler(success, nil);
             }];
         } else {
-            completionHandler(NO);
+            completionHandler(NO, error);
         }
     }];
 }

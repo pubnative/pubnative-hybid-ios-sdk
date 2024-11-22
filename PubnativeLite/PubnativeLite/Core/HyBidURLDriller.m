@@ -38,6 +38,7 @@ NSTimeInterval const kHyBidURLDrillerTimeout = 5; // seconds
 @property (nonatomic, weak) NSObject<HyBidURLDrillerDelegate> *delegate;
 @property (nonatomic, strong) NSURL *url;
 @property (nonatomic, strong) NSURL *lastURL;
+@property (nonatomic, strong) NSString *trackingType;
 
 @end
 
@@ -47,6 +48,14 @@ NSTimeInterval const kHyBidURLDrillerTimeout = 5; // seconds
     self.delegate = nil;
     self.url = nil;
     self.lastURL = nil;
+    self.trackingType = nil;
+}
+
+- (void)startDrillWithURLString:(NSString *)urlString
+                       delegate:(NSObject<HyBidURLDrillerDelegate> *)delegate
+               withTrackingType:(NSString *)trackingType {
+    self.trackingType = trackingType;
+    [self startDrillWithURLString:urlString delegate:delegate];
 }
 
 - (void)startDrillWithURLString:(NSString *)urlString delegate:(NSObject<HyBidURLDrillerDelegate>*)delegate {
@@ -121,8 +130,8 @@ NSTimeInterval const kHyBidURLDrillerTimeout = 5; // seconds
 
 - (void)invokeDidFinishWithURL:(NSURL*)url {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if(self.delegate && [self.delegate respondsToSelector:@selector(didFinishWithURL:)]){
-            [self.delegate didFinishWithURL:url];
+        if(self.delegate && [self.delegate respondsToSelector:@selector(didFinishWithURL:trackingType:)]){
+            [self.delegate didFinishWithURL:url trackingType:self.trackingType];
         }
     });
 }

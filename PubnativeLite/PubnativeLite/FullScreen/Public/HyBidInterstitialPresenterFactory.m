@@ -50,11 +50,19 @@
     }
     
     NSArray *impressionBeacons = [ad beaconsDataWithType:PNLiteAdTrackerImpression];
-    NSArray *customEndcardImpressionBeacons = [ad beaconsDataWithType:PNLiteAdCustomEndCardImpression];
     NSArray *clickBeacons = [ad beaconsDataWithType:PNLiteAdTrackerClick];
+    
+    NSArray *customEndcardImpressionBeacons = [ad beaconsDataWithType:PNLiteAdCustomEndCardImpression];
     NSArray *customEndcardClickBeacons = [ad beaconsDataWithType:PNLiteAdCustomEndCardClick];
+    
+    HyBidCustomCTATracking *customCTATracking = [[HyBidCustomCTATracking alloc] initWithAd:ad];
 
-    HyBidAdTracker *adTracker = [[HyBidAdTracker alloc] initWithImpressionURLs:impressionBeacons withCustomEndcardImpressionURLs:customEndcardImpressionBeacons withClickURLs:clickBeacons withCustomEndcardClickURLs:customEndcardClickBeacons forAd:ad];
+    HyBidAdTracker *adTracker = [[HyBidAdTracker alloc] initWithImpressionURLs:impressionBeacons
+                                               withCustomEndcardImpressionURLs:customEndcardImpressionBeacons
+                                                                 withClickURLs:clickBeacons
+                                                    withCustomEndcardClickURLs:customEndcardClickBeacons
+                                                         withCustomCTATracking:customCTATracking
+                                                                         forAd:ad];
     
     PNLiteInterstitialPresenterDecorator *interstitialPresenterDecorator = [[PNLiteInterstitialPresenterDecorator alloc] initWithInterstitialPresenter:interstitialPresenter
                                                                                                                                          withAdTracker: adTracker

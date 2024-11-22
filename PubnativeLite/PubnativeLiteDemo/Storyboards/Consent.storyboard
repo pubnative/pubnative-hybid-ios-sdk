@@ -299,27 +299,118 @@
                                     <action selector="removeCCPAPrivacyStringTouchUpInside:" destination="MA3-pN-Zcy" eventType="touchUpInside" id="ZXP-x7-zV8"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TCF Consent String" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wcw-ja-51X">
+                                <rect key="frame" x="16" y="230" width="115.5" height="21"/>
+                                <accessibility key="accessibilityConfiguration" identifier="TCFConsentStringLabel" label="TCF Consent String Label"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="1LG-Fu-W1k"/>
+                                    <constraint firstAttribute="height" constant="21" id="2UU-9n-HzE"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="2UU-9n-HzE"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="1LG-Fu-W1k"/>
+                                        <include reference="2UU-9n-HzE"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your TCF Consent String" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="QeM-zg-n7z" userLabel="TCF Consent String TextField">
+                                <rect key="frame" x="16" y="259" width="288" height="30"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="TCFConsentStringTextField" label="TCF Consent String TextField"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="5g8-rg-3PE"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="MA3-pN-Zcy" id="OgR-NT-Iub"/>
+                                </connections>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rNa-ac-ZSP" userLabel="Set TCF Button">
+                                <rect key="frame" x="16" y="297" width="139" height="30"/>
+                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="setTCFButton" label="Set TCF Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="eBF-HS-CiJ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Set">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <variation key="heightClass=compact">
+                                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
+                                    <mask key="constraints">
+                                        <exclude reference="eBF-HS-CiJ"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="setGDPRConsentStringTouchUpInside:" destination="MA3-pN-Zcy" eventType="touchUpInside" id="p6j-Nm-gRH"/>
+                                    <action selector="setTCFConsentStringTouchUpInside:" destination="MA3-pN-Zcy" eventType="touchUpInside" id="eMe-iH-OD0"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6gh-yS-2QN" userLabel="Remove TCF Button">
+                                <rect key="frame" x="165" y="297" width="139" height="30"/>
+                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="removeTCFButton" label="Remove TCF Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="v6y-zJ-RM3"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Remove">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <variation key="heightClass=compact">
+                                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
+                                    <mask key="constraints">
+                                        <exclude reference="v6y-zJ-RM3"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="removeGDPRConsentStringTouchUpInside:" destination="MA3-pN-Zcy" eventType="touchUpInside" id="zXl-DQ-3c1"/>
+                                    <action selector="removeTCFConsentStringTouchUpInside:" destination="MA3-pN-Zcy" eventType="touchUpInside" id="B13-KF-Uz1"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="pcK-fk-sJY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="gav-Lm-5UB" firstAttribute="leading" secondItem="pcK-fk-sJY" secondAttribute="leading" constant="16" id="2Hk-7y-c01"/>
                             <constraint firstItem="pcK-fk-sJY" firstAttribute="trailing" secondItem="sqJ-OS-bCp" secondAttribute="trailing" constant="16" id="3KX-ed-FKw"/>
-                            <constraint firstItem="GJ8-6v-92S" firstAttribute="top" secondItem="Br1-1z-5Tm" secondAttribute="bottom" constant="8" id="3LB-Jg-eMi"/>
                             <constraint firstItem="avY-ie-7U5" firstAttribute="leading" secondItem="pcK-fk-sJY" secondAttribute="leading" constant="16" id="6K7-6X-eJN"/>
+                            <constraint firstItem="rNa-ac-ZSP" firstAttribute="width" secondItem="6gh-yS-2QN" secondAttribute="width" id="6Us-08-q2S"/>
                             <constraint firstItem="9R1-j1-huM" firstAttribute="width" secondItem="sqJ-OS-bCp" secondAttribute="width" id="GQU-I7-UWG"/>
+                            <constraint firstItem="wcw-ja-51X" firstAttribute="top" secondItem="9R1-j1-huM" secondAttribute="bottom" constant="8" id="GVo-kH-spZ"/>
                             <constraint firstItem="a4t-vv-1vB" firstAttribute="width" secondItem="wxm-0M-AF7" secondAttribute="width" id="HOi-5m-RqG"/>
+                            <constraint firstItem="6gh-yS-2QN" firstAttribute="leading" secondItem="rNa-ac-ZSP" secondAttribute="trailing" constant="10" id="Hoq-xA-vp9"/>
                             <constraint firstItem="a4t-vv-1vB" firstAttribute="leading" secondItem="pcK-fk-sJY" secondAttribute="leading" constant="16" id="JDG-Bi-rNp"/>
                             <constraint firstItem="GJ8-6v-92S" firstAttribute="top" secondItem="Br1-1z-5Tm" secondAttribute="bottom" constant="8" id="JHC-yY-Zz7"/>
                             <constraint firstItem="sqJ-OS-bCp" firstAttribute="top" secondItem="gav-Lm-5UB" secondAttribute="bottom" constant="8" id="MTx-u6-Lv4"/>
                             <constraint firstItem="gav-Lm-5UB" firstAttribute="top" secondItem="avY-ie-7U5" secondAttribute="bottom" constant="8" id="Mm4-Ju-Bed"/>
+                            <constraint firstItem="rNa-ac-ZSP" firstAttribute="top" secondItem="QeM-zg-n7z" secondAttribute="bottom" constant="8" id="Nbx-8V-OL0"/>
+                            <constraint firstItem="pcK-fk-sJY" firstAttribute="trailing" secondItem="6gh-yS-2QN" secondAttribute="trailing" constant="16" id="OGg-hW-OV2"/>
+                            <constraint firstItem="QeM-zg-n7z" firstAttribute="leading" secondItem="pcK-fk-sJY" secondAttribute="leading" constant="16" id="PWc-6C-Dj2"/>
                             <constraint firstItem="wxm-0M-AF7" firstAttribute="top" secondItem="GJ8-6v-92S" secondAttribute="bottom" constant="8" id="SOy-oy-HtU"/>
+                            <constraint firstItem="wcw-ja-51X" firstAttribute="leading" secondItem="pcK-fk-sJY" secondAttribute="leading" constant="16" id="SfH-xK-nMc"/>
+                            <constraint firstItem="6gh-yS-2QN" firstAttribute="top" secondItem="QeM-zg-n7z" secondAttribute="bottom" constant="8" id="T05-80-LOW"/>
                             <constraint firstItem="9R1-j1-huM" firstAttribute="leading" secondItem="pcK-fk-sJY" secondAttribute="leading" constant="16" id="aQC-RQ-l5a"/>
                             <constraint firstItem="sqJ-OS-bCp" firstAttribute="leading" secondItem="9R1-j1-huM" secondAttribute="trailing" constant="10" id="axu-oV-n7f"/>
+                            <constraint firstItem="QeM-zg-n7z" firstAttribute="top" secondItem="wcw-ja-51X" secondAttribute="bottom" constant="8" id="d3r-Un-0yR"/>
                             <constraint firstItem="Br1-1z-5Tm" firstAttribute="leading" secondItem="pcK-fk-sJY" secondAttribute="leading" constant="16" id="gKC-Bc-Ije"/>
                             <constraint firstItem="Br1-1z-5Tm" firstAttribute="top" secondItem="pcK-fk-sJY" secondAttribute="top" constant="20" id="hL9-gv-77w"/>
+                            <constraint firstItem="rNa-ac-ZSP" firstAttribute="leading" secondItem="pcK-fk-sJY" secondAttribute="leading" constant="16" id="i3u-0n-prY"/>
                             <constraint firstItem="pcK-fk-sJY" firstAttribute="trailing" secondItem="gav-Lm-5UB" secondAttribute="trailing" constant="16" id="kMS-Tb-WeR"/>
                             <constraint firstItem="GJ8-6v-92S" firstAttribute="leading" secondItem="pcK-fk-sJY" secondAttribute="leading" constant="16" id="kw3-xV-hF7"/>
+                            <constraint firstItem="pcK-fk-sJY" firstAttribute="trailing" secondItem="QeM-zg-n7z" secondAttribute="trailing" constant="16" id="l8E-ff-Aae"/>
                             <constraint firstItem="a4t-vv-1vB" firstAttribute="top" secondItem="GJ8-6v-92S" secondAttribute="bottom" constant="8" id="lIN-SG-agA"/>
                             <constraint firstItem="wxm-0M-AF7" firstAttribute="leading" secondItem="a4t-vv-1vB" secondAttribute="trailing" constant="10" id="ma9-3E-m4Y"/>
                             <constraint firstItem="pcK-fk-sJY" firstAttribute="trailing" secondItem="GJ8-6v-92S" secondAttribute="trailing" constant="16" id="ojg-eI-Llb"/>
@@ -334,6 +425,7 @@
                     <connections>
                         <outlet property="ccpaPrivacyStringTextField" destination="gav-Lm-5UB" id="Cgx-l0-txs"/>
                         <outlet property="gdprConsentStringTextField" destination="GJ8-6v-92S" id="mkk-kZ-Kil"/>
+                        <outlet property="tcfConsentStringTextField" destination="QeM-zg-n7z" id="nWA-Yy-D6W"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uhk-uE-0ut" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

@@ -66,6 +66,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [[UIApplication sharedApplication].topViewController presentViewController:self.vastViewController animated:NO completion:nil];
     });
+    [[HyBidVASTEventBeaconsManager shared] reportVASTEventWithType:HyBidReportingEventType.SHOW ad:self.ad];
 }
 
 - (void)showFromViewController:(UIViewController *)viewController {

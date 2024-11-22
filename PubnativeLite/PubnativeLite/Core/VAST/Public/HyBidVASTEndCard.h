@@ -45,6 +45,4 @@ typedef enum {
 @property (nonatomic, assign) BOOL isCustomEndCard;
 
 @property (nonatomic, assign) BOOL isCustomEndCardClicked;
-
-@property (nonatomic, weak) NSObject <HyBidSKOverlayDelegate> *skoverlayDelegate;
 @end

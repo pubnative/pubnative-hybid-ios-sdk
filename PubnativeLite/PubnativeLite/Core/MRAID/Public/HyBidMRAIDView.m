@@ -74,6 +74,7 @@ typedef enum {
     BOOL isEndcard;
     BOOL isAdSessionCreated;
     BOOL isScrollable;
+    BOOL isExpanded;
 
     OMIDPubnativenetAdSession *adSession;
     
@@ -167,6 +168,7 @@ typedef enum {
 @property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, assign) BOOL isFeedbackScreenShown;
 @property (nonatomic, assign) BOOL isSKStoreKitVisible;
+@property (nonatomic, assign) BOOL isInternalWebBrowserVisible;
 @property (nonatomic, assign) BOOL willShowFeedbackScreen;
 @property (nonatomic, strong) HyBidSkipOffset *nativeCloseButtonDelay;
 @property (nonatomic, assign) BOOL creativeAutoStorekitEnabled;
@@ -265,6 +267,7 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
         isStoreViewControllerPresented = NO;
         isStoreViewControllerBeingPresented = NO;
         _skipOffset = skipOffset;
+        isExpanded = NO;
 
         orientationProperties = [[PNLiteMRAIDOrientationProperties alloc] init];
         resizeProperties = [[PNLiteMRAIDResizeProperties alloc] init];
@@ -311,7 +314,10 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
                     [self loadHTMLDataWithBaseURL:htmlData];
                 } else {
                     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
-                    if ([self.delegate respondsToSelector:@selector(mraidViewAdFailed:)]) {
+                    
+                    if (isEndcard && [self.delegate respondsToSelector:@selector(mraidViewAdFailed:withError:)]) {
+                        [self.delegate mraidViewAdFailed:self withError:error];
+                    } else if ([self.delegate respondsToSelector:@selector(mraidViewAdFailed:)]) {
                         [self.delegate mraidViewAdFailed:self];
                     }
                 }
@@ -397,7 +403,7 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (modalVC != nil && !self.isFeedbackScreenShown && !self.isSKStoreKitVisible) {
+        if (modalVC != nil && !self.isFeedbackScreenShown && !self.isSKStoreKitVisible && !self.isInternalWebBrowserVisible) {
             [self playCountdownView];
             [self playCloseButtonDelay];
         }
@@ -405,7 +411,7 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
 }
 
 - (void)applicationWillResignActive:(NSNotification *)notification {
-    if (modalVC != nil && !self.isFeedbackScreenShown && !self.isSKStoreKitVisible) {
+    if (modalVC != nil && !self.isFeedbackScreenShown && !self.isSKStoreKitVisible && !self.isInternalWebBrowserVisible) {
         [self pauseCountdownView];
         [self pauseCloseButtonDelay];
     }
@@ -433,8 +439,8 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
 }
 
 - (void)skStoreProductViewIsPresented:(NSNotification *)notification {
+    self.isSKStoreKitVisible = YES;
     if (modalVC != nil && !self.isFeedbackScreenShown) {
-        self.isSKStoreKitVisible = YES;
         [self pauseCountdownView];
         [self pauseCloseButtonDelay];
     }
@@ -915,7 +921,8 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
         NSString *content = [NSString stringWithContentsOfURL:[NSURL URLWithString:urlString] encoding:NSUTF8StringEncoding error:&error];
         if (!error) {
             if (!supportVerve) {
-                [webViewPart2 loadHTMLString:content baseURL:baseURL];
+                isExpanded = true;
+                [webViewPart2 loadRequest:[[NSURLRequest alloc]initWithURL:[NSURL URLWithString:urlString]]];
             } else {
                 [webViewPart2 loadRequest:[[NSURLRequest alloc]initWithURL:[NSURL URLWithString:urlString]]];
             }
@@ -981,7 +988,7 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
 - (void)addSkipOverlay
 {
     self.skipOverlay = [[HyBidSkipOverlay alloc] initWithSkipOffset:self->_skipOffset withCountdownStyle:HyBidCountdownPieChart withContentInfoPositionTopLeft:[self isContentInfoInTopLeftPosition] withShouldShowSkipButton:false ad:self.ad];
-    [self.skipOverlay addSkipOverlayViewIn:modalVC.view delegate:self withIsMRAID:YES];
+    [self.skipOverlay addSkipOverlayViewIn:modalVC.view delegate:self];
 }
 
 - (void)setWebViewConstraintsInRelationWithView:(UIView *)view
@@ -1034,6 +1041,9 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
             HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.DEFAULT_ENDCARD_CLICK adFormat:isInterstitial ? HyBidReportingAdFormat.FULLSCREEN : HyBidReportingAdFormat.REWARDED properties:nil];
             [[HyBid reportingManager] reportEventFor:reportingEvent];
         }
+        
+        [[HyBidVASTEventBeaconsManager shared] reportVASTEventWithType:HyBidReportingEventType.DEFAULT_ENDCARD_CLICK
+                                                                    ad:self.ad];
         return;
     }
 
@@ -1441,6 +1451,22 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
     }
 }
 
+- (void)pauseUserInterfaceElementsForInternalWebBrowser {
+    if (modalVC) {
+        [self pauseCountdownView];
+        [self pauseCloseButtonDelay];
+    }
+}
+
+- (void)resumeUserInterfaceElementsForInternalWebBrowser {
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (modalVC && !self.isFeedbackScreenShown) {
+            [weakSelf playCountdownView];
+            [weakSelf playCloseButtonDelay];
+        }
+    });
+}
 
 #pragma mark - native -->  JavaScript support
 
@@ -1746,7 +1772,14 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
                     if (urlFromMraidOpen && [urlFromMraidOpen isEqualToString:absUrlString]) {
                         urlFromMraidOpen = nil;
                     } else {
-                        [self.delegate mraidViewNavigate:self withURL:url];
+                        if (!self.isSKStoreKitVisible){
+                            if (isExpanded) {
+                                decisionHandler(WKNavigationActionPolicyAllow);
+                                isExpanded = NO;
+                            } else {
+                                [self.delegate mraidViewNavigate:self withURL:url];
+                            }
+                        }
                     }
                 }
             }
@@ -2018,6 +2051,28 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
     }
     isStoreViewControllerPresented = NO;
     [HyBidNotificationCenter.shared post: HyBidNotificationTypeSKStoreProductViewIsDismissed object: self.ad userInfo: nil];
+}
+
+#pragma mark HyBidInternalWebBrowserDelegate
+
+- (void)internalWebBrowserWillShow {
+    [self pauseUserInterfaceElementsForInternalWebBrowser];
+}
+
+- (void)internalWebBrowserDidShow {
+    [self setIsInternalWebBrowserVisible:YES];
+}
+
+- (void)internalWebBrowserDidFail {
+    [self resumeUserInterfaceElementsForInternalWebBrowser];
+}
+
+- (void)internalWebBrowserWillDismiss {
+    [self resumeUserInterfaceElementsForInternalWebBrowser];
+}
+
+- (void)internalWebBrowserDidDismiss {
+    [self setIsInternalWebBrowserVisible:NO];
 }
 
 @end

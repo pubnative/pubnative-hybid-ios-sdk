@@ -141,12 +141,12 @@
     [self.presenter.delegate interstitialPresenterDidDisappear:self.presenter];
 }
 
-- (void)vastPlayerDidShowSKOverlay {
-    [self.presenter.delegate interstitialPresenterDidClick:self.presenter];
+- (void)vastPlayerDidShowSKOverlayWithClickType:(HyBidSKOverlayAutomaticCLickType)clickType {
+    [self.presenter.delegate interstitialPresenterDidSKOverlayAutomaticClick:self.presenter clickType:clickType];
 }
 
-- (void)vastPlayerDidShowAutoStorekit {
-    [self.presenter.delegate interstitialPresenterDidClick:self.presenter];
+- (void)vastPlayerDidShowStorekitWithClickType:(HyBidStorekitAutomaticClickType)clickType {
+    [self.presenter.delegate interstitialPresenterDidStorekitAutomaticClick:self.presenter clickType:clickType];
 }
 
 - (void)vastPlayerDidClose:(PNLiteVASTPlayerViewController *)vastPlayer {
@@ -158,9 +158,12 @@
     [self.presenter.delegate interstitialPresenterDidAppear:self.presenter];
 }
 
-- (void)vastPlayerWillShowEndCard:(PNLiteVASTPlayerViewController *)vastPlayer endcard:(HyBidVASTEndCard *)endcard {
-    if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(interstitialPresenterWillPresentEndCard:endcard:)]) {
-        [self.presenter.delegate interstitialPresenterWillPresentEndCard:self.presenter endcard:endcard];
+- (void)vastPlayerWillShowEndCard:(PNLiteVASTPlayerViewController *)vastPlayer
+                  isCustomEndCard:(BOOL)isCustomEndCard
+                skoverlayDelegate:(id<HyBidSKOverlayDelegate>)skoverlayDelegate
+                customCTADelegate:(id<HyBidCustomCTAViewDelegate>)customCTADelegate {
+    if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(interstitialPresenterWillPresentEndCard:skoverlayDelegate:customCTADelegate:)]) {
+        [self.presenter.delegate interstitialPresenterWillPresentEndCard:self.presenter skoverlayDelegate:skoverlayDelegate customCTADelegate:customCTADelegate];
     }
     
     self.skAdModel = self.adModel.isUsingOpenRTB ? self.adModel.getOpenRTBSkAdNetworkModel : self.adModel.getSkAdNetworkModel;
@@ -169,7 +172,8 @@
             [self.presenter.delegate interstitialPresenterDismissesSKOverlay:self.presenter];
         }
     } else {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"VASTEndCardWillShow" object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"VASTEndCardWillShow" 
+                                                            object:[NSNumber numberWithBool:isCustomEndCard]];
     }
 }
 
@@ -179,6 +183,18 @@
     }
     if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(interstitialPresenterDidPresentCustomEndCard:)] && endcard.isCustomEndCard) {
         [self.presenter.delegate interstitialPresenterDidPresentCustomEndCard:self.presenter];
+    }
+}
+
+- (void)vastPlayerDidShowCustomCTA {
+    if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(interstitialPresenterDidPresentCustomCTA)]) {
+        [self.presenter.delegate interstitialPresenterDidPresentCustomCTA];
+    }
+}
+
+- (void)vastPlayerDidClickCustomCTAOnEndCard:(BOOL)onEndCard {
+    if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(interstitialPresenterDidClickCustomCTAOnEndCard:)]) {
+        [self.presenter.delegate interstitialPresenterDidClickCustomCTAOnEndCard:onEndCard];
     }
 }
 

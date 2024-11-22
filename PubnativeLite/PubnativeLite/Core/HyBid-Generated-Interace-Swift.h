@@ -328,8 +328,6 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 + (NSString * _Nonnull)VIDEO_STARTED SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull VIDEO_DISMISSED;)
 + (NSString * _Nonnull)VIDEO_DISMISSED SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull VIDEO_FINISHED;)
-+ (NSString * _Nonnull)VIDEO_FINISHED SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull VIDEO_MUTE;)
 + (NSString * _Nonnull)VIDEO_MUTE SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull VIDEO_UNMUTE;)
@@ -412,6 +410,8 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 + (NSString * _Nonnull)CUSTOM_CTA_ENDCARD_CLICK SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull SKOVERLAY_IMPRESSION;)
 + (NSString * _Nonnull)SKOVERLAY_IMPRESSION SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull STOREKIT_PRODUCT_VIEW_DISMISS;)
++ (NSString * _Nonnull)STOREKIT_PRODUCT_VIEW_DISMISS SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -433,10 +433,10 @@ SWIFT_CLASS("_TtC5HyBid14HyBidConstants")
 @interface HyBidConstants : NSObject
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull HYBID_SDK_NAME;)
 + (NSString * _Nonnull)HYBID_SDK_NAME SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull HYBID_SDK_VERSION;)
-+ (NSString * _Nonnull)HYBID_SDK_VERSION SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull HYBID_OMSDK_VERSION;)
 + (NSString * _Nonnull)HYBID_OMSDK_VERSION SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull HYBID_SDK_VERSION;)
++ (NSString * _Nonnull)HYBID_SDK_VERSION SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull HYBID_OMSDK_IDENTIFIER;)
 + (NSString * _Nonnull)HYBID_OMSDK_IDENTIFIER SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class) BOOL mraidExpand;)
@@ -469,9 +469,15 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) HyBidSkipOffset * _Non
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) HyBidSkipOffset * _Nonnull interstitialHtmlSkipOffset;)
 + (HyBidSkipOffset * _Nonnull)interstitialHtmlSkipOffset SWIFT_WARN_UNUSED_RESULT;
 + (void)setInterstitialHtmlSkipOffset:(HyBidSkipOffset * _Nonnull)value;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) HyBidSkipOffset * _Nonnull pcInterstitialHtmlSkipOffset;)
++ (HyBidSkipOffset * _Nonnull)pcInterstitialHtmlSkipOffset SWIFT_WARN_UNUSED_RESULT;
++ (void)setPcInterstitialHtmlSkipOffset:(HyBidSkipOffset * _Nonnull)value;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) HyBidSkipOffset * _Nonnull videoSkipOffset;)
 + (HyBidSkipOffset * _Nonnull)videoSkipOffset SWIFT_WARN_UNUSED_RESULT;
 + (void)setVideoSkipOffset:(HyBidSkipOffset * _Nonnull)value;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) HyBidSkipOffset * _Nonnull pcVideoSkipOffset;)
++ (HyBidSkipOffset * _Nonnull)pcVideoSkipOffset SWIFT_WARN_UNUSED_RESULT;
++ (void)setPcVideoSkipOffset:(HyBidSkipOffset * _Nonnull)value;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class) HyBidInterstitialActionBehaviour interstitialActionBehaviour;)
 + (HyBidInterstitialActionBehaviour)interstitialActionBehaviour SWIFT_WARN_UNUSED_RESULT;
 + (void)setInterstitialActionBehaviour:(HyBidInterstitialActionBehaviour)value;
@@ -502,6 +508,12 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, copy) NSString * _Nonnull itun
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, copy) NSString * _Nonnull customCTAInputValue;)
 + (NSString * _Nonnull)customCTAInputValue SWIFT_WARN_UNUSED_RESULT;
 + (void)setCustomCTAInputValue:(NSString * _Nonnull)value;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, copy) NSString * _Nonnull customBundleId;)
++ (NSString * _Nonnull)customBundleId SWIFT_WARN_UNUSED_RESULT;
++ (void)setCustomBundleId:(NSString * _Nonnull)value;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class) BOOL iconSizeReducedInputValue;)
++ (BOOL)iconSizeReducedInputValue SWIFT_WARN_UNUSED_RESULT;
++ (void)setIconSizeReducedInputValue:(BOOL)value;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -528,6 +540,28 @@ SWIFT_CLASS("_TtC5HyBid18HyBidCustomCTAView")
 + (BOOL)isCustomCTAValidWithAd:(HyBidAd * _Nonnull)ad SWIFT_WARN_UNUSED_RESULT;
 @end
 
+
+enum HyBidGDPRk : NSInteger;
+
+SWIFT_CLASS("_TtC5HyBid9HyBidGDPR")
+@interface HyBidGDPR : NSObject
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER SWIFT_UNAVAILABLE;
++ (NSString * _Nonnull)stringValueForKey:(enum HyBidGDPRk)key SWIFT_WARN_UNUSED_RESULT;
++ (NSArray<NSString *> * _Nonnull)allGDPRKeys SWIFT_WARN_UNUSED_RESULT;
+@end
+
+typedef SWIFT_ENUM_NAMED(NSInteger, HyBidGDPRk, "HyBidGDPRKeys", open) {
+  HyBidGDPRkCCPAPrivacyKey = 0,
+  HyBidGDPRkGDPRConsentKey = 1,
+  HyBidGDPRkGDPRAppliesKey = 2,
+  HyBidGDPRkCCPAPublicPrivacyKey = 3,
+  HyBidGDPRkGDPRPublicConsentKey = 4,
+  HyBidGDPRkGDPRPublicConsentV2Key = 5,
+  HyBidGDPRkGPPPublicString = 6,
+  HyBidGDPRkGPPPublicID = 7,
+  HyBidGDPRkGPPString = 8,
+  HyBidGDPRkGPPID = 9,
+};
 
 
 SWIFT_CLASS("_TtC5HyBid24HyBidImpressionConstants")
@@ -568,6 +602,7 @@ SWIFT_CLASS("_TtC5HyBid19HyBidInterstitialAd")
 - (nonnull instancetype)initWithDelegate:(id <HyBidInterstitialAdDelegate> _Nonnull)delegate;
 - (nonnull instancetype)initWithZoneID:(NSString * _Nullable)zoneID andWithDelegate:(id <HyBidInterstitialAdDelegate> _Nonnull)delegate;
 - (nonnull instancetype)initWithZoneID:(NSString * _Nullable)zoneID withAppToken:(NSString * _Nullable)appToken andWithDelegate:(id <HyBidInterstitialAdDelegate> _Nonnull)delegate;
+- (void)setOpenRTBAdTypeWithAdFormat:(HyBidOpenRTBAdType)adFormat;
 - (void)load;
 - (void)loadExchangeAd;
 - (void)prepare;
@@ -581,6 +616,7 @@ SWIFT_CLASS("_TtC5HyBid19HyBidInterstitialAd")
 - (void)showFromViewController:(UIViewController * _Nonnull)viewController;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
+
 
 
 
@@ -630,6 +666,26 @@ SWIFT_CLASS("_TtC5HyBid23HyBidMRAIDCloseCardView")
 @interface HyBidMRAIDCloseCardView (SWIFT_EXTENSION(HyBid)) <HyBidContentInfoViewDelegate>
 - (void)contentInfoViewWidthNeedsUpdate:(NSNumber * _Null_unspecified)width;
 @end
+
+enum HyBidNotificationType : int32_t;
+
+SWIFT_CLASS("_TtC5HyBid23HyBidNotificationCenter")
+@interface HyBidNotificationCenter : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) HyBidNotificationCenter * _Nonnull shared;)
++ (HyBidNotificationCenter * _Nonnull)shared SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+- (void)post:(enum HyBidNotificationType)notificationType object:(id _Nullable)object userInfo:(NSDictionary * _Nullable)userInfo;
+- (void)addObserver:(id _Nonnull)observer selector:(SEL _Nonnull)selector notificationType:(enum HyBidNotificationType)notificationType object:(id _Nullable)object;
+@end
+
+typedef SWIFT_ENUM(int32_t, HyBidNotificationType, open) {
+  HyBidNotificationTypeSKStoreProductViewIsReadyToPresent = 0,
+  HyBidNotificationTypeSKStoreProductViewIsReadyToPresentForSDKStorekit = 1,
+  HyBidNotificationTypeSKStoreProductViewIsShown = 2,
+  HyBidNotificationTypeSKStoreProductViewIsDismissed = 3,
+  HyBidNotificationTypeSKStoreProductViewIsDismissedFromVideo = 4,
+};
 
 @class PNLiteAdRequestModel;
 
@@ -690,6 +746,7 @@ SWIFT_CLASS("_TtC5HyBid15HyBidRewardedAd")
 - (nonnull instancetype)initWithZoneID:(NSString * _Nullable)zoneID withAppToken:(NSString * _Nullable)appToken andWithDelegate:(id <HyBidRewardedAdDelegate> _Nonnull)delegate;
 - (void)load;
 - (void)loadExchangeAd;
+- (void)setOpenRTBAdTypeWithAdFormat:(HyBidOpenRTBAdType)adFormat;
 - (void)prepare;
 - (void)setMediationVendor:(NSString * _Nonnull)mediationVendor;
 - (void)prepareCustomMarkupFrom:(NSString * _Nonnull)markup;
@@ -818,6 +875,16 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger DEFAULT_IN
 + (NSInteger)DEFAULT_INTERSTITIAL_HTML_MAX_SKIP_OFFSET SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger DEFAULT_NATIVE_CLOSE_BUTTON_OFFSET;)
 + (NSInteger)DEFAULT_NATIVE_CLOSE_BUTTON_OFFSET SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger DEFAULT_PC_VIDEO_SKIP_OFFSET;)
++ (NSInteger)DEFAULT_PC_VIDEO_SKIP_OFFSET SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger DEFAULT_PC_VIDEO_MAX_SKIP_OFFSET_COMPANION;)
++ (NSInteger)DEFAULT_PC_VIDEO_MAX_SKIP_OFFSET_COMPANION SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger DEFAULT_PC_VIDEO_MAX_SKIP_OFFSET_NON_COMPANION;)
++ (NSInteger)DEFAULT_PC_VIDEO_MAX_SKIP_OFFSET_NON_COMPANION SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger DEFAULT_PC_INTERSTITIAL_SKIP_OFFSET;)
++ (NSInteger)DEFAULT_PC_INTERSTITIAL_SKIP_OFFSET SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger DEFAULT_PC_INTERSTITIAL_MAX_SKIP_OFFSET;)
++ (NSInteger)DEFAULT_PC_INTERSTITIAL_MAX_SKIP_OFFSET SWIFT_WARN_UNUSED_RESULT;
 @property (nonatomic, strong) NSNumber * _Nullable offset;
 @property (nonatomic) BOOL isCustom;
 @property (nonatomic, strong) NSNumber * _Nonnull style;

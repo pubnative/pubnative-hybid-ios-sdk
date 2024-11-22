@@ -47,7 +47,46 @@
     // Override point for customization after application launch.
     [HyBidLogger setLogLevel:HyBidLogLevelDebug];
     [PNLiteDemoSettings sharedInstance];
-    [HyBid initWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey] completion:nil];
+    
+    if([[NSUserDefaults standardUserDefaults] boolForKey:kHyBidDemoPublisherModeKey]) {
+        [HyBid initWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey] completion:nil];
+    } else {
+        //The following UIAlertController & SDK initialisation sequence is just for QA purposes. In real life, there's no such flow for SDK initialisation.
+        [self.window makeKeyAndVisible];
+        
+        //Setting the appToken param here for HyBidConfigManager methods can use it.
+        //Those methods are getting called before initWithAppToken: hence, no appToken to be used beforehand.
+        [HyBidSDKConfig sharedConfig].appToken = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey];
+        UIAlertController *sdkConfigURLAlert = [UIAlertController alertControllerWithTitle:kHyBidSDKConfigAlertTitle
+                                                                                   message:@""
+                                                                            preferredStyle:UIAlertControllerStyleAlert];
+        [sdkConfigURLAlert setValue:[[NSAttributedString alloc] initWithString:[PNLiteDemoSettings sharedInstance].sdkConfigAlertMessage
+                                                                    attributes:[PNLiteDemoSettings sharedInstance].sdkConfigAlertAttributes]
+                             forKey:@"attributedMessage"];
+        
+        [sdkConfigURLAlert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+            textField.keyboardType = UIKeyboardTypeASCIICapable;
+            textField.placeholder = kHyBidSDKConfigAlertTextFieldPlaceholder;
+        }];
+        
+        __weak UITextField *weakTextField = [sdkConfigURLAlert.textFields firstObject];
+        UIAlertAction *testingURL = [UIAlertAction actionWithTitle:kHyBidSDKConfigAlertActionTitleForTesting
+                                                             style:UIAlertActionStyleDestructive
+                                                           handler:^(UIAlertAction *action) {
+            [[HyBidConfigManager sharedManager] setHyBidConfigURLToTestingWithURL:weakTextField.text];
+            [HyBid initWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey] completion:nil];
+        }];
+        UIAlertAction *productionURL = [UIAlertAction actionWithTitle:kHyBidSDKConfigAlertActionTitleForProduction
+                                                                style:UIAlertActionStyleCancel
+                                                              handler:^(UIAlertAction *action) {
+            [[HyBidConfigManager sharedManager] setHyBidConfigURLToProduction];
+            [HyBid initWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey] completion:nil];
+        }];
+        [sdkConfigURLAlert addAction:testingURL];
+        [sdkConfigURLAlert addAction:productionURL];
+        [self.window.rootViewController presentViewController:sdkConfigURLAlert animated:YES completion:nil];
+    }
+    
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kHyBidDemoReportingKey];
     [HyBid setReporting:YES];
     // Configure Firebase app
@@ -72,8 +111,8 @@
     
     [HyBid setAppStoreAppID:kHyBidDemoAppID];
     [HyBid getCustomRequestSignalData];
-// FIXME: Replace OneTrust with UserCentrics
-//    [HyBidGPPSDKInitializer initOneTrustSDK];
+    // FIXME: Replace OneTrust with UserCentrics
+    //    [HyBidGPPSDKInitializer initOneTrustSDK];
     return YES;
 }
 
