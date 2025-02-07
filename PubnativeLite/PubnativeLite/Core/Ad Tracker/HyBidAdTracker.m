@@ -61,12 +61,9 @@ NSString *const PNLiteAdCustomCTAEndCardClick = @"custom_cta_endcard_click";
 @property (nonatomic, assign) BOOL customEndCardClickTracked;
 @property (nonatomic, assign) BOOL customEndCardImpressionTracked;
 @property (nonatomic, assign) BOOL customCTAImpressionTracked;
-@property (nonatomic, assign) BOOL skoverlayAutomaticClickTracked;
-@property (nonatomic, assign) BOOL skoverlayAutomaticDefaultEndCardClickTracked;
-@property (nonatomic, assign) BOOL skoverlayAutomaticCustomEndCardClickTracked;
-@property (nonatomic, assign) BOOL storekitAutomaticClickTracked;
-@property (nonatomic, assign) BOOL storekitAutomaticDefaultEndCardClickTracked;
-@property (nonatomic, assign) BOOL storekitAutomaticCustomEndCardClickTracked;
+@property (nonatomic, assign) BOOL automaticCustomEndCardClickTracked;
+@property (nonatomic, assign) BOOL automaticClickTracked;
+@property (nonatomic, assign) BOOL clickBeaconsTracked;
 
 @property (nonatomic, strong) NSString *trackTypeForURL;
 @property (nonatomic, assign) BOOL customCTAClickTracked;
@@ -121,7 +118,7 @@ NSString *const PNLiteAdCustomCTAEndCardClick = @"custom_cta_endcard_click";
         self.customEndcardImpressionURLs = customEndcardImpressionURLs;
         self.clickURLs = clickURLs;
         self.customEndcardClickURLs = customEndcardClickURLs;
-        self.wkWebView = [[WKWebView alloc]initWithFrame:CGRectZero];
+        self.wkWebView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:[WKWebViewConfiguration new]];
         self.customCTATracking = customCTATracking;
     }
     return self;
@@ -219,75 +216,117 @@ NSString *const PNLiteAdCustomCTAEndCardClick = @"custom_cta_endcard_click";
 }
 
 - (void)trackSKOverlayAutomaticClickWithAdFormat:(NSString *)adFormat {
-    if (self.skoverlayAutomaticClickTracked) {
+    if (self.automaticClickTracked) {
         return;
     }
     
+    [self trackURLs:self.clickURLs withTrackingType:PNLiteAdTrackerClick];
     if ([HyBidSDKConfig sharedConfig].reporting) {
         HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.SKOVERLAY_AUTOMATIC_CLICK adFormat:adFormat properties:nil];
         [[HyBid reportingManager] reportEventFor:reportingEvent];
     }
-    self.skoverlayAutomaticClickTracked = YES;
+    self.automaticClickTracked = YES;
 }
 
 - (void)trackSKOverlayAutomaticDefaultEndCardClickWithAdFormat:(NSString *)adFormat {
-    if (self.skoverlayAutomaticDefaultEndCardClickTracked) {
+    if (!self.clickBeaconsTracked) {
+        [[HyBidVASTEventBeaconsManager shared] reportVASTEventWithType:HyBidReportingEventType.DEFAULT_ENDCARD_CLICK
+                                                                    ad:self.ad];
+        self.clickBeaconsTracked = YES;
+    }
+    
+    if (self.automaticClickTracked) {
         return;
     }
     
+    [self trackURLs:self.clickURLs withTrackingType:PNLiteAdTrackerClick];
     if ([HyBidSDKConfig sharedConfig].reporting) {
         HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.SKOVERLAY_AUTOMATIC_DEFAULT_ENDCARD_CLICK adFormat:adFormat properties:nil];
         [[HyBid reportingManager] reportEventFor:reportingEvent];
     }
-    self.skoverlayAutomaticDefaultEndCardClickTracked = YES;
+    
+    self.automaticClickTracked = YES;
 }
 
 - (void)trackSKOverlayAutomaticCustomEndCardClickWithAdFormat:(NSString *)adFormat {
-    if (self.skoverlayAutomaticCustomEndCardClickTracked) {
+    if (!self.clickBeaconsTracked) {
+        [[HyBidVASTEventBeaconsManager shared] reportVASTEventWithType:HyBidReportingEventType.CUSTOM_ENDCARD_CLICK
+                                                                    ad:self.ad];
+        self.clickBeaconsTracked = YES;
+    }
+    
+    if (self.automaticCustomEndCardClickTracked && self.automaticClickTracked) {
         return;
+    }
+    if (!self.automaticClickTracked) {
+        [self trackURLs:self.clickURLs withTrackingType:PNLiteAdTrackerClick];
+        self.automaticClickTracked = YES;
+    }
+    if (!self.automaticCustomEndCardClickTracked) {
+        [self trackURLs:self.customEndcardClickURLs withTrackingType:HyBidReportingEventType.CUSTOM_ENDCARD_CLICK];
+        self.automaticCustomEndCardClickTracked = YES;
     }
     
     if ([HyBidSDKConfig sharedConfig].reporting) {
         HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.SKOVERLAY_AUTOMATIC_CUSTOM_ENDCARD_CLICK adFormat:adFormat properties:nil];
         [[HyBid reportingManager] reportEventFor:reportingEvent];
     }
-    self.skoverlayAutomaticCustomEndCardClickTracked = YES;
 }
 
 - (void)trackStorekitAutomaticClickWithAdFormat:(NSString *)adFormat {
-    if (self.storekitAutomaticClickTracked) {
+    if (self.automaticClickTracked) {
         return;
     }
 
+    [self trackURLs:self.clickURLs withTrackingType:PNLiteAdTrackerClick];
     if ([HyBidSDKConfig sharedConfig].reporting) {
         HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.STOREKIT_AUTOMATIC_CLICK adFormat:adFormat properties:nil];
         [[HyBid reportingManager] reportEventFor:reportingEvent];
     }
-    self.storekitAutomaticClickTracked = YES;
+    self.automaticClickTracked = YES;
 }
 
 - (void)trackStorekitAutomaticDefaultEndCardClickWithAdFormat:(NSString *)adFormat {
-    if (self.storekitAutomaticDefaultEndCardClickTracked) {
+    if (!self.clickBeaconsTracked) {
+        [[HyBidVASTEventBeaconsManager shared] reportVASTEventWithType:HyBidReportingEventType.DEFAULT_ENDCARD_CLICK
+                                                                    ad:self.ad];
+        self.clickBeaconsTracked = YES;
+    }
+    
+    if (self.automaticClickTracked) {
         return;
     }
-
+    
+    [self trackURLs:self.clickURLs withTrackingType:PNLiteAdTrackerClick];
     if ([HyBidSDKConfig sharedConfig].reporting) {
         HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.STOREKIT_AUTOMATIC_DEFAULT_ENDCARD_CLICK adFormat:adFormat properties:nil];
         [[HyBid reportingManager] reportEventFor:reportingEvent];
     }
-    self.storekitAutomaticDefaultEndCardClickTracked = YES;
+    self.automaticClickTracked = YES;
 }
 
 - (void)trackStorekitAutomaticCustomEndCardClickWithAdFormat:(NSString *)adFormat {
-    if (self.storekitAutomaticCustomEndCardClickTracked) {
+    if (!self.clickBeaconsTracked) {
+        [[HyBidVASTEventBeaconsManager shared] reportVASTEventWithType:HyBidReportingEventType.CUSTOM_ENDCARD_CLICK
+                                                                    ad:self.ad];
+        self.clickBeaconsTracked = YES;
+    }
+    
+    if (self.automaticCustomEndCardClickTracked && self.automaticClickTracked) {
         return;
     }
-
+    if (!self.automaticClickTracked) {
+        [self trackURLs:self.clickURLs withTrackingType:PNLiteAdTrackerClick];
+        self.automaticClickTracked = YES;
+    }
+    if (!self.automaticCustomEndCardClickTracked) {
+        [self trackURLs:self.customEndcardClickURLs withTrackingType:HyBidReportingEventType.CUSTOM_ENDCARD_CLICK];
+        self.automaticCustomEndCardClickTracked = YES;
+    }
     if ([HyBidSDKConfig sharedConfig].reporting) {
         HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.STOREKIT_AUTOMATIC_CUSTOM_ENDCARD_CLICK adFormat:adFormat properties:nil];
         [[HyBid reportingManager] reportEventFor:reportingEvent];
     }
-    self.storekitAutomaticCustomEndCardClickTracked= YES;
 }
 
 - (void)trackURLs:(NSArray *)URLs withTrackingType:(NSString *)trackingType {

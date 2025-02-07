@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="oCm-84-z79">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="oCm-84-z79">
+    <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,11 +17,11 @@
                         <viewControllerLayoutGuide type="bottom" id="u5Z-OG-p7a"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="rq6-rV-hag">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Network" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FB7-B2-kQt">
-                                <rect key="frame" x="16" y="56" width="53" height="21"/>
+                                <rect key="frame" x="16" y="28" width="53" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="networkLabel" label="Network Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="Q9H-QR-1zY"/>
@@ -36,7 +36,7 @@
                                 </variation>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Now-D3-gFm" userLabel="GAD Button">
-                                <rect key="frame" x="16" y="85" width="382" height="33"/>
+                                <rect key="frame" x="16" y="57" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="gadButton" label="GAD Button"/>
                                 <constraints>
@@ -67,7 +67,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Ea-L3-3u8" userLabel="IronSource Button">
-                                <rect key="frame" x="16" y="167" width="382" height="33"/>
+                                <rect key="frame" x="16" y="139" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="ironSouceButton" label="IronSource Button"/>
                                 <constraints>
@@ -98,7 +98,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6UC-Ad-aqu" userLabel="AppLovin Button">
-                                <rect key="frame" x="16" y="126" width="382" height="33"/>
+                                <rect key="frame" x="16" y="98" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="appLovinButton" label="AppLovin Button"/>
                                 <constraints>
@@ -129,7 +129,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qBa-J8-fXJ" userLabel="Chartboost Button">
-                                <rect key="frame" x="16" y="208" width="382" height="33"/>
+                                <rect key="frame" x="16" y="180" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="chartboostButton" label="Chartboost Button"/>
                                 <constraints>
@@ -196,11 +196,11 @@
                         <viewControllerLayoutGuide type="bottom" id="hSI-k6-beJ"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Xap-3b-dq3">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Format" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rLn-xw-477" userLabel="Format">
-                                <rect key="frame" x="16" y="8" width="42.5" height="21"/>
+                                <rect key="frame" x="15.999999999999996" y="8" width="42.666666666666657" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="formatLabel" label="Format Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="Pvu-66-SCC"/>
@@ -443,7 +443,7 @@
                         <viewControllerLayoutGuide type="bottom" id="h5j-zg-g9V"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="LtQ-Wb-Ozz">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pbT-xD-K7e">
@@ -471,11 +471,11 @@
                                 </constraints>
                             </view>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="bOB-GG-n2S" userLabel="Leaderboard Loader Indicator">
-                                <rect key="frame" x="188.5" y="70" width="37" height="37"/>
+                                <rect key="frame" x="188.66666666666666" y="70" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MiV-Xl-L6b" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="845" width="382" height="33"/>
+                                <rect key="frame" x="16" y="675" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -534,7 +534,7 @@
                         <viewControllerLayoutGuide type="bottom" id="JKO-Rt-z9Y"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="1W2-Pr-ITC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sTh-0H-Plp">
@@ -562,11 +562,11 @@
                                 </constraints>
                             </view>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="vZp-S8-Sbq">
-                                <rect key="frame" x="188.5" y="54" width="37" height="37"/>
+                                <rect key="frame" x="188.66666666666666" y="54" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CEE-X9-lhe" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="845" width="382" height="33"/>
+                                <rect key="frame" x="16" y="675" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -625,7 +625,7 @@
                         <viewControllerLayoutGuide type="bottom" id="F0e-GV-iUM"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="MiE-ud-158">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hlb-ow-jeZ">
@@ -653,11 +653,11 @@
                                 </constraints>
                             </view>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="5HG-ee-g2W">
-                                <rect key="frame" x="188.5" y="152" width="37" height="37"/>
+                                <rect key="frame" x="188.66666666666666" y="152" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1KH-lB-aei" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="845" width="382" height="33"/>
+                                <rect key="frame" x="16" y="675" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -716,7 +716,7 @@
                         <viewControllerLayoutGuide type="bottom" id="oeO-VS-w0n"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="x3O-45-Lah">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YQP-yC-Dxu">
@@ -734,11 +734,11 @@
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="tgx-d1-eNI">
-                                <rect key="frame" x="188.5" y="424.5" width="37" height="37"/>
+                                <rect key="frame" x="188.66666666666666" y="339.66666666666669" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kc7-lt-WWO" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="845" width="382" height="33"/>
+                                <rect key="frame" x="16" y="675" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -820,7 +820,7 @@
                         <viewControllerLayoutGuide type="bottom" id="5D6-UB-VCv"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="bMc-cr-zGV">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2D8-SD-mvx">
@@ -838,11 +838,11 @@
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="yge-GL-eI0">
-                                <rect key="frame" x="188.5" y="424.5" width="37" height="37"/>
+                                <rect key="frame" x="188.66666666666666" y="339.66666666666669" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IAm-iE-pRT" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="845" width="382" height="33"/>
+                                <rect key="frame" x="16" y="675" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -916,7 +916,7 @@
                         <viewControllerLayoutGuide type="bottom" id="Hs0-fW-kx0"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="aO6-gV-vft">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="79n-hd-uri">
@@ -934,7 +934,7 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cWz-5F-paN" userLabel="Native Ad Background">
-                                <rect key="frame" x="35.5" y="46" width="343" height="242"/>
+                                <rect key="frame" x="35.666666666666657" y="46" width="343" height="242"/>
                                 <subviews>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fxt-CM-ip6" userLabel="Native Ad Container View">
                                         <rect key="frame" x="8" y="8" width="327" height="226"/>
@@ -960,11 +960,11 @@
                                 </constraints>
                             </view>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Ix3-ZG-Xf2" userLabel="Native Ad Loader Indicator">
-                                <rect key="frame" x="188.5" y="152" width="37" height="37"/>
+                                <rect key="frame" x="188.66666666666666" y="152" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4HR-2X-sdp" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="845" width="382" height="33"/>
+                                <rect key="frame" x="16" y="675" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -1023,11 +1023,11 @@
                         <viewControllerLayoutGuide type="bottom" id="ld7-m1-809"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Ir6-zV-iXI">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Format" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xxq-ZH-MvL" userLabel="Format">
-                                <rect key="frame" x="16" y="8" width="42.5" height="21"/>
+                                <rect key="frame" x="15.999999999999996" y="8" width="42.666666666666657" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="formatLabel" label="Format Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="i5L-RX-BZA"/>
@@ -1161,7 +1161,7 @@
                         <viewControllerLayoutGuide type="bottom" id="yNf-Z0-l3H"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="5Rm-Oa-lwu">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xsu-DM-exx">
@@ -1179,11 +1179,11 @@
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="9De-7H-xdB">
-                                <rect key="frame" x="188.5" y="424.5" width="37" height="37"/>
+                                <rect key="frame" x="188.66666666666666" y="339.66666666666669" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YAT-5P-Cnd" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="845" width="382" height="33"/>
+                                <rect key="frame" x="16" y="675" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -1257,11 +1257,11 @@
                         <viewControllerLayoutGuide type="bottom" id="L5E-4D-977"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="87T-lA-uMG">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Format" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oFV-EW-vCa" userLabel="Format">
-                                <rect key="frame" x="16" y="8" width="42.5" height="21"/>
+                                <rect key="frame" x="15.999999999999996" y="8" width="42.666666666666657" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="formatLabel" label="Format Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="FRv-Rm-4v4"/>
@@ -1470,7 +1470,7 @@
                         <viewControllerLayoutGuide type="bottom" id="sMb-Md-8hp"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="udt-8K-xBh">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q02-tl-Qa6">
@@ -1498,11 +1498,11 @@
                                 </constraints>
                             </view>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="nZ5-Wy-RRd">
-                                <rect key="frame" x="188.5" y="54" width="37" height="37"/>
+                                <rect key="frame" x="188.66666666666666" y="54" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tXB-JR-TfM" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="845" width="382" height="33"/>
+                                <rect key="frame" x="16" y="675" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -1561,7 +1561,7 @@
                         <viewControllerLayoutGuide type="bottom" id="eLy-KL-8e3"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="v9q-yg-Dcl">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6cj-vY-R59">
@@ -1589,11 +1589,11 @@
                                 </constraints>
                             </view>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="czr-nu-NEJ">
-                                <rect key="frame" x="188.5" y="152" width="37" height="37"/>
+                                <rect key="frame" x="188.66666666666666" y="152" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Wz-cI-0kV" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="845" width="382" height="33"/>
+                                <rect key="frame" x="16" y="675" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -1652,7 +1652,7 @@
                         <viewControllerLayoutGuide type="bottom" id="47E-Nd-vta"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="PUD-gK-tHf">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KVX-oJ-BAy">
@@ -1670,11 +1670,11 @@
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="TgE-JQ-Gog">
-                                <rect key="frame" x="188.5" y="424.5" width="37" height="37"/>
+                                <rect key="frame" x="188.66666666666666" y="339.66666666666669" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FpF-4C-FEV" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="845" width="382" height="33"/>
+                                <rect key="frame" x="16" y="675" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -1748,7 +1748,7 @@
                         <viewControllerLayoutGuide type="bottom" id="VRJ-88-bdK"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8go-lk-dhC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C8d-Mb-fxV">
@@ -1766,11 +1766,11 @@
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="OWg-QC-fYT">
-                                <rect key="frame" x="188.5" y="424.5" width="37" height="37"/>
+                                <rect key="frame" x="188.66666666666666" y="339.66666666666669" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q41-Tt-zpN" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="845" width="382" height="33"/>
+                                <rect key="frame" x="16" y="675" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -1844,25 +1844,11 @@
                         <viewControllerLayoutGuide type="bottom" id="N09-BQ-izg"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8m5-RS-Mco">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JSc-a2-yMf">
-                                <rect key="frame" x="16" y="8" width="382" height="33"/>
-                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
-                                <accessibility key="accessibilityConfiguration" identifier="showAdButton" label="Show Ad Button"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="33" id="g9Q-Fn-tRy"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="15"/>
-                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Show Ad"/>
-                                <connections>
-                                    <action selector="showAdTouchUpInside:" destination="d8d-Fk-qZA" eventType="touchUpInside" id="6qR-C1-Yk4"/>
-                                </connections>
-                            </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u4A-Mx-6IB" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="845" width="382" height="33"/>
+                                <rect key="frame" x="16" y="675" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -1884,23 +1870,61 @@
                                     </segue>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6cA-Br-Cac">
+                                <rect key="frame" x="16" y="8" width="382" height="30"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration" identifier="loadAdButton" label="Load Ad Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="n3i-Rw-VQj"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Load Ad"/>
+                                <connections>
+                                    <action selector="requestInterstitialTouchUpInside:" destination="d8d-Fk-qZA" eventType="touchUpInside" id="CQW-Sm-ECv"/>
+                                </connections>
+                            </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="yjC-Uj-Zvc">
+                                <rect key="frame" x="188.66666666666666" y="339.66666666666669" width="37" height="37"/>
+                                <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JSc-a2-yMf">
+                                <rect key="frame" x="16" y="46" width="382" height="30"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration" identifier="showAdButton" label="Show Ad Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="sxU-lS-pMB"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Show Ad"/>
+                                <connections>
+                                    <action selector="showAdTouchUpInside:" destination="d8d-Fk-qZA" eventType="touchUpInside" id="6qR-C1-Yk4"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="pxg-UA-528"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="6cA-Br-Cac" firstAttribute="leading" secondItem="pxg-UA-528" secondAttribute="leading" constant="16" id="2tX-Lu-Xk8"/>
+                            <constraint firstItem="pxg-UA-528" firstAttribute="trailing" secondItem="6cA-Br-Cac" secondAttribute="trailing" constant="16" id="Bid-0P-EMk"/>
                             <constraint firstItem="pxg-UA-528" firstAttribute="trailing" secondItem="u4A-Mx-6IB" secondAttribute="trailing" constant="16" id="CoJ-jp-K7g"/>
-                            <constraint firstItem="JSc-a2-yMf" firstAttribute="top" secondItem="pxg-UA-528" secondAttribute="top" constant="8" id="TZv-lk-xJC"/>
-                            <constraint firstItem="pxg-UA-528" firstAttribute="trailing" secondItem="JSc-a2-yMf" secondAttribute="trailing" constant="16" id="WbL-dH-Zs3"/>
+                            <constraint firstItem="yjC-Uj-Zvc" firstAttribute="centerY" secondItem="8m5-RS-Mco" secondAttribute="centerY" id="Qv0-hB-Ch0"/>
+                            <constraint firstItem="6cA-Br-Cac" firstAttribute="top" secondItem="pxg-UA-528" secondAttribute="top" constant="8" id="R5K-tr-m5Y"/>
+                            <constraint firstItem="yjC-Uj-Zvc" firstAttribute="centerX" secondItem="8m5-RS-Mco" secondAttribute="centerX" id="Wys-vX-2Ed"/>
                             <constraint firstItem="u4A-Mx-6IB" firstAttribute="leading" secondItem="pxg-UA-528" secondAttribute="leading" constant="16" id="YqQ-FF-K1N"/>
-                            <constraint firstItem="JSc-a2-yMf" firstAttribute="leading" secondItem="pxg-UA-528" secondAttribute="leading" constant="16" id="dE6-qw-3e1"/>
+                            <constraint firstItem="JSc-a2-yMf" firstAttribute="leading" secondItem="pxg-UA-528" secondAttribute="leading" constant="16" id="cBD-Zc-YgX"/>
                             <constraint firstItem="pxg-UA-528" firstAttribute="bottom" secondItem="u4A-Mx-6IB" secondAttribute="bottom" constant="8" id="dzi-eH-gkh"/>
+                            <constraint firstItem="pxg-UA-528" firstAttribute="trailing" secondItem="JSc-a2-yMf" secondAttribute="trailing" constant="16" id="e6T-xd-YoF"/>
+                            <constraint firstItem="JSc-a2-yMf" firstAttribute="top" secondItem="6cA-Br-Cac" secondAttribute="bottom" constant="8" symbolic="YES" id="qKo-sJ-6CT"/>
                             <constraint firstItem="u4A-Mx-6IB" firstAttribute="centerX" secondItem="8m5-RS-Mco" secondAttribute="centerX" id="suV-bc-Od1"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="bb6-X5-FQn"/>
                     <connections>
                         <outlet property="debugButton" destination="u4A-Mx-6IB" id="6Dk-CK-xaH"/>
-                        <outlet property="showAdButton" destination="JSc-a2-yMf" id="J1y-FJ-Zvb"/>
+                        <outlet property="rewardedLoaderIndicator" destination="yjC-Uj-Zvc" id="KKi-bk-P7n"/>
+                        <outlet property="showAdButton" destination="JSc-a2-yMf" id="aVq-ew-0tO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yRD-Xq-1vd" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1916,7 +1940,7 @@
                         <viewControllerLayoutGuide type="bottom" id="41F-lf-khs"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="m0Z-dv-tse">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H9B-vh-XuL">
@@ -1943,11 +1967,11 @@
                                 </constraints>
                             </view>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="S4G-Bl-0C8">
-                                <rect key="frame" x="188.5" y="54" width="37" height="37"/>
+                                <rect key="frame" x="188.66666666666666" y="54" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fcy-wC-II7" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="845" width="382" height="33"/>
+                                <rect key="frame" x="16" y="675" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -2008,11 +2032,11 @@
                         <viewControllerLayoutGuide type="bottom" id="2SC-Pr-0Wm"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="G6h-mg-taj">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Format" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nte-pk-VhL" userLabel="Format">
-                                <rect key="frame" x="16" y="8" width="42.5" height="21"/>
+                                <rect key="frame" x="15.999999999999996" y="8" width="42.666666666666657" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="formatLabel" label="Format Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="mz5-Dh-8Ev"/>
@@ -2187,7 +2211,7 @@
                         <viewControllerLayoutGuide type="bottom" id="LEA-Vs-KGX"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="iTq-Bt-lW9">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pfo-5J-3VS">
@@ -2205,11 +2229,11 @@
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="L4p-lK-m0U">
-                                <rect key="frame" x="188.5" y="424.5" width="37" height="37"/>
+                                <rect key="frame" x="188.66666666666666" y="339.66666666666669" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tv2-KH-28t" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="845" width="382" height="33"/>
+                                <rect key="frame" x="16" y="675" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -2246,7 +2270,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Video" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Tq-5y-qA1">
-                                <rect key="frame" x="16" y="8" width="35.5" height="21"/>
+                                <rect key="frame" x="15.999999999999996" y="8" width="35.666666666666657" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="videoLabel" label="Video Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="2r2-0c-CJq"/>
@@ -2268,7 +2292,7 @@
                                 </variation>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="oZL-nm-sNN">
-                                <rect key="frame" x="71.5" y="3" width="51" height="31"/>
+                                <rect key="frame" x="71.666666666666671" y="3" width="51" height="31"/>
                                 <accessibility key="accessibilityConfiguration" identifier="videoSwitch" label="Video Switch"/>
                                 <color key="onTintColor" red="0.49019607840000001" green="0.039215686270000001" blue="0.50196078430000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </switch>
@@ -2315,7 +2339,7 @@
                         <viewControllerLayoutGuide type="bottom" id="c4J-OP-QIC"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="N61-bA-cQO">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yQM-tb-VJu">
@@ -2333,11 +2357,11 @@
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="1Yq-bB-FaU">
-                                <rect key="frame" x="188.5" y="424.5" width="37" height="37"/>
+                                <rect key="frame" x="188.66666666666666" y="339.66666666666669" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UhK-Kf-YXD" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="845" width="382" height="33"/>
+                                <rect key="frame" x="16" y="675" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -2374,7 +2398,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Video" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qdv-qJ-ouh">
-                                <rect key="frame" x="16" y="8" width="35.5" height="21"/>
+                                <rect key="frame" x="15.999999999999996" y="8" width="35.666666666666657" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="videoLabel" label="Video Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="OQm-dZ-ead"/>
@@ -2396,7 +2420,7 @@
                                 </variation>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="oCQ-31-HJ0">
-                                <rect key="frame" x="71.5" y="3" width="51" height="31"/>
+                                <rect key="frame" x="71.666666666666671" y="3" width="51" height="31"/>
                                 <accessibility key="accessibilityConfiguration" identifier="videoSwitch" label="Video Switch"/>
                                 <color key="onTintColor" red="0.49019607840000001" green="0.039215686270000001" blue="0.50196078430000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </switch>
@@ -2443,7 +2467,7 @@
                         <viewControllerLayoutGuide type="bottom" id="Ohf-cL-XvJ"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="TBk-Nx-GRA">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jEx-9W-tfJ">
@@ -2471,11 +2495,11 @@
                                 </constraints>
                             </view>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="s0L-kV-vue">
-                                <rect key="frame" x="188.5" y="224" width="37" height="37"/>
+                                <rect key="frame" x="188.66666666666666" y="224" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bvi-tZ-Sqg" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="845" width="382" height="33"/>
+                                <rect key="frame" x="16" y="675" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -2513,7 +2537,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Video" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jS0-ix-pnH">
-                                <rect key="frame" x="16" y="8" width="35.5" height="21"/>
+                                <rect key="frame" x="15.999999999999996" y="8" width="35.666666666666657" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="videoLabel" label="Video Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="DWt-7W-P81"/>
@@ -2535,7 +2559,7 @@
                                 </variation>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="kIS-Ql-min">
-                                <rect key="frame" x="71.5" y="3" width="51" height="31"/>
+                                <rect key="frame" x="71.666666666666671" y="3" width="51" height="31"/>
                                 <accessibility key="accessibilityConfiguration" identifier="videoSwitch" label="Video Switch"/>
                                 <color key="onTintColor" red="0.49019607840000001" green="0.039215686270000001" blue="0.50196078430000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </switch>
@@ -2585,7 +2609,7 @@
                         <viewControllerLayoutGuide type="bottom" id="GEb-Rg-gjL"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="cGR-cn-bPk">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mmn-oV-4mw">
@@ -2613,11 +2637,11 @@
                                 </constraints>
                             </view>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Xdr-7U-cQh">
-                                <rect key="frame" x="188.5" y="92" width="37" height="37"/>
+                                <rect key="frame" x="188.66666666666666" y="92" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7SK-is-Fq1" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="845" width="382" height="33"/>
+                                <rect key="frame" x="16" y="675" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -2695,7 +2719,7 @@
                         <viewControllerLayoutGuide type="bottom" id="zTJ-QN-JEd"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="e0j-Xt-pig">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t4R-d5-IhQ">
@@ -2713,7 +2737,7 @@
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fKL-Wm-UrX" userLabel="Debug Button">
-                                <rect key="frame" x="16" y="845" width="382" height="33"/>
+                                <rect key="frame" x="16" y="675" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="debugButton" label="Debug Button"/>
                                 <constraints>
@@ -2736,11 +2760,11 @@
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="kBy-vW-AHO" userLabel="Native Ad Loader Indicator">
-                                <rect key="frame" x="188.5" y="152" width="37" height="37"/>
+                                <rect key="frame" x="188.66666666666666" y="152" width="37" height="37"/>
                                 <color key="color" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <view tag="1008" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LmN-IR-Iqp" userLabel="Native Ad Background">
-                                <rect key="frame" x="35.5" y="46" width="343" height="242"/>
+                                <rect key="frame" x="35.666666666666657" y="46" width="343" height="242"/>
                                 <subviews>
                                     <view hidden="YES" tag="1008" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7d0-W7-aXV" userLabel="Native Ad Container View">
                                         <rect key="frame" x="8" y="8" width="327" height="226"/>
@@ -2795,6 +2819,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="dhM-EH-bt4"/>
+        <segue reference="Hqn-C7-CRB"/>
     </inferredMetricsTieBreakers>
 </document>

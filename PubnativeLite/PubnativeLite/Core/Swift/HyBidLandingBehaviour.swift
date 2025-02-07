@@ -20,15 +20,37 @@
 //  THE SOFTWARE.
 //
 
-#import "HyBidVASTCompanion.h"
-#import "HyBidVASTEndCard.h"
-#import "HyBidVASTCompanionAds.h"
-
-
-@interface HyBidVASTEndCardManager : NSObject
-
-- (void)addCompanion:(HyBidVASTCompanion *)companion;
-- (HyBidVASTCompanion *)pickBestCompanionFromCompanionAds:(HyBidVASTCompanionAds *)companionAds;
-- (NSArray<HyBidVASTEndCard *> *)endCards;
-
-@end
+@objc
+public class HyBidLandingBehaviour: NSObject {
+    
+    @objc public enum HyBidLandingBehaviourType: Int32 {
+        
+        case instantCloseButton
+        case noCountdown
+        case countdown
+        case unknown
+        
+        var stringValue: String? {
+            switch self {
+            case .instantCloseButton: return "ic"
+            case .noCountdown: return "nc"
+            case .countdown: return "c"
+            case .unknown: return .none
+            }
+        }
+    }
+    
+    @objc public func convertString(value: String?) -> HyBidLandingBehaviourType {
+        
+        guard let value = value, value.isEmpty == false else {
+            return .unknown
+        }
+        
+        switch value {
+        case HyBidLandingBehaviourType.instantCloseButton.stringValue: return .instantCloseButton
+        case HyBidLandingBehaviourType.noCountdown.stringValue: return .noCountdown
+        case HyBidLandingBehaviourType.countdown.stringValue: return .countdown
+        default: return .unknown
+        }
+    }
+}

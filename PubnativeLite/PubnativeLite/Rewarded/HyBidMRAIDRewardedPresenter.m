@@ -106,7 +106,7 @@
     
     NSString *customUrl = [HyBidCustomClickUtil extractPNClickUrl:url];
     if (customUrl != nil) {
-        [self openBrowser:customUrl navigationType:self.ad.navigationMode];
+        [self openBrowser:customUrl navigationType:HyBidWebBrowserNavigationExternalValue];
     } else if (skAdNetworkModel) {
         NSMutableDictionary* productParams = [[skAdNetworkModel getStoreKitParameters] mutableCopy];
 

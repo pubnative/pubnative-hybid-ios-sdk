@@ -83,5 +83,7 @@
 + (NSString *)hideControls { return @"bc_hide_controls"; }
 + (NSString *)navigationMode { return @"navigation_mode"; }
 + (NSString *)navigationModeInputValue { return @"navigation_mode_input_value"; }
++ (NSString *)landingPage { return @"landing_page"; }
++ (NSString *)landingPageInputValue { return @"landing_page_input_value"; }
 
 @end

@@ -858,7 +858,7 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
     
     NSString *customUrl = [HyBidCustomClickUtil extractPNClickUrl:throughClickURL];
     if (customUrl != nil) {
-        [self navigationToURL:customUrl shouldOpenBrowser:shouldOpenBrowser];
+        [self navigationToURL:customUrl shouldOpenBrowser:shouldOpenBrowser navigationType:HyBidWebBrowserNavigationExternalValue];
     } else if (skAdNetworkModel) {
         NSMutableDictionary* productParams = [[skAdNetworkModel getStoreKitParameters] mutableCopy];
         
@@ -890,7 +890,7 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
                     if(!canOpenURL){
                         throughClickURL = [throughClickURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet  URLQueryAllowedCharacterSet]];
                     }
-                    [self navigationToURL:throughClickURL shouldOpenBrowser:shouldOpenBrowser];
+                    [self navigationToURL:throughClickURL shouldOpenBrowser:shouldOpenBrowser navigationType:self.ad.navigationMode];
                 }
             } else {
                 [self determineIfAdClickIsTriggeredWithURL:url withShouldOpenBrowser:shouldOpenBrowser];
@@ -903,7 +903,7 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
                 if(!canOpenURL){
                     throughClickURL = [throughClickURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet  URLQueryAllowedCharacterSet]];
                 }
-                [self navigationToURL:throughClickURL shouldOpenBrowser:shouldOpenBrowser];
+                [self navigationToURL:throughClickURL shouldOpenBrowser:shouldOpenBrowser navigationType:self.ad.navigationMode];
             }
         } else {
             [self determineIfAdClickIsTriggeredWithURL:url withShouldOpenBrowser:shouldOpenBrowser];
@@ -911,8 +911,9 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
     }
 }
 
-- (void)navigationToURL:(NSString *)url shouldOpenBrowser:(BOOL)shouldOpenBrowser {
-    HyBidWebBrowserNavigation navigation = [HyBidInternalWebBrowserNavigationController.shared webBrowserNavigationBehaviourFromString: self.ad.navigationMode];
+- (void)navigationToURL:(NSString *)url shouldOpenBrowser:(BOOL)shouldOpenBrowser navigationType:(NSString *)navigationType {
+    
+    HyBidWebBrowserNavigation navigation = [HyBidInternalWebBrowserNavigationController.shared webBrowserNavigationBehaviourFromString: navigationType];
     
     if (navigation == HyBidWebBrowserNavigationInternal) {
         [HyBidInternalWebBrowserNavigationController.shared navigateToURL:url delegate:self];
@@ -1148,7 +1149,7 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
     
     NSString *customUrl = [HyBidCustomClickUtil extractPNClickUrl:self.throughClickURL];
     if (customUrl != nil) {
-        [self navigationToURL:customUrl shouldOpenBrowser:shouldOpenBrowser];
+        [self navigationToURL:customUrl shouldOpenBrowser:shouldOpenBrowser navigationType:HyBidWebBrowserNavigationExternalValue];
     } else if (productParams.count != 0) {
         
         [HyBidStoreKitUtils insertFidelitiesIntoDictionaryIfNeeded:productParams];
@@ -1205,7 +1206,7 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
                     if(!canOpenURL){
                         self.throughClickURL = [self.throughClickURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet  URLQueryAllowedCharacterSet]];
                     }
-                    [self navigationToURL:self.throughClickURL shouldOpenBrowser:shouldOpenBrowser];
+                    [self navigationToURL:self.throughClickURL shouldOpenBrowser:shouldOpenBrowser navigationType:self.ad.navigationMode];
                 }
             } else {
                 [self determineIfAdClickIsTriggeredWithURL:url withShouldOpenBrowser:shouldOpenBrowser];
@@ -1218,7 +1219,7 @@ NSString * adClickTriggerFlag = @"https://customendcard.verve.com/click";
                 if(!canOpenURL){
                     self.throughClickURL = [self.throughClickURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet  URLQueryAllowedCharacterSet]];
                 }
-                [self navigationToURL:self.throughClickURL shouldOpenBrowser:shouldOpenBrowser];
+                [self navigationToURL:self.throughClickURL shouldOpenBrowser:shouldOpenBrowser navigationType:self.ad.navigationMode];
             }
         } else {
             [self determineIfAdClickIsTriggeredWithURL:url withShouldOpenBrowser:shouldOpenBrowser];

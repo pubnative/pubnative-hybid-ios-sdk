@@ -137,7 +137,13 @@ private typealias HyBidAdSettingsDictionary = Dictionary<String,Any>
                 AdSetting(sectionTitle: "General", settingTitle: "SDK Autostore Kit", cellType: .switchCell, isChecked: false, remoteConfigName: "sdk_autostorekit", value: HyBidConstants.sdkAutoStorekitEnabled),
                 AdSetting(sectionTitle: "General", settingTitle: "MRAID Expand Enabled", cellType: .switchCell, isChecked: false, remoteConfigName: "mraid_expand", value: HyBidConstants.mraidExpand),
                 AdSetting(sectionTitle: "General", settingTitle: "SKOverlay Enabled", cellType: .switchCell, isChecked: false, remoteConfigName: "SKOverlayenabled", value: false),
-                AdSetting(sectionTitle: "General", settingTitle: ClickBehaviorStringTitle, cellType: .segmentedControlCell, isChecked: false, remoteConfigName: "fullscreen_clickability", value: boolActionBehavior(with: HyBidConstants.interstitialActionBehaviour))
+                AdSetting(sectionTitle: "General", settingTitle: ClickBehaviorStringTitle, cellType: .segmentedControlCell, isChecked: false, remoteConfigName: "fullscreen_clickability", value: boolActionBehavior(with: HyBidConstants.interstitialActionBehaviour)),
+                AdSetting(sectionTitle: "General",
+                          settingTitle: "Landing Page",
+                          cellType: .switchCell,
+                          isChecked: false,
+                          remoteConfigName: HyBidAdCustomizationKeys.landingPageInputValue.rawValue,
+                          value: HyBidConstants.landingPageInputValue)
                ],
                [
                 AdSetting(sectionTitle: "Interstitial", settingTitle: "HTML/MRAID Skip Offset", cellType: .numberFieldCell, isChecked: false, remoteConfigName: "html_skip_offset", value: HyBidConstants.interstitialHtmlSkipOffset.offset),

@@ -121,6 +121,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) BOOL hideControls;
 @property (nonatomic, assign) BOOL isBrandCompatible;
 @property (nonatomic, readonly) NSString *navigationMode;
+@property (nonatomic, assign) BOOL landingPage;
 
 // The following 15 properties are created as NSNumber instead of BOOL beacuse it'll be important whether they have a value or not when we'll decide which setting to use.
 @property (nonatomic, readonly) NSNumber *endcardEnabled;

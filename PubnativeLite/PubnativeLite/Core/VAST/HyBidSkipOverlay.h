@@ -28,7 +28,8 @@
 
 - (void)skipButtonTapped;
 - (void)skipTimerCompleted;
-
+@optional
+- (void)skipOverlayStarts;
 @end
 
 @interface HyBidSkipOverlay : UIView

@@ -83,5 +83,7 @@
 + (NSString *)hideControls;
 + (NSString *)navigationMode;
 + (NSString *)navigationModeInputValue;
++ (NSString *)landingPage;
++ (NSString *)landingPageInputValue;
 
 @end

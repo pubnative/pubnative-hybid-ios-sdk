@@ -29,6 +29,6 @@
 // if the command itself is a valid MRAID command and also a simpler parameters validation.
 @interface PNLiteMRAIDParser : NSObject
 
-- (NSDictionary *)parseCommandUrl:(NSString *)commandUrl;
+- (NSDictionary *)parseCommandUrl:(NSString *)commandUrl prefixToRemove:(NSString *)prefixToRemove;
 
 @end

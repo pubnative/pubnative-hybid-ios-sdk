@@ -27,7 +27,7 @@ public class HyBidConstants: NSObject {
     
     @objc public static let HYBID_SDK_NAME = "HyBid"
     @objc public static let HYBID_OMSDK_VERSION = "1.5.2"
-    @objc public static let HYBID_SDK_VERSION = "3.1.3"
+    @objc public static let HYBID_SDK_VERSION = "3.2.0-beta5"
     @objc public static let HYBID_OMSDK_IDENTIFIER = "Pubnativenet"
     
     //Rendering Constants
@@ -56,4 +56,5 @@ public class HyBidConstants: NSObject {
     @objc public static var customBundleId: String = String()
     @objc public static var iconSizeReducedInputValue: Bool = false
     @objc public static var navigationModeInputValue: String = String()
+    @objc public static var landingPageInputValue: Bool = false
 }

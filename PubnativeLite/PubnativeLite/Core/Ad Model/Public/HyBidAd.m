@@ -977,6 +977,31 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     return result;
 }
 
+- (BOOL)landingPage {
+    BOOL landingPageInputValue = [self landingPageInputValue];
+    if (landingPageInputValue) { return landingPageInputValue;}
+    
+    BOOL result = NO;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.landingPage] != (id)[NSNull null]) {
+            result = [[jsonDictionary objectForKey:PNLiteData.landingPage] boolValue];
+        }
+    }
+    return result;
+}
+
+- (BOOL)landingPageInputValue {
+    BOOL result = NO;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.landingPageInputValue] != (id)[NSNull null]) {
+            result = [[jsonDictionary objectForKey:PNLiteData.landingPageInputValue] boolValue];
+        }
+    }
+    return result;
+}
+
 - (NSArray<HyBidDataModel *> *)beacons {
     if (self.data) {
         return self.data.beacons;

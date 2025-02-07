@@ -416,8 +416,6 @@ public class HyBidInterstitialAd: NSObject {
     
     func determineSkipOffsetValuesFor(_ ad: HyBidAd) {
         if isValidBundleID(ad: ad) {
-            
-            // Handling HTML Skip Offset for IC Interstitial
             if let skipOffset = ad.pcInterstitialHtmlSkipOffset {
                 if skipOffset.intValue < 0 {
                     self.htmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_PC_INTERSTITIAL_SKIP_OFFSET), isCustom: true)
@@ -429,37 +427,7 @@ public class HyBidInterstitialAd: NSObject {
             } else {
                 self.htmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_PC_INTERSTITIAL_SKIP_OFFSET), isCustom: true)
             }
-
-            // Handling Video Skip Offset for IC Video
-            if let skipOffset = ad.pcVideoSkipOffset {
-                var defaultSkipOffset = HyBidSkipOffset.DEFAULT_PC_VIDEO_MAX_SKIP_OFFSET_NON_COMPANION
-                if ad.hasEndCard || ad.hasCustomEndCard {
-                    defaultSkipOffset = HyBidSkipOffset.DEFAULT_PC_VIDEO_MAX_SKIP_OFFSET_COMPANION
-                }
-                if skipOffset.intValue < 0 {
-                    self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: defaultSkipOffset), isCustom: true)
-                } else if skipOffset.intValue >= HyBidSkipOffset.DEFAULT_INTERSTITIAL_VIDEO_MAX_SKIP_OFFSET {
-                    self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_INTERSTITIAL_VIDEO_MAX_SKIP_OFFSET), isCustom: true)
-                } else {
-                    self.videoSkipOffset = HyBidSkipOffset(offset: skipOffset, isCustom: true)
-                }
-            } else {
-                if ad.hasEndCard || ad.hasCustomEndCard {
-                    self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_VIDEO_SKIP_OFFSET), isCustom: true)
-                } else {
-                    self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD), isCustom: true)
-                }
-            }
-            
-            if (ad.bcVideoSkipOffset == nil && ad.adExperience == HyBidAdExperienceBrandValue) {
-                if ad.hasEndCard || ad.hasCustomEndCard {
-                    self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_VIDEO_SKIP_OFFSET), isCustom: true)
-                } else {
-                    self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD), isCustom: true)
-                }
-            }
         } else {
-            // Handling for non-IC specific cases
             if let skipOffset = ad.interstitialHtmlSkipOffset {
                 if skipOffset.intValue < 0 {
                     self.htmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_HTML_SKIP_OFFSET), isCustom: true)
@@ -467,19 +435,24 @@ public class HyBidInterstitialAd: NSObject {
                     self.htmlSkipOffset = HyBidSkipOffset(offset: skipOffset, isCustom: true)
                 }
             }
-
-            if let skipOffset = ad.videoSkipOffset {
-                var defaultSkipOffset = HyBidSkipOffset.DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD
-                if ad.hasEndCard || ad.hasCustomEndCard {
-                    defaultSkipOffset = HyBidSkipOffset.DEFAULT_VIDEO_SKIP_OFFSET
-                }
-                if skipOffset.intValue < 0 {
-                    self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: defaultSkipOffset), isCustom: true)
-                } else if skipOffset.intValue >= HyBidSkipOffset.DEFAULT_INTERSTITIAL_VIDEO_MAX_SKIP_OFFSET {
-                    self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_INTERSTITIAL_VIDEO_MAX_SKIP_OFFSET), isCustom: true)
-                } else {
-                    self.videoSkipOffset = HyBidSkipOffset(offset: skipOffset, isCustom: true)
-                }
+        }
+        if let skipOffset = ad.videoSkipOffset {
+            var defaultSkipOffset = HyBidSkipOffset.DEFAULT_PC_VIDEO_MAX_SKIP_OFFSET_NON_COMPANION
+            if ad.hasEndCard || ad.hasCustomEndCard {
+                defaultSkipOffset = HyBidSkipOffset.DEFAULT_PC_VIDEO_MAX_SKIP_OFFSET_COMPANION
+            }
+            if skipOffset.intValue < 0 {
+                self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: defaultSkipOffset), isCustom: true)
+            } else if skipOffset.intValue >= HyBidSkipOffset.DEFAULT_INTERSTITIAL_VIDEO_MAX_SKIP_OFFSET {
+                self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_INTERSTITIAL_VIDEO_MAX_SKIP_OFFSET), isCustom: true)
+            } else {
+                self.videoSkipOffset = HyBidSkipOffset(offset: skipOffset, isCustom: true)
+            }
+        } else {
+            if ad.hasEndCard || ad.hasCustomEndCard {
+                self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_VIDEO_SKIP_OFFSET), isCustom: true)
+            } else {
+                self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD), isCustom: true)
             }
         }
     }

@@ -9,7 +9,7 @@ platform :ios, '12.0'
 use_frameworks!
 
 target 'HyBid' do
-  pod 'ATOM-Standalone', '3.3.3'
+  pod 'ATOM-Standalone', '3.5.0-beta.1'
 end
 
 target 'HyBidDemo' do
@@ -18,8 +18,8 @@ target 'HyBidDemo' do
   pod 'Firebase/Performance', '8.13.0'
   pod 'Firebase/Crashlytics', '8.13.0'
   pod 'Google-Mobile-Ads-SDK', '~> 11.0'
-  pod 'AppLovinSDK', '>= 13.0.0'
-  pod 'IronSourceSDK','~> 8.0'
+  pod 'AppLovinSDK', '>= 13.0.1'
+  pod 'IronSourceSDK','~> 8.5.0'
   pod 'ChartboostSDK'
 end
 

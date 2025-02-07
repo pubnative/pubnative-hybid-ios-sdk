@@ -39,6 +39,9 @@
 #define kHyBidDemoOpenRTBAPIURL @"https://dsp.pubnative.net"
 #define kIsAppLaunchedPreviouslyKey @"isAppLaunchedPreviously"
 #define kHyBidISAppID @"1224c378d"
+#define kHyBidISBannerAdUnitID @"d08g1ap1tqiudwp5"
+#define kHyBidISInterstitialAdUnitID @"55a6bp4ai1sjp24x"
+#define kHyBidISRewardedAdUnitID @"evit0dy92tb2hzq8"
 #define kHyBidALMediationNativeAdUnitID @"9f0b0f8353e2c66b"
 #define kHyBidALMediationBannerAdUnitID @"5bf23910ded6430b"
 #define kHyBidALMediationMRectAdUnitID @"23993b2ff0e8b324"
@@ -109,6 +112,9 @@ static NSString * const bullet = @"•  ";
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidGADRewardedAdUnitID forKey:kHyBidGADRewardedAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kIsAppLaunchedPreviouslyKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidISAppID forKey:kHyBidISAppIDKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidISBannerAdUnitID forKey:kHyBidISBannerAdUnitIdKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidISInterstitialAdUnitID forKey:kHyBidISInterstitialAdUnitIdKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidISRewardedAdUnitID forKey:kHyBidISRewardedAdUnitIdKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidALMediationNativeAdUnitID forKey:kHyBidALMediationNativeAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidALMediationBannerAdUnitID forKey:kHyBidALMediationBannerAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidALMediationMRectAdUnitID forKey:kHyBidALMediationMRectAdUnitIDKey];

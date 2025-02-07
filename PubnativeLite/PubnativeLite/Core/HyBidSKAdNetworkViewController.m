@@ -84,8 +84,13 @@ NSDictionary *productParameters;
     #endif
 }
 
-- (void)presentInTopViewController:(SKStoreProductViewController *)skAdnetworkViewController presenterViewController:(UIViewController *)presenterViewController completionHandler:(void (^)(BOOL success))completionHandler {
-    if ([presenterViewController.presentedViewController isMemberOfClass: [SKStoreProductViewController class]]) {
+- (void)presentInTopViewController:(SKStoreProductViewController *)skAdnetworkViewController
+                 completionHandler:(void (^)(BOOL success))completionHandler {
+    UIViewController *presenterViewController = [UIApplication sharedApplication].topViewController;
+    
+    if ([presenterViewController isMemberOfClass:[SKStoreProductViewController class]] ||
+        [presenterViewController isMemberOfClass:[NSClassFromString(@"SKProductPageRemoteViewController") class]] ||
+        [presenterViewController.presentedViewController isMemberOfClass: [SKStoreProductViewController class]]) {
         [skAdnetworkViewController loadProductWithParameters:productParameters completionBlock:nil];
         return completionHandler(NO);
     }
@@ -108,11 +113,10 @@ NSDictionary *productParameters;
 }
 
 - (void)presentSKStoreProductViewControllerWithBlock:(HyBidSKProductViewBlock)completionHandler {
-    UIViewController *presenterViewController = [UIApplication sharedApplication].topViewController;
     [self loadProducts: productParameters completionHandler:^(BOOL success, SKStoreProductViewController * _Nullable skAdnetworkViewController, NSError *error) {
         if (success) {
             [HyBidNotificationCenter.shared post: HyBidNotificationTypeSKStoreProductViewIsReadyToPresent object: nil userInfo: nil];
-            [self presentInTopViewController:skAdnetworkViewController presenterViewController: presenterViewController completionHandler:^(BOOL success) {
+            [self presentInTopViewController:skAdnetworkViewController completionHandler:^(BOOL success) {
                 [HyBidNotificationCenter.shared post: HyBidNotificationTypeSKStoreProductViewIsShown object: nil userInfo: nil];
                 completionHandler(success, nil);
             }];

@@ -188,6 +188,7 @@ HyBidCloseButton *closeButton;
 @property (nonatomic, strong) NSMutableArray<NSString *> *vastVideoClicksTracking;
 @property (nonatomic, strong) NSMutableArray<NSString *> *vastImpressions;
 @property (nonatomic, assign) BOOL hideUserInterfaceElementsForBrandExperience;
+@property (nonatomic, assign) BOOL isDisplayingCustomEndCard;
 
 @end
 
@@ -497,8 +498,8 @@ typedef enum {
 
 - (void)viewDidAppear:(BOOL)animated {
     if (self.isMoviePlaybackFinished) {return;}
-    self.shown = YES;
     if(self.wantsToPlay) {
+        self.shown = YES;
         [self setState:PNLiteVASTPlayerState_PLAY];
     }
 }
@@ -552,6 +553,7 @@ typedef enum {
 - (void)play {
     @synchronized (self) {
         if (!self.isMoviePlaybackFinished) {
+            self.shown = YES;
             [self startAdSession];
             [self setState:PNLiteVASTPlayerState_PLAY];
         }
@@ -860,6 +862,7 @@ typedef enum {
             self.vastEventProcessor = [[HyBidVASTEventProcessor alloc] initWithEventsDictionary:self.events progressEventsDictionary:self.progressTrackingEvents delegate:self];
             [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_close];
             [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_closeLinear];
+            self.shown = NO;
         }
         [self.player pause];
         [self.layer removeFromSuperlayer];
@@ -1282,7 +1285,7 @@ typedef enum {
     
     NSString *customUrl = [HyBidCustomClickUtil extractPNClickUrl:throughClickURL];
     if (customUrl != nil) {
-        [self openUrlInBrowser:customUrl];
+        [self openUrlInBrowser:customUrl navigationType:HyBidWebBrowserNavigationExternalValue];
     } else if (self.skAdModel) {
         NSMutableDictionary* productParams = [[self.skAdModel getStoreKitParameters] mutableCopy];
         
@@ -1304,12 +1307,12 @@ typedef enum {
             });
         } else {
             if (throughClickURL != nil) {
-                [self openUrlInBrowser:throughClickURL];
+                [self openUrlInBrowser:throughClickURL navigationType:self.ad.navigationMode];
             }
         }
     } else {
         if (throughClickURL != nil) {
-            [self openUrlInBrowser:throughClickURL];
+            [self openUrlInBrowser:throughClickURL navigationType:self.ad.navigationMode];
         }
     }
 }
@@ -1403,7 +1406,8 @@ typedef enum {
                             }
                         }
                     }
-                } else if ([ad inLine]!=nil) {
+                }
+                if ([ad inLine]!=nil) {
                     NSArray<HyBidVASTCreative *> *creatives = [[ad inLine] creatives];
                     for (HyBidVASTCreative *creative in creatives) {
                         if ([creative linear] != nil && [[creative linear] videoClicks] != nil) {
@@ -1461,9 +1465,9 @@ typedef enum {
     return values;
 }
 
-- (void)openUrlInBrowser:(NSString*) url {
+- (void)openUrlInBrowser:(NSString*) url navigationType:(NSString *)navigationType {
     
-    HyBidWebBrowserNavigation navigation = [HyBidInternalWebBrowserNavigationController.shared webBrowserNavigationBehaviourFromString: self.ad.navigationMode];
+    HyBidWebBrowserNavigation navigation = [HyBidInternalWebBrowserNavigationController.shared webBrowserNavigationBehaviourFromString: navigationType];
     
     if (navigation == HyBidWebBrowserNavigationInternal) {
         [HyBidInternalWebBrowserNavigationController.shared navigateToURL:url delegate:self];
@@ -2215,6 +2219,7 @@ typedef enum {
 
 - (void)parseCompanionsFromArray:(NSArray *)vastArray {
     HyBidVASTCompanionAds *companionAds;
+    HyBidVASTCompanion *companion;
     for (NSData *vast in vastArray){
         NSString *xml = [[NSString alloc] initWithData:vast encoding:NSUTF8StringEncoding];
         HyBidXMLEx *parser = [HyBidXMLEx parserWithXML:xml];
@@ -2230,8 +2235,9 @@ typedef enum {
                 for (HyBidVASTCreative *creative in creatives) {
                     if ([creative companionAds] != nil) {
                         companionAds = [creative companionAds];
+                        companion = [self.endCardManager pickBestCompanionFromCompanionAds:companionAds];
+                        [self.endCardManager addCompanion:companion];
                         for (HyBidVASTCompanion *companion in [companionAds companions]) {
-                            [self.endCardManager addCompanion:companion];
                             NSString *companionClickThrougContent = [[companion companionClickThrough] content];
                             if (companionClickThrougContent) {
                                 [self.vastCompanionsClicksThrough addObject: companionClickThrougContent];
@@ -2246,8 +2252,9 @@ typedef enum {
                 for (HyBidVASTCreative *creative in creatives) {
                     if ([creative companionAds] != nil) {
                         companionAds = [creative companionAds];
+                        companion = [self.endCardManager pickBestCompanionFromCompanionAds:companionAds];
+                        [self.endCardManager addCompanion:companion];
                         for (HyBidVASTCompanion *companion in [companionAds companions]) {
-                            [self.endCardManager addCompanion:companion];
                             NSString *companionClickThrougContent = [[companion companionClickThrough] content];
                             if (companionClickThrougContent) {
                                 [self.vastCompanionsClicksThrough addObject: companionClickThrougContent];
@@ -2342,6 +2349,7 @@ typedef enum {
 
     [self.endCardView displayEndCard:endCard withCTAButton:self.ctaButton withViewController:self];
     self.ad.shouldReportCustomEndcardImpression = endCard.isCustomEndCard;
+    self.isDisplayingCustomEndCard = endCard.isCustomEndCard;
     [self.view addSubview:self.endCardView];
     if (!endCard.isCustomEndCard && self.companionEvents != nil && self.companionEvents.count != 0) {
         self.vastEventProcessor = [[HyBidVASTEventProcessor alloc] initWithEventsDictionary:self.companionEvents progressEventsDictionary:self.progressTrackingEvents delegate:self];
@@ -2539,7 +2547,7 @@ typedef enum {
     self.isSkAdnetworkViewControllerIsShown = NO;
     [self resumeAd];
     
-    if ([HyBidCustomCTAView isCustomCTAValidWithAd:self.ad]){
+    if ([HyBidCustomCTAView isCustomCTAValidWithAd:self.ad] || self.isDisplayingCustomEndCard){
         [HyBidNotificationCenter.shared post: HyBidNotificationTypeSKStoreProductViewIsDismissed object: self.ad userInfo: nil];
     }
 }

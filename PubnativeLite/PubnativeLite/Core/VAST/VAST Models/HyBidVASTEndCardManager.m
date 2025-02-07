@@ -104,9 +104,49 @@
     return endCard;
 }
 
-- (NSArray<HyBidVASTEndCard *> *)endCards
-{
+- (NSArray<HyBidVASTEndCard *> *)endCards {
     return self.endCardsStorage;
+}
+
+- (HyBidVASTCompanion *)pickBestCompanionFromCompanionAds:(HyBidVASTCompanionAds *)companionAds {
+    if (!companionAds || [companionAds.companions count] == 0) {
+        return nil;
+    }
+
+    NSArray<HyBidVASTCompanion *> *companions = [companionAds companions];
+    
+    NSArray<HyBidVASTCompanion *> *sortedCompanions = [companions sortedArrayUsingComparator:^NSComparisonResult(HyBidVASTCompanion *c1, HyBidVASTCompanion *c2) {
+        int area1 = [c1.width intValue] * [c1.height intValue];
+        int area2 = [c2.width intValue] * [c2.height intValue];
+        if (area1 < area2) {
+            return NSOrderedAscending;
+        } else if (area1 > area2) {
+            return NSOrderedDescending;
+        } else {
+            return NSOrderedSame;
+        }
+    }];
+
+    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+    int screenArea = screenSize.width * screenSize.height;
+
+    int bestMatchIndex = 0;
+    int bestMatchDiff = INT_MAX;
+
+    for (int i = 0; i < sortedCompanions.count; i++) {
+        HyBidVASTCompanion *companion = sortedCompanions[i];
+        int companionArea = [companion.width intValue] * [companion.height intValue];
+        int diff = abs(screenArea - companionArea);
+
+        if (diff < bestMatchDiff) {
+            bestMatchIndex = i;
+            bestMatchDiff = diff;
+        } else {
+            break;
+        }
+    }
+
+    return sortedCompanions[bestMatchIndex];
 }
 
 @end

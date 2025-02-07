@@ -37,7 +37,6 @@
 @property (nonatomic, assign) NSInteger skipTimeRemaining;
 @property (nonatomic, assign) HyBidCountdownStyle countdownStyle;
 @property (nonatomic, strong) PNLiteProgressLabel *progressLabel;
-@property (nonatomic, strong) UIView *adView;
 @property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic) CGSize buttonSize;
 
@@ -437,8 +436,7 @@
 
 - (void)addSkipOverlayViewIn:(UIView *)adView delegate:(id<HyBidSkipOverlayDelegate>)delegate
 {
-    self.adView = adView;
-    if([adView isEqual: nil] || [adView.subviews containsObject:self]){
+    if([adView isEqual: nil] || adView == nil || [adView.subviews containsObject:self]){
         return;
     }
     
@@ -453,6 +451,9 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [adView addSubview: skipOverlayView];
         [skipOverlayView updateTimerStateWithRemainingSeconds:weakSelf.skipOffset withTimerState:HyBidTimerState_Start];
+        if ([weakSelf.delegate respondsToSelector:@selector(skipOverlayStarts)]) {
+            [weakSelf.delegate skipOverlayStarts];
+        }
     });
 
     NSMutableArray *constraints = [[NSMutableArray alloc] init];
