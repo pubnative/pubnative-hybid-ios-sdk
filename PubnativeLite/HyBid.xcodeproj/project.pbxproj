@@ -2487,7 +2487,6 @@
 				6F75A7D126BC3CAF004D2862 /* HyBidVASTVideoClicks.m */,
 				6F56702726C67BEF00B52B46 /* HyBidVASTVerification.h */,
 				6F56702826C67BEF00B52B46 /* HyBidVASTVerification.m */,
-				6F828F8026EB637A00180516 /* HyBidVASTEventProcessor.h */,
 				6F828F8126EB637A00180516 /* HyBidVASTEventProcessor.m */,
 				6F828F8426EB73D500180516 /* HyBidVASTJavaScriptResource.h */,
 				6F828F8526EB73D500180516 /* HyBidVASTJavaScriptResource.m */,
@@ -2967,6 +2966,7 @@
 		7ED53EDD286B217900948F8A /* Public */ = {
 			isa = PBXGroup;
 			children = (
+				6F828F8026EB637A00180516 /* HyBidVASTEventProcessor.h */,
 				9187EB912975C4FF009800DF /* HyBidTimerState.h */,
 				6F7BFD5027FFAD5B007A13EC /* HyBidVASTIconViewTracking.h */,
 				6F7BFD5127FFAD5B007A13EC /* HyBidVASTIconViewTracking.m */,
