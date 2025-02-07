@@ -1864,7 +1864,6 @@
 		5A3657D7203C538A004B4347 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				5A3657D3203C42D7004B4347 /* UIApplication+PNLiteTopViewController.h */,
 				5A3657D4203C42D7004B4347 /* UIApplication+PNLiteTopViewController.m */,
 			);
 			path = Categories;
@@ -2837,6 +2836,7 @@
 				34755BDC2C51473200D2E9C9 /* HyBidConfig.m */,
 				34755BE02C5159DD00D2E9C9 /* HyBidConfigManager.h */,
 				34755BE12C5159DD00D2E9C9 /* HyBidConfigManager.m */,
+				5A3657D3203C42D7004B4347 /* UIApplication+PNLiteTopViewController.h */,
 			);
 			path = Public;
 			sourceTree = "<group>";
