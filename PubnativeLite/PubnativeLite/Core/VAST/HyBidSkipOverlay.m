@@ -352,7 +352,12 @@
                     weakSelf.skipTimeRemaining = seconds;
                     [weakSelf updateSkipOffsetOnProgressTick:self.skipTimeRemaining];
                     if(!weakSelf.skipTimer){
-                        weakSelf.skipTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:weakSelf selector:@selector(skipTimerTicked) userInfo:nil repeats:YES];
+                        weakSelf.skipTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                                          target:weakSelf
+                                                                        selector:@selector(skipTimerTicked)
+                                                                        userInfo:nil
+                                                                         repeats:YES];
+                        [[NSRunLoop mainRunLoop] addTimer:weakSelf.skipTimer forMode:NSRunLoopCommonModes];
                     }
                 });
             }

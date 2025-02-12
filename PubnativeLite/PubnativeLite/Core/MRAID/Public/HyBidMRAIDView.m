@@ -1917,6 +1917,8 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
     NSString *scheme = [url scheme];
     NSString *absUrlString = [url absoluteString];
     
+    if (landingPageFlowActive && self.landingPageTemplateScript) { [self injectJavaScript:self.landingPageTemplateScript]; }
+    
     HyBidMRAIDCommandType command = [[HyBidMRAIDCommand alloc] commandTypeWithText:scheme];
     switch(command){
         case HyBidMRAIDCommandTypeMraid:

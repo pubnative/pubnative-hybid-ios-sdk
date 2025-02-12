@@ -214,7 +214,18 @@
             
             [[session dataTaskWithRequest:request
                         completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+             
+                NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+                NSString *vastTrackerValue = [NSString stringWithFormat:@"%@ - %ld", vastTrackerType, (long)httpResponse.statusCode];
+
+                NSMutableDictionary* vastTrackerProperties = [NSMutableDictionary new];
+                [vastTrackerProperties setObject: vastTrackerValue forKey: @"type"];
+                [vastTrackerProperties setObject: @{PNLiteData.url : url} forKey: @"data"];
                 
+                HyBidReportingVASTTracker *reportingVASTTracker = [[HyBidReportingVASTTracker alloc] initWith:vastTrackerType properties:vastTrackerProperties];
+                if ([HyBidSDKConfig sharedConfig].reporting) {
+                    [[HyBid reportingManager] reportVASTTrackerFor:reportingVASTTracker];
+                }
                 // Send the request only, no response or errors
                 if(!error) {
                     if ([data length] > 0 && [data length] < 100) { // Ignore debugging long responses
@@ -222,16 +233,6 @@
                     } else {
                         [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Tracking url: %@", response.URL]];
                     }
-                    
-                    NSMutableDictionary* vastTrackerProperties = [NSMutableDictionary new];
-                    [vastTrackerProperties setObject: vastTrackerType forKey: @"type"];
-                    [vastTrackerProperties setObject: @{PNLiteData.url : url} forKey: @"data"];
-                    
-                    HyBidReportingVASTTracker *reportingVASTTracker = [[HyBidReportingVASTTracker alloc] initWith:vastTrackerType properties:vastTrackerProperties];
-                    if (!error && [HyBidSDKConfig sharedConfig].reporting) {
-                        [[HyBid reportingManager] reportVASTTrackerFor:reportingVASTTracker];
-                    }
-                    
                 } else {
                     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Tracking url %@ error: %@", response.URL, error]];
                     if ([HyBidSDKConfig sharedConfig].reporting) {
