@@ -247,4 +247,6 @@
     [self.adTracker trackCustomCTAClickWithAdFormat:HyBidReportingAdFormat.REWARDED onEndCard:OnEndCard];
 }
 
+- (void)impressionDetectedWithView:(UIView *)view {}
+
 @end
