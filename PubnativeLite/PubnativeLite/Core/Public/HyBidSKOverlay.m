@@ -68,6 +68,7 @@
 @property (nonatomic, assign) BOOL impressionEventFired;
 
 @property (nonatomic, strong) NSObject <HyBidSKOverlayDelegate> *delegate;
+@property (nonatomic, assign) HyBidOnTopOfType onTopOf;
 
 @end
 
@@ -95,6 +96,7 @@
             HyBidSkAdNetworkModel* skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.ad getOpenRTBSkAdNetworkModel] : [self.ad getSkAdNetworkModel];
             SKOverlayPosition position = SKOverlayPositionBottom;
             BOOL userDismissible = YES;
+            self.onTopOf = HyBidOnTopOfTypeDISPLAY;
             if ([HyBidSKOverlay isValidToCreateSKOverlayWithModel: skAdNetworkModel]) {
                 if ([skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.dismissible] != [NSNull null] && [skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.dismissible]) {
                     userDismissible = [[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.dismissible] boolValue];
@@ -260,6 +262,10 @@
 
 - (void)vastEndCardWillShow:(NSNotification *)notification {
     self.endCardReadyToShow = YES;
+    if (notification.object){
+        BOOL isCustomEndCard = [notification.object boolValue];
+        self.onTopOf = isCustomEndCard ? HyBidOnTopOfTypeCUSTOM_ENDCARD : HyBidOnTopOfTypeCOMPANION_AD;
+    }
     [self updateTimerStateWithRemainingSeconds:[self getRemainingTimeForTimerType:HyBidSKOverlayTimerType_EndCardDelay]
                                 withTimerState:HyBidTimerState_Start
                                   forTimerType:HyBidSKOverlayTimerType_EndCardDelay];
@@ -595,39 +601,46 @@
 #pragma mark SKOverlayDelegate
 
 - (void)storeOverlay:(SKOverlay *)overlay willStartPresentation:(SKOverlayTransitionContext *)transitionContext  API_AVAILABLE(ios(14.0)){
-    if(!self.autoCloseTimerCompleted && !self.autoClosePerformsDefaultBehaviour) {
-        self.autoCloseTimerNeeded = YES;
-        [self updateTimerStateWithRemainingSeconds:[self getRemainingTimeForTimerType:HyBidSKOverlayTimerType_AutoClose]
-                                    withTimerState:HyBidTimerState_Start
-                                      forTimerType:HyBidSKOverlayTimerType_AutoClose];
-    }
-    if ([overlay isEqual:self.overlay]) {
-        self.isOverlayShown = YES;
-    }
-    
-    if (self.delegate && [self.delegate respondsToSelector:@selector(skoverlayDidShowOnCreative)]){
-        [self.delegate skoverlayDidShowOnCreative];
+    if (!self.isSecondViewPrepared) {
+        if(!self.autoCloseTimerCompleted && !self.autoClosePerformsDefaultBehaviour) {
+            self.autoCloseTimerNeeded = YES;
+            [self updateTimerStateWithRemainingSeconds:[self getRemainingTimeForTimerType:HyBidSKOverlayTimerType_AutoClose]
+                                        withTimerState:HyBidTimerState_Start
+                                          forTimerType:HyBidSKOverlayTimerType_AutoClose];
+        }
+        if ([overlay isEqual:self.overlay]) {
+            self.isOverlayShown = YES;
+        }
+        
+        if (self.delegate && [self.delegate respondsToSelector:@selector(skoverlayDidShowOnCreative)]){
+            [self.delegate skoverlayDidShowOnCreative];
+        }
     }
 }
 
 - (void)storeOverlay:(SKOverlay *)overlay didFinishPresentation:(SKOverlayTransitionContext *)transitionContext  API_AVAILABLE(ios(14.0)){
     if (!self.impressionEventFired) {
-        NSMutableDictionary* reportingDictionary = [NSMutableDictionary new];
-        if ([HyBidSDKConfig sharedConfig].appToken != nil && [HyBidSDKConfig sharedConfig].appToken.length > 0) {
-            [reportingDictionary setObject:[HyBidSDKConfig sharedConfig].appToken forKey:HyBidReportingCommon.APPTOKEN];
-        }
-        if (self.ad != nil && self.ad.zoneID != nil && self.ad.zoneID.length > 0) {
-            [reportingDictionary setObject:self.ad.zoneID forKey:HyBidReportingCommon.ZONE_ID];
-        }
-        if (self.ad != nil && self.ad.campaignID != nil && self.ad.campaignID.length > 0) {
-            [reportingDictionary setObject:self.ad.campaignID forKey:HyBidReportingCommon.CAMPAIGN_ID];
-        }
         if ([HyBidSDKConfig sharedConfig].reporting) {
+            NSMutableDictionary* reportingDictionary = [NSMutableDictionary new];
+            if ([HyBidSDKConfig sharedConfig].appToken != nil && [HyBidSDKConfig sharedConfig].appToken.length > 0) {
+                [reportingDictionary setObject:[HyBidSDKConfig sharedConfig].appToken forKey:HyBidReportingCommon.APPTOKEN];
+            }
+            if (self.ad != nil && self.ad.zoneID != nil && self.ad.zoneID.length > 0) {
+                [reportingDictionary setObject:self.ad.zoneID forKey:HyBidReportingCommon.ZONE_ID];
+            }
+            if (self.ad != nil && self.ad.campaignID != nil && self.ad.campaignID.length > 0) {
+                [reportingDictionary setObject:self.ad.campaignID forKey:HyBidReportingCommon.CAMPAIGN_ID];
+            }
+        
             HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc] initWith:HyBidReportingEventType.SKOVERLAY_IMPRESSION
                                                                                adFormat:self.isRewarded ? HyBidReportingAdFormat.REWARDED : HyBidReportingAdFormat.FULLSCREEN
                                                                              properties:[NSDictionary dictionaryWithDictionary:reportingDictionary]];
             [[HyBid reportingManager] reportEventFor:reportingEvent];
         }
+        
+        [[HyBidVASTEventBeaconsManager shared] reportVASTEventWithType:HyBidReportingEventType.SKOVERLAY_IMPRESSION
+                                                                    ad:self.ad
+                                                               onTopOf:self.onTopOf];
         self.impressionEventFired = YES;
     }
 }
@@ -644,7 +657,12 @@
 }
 
 - (void)storeOverlay:(SKOverlay *)overlay didFinishDismissal:(SKOverlayTransitionContext *)transitionContext  API_AVAILABLE(ios(14.0)){}
-- (void)storeOverlay:(SKOverlay *)overlay didFailToLoadWithError:(NSError *)error  API_AVAILABLE(ios(14.0)){}
+- (void)storeOverlay:(SKOverlay *)overlay didFailToLoadWithError:(NSError *)error  API_AVAILABLE(ios(14.0)){
+    [[HyBidVASTEventBeaconsManager shared] reportVASTEventWithType:HyBidReportingEventType.SKOVERLAY_IMPRESSION_ERROR
+                                                                ad:self.ad
+                                                           onTopOf:self.onTopOf
+                                                         errorCode:error.code];
+}
 
 #pragma mark UIApplication Notifications
 

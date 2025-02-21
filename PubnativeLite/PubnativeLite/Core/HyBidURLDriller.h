@@ -27,7 +27,7 @@
 @optional
 - (void)didStartWithURL:(NSURL *)url;
 - (void)didRedirectWithURL:(NSURL *)url;
-- (void)didFinishWithURL:(NSURL *)url;
+- (void)didFinishWithURL:(NSURL *)url trackingType:(NSString *)trackingType;
 - (void)didFailWithURL:(NSURL *)url andError:(NSError *)error;
 
 @end
@@ -36,5 +36,9 @@
 
 - (void)startDrillWithURLString:(NSString *)urlString
                        delegate:(NSObject<HyBidURLDrillerDelegate> *)delegate;
+- (void)startDrillWithURLString:(NSString *)urlString
+                       delegate:(NSObject<HyBidURLDrillerDelegate> *)delegate
+               withTrackingType:(NSString *)trackingType;
+
 @end
 

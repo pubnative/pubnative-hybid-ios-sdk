@@ -30,10 +30,16 @@
 @property (weak, nonatomic) IBOutlet UIButton *standaloneButton;
 @property (weak, nonatomic) IBOutlet UIButton *headerBiddingButton;
 @property (weak, nonatomic) IBOutlet UIButton *mediationButton;
+@property (weak, nonatomic) IBOutlet UISwitch *publisherModeSwitch;
 
 @end
 
 @implementation PNLiteDemoMainViewController
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.publisherModeSwitch setOn:[[NSUserDefaults standardUserDefaults] boolForKey:kHyBidDemoPublisherModeKey]];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -53,6 +59,19 @@
         self.zoneIDTextField.text = nil;
         [self.zoneIDTextField resignFirstResponder];
     }
+}
+
+- (IBAction)publisherModeSwitchValueChanged:(UISwitch *)sender {
+    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:kHyBidDemoPublisherModeKey];
+    UIAlertController *publisherModeAlert = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"Publisher Mode is: %s", sender.on ? "ON" : "OFF"]
+                                                                               message:@""
+                                                                        preferredStyle:UIAlertControllerStyleAlert];
+    [publisherModeAlert setValue:[[NSAttributedString alloc] initWithString:[PNLiteDemoSettings sharedInstance].publisherModeAlertMessage
+                                                                 attributes:[PNLiteDemoSettings sharedInstance].publisherModeAlertAttributes]
+                         forKey:@"attributedMessage"];
+    UIAlertAction * dismissAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
+    [publisherModeAlert addAction:dismissAction];
+    [self presentViewController:publisherModeAlert animated:YES completion:nil];
 }
 
 #pragma mark UITextFieldDelegate

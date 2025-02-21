@@ -1,5 +1,5 @@
 //
-//  Copyright © 2020 PubNative. All rights reserved.
+//  Copyright © 2021 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,9 +20,44 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
-#import "PNLiteDemoBaseViewController.h"
+#import "HyBidConfig.h"
+#import "HyBidConfigParameter.h"
 
-@interface AnalyticsViewController : PNLiteDemoBaseViewController
+@interface HyBidConfig ()
+
+@property (nonatomic, strong)HyBidConfigModel *data;
+
+@end
+
+@implementation HyBidConfig
+
+- (void)dealloc {
+    self.data = nil;
+}
+
+- (instancetype)initWithData:(HyBidConfigModel *)data {
+    self = [super init];
+    if (self) {
+        self.data = data;
+    }
+    return self;
+}
+
+- (BOOL)atomEnabled {
+    BOOL result = NO;
+    HyBidDataModel *data = [self appLevelDataWithType:HyBidConfigParameter.atomEnabled];
+    if (data) {
+        result = data.boolean;
+    }
+    return result;
+}
+
+- (HyBidDataModel *)appLevelDataWithType:(NSString *)type {
+    HyBidDataModel *result = nil;
+    if (self.data) {
+        result = [self.data appLevelWithType:type];
+    }
+    return result;
+}
 
 @end

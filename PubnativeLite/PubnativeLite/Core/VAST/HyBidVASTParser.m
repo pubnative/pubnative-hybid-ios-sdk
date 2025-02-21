@@ -181,12 +181,12 @@ BOOL const HyBidVASTModel_ValidateWithSchema = NO;
                 // we assume that there's only one element in the array
                 url = ((NSDictionary *)childArray[0])[@"nodeContent"];
                 url = [url stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-                NSString *urlWithtPercentEncoding = url;
+                NSString *urlWithPercentEncoding = url;
                 url = [url stringByRemovingPercentEncoding];
                 vastData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]]];
                 BOOL isVASTDataWithPercentEncoding = NO;
                 if (!vastData) {
-                    vastData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[urlWithtPercentEncoding stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]]];
+                    vastData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[urlWithPercentEncoding stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]]];
                     isVASTDataWithPercentEncoding = YES;
                 }
                 
@@ -194,7 +194,7 @@ BOOL const HyBidVASTModel_ValidateWithSchema = NO;
                     vastDataString = [[NSString alloc] initWithData:vastData encoding:NSUTF8StringEncoding];
                     vastData = [self removingVastFirstLineParamsFrom: vastDataString];
                     if (!validateXMLDocSyntax(vastData) && !isVASTDataWithPercentEncoding) {
-                        vastData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[urlWithtPercentEncoding stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]]];
+                        vastData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[urlWithPercentEncoding stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]]];
                         vastDataString = [[NSString alloc] initWithData:vastData encoding:NSUTF8StringEncoding];
                         vastData = [self removingVastFirstLineParamsFrom: vastDataString];
                     }

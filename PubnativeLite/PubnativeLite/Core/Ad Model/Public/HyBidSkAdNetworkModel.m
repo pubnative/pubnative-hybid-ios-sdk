@@ -72,7 +72,11 @@ NSString * const REQUEST_SKADNETWORK_V4 = @"4.0";
             if (isSkAdNetworkHigher_v4_0) {
                 if (@available(iOS 16.1, *)) {
                     if ([self.productParameters objectForKey:HyBidSKAdNetworkParameter.sourceIdentifier] != nil) {
-                        [storeKitParameters setObject:[self.productParameters objectForKey:HyBidSKAdNetworkParameter.sourceIdentifier] forKey:SKStoreProductParameterAdNetworkSourceIdentifier];
+                        NSString *sourceIdString = [self.productParameters objectForKey:HyBidSKAdNetworkParameter.sourceIdentifier];
+                        NSNumber *sourceId = [self getNSNumberFromString:sourceIdString];
+                        if (sourceId != nil) {
+                            [storeKitParameters setObject:sourceId forKey:SKStoreProductParameterAdNetworkSourceIdentifier];
+                        }
                     }
                 }
             } else {

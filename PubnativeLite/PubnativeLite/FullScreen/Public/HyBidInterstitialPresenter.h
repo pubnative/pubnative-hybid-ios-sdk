@@ -45,8 +45,15 @@
 - (void)interstitialPresenterDismissesSKOverlay:(HyBidInterstitialPresenter *)interstitialPresenter;
 - (void)interstitialPresenterDismissesCustomCTA:(HyBidInterstitialPresenter *)interstitialPresenter;
 - (void)interstitialPresenterWillPresentEndCard:(HyBidInterstitialPresenter *)interstitialPresenter
-                                        endcard:(HyBidVASTEndCard *)endcard;
+                              skoverlayDelegate:(id<HyBidSKOverlayDelegate>)skoverlayDelegate
+                              customCTADelegate:(id<HyBidCustomCTAViewDelegate>)customCTADelegate;
 - (void)interstitialPresenterDidPresentCustomEndCard:(HyBidInterstitialPresenter *)interstitialPresenter;
+- (void)interstitialPresenterDidPresentCustomCTA;
+- (void)interstitialPresenterDidClickCustomCTAOnEndCard:(BOOL)onEndCard;
+- (void)interstitialPresenterDidSKOverlayAutomaticClick:(HyBidInterstitialPresenter *)interstitialPresenter
+                                              clickType:(HyBidSKOverlayAutomaticCLickType)clickType;
+- (void)interstitialPresenterDidStorekitAutomaticClick:(HyBidInterstitialPresenter *)interstitialPresenter           clickType:(HyBidStorekitAutomaticClickType)clickType;
+
 @end
 
 @interface HyBidInterstitialPresenter : NSObject

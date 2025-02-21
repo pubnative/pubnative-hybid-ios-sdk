@@ -25,5 +25,5 @@
 @interface HyBidATOMFlow : NSObject
 
 + (void)initFlow;
-+ (void)setAtomEnabled:(NSNumber*)enabled;
+
 @end

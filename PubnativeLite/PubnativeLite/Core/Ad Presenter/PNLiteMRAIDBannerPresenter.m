@@ -122,7 +122,7 @@
     
     NSString *customUrl = [HyBidCustomClickUtil extractPNClickUrl:url];
     if (customUrl != nil) {
-        [self.serviceProvider openBrowser:customUrl];
+        [self openBrowser:customUrl navigationType: HyBidWebBrowserNavigationExternalValue];
     } else if (skAdNetworkModel) {
         NSMutableDictionary* productParams = [[skAdNetworkModel getStoreKitParameters] mutableCopy];
         
@@ -139,8 +139,20 @@
                 }];
             });
         } else {
-            [self.serviceProvider openBrowser:url];
+            [self openBrowser:url navigationType:self.ad.navigationMode];
         }
+    } else {
+        [self openBrowser:url navigationType:self.ad.navigationMode];
+    }
+}
+
+- (void)openBrowser:(NSString*)url navigationType:(NSString *)navigationType {
+    
+    HyBidWebBrowserNavigation navigation = [HyBidInternalWebBrowserNavigationController.shared webBrowserNavigationBehaviourFromString: navigationType];
+    
+    if (navigation == HyBidWebBrowserNavigationInternal) {
+        if (!self.mraidView) { return; }
+        [HyBidInternalWebBrowserNavigationController.shared navigateToURL:url delegate:self.mraidView];
     } else {
         [self.serviceProvider openBrowser:url];
     }
@@ -216,6 +228,7 @@
     if ([self.delegate respondsToSelector:@selector(adPresenterDidAppear:)]) {
         [self.delegate adPresenterDidAppear:self];
     }
+    [viewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

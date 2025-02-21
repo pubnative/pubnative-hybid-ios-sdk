@@ -33,6 +33,7 @@
 + (NSString *)width { return @"w"; }
 + (NSString *)height { return @"h"; }
 + (NSString *)jsonData { return @"jsondata"; }
++ (NSString *)boolean { return @"boolean"; }
 + (NSString *)skoverlayEnabled { return @"SKOverlayenabled"; }
 + (NSString *)pcSKoverlayEnabled { return @"pc_skoverlayenabled"; }
 + (NSString *)audioState { return @"audiostate"; }
@@ -76,10 +77,13 @@
 + (NSString *)sdkAutoStorekitEnabled { return @"sdk_autostorekit"; }
 + (NSString *)pcSDKAutoStorekitEnabled { return @"pc_sdk_autostorekit"; }
 + (NSString *)sdkAutoStorekitDelay { return @"sdk_autostorekit_delay"; }
-+ (NSString *)atomEnabled { return @"atom_enabled"; }
 + (NSString *)itunesIdValue { return @"itunesid_value"; }
 + (NSString *)reducedIconSizes { return @"pc_reduced_icon_sizes"; }
 + (NSString *)reducedIconSizesInputValue { return @"pc_reduced_icon_sizes_input_value"; }
 + (NSString *)hideControls { return @"bc_hide_controls"; }
++ (NSString *)navigationMode { return @"navigation_mode"; }
++ (NSString *)navigationModeInputValue { return @"navigation_mode_input_value"; }
++ (NSString *)landingPage { return @"landing_page"; }
++ (NSString *)landingPageInputValue { return @"landing_page_input_value"; }
 
 @end

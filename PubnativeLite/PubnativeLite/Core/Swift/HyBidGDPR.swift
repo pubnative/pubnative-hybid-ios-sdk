@@ -25,7 +25,7 @@ import Foundation
 @objc
 public class HyBidGDPR: NSObject {
     
-    @objc (HyBidGDPRk)
+    @objc(HyBidGDPRk)
     public enum HyBidGDPRKeys: Int,CaseIterable {
         case CCPAPrivacyKey
         case GDPRConsentKey

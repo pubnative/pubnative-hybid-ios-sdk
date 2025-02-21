@@ -308,20 +308,23 @@ public class HyBidInterstitialAd: NSObject {
             
             self.invokeDidFailWithError(error: NSError.hyBidUnsupportedAsset())
             
-            self.renderErrorReportingProperties[Common.ERROR_MESSAGE] = NSError.hyBidUnsupportedAsset().localizedDescription
-            self.renderErrorReportingProperties[Common.ERROR_CODE] = String(format: "%ld", NSError.hyBidUnsupportedAsset().code)
-            self.renderReportingProperties.update(other: HyBid.reportingManager().addCommonProperties(forAd: self.ad, withRequest: self.interstitialAdRequest))
-            self.reportEvent(EventType.RENDER_ERROR, properties: self.renderReportingProperties)
+            if HyBidSDKConfig.sharedConfig.reporting {
+                self.renderErrorReportingProperties[Common.ERROR_MESSAGE] = NSError.hyBidUnsupportedAsset().localizedDescription
+                self.renderErrorReportingProperties[Common.ERROR_CODE] = String(format: "%ld", NSError.hyBidUnsupportedAsset().code)
+                self.renderReportingProperties.update(other: HyBid.reportingManager().addCommonProperties(forAd: self.ad, withRequest: self.interstitialAdRequest))
+                self.reportEvent(EventType.RENDER_ERROR, properties: self.renderReportingProperties)
+            }
             return
         } else {
             self.interstitialPresenter?.load()
         }
     }
     
-    func addSessionReportingProperties() -> [String:Any] {
-        var sessionReportingDictionaryToAppend = [String:Any]()
-        if !HyBidSessionManager.sharedInstance.impressionCounter.isEmpty {
-            sessionReportingDictionaryToAppend[Common.IMPRESSION_SESSION_COUNT] = HyBidSessionManager.sharedInstance.impressionCounter
+    func addSessionReportingProperties() -> [String: Any] {
+        var sessionReportingDictionaryToAppend = [String: Any]()
+        let impressionCounter = HyBidSessionManager.sharedInstance.safeImpressionCounter
+        if !impressionCounter.isEmpty {
+            sessionReportingDictionaryToAppend[Common.IMPRESSION_SESSION_COUNT] = impressionCounter
         }
         if let sessionDuration = UserDefaults.standard.string(forKey: Common.SESSION_DURATION), !sessionDuration.isEmpty{
             sessionReportingDictionaryToAppend[Common.SESSION_DURATION] = sessionDuration
@@ -338,6 +341,9 @@ public class HyBidInterstitialAd: NSObject {
     
     func reportEvent(_ eventType: String, properties: [String: Any]) {
         if HyBidSDKConfig.sharedConfig.reporting == true {
+            var properties = properties
+            if let ad = self.ad, let beacons = ad.beacons { properties[VASTBeacon.BEACONS] = beacons }
+            
             let reportingEvent = HyBidReportingEvent(with: eventType, adFormat: AdFormat.FULLSCREEN, properties: properties)
             HyBid.reportingManager().reportEvent(for: reportingEvent)
         }
@@ -348,23 +354,30 @@ public class HyBidInterstitialAd: NSObject {
     }
     
     func invokeDidLoad() {
-        if let initialLoadTimestamp = self.initialLoadTimestamp, initialLoadTimestamp != -1 {
-            self.loadReportingProperties[Common.TIME_TO_LOAD] = String(format: "%f", elapsedTimeSince(initialLoadTimestamp))
+        if HyBidSDKConfig.sharedConfig.reporting {
+            if let initialLoadTimestamp = self.initialLoadTimestamp, initialLoadTimestamp != -1 {
+                self.loadReportingProperties[Common.TIME_TO_LOAD] = String(format: "%f", elapsedTimeSince(initialLoadTimestamp))
+            }
+            
+            self.loadReportingProperties[Common.HAS_END_CARD] = self.ad?.hasEndCard
+            self.loadReportingProperties = HyBid.reportingManager().addCommonProperties(forAd: self.ad, withRequest: self.interstitialAdRequest)
+            self.reportEvent(EventType.LOAD, properties: self.loadReportingProperties)
         }
-        
-        self.loadReportingProperties[Common.HAS_END_CARD] = self.ad?.hasEndCard
-        self.loadReportingProperties = HyBid.reportingManager().addCommonProperties(forAd: self.ad, withRequest: self.interstitialAdRequest)
-        self.reportEvent(EventType.LOAD, properties: self.loadReportingProperties)
+        HyBidVASTEventBeaconsManager.shared.reportVASTEvent(type: EventType.LOAD, ad: self.ad)
         guard let delegate = self.delegate else { return }
         delegate.interstitialDidLoad()
     }
     
     func invokeDidFailWithError(error: Error) {
-        if let initialLoadTimestamp = self.initialLoadTimestamp, initialLoadTimestamp != -1 {
-            self.loadReportingProperties[Common.TIME_TO_LOAD] = String(format: "%f", elapsedTimeSince(initialLoadTimestamp))
+        if HyBidSDKConfig.sharedConfig.reporting {
+            if let initialLoadTimestamp = self.initialLoadTimestamp, initialLoadTimestamp != -1 {
+                self.loadReportingProperties[Common.TIME_TO_LOAD] = String(format: "%f", elapsedTimeSince(initialLoadTimestamp))
+            }
+            self.loadReportingProperties = HyBid.reportingManager().addCommonProperties(forAd: self.ad, withRequest: self.interstitialAdRequest)
+            self.reportEvent(EventType.LOAD_FAIL, properties: self.loadReportingProperties)
         }
-        self.loadReportingProperties = HyBid.reportingManager().addCommonProperties(forAd: self.ad, withRequest: self.interstitialAdRequest)
-        self.reportEvent(EventType.LOAD_FAIL, properties: self.loadReportingProperties)
+        let error = error as NSError
+        HyBidVASTEventBeaconsManager.shared.reportVASTEvent(type: EventType.LOAD_FAIL, ad: self.ad, errorCode: error.code)
         HyBidLogger.errorLog(fromClass: String(describing: HyBidInterstitialAd.self), fromMethod: #function, withMessage: error.localizedDescription)
         
         if let delegate = delegate {
@@ -403,8 +416,6 @@ public class HyBidInterstitialAd: NSObject {
     
     func determineSkipOffsetValuesFor(_ ad: HyBidAd) {
         if isValidBundleID(ad: ad) {
-            
-            // Handling HTML Skip Offset for IC Interstitial
             if let skipOffset = ad.pcInterstitialHtmlSkipOffset {
                 if skipOffset.intValue < 0 {
                     self.htmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_PC_INTERSTITIAL_SKIP_OFFSET), isCustom: true)
@@ -416,37 +427,7 @@ public class HyBidInterstitialAd: NSObject {
             } else {
                 self.htmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_PC_INTERSTITIAL_SKIP_OFFSET), isCustom: true)
             }
-
-            // Handling Video Skip Offset for IC Video
-            if let skipOffset = ad.pcVideoSkipOffset {
-                var maxSkipOffset = HyBidSkipOffset.DEFAULT_PC_VIDEO_MAX_SKIP_OFFSET_NON_COMPANION
-                if ad.hasEndCard || ad.hasCustomEndCard {
-                    maxSkipOffset = HyBidSkipOffset.DEFAULT_PC_VIDEO_MAX_SKIP_OFFSET_COMPANION
-                }
-                if skipOffset.intValue < 0 {
-                    self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_PC_VIDEO_SKIP_OFFSET), isCustom: true)
-                } else if skipOffset.intValue >= maxSkipOffset {
-                    self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: maxSkipOffset), isCustom: true)
-                } else {
-                    self.videoSkipOffset = HyBidSkipOffset(offset: skipOffset, isCustom: true)
-                }
-            } else {
-                if ad.hasEndCard || ad.hasCustomEndCard {
-                    self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_VIDEO_SKIP_OFFSET), isCustom: true)
-                } else {
-                    self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD), isCustom: true)
-                }
-            }
-            
-            if (ad.bcVideoSkipOffset == nil && ad.adExperience == HyBidAdExperienceBrandValue) {
-                if ad.hasEndCard || ad.hasCustomEndCard {
-                    self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_VIDEO_SKIP_OFFSET), isCustom: true)
-                } else {
-                    self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD), isCustom: true)
-                }
-            }
         } else {
-            // Handling for non-IC specific cases
             if let skipOffset = ad.interstitialHtmlSkipOffset {
                 if skipOffset.intValue < 0 {
                     self.htmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_HTML_SKIP_OFFSET), isCustom: true)
@@ -454,19 +435,24 @@ public class HyBidInterstitialAd: NSObject {
                     self.htmlSkipOffset = HyBidSkipOffset(offset: skipOffset, isCustom: true)
                 }
             }
-
-            if let skipOffset = ad.videoSkipOffset {
-                var defaultSkipOffset = HyBidSkipOffset.DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD
-                if ad.hasEndCard || ad.hasCustomEndCard {
-                    defaultSkipOffset = HyBidSkipOffset.DEFAULT_VIDEO_SKIP_OFFSET
-                }
-                if skipOffset.intValue < 0 {
-                    self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: defaultSkipOffset), isCustom: true)
-                } else if skipOffset.intValue >= HyBidSkipOffset.DEFAULT_INTERSTITIAL_VIDEO_MAX_SKIP_OFFSET {
-                    self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_INTERSTITIAL_VIDEO_MAX_SKIP_OFFSET), isCustom: true)
-                } else {
-                    self.videoSkipOffset = HyBidSkipOffset(offset: skipOffset, isCustom: true)
-                }
+        }
+        if let skipOffset = ad.videoSkipOffset {
+            var defaultSkipOffset = HyBidSkipOffset.DEFAULT_PC_VIDEO_MAX_SKIP_OFFSET_NON_COMPANION
+            if ad.hasEndCard || ad.hasCustomEndCard {
+                defaultSkipOffset = HyBidSkipOffset.DEFAULT_PC_VIDEO_MAX_SKIP_OFFSET_COMPANION
+            }
+            if skipOffset.intValue < 0 {
+                self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: defaultSkipOffset), isCustom: true)
+            } else if skipOffset.intValue >= HyBidSkipOffset.DEFAULT_INTERSTITIAL_VIDEO_MAX_SKIP_OFFSET {
+                self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_INTERSTITIAL_VIDEO_MAX_SKIP_OFFSET), isCustom: true)
+            } else {
+                self.videoSkipOffset = HyBidSkipOffset(offset: skipOffset, isCustom: true)
+            }
+        } else {
+            if ad.hasEndCard || ad.hasCustomEndCard {
+                self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_VIDEO_SKIP_OFFSET), isCustom: true)
+            } else {
+                self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD), isCustom: true)
             }
         }
     }
@@ -521,15 +507,17 @@ extension HyBidInterstitialAd {
     }
     
     func interstitialPresenterDidShow(_ interstitialPresenter: HyBidInterstitialPresenter!) {
-        if let initialRenderTimestamp = self.initialRenderTimestamp, initialRenderTimestamp
-            != -1 {
-            self.loadReportingProperties[Common.RENDER_TIME] = String(format: "%f",
-                                                                      elapsedTimeSince(initialRenderTimestamp))
+        if HyBidSDKConfig.sharedConfig.reporting {
+            if let initialRenderTimestamp = self.initialRenderTimestamp, initialRenderTimestamp
+                != -1 {
+                self.loadReportingProperties[Common.RENDER_TIME] = String(format: "%f",
+                                                                          elapsedTimeSince(initialRenderTimestamp))
+            }
+            self.renderReportingProperties = HyBid.reportingManager().addCommonProperties(forAd: self.ad, withRequest: self.interstitialAdRequest)
+            self.sessionReportingProperties = self.addSessionReportingProperties()
+            self.reportEvent(EventType.RENDER, properties: self.renderReportingProperties)
+            self.reportEvent(EventType.SESSION_REPORT_INFO, properties: self.sessionReportingProperties)
         }
-        self.renderReportingProperties = HyBid.reportingManager().addCommonProperties(forAd: self.ad, withRequest: self.interstitialAdRequest)
-        self.sessionReportingProperties = self.addSessionReportingProperties()
-        self.reportEvent(EventType.RENDER, properties: self.renderReportingProperties)
-        self.reportEvent(EventType.SESSION_REPORT_INFO, properties: self.sessionReportingProperties)
         self.invokeDidTrackImpression()
     }
     

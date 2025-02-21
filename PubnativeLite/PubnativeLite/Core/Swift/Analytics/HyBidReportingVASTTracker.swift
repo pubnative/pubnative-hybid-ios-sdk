@@ -1,5 +1,5 @@
 //
-//  Copyright © 2020 PubNative. All rights reserved.
+//  Copyright © 2021 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,18 +20,19 @@
 //  THE SOFTWARE.
 //
 
-#import "AnalyticsEventTableViewCell.h"
-#import <HyBid/HyBid.h>
+import UIKit
 
-@implementation AnalyticsEventTableViewCell
-
-- (void)awakeFromNib {
-    [super awakeFromNib];
+@objc
+public class HyBidReportingVASTTracker:  NSObject {
+    
+    @objc public var properties: [ReportingKey: Any]? = [:]
+    @objc public var trackerType: String
+    
+    @objc
+    public init(with trackerType: String, properties: [ReportingKey: Any]? = nil) {
+        self.trackerType = trackerType
+        self.properties = properties ?? [:]
+        self.properties?[Common.VAST_TRACKER_TYPE] = trackerType
+        self.properties?[Common.TIMESTAMP] = String(Date().timeIntervalSince1970 * 1000.0)
+    }
 }
-
-- (void)configureCell:(HyBidReportingEvent*) event {
-    self.analyticsEventName.text = [[NSString alloc]initWithFormat:@"%@", event.eventType];
-    self.analyticsEventName.accessibilityIdentifier = [[NSString alloc]initWithFormat:@"%@", event.eventType];
-}
-
-@end

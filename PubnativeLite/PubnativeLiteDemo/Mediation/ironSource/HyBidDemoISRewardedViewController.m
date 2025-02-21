@@ -25,10 +25,12 @@
 #import "PNLiteDemoSettings.h"
 #import "IronSource/IronSource.h"
 
-@interface HyBidDemoISRewardedViewController () <LevelPlayRewardedVideoDelegate, ISInitializationDelegate>
+@interface HyBidDemoISRewardedViewController () <LPMRewardedAdDelegate>
 
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *rewardedLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *debugButton;
 @property (weak, nonatomic) IBOutlet UIButton *showAdButton;
+@property (nonatomic, strong) LPMRewardedAd *rewardedAd;
 
 @end
 
@@ -37,59 +39,81 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"IS Rewarded";
-    [IronSource initWithAppKey:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidISAppIDKey] adUnits:@[IS_REWARDED_VIDEO] delegate:self];
-    [IronSource setLevelPlayRewardedVideoDelegate:self];
+    
+    LPMInitRequestBuilder *requestBuilder = [[LPMInitRequestBuilder alloc] initWithAppKey:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidISAppIDKey]];
+    LPMInitRequest *initRequest = [requestBuilder build];
+    [LevelPlay initWithRequest:initRequest completion:^(LPMConfiguration * _Nullable config, NSError * _Nullable error) {
+        if(error) {
+            // There was an error on initialization. Take necessary actions or retry
+        } else {
+            // Initialization was successful. You can now create ad objects and load ads or perform other tasks
+        }
+    }];
+    
+    [self.rewardedLoaderIndicator stopAnimating];
+}
+
+- (IBAction)requestInterstitialTouchUpInside:(id)sender {
+    [self requestAd];
+}
+
+- (void)requestAd {
     [self clearDebugTools];
     self.debugButton.hidden = YES;
-    self.showAdButton.enabled = [IronSource hasRewardedVideo];
+    self.showAdButton.hidden = YES;
+    [self.rewardedLoaderIndicator startAnimating];
+    
+    self.rewardedAd = [[LPMRewardedAd alloc] initWithAdUnitId:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidISRewardedAdUnitIdKey]];
+    self.rewardedAd.delegate = self;
+    
+    [self.rewardedAd loadAd];
 }
 
 - (IBAction)showAdTouchUpInside:(UIButton *)sender {
-    if ([IronSource hasRewardedVideo]) {
-        [IronSource showRewardedVideoWithViewController:self];
+    if ([self.rewardedAd isAdReady]) {
+        [self.rewardedAd showAdWithViewController: self placementName: NULL];
     } else {
         NSLog(@"Ad wasn't ready");
     }
 }
 
-#pragma mark - LevelPlayRewardedVideoDelegate
+#pragma mark - LPMRewardedAdDelegate
 
-- (void)hasAvailableAdWithAdInfo:(ISAdInfo *)adInfo {
-    self.showAdButton.enabled = YES;
+- (void)didLoadAdWithAdInfo:(LPMAdInfo *)adInfo {
     self.debugButton.hidden = NO;
-    NSLog(@"hasAvailableAd");
+    self.showAdButton.hidden = NO;
+    [self.rewardedLoaderIndicator stopAnimating];
 }
 
-- (void)hasNoAvailableAd {
-    self.showAdButton.enabled = NO;
+- (void)didFailToLoadAdWithAdUnitId:(NSString *)adUnitId error:(NSError *)error {
     self.debugButton.hidden = NO;
-    NSLog(@"hasNoAvailableAd");
+    [self.rewardedLoaderIndicator stopAnimating];
+    [self showAlertControllerWithMessage:[NSString stringWithFormat:@"ironSource Rewarded did fail to load: %@", error.localizedDescription]];
 }
 
-- (void)didReceiveRewardForPlacement:(ISPlacementInfo *)placementInfo withAdInfo:(ISAdInfo *)adInfo {
-    NSLog(@"User did receive reward: %@ with amount: %@", placementInfo.rewardName, placementInfo.rewardAmount);
+- (void)didChangeAdInfo:(LPMAdInfo *)adInfo {
+    NSLog(@"didChangeAdInfo");
 }
 
-- (void)didFailToShowWithError:(NSError *)error andAdInfo:(ISAdInfo *)adInfo {
+- (void)didDisplayAdWithAdInfo:(LPMAdInfo *)adInfo {
+    NSLog(@"didDisplayAdWithAdInfo");
+}
+
+- (void)didFailToDisplayAdWithAdInfo:(LPMAdInfo *)adInfo error:(NSError *)error {
     NSLog(@"Failed to show rewarded ad with error: %@", [error localizedDescription]);
 }
 
-- (void)didOpenWithAdInfo:(ISAdInfo *)adInfo {
-    NSLog(@"rewardedVideoDidOpen");
+- (void)didClickAdWithAdInfo:(LPMAdInfo *)adInfo {
+    NSLog(@"didClickAdWithAdInfo");
 }
 
-- (void)didCloseWithAdInfo:(ISAdInfo *)adInfo {
+- (void)didCloseAdWithAdInfo:(LPMAdInfo *)adInfo {
+    NSLog(@"didCloseAdWithAdInfo");
     self.showAdButton.enabled = NO;
 }
 
-- (void)didClick:(ISPlacementInfo *)placementInfo withAdInfo:(ISAdInfo *)adInfo {
-    NSLog(@"didClickRewardedVideo");
-}
-
-#pragma mark - ISInitializationDelegate
-
-- (void)initializationDidComplete {
-    
+- (void)didRewardAdWithAdInfo:(LPMAdInfo *)adInfo reward:(LPMReward *)reward {
+    NSLog(@"User did receive reward: %@ with amount: %ld", reward.name, reward.amount);
 }
 
 @end

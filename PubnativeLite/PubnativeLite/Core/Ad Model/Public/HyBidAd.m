@@ -77,7 +77,6 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     if (self) {
         self.data = data;
         self._zoneID = zoneID;
-        [HyBidATOMFlow setAtomEnabled:self.atomEnabled];
     }
     return self;
 }
@@ -91,7 +90,6 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
         self.data = data;
         self._zoneID = zoneID;
         self._cohorts = cohorts;
-        [HyBidATOMFlow setAtomEnabled:self.atomEnabled];
     }
     return self;
 }
@@ -162,7 +160,6 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
         model.assets = assets;
         model.assetgroupid = [NSNumber numberWithInteger: assetGroup];
         self.data = model;
-        [HyBidATOMFlow setAtomEnabled:self.atomEnabled];
     }
     return self;
 }
@@ -511,17 +508,6 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     if (jsonDictionary) {
         if ([jsonDictionary objectForKey:PNLiteData.creativeAutoStorekitEnabled] != (id)[NSNull null]) {
             result = [jsonDictionary objectForKey:PNLiteData.creativeAutoStorekitEnabled];
-        }
-    }
-    return result;
-}
-
-- (NSNumber *)atomEnabled {
-    NSNumber *result = nil;
-    NSDictionary *jsonDictionary = [self jsonData];
-    if (jsonDictionary) {
-        if ([jsonDictionary objectForKey:PNLiteData.atomEnabled] != (id)[NSNull null]) {
-            result = [jsonDictionary objectForKey:PNLiteData.atomEnabled];
         }
     }
     return result;
@@ -960,6 +946,57 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     if (jsonDictionary) {
         if ([jsonDictionary objectForKey:PNLiteData.reducedIconSizesInputValue] != (id)[NSNull null]) {
             result = [jsonDictionary objectForKey:PNLiteData.reducedIconSizesInputValue];
+        }
+    }
+    return result;
+}
+
+- (NSString *)navigationModeInputValue {
+    NSString *result = nil;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.navigationModeInputValue] != (id)[NSNull null]) {
+            result = [jsonDictionary objectForKey:PNLiteData.navigationModeInputValue];
+        }
+    }
+    return result;
+}
+
+- (NSString *)navigationMode {
+    NSString *navigationModeInputValue = [self navigationModeInputValue];
+    if (navigationModeInputValue) { return navigationModeInputValue; }
+    
+    NSString *result = nil;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.navigationMode] != (id)[NSNull null] &&
+            [[jsonDictionary objectForKey:PNLiteData.navigationMode] isKindOfClass:[NSString class]]) {
+            result = [jsonDictionary objectForKey:PNLiteData.navigationMode];
+        }
+    }
+    return result;
+}
+
+- (BOOL)landingPage {
+    BOOL landingPageInputValue = [self landingPageInputValue];
+    if (landingPageInputValue) { return landingPageInputValue;}
+    
+    BOOL result = NO;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.landingPage] != (id)[NSNull null]) {
+            result = [[jsonDictionary objectForKey:PNLiteData.landingPage] boolValue];
+        }
+    }
+    return result;
+}
+
+- (BOOL)landingPageInputValue {
+    BOOL result = NO;
+    NSDictionary *jsonDictionary = [self jsonData];
+    if (jsonDictionary) {
+        if ([jsonDictionary objectForKey:PNLiteData.landingPageInputValue] != (id)[NSNull null]) {
+            result = [[jsonDictionary objectForKey:PNLiteData.landingPageInputValue] boolValue];
         }
     }
     return result;

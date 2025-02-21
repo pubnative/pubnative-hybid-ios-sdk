@@ -87,16 +87,19 @@
 - (id)initWithXMLString:(NSString*)aXMLString {
 	self = [self init];
 	if (self != nil) {
-		
-		// copy string to byte array
-		bytesLength = [aXMLString lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
-		bytes = malloc(bytesLength+1);
-		[aXMLString getBytes:bytes maxLength:bytesLength usedLength:0 encoding:NSUTF8StringEncoding options:NSStringEncodingConversionAllowLossy range:NSMakeRange(0, bytesLength) remainingRange:nil];
-		
-		// set null terminator at end of byte array
-		bytes[bytesLength] = 0;
-		
-		// decode xml data
+        
+        aXMLString = [self convertString:aXMLString toEncoding:NSUTF8StringEncoding];
+        
+        // copy string to byte array
+        bytesLength = [aXMLString lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+        bytes = malloc(bytesLength+1);
+
+        [aXMLString getBytes:bytes maxLength:bytesLength usedLength:0 encoding:NSUTF8StringEncoding options:NSStringEncodingConversionAllowLossy range:NSMakeRange(0, bytesLength) remainingRange:nil];
+
+        // set null terminator at end of byte array
+        bytes[bytesLength] = 0;
+        
+        // decode xml data
 		[self decodeBytes];
 	}
 	return self;
@@ -137,6 +140,16 @@
 		[self decodeData:data];
 	}
 	return self;
+}
+
+- (NSString *) convertString:(NSString *)string toEncoding:(NSStringEncoding)encoding {
+
+    NSData *data = [string dataUsingEncoding:encoding];
+    NSString *base64Encoded = [data base64EncodedStringWithOptions:0];
+    
+    NSData *dataBase64String = [[NSData alloc]initWithBase64EncodedString:base64Encoded options:0];
+    NSString *base64Decoded = [[NSString alloc] initWithData:dataBase64String encoding:NSUTF8StringEncoding];
+    return base64Decoded;
 }
 
 @end

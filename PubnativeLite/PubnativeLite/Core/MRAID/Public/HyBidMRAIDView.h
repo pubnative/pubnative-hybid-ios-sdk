@@ -23,6 +23,7 @@
 #import <UIKit/UIKit.h>
 #import "HyBidContentInfoView.h"
 #import "HyBidAd.h"
+#import "HyBidInternalWebBrowserDelegate.h"
 
 @class HyBidMRAIDView;
 @protocol HyBidMRAIDServiceDelegate;
@@ -35,6 +36,7 @@
 // These callbacks are for basic banner ad functionality.
 - (void)mraidViewAdReady:(HyBidMRAIDView *)mraidView;
 - (void)mraidViewAdFailed:(HyBidMRAIDView *)mraidView;
+- (void)mraidViewAdFailed:(HyBidMRAIDView *)mraidView withError:(NSError *)error;
 - (void)mraidViewWillExpand:(HyBidMRAIDView *)mraidView;
 - (void)mraidViewDidClose:(HyBidMRAIDView *)mraidView;
 - (void)mraidViewNavigate:(HyBidMRAIDView *)mraidView withURL:(NSURL *)url;
@@ -44,7 +46,7 @@
 
 @end
 
-@interface HyBidMRAIDView : UIView
+@interface HyBidMRAIDView : UIView <HyBidInternalWebBrowserDelegate>
 
 @property (nonatomic, strong) id<HyBidMRAIDViewDelegate> delegate;
 @property (nonatomic, strong) id<HyBidMRAIDServiceDelegate> serviceDelegate;

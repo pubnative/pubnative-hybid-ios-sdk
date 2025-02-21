@@ -45,7 +45,11 @@
                 
                 if (skanObject.fidelity == 1) {
                     if (@available(iOS 11.3, *)) {
-                        [dictionary setObject:[NSString stringWithUTF8String:skanObject.timestamp] forKey:SKStoreProductParameterAdNetworkTimestamp];
+                        NSString *timestampString = [NSString stringWithUTF8String:skanObject.timestamp];
+                        NSNumber *timestamp = [self getNSNumberFromString:timestampString];
+                        if (timestamp != nil) {
+                            [dictionary setObject:timestamp forKey:SKStoreProductParameterAdNetworkTimestamp];
+                        }
                         
                         NSString *nonce = [NSString stringWithUTF8String:skanObject.nonce];
                         [dictionary setObject:[[NSUUID alloc] initWithUUIDString:nonce] forKey:SKStoreProductParameterAdNetworkNonce];
@@ -72,6 +76,19 @@
     }
     
     return dictionary;
+}
+
++ (NSNumber *)getNSNumberFromString:(NSString *)string
+{
+    if (string == nil || [string length] == 0) {
+        return nil;
+    }
+
+    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+    numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
+    NSNumber *number = [numberFormatter numberFromString:string];
+
+    return number;
 }
 
 + (NSDictionary *)cleanUpProductParams:(NSDictionary *)productParams {

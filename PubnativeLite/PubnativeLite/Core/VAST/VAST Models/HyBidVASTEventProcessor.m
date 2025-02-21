@@ -23,6 +23,7 @@
 #import "HyBidVASTEventProcessor.h"
 #import "HyBidWebBrowserUserAgentInfo.h"
 #import "HyBidViewabilityNativeVideoAdSession.h"
+#import "PNLiteData.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -120,7 +121,7 @@
             NSArray<NSString *> *urlStrings = self.eventsDictionary[eventString];
             if (urlStrings && urlStrings.count > 0) {
                 for (NSString *urlString in urlStrings) {
-                    [self sendTrackingRequest:urlString];
+                    [self sendTrackingRequest:urlString trackingType:type];
                     [HyBidLogger debugLogFromClass:NSStringFromClass([self class])
                                         fromMethod:NSStringFromSelector(_cmd)
                                        withMessage:[NSString stringWithFormat:@"Sent event '%@' to url: %@", eventString, urlString]];
@@ -129,7 +130,7 @@
         }else if (self.events.count != 0) {
             for (HyBidVASTTracking *event in self.events) {
                 if ([[event event] isEqualToString:eventString]) {
-                    [self sendTrackingRequest:[event url]];
+                    [self sendTrackingRequest:[event url] trackingType:type];
                     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Sent event '%@' to url: %@", eventString, [event url]]];
                 }
             }
@@ -139,7 +140,7 @@
 - (void)trackProgressEvent:(NSString*)offset {
     if (self.progressEvents != nil && self.progressEvents.count != 0) {
         NSString* urlString = self.progressEvents[offset];
-        [self sendTrackingRequest:urlString];
+        [self sendTrackingRequest:urlString trackingType:@"Progress event"];
         [HyBidLogger debugLogFromClass:NSStringFromClass([self class])
                             fromMethod:NSStringFromSelector(_cmd)
                            withMessage:[NSString stringWithFormat:@"Sent event '%@' to url: %@", HyBidVASTAdTrackingEventType_progress, urlString]];
@@ -149,7 +150,7 @@
 
 - (void)trackImpression:(HyBidVASTImpression *)impression {
     if (impression != NULL) {
-        [self sendTrackingRequest:impression.url];
+        [self sendTrackingRequest:impression.url trackingType:@"Impression"];
         [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Sent event impression to url: %@", impression.url]];
     } else {
         [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Error while sending event impression"]];
@@ -159,7 +160,7 @@
 
 - (void)trackImpressionWith:(NSString *)impressionURL {
     if (impressionURL && impressionURL.length != 0) {
-        [self sendTrackingRequest:impressionURL];
+        [self sendTrackingRequest:impressionURL trackingType:@"Impression"];
         [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Sent event impression to url: %@", impressionURL]];
     } else {
         [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Error while sending event impression"]];
@@ -172,9 +173,23 @@
     }
 }
 
-- (void)sendVASTUrls:(NSArray *)urls {
+- (void)sendVASTBeaconUrl:(NSString *)url withTrackingType:(NSString *)trackingType {
+    [self sendTrackingRequest:url trackingType:trackingType];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Sent http request to url: %@", url]];
+}
+
+- (void)sendVASTUrls:(NSArray *)urls withType:(HyBidVASTUrlType)type {
+    NSString *trackingType = @"HTTP request to URL";
+    switch (type) {
+        case HyBidVASTImpressionURL: trackingType = @"Impression"; break;
+        case HyBidVASTClickTrackingURL: trackingType = @"ClickTracking"; break;
+        case HyBidVASTParserErrorURL: trackingType = @"ParserError"; break;
+        case HyBidVASTErrorURL: trackingType = @"Error"; break;
+        default: trackingType = @"HTTP request to URL"; break;
+    }
+    
     for (NSString *stringURL in urls) {
-        [self sendTrackingRequest:stringURL];
+        [self sendTrackingRequest:stringURL trackingType:trackingType];
         [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Sent http request to url: %@", stringURL]];
     }
 }
@@ -184,7 +199,7 @@
     self.events = [events mutableCopy];
 }
 
-- (void)sendTrackingRequest:(NSString *)url {
+- (void)sendTrackingRequest:(NSString *)url trackingType:(NSString *)vastTrackerType {
     dispatch_queue_t sendTrackRequestQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(sendTrackRequestQueue, ^{
         
@@ -199,7 +214,18 @@
             
             [[session dataTaskWithRequest:request
                         completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+             
+                NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+                NSString *vastTrackerValue = [NSString stringWithFormat:@"%@ - %ld", vastTrackerType, (long)httpResponse.statusCode];
+
+                NSMutableDictionary* vastTrackerProperties = [NSMutableDictionary new];
+                [vastTrackerProperties setObject: vastTrackerValue forKey: @"type"];
+                [vastTrackerProperties setObject: @{PNLiteData.url : url} forKey: @"data"];
                 
+                HyBidReportingVASTTracker *reportingVASTTracker = [[HyBidReportingVASTTracker alloc] initWith:vastTrackerType properties:vastTrackerProperties];
+                if ([HyBidSDKConfig sharedConfig].reporting) {
+                    [[HyBid reportingManager] reportVASTTrackerFor:reportingVASTTracker];
+                }
                 // Send the request only, no response or errors
                 if(!error) {
                     if ([data length] > 0 && [data length] < 100) { // Ignore debugging long responses

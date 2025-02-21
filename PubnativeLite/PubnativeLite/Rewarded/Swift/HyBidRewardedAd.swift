@@ -266,7 +266,7 @@ public class HyBidRewardedAd: NSObject {
                 self.rewardedPresenter = rewardedPresenterFactory.createRewardedPresenter(with: ad, withHTMLSkipOffset: UInt(skipOffset), withCloseOnFinish: self.closeOnFinish, with: HyBidRewardedPresenterWrapper(parent: self))
             }
         } else {
-            let skipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_HTML_SKIP_OFFSET), isCustom: false);
+            let skipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_REWARDED_HTML_SKIP_OFFSET), isCustom: false);
             self.rewardedPresenter = rewardedPresenterFactory.createRewardedPresenter(with: ad, withHTMLSkipOffset: UInt(skipOffset.offset?.intValue ?? 0), withCloseOnFinish: self.closeOnFinish, with: HyBidRewardedPresenterWrapper(parent: self))
         }
         
@@ -275,20 +275,23 @@ public class HyBidRewardedAd: NSObject {
             
             self.invokeDidFailWithError(error: NSError.hyBidUnsupportedAsset())
             
-            self.renderErrorReportingProperties[Common.ERROR_MESSAGE] = NSError.hyBidUnsupportedAsset().localizedDescription
-            self.renderErrorReportingProperties[Common.ERROR_CODE] = String(format: "%ld", NSError.hyBidUnsupportedAsset().code)
-            self.renderReportingProperties.update(other: HyBid.reportingManager().addCommonProperties(forAd: self.ad, withRequest: self.rewardedAdRequest))
-            self.reportEvent(EventType.RENDER_ERROR, properties: self.renderReportingProperties)
+            if HyBidSDKConfig.sharedConfig.reporting {
+                self.renderErrorReportingProperties[Common.ERROR_MESSAGE] = NSError.hyBidUnsupportedAsset().localizedDescription
+                self.renderErrorReportingProperties[Common.ERROR_CODE] = String(format: "%ld", NSError.hyBidUnsupportedAsset().code)
+                self.renderReportingProperties.update(other: HyBid.reportingManager().addCommonProperties(forAd: self.ad, withRequest: self.rewardedAdRequest))
+                self.reportEvent(EventType.RENDER_ERROR, properties: self.renderReportingProperties)
+            }
             return
         } else {
             self.rewardedPresenter?.load()
         }
     }
     
-    func addSessionReportingProperties() -> [String:Any] {
-        var sessionReportingDictionaryToAppend = [String:Any]()
-        if !HyBidSessionManager.sharedInstance.impressionCounter.isEmpty {
-            sessionReportingDictionaryToAppend[Common.IMPRESSION_SESSION_COUNT] = HyBidSessionManager.sharedInstance.impressionCounter
+    func addSessionReportingProperties() -> [String: Any] {
+        var sessionReportingDictionaryToAppend = [String: Any]()
+        let impressionCounter = HyBidSessionManager.sharedInstance.safeImpressionCounter
+        if !impressionCounter.isEmpty {
+            sessionReportingDictionaryToAppend[Common.IMPRESSION_SESSION_COUNT] = impressionCounter
         }
         if let sessionDuration = UserDefaults.standard.string(forKey: Common.SESSION_DURATION), !sessionDuration.isEmpty{
             sessionReportingDictionaryToAppend[Common.SESSION_DURATION] = sessionDuration
@@ -315,21 +318,28 @@ public class HyBidRewardedAd: NSObject {
     }
     
     func invokeDidLoad() {
-        if let initialLoadTimestamp = self.initialLoadTimestamp, initialLoadTimestamp != -1 {
-            self.loadReportingProperties[Common.TIME_TO_LOAD] = String(format: "%f", elapsedTimeSince(initialLoadTimestamp))
+        if HyBidSDKConfig.sharedConfig.reporting {
+            if let initialLoadTimestamp = self.initialLoadTimestamp, initialLoadTimestamp != -1 {
+                self.loadReportingProperties[Common.TIME_TO_LOAD] = String(format: "%f", elapsedTimeSince(initialLoadTimestamp))
+            }
+            self.loadReportingProperties = HyBid.reportingManager().addCommonProperties(forAd: self.ad, withRequest: self.rewardedAdRequest)
+            self.reportEvent(EventType.LOAD, properties: self.loadReportingProperties)
         }
-        self.loadReportingProperties = HyBid.reportingManager().addCommonProperties(forAd: self.ad, withRequest: self.rewardedAdRequest)
-        self.reportEvent(EventType.LOAD, properties: self.loadReportingProperties)
+        HyBidVASTEventBeaconsManager.shared.reportVASTEvent(type: EventType.LOAD, ad: self.ad)
         guard let delegate = self.delegate else { return }
         delegate.rewardedDidLoad()
     }
     
     func invokeDidFailWithError(error: Error) {
-        if let initialLoadTimestamp = self.initialLoadTimestamp, initialLoadTimestamp != -1 {
-            self.loadReportingProperties[Common.TIME_TO_LOAD] = String(format: "%f", elapsedTimeSince(initialLoadTimestamp))
+        if HyBidSDKConfig.sharedConfig.reporting {
+            if let initialLoadTimestamp = self.initialLoadTimestamp, initialLoadTimestamp != -1 {
+                self.loadReportingProperties[Common.TIME_TO_LOAD] = String(format: "%f", elapsedTimeSince(initialLoadTimestamp))
+            }
+            self.loadReportingProperties = HyBid.reportingManager().addCommonProperties(forAd: self.ad, withRequest: self.rewardedAdRequest)
+            self.reportEvent(EventType.LOAD_FAIL, properties: self.loadReportingProperties)
         }
-        self.loadReportingProperties = HyBid.reportingManager().addCommonProperties(forAd: self.ad, withRequest: self.rewardedAdRequest)
-        self.reportEvent(EventType.LOAD_FAIL, properties: self.loadReportingProperties)
+        let error = error as NSError
+        HyBidVASTEventBeaconsManager.shared.reportVASTEvent(type: EventType.LOAD_FAIL, ad: self.ad, errorCode: error.code)
         HyBidLogger.errorLog(fromClass: String(describing: HyBidRewardedAd.self), fromMethod: #function, withMessage: error.localizedDescription)
         if let delegate = delegate {
             delegate.rewardedDidFailWithError(error)
@@ -363,7 +373,9 @@ public class HyBidRewardedAd: NSObject {
     func invokeOnReward() {
         guard let delegate = self.delegate else { return }
         delegate.onReward()
-        self.reportEvent(EventType.REWARD, properties: [:])
+        if HyBidSDKConfig.sharedConfig.reporting {
+            self.reportEvent(EventType.REWARD, properties: [:])
+        }
     }
     
     func invokeDidDismiss() {
@@ -433,15 +445,17 @@ extension HyBidRewardedAd {
     }
     
     func rewardedPresenterDidShow(_ rewardedPresenter: HyBidRewardedPresenter!) {
-        if let initialRenderTimestamp = self.initialRenderTimestamp, initialRenderTimestamp
-            != -1 {
-            self.loadReportingProperties[Common.RENDER_TIME] = String(format: "%f",
-                                                                      elapsedTimeSince(initialRenderTimestamp))
+        if HyBidSDKConfig.sharedConfig.reporting {
+            if let initialRenderTimestamp = self.initialRenderTimestamp, initialRenderTimestamp
+                != -1 {
+                self.loadReportingProperties[Common.RENDER_TIME] = String(format: "%f",
+                                                                          elapsedTimeSince(initialRenderTimestamp))
+            }
+            self.renderReportingProperties = HyBid.reportingManager().addCommonProperties(forAd: self.ad, withRequest: self.rewardedAdRequest)
+            self.sessionReportingProperties = self.addSessionReportingProperties()
+            self.reportEvent(EventType.RENDER, properties: self.renderReportingProperties)
+            self.reportEvent(EventType.SESSION_REPORT_INFO, properties: self.sessionReportingProperties)
         }
-        self.renderReportingProperties = HyBid.reportingManager().addCommonProperties(forAd: self.ad, withRequest: self.rewardedAdRequest)
-        self.sessionReportingProperties = self.addSessionReportingProperties()
-        self.reportEvent(EventType.RENDER, properties: self.renderReportingProperties)
-        self.reportEvent(EventType.SESSION_REPORT_INFO, properties: self.sessionReportingProperties)
         self.invokeDidTrackImpression()
     }
     

@@ -108,7 +108,7 @@ public class HyBidCustomCTAView: UIView {
     
     private func moveFromLeftToRight() {
         guard let topViewController else { return }
-        if !topViewController.view.subviews.filter({ type(of: $0) == HyBidCustomCTAView.self }).isEmpty {
+        if !topViewController.view.subviews.filter({ type(of: $0) == HyBidCustomCTAView.self }).isEmpty || self.isIconError {
             return
         }
         
@@ -128,6 +128,7 @@ public class HyBidCustomCTAView: UIView {
                 let reportingEvent = HyBidReportingEvent(with: EventType.CUSTOM_CTA_IMPRESSION, adFormat: adFormat, properties: nil)
                 HyBid.reportingManager().reportEvent(for: reportingEvent)
             }
+            self.delegate?.customCTADidShow()
         }
     }
     
@@ -225,7 +226,7 @@ public class HyBidCustomCTAView: UIView {
     }
     
     @IBAction func openOffer() {
-        self.delegate?.customCTAButtonDidPress()
+        self.delegate?.customCTADidClick()
     }
 }
 
@@ -241,6 +242,11 @@ extension HyBidCustomCTAView {
         NotificationCenter.default.removeObserver(self)
         self.invalidateTimer()
         self.removeFromSuperview()
+    }
+    
+    @objc(changeDelegateFor:)
+    public func changeDelegate(delegate: HyBidCustomCTAViewDelegate) {
+        self.delegate = delegate
     }
     
     @objc static public func isCustomCTAValid(ad: HyBidAd) -> Bool {
@@ -336,15 +342,35 @@ extension HyBidCustomCTAView {
 extension HyBidCustomCTAView {
     
     private func addObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange), name: UIDevice.orientationDidChangeNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(adHasNotFocus), name: Notification.Name("adFeedbackViewDidShow"), object: nil)
-        HyBidNotificationCenter.shared.addObserver(self, selector: #selector(adHasNotFocus), notificationType: .SKStoreProductViewIsShown, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(adHasNotFocus), name: UIApplication.willResignActiveNotification, object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(adMayHaveFocus), name: Notification.Name("adFeedbackViewIsDismissed"), object: nil)
-        
-        HyBidNotificationCenter.shared.addObserver(self, selector: #selector(adMayHaveFocus), notificationType: .SKStoreProductViewIsDismissed, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(adMayHaveFocus), name: UIApplication.didBecomeActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange),
+                                               name: UIDevice.orientationDidChangeNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(adHasNotFocus),
+                                               name: UIApplication.willResignActiveNotification,
+                                               object: nil)
+        HyBidNotificationCenter.shared.addObserver(self, selector: #selector(adHasNotFocus),
+                                                   notificationType: .AdFeedbackViewDidShow,
+                                                   object: nil)
+        HyBidNotificationCenter.shared.addObserver(self, selector: #selector(adHasNotFocus),
+                                                   notificationType: .SKStoreProductViewIsShown,
+                                                   object: nil)
+        HyBidNotificationCenter.shared.addObserver(self, selector: #selector(adHasNotFocus),
+                                                   notificationType: .InternalWebBrowserDidShow,
+                                                   object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(adMayHaveFocus),
+                                               name: UIApplication.didBecomeActiveNotification,
+                                               object: nil)
+        HyBidNotificationCenter.shared.addObserver(self, selector: #selector(adMayHaveFocus),
+                                                   notificationType: .AdFeedbackViewIsDismissed,
+                                                   object: nil)
+        HyBidNotificationCenter.shared.addObserver(self, selector: #selector(adMayHaveFocus),
+                                                   notificationType: .SKStoreProductViewIsDismissed,
+                                                   object: nil)
+        HyBidNotificationCenter.shared.addObserver(self, selector: #selector(adMayHaveFocus),
+                                                   notificationType: .InternalWebBrowserDidDismissed,
+                                                   object: nil)
+
     }
     
     @objc private func adHasNotFocus() {

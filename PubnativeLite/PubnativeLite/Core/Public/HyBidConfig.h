@@ -21,32 +21,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "HyBidVASTAdTrackingEventType.h"
-#import "HyBidVASTTracking.h"
-#import "HyBidVASTImpression.h"
+#import "HyBidConfigModel.h"
 
-@protocol HyBidVASTEventProcessorDelegate <NSObject>
+@interface HyBidConfig : NSObject
 
-- (void)eventProcessorDidTrackEventType:(HyBidVASTAdTrackingEventType)event;
+@property (nonatomic, readonly) BOOL atomEnabled;
 
-@end
+- (instancetype)initWithData:(HyBidConfigModel *)data;
 
-@interface HyBidVASTEventProcessor : NSObject
-
-- (id)initWithEventsDictionary:(NSDictionary<NSString *, NSMutableArray<NSString *> *> *)eventDictionary progressEventsDictionary:(NSDictionary<NSString *, NSString *> *)progressEventDictionary delegate:(id<HyBidVASTEventProcessorDelegate>)delegate;
-
-
-- (id)initWithEvents:(NSArray<HyBidVASTTracking *> *)events delegate:(id<HyBidVASTEventProcessorDelegate>)delegate;
-
-// sends the given VASTEvent
-- (void)trackEventWithType:(HyBidVASTAdTrackingEventType)type;
-- (void)trackProgressEvent:(NSString*)offset;
-- (void)trackImpression:(HyBidVASTImpression*)impression;
-- (void)trackImpressionWith:(NSString*)impressionURL;
-
-// sends the set of http requests to supplied URLs, used for Impressions, ClickTracking, and Errors.
-- (void)sendVASTUrls:(NSArray *)urls;
-
-- (void)setCustomEvents:(NSArray<HyBidVASTTracking *> *)events;
+- (HyBidDataModel *)appLevelDataWithType:(NSString *)type;
 
 @end

@@ -29,6 +29,7 @@
 #import "HyBidVASTAd.h"
 #import "HyBidVASTEndCardManager.h"
 #import "HyBidSKOverlayDelegate.h"
+#import "HyBidCustomCTAViewDelegate.h"
 
 @protocol HyBidVASTEndCardViewDelegate<NSObject>
 
@@ -37,13 +38,15 @@
 - (void)vastEndCardViewSkipButtonTapped;
 - (void)vastEndCardViewFailedToLoad;
 - (void)vastEndCardViewClicked:(BOOL)triggerAdClick;
-- (void)vastEndCardViewSKOverlayClicked:(BOOL)triggerAdClick;
-- (void)vastEndCardViewAutoStorekitClicked:(BOOL)triggerAdClick;
+- (void)vastEndCardViewSKOverlayClicked:(BOOL)triggerAdClick clickType:(HyBidSKOverlayAutomaticCLickType)clickType;
+- (void)vastEndCardViewAutoStorekitClicked:(BOOL)triggerAdClick clickType:(HyBidStorekitAutomaticClickType)clickType;
 - (void)vastEndCardViewRedirectedWithSuccess:(BOOL)success;
+- (void)vastEndCardViewCustomCTAPresented;
+- (void)vastEndCardViewCustomCTAClicked;
 
 @end
 
-@interface HyBidVASTEndCardView : UIView <HyBidSKOverlayDelegate>
+@interface HyBidVASTEndCardView : UIView <HyBidSKOverlayDelegate, HyBidCustomCTAViewDelegate>
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithCoder:(NSCoder *)coder NS_UNAVAILABLE;

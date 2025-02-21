@@ -46,24 +46,15 @@
           viewController:(UIViewController *)viewController
                     size:(ISBannerSize *)size
                 delegate:(id<ISBannerAdDelegate>)delegate {
-    if ([ISVerveUtils isAppTokenValid:adData] && [ISVerveUtils isZoneIDValid:adData]) {
-        if ([ISVerveUtils appToken:adData] != nil && [[ISVerveUtils appToken:adData] isEqualToString:[HyBidSDKConfig sharedConfig].appToken]) {
-            self.delegate = delegate;
-            self.bannerAdView = [[HyBidAdView alloc] initWithSize:[self getHyBidAdSizeFrom:size]];
-            self.bannerAdView.isMediation = YES;
-            [self.bannerAdView setMediationVendor:[ISVerveUtils mediationVendor]];
-            [self.bannerAdView loadWithZoneID:[ISVerveUtils zoneID:adData] andWithDelegate:self];
-        } else {
-            NSString *errorMessage = @"The provided app token doesn't match the one used to initialise HyBid.";
-            if (self.delegate && [self.delegate respondsToSelector:@selector(adDidFailToLoadWithErrorType:errorCode:errorMessage:)]) {
-                [HyBidLogger errorLogFromClass:NSStringFromClass([self class])
-                                    fromMethod:NSStringFromSelector(_cmd)
-                                   withMessage:errorMessage];
-                [self.delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
-                                                  errorCode:ISAdapterErrorMissingParams
-                                               errorMessage:errorMessage];
-            }
-        }
+    if ([ISVerveUtils isZoneIDValid:adData]) {
+        self.delegate = delegate;
+        __weak typeof(self) weakSelf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            weakSelf.bannerAdView = [[HyBidAdView alloc] initWithSize:[weakSelf getHyBidAdSizeFrom:size]];
+            weakSelf.bannerAdView.isMediation = YES;
+            [weakSelf.bannerAdView setMediationVendor:[ISVerveUtils mediationVendor]];
+            [weakSelf.bannerAdView loadWithZoneID:[ISVerveUtils zoneID:adData] andWithDelegate:weakSelf];
+        });
     } else {
         NSString *errorMessage = @"Could not find the required params in ISVerveCustomBanner ad data.";
         if (self.delegate && [self.delegate respondsToSelector:@selector(adDidFailToLoadWithErrorType:errorCode:errorMessage:)]) {

@@ -50,7 +50,7 @@
 }
 
 - (void)clearDebugTools {
-    [[HyBid reportingManager] clearEvents];
+    [[HyBid reportingManager] clearAllReports];
     [PNLiteRequestInspector sharedInstance].lastInspectedRequest = nil;
 }
 

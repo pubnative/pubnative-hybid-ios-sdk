@@ -138,7 +138,12 @@ private typealias HyBidAdSettingsDictionary = Dictionary<String,Any>
                 AdSetting(sectionTitle: "General", settingTitle: "MRAID Expand Enabled", cellType: .switchCell, isChecked: false, remoteConfigName: "mraid_expand", value: HyBidConstants.mraidExpand),
                 AdSetting(sectionTitle: "General", settingTitle: "SKOverlay Enabled", cellType: .switchCell, isChecked: false, remoteConfigName: "SKOverlayenabled", value: false),
                 AdSetting(sectionTitle: "General", settingTitle: ClickBehaviorStringTitle, cellType: .segmentedControlCell, isChecked: false, remoteConfigName: "fullscreen_clickability", value: boolActionBehavior(with: HyBidConstants.interstitialActionBehaviour)),
-                AdSetting(sectionTitle: "General", settingTitle: "ATOM Enabled", cellType: .switchCell, isChecked: false, remoteConfigName: "atom_enabled", value: HyBidConstants.atomEnabled)
+                AdSetting(sectionTitle: "General",
+                          settingTitle: "Landing Page",
+                          cellType: .switchCell,
+                          isChecked: false,
+                          remoteConfigName: HyBidAdCustomizationKeys.landingPageInputValue.rawValue,
+                          value: HyBidConstants.landingPageInputValue)
                ],
                [
                 AdSetting(sectionTitle: "Interstitial", settingTitle: "HTML/MRAID Skip Offset", cellType: .numberFieldCell, isChecked: false, remoteConfigName: "html_skip_offset", value: HyBidConstants.interstitialHtmlSkipOffset.offset),
@@ -169,6 +174,14 @@ private typealias HyBidAdSettingsDictionary = Dictionary<String,Any>
                ],
                [
                 AdSetting(sectionTitle: "Custom CTA", settingTitle: "Custom CTA Value", cellType: .textFieldCell, isChecked: true, remoteConfigName: HyBidAdCustomizationKeys.customCTAInputValue.rawValue, value: HyBidConstants.customCTAInputValue)
+               ],
+               [
+                AdSetting(sectionTitle: "Navigation mode",
+                          settingTitle: "Navigation mode value",
+                          cellType: .textFieldCell,
+                          isChecked: true,
+                          remoteConfigName: HyBidAdCustomizationKeys.navigationModeInputValue.rawValue,
+                          value: HyBidConstants.navigationModeInputValue)
                ],
                [
                 AdSetting(sectionTitle: "SKAN", settingTitle: "SKAN value", cellType: .dictionaryFieldCell, isChecked: true, remoteConfigName: "skadnetwork_input_value", value: HyBidConstants.skAdNetworkModelInputValue),

@@ -140,6 +140,36 @@
     }
 }
 
+- (void)interstitialPresenterDidSKOverlayAutomaticClick:(HyBidInterstitialPresenter *)interstitialPresenter clickType:(HyBidSKOverlayAutomaticCLickType)clickType {
+    
+    switch(clickType){
+        case HyBidSKOverlayAutomaticCLickVideo:
+            [self.adTracker trackSKOverlayAutomaticClickWithAdFormat:HyBidReportingAdFormat.FULLSCREEN];
+            break;
+        case HyBidSKOverlayAutomaticCLickDefaultEndCard:
+            [self.adTracker trackSKOverlayAutomaticDefaultEndCardClickWithAdFormat:HyBidReportingAdFormat.FULLSCREEN];
+            break;
+        case HyBidSKOverlayAutomaticCLickCustomEndCard:
+            [self.adTracker trackSKOverlayAutomaticCustomEndCardClickWithAdFormat:HyBidReportingAdFormat.FULLSCREEN];
+            break;
+    }
+}
+
+- (void)interstitialPresenterDidStorekitAutomaticClick:(HyBidInterstitialPresenter *)interstitialPresenter clickType:(HyBidStorekitAutomaticClickType)clickType {
+    
+    switch(clickType){
+        case HyBidStorekitAutomaticClickVideo:
+            [self.adTracker trackStorekitAutomaticClickWithAdFormat:HyBidReportingAdFormat.FULLSCREEN];
+            break;
+        case HyBidStorekitAutomaticClickDefaultEndCard:
+            [self.adTracker trackStorekitAutomaticDefaultEndCardClickWithAdFormat:HyBidReportingAdFormat.FULLSCREEN];
+            break;
+        case HyBidStorekitAutomaticClickCustomEndCard:
+            [self.adTracker trackStorekitAutomaticCustomEndCardClickWithAdFormat:HyBidReportingAdFormat.FULLSCREEN];
+            break;
+    }
+}
+
 - (void)interstitialPresenterDidDismiss:(HyBidInterstitialPresenter *)interstitialPresenter {
     if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenterDidDismiss:)]) {
         if ([HyBidSDKConfig sharedConfig].reporting) {
@@ -163,12 +193,12 @@
 
 - (void)interstitialPresenter:(HyBidInterstitialPresenter *)interstitialPresenter didFailWithError:(NSError *)error {
     if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenter:didFailWithError:)]) {
-        if (error != nil && error.localizedDescription != nil && error.localizedDescription.length > 0) {
-            [self.errorReportingProperties setObject:error.localizedDescription forKey:HyBidReportingCommon.ERROR_MESSAGE];
-        }
-        if(self.errorReportingProperties){
-            [self.errorReportingProperties addEntriesFromDictionary:[[HyBid reportingManager] addCommonPropertiesForAd:interstitialPresenter.ad withRequest:nil]];
-            if ([HyBidSDKConfig sharedConfig].reporting) {
+        if ([HyBidSDKConfig sharedConfig].reporting) {
+            if (error != nil && error.localizedDescription != nil && error.localizedDescription.length > 0) {
+                [self.errorReportingProperties setObject:error.localizedDescription forKey:HyBidReportingCommon.ERROR_MESSAGE];
+            }
+            if(self.errorReportingProperties){
+                [self.errorReportingProperties addEntriesFromDictionary:[[HyBid reportingManager] addCommonPropertiesForAd:interstitialPresenter.ad withRequest:nil]];
                 HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR adFormat:HyBidReportingAdFormat.FULLSCREEN properties:self.errorReportingProperties];
                 [[HyBid reportingManager] reportEventFor:reportingEvent];
             }
@@ -199,13 +229,23 @@
     }
 }
 
-- (void)interstitialPresenterWillPresentEndCard:(HyBidInterstitialPresenter *)interstitialPresenter
-                                        endcard:(HyBidVASTEndCard *)endcard {
-    [self.skoverlay changeDelegateFor:endcard.skoverlayDelegate];
+- (void)interstitialPresenterWillPresentEndCard:(HyBidInterstitialPresenter *)interstitialPresenter skoverlayDelegate:(id<HyBidSKOverlayDelegate>)skoverlayDelegate customCTADelegate:(id<HyBidCustomCTAViewDelegate>)customCTADelegate {
+        [self.skoverlay changeDelegateFor:skoverlayDelegate];
+        [self.customCTA changeDelegateFor:customCTADelegate];
 }
 
 - (void)interstitialPresenterDidPresentCustomEndCard:(HyBidInterstitialPresenter *)interstitialPresenter {
     [self.adTracker trackCustomEndCardImpressionWithAdFormat:HyBidReportingAdFormat.FULLSCREEN];
 }
+
+- (void)interstitialPresenterDidPresentCustomCTA {
+    [self.adTracker trackCustomCTAImpressionWithAdFormat:HyBidReportingAdFormat.FULLSCREEN];
+}
+
+- (void)interstitialPresenterDidClickCustomCTAOnEndCard:(BOOL)onEndCard {
+    [self.adTracker trackCustomCTAClickWithAdFormat:HyBidReportingAdFormat.FULLSCREEN onEndCard:onEndCard];
+}
+
+- (void)impressionDetectedWithView:(UIView *)view {}
 
 @end

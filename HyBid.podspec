@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "HyBid"
-  s.version      = "3.1.4"
+  s.version      = "3.2.0"
   s.summary      = "This is the iOS SDK of HyBid. You can read more about it at https://pubnative.net."
   s.description = <<-DESC
                      HyBid leverages first-look prebid technology to maximize yield for the publishers across
@@ -40,7 +40,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios
 
   s.ios.deployment_target = "12.0"
-  s.source       = { :git => "https://github.com/pubnative/pubnative-hybid-ios-sdk.git", :tag => "3.1.4" }
+  s.source       = { :git => "https://github.com/pubnative/pubnative-hybid-ios-sdk.git", :tag => "3.2.0" }
   s.resource_bundle = {
     "#{s.module_name}Resources" => "PubnativeLite/PubnativeLite/PrivacyInfo.xcprivacy"
   }
@@ -90,7 +90,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'ATOM' do |atom|
     atom.dependency 'HyBid/Core'
-    atom.dependency 'ATOM-Standalone', '~> 3.3.3'
+    atom.dependency 'ATOM-Standalone', '~> 3.5.0'
   end
 
   s.default_subspecs = ['Core', 'Banner', 'Native', 'FullScreen', 'RewardedVideo', 'ATOM']

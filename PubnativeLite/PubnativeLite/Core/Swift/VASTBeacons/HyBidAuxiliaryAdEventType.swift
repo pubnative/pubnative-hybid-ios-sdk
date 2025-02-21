@@ -1,5 +1,5 @@
 //
-//  Copyright © 2020 PubNative. All rights reserved.
+//  Copyright © 2021 PubNative. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,13 +20,13 @@
 //  THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
-#import <HyBid/HyBid.h>
-
-@interface AnalyticsEventTableViewCell : UITableViewCell
-
-@property (weak, nonatomic) IBOutlet UILabel *analyticsEventName;
-
-- (void)configureCell:(HyBidReportingEvent *) event;
-
-@end
+enum HyBidAuxiliaryAdEventType: String, CaseIterable {
+    case UNKNOWN_AUXILIARY_AD_EVENT = "0"
+    case IMPRESSION = "1"
+    case SKIP = "2"
+    case CLOSE = "3"
+    case CLICK = "4"
+    case ERROR = "5"
+    
+    func stringValue() -> String { return self.rawValue }
+}

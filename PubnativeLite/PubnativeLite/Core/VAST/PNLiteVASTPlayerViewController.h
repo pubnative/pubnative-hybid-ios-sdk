@@ -56,10 +56,16 @@ typedef enum {
 @optional
 - (void)vastPlayerDidClose:(PNLiteVASTPlayerViewController*)vastPlayer;
 - (void)vastPlayerDidCloseOffer:(PNLiteVASTPlayerViewController*)vastPlayer;
-- (void)vastPlayerWillShowEndCard:(PNLiteVASTPlayerViewController*)vastPlayer endcard:(HyBidVASTEndCard*) endcard;;
+- (void)vastPlayerWillShowEndCard:(PNLiteVASTPlayerViewController*)vastPlayer
+                  isCustomEndCard:(BOOL)isCustomEndCard
+                skoverlayDelegate:(id<HyBidSKOverlayDelegate>)skoverlayDelegate
+                customCTADelegate:(id<HyBidCustomCTAViewDelegate>)customCTADelegate;
 - (void)vastPlayerDidShowEndCard:(PNLiteVASTPlayerViewController*)vastPlayer endcard:(HyBidVASTEndCard*) endcard;
-- (void)vastPlayerDidShowSKOverlay;
+- (void)vastPlayerDidShowSKOverlayWithClickType:(HyBidSKOverlayAutomaticCLickType)clickType;
+- (void)vastPlayerDidShowStorekitWithClickType:(HyBidStorekitAutomaticClickType)clickType;
 - (void)vastPlayerDidShowAutoStorekit;
+- (void)vastPlayerDidClickCustomCTAOnEndCard:(BOOL)onEndCard;
+- (void)vastPlayerDidShowCustomCTA;
 
 @end
 

@@ -39,7 +39,7 @@
 
 @implementation PNLiteMRAIDParser
 
-- (NSDictionary *)parseCommandUrl:(NSString *)commandUrl; {
+- (NSDictionary *)parseCommandUrl:(NSString *)commandUrl prefixToRemove:(NSString *)prefixToRemove {
     /*
      The command is a URL string that looks like this:
      
@@ -51,8 +51,9 @@
     
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"%@ %@", NSStringFromSelector(_cmd), commandUrl]];
     
-    // Remove mraid:// prefix.
-    NSString *s = [commandUrl substringFromIndex:8];
+    NSString *s = commandUrl;
+    // Remove prefix if it isn't nil
+    if (prefixToRemove) { s = [commandUrl substringFromIndex:prefixToRemove.length]; }
     
     NSString *command;
     NSMutableDictionary *params;
@@ -97,7 +98,10 @@
         [command isEqualToString:@"setOrientationProperties"] ||
         [command isEqualToString:@"setResizeProperties"] ||
         [command isEqualToString:@"storePicture"] ||
-        [command isEqualToString:@"useCustomClose"]
+        [command isEqualToString:@"useCustomClose"] ||
+        [command isEqualToString:@"setcustomisation"] ||
+        [command isEqualToString:@"landingbehaviour"] ||
+        [command isEqualToString:@"closedelay"]
         ) {
         if ([command isEqualToString:@"expand"] ||
                    [command isEqualToString:@"open"] ||
@@ -111,6 +115,10 @@
             paramObj = params;
         } else if ([command isEqualToString:@"useCustomClose"]) {
             paramObj = [params valueForKey:@"useCustomClose"];
+        } else if ([command isEqualToString:@"setcustomisation"] ||
+                   [command isEqualToString:@"landingbehaviour"] ||
+                   [command isEqualToString:@"closedelay"]) {
+            paramObj = [params valueForKey:@"text"];
         }
         command = [command stringByAppendingString:@":"];
     }
@@ -134,7 +142,10 @@
                            @"setOrientationProperties",
                            @"setResizeProperties",
                            @"storePicture",
-                           @"useCustomClose"
+                           @"useCustomClose",
+                           @"setcustomisation",
+                           @"landingbehaviour",
+                           @"closedelay"
                            ];
 
     return [kCommands containsObject:command];

@@ -305,13 +305,16 @@
         [self invokeDidLoad];
     }
     [self startTracking];
-    if (self.initialRenderTimestamp != -1) {
-        [self.renderReportingProperties setObject:[NSString stringWithFormat:@"%f", [self elapsedTimeSince:self.initialRenderTimestamp]] forKey:HyBidReportingCommon.RENDER_TIME];
-    }
-    if (self.renderReportingProperties) {
-        [self.renderReportingProperties addEntriesFromDictionary:[[HyBid reportingManager] addCommonPropertiesForAd:self.ad withRequest:self.adRequest]];
-        [self addPositionPropertyToReportingDictionary:self.renderReportingProperties];
-        [self reportEvent:HyBidReportingEventType.RENDER withProperties:self.renderReportingProperties];
+    
+    if ([HyBidSDKConfig sharedConfig].reporting) {
+        if (self.initialRenderTimestamp != -1) {
+            [self.renderReportingProperties setObject:[NSString stringWithFormat:@"%f", [self elapsedTimeSince:self.initialRenderTimestamp]] forKey:HyBidReportingCommon.RENDER_TIME];
+        }
+        if (self.renderReportingProperties) {
+            [self.renderReportingProperties addEntriesFromDictionary:[[HyBid reportingManager] addCommonPropertiesForAd:self.ad withRequest:self.adRequest]];
+            [self addPositionPropertyToReportingDictionary:self.renderReportingProperties];
+            [self reportEvent:HyBidReportingEventType.RENDER withProperties:self.renderReportingProperties];
+        }
     }
 }
 
@@ -435,16 +438,18 @@
 }
 
 - (void)createRenderErrorEventWithError:(NSError *)error {
-    NSMutableDictionary *renderErrorReportingProperties = [NSMutableDictionary new];
-    if (error != nil && error.localizedDescription != nil && error.localizedDescription.length > 0) {
-        [renderErrorReportingProperties setObject:error.localizedDescription forKey:HyBidReportingCommon.ERROR_MESSAGE];
-        [renderErrorReportingProperties setObject:[NSString stringWithFormat:@"%ld",error.code] forKey:HyBidReportingCommon.ERROR_CODE];
-    }
-    
-    if(renderErrorReportingProperties) {
-        [renderErrorReportingProperties addEntriesFromDictionary:[[HyBid reportingManager] addCommonPropertiesForAd:self.ad withRequest:self.adRequest]];
-        [self addPositionPropertyToReportingDictionary:renderErrorReportingProperties];
-        [self reportEvent:HyBidReportingEventType.RENDER_ERROR withProperties:renderErrorReportingProperties];
+    if ([HyBidSDKConfig sharedConfig].reporting) {
+        NSMutableDictionary *renderErrorReportingProperties = [NSMutableDictionary new];
+        if (error != nil && error.localizedDescription != nil && error.localizedDescription.length > 0) {
+            [renderErrorReportingProperties setObject:error.localizedDescription forKey:HyBidReportingCommon.ERROR_MESSAGE];
+            [renderErrorReportingProperties setObject:[NSString stringWithFormat:@"%ld",error.code] forKey:HyBidReportingCommon.ERROR_CODE];
+        }
+        
+        if(renderErrorReportingProperties) {
+            [renderErrorReportingProperties addEntriesFromDictionary:[[HyBid reportingManager] addCommonPropertiesForAd:self.ad withRequest:self.adRequest]];
+            [self addPositionPropertyToReportingDictionary:renderErrorReportingProperties];
+            [self reportEvent:HyBidReportingEventType.RENDER_ERROR withProperties:renderErrorReportingProperties];
+        }
     }
 }
 
@@ -490,31 +495,37 @@
 }
 
 - (void)invokeDidLoad {
-    if (self.initialLoadTimestamp != -1) {
-        [self.loadReportingProperties setObject:[NSString stringWithFormat:@"%f", [self elapsedTimeSince:self.initialLoadTimestamp]] forKey:HyBidReportingCommon.TIME_TO_LOAD];
+    if ([HyBidSDKConfig sharedConfig].reporting) {
+        if (self.initialLoadTimestamp != -1) {
+            [self.loadReportingProperties setObject:[NSString stringWithFormat:@"%f", [self elapsedTimeSince:self.initialLoadTimestamp]] forKey:HyBidReportingCommon.TIME_TO_LOAD];
+        }
+        
+        [self.loadReportingProperties setObject: @([self.ad hasEndCard]) forKey:HyBidReportingCommon.HAS_END_CARD];
+        
+        if(self.loadReportingProperties) {
+            [self.loadReportingProperties addEntriesFromDictionary:[[HyBid reportingManager] addCommonPropertiesForAd:self.ad withRequest:self.adRequest]];
+            [self addPositionPropertyToReportingDictionary:self.loadReportingProperties];
+            [self reportEvent:HyBidReportingEventType.LOAD withProperties:self.loadReportingProperties];
+        }
     }
-    
-    [self.loadReportingProperties setObject: @([self.ad hasEndCard]) forKey:HyBidReportingCommon.HAS_END_CARD];
-    
-    if(self.loadReportingProperties) {
-        [self.loadReportingProperties addEntriesFromDictionary:[[HyBid reportingManager] addCommonPropertiesForAd:self.ad withRequest:self.adRequest]];
-        [self addPositionPropertyToReportingDictionary:self.loadReportingProperties];
-        [self reportEvent:HyBidReportingEventType.LOAD withProperties:self.loadReportingProperties];
-    }
+    [[HyBidVASTEventBeaconsManager shared] reportVASTEventWithType:HyBidReportingEventType.LOAD ad:self.ad];
     if (self.delegate && [self.delegate respondsToSelector:@selector(adViewDidLoad:)]) {
         [self.delegate adViewDidLoad:self];
     }
 }
 
 - (void)invokeDidFailWithError:(NSError *)error {
-    if (self.initialLoadTimestamp != -1) {
-        [self.loadReportingProperties setObject:[NSString stringWithFormat:@"%f", [self elapsedTimeSince:self.initialLoadTimestamp]] forKey:HyBidReportingCommon.TIME_TO_LOAD];
+    if ([HyBidSDKConfig sharedConfig].reporting) {
+        if (self.initialLoadTimestamp != -1) {
+            [self.loadReportingProperties setObject:[NSString stringWithFormat:@"%f", [self elapsedTimeSince:self.initialLoadTimestamp]] forKey:HyBidReportingCommon.TIME_TO_LOAD];
+        }
+        if(self.loadReportingProperties) {
+            [self.loadReportingProperties addEntriesFromDictionary:[[HyBid reportingManager] addCommonPropertiesForAd:self.ad withRequest:self.adRequest]];
+            [self addPositionPropertyToReportingDictionary:self.loadReportingProperties];
+            [self reportEvent:HyBidReportingEventType.LOAD_FAIL withProperties:self.loadReportingProperties];
+        }
     }
-    if(self.loadReportingProperties) {
-        [self.loadReportingProperties addEntriesFromDictionary:[[HyBid reportingManager] addCommonPropertiesForAd:self.ad withRequest:self.adRequest]];
-        [self addPositionPropertyToReportingDictionary:self.loadReportingProperties];
-        [self reportEvent:HyBidReportingEventType.LOAD_FAIL withProperties:self.loadReportingProperties];
-    }
+    [[HyBidVASTEventBeaconsManager shared] reportVASTEventWithType:HyBidReportingEventType.LOAD_FAIL ad:self.ad errorCode:error.code];
     if (self.delegate && [self.delegate respondsToSelector:@selector(adView:didFailWithError:)]) {
         [self.delegate adView:self didFailWithError:error];
     }
@@ -575,11 +586,14 @@
 
 - (void)adPresenterDidStartPlaying:(HyBidAdPresenter *)adPresenter {
     [self.delegate adViewDidTrackImpression:self];
+    [[HyBidVASTEventBeaconsManager shared] reportVASTEventWithType:HyBidReportingEventType.SHOW ad:self.ad];
     if ([self.delegate respondsToSelector:@selector(adViewDidTrackImpression:)]) {
         [[HyBidSessionManager sharedInstance] sessionDurationWithZoneID:self.zoneID];
-        if(self.sessionReportingProperties) {
-            [self addSessionReportingProperties:self.sessionReportingProperties];
-            [self reportEvent:HyBidReportingEventType.SESSION_REPORT_INFO withProperties:self.sessionReportingProperties];
+        if ([HyBidSDKConfig sharedConfig].reporting) {
+            if (self.sessionReportingProperties) {
+                [self addSessionReportingProperties:self.sessionReportingProperties];
+                [self reportEvent:HyBidReportingEventType.SESSION_REPORT_INFO withProperties:self.sessionReportingProperties];
+            }
         }
     }
 }

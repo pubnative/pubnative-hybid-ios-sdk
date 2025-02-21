@@ -90,8 +90,7 @@ CGFloat const HyBidIconMaximumHeight = 30.0f;
         self.textView.translatesAutoresizingMaskIntoConstraints = NO;
         [self.textView setNumberOfLines: 1];
                 
-        self.iconView = [[UIImageView alloc] init];
-        [self.iconView setFrame: self.frame];
+        self.iconView = [[UIImageView alloc] initWithFrame:self.frame];
         [self.iconView setContentMode:UIViewContentModeScaleAspectFit];
         self.iconView.translatesAutoresizingMaskIntoConstraints = NO;
         
@@ -226,7 +225,9 @@ CGFloat const HyBidIconMaximumHeight = 30.0f;
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self.iconView setImage:self.iconImage];
                     });
-                    self.link = @"https://pubnative.net/content-info";
+                    if (self.link == nil || self.link.length == 0) {
+                        self.link = @"https://pubnative.net/content-info";
+                    }
                 }
                 self.openSize = self.iconView.frame.size.width + self.textView.frame.size.width;
                 self.hidden = NO;

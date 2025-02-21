@@ -34,6 +34,11 @@
 
 @interface HyBidAdTrackerRequest : NSObject
 
-- (void)trackAdWithDelegate:(NSObject<HyBidAdTrackerRequestDelegate> *)delegate withURL:(NSString *)url;
+@property (nonatomic, strong) NSString *urlString;
+@property (nonatomic, strong) NSString *trackingType;
+
+- (void)trackAdWithDelegate:(NSObject<HyBidAdTrackerRequestDelegate> *)delegate
+                    withURL:(NSString *)url
+           withTrackingType:(NSString *)trackingType;
 
 @end

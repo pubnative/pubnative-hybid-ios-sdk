@@ -38,6 +38,7 @@
 @property (nonatomic, strong) NSString *adResponse;
 @property (weak, nonatomic) IBOutlet UIButton *debugButton;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
+@property (nonatomic, strong) NSDate *startTime;
 
 @end
 
@@ -81,6 +82,7 @@
 - (void)requestAd {
     [self clearDebugTools];
     self.debugButton.hidden = YES;
+    self.startTime = [NSDate date];
     if ([self canRequestAd]) {
         switch (self.placement) {
             case HyBidDemoAppPlacementBanner:
@@ -88,7 +90,7 @@
             case HyBidDemoAppPlacementLeaderboard: {
                 switch ([self.segmentedControl selectedSegmentIndex]) {
                     case 0: {
-                        [self loadWithAdResponse: self.adResponse];
+                        [self loadWithAdResponse: self.adResponse url:nil];
                         break;
                     }
                     case 1: {
@@ -101,7 +103,7 @@
             case HyBidDemoAppPlacementInterstitial:
                 switch ([self.segmentedControl selectedSegmentIndex]) {
                     case 0: {
-                        [self loadWithAdResponse: self.adResponse];
+                        [self loadWithAdResponse: self.adResponse url:nil];
                         break;
                     }
                     case 1: {
@@ -113,7 +115,7 @@
             case HyBidDemoAppPlacementRewarded:
                 switch ([self.segmentedControl selectedSegmentIndex]) {
                     case 0: {
-                        [self loadWithAdResponse: self.adResponse];
+                        [self loadWithAdResponse: self.adResponse url:nil];
                         break;
                     }
                     case 1: {
@@ -145,11 +147,16 @@
     }] resume];
 }
 
-- (void)loadWithAdResponse:(NSString*)adResponse {
+- (void)loadWithAdResponse:(NSString*)adResponse url:(NSString *)url {
     HyBidDemoLegacyAPITesterDetailViewController *legacyAPITesterDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HyBidDemoLegacyAPITesterDetailViewController"];
     legacyAPITesterDetailVC.adResponse = self.adResponse;
     legacyAPITesterDetailVC.placement = self.placement;
     legacyAPITesterDetailVC.debugButton = self.debugButton;
+    
+    [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:url
+                                                               withResponse:adResponse
+                                                                withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate: self.startTime] * 1000.0]
+                                                            withRequestBody:nil];
     
     NSArray* configs = [HyBidAdCustomizationUtility checkSavedHyBidAdSettings];
     if (configs.count > 0) {
@@ -197,6 +204,7 @@
 
 - (void)cleanUpAllParams {
     self.adResponse = nil;
+    self.startTime = nil;
 }
 
 - (IBAction)bannerTouchUpInside:(UIButton *)sender {
@@ -248,7 +256,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         NSString *adResponse = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         self.adResponse = adResponse;
-        [self loadWithAdResponse: adResponse];
+        [self loadWithAdResponse: adResponse url: response.URL.absoluteString];
     });
 }
 

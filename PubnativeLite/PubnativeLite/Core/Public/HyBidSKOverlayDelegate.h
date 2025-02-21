@@ -20,6 +20,12 @@
 //  THE SOFTWARE.
 //
 
+typedef enum : NSUInteger {
+    HyBidSKOverlayAutomaticCLickVideo = 1 << 0,
+    HyBidSKOverlayAutomaticCLickDefaultEndCard = 1 << 1,
+    HyBidSKOverlayAutomaticCLickCustomEndCard = 1 << 2
+} HyBidSKOverlayAutomaticCLickType;
+
 @protocol HyBidSKOverlayDelegate <NSObject>
 @optional
 - (void)skoverlayDidShowOnCreative;
