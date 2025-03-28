@@ -31,7 +31,9 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];
     if (self) {
-        self.dictionary = dictionary;
+        if ([dictionary isKindOfClass:[NSDictionary class]]) {
+            self.dictionary = dictionary;
+        }
     }
     return self;
 }

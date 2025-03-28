@@ -172,8 +172,11 @@
             [self.presenter.delegate interstitialPresenterDismissesSKOverlay:self.presenter];
         }
     } else {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"VASTEndCardWillShow" 
-                                                            object:[NSNumber numberWithBool:isCustomEndCard]];
+        if (isCustomEndCard) {
+            [HyBidInterruptionHandler.shared vastCustomEndCardWillShow];
+        } else {
+            [HyBidInterruptionHandler.shared vastEndCardWillShow];
+        }
     }
 }
 

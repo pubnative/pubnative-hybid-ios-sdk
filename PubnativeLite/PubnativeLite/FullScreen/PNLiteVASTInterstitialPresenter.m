@@ -23,7 +23,6 @@
 #import "PNLiteVASTInterstitialPresenter.h"
 #import "PNLiteVASTPlayerInterstitialViewController.h"
 #import "UIApplication+PNLiteTopViewController.h"
-#import "HyBidSKAdNetworkViewController.h"
 
 @interface PNLiteVASTInterstitialPresenter()
 

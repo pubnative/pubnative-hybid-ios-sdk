@@ -78,7 +78,8 @@ extension AnalyticsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let storyboard = UIStoryboard(name: "Analytics", bundle: nil)
+        let bundle = Bundle(for: AnalyticsViewController.self)
+        let storyboard = UIStoryboard(name: "Analytics", bundle: bundle)
         guard let analyticsDetailViewController = storyboard.instantiateViewController(withIdentifier: "AnalyticsDetailViewController") as? AnalyticsDetailViewController else { return }
         
         analyticsDetailViewController.event = self.dataSource[indexPath.row]

@@ -86,7 +86,7 @@
     }];
 }
 
-- (HyBidContentInfoView *)parseContentInfo:(HyBidVASTIcon *)icon
+- (HyBidContentInfoView *)parseContentInfo:(HyBidVASTIcon *)icon display: (HyBidContentInfoDisplay) displayValue clickAction: (HyBidContentInfoClickAction) clickAction
 {
     if (!icon) {
         return nil;
@@ -97,6 +97,8 @@
     contentInfoView.link = [[[icon iconClicks] iconClickThrough] content];
     contentInfoView.viewTrackers = [icon iconViewTracking];
     contentInfoView.text = @"Learn about this ad";
+    contentInfoView.display = displayValue;
+    contentInfoView.clickAction = clickAction;
 
     return contentInfoView;
 }

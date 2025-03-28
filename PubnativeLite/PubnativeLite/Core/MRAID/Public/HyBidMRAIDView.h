@@ -23,7 +23,6 @@
 #import <UIKit/UIKit.h>
 #import "HyBidContentInfoView.h"
 #import "HyBidAd.h"
-#import "HyBidInternalWebBrowserDelegate.h"
 
 @class HyBidMRAIDView;
 @protocol HyBidMRAIDServiceDelegate;
@@ -46,13 +45,14 @@
 
 @end
 
-@interface HyBidMRAIDView : UIView <HyBidInternalWebBrowserDelegate>
+@interface HyBidMRAIDView : UIView
 
 @property (nonatomic, strong) id<HyBidMRAIDViewDelegate> delegate;
 @property (nonatomic, strong) id<HyBidMRAIDServiceDelegate> serviceDelegate;
 @property (nonatomic, weak, setter = setRootViewController:) UIViewController *rootViewController;
 // DEPRECATED: isViewable is deprecated as from MRAID 3.0
 @property (nonatomic, assign, getter = isViewable, setter = setIsViewable:) BOOL isViewable;
+@property (nonatomic, strong) NSString *urlStringForEndCardTracking;
 
 // IMPORTANT: This is the only valid initializer for an MRAIDView; -init and -initWithFrame: will throw exceptions
 - (id)initWithFrame:(CGRect)frame
@@ -67,7 +67,8 @@
  rootViewController:(UIViewController *)rootViewController
         contentInfo:(HyBidContentInfoView *)contentInfo
          skipOffset:(NSInteger)skipOffset
-          isEndcard:(BOOL)isEndcard;
+          isEndcard:(BOOL)isEndcard
+shouldHandleInterruptions:(BOOL)shouldHandleInterruptions;
 
 - (void)cancel;
 

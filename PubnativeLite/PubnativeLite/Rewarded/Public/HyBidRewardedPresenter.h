@@ -42,7 +42,6 @@
 - (void)rewardedPresenterDidLoad:(HyBidRewardedPresenter *)rewardedPresenter viewController:(UIViewController *)viewController;
 - (void)rewardedPresenterDidAppear:(HyBidRewardedPresenter *)rewardedPresenter;
 - (void)rewardedPresenterDidDisappear:(HyBidRewardedPresenter *)rewardedPresenter;
-- (void)rewardedPresenterPresentsSKOverlay:(HyBidRewardedPresenter *)rewardedPresenter;
 - (void)rewardedPresenterDismissesSKOverlay:(HyBidRewardedPresenter *)rewardedPresenter;
 - (void)rewardedPresenterDismissesCustomCTA:(HyBidRewardedPresenter *)rewardedPresenter;
 - (void)rewardedPresenteWillPresentEndCard:(HyBidRewardedPresenter *)rewardedPresenter

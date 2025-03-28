@@ -35,9 +35,11 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super initWithDictionary:dictionary];
     if (self) {
-        self.status = dictionary[@"status"];
-        self.errorMessage = dictionary[@"error_message"];
-        self.configs = dictionary[@"configs"];
+        if ([dictionary isKindOfClass:[NSDictionary class]]) {
+            self.status = dictionary[@"status"];
+            self.errorMessage = dictionary[@"error_message"];
+            self.configs = dictionary[@"configs"];
+        }
     }
     return self;
 }

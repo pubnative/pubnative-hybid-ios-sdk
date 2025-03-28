@@ -207,17 +207,8 @@
     }
 }
 
-- (void)interstitialPresenterDidAppear:(HyBidInterstitialPresenter *)interstitialPresenter {
-    [self.skoverlay presentWithAd:interstitialPresenter.ad];
-}
-
-- (void)interstitialPresenterDidDisappear:(HyBidInterstitialPresenter *)interstitialPresenter {
-    [self.skoverlay dismissEntirely:NO withAd:interstitialPresenter.ad causedByAutoCloseTimerCompletion:NO];
-}
-
-- (void)interstitialPresenterPresentsSKOverlay:(HyBidInterstitialPresenter *)interstitialPresenter {
-    [self.skoverlay presentWithAd:interstitialPresenter.ad];
-}
+- (void)interstitialPresenterDidAppear:(HyBidInterstitialPresenter *)interstitialPresenter {}
+- (void)interstitialPresenterDidDisappear:(HyBidInterstitialPresenter *)interstitialPresenter {}
 
 - (void)interstitialPresenterDismissesSKOverlay:(HyBidInterstitialPresenter *)interstitialPresenter {
     [self.skoverlay dismissEntirely:YES withAd:interstitialPresenter.ad causedByAutoCloseTimerCompletion:NO];

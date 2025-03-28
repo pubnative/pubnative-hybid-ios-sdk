@@ -161,5 +161,7 @@ typedef enum : NSUInteger {
 - (HyBidSkAdNetworkModel *)getOpenRTBSkAdNetworkModel;
 - (HyBidContentInfoView *)getContentInfoView;
 - (HyBidContentInfoView *)getContentInfoViewFrom:(HyBidContentInfoView *)infoView;
+- (HyBidContentInfoDisplay)determineContentInfoDisplay;
+- (HyBidContentInfoClickAction)determineContentInfoIconClickAction;
 
 @end

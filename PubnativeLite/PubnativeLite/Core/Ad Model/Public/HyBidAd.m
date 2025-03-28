@@ -1046,6 +1046,8 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
         result.link = contentInfoView.link;
         result.text = [contentInfoView.text length] == 0 ? contentInfoView.text : ContentInfoViewText;
         result.zoneID = self.zoneID;
+        result.display = [self determineContentInfoDisplay];
+        result.clickAction = [self determineContentInfoIconClickAction];
         return result;
     }
 }

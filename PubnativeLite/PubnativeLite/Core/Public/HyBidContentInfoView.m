@@ -93,11 +93,14 @@ CGFloat const HyBidIconMaximumHeight = 30.0f;
         self.iconView = [[UIImageView alloc] initWithFrame:self.frame];
         [self.iconView setContentMode:UIViewContentModeScaleAspectFit];
         self.iconView.translatesAutoresizingMaskIntoConstraints = NO;
+        self.display = HyBidContentInfoDisplaySystem;
+        self.clickAction = HyBidContentInfoClickActionExpand;
         
         [self addSubview:self.iconView];
         [self addSubview:self.textView];
 
         [PNLiteOrientationManager sharedInstance].delegate = self;
+        HyBidInterruptionHandler.shared.feedbackViewDelegate = self;
     }
     return self;
 }
@@ -294,8 +297,6 @@ CGFloat const HyBidIconMaximumHeight = 30.0f;
             }else {
                 self.adFeedbackView = [[HyBidAdFeedbackView alloc] initWithURL:self.link withZoneID:self.zoneID];
             }
-            self.adFeedbackView.delegate = self;
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"adFeedbackViewIsReady" object:nil];
         }
     }
 }
