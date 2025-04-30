@@ -49,38 +49,24 @@ NSString *const HyBidConfigProductionURL = @"https://sdkc.vervegroupinc.net/conf
 @implementation HyBidConfigManager
 
 - (void)dealloc {
+    self.HyBidConfigURL = nil;
 }
 
 - (instancetype)init {
     self = [super init];
     if (self) {
+        self.HyBidConfigURL = [NSString stringWithFormat:@"%@%@",HyBidConfigProductionURL, [HyBidSDKConfig sharedConfig].appToken];
     }
     return self;
 }
 
-+ (instancetype)sharedManager {
-    static HyBidConfigManager *instance;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        instance = [[HyBidConfigManager alloc] init];
-    });
-    return instance;
-}
-
-- (void)setHyBidConfigURLToProduction {
-    self.HyBidConfigURL = [NSString stringWithFormat:@"%@%@",HyBidConfigProductionURL, [HyBidSDKConfig sharedConfig].appToken];
-}
-
-- (void)setHyBidConfigURLToTestingWithURL:(NSString *)url {
-    self.HyBidConfigURL = url;
-}
-
 - (void)requestConfigWithCompletion:(ConfigManagerCompletionBlock)completion {
     self.completionBlock = completion;
-    if (self.HyBidConfigURL == nil || self.HyBidConfigURL.length == 0) {
-        [self setHyBidConfigURLToProduction];
+    if ([HyBidSDKConfig sharedConfig].customRemoteConfigURL == nil || [HyBidSDKConfig sharedConfig].customRemoteConfigURL.length == 0) {
+        [[PNLiteHttpRequest alloc] startWithUrlString:self.HyBidConfigURL withMethod:@"GET" delegate:self];
+    } else {
+        [[PNLiteHttpRequest alloc] startWithUrlString:[HyBidSDKConfig sharedConfig].customRemoteConfigURL withMethod:@"GET" delegate:self];
     }
-    [[PNLiteHttpRequest alloc] startWithUrlString:self.HyBidConfigURL withMethod:@"GET" delegate:self];
 }
 
 - (NSDictionary *)createDictionaryFromData:(NSData *)data {

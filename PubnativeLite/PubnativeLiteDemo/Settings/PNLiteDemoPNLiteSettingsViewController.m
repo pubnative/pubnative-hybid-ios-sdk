@@ -43,6 +43,7 @@
 @property (nonatomic, strong) HyBidTargetingModel *targetingModel;
 @property (weak, nonatomic) IBOutlet UILabel *atomStateTextField;
 @property (nonatomic, strong) NSString *gender;
+@property (nonatomic, strong) HyBidConfigManager *configManager;
 @end
 
 @implementation PNLiteDemoPNLiteSettingsViewController
@@ -50,6 +51,7 @@
 - (void)dealloc {
     self.targetingModel = nil;
     self.gender = nil;
+    self.configManager = nil;
 }
 
 - (void)viewDidLoad {
@@ -222,6 +224,7 @@
 }
 
 - (IBAction)sdkConfigButtonTouchUpInside:(UIButton *)sender {
+    self.configManager = [HyBidConfigManager new];
     UIAlertController *sdkConfigURLAlert = [UIAlertController alertControllerWithTitle:kHyBidSDKConfigAlertTitle
                                                                                message:@""
                                                                         preferredStyle:UIAlertControllerStyleAlert];
@@ -238,13 +241,12 @@
     UIAlertAction *testingURL = [UIAlertAction actionWithTitle:kHyBidSDKConfigAlertActionTitleForTesting
                                                          style:UIAlertActionStyleDestructive
                                                        handler:^(UIAlertAction *action) {
-        [[HyBidConfigManager sharedManager] setHyBidConfigURLToTestingWithURL:weakTextField.text];
+        [HyBidSDKConfig sharedConfig].customRemoteConfigURL = weakTextField.text;
         [HyBid initWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey] completion:nil];
     }];
     UIAlertAction *productionURL = [UIAlertAction actionWithTitle:kHyBidSDKConfigAlertActionTitleForProduction
                                                             style:UIAlertActionStyleCancel
                                                           handler:^(UIAlertAction *action) {
-        [[HyBidConfigManager sharedManager] setHyBidConfigURLToProduction];
         [HyBid initWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey] completion:nil];
     }];
     [sdkConfigURLAlert addAction:testingURL];

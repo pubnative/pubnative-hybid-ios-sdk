@@ -65,7 +65,8 @@ BOOL isInitialized = NO;
         [HyBidSDKConfig sharedConfig].appToken = appToken;
         [HyBidViewabilityManager sharedInstance];
         isInitialized = YES;
-        [[HyBidConfigManager sharedManager] requestConfigWithCompletion:^(HyBidConfig *config, NSError *error) {
+        HyBidConfigManager *configManager = [HyBidConfigManager new];
+        [configManager requestConfigWithCompletion:^(HyBidConfig *config, NSError *error) {
             if (error == nil) {
                 if (config.atomEnabled) {
                     [HyBidSDKConfig sharedConfig].atomEnabled = config.atomEnabled;
