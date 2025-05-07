@@ -70,6 +70,8 @@ typedef void (^UserDataManagerCompletionBlock)(BOOL);
 - (void)removeGPPData;
 - (void)removePublicGPPString;
 - (void)removePublicGPPSID;
+- (BOOL)hasLGPD;
+- (void)setHasLGPD:(BOOL)hasLGPD;
 
 - (NSArray<NSString *> * _Nonnull)keyPathsForGDPRObservers;
 @end

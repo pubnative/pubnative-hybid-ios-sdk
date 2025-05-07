@@ -20,6 +20,13 @@
 //  THE SOFTWARE.
 //
 
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 #import "HyBidAdPresenterFactory.h"
 #import "PNLiteAdPresenterDecorator.h"
 #import "HyBidAdTracker.h"
@@ -32,11 +39,19 @@
         return nil;
     }
     NSArray *impressionBeacons = [ad beaconsDataWithType:PNLiteAdTrackerImpression];
-    NSArray *customEndcardImpressionBeacons = [ad beaconsDataWithType:PNLiteAdCustomEndCardImpression];
     NSArray *clickBeacons = [ad beaconsDataWithType:PNLiteAdTrackerClick];
+    
+    NSArray *customEndcardImpressionBeacons = [ad beaconsDataWithType:PNLiteAdCustomEndCardImpression];
     NSArray *customEndcardClickBeacons = [ad beaconsDataWithType:PNLiteAdCustomEndCardClick];
-
-    HyBidAdTracker *adTracker = [[HyBidAdTracker alloc] initWithImpressionURLs:impressionBeacons withCustomEndcardImpressionURLs:customEndcardImpressionBeacons withClickURLs:clickBeacons withCustomEndcardClickURLs:customEndcardClickBeacons forAd:ad];
+    
+    HyBidCustomCTATracking *customCTATracking = [[HyBidCustomCTATracking alloc] initWithAd:ad];
+    
+    HyBidAdTracker *adTracker = [[HyBidAdTracker alloc] initWithImpressionURLs:impressionBeacons
+                                               withCustomEndcardImpressionURLs:customEndcardImpressionBeacons
+                                                                 withClickURLs:clickBeacons
+                                                    withCustomEndcardClickURLs:customEndcardClickBeacons
+                                                         withCustomCTATracking:customCTATracking
+                                                                         forAd:ad];
     PNLiteAdPresenterDecorator *adPresenterDecorator = [[PNLiteAdPresenterDecorator alloc] initWithAdPresenter:adPresenter
                                                                                                  withAdTracker: adTracker
                                                                                                   withDelegate:delegate];

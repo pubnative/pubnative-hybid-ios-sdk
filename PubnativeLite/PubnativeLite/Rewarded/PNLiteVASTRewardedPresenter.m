@@ -23,6 +23,13 @@
 #import "PNLiteVASTRewardedPresenter.h"
 #import "PNLiteVASTPlayerRewardedViewController.h"
 #import "UIApplication+PNLiteTopViewController.h"
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 
 @interface PNLiteVASTRewardedPresenter()
 
@@ -63,6 +70,8 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [[UIApplication sharedApplication].topViewController presentViewController:self.vastViewController animated:NO completion:nil];
     });
+    
+    [[HyBidVASTEventBeaconsManager shared] reportVASTEventWithType:HyBidReportingEventType.SHOW ad:self.ad];
 }
 
 - (void)showFromViewController:(UIViewController *)viewController {

@@ -27,9 +27,12 @@ public class HyBidConstants: NSObject {
     
     @objc public static let HYBID_SDK_NAME = "HyBid"
     @objc public static let HYBID_OMSDK_VERSION = "1.5.2"
-    @objc public static let HYBID_SDK_VERSION = "3.1.3"
+    @objc public static let HYBID_SDK_VERSION = "3.2.0"
+    @objc public static let SMAATO_SDK_VERSION = "22.9.0"
     @objc public static let HYBID_OMSDK_IDENTIFIER = "Pubnativenet"
-    
+    @objc public static let SMAATO_OMSDK_IDENTIFIER = "Smaato"
+    @objc public static let SMAATO_OMSDK_VERSION = "1.5.2"
+
     //Rendering Constants
     @objc public static var mraidExpand: Bool = true
     @objc public static var showEndCard: Bool = true
@@ -38,7 +41,7 @@ public class HyBidConstants: NSObject {
     @objc public static var customEndcardDisplay: HyBidCustomEndcardDisplayBehaviour = HyBidCustomEndcardDisplayFallback
     @objc public static var interstitialCloseOnFinish: Bool = false
     @objc public static var rewardedCloseOnFinish: Bool = false
-    @objc public static var rewardedHtmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_HTML_SKIP_OFFSET), isCustom: false)
+    @objc public static var rewardedHtmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_REWARDED_HTML_SKIP_OFFSET), isCustom: false)
     @objc public static var rewardedVideoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_REWARDED_VIDEO_MAX_SKIP_OFFSET), isCustom: false)
     @objc public static var interstitialHtmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_HTML_SKIP_OFFSET), isCustom: false)
     @objc public static var pcInterstitialHtmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_PC_INTERSTITIAL_SKIP_OFFSET), isCustom: false)
@@ -46,14 +49,16 @@ public class HyBidConstants: NSObject {
     @objc public static var pcVideoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_PC_VIDEO_SKIP_OFFSET), isCustom: false)
     @objc public static var interstitialActionBehaviour: HyBidInterstitialActionBehaviour = HB_CREATIVE
     @objc public static var endCardCloseOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_END_CARD_CLOSE_OFFSET), isCustom: false)
+    @objc public static var endCardCloseMaxOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_END_CARD_CLOSE_MAX_OFFSET), isCustom: false)
     @objc public static var nativeCloseButtonOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_NATIVE_CLOSE_BUTTON_OFFSET), isCustom: false)
     @objc public static var audioStatus: HyBidAudioStatus = HyBidAudioStatusON
     @objc public static var creativeAutoStorekitEnabled: Bool = false
-    @objc public static var atomEnabled: Bool = UserDefaults.standard.bool(forKey: kStoredATOMState)
     @objc public static var sdkAutoStorekitEnabled: Bool = false
     @objc public static var skAdNetworkModelInputValue: NSDictionary = NSDictionary()
     @objc public static var itunesIdValue: String = String()
     @objc public static var customCTAInputValue: String = String()
     @objc public static var customBundleId: String = String()
     @objc public static var iconSizeReducedInputValue: Bool = false
+    @objc public static var navigationModeInputValue: String = String()
+    @objc public static var landingPageInputValue: Bool = false
 }

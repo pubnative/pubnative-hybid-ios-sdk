@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="JCl-qa-lcV">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23094" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="JCl-qa-lcV">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23084"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kwu-Kj-qga" userLabel="PNLite Settings Button">
-                                <rect key="frame" x="16" y="96" width="382" height="33"/>
+                                <rect key="frame" x="16" y="100" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.49019607843137253" green="0.039215686274509803" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="settingsButton" label="Settings Button"/>
                                 <constraints>
@@ -45,7 +45,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zone ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gfZ-6R-g6D">
-                                <rect key="frame" x="16" y="137" width="48" height="21"/>
+                                <rect key="frame" x="16" y="141" width="48" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="zoneIDLabel" label="ZoneID Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="CPe-yh-cjh"/>
@@ -60,7 +60,7 @@
                                 </variation>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter a Zone ID" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ypJ-Ju-ZDX" userLabel="Zone ID Text Field">
-                                <rect key="frame" x="16" y="166" width="382" height="30"/>
+                                <rect key="frame" x="16" y="170" width="382" height="30"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="zoneIDTextField" label="ZoneID TextField"/>
                                 <constraints>
@@ -168,6 +168,35 @@
                                     <segue destination="Ig7-18-ull" kind="show" id="Fcv-zT-Kqs"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Publisher Mode" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pji-0S-f3m">
+                                <rect key="frame" x="16" y="216" width="95" height="21"/>
+                                <accessibility key="accessibilityConfiguration" identifier="publisherModeLabel" label="Publisher Mode Label"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="6He-6h-klF"/>
+                                    <constraint firstAttribute="height" constant="21" id="ufG-Ob-sGP"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="6He-6h-klF"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="6He-6h-klF"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="PUb-Zx-GXj">
+                                <rect key="frame" x="131" y="211" width="51" height="31"/>
+                                <accessibility key="accessibilityConfiguration" identifier="publisherModeSwitch" label="Publisher Mode Switch"/>
+                                <color key="onTintColor" red="0.49019607840000001" green="0.039215686270000001" blue="0.50196078430000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <connections>
+                                    <action selector="publisherModeSwitchValueChanged:" destination="dIX-wM-j9j" eventType="valueChanged" id="1dQ-N5-bX4"/>
+                                </connections>
+                            </switch>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="d0j-k5-Re8"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -183,12 +212,16 @@
                             <constraint firstItem="d0j-k5-Re8" firstAttribute="trailing" secondItem="ypJ-Ju-ZDX" secondAttribute="trailing" constant="16" id="QbA-Xz-9S7"/>
                             <constraint firstItem="d0j-k5-Re8" firstAttribute="bottom" secondItem="Hcb-bJ-YfG" secondAttribute="bottom" constant="8" id="RB8-LR-C92"/>
                             <constraint firstItem="62G-RC-7fB" firstAttribute="leading" secondItem="d0j-k5-Re8" secondAttribute="leading" constant="16" id="S83-dx-DGV"/>
+                            <constraint firstItem="pji-0S-f3m" firstAttribute="leading" secondItem="d0j-k5-Re8" secondAttribute="leading" constant="16" id="UXS-8B-jcF"/>
+                            <constraint firstItem="pji-0S-f3m" firstAttribute="top" secondItem="ypJ-Ju-ZDX" secondAttribute="bottom" constant="16" id="YR2-t3-CM0"/>
+                            <constraint firstItem="PUb-Zx-GXj" firstAttribute="leading" secondItem="pji-0S-f3m" secondAttribute="trailing" constant="20" id="b7D-gu-FsB"/>
                             <constraint firstItem="Hcb-bJ-YfG" firstAttribute="leading" secondItem="d0j-k5-Re8" secondAttribute="leading" constant="16" id="bpT-2E-9AP"/>
                             <constraint firstItem="d0j-k5-Re8" firstAttribute="trailing" secondItem="kwu-Kj-qga" secondAttribute="trailing" constant="16" id="bqO-xf-R3h"/>
                             <constraint firstItem="d0j-k5-Re8" firstAttribute="trailing" secondItem="Hcb-bJ-YfG" secondAttribute="trailing" constant="16" id="ees-8Z-OdF"/>
                             <constraint firstItem="ypJ-Ju-ZDX" firstAttribute="top" secondItem="gfZ-6R-g6D" secondAttribute="bottom" constant="8" id="mb8-QT-xKp"/>
                             <constraint firstItem="ypJ-Ju-ZDX" firstAttribute="leading" secondItem="d0j-k5-Re8" secondAttribute="leading" constant="16" id="mpt-xA-whp"/>
                             <constraint firstItem="d0j-k5-Re8" firstAttribute="trailing" secondItem="62G-RC-7fB" secondAttribute="trailing" constant="16" id="qNZ-BR-kyY"/>
+                            <constraint firstItem="PUb-Zx-GXj" firstAttribute="centerY" secondItem="pji-0S-f3m" secondAttribute="centerY" id="vr0-2l-KOX"/>
                             <constraint firstItem="d0j-k5-Re8" firstAttribute="trailing" secondItem="ctb-Dy-s2W" secondAttribute="trailing" constant="16" id="zGv-r0-XOz"/>
                         </constraints>
                         <connections>
@@ -201,6 +234,7 @@
                     <connections>
                         <outlet property="headerBiddingButton" destination="62G-RC-7fB" id="uLD-8V-Vaj"/>
                         <outlet property="mediationButton" destination="Hcb-bJ-YfG" id="VwJ-nf-MG4"/>
+                        <outlet property="publisherModeSwitch" destination="PUb-Zx-GXj" id="Zzb-Sn-fim"/>
                         <outlet property="standaloneButton" destination="ctb-Dy-s2W" id="Y5w-Gg-Nuj"/>
                         <outlet property="zoneIDTextField" destination="ypJ-Ju-ZDX" id="dhJ-Fl-wRo"/>
                     </connections>
@@ -258,7 +292,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="JCl-qa-lcV" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="lqw-hV-VTW">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="48" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <textAttributes key="titleTextAttributes">

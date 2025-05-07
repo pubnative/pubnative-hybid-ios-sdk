@@ -22,11 +22,13 @@
 
 #import "HyBidVASTCompanion.h"
 #import "HyBidVASTEndCard.h"
+#import "HyBidVASTCompanionAds.h"
+
 
 @interface HyBidVASTEndCardManager : NSObject
 
 - (void)addCompanion:(HyBidVASTCompanion *)companion;
-
+- (HyBidVASTCompanion *)pickBestCompanionFromCompanionAds:(HyBidVASTCompanionAds *)companionAds;
 - (NSArray<HyBidVASTEndCard *> *)endCards;
 
 @end

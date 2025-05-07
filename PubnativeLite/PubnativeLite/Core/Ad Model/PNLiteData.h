@@ -33,6 +33,7 @@
 + (NSString *)width;
 + (NSString *)height;
 + (NSString *)jsonData;
++ (NSString *)boolean;
 + (NSString *)skoverlayEnabled;
 + (NSString *)pcSKoverlayEnabled;
 + (NSString *)audioState;
@@ -76,10 +77,13 @@
 + (NSString *)sdkAutoStorekitEnabled;
 + (NSString *)pcSDKAutoStorekitEnabled;
 + (NSString *)sdkAutoStorekitDelay;
-+ (NSString *)atomEnabled;
 + (NSString *)itunesIdValue;
 + (NSString *)reducedIconSizes;
 + (NSString *)reducedIconSizesInputValue;
 + (NSString *)hideControls;
++ (NSString *)navigationMode;
++ (NSString *)navigationModeInputValue;
++ (NSString *)landingPage;
++ (NSString *)landingPageInputValue;
 
 @end

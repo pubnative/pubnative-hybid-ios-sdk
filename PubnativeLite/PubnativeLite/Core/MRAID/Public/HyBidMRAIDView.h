@@ -35,6 +35,7 @@
 // These callbacks are for basic banner ad functionality.
 - (void)mraidViewAdReady:(HyBidMRAIDView *)mraidView;
 - (void)mraidViewAdFailed:(HyBidMRAIDView *)mraidView;
+- (void)mraidViewAdFailed:(HyBidMRAIDView *)mraidView withError:(NSError *)error;
 - (void)mraidViewWillExpand:(HyBidMRAIDView *)mraidView;
 - (void)mraidViewDidClose:(HyBidMRAIDView *)mraidView;
 - (void)mraidViewNavigate:(HyBidMRAIDView *)mraidView withURL:(NSURL *)url;
@@ -51,6 +52,7 @@
 @property (nonatomic, weak, setter = setRootViewController:) UIViewController *rootViewController;
 // DEPRECATED: isViewable is deprecated as from MRAID 3.0
 @property (nonatomic, assign, getter = isViewable, setter = setIsViewable:) BOOL isViewable;
+@property (nonatomic, strong) NSString *urlStringForEndCardTracking;
 
 // IMPORTANT: This is the only valid initializer for an MRAIDView; -init and -initWithFrame: will throw exceptions
 - (id)initWithFrame:(CGRect)frame
@@ -65,7 +67,8 @@
  rootViewController:(UIViewController *)rootViewController
         contentInfo:(HyBidContentInfoView *)contentInfo
          skipOffset:(NSInteger)skipOffset
-          isEndcard:(BOOL)isEndcard;
+          isEndcard:(BOOL)isEndcard
+shouldHandleInterruptions:(BOOL)shouldHandleInterruptions;
 
 - (void)cancel;
 

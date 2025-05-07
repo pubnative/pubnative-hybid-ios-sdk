@@ -31,6 +31,7 @@ public class HyBidSDKConfig: NSObject {
     
     @objc public var test: Bool = false
     @objc public var reporting: Bool = false
+    @objc public var atomEnabled: Bool = false
     @objc public var targeting: HyBidTargetingModel?
     @objc public var appToken: String?
     @objc public var apiURL: String {
@@ -50,4 +51,5 @@ public class HyBidSDKConfig: NSObject {
     }
     @objc public var openRtbApiURL: String = "https://dsp.pubnative.net"
     @objc public var appID: String?
+    @objc public var customRemoteConfigURL: String?
 }

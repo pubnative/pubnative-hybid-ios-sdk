@@ -42,12 +42,19 @@
 - (void)rewardedPresenterDidLoad:(HyBidRewardedPresenter *)rewardedPresenter viewController:(UIViewController *)viewController;
 - (void)rewardedPresenterDidAppear:(HyBidRewardedPresenter *)rewardedPresenter;
 - (void)rewardedPresenterDidDisappear:(HyBidRewardedPresenter *)rewardedPresenter;
-- (void)rewardedPresenterPresentsSKOverlay:(HyBidRewardedPresenter *)rewardedPresenter;
 - (void)rewardedPresenterDismissesSKOverlay:(HyBidRewardedPresenter *)rewardedPresenter;
 - (void)rewardedPresenterDismissesCustomCTA:(HyBidRewardedPresenter *)rewardedPresenter;
 - (void)rewardedPresenteWillPresentEndCard:(HyBidRewardedPresenter *)rewardedPresenter
-                                         endcard:(HyBidVASTEndCard *)endcard;
+                         skoverlayDelegate:(id<HyBidSKOverlayDelegate>)skoverlayDelegate
+                         customCTADelegate:(id<HyBidCustomCTAViewDelegate>)customCTADelegate;
 - (void)rewardedPresenteDidPresentCustomEndCard:(HyBidRewardedPresenter *)rewardedPresenter;
+- (void)rewardedPresenterDidPresentsCustomCTA;
+- (void)rewardedPresenterDidClickCustomCTAOnEndCard:(BOOL)OnEndCard;
+- (void)rewardedPresenterDidPresentCustomEndCard:(HyBidRewardedPresenter *)rewardedPresenter;
+- (void)rewardedPresenterDidSKOverlayAutomaticClick:(HyBidRewardedPresenter *)rewardedPresenter
+                                              clickType:(HyBidSKOverlayAutomaticCLickType)clickType;
+- (void)rewardedPresenterDidStorekitAutomaticClick:(HyBidRewardedPresenter *)rewardedPresenter
+                                              clickType:(HyBidStorekitAutomaticClickType)clickType;
 
 @end
 

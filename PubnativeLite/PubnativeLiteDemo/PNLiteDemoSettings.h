@@ -27,6 +27,7 @@
 #define kHyBidDemoZoneIDKey @"zoneID"
 #define kHyBidDemoKeywordsKey @"keywords"
 #define kHyBidDemoTestModeKey @"testMode"
+#define kHyBidDemoPublisherModeKey @"publisherMode"
 #define kHyBidDemoCOPPAModeKey @"coppaMode"
 #define kHyBidDemoReportingKey @"reporting"
 #define kHyBidGAMLeaderboardAdUnitIDKey @"gamLeaderboardAdUnitID"
@@ -44,6 +45,9 @@
 #define kHyBidDemoOpenRTBAPIURLKey @"openRtbApiURL"
 #define kHyBidDemoAppID @"1530210244"
 #define kHyBidISAppIDKey @"ironsourceAppID"
+#define kHyBidISBannerAdUnitIdKey @"ironsourceBannerAdUnitID"
+#define kHyBidISInterstitialAdUnitIdKey @"ironsourceInterstitialAdUnitID"
+#define kHyBidISRewardedAdUnitIdKey @"ironsourceRewardedAdUnitID"
 #define kHyBidALMediationNativeAdUnitIDKey @"alMediationNativeAdUnitID"
 #define kHyBidALMediationBannerAdUnitIDKey @"alMediationBannerAdUnitID"
 #define kHyBidALMediationMRectAdUnitIDKey @"alMediationMRectAdUnitID"
@@ -59,11 +63,20 @@
 #define kHyBidChartboostRewardedHTMLPositionKey @"rewardedHTMLPosition"
 #define kHyBidChartboostRewardedVideoPositionKey @"rewardedVideoPosition"
 
+#define kHyBidSDKConfigAlertTitle @"Choose SDK Config URL to use"
+#define kHyBidSDKConfigAlertTextFieldPlaceholder @"SDK Config URL for Testing"
+#define kHyBidSDKConfigAlertActionTitleForTesting @"Testing URL"
+#define kHyBidSDKConfigAlertActionTitleForProduction @"Production URL"
+
 @interface PNLiteDemoSettings : NSObject
 
 @property (nonatomic, strong) HyBidTargetingModel *targetingModel;
 @property (nonatomic, strong) HyBidAdSize *adSize;
 @property (nonatomic, strong) NSMutableArray *bannerSizesArray;
+@property (nonatomic, strong) NSString *sdkConfigAlertMessage;
+@property (nonatomic, strong) NSMutableDictionary<NSAttributedStringKey, id> *sdkConfigAlertAttributes;
+@property (nonatomic, strong) NSString *publisherModeAlertMessage;
+@property (nonatomic, strong) NSMutableDictionary<NSAttributedStringKey, id> *publisherModeAlertAttributes;
 
 + (PNLiteDemoSettings *)sharedInstance;
 

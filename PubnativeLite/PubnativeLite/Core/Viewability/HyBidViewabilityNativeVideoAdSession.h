@@ -23,6 +23,7 @@
 @class OMIDPubnativenetAdSession;
 
 #import "HyBidViewabilityAdSession.h"
+#import "OMIDAdSessionWrapper.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -34,7 +35,7 @@
 
 @interface HyBidViewabilityNativeVideoAdSession : HyBidViewabilityAdSession
 
-- (OMIDPubnativenetAdSession*)createOMIDAdSessionforNativeVideo:(UIView *)view withScript:(NSMutableArray *)scripts;
+- (OMIDAdSessionWrapper*)createOMIDAdSessionforNativeVideo:(UIView *)view withScript:(NSMutableArray *)scripts;
 - (void)fireOMIDStartEventWithDuration:(CGFloat)duration withVolume:(CGFloat)volume;
 - (void)fireOMIDFirstQuartileEvent;
 - (void)fireOMIDMidpointEvent;
@@ -44,7 +45,7 @@
 - (void)fireOMIDResumeEvent;
 - (void)fireOMIDBufferStartEvent;
 - (void)fireOMIDBufferFinishEvent;
-- (void)fireOMIDClikedEvent;
+- (void)fireOMIDClickedEvent;
 - (void)fireOMIDVolumeChangeEventWithVolume:(CGFloat)volume;
 - (void)fireOMIDSkippedEvent;
 - (void)fireOMIDPlayerStateEventWithFullscreenInfo:(BOOL)isFullScreen;

@@ -131,19 +131,24 @@ NSString * const kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey = @"kUser
 
 - (void)adPresenterDidClick:(HyBidAdPresenter *)adPresenter {
     if (self.adPresenterDelegate && [self.adPresenterDelegate respondsToSelector:@selector(adPresenterDidClick:)]) {
-        [self.adTracker trackClickWithAdFormat:HyBidReportingAdFormat.BANNER];
+        if (self.adPresenter.ad.shouldReportCustomEndcardImpression) {
+            [self.adTracker trackCustomEndCardClickWithAdFormat:HyBidReportingAdFormat.BANNER];
+        } else {
+            [self.adTracker trackClickWithAdFormat:HyBidReportingAdFormat.BANNER];
+        }
         [self.adPresenterDelegate adPresenterDidClick:adPresenter];
     }
 }
 
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error {
     if (self.adPresenterDelegate && [self.adPresenterDelegate respondsToSelector:@selector(adPresenter:didFailWithError:)]) {
-        if (error != nil && error.localizedDescription != nil && error.localizedDescription.length > 0) {
-            [self.errorReportingProperties setObject:error.localizedDescription forKey:HyBidReportingCommon.ERROR_MESSAGE];
-        }
-        if(self.errorReportingProperties) {
-            [self.errorReportingProperties addEntriesFromDictionary:[[HyBid reportingManager] addCommonPropertiesForAd:adPresenter.ad withRequest:nil]];
-            if ([HyBidSDKConfig sharedConfig].reporting) {
+        if ([HyBidSDKConfig sharedConfig].reporting) {
+            if (error != nil && error.localizedDescription != nil && error.localizedDescription.length > 0) {
+                [self.errorReportingProperties setObject:error.localizedDescription forKey:HyBidReportingCommon.ERROR_MESSAGE];
+            }
+            if(self.errorReportingProperties) {
+                [self.errorReportingProperties addEntriesFromDictionary:[[HyBid reportingManager] addCommonPropertiesForAd:adPresenter.ad withRequest:nil]];
+                
                 HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR adFormat:HyBidReportingAdFormat.BANNER properties:self.errorReportingProperties];
                 [[HyBid reportingManager] reportEventFor:reportingEvent];
             }
@@ -171,6 +176,12 @@ NSString * const kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey = @"kUser
 
 - (void)adPresenterDidDisappear:(HyBidAdPresenter *)adPresenter {
     
+}
+
+- (void)adPresenterDidPresentCustomEndCard:(HyBidAdPresenter *)adPresenter {
+    if (self.adPresenter.ad.shouldReportCustomEndcardImpression) {
+        [self.adTracker trackCustomEndCardImpressionWithAdFormat:HyBidReportingAdFormat.BANNER];
+    }
 }
 
 #pragma mark PNLiteImpressionTrackerDelegate

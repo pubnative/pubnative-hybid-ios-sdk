@@ -38,10 +38,14 @@
 @property (weak, nonatomic) IBOutlet UITextField *vastTextField;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (weak, nonatomic) IBOutlet UIButton *loadButton;
+@property (weak, nonatomic) IBOutlet UIButton *showButton;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *vastLoadingIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *debugButton;
 
 @property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
+@property (nonatomic, strong) NSDate *startTime;
+@property (nonatomic, strong) NSString *vastAdString;
+@property (nonatomic, strong) NSString *vastAdURL;
 
 @end
 
@@ -59,6 +63,14 @@
     [self.segmentedControl setTitle:@"MRect" forSegmentAtIndex:1];
 }
 
+- (void)dealloc
+{
+    self.interstitialAd = nil;
+    self.startTime = nil;
+    self.vastAdString = nil;
+    self.vastAdURL = nil;
+}
+
 - (IBAction)loadButtonTapped:(UIButton *)sender {
     if ([[self.vastTextField text] isEqualToString:@""]) {
         NSError *error = [NSError errorWithDomain:@"Please input some vast adserver URL" code:0 userInfo:nil];
@@ -66,6 +78,8 @@
         return;
     }
     
+    self.vastAdString = nil;
+    self.vastAdURL = nil;
     switch ([self.segmentedControl selectedSegmentIndex]) {
         case 0:
             [self requestAd];
@@ -78,10 +92,18 @@
     }
 }
 
+- (IBAction)showVASTAd:(UIButton *)sender {
+    if (!self.vastAdString || !self.vastAdURL ) { return; }
+    [self.vastLoadingIndicator startAnimating];
+    [self prepareAdWithVASTContent:self.vastAdString];
+}
+
 - (void)requestAd {
     [self clearDebugTools];
     self.debugButton.hidden = YES;
+    self.showButton.hidden = YES;
     [self.vastLoadingIndicator startAnimating];
+    self.startTime = [NSDate date];
     NSString *vastURL = [self.vastTextField text];
     if ([vastURL length] == 0) {
         NSError *error = [NSError errorWithDomain:@"Please input some vast adserver URL" code:0 userInfo:nil];
@@ -110,14 +132,7 @@
 }
 
 - (void)loadVASTTagDirectlyFrom:(NSString *)url {
-    NSArray* configs = [HyBidAdCustomizationUtility checkSavedHyBidAdSettings];
-    if (configs.count > 0) {
-        [self loadVASTWithURL: url];
-    } else {
-        self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
-        [self.interstitialAd prepareVideoTagFrom:url];
-        [self.vastLoadingIndicator stopAnimating];
-    }
+    [self loadVASTWithURL: url];
 }
 
 - (void)loadVASTWithURL:(NSString*)url {
@@ -141,9 +156,20 @@
 }
 
 - (void)invokeFinishWithResponse:(NSURLResponse *)response withData:(NSData*)data withURL: (NSString*) url {
+    
+    __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
         NSString *adString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        [self prepareAdWithVASTContent:adString];
+        
+        [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:url
+                                                                   withResponse:adString
+                                                                    withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate: self.startTime] * 1000.0]
+                                                                withRequestBody:nil];
+        weakSelf.vastAdString = adString;
+        weakSelf.vastAdURL = url;
+        [weakSelf.vastLoadingIndicator stopAnimating];
+        [weakSelf.debugButton setHidden:NO];
+        [weakSelf.showButton setHidden:NO];
     });
 }
 
@@ -164,6 +190,7 @@
     [self.vastLoadingIndicator stopAnimating];
     [self.interstitialAd show];
     self.debugButton.hidden = NO;
+    self.showButton.hidden = NO;
     
 }
 

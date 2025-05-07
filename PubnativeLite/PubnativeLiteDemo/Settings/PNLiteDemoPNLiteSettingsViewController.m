@@ -43,6 +43,7 @@
 @property (nonatomic, strong) HyBidTargetingModel *targetingModel;
 @property (weak, nonatomic) IBOutlet UILabel *atomStateTextField;
 @property (nonatomic, strong) NSString *gender;
+@property (nonatomic, strong) HyBidConfigManager *configManager;
 @end
 
 @implementation PNLiteDemoPNLiteSettingsViewController
@@ -50,6 +51,7 @@
 - (void)dealloc {
     self.targetingModel = nil;
     self.gender = nil;
+    self.configManager = nil;
 }
 
 - (void)viewDidLoad {
@@ -219,6 +221,37 @@
 
 - (IBAction)reportingSwitchValueChanged:(UISwitch *)sender {
     self.reportingEnabled = sender.on;
+}
+
+- (IBAction)sdkConfigButtonTouchUpInside:(UIButton *)sender {
+    self.configManager = [HyBidConfigManager new];
+    UIAlertController *sdkConfigURLAlert = [UIAlertController alertControllerWithTitle:kHyBidSDKConfigAlertTitle
+                                                                               message:@""
+                                                                        preferredStyle:UIAlertControllerStyleAlert];
+    [sdkConfigURLAlert setValue:[[NSAttributedString alloc] initWithString:[PNLiteDemoSettings sharedInstance].sdkConfigAlertMessage
+                                                                attributes:[PNLiteDemoSettings sharedInstance].sdkConfigAlertAttributes]
+                         forKey:@"attributedMessage"];
+    
+    [sdkConfigURLAlert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.keyboardType = UIKeyboardTypeASCIICapable;
+        textField.placeholder = kHyBidSDKConfigAlertTextFieldPlaceholder;
+    }];
+    
+    __weak UITextField *weakTextField = [sdkConfigURLAlert.textFields firstObject];
+    UIAlertAction *testingURL = [UIAlertAction actionWithTitle:kHyBidSDKConfigAlertActionTitleForTesting
+                                                         style:UIAlertActionStyleDestructive
+                                                       handler:^(UIAlertAction *action) {
+        [HyBidSDKConfig sharedConfig].customRemoteConfigURL = weakTextField.text;
+        [HyBid initWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey] completion:nil];
+    }];
+    UIAlertAction *productionURL = [UIAlertAction actionWithTitle:kHyBidSDKConfigAlertActionTitleForProduction
+                                                            style:UIAlertActionStyleCancel
+                                                          handler:^(UIAlertAction *action) {
+        [HyBid initWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey] completion:nil];
+    }];
+    [sdkConfigURLAlert addAction:testingURL];
+    [sdkConfigURLAlert addAction:productionURL];
+    [self presentViewController:sdkConfigURLAlert animated:YES completion:nil];
 }
 
 #pragma mark UITextFieldDelegate

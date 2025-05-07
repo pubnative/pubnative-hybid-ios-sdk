@@ -29,6 +29,7 @@
 #import "HyBidAdFeedbackJavaScriptInterface.h"
 #import "HyBidMRAIDServiceProvider.h"
 #import "HyBidAdFeedbackMacroUtil.h"
+#import "HyBidAdFeedbackViewDelegate.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <HyBid/HyBid-Swift.h>
@@ -41,6 +42,7 @@
 @property (nonatomic, strong) HyBidMRAIDView *mraidView;
 @property (nonatomic, strong) NSString *zoneID;
 @property (nonatomic, strong) HyBidMRAIDServiceProvider *serviceProvider;
+@property (nonatomic, weak) NSObject <HyBidAdFeedbackViewDelegate> *delegate;
 
 @end
 
@@ -92,7 +94,9 @@
                                             rootViewController:[UIApplication sharedApplication].topViewController
                                                    contentInfo:nil
                                                     skipOffset:0
-                                                     isEndcard:NO];
+                                                     isEndcard:NO
+                                     shouldHandleInterruptions:NO];
+        self.delegate = HyBidInterruptionHandler.shared;
     }
     return self;
 }
@@ -108,9 +112,9 @@
 }
 
 - (void)show {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"adFeedbackViewWillShow" object:nil];
+    [HyBidInterruptionHandler.shared adFeedbackViewWillShow];
     [self.mraidView showAsInterstitial];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"adFeedbackViewDidShow" object:nil];
+    [HyBidInterruptionHandler.shared adFeedbackViewDidShow];
 }
 
 #pragma mark HyBidMRAIDViewDelegate
@@ -127,7 +131,7 @@
 
 - (void)mraidViewWillExpand:(HyBidMRAIDView *)mraidView {}
 - (void)mraidViewDidClose:(HyBidMRAIDView *)mraidView {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"adFeedbackViewIsDismissed" object:nil];
+    [HyBidInterruptionHandler.shared adFeedbackViewDidDismiss];
 }
 - (void)mraidViewNavigate:(HyBidMRAIDView *)mraidView withURL:(NSURL *)url {
     [self.serviceProvider openBrowser:url.absoluteString];

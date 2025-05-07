@@ -37,24 +37,12 @@
 }
 
 - (void)loadAdWithAdData:(ISAdData *)adData delegate:(id<ISRewardedVideoAdDelegate>)delegate {
-    if ([ISVerveUtils isAppTokenValid:adData] && [ISVerveUtils isZoneIDValid:adData]) {
-        if ([ISVerveUtils appToken:adData] != nil && [[ISVerveUtils appToken:adData] isEqualToString:[HyBidSDKConfig sharedConfig].appToken]) {
-            self.delegate = delegate;
-            self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:[ISVerveUtils zoneID:adData] andWithDelegate:self];
-            self.rewardedAd.isMediation = YES;
-            [self.rewardedAd setMediationVendor:[ISVerveUtils mediationVendor]];
-            [self.rewardedAd load];
-        } else {
-            NSString *errorMessage = @"The provided app token doesn't match the one used to initialise HyBid.";
-            if (self.delegate && [self.delegate respondsToSelector:@selector(adDidFailToLoadWithErrorType:errorCode:errorMessage:)]) {
-                [HyBidLogger errorLogFromClass:NSStringFromClass([self class])
-                                    fromMethod:NSStringFromSelector(_cmd)
-                                   withMessage:errorMessage];
-                [self.delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
-                                                  errorCode:ISAdapterErrorMissingParams
-                                               errorMessage:errorMessage];
-            }
-        }
+    if ([ISVerveUtils isZoneIDValid:adData]) {
+        self.delegate = delegate;
+        self.rewardedAd = [[HyBidRewardedAd alloc] initWithZoneID:[ISVerveUtils zoneID:adData] andWithDelegate:self];
+        self.rewardedAd.isMediation = YES;
+        [self.rewardedAd setMediationVendor:[ISVerveUtils mediationVendor]];
+        [self.rewardedAd load];
     } else {
         NSString *errorMessage = @"Could not find the required params in ISVerveCustomRewardedVideo ad data.";
         if (self.delegate && [self.delegate respondsToSelector:@selector(adDidFailToLoadWithErrorType:errorCode:errorMessage:)]) {

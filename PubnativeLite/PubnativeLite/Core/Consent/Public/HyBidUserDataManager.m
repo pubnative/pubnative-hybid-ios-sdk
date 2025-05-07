@@ -62,6 +62,8 @@ NSArray *HyBidUserDataManagerPublicPrivacyKeys;
 
 @end
 
+static BOOL sHyBidHasLGPD = NO;
+
 @implementation HyBidUserDataManager
 
 - (instancetype)init {
@@ -379,6 +381,15 @@ NSArray *HyBidUserDataManagerPublicPrivacyKeys;
 - (BOOL)isConsentDenied {
     id consentKeyValue = [[NSUserDefaults standardUserDefaults] objectForKey:PNLiteGDPRConsentStateKey];
     return (consentKeyValue != nil) && ([consentKeyValue integerValue] == PNLiteConsentStateDenied);
+}
+
+-(BOOL)hasLGPD{
+    return sHyBidHasLGPD;
+}
+
+- (void)setHasLGPD:(BOOL)hasLGPD
+{
+    sHyBidHasLGPD = hasLGPD;
 }
 
 #pragma mark GPP String and ID

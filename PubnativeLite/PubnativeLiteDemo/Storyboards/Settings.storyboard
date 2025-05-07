@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GpQ-44-yA7">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GpQ-44-yA7">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -532,7 +532,7 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gwp-5P-1u0" userLabel="Keywords Button">
-                                <rect key="frame" x="16" y="353" width="382" height="33"/>
+                                <rect key="frame" x="16" y="394" width="382" height="33"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="keywordsButton" label="Keywords Button"/>
                                 <constraints>
@@ -563,7 +563,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ATOM State:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FXQ-QT-QTS">
-                                <rect key="frame" x="20" y="394" width="76.5" height="21"/>
+                                <rect key="frame" x="20" y="435" width="76.5" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="atomStateLabel" label="ATOM State Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="kfF-B1-tPe"/>
@@ -585,7 +585,7 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ATOM State" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FFj-lx-6KK">
-                                <rect key="frame" x="106.5" y="394" width="71" height="21"/>
+                                <rect key="frame" x="106.5" y="435" width="71" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="atomStateValue" label="ATOM State Value">
                                     <accessibilityTraits key="traits" none="YES"/>
                                 </accessibility>
@@ -639,6 +639,37 @@
                                     <action selector="viewabilitySwitchValueChanged:" destination="nGO-xg-xlE" eventType="valueChanged" id="Glh-qi-eke"/>
                                 </connections>
                             </switch>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="11F-bv-D63" userLabel="SDK Config Button">
+                                <rect key="frame" x="16" y="353" width="382" height="33"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="sdkConfigButton" label="SDK Config Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="ciu-NC-cwo"/>
+                                    <constraint firstAttribute="height" constant="33" id="fzn-Zr-QXu"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="SDK Config">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="selected">
+                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="ciu-NC-cwo"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="ciu-NC-cwo"/>
+                                        <exclude reference="fzn-Zr-QXu"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="sdkConfigButtonTouchUpInside:" destination="nGO-xg-xlE" eventType="touchUpInside" id="8Gs-L6-UFr"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="2p0-8h-m2s"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -655,6 +686,8 @@
                             <constraint firstItem="Dph-7b-Jiy" firstAttribute="leading" secondItem="2p0-8h-m2s" secondAttribute="leading" constant="16" id="89u-mU-Tjo"/>
                             <constraint firstItem="2p0-8h-m2s" firstAttribute="bottom" secondItem="WMd-ox-EsH" secondAttribute="bottom" constant="8" id="8Un-8o-Phy"/>
                             <constraint firstItem="6Sh-y1-aRc" firstAttribute="centerY" secondItem="GuG-b4-oqe" secondAttribute="centerY" id="B1S-cm-7UV"/>
+                            <constraint firstItem="11F-bv-D63" firstAttribute="top" secondItem="mWk-DB-Mfx" secondAttribute="bottom" constant="8" id="GQj-Sb-jRh"/>
+                            <constraint firstItem="gwp-5P-1u0" firstAttribute="top" secondItem="11F-bv-D63" secondAttribute="bottom" constant="8" id="Ggj-7H-irv"/>
                             <constraint firstItem="6Sh-y1-aRc" firstAttribute="leading" secondItem="GuG-b4-oqe" secondAttribute="trailing" constant="20" id="HyD-Qt-DmK"/>
                             <constraint firstItem="t7D-mO-sSx" firstAttribute="top" secondItem="aAv-lb-I3F" secondAttribute="bottom" constant="16" id="KDv-8z-BqP"/>
                             <constraint firstItem="cFF-Hf-GKS" firstAttribute="top" secondItem="Dph-7b-Jiy" secondAttribute="bottom" constant="8" id="Kdx-vP-dqt"/>
@@ -679,15 +712,15 @@
                             <constraint firstItem="2p0-8h-m2s" firstAttribute="trailing" secondItem="e81-8b-UEu" secondAttribute="trailing" constant="16" id="ejI-io-0m8"/>
                             <constraint firstItem="mWk-DB-Mfx" firstAttribute="leading" secondItem="2p0-8h-m2s" secondAttribute="leading" constant="16" id="fX7-38-gfL"/>
                             <constraint firstItem="GuG-b4-oqe" firstAttribute="leading" secondItem="3Q0-ii-Xf7" secondAttribute="trailing" constant="14" id="h0C-kh-F4t"/>
-                            <constraint firstItem="FFj-lx-6KK" firstAttribute="top" secondItem="gwp-5P-1u0" secondAttribute="bottom" constant="8" id="hvR-ON-3YT"/>
                             <constraint firstItem="Dph-7b-Jiy" firstAttribute="top" secondItem="aFq-1P-NMZ" secondAttribute="bottom" constant="8" id="j04-t7-yH1"/>
                             <constraint firstItem="cKm-HC-iYK" firstAttribute="top" secondItem="RJO-EG-VVb" secondAttribute="bottom" constant="8" id="jKy-rq-fWP"/>
                             <constraint firstItem="WK9-is-Nnu" firstAttribute="top" secondItem="e81-8b-UEu" secondAttribute="top" constant="5" id="knJ-ym-IAO"/>
                             <constraint firstItem="cKm-HC-iYK" firstAttribute="leading" secondItem="2p0-8h-m2s" secondAttribute="leading" constant="16" id="o3Z-rR-8I5"/>
+                            <constraint firstItem="11F-bv-D63" firstAttribute="leading" secondItem="2p0-8h-m2s" secondAttribute="leading" constant="16" id="pFB-v3-hFi"/>
                             <constraint firstItem="WMd-ox-EsH" firstAttribute="leading" secondItem="2p0-8h-m2s" secondAttribute="leading" constant="16" id="qlS-ig-10M"/>
                             <constraint firstItem="FXQ-QT-QTS" firstAttribute="top" secondItem="gwp-5P-1u0" secondAttribute="bottom" constant="8" symbolic="YES" id="tTq-TX-MIR"/>
                             <constraint firstItem="2p0-8h-m2s" firstAttribute="trailing" secondItem="WMd-ox-EsH" secondAttribute="trailing" constant="16" id="tjG-Vf-zC7"/>
-                            <constraint firstItem="gwp-5P-1u0" firstAttribute="top" secondItem="mWk-DB-Mfx" secondAttribute="bottom" constant="8" id="wWc-Kq-vHe"/>
+                            <constraint firstItem="2p0-8h-m2s" firstAttribute="trailing" secondItem="11F-bv-D63" secondAttribute="trailing" constant="16" id="uzp-sD-Ex0"/>
                             <constraint firstItem="FFj-lx-6KK" firstAttribute="top" secondItem="gwp-5P-1u0" secondAttribute="bottom" constant="8" id="yMN-nf-ayu"/>
                             <constraint firstItem="2p0-8h-m2s" firstAttribute="trailing" secondItem="cFF-Hf-GKS" secondAttribute="trailing" constant="16" id="zZB-2X-GVG"/>
                         </constraints>
@@ -1104,7 +1137,7 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Legacy API Tester">
+                                <state key="normal" title="Legacy API / OpenRTB Tester">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <state key="selected">
@@ -1123,38 +1156,6 @@
                                 </variation>
                                 <connections>
                                     <segue destination="xdz-PH-8Vg" kind="show" id="YN2-Uf-6vw"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j7L-Ha-kkU" userLabel="Consent Button">
-                                <rect key="frame" x="16" y="565" width="382" height="33"/>
-                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <accessibility key="accessibilityConfiguration" identifier="creativeTesterButton" label="Creative Tester Button"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="33" id="AnF-hO-TBN"/>
-                                    <constraint firstAttribute="height" constant="33" id="NWA-aY-rnK"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="33" id="ZMj-XM-yze"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="OpenRTB API Tester">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <state key="selected">
-                                    <color key="titleColor" red="0.44761112330000002" green="0.097065538169999993" blue="0.48637124900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                </state>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="NWA-aY-rnK"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=compact">
-                                    <mask key="constraints">
-                                        <exclude reference="AnF-hO-TBN"/>
-                                        <include reference="NWA-aY-rnK"/>
-                                    </mask>
-                                </variation>
-                                <connections>
-                                    <segue destination="rEq-vB-q6m" kind="show" id="Vmh-ns-20o"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1180,7 +1181,6 @@
                             <constraint firstItem="OAa-8u-FAF" firstAttribute="trailing" secondItem="Ta3-jm-G5X" secondAttribute="trailing" constant="16" id="Le7-iJ-g30"/>
                             <constraint firstItem="g6r-bI-OBa" firstAttribute="top" secondItem="Ta3-jm-G5X" secondAttribute="bottom" constant="8" symbolic="YES" id="NW7-mK-HRi"/>
                             <constraint firstItem="8vm-tg-UPX" firstAttribute="leading" secondItem="OAa-8u-FAF" secondAttribute="leading" constant="16" id="Pth-h2-ZNO"/>
-                            <constraint firstItem="j7L-Ha-kkU" firstAttribute="leading" secondItem="OAa-8u-FAF" secondAttribute="leading" constant="16" id="SfX-tY-PRp"/>
                             <constraint firstItem="qpI-mi-Qyx" firstAttribute="top" secondItem="EwX-ms-bqS" secondAttribute="bottom" constant="8" id="TVP-Vn-HgJ"/>
                             <constraint firstItem="g6r-bI-OBa" firstAttribute="leading" secondItem="OAa-8u-FAF" secondAttribute="leading" constant="16" id="UBa-ZP-YxX"/>
                             <constraint firstItem="dKU-y7-Uke" firstAttribute="top" secondItem="Y0J-ig-HoA" secondAttribute="bottom" constant="8" id="XSu-bh-hre"/>
@@ -1200,10 +1200,8 @@
                             <constraint firstItem="Ta3-jm-G5X" firstAttribute="top" secondItem="dxO-W7-zbC" secondAttribute="bottom" constant="8" symbolic="YES" id="nrn-AX-kDt"/>
                             <constraint firstItem="LUN-x4-mNQ" firstAttribute="top" secondItem="wks-dj-u9n" secondAttribute="bottom" constant="8" id="oMa-r1-KD4"/>
                             <constraint firstItem="OAa-8u-FAF" firstAttribute="trailing" secondItem="g6r-bI-OBa" secondAttribute="trailing" constant="16" id="p4Y-7C-Y6x"/>
-                            <constraint firstItem="OAa-8u-FAF" firstAttribute="trailing" secondItem="j7L-Ha-kkU" secondAttribute="trailing" constant="16" id="qwf-zo-dlt"/>
                             <constraint firstItem="OAa-8u-FAF" firstAttribute="trailing" secondItem="9ca-Dr-k29" secondAttribute="trailing" constant="16" id="t0G-Ki-f6D"/>
                             <constraint firstItem="cXN-z5-dkM" firstAttribute="leading" secondItem="OAa-8u-FAF" secondAttribute="leading" constant="16" id="vgx-2b-JBS"/>
-                            <constraint firstItem="j7L-Ha-kkU" firstAttribute="top" secondItem="g6r-bI-OBa" secondAttribute="bottom" constant="8" id="wm2-Pd-CNU"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Settings" id="cDt-7W-rYf">
@@ -2106,24 +2104,148 @@
                                     <action selector="saveISSettingsTouchUpInside:" destination="Q6E-P2-O4q" eventType="touchUpInside" id="T1s-jx-1sK"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Interstitial Ad Unit ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2GO-NP-EKg">
+                                <rect key="frame" x="16" y="162" width="125.5" height="21"/>
+                                <accessibility key="accessibilityConfiguration" identifier="interstitialAdUnitIDLabel" label="Interstitial Ad Unit ID Label"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="4SD-mL-iYZ"/>
+                                    <constraint firstAttribute="height" constant="21" id="azg-ck-kOh"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="azg-ck-kOh"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="4SD-mL-iYZ"/>
+                                        <include reference="azg-ck-kOh"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your IS Interstitial Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="iOU-Xb-dcY" userLabel="Interstitial Ad Unit ID Text Field">
+                                <rect key="frame" x="16" y="191" width="382" height="30"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="interstitialAdUnitIDTextField" label="Interstitial Ad Unit ID TextField"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="uiL-AU-B89"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="Q6E-P2-O4q" id="or8-Z4-G6M"/>
+                                </connections>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rewarded Ad Unit ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZW0-f7-qAT">
+                                <rect key="frame" x="16" y="239" width="127" height="21"/>
+                                <accessibility key="accessibilityConfiguration" identifier="rewardedAdUnitIDLabel" label="Rewarded Ad Unit ID Label"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="jy5-p8-Uvh"/>
+                                    <constraint firstAttribute="height" constant="18" id="pdf-DX-imV"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="pdf-DX-imV"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="jy5-p8-Uvh"/>
+                                        <include reference="pdf-DX-imV"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your IS Rewarded Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="RvE-me-2L1" userLabel="Rewarded Ad Unit ID Text Field">
+                                <rect key="frame" x="16" y="268" width="382" height="30"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="rewardedAdUnitIDTextField" label="Rewarded Ad Unit ID TextField"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="3wu-54-sgM"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="Q6E-P2-O4q" id="3U9-vZ-YuE"/>
+                                </connections>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Banner Ad Unit ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pBx-2W-2SZ" userLabel="Native Ad Unit ID">
+                                <rect key="frame" x="16" y="85" width="108.5" height="21"/>
+                                <accessibility key="accessibilityConfiguration" identifier="bannerAdUnitIDLabel" label="Banner Ad Unit ID Label"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="lxh-A8-G4h"/>
+                                    <constraint firstAttribute="height" constant="21" id="q2B-e6-Uv1"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="q2B-e6-Uv1"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="lxh-A8-G4h"/>
+                                        <include reference="q2B-e6-Uv1"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your IS Banner Ad Unit ID" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="SRu-MH-GOR" userLabel="Banner Ad Unit ID Text Field">
+                                <rect key="frame" x="16" y="114" width="382" height="30"/>
+                                <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <accessibility key="accessibilityConfiguration" identifier="bannerAdUnitIDTextField" label="Banner Ad Unit ID TextField"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="LLo-bu-TyP"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="Q6E-P2-O4q" id="2do-5i-XXL"/>
+                                </connections>
+                            </textField>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="OCE-HL-koh"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="SRu-MH-GOR" firstAttribute="top" secondItem="pBx-2W-2SZ" secondAttribute="bottom" constant="8" id="42n-1t-wRC"/>
+                            <constraint firstItem="iOU-Xb-dcY" firstAttribute="leading" secondItem="OCE-HL-koh" secondAttribute="leading" constant="16" id="4A0-r4-BBc"/>
                             <constraint firstItem="OCE-HL-koh" firstAttribute="trailing" secondItem="viW-U6-yc5" secondAttribute="trailing" constant="16" id="Dfs-o0-tWc"/>
+                            <constraint firstItem="pBx-2W-2SZ" firstAttribute="leading" secondItem="OCE-HL-koh" secondAttribute="leading" constant="16" id="LPv-L3-hxv"/>
+                            <constraint firstItem="2GO-NP-EKg" firstAttribute="leading" secondItem="OCE-HL-koh" secondAttribute="leading" constant="16" id="MnT-ro-knR"/>
+                            <constraint firstItem="2GO-NP-EKg" firstAttribute="top" secondItem="SRu-MH-GOR" secondAttribute="bottom" constant="18" id="O5O-V4-XjM"/>
+                            <constraint firstItem="OCE-HL-koh" firstAttribute="trailing" secondItem="iOU-Xb-dcY" secondAttribute="trailing" constant="16" id="OyO-5T-FCr"/>
+                            <constraint firstItem="pBx-2W-2SZ" firstAttribute="top" secondItem="xxA-CQ-1am" secondAttribute="bottom" constant="18" id="Q7b-vM-eWW"/>
+                            <constraint firstItem="ZW0-f7-qAT" firstAttribute="top" secondItem="iOU-Xb-dcY" secondAttribute="bottom" constant="18" id="S0f-ZD-ogW"/>
+                            <constraint firstItem="RvE-me-2L1" firstAttribute="leading" secondItem="OCE-HL-koh" secondAttribute="leading" constant="16" id="VHr-q8-gE4"/>
+                            <constraint firstItem="OCE-HL-koh" firstAttribute="trailing" secondItem="SRu-MH-GOR" secondAttribute="trailing" constant="16" id="VbV-S4-RAY"/>
+                            <constraint firstItem="OCE-HL-koh" firstAttribute="trailing" secondItem="RvE-me-2L1" secondAttribute="trailing" constant="16" id="Vi2-Ez-0XP"/>
                             <constraint firstItem="EUV-sI-3Pv" firstAttribute="top" secondItem="OCE-HL-koh" secondAttribute="top" constant="8" id="Yui-wm-d5S"/>
                             <constraint firstItem="OCE-HL-koh" firstAttribute="trailing" secondItem="xxA-CQ-1am" secondAttribute="trailing" constant="16" id="apc-S5-rYe"/>
                             <constraint firstItem="xxA-CQ-1am" firstAttribute="top" secondItem="EUV-sI-3Pv" secondAttribute="bottom" constant="8" id="bNp-bq-cRv"/>
+                            <constraint firstItem="RvE-me-2L1" firstAttribute="top" secondItem="ZW0-f7-qAT" secondAttribute="bottom" constant="8" id="cZR-Ag-Y62"/>
                             <constraint firstItem="viW-U6-yc5" firstAttribute="leading" secondItem="OCE-HL-koh" secondAttribute="leading" constant="16" id="dhO-aS-cMc"/>
                             <constraint firstItem="OCE-HL-koh" firstAttribute="bottom" secondItem="viW-U6-yc5" secondAttribute="bottom" constant="8" id="duM-hY-QBr"/>
                             <constraint firstItem="viW-U6-yc5" firstAttribute="centerX" secondItem="OCE-HL-koh" secondAttribute="centerX" id="fBm-4z-2Nw"/>
+                            <constraint firstItem="iOU-Xb-dcY" firstAttribute="top" secondItem="2GO-NP-EKg" secondAttribute="bottom" constant="8" id="hM9-lL-nGl"/>
                             <constraint firstItem="EUV-sI-3Pv" firstAttribute="leading" secondItem="OCE-HL-koh" secondAttribute="leading" constant="16" id="jzH-6r-KcV"/>
+                            <constraint firstItem="ZW0-f7-qAT" firstAttribute="leading" secondItem="OCE-HL-koh" secondAttribute="leading" constant="16" id="mKJ-kN-XEA"/>
+                            <constraint firstItem="SRu-MH-GOR" firstAttribute="top" secondItem="pBx-2W-2SZ" secondAttribute="bottom" constant="8" id="q89-w4-Ie8"/>
+                            <constraint firstItem="SRu-MH-GOR" firstAttribute="leading" secondItem="OCE-HL-koh" secondAttribute="leading" constant="16" id="upE-b9-RGm"/>
                             <constraint firstItem="xxA-CQ-1am" firstAttribute="leading" secondItem="OCE-HL-koh" secondAttribute="leading" constant="16" id="v0u-gl-CbC"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="IS Mediation Settings" id="dQF-qD-eS3"/>
                     <connections>
                         <outlet property="appIDTextField" destination="xxA-CQ-1am" id="vjb-bQ-jGS"/>
+                        <outlet property="bannerAdUnitIDTextField" destination="SRu-MH-GOR" id="3xt-eI-rOq"/>
+                        <outlet property="interstitialAdUnitIDTextField" destination="iOU-Xb-dcY" id="HVi-jV-a1r"/>
+                        <outlet property="rewardedAdUnitIDTextField" destination="RvE-me-2L1" id="gb4-Q7-44x"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D7g-pu-dW9" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2441,7 +2563,7 @@
                                 </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="App Signature" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R9E-2u-2rf">
-                                <rect key="frame" x="16" y="75" width="87" height="21"/>
+                                <rect key="frame" x="16" y="85" width="87" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="appSignatureLabel" label="App Signature Label"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="9HC-Dx-vYs"/>
@@ -2463,7 +2585,7 @@
                                 </variation>
                             </label>
                             <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your Chartboost App Signature" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Yuk-bW-ERz" userLabel="App Signature Text Field">
-                                <rect key="frame" x="16" y="104" width="382" height="30"/>
+                                <rect key="frame" x="16" y="114" width="382" height="30"/>
                                 <color key="backgroundColor" red="0.85098618270000004" green="0.85097014900000001" blue="0.85098105670000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="appSignatureTextField" label="App Signature TextField"/>
                                 <constraints>
@@ -2506,7 +2628,7 @@
                             <constraint firstItem="Ka7-R6-JvP" firstAttribute="leading" secondItem="UAC-f9-9Im" secondAttribute="leading" constant="16" id="H5K-1g-Qai"/>
                             <constraint firstItem="ZSU-5s-XdG" firstAttribute="leading" secondItem="UAC-f9-9Im" secondAttribute="leading" constant="16" id="R4o-DB-7V9"/>
                             <constraint firstItem="Rcw-yk-LjB" firstAttribute="leading" secondItem="UAC-f9-9Im" secondAttribute="leading" constant="16" id="TnN-Nl-a3i"/>
-                            <constraint firstItem="R9E-2u-2rf" firstAttribute="top" secondItem="ZSU-5s-XdG" secondAttribute="bottom" constant="8" symbolic="YES" id="XZY-pk-NH5"/>
+                            <constraint firstItem="R9E-2u-2rf" firstAttribute="top" secondItem="ZSU-5s-XdG" secondAttribute="bottom" constant="18" id="XZY-pk-NH5"/>
                             <constraint firstItem="UAC-f9-9Im" firstAttribute="trailing" secondItem="Yuk-bW-ERz" secondAttribute="trailing" constant="16" id="b9x-Ta-w5P"/>
                             <constraint firstItem="Ka7-R6-JvP" firstAttribute="centerX" secondItem="UAC-f9-9Im" secondAttribute="centerX" id="bYL-Uc-AUU"/>
                             <constraint firstItem="UAC-f9-9Im" firstAttribute="bottom" secondItem="Ka7-R6-JvP" secondAttribute="bottom" constant="8" id="gRF-Vo-KED"/>

@@ -22,13 +22,19 @@
 
 #import "HyBidViewabilityNativeVideoAdSession.h"
 #import "HyBid.h"
-#import <OMSDK_Pubnativenet/OMIDImports.h>
+#import "HyBidViewabilityManager.h"
 
-@interface HyBidViewabilityNativeVideoAdSession()
+#if __has_include(<OMSDK_Pubnativenet/OMIDImports.h>)
+    #import <OMSDK_Pubnativenet/OMIDImports.h>
+#endif
 
-@property (nonatomic, strong) OMIDPubnativenetMediaEvents *omidMediaEvents;
-@property (nonatomic, strong) OMIDPubnativenetAdEvents *adEvents;
+#if __has_include(<OMSDK_Smaato/OMIDImports.h>)
+    #import <OMSDK_Smaato/OMIDImports.h>
+#endif
 
+@interface HyBidViewabilityNativeVideoAdSession ()
+@property (nonatomic, strong) id omidMediaEvents;
+@property (nonatomic, strong) id adEvents;
 @end
 
 @implementation HyBidViewabilityNativeVideoAdSession
@@ -42,177 +48,165 @@
     return sharedInstance;
 }
 
-- (OMIDPubnativenetAdSession *)createOMIDAdSessionforNativeVideo:(UIView *)view withScript:(NSMutableArray *)scripts {
-    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-        return nil;
-    
+- (id)createOMIDAdSessionforNativeVideo:(UIView *)view withScript:(NSMutableArray *)scripts {
+    if (![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) return nil;
+
     NSError *contextError;
-    NSString *customReferenceID = @"";
-    NSString *contentUrl = @"";
+    id partner = [HyBidViewabilityManager sharedInstance].partner;
     
-    OMIDPubnativenetAdSessionContext *context = [[OMIDPubnativenetAdSessionContext alloc] initWithPartner:[HyBidViewabilityManager sharedInstance].partner
-                                                                                                   script:[[HyBidViewabilityManager sharedInstance] getOMIDJS]
-                                                                                                resources:scripts
-                                                                                               contentUrl:contentUrl
-                                                                                customReferenceIdentifier:customReferenceID
-                                                                                                    error:&contextError];
-    
-    return [self initialseOMIDAdSessionForView:view withSessionContext:context andImpressionOwner:OMIDNativeOwner andMediaEventsOwner:OMIDNativeOwner];
+    if (!partner) {
+        NSLog(@"❌ OMID Partner is nil, cannot create ad session.");
+        return nil;
+    }
+
+    id context = nil;
+
+    if ([HyBid getIntegrationType] == SDKIntegrationTypeHyBid) {
+        #if __has_include(<OMSDK_Pubnativenet/OMIDImports.h>)
+        context = [[OMIDPubnativenetAdSessionContext alloc] initWithPartner:partner
+                                                                     script:[[HyBidViewabilityManager sharedInstance] getOMIDJS]
+                                                                  resources:scripts
+                                                                 contentUrl:nil
+                                                  customReferenceIdentifier:nil
+                                                                      error:&contextError];
+        #endif
+    } else if ([HyBid getIntegrationType] == SDKIntegrationTypeSmaato) {
+        #if __has_include(<OMSDK_Smaato/OMIDImports.h>)
+        context = [[OMIDSmaatoAdSessionContext alloc] initWithPartner:partner
+                                                               script:[[HyBidViewabilityManager sharedInstance] getOMIDJS]
+                                                            resources:scripts
+                                                           contentUrl:nil
+                                            customReferenceIdentifier:nil
+                                                                error:&contextError];
+        #endif
+    }
+
+    if (!context) return nil;
+
+    return [self initialiseOMIDAdSessionForView:view withSessionContext:context andImpressionOwner:OMIDNativeOwner andMediaEventsOwner:OMIDNativeOwner];
 }
 
-- (OMIDPubnativenetAdSession *)initialseOMIDAdSessionForView:(id)view
-                                          withSessionContext:(OMIDPubnativenetAdSessionContext*)context
-                                          andImpressionOwner:(OMIDOwner)impressionOwner
-                                         andMediaEventsOwner:(OMIDOwner)mediaEventsOwner{
+- (id)initialiseOMIDAdSessionForView:(id)view
+                  withSessionContext:(id)context
+                  andImpressionOwner:(OMIDOwner)impressionOwner
+                 andMediaEventsOwner:(OMIDOwner)mediaEventsOwner {
     NSError *configurationError;
     
-    OMIDPubnativenetAdSessionConfiguration *config = [[OMIDPubnativenetAdSessionConfiguration alloc] initWithCreativeType:OMIDCreativeTypeVideo
-                                                                                                           impressionType:OMIDImpressionTypeBeginToRender
-                                                                                                          impressionOwner:impressionOwner
-                                                                                                         mediaEventsOwner:mediaEventsOwner
-                                                                                               isolateVerificationScripts:NO
-                                                                                                                    error:&configurationError];
+    id config = nil;
+
+    if ([HyBid getIntegrationType] == SDKIntegrationTypeHyBid) {
+        #if __has_include(<OMSDK_Pubnativenet/OMIDImports.h>)
+        config = [[OMIDPubnativenetAdSessionConfiguration alloc] initWithCreativeType:OMIDCreativeTypeVideo
+                                                                      impressionType:OMIDImpressionTypeBeginToRender
+                                                                     impressionOwner:impressionOwner
+                                                                    mediaEventsOwner:mediaEventsOwner
+                                                          isolateVerificationScripts:NO
+                                                                               error:&configurationError];
+        #endif
+    } else if ([HyBid getIntegrationType] == SDKIntegrationTypeSmaato) {
+        #if __has_include(<OMSDK_Smaato/OMIDImports.h>)
+        config = [[OMIDSmaatoAdSessionConfiguration alloc] initWithCreativeType:OMIDCreativeTypeVideo
+                                                                 impressionType:OMIDImpressionTypeBeginToRender
+                                                                impressionOwner:impressionOwner
+                                                               mediaEventsOwner:mediaEventsOwner
+                                                     isolateVerificationScripts:NO
+                                                                          error:&configurationError];
+        #endif
+    }
+
+    if (!config) return nil;
+
     NSError *sessionError;
-    OMIDPubnativenetAdSession *omidAdSession = [[OMIDPubnativenetAdSession alloc] initWithConfiguration:config
-                                                                                       adSessionContext:context
-                                                                                                  error:&sessionError];
-    
-    omidAdSession.mainAdView = view;
-    [self createAdEventsWithSession:omidAdSession];
-    [self createMediaEventsWithSession:omidAdSession];
-    
-    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.AD_SESSION_INITIALIZED];
-    
+    id omidAdSession = nil;
+
+    if ([HyBid getIntegrationType] == SDKIntegrationTypeHyBid) {
+        #if __has_include(<OMSDK_Pubnativenet/OMIDImports.h>)
+        omidAdSession = [[OMIDPubnativenetAdSession alloc] initWithConfiguration:config
+                                                               adSessionContext:context
+                                                                          error:&sessionError];
+        #endif
+    } else if ([HyBid getIntegrationType] == SDKIntegrationTypeSmaato) {
+        #if __has_include(<OMSDK_Smaato/OMIDImports.h>)
+        omidAdSession = [[OMIDSmaatoAdSession alloc] initWithConfiguration:config
+                                                           adSessionContext:context
+                                                                      error:&sessionError];
+        #endif
+    }
+
+    if (omidAdSession) {
+        [omidAdSession setMainAdView:view];
+        self.adEvents = [[HyBidViewabilityManager sharedInstance] getAdEvents:omidAdSession];
+        self.omidMediaEvents = [[HyBidViewabilityManager sharedInstance] getMediaEvents:omidAdSession];
+
+        [[HyBidViewabilityManager sharedInstance] reportEvent:HyBidReportingEventType.AD_SESSION_INITIALIZED];
+    }
+
     return omidAdSession;
 }
 
-- (void)createAdEventsWithSession:(OMIDPubnativenetAdSession *)omidAdSession {
-    self.adEvents = [[HyBidViewabilityManager sharedInstance]getAdEvents:omidAdSession];
-}
-
-- (void)createMediaEventsWithSession:(OMIDPubnativenetAdSession *)omidAdSession {
-    self.omidMediaEvents = [[HyBidViewabilityManager sharedInstance]getMediaEvents:omidAdSession];
-}
-
-- (void)fireOMIDAdLoadEvent:(OMIDPubnativenetAdSession *)omidAdSession {
-    [super fireOMIDAdLoadEvent:omidAdSession];
-    [self fireOMIDAdLoadEvent];
-}
-
-- (void)fireOMIDAdLoadEvent {
-    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-        return;
-    
-    NSError *vastPropertiesError;
-    OMIDPubnativenetVASTProperties *vastProperties = [[OMIDPubnativenetVASTProperties alloc] initWithAutoPlay:YES position:OMIDPositionStandalone];
-    [self.adEvents loadedWithVastProperties:vastProperties error:&vastPropertiesError];
-}
-
 - (void)fireOMIDStartEventWithDuration:(CGFloat)duration withVolume:(CGFloat)volume {
-    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-        return;
-    
+    if (![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) return;
     [self.omidMediaEvents startWithDuration:duration mediaPlayerVolume:volume];
-    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_STARTED];
 }
 
 - (void)fireOMIDFirstQuartileEvent {
-    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-        return;
-    
+    if (![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) return;
     [self.omidMediaEvents firstQuartile];
-    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_FIRST_QUARTILE];
 }
 
 - (void)fireOMIDMidpointEvent {
-    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-        return;
-    
+    if (![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) return;
     [self.omidMediaEvents midpoint];
-    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_MIDPOINT];
 }
 
 - (void)fireOMIDThirdQuartileEvent {
-    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-        return;
-    
+    if (![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) return;
     [self.omidMediaEvents thirdQuartile];
-    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_THIRD_QUARTILE];
 }
 
 - (void)fireOMIDCompleteEvent {
-    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-        return;
-    
+    if (![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) return;
     [self.omidMediaEvents complete];
-    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_COMPLETE];
 }
 
 - (void)fireOMIDPauseEvent {
-    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-        return;
-    
+    if (![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) return;
     [self.omidMediaEvents pause];
-    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_PAUSE];
 }
 
 - (void)fireOMIDResumeEvent {
-    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-        return;
-    
+    if (![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) return;
     [self.omidMediaEvents resume];
-    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_RESUME];
 }
 
 - (void)fireOMIDBufferStartEvent {
-    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-        return;
-    
+    if (![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) return;
     [self.omidMediaEvents bufferStart];
-    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_BUFFER_START];
-    
 }
 
 - (void)fireOMIDBufferFinishEvent {
-    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-        return;
-    
+    if (![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) return;
     [self.omidMediaEvents bufferFinish];
-    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_BUFFER_FINISH];
 }
 
 - (void)fireOMIDVolumeChangeEventWithVolume:(CGFloat)volume {
-    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-        return;
-    
+    if (![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) return;
     [self.omidMediaEvents volumeChangeTo:volume];
 }
 
 - (void)fireOMIDSkippedEvent {
-    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-        return;
-    
+    if (![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) return;
     [self.omidMediaEvents skipped];
-    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_SKIPPED];
 }
 
-- (void)fireOMIDClikedEvent {
-    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-        return;
-    
+- (void)fireOMIDClickedEvent {
+    if (![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) return;
     [self.omidMediaEvents adUserInteractionWithType:OMIDInteractionTypeClick];
-    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.VIDEO_AD_CLICKED];
 }
 
 - (void)fireOMIDPlayerStateEventWithFullscreenInfo:(BOOL)isFullScreen {
-    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-        return;
-    
-    if (isFullScreen) {
-        [self.omidMediaEvents playerStateChangeTo:OMIDPlayerStateFullscreen];
-    } else {
-        [self.omidMediaEvents playerStateChangeTo:OMIDPlayerStateNormal];
-    }
+    if (![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) return;
+    [self.omidMediaEvents playerStateChangeTo:isFullScreen ? OMIDPlayerStateFullscreen : OMIDPlayerStateNormal];
 }
 
 @end

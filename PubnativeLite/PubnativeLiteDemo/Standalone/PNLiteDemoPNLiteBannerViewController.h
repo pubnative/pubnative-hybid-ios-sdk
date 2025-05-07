@@ -24,5 +24,5 @@
 #import "PNLiteDemoBaseViewController.h"
 
 @interface PNLiteDemoPNLiteBannerViewController : PNLiteDemoBaseViewController
-
+@property (strong, nonatomic) NSString *sdkType;
 @end

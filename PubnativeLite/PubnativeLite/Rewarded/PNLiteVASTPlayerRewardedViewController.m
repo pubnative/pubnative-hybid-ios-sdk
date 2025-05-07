@@ -50,8 +50,8 @@
 
 - (instancetype)init {
     NSBundle *currentBundle = [NSBundle bundleForClass:[self class]];
-    self = [super initWithNibName:[self nameForResource:@"PNLiteVASTPlayerRewardedViewController": @"nib"] bundle:currentBundle];
-    self.view = [currentBundle loadNibNamed:[self nameForResource:@"PNLiteVASTPlayerRewardedViewController":@"nib"]
+    self = [super initWithNibName:@"PNLiteVASTPlayerRewardedViewController" bundle:currentBundle];
+    self.view = [currentBundle loadNibNamed:@"PNLiteVASTPlayerRewardedViewController"
                                       owner:self
                                     options:nil][0];;
     return self;
@@ -132,8 +132,12 @@
     [self.presenter.delegate rewardedPresenterDidDisappear:self.presenter];
 }
 
-- (void)vastPlayerDidShowSKOverlay {
-    [self.presenter.delegate rewardedPresenterDidClick:self.presenter];
+- (void)vastPlayerDidShowSKOverlayWithClickType:(HyBidSKOverlayAutomaticCLickType)clickType {
+    [self.presenter.delegate rewardedPresenterDidSKOverlayAutomaticClick:self.presenter clickType:clickType];
+}
+
+- (void)vastPlayerDidShowStorekitWithClickType:(HyBidStorekitAutomaticClickType)clickType {
+    [self.presenter.delegate rewardedPresenterDidStorekitAutomaticClick:self.presenter clickType:clickType];
 }
 
 - (void)vastPlayerDidShowAutoStorekit {
@@ -149,9 +153,12 @@
     [self.presenter.delegate rewardedPresenterDidAppear:self.presenter];
 }
 
-- (void)vastPlayerWillShowEndCard:(PNLiteVASTPlayerViewController *)vastPlayer endcard:(HyBidVASTEndCard *)endcard {
-    if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(rewardedPresenteWillPresentEndCard:endcard:)]) {
-        [self.presenter.delegate rewardedPresenteWillPresentEndCard:self.presenter endcard:endcard];
+- (void)vastPlayerWillShowEndCard:(PNLiteVASTPlayerViewController *)vastPlayer
+                  isCustomEndCard:(BOOL)isCustomEndCard
+                skoverlayDelegate:(id<HyBidSKOverlayDelegate>)skoverlayDelegate
+                customCTADelegate:(id<HyBidCustomCTAViewDelegate>)customCTADelegate {
+    if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(rewardedPresenteWillPresentEndCard:skoverlayDelegate:customCTADelegate:)]) {
+        [self.presenter.delegate rewardedPresenteWillPresentEndCard:self.presenter skoverlayDelegate:skoverlayDelegate customCTADelegate:customCTADelegate];
     }
     
     self.skAdModel = self.adModel.isUsingOpenRTB ? self.adModel.getOpenRTBSkAdNetworkModel : self.adModel.getSkAdNetworkModel;
@@ -160,7 +167,11 @@
             [self.presenter.delegate rewardedPresenterDismissesSKOverlay:self.presenter];
         }
     } else {        
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"VASTEndCardWillShow" object:nil];
+        if (isCustomEndCard) {
+            [HyBidInterruptionHandler.shared vastCustomEndCardWillShow];
+        } else {
+            [HyBidInterruptionHandler.shared vastEndCardWillShow];
+        }
     }
 }
 
@@ -168,20 +179,21 @@
     if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(rewardedPresenterDismissesCustomCTA:)] && endcard.isCustomEndCard) {
         [self.presenter.delegate rewardedPresenterDismissesCustomCTA:self.presenter];
     }
-    if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(rewardedPresenteDidPresentCustomEndCard:)] && endcard.isCustomEndCard) {
-        [self.presenter.delegate rewardedPresenteDidPresentCustomEndCard:self.presenter];
+    if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(rewardedPresenterDidPresentCustomEndCard:)] && endcard.isCustomEndCard) {
+        [self.presenter.delegate rewardedPresenterDidPresentCustomEndCard:self.presenter];
     }
 }
 
-#pragma mark - Utils: check for bundle resource existance.
-
-- (NSString*)nameForResource:(NSString*)name :(NSString*)type {
-    NSString* resourceName = [NSString stringWithFormat:@"iqv.bundle/%@", name];
-    NSString *path = [[NSBundle bundleForClass:[self class]] pathForResource:resourceName ofType:type];
-    if (!path) {
-        resourceName = name;
+- (void)vastPlayerDidShowCustomCTA {
+    if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(rewardedPresenterDidPresentsCustomCTA)]) {
+        [self.presenter.delegate rewardedPresenterDidPresentsCustomCTA];
     }
-    return resourceName;
+}
+
+- (void)vastPlayerDidClickCustomCTAOnEndCard:(BOOL)onEndCard {
+    if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(rewardedPresenterDidClickCustomCTAOnEndCard:)]) {
+        [self.presenter.delegate rewardedPresenterDidClickCustomCTAOnEndCard:onEndCard];
+    }
 }
 
 @end

@@ -39,6 +39,9 @@
 #define kHyBidDemoOpenRTBAPIURL @"https://dsp.pubnative.net"
 #define kIsAppLaunchedPreviouslyKey @"isAppLaunchedPreviously"
 #define kHyBidISAppID @"1224c378d"
+#define kHyBidISBannerAdUnitID @"d08g1ap1tqiudwp5"
+#define kHyBidISInterstitialAdUnitID @"55a6bp4ai1sjp24x"
+#define kHyBidISRewardedAdUnitID @"evit0dy92tb2hzq8"
 #define kHyBidALMediationNativeAdUnitID @"9f0b0f8353e2c66b"
 #define kHyBidALMediationBannerAdUnitID @"5bf23910ded6430b"
 #define kHyBidALMediationMRectAdUnitID @"23993b2ff0e8b324"
@@ -53,6 +56,8 @@
 #define kHyBidChartboostInterstitialVideoPosition @"hybid-ios-interstitial-video"
 #define kHyBidChartboostRewardedHTMLPosition @"hybid-ios-rewarded-html"
 #define kHyBidChartboostRewardedVideoPosition @"hybid-ios-rewarded-video"
+
+static NSString * const bullet = @"•  ";
 
 @implementation PNLiteDemoSettings
 
@@ -75,6 +80,10 @@
     if (self) {
         self.targetingModel = [[HyBidTargetingModel alloc] init];
         [self createBannerSizeArray];
+        [self createSDKConfigAlertMessage];
+        [self createSDKConfigAlertAttributes];
+        [self createPublisherModeAlertMessage];
+        [self createPublisherModeAlertAttributes];
         [self setInitialValuesForUserDefaults];
     }
     return self;
@@ -103,6 +112,9 @@
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidGADRewardedAdUnitID forKey:kHyBidGADRewardedAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kIsAppLaunchedPreviouslyKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidISAppID forKey:kHyBidISAppIDKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidISBannerAdUnitID forKey:kHyBidISBannerAdUnitIdKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidISInterstitialAdUnitID forKey:kHyBidISInterstitialAdUnitIdKey];
+        [[NSUserDefaults standardUserDefaults] setObject:kHyBidISRewardedAdUnitID forKey:kHyBidISRewardedAdUnitIdKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidALMediationNativeAdUnitID forKey:kHyBidALMediationNativeAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidALMediationBannerAdUnitID forKey:kHyBidALMediationBannerAdUnitIDKey];
         [[NSUserDefaults standardUserDefaults] setObject:kHyBidALMediationMRectAdUnitID forKey:kHyBidALMediationMRectAdUnitIDKey];
@@ -120,4 +132,39 @@
     }
 }
 
+- (void)createSDKConfigAlertMessage {
+    NSMutableArray<NSString *> *strings = [NSMutableArray array];
+    [strings addObject:@"Production: Tap \"Production URL\""];
+    [strings addObject:@"Testing: Provide the SDK Config URL, then tap \"Testing URL\""];
+    for (NSUInteger i = 0; i < strings.count; i++) {
+        strings[i] = [bullet stringByAppendingString:strings[i]];
+    }
+    self.sdkConfigAlertMessage = [@"\n" stringByAppendingString: [strings componentsJoinedByString:@"\n\n"]];
+}
+
+- (void)createSDKConfigAlertAttributes {
+    self.sdkConfigAlertAttributes = [NSMutableDictionary dictionary];
+    self.sdkConfigAlertAttributes[NSFontAttributeName] = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.headIndent = [bullet sizeWithAttributes:self.sdkConfigAlertAttributes].width;
+    self.sdkConfigAlertAttributes[NSParagraphStyleAttributeName] = paragraphStyle;
+}
+
+- (void)createPublisherModeAlertMessage {
+    NSMutableArray<NSString *> *strings = [NSMutableArray array];
+    [strings addObject:@"Initialisation: Next run cycle"];
+    [strings addObject:@"Everything else: Ready"];
+    for (NSUInteger i = 0; i < strings.count; i++) {
+        strings[i] = [bullet stringByAppendingString:strings[i]];
+    }
+    self.publisherModeAlertMessage = [@"\n" stringByAppendingString: [strings componentsJoinedByString:@"\n\n"]];
+}
+
+- (void)createPublisherModeAlertAttributes {
+    self.publisherModeAlertAttributes = [NSMutableDictionary dictionary];
+    self.publisherModeAlertAttributes[NSFontAttributeName] = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.headIndent = [bullet sizeWithAttributes:self.publisherModeAlertAttributes].width;
+    self.publisherModeAlertAttributes[NSParagraphStyleAttributeName] = paragraphStyle;
+}
 @end

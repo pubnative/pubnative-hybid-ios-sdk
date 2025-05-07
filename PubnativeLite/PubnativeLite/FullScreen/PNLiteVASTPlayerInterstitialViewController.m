@@ -58,8 +58,8 @@
 
 - (instancetype)init {
     NSBundle *currentBundle = [NSBundle bundleForClass:[self class]];
-    self = [super initWithNibName:[self nameForResource:@"PNLiteVASTPlayerInterstitialViewController": @"nib"] bundle:currentBundle];
-    self.view = [currentBundle loadNibNamed:[self nameForResource:@"PNLiteVASTPlayerInterstitialViewController":@"nib"]
+    self = [super initWithNibName:@"PNLiteVASTPlayerInterstitialViewController" bundle:currentBundle];
+    self.view = [currentBundle loadNibNamed:@"PNLiteVASTPlayerInterstitialViewController"
                                       owner:self
                                     options:nil][0];;
     return self;
@@ -141,12 +141,12 @@
     [self.presenter.delegate interstitialPresenterDidDisappear:self.presenter];
 }
 
-- (void)vastPlayerDidShowSKOverlay {
-    [self.presenter.delegate interstitialPresenterDidClick:self.presenter];
+- (void)vastPlayerDidShowSKOverlayWithClickType:(HyBidSKOverlayAutomaticCLickType)clickType {
+    [self.presenter.delegate interstitialPresenterDidSKOverlayAutomaticClick:self.presenter clickType:clickType];
 }
 
-- (void)vastPlayerDidShowAutoStorekit {
-    [self.presenter.delegate interstitialPresenterDidClick:self.presenter];
+- (void)vastPlayerDidShowStorekitWithClickType:(HyBidStorekitAutomaticClickType)clickType {
+    [self.presenter.delegate interstitialPresenterDidStorekitAutomaticClick:self.presenter clickType:clickType];
 }
 
 - (void)vastPlayerDidClose:(PNLiteVASTPlayerViewController *)vastPlayer {
@@ -158,9 +158,12 @@
     [self.presenter.delegate interstitialPresenterDidAppear:self.presenter];
 }
 
-- (void)vastPlayerWillShowEndCard:(PNLiteVASTPlayerViewController *)vastPlayer endcard:(HyBidVASTEndCard *)endcard {
-    if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(interstitialPresenterWillPresentEndCard:endcard:)]) {
-        [self.presenter.delegate interstitialPresenterWillPresentEndCard:self.presenter endcard:endcard];
+- (void)vastPlayerWillShowEndCard:(PNLiteVASTPlayerViewController *)vastPlayer
+                  isCustomEndCard:(BOOL)isCustomEndCard
+                skoverlayDelegate:(id<HyBidSKOverlayDelegate>)skoverlayDelegate
+                customCTADelegate:(id<HyBidCustomCTAViewDelegate>)customCTADelegate {
+    if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(interstitialPresenterWillPresentEndCard:skoverlayDelegate:customCTADelegate:)]) {
+        [self.presenter.delegate interstitialPresenterWillPresentEndCard:self.presenter skoverlayDelegate:skoverlayDelegate customCTADelegate:customCTADelegate];
     }
     
     self.skAdModel = self.adModel.isUsingOpenRTB ? self.adModel.getOpenRTBSkAdNetworkModel : self.adModel.getSkAdNetworkModel;
@@ -169,7 +172,11 @@
             [self.presenter.delegate interstitialPresenterDismissesSKOverlay:self.presenter];
         }
     } else {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"VASTEndCardWillShow" object:nil];
+        if (isCustomEndCard) {
+            [HyBidInterruptionHandler.shared vastCustomEndCardWillShow];
+        } else {
+            [HyBidInterruptionHandler.shared vastEndCardWillShow];
+        }
     }
 }
 
@@ -182,15 +189,16 @@
     }
 }
 
-#pragma mark - Utils: check for bundle resource existance.
-
-- (NSString*)nameForResource:(NSString*)name :(NSString*)type {
-    NSString* resourceName = [NSString stringWithFormat:@"iqv.bundle/%@", name];
-    NSString *path = [[NSBundle bundleForClass:[self class]] pathForResource:resourceName ofType:type];
-    if (!path) {
-        resourceName = name;
+- (void)vastPlayerDidShowCustomCTA {
+    if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(interstitialPresenterDidPresentCustomCTA)]) {
+        [self.presenter.delegate interstitialPresenterDidPresentCustomCTA];
     }
-    return resourceName;
+}
+
+- (void)vastPlayerDidClickCustomCTAOnEndCard:(BOOL)onEndCard {
+    if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(interstitialPresenterDidClickCustomCTAOnEndCard:)]) {
+        [self.presenter.delegate interstitialPresenterDidClickCustomCTAOnEndCard:onEndCard];
+    }
 }
 
 @end

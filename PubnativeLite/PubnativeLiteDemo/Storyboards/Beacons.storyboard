@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23094" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="QtL-u4-Pwv">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23084"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Beacons-->
+        <scene sceneID="vBt-ru-Gin">
+            <objects>
+                <viewController title="Beacons" id="gbB-v9-TbS" customClass="BeaconsViewController" customModule="HyBidDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="WLS-kY-D7k">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="pbo-Av-gzh">
+                                <rect key="frame" x="16" y="218.33333333333331" width="361" height="550.66666666666674"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BeaconTableViewCell" id="MQM-wY-Mrk" customClass="BeaconTableViewCell" customModule="HyBidDemo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="361" height="43.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MQM-wY-Mrk" id="wRI-No-ZBp">
+                                            <rect key="frame" x="0.0" y="0.0" width="361" height="43.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <sections/>
+                                <connections>
+                                    <outlet property="dataSource" destination="gbB-v9-TbS" id="uvv-uq-14y"/>
+                                    <outlet property="delegate" destination="gbB-v9-TbS" id="NOX-M1-wiK"/>
+                                </connections>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5EN-WF-plp" userLabel="Dismiss Button">
+                                <rect key="frame" x="16" y="777" width="361" height="33"/>
+                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" identifier="dismissButton" label="Dismiss Button"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="Y57-Wz-ivv"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Dismiss">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="Y57-Wz-ivv"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="dismissButtonTouchUpInside:" destination="gbB-v9-TbS" eventType="touchUpInside" id="UPH-Ve-Y1B"/>
+                                </connections>
+                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="h3W-ji-ge5">
+                                <rect key="frame" x="16" y="67.000000000000014" width="361" height="143.33333333333337"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="mhZ-Lk-g2M">
+                                        <rect key="frame" x="0.0" y="0.0" width="361" height="115"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oht-a2-htd" userLabel="Showing beacons text list Button">
+                                                <rect key="frame" x="0.0" y="0.0" width="361" height="33"/>
+                                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="showingBeaconsTextListButton" label="Showing beacons text list Button"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="33" id="rVb-uT-0Ip"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <state key="normal" title="Showing beacons text list">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <variation key="heightClass=compact">
+                                                    <mask key="constraints">
+                                                        <exclude reference="rVb-uT-0Ip"/>
+                                                    </mask>
+                                                </variation>
+                                                <connections>
+                                                    <segue destination="peJ-LJ-FLJ" kind="show" identifier="goingToBeaconsListText" id="Cyk-ZY-zWH"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xdl-xf-wJn" userLabel="Copy beacons Button">
+                                                <rect key="frame" x="0.0" y="41" width="361" height="33"/>
+                                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="copyBeaconsButton" label="Copy Beacons Button"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="33" id="Rf0-Wi-2pi"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <state key="normal" title="Copy beacons list">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <variation key="heightClass=compact">
+                                                    <mask key="constraints">
+                                                        <exclude reference="Rf0-Wi-2pi"/>
+                                                    </mask>
+                                                </variation>
+                                                <connections>
+                                                    <action selector="copyBeaconsToClipboard:" destination="gbB-v9-TbS" eventType="touchUpInside" id="NmG-RG-R8P"/>
+                                                </connections>
+                                            </button>
+                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="e5E-Xb-ep1">
+                                                <rect key="frame" x="0.0" y="82" width="361" height="34"/>
+                                                <segments>
+                                                    <segment title="Beacons"/>
+                                                    <segment title="Tracker report"/>
+                                                </segments>
+                                                <connections>
+                                                    <action selector="changingBeaconsList:" destination="gbB-v9-TbS" eventType="valueChanged" id="He1-N7-B9f"/>
+                                                </connections>
+                                            </segmentedControl>
+                                        </subviews>
+                                        <variation key="heightClass=compact" axis="horizontal"/>
+                                    </stackView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Number of beacons: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Z3-CD-hOU">
+                                        <rect key="frame" x="0.0" y="122.99999999999999" width="361" height="20.333333333333329"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="3Jr-ap-2VS"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="3Jr-ap-2VS" firstAttribute="trailing" secondItem="h3W-ji-ge5" secondAttribute="trailing" constant="16" id="0Ff-1G-K1y"/>
+                            <constraint firstItem="pbo-Av-gzh" firstAttribute="leading" secondItem="3Jr-ap-2VS" secondAttribute="leading" constant="16" id="9CI-iP-Xl4"/>
+                            <constraint firstItem="3Jr-ap-2VS" firstAttribute="trailing" secondItem="pbo-Av-gzh" secondAttribute="trailing" constant="16" id="Eer-uv-k3A"/>
+                            <constraint firstItem="h3W-ji-ge5" firstAttribute="leading" secondItem="3Jr-ap-2VS" secondAttribute="leading" constant="16" id="Gap-Qv-3Kf"/>
+                            <constraint firstItem="5EN-WF-plp" firstAttribute="top" secondItem="pbo-Av-gzh" secondAttribute="bottom" constant="8" id="IJI-GV-MBh"/>
+                            <constraint firstItem="3Jr-ap-2VS" firstAttribute="trailing" secondItem="5EN-WF-plp" secondAttribute="trailing" constant="16" id="ILt-Rc-QRl"/>
+                            <constraint firstItem="5EN-WF-plp" firstAttribute="centerX" secondItem="3Jr-ap-2VS" secondAttribute="centerX" id="Rrp-xp-s1d"/>
+                            <constraint firstItem="3Jr-ap-2VS" firstAttribute="bottom" secondItem="5EN-WF-plp" secondAttribute="bottom" constant="8" id="VL4-3B-1cN"/>
+                            <constraint firstItem="h3W-ji-ge5" firstAttribute="top" secondItem="3Jr-ap-2VS" secondAttribute="top" constant="8" id="ZrN-MA-29Z"/>
+                            <constraint firstItem="pbo-Av-gzh" firstAttribute="top" secondItem="h3W-ji-ge5" secondAttribute="bottom" constant="8" symbolic="YES" id="mMS-oj-aVJ"/>
+                            <constraint firstItem="5EN-WF-plp" firstAttribute="leading" secondItem="3Jr-ap-2VS" secondAttribute="leading" constant="16" id="sCU-zO-4OA"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Beacons" id="99i-wF-dCu"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <connections>
+                        <outlet property="beaconsNumberLabel" destination="0Z3-CD-hOU" id="4wL-OL-WIP"/>
+                        <outlet property="beaconsTableView" destination="pbo-Av-gzh" id="fWA-FO-3a9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PH7-hF-CuE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="446.56488549618319" y="20.422535211267608"/>
+        </scene>
+        <!--Beacons list text-->
+        <scene sceneID="OMK-8Y-eHe">
+            <objects>
+                <viewController title="Beacons list text" id="peJ-LJ-FLJ" customClass="BeaconsTextListViewController" customModule="HyBidDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="020-mP-Uk8">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="58j-Vb-f3a" userLabel="Dismiss Button">
+                                <rect key="frame" x="16" y="778" width="361" height="33"/>
+                                <color key="backgroundColor" red="0.54901960780000003" green="0.74509803919999995" blue="0.70980392160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" identifier="dismissButton" label="Dismiss Button"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Dismiss">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="dismissButtonTouchUpInside:" destination="peJ-LJ-FLJ" eventType="touchUpInside" id="vFO-RB-Xkw"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="hnB-TD-0C0">
+                                <rect key="frame" x="16" y="59" width="361" height="711"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <accessibility key="accessibilityConfiguration" identifier="beaconsTextListTextView" label="Beacons text list Text View"/>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="13"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="TzG-Hr-G1B"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="TzG-Hr-G1B" firstAttribute="trailing" secondItem="hnB-TD-0C0" secondAttribute="trailing" constant="16" id="77e-ox-Hfo"/>
+                            <constraint firstItem="hnB-TD-0C0" firstAttribute="top" secondItem="TzG-Hr-G1B" secondAttribute="top" id="F82-7J-rSf"/>
+                            <constraint firstItem="hnB-TD-0C0" firstAttribute="leading" secondItem="TzG-Hr-G1B" secondAttribute="leading" constant="16" id="Hof-Y3-pIi"/>
+                            <constraint firstItem="TzG-Hr-G1B" firstAttribute="trailing" secondItem="58j-Vb-f3a" secondAttribute="trailing" constant="16" id="Qs3-vW-NdC"/>
+                            <constraint firstItem="58j-Vb-f3a" firstAttribute="top" secondItem="hnB-TD-0C0" secondAttribute="bottom" constant="8" symbolic="YES" id="ZB9-4f-uEs"/>
+                            <constraint firstItem="58j-Vb-f3a" firstAttribute="leading" secondItem="TzG-Hr-G1B" secondAttribute="leading" constant="16" id="hgg-ee-Ork"/>
+                            <constraint firstItem="TzG-Hr-G1B" firstAttribute="bottom" secondItem="58j-Vb-f3a" secondAttribute="bottom" constant="7" id="p3m-As-9mO"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Beacons list text" id="Lhx-q7-Ahm"/>
+                    <connections>
+                        <outlet property="beaconsTextListTextView" destination="hnB-TD-0C0" id="huf-iv-xxY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="r3k-RX-8c4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1300" y="19.718309859154932"/>
+        </scene>
+        <!--Beacons Navigation Controller-->
+        <scene sceneID="lyK-eP-6Ga">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="QtL-u4-Pwv" customClass="BeaconsNavigationController" customModule="HyBidDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="sun-Vw-vKZ">
+                        <rect key="frame" x="0.0" y="59" width="393" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="gbB-v9-TbS" kind="relationship" relationship="rootViewController" id="acT-NU-ces"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x7A-CE-bXp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-480.15267175572518" y="20.422535211267608"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

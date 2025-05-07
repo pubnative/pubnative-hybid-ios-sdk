@@ -57,6 +57,8 @@ public class Common: HyBidReportingProperties {
     @objc public static let START_SESSION_TIMESTAMP = "start_session_timestamp"
     @objc public static let SESSION_DURATION = "session_duration"
     @objc public static let AGE_OF_APP = "age_of_app"
+    @objc public static let BEACON_TYPE = "beacon_type"
+    @objc public static let VAST_TRACKER_TYPE = "vast_tracker_type"
 }
 
 @objc(HyBidReportingEventType)
@@ -89,6 +91,7 @@ public class EventType: HyBidReportingProperties  {
     @objc public static let VIDEO_AD_CLICKED = "clicked"
     @objc public static let LOAD = "load"
     @objc public static let LOAD_FAIL = "load_fail"
+    @objc public static let SHOW = "show"
     @objc public static let CACHE = "cache"
     @objc public static let RESPONSE = "response"
     @objc public static let RENDER = "render"
@@ -97,9 +100,11 @@ public class EventType: HyBidReportingProperties  {
     @objc public static let REWARD = "reward"
     @objc public static let SESSION_REPORT_INFO = "session_report_info"
     @objc public static let CUSTOM_ENDCARD_IMPRESSION = "custom_endcard_impression"
+    @objc public static let CUSTOM_ENDCARD_IMPRESSION_ERROR = "custom_endcard_impression_error"
     @objc public static let DEFAULT_ENDCARD_SKIP = "default_endcard_skipped";
     @objc public static let DEFAULT_ENDCARD_CLOSE = "default_endcard_closed";
     @objc public static let DEFAULT_ENDCARD_IMPRESSION = "default_endcard_impression";
+    @objc public static let DEFAULT_ENDCARD_IMPRESSION_ERROR = "default_endcard_impression_error";
     @objc public static let DEFAULT_ENDCARD_CLICK = "default_endcard_click";
     @objc public static let CUSTOM_ENDCARD_CLOSE = "custom_endcard_closed"
     @objc public static let CUSTOM_ENDCARD_CLICK = "custom_endcard_click"
@@ -111,7 +116,16 @@ public class EventType: HyBidReportingProperties  {
     @objc public static let CUSTOM_CTA_CLICK = "custom_cta_click"
     @objc public static let CUSTOM_CTA_ENDCARD_CLICK = "custom_cta_endcard_click"
     @objc public static let SKOVERLAY_IMPRESSION = "skoverlay_impression"
+    @objc public static let SKOVERLAY_IMPRESSION_ERROR = "skoverlay_impression_error"
     @objc public static let STOREKIT_PRODUCT_VIEW_DISMISS = "storekit_product_view_dismiss"
+    @objc public static let STOREKIT_AUTOMATIC_CLICK = "storekit_automatic_click"
+    @objc public static let STOREKIT_AUTOMATIC_DEFAULT_ENDCARD_CLICK = "storekit_automatic_default_endcard_click"
+    @objc public static let STOREKIT_AUTOMATIC_CUSTOM_ENDCARD_CLICK = "storekit_automatic_custom_endcard_click"
+    @objc public static let SKOVERLAY_AUTOMATIC_CLICK = "skoverlay_automatic_click"
+    @objc public static let SKOVERLAY_AUTOMATIC_DEFAULT_ENDCARD_CLICK = "skoverlay_automatic_default_endcard_click"
+    @objc public static let SKOVERLAY_AUTOMATIC_CUSTOM_ENDCARD_CLICK = "skoverlay_automatic_custom_endcard_click"
+    @objc public static let AUTO_STORE_KIT_IMPRESSION = "autostorekit_impression"
+    @objc public static let AUTO_STORE_KIT_IMPRESSION_ERROR = "autostorekit_impression_error"
 }
 
 @objc(HyBidReportingCreativeType)
@@ -126,4 +140,26 @@ public class AdFormat: HyBidReportingProperties  {
     @objc public static let BANNER = "banner"
     @objc public static let FULLSCREEN = "fullscreen"
     @objc public static let REWARDED = "rewarded"
+}
+
+@objc(HyBidReportingVASTBeacon)
+public class VASTBeacon: HyBidReportingProperties  {
+    @objc public static let BEACONS = "beacons"
+    @objc public static let ONTOPOF = "onTopOf"
+}
+
+@objc(HyBidReportingBeaconType)
+public class BeaconType: HyBidReportingProperties  {
+    @objc public static let CLICK = "PN_click"
+    @objc public static let IMPRESSION = "PN_impression"
+    @objc public static let CUSTOM_ENDCARD_IMPRESSION = "PN_custom_endcard_impression"
+    @objc public static let CUSTOM_ENDCARD_CLICK = "PN_custom_endcard_click"
+}
+
+@objc(HyBidReportingVASTTrackerType)
+public class VASTTrackerType: HyBidReportingProperties  {
+    @objc public static let IMPRESSION = "Impression"
+    @objc public static let COMPANION_CLICK_THROUGH = "CompanionClickThrough"
+    @objc public static let CLICK_TRACKING = "ClickTracking"
+    @objc public static let PROGRESS = "Progress"
 }

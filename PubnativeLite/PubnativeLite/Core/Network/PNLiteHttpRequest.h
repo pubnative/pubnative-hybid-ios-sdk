@@ -36,13 +36,20 @@
 
 @interface PNLiteHttpRequest : NSObject
 
+@property (nonatomic, strong) NSString *urlString;
 @property (nonatomic, strong) NSDictionary *header;
 @property (nonatomic, strong) NSData *body;
 @property (nonatomic, assign) BOOL shouldRetry;
 @property (nonatomic, assign) BOOL isUsingOpenRTB;
 @property (nonatomic) HyBidOpenRTBAdType openRTBAdType;
 @property (nonatomic, strong) PNLiteAdRequestModel *adRequestModel;
+@property (nonatomic, strong) NSString *trackingType;
 
 - (void)startWithUrlString:(NSString *)urlString withMethod:(NSString *)method delegate:(NSObject<PNLiteHttpRequestDelegate>*)delegate;
+- (void)startWithUrlString:(NSString *)urlString
+                withMethod:(NSString *)method
+                  delegate:(NSObject<PNLiteHttpRequestDelegate>*)delegate
+          withTrackingType:(NSString *)trackingType;
+
 
 @end

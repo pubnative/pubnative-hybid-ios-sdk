@@ -25,7 +25,6 @@
 #import "HyBidMRAIDServiceDelegate.h"
 #import "HyBidMRAIDServiceProvider.h"
 #import "UIApplication+PNLiteTopViewController.h"
-#import "HyBidSKAdNetworkViewController.h"
 #import "HyBidURLDriller.h"
 #import "HyBidError.h"
 #import "HyBid.h"
@@ -42,7 +41,7 @@
     #import "HyBid-Swift.h"
 #endif
 
-@interface HyBidMRAIDRewardedPresenter() <HyBidMRAIDViewDelegate, HyBidMRAIDServiceDelegate, HyBidURLDrillerDelegate, SKStoreProductViewControllerDelegate>
+@interface HyBidMRAIDRewardedPresenter() <HyBidMRAIDViewDelegate, HyBidMRAIDServiceDelegate, HyBidURLDrillerDelegate, HyBidInterruptionDelegate>
 
 @property (nonatomic, strong) HyBidMRAIDServiceProvider *serviceProvider;
 @property (nonatomic, retain) HyBidMRAIDView *mraidView;
@@ -84,7 +83,8 @@
                                         rootViewController:[UIApplication sharedApplication].topViewController
                                                contentInfo:self.adModel.contentInfo
                                                 skipOffset:_skipOffset
-                                                 isEndcard:NO];
+                                                 isEndcard:NO
+                                 shouldHandleInterruptions:YES];
 }
 
 - (void)show {
@@ -106,7 +106,7 @@
     
     NSString *customUrl = [HyBidCustomClickUtil extractPNClickUrl:url];
     if (customUrl != nil) {
-        [self.serviceProvider openBrowser:customUrl];
+        [self openBrowser:customUrl navigationType:HyBidWebBrowserNavigationExternalValue];
     } else if (skAdNetworkModel) {
         NSMutableDictionary* productParams = [[skAdNetworkModel getStoreKitParameters] mutableCopy];
 
@@ -114,17 +114,23 @@
         
         if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams]) {
             [[HyBidURLDriller alloc] startDrillWithURLString:url delegate:self];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters: [HyBidStoreKitUtils cleanUpProductParams:productParams] delegate: self];
-                [skAdnetworkViewController presentSKStoreProductViewController:^(BOOL success) {
-                    if (success) {
-                        [self.delegate rewardedPresenterDidDisappear:self];
-                    }
-                }];
-            });
+            
+            [HyBidSKAdNetworkViewController.shared presentSKStoreProductViewControllerWithProductParameters:[HyBidStoreKitUtils cleanUpProductParams:productParams] adFormat:HyBidReportingAdFormat.REWARDED isAutoSKPVC:NO];
         } else {
-            [self.serviceProvider openBrowser:url];
+            [self openBrowser:url navigationType:self.ad.navigationMode];
         }
+    } else {
+        [self openBrowser:url navigationType:self.ad.navigationMode];
+    }
+}
+
+- (void)openBrowser:(NSString*)url navigationType:(NSString *)navigationType {
+    
+    HyBidWebBrowserNavigation navigation = [HyBidInternalWebBrowserNavigationController.shared webBrowserNavigationBehaviourFromString: navigationType];
+    
+    if (navigation == HyBidWebBrowserNavigationInternal) {
+        if (!self.mraidView) { return; }
+        [HyBidInternalWebBrowserNavigationController.shared navigateToURL:url];
     } else {
         [self.serviceProvider openBrowser:url];
     }
@@ -191,15 +197,14 @@
     [self.serviceProvider storePicture:urlString];
 }
 
-#pragma mark SKStoreProductViewControllerDelegate
+#pragma mark HyBidInterruptionDelegate
 
-- (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
-    if ([HyBidSDKConfig sharedConfig].reporting) {
-        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.STOREKIT_PRODUCT_VIEW_DISMISS adFormat:HyBidReportingAdFormat.REWARDED properties:nil];
-        [[HyBid reportingManager] reportEventFor:reportingEvent];
-    }
-    [HyBidNotificationCenter.shared post: HyBidNotificationTypeSKStoreProductViewIsDismissed object: nil userInfo: nil];
+- (void)adHasFocus {
     [self.delegate rewardedPresenterDidAppear:self];
+}
+
+- (void)adHasNoFocus {
+    [self.delegate rewardedPresenterDidDisappear:self];
 }
 
 @end

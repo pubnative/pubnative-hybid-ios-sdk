@@ -148,7 +148,7 @@ static inline CGFloat funcQuadOut(CGFloat ft, CGFloat f0, CGFloat f1) {
     if ( !timer ) {
         if ( NSClassFromString(@"CADisplayLink") != NULL ) {
             timer = [CADisplayLink displayLinkWithTarget:self selector:@selector(update:)];
-            [timer addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+            [timer addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
         } else {
             timer = [NSTimer scheduledTimerWithTimeInterval:kRefreshRate target:self selector:@selector(update:) userInfo:nil repeats:YES];
         }

@@ -23,5 +23,5 @@
 #import <UIKit/UIKit.h>
 
 @interface PNLiteDemoPNLiteBannerSizeSelectionViewController : UIViewController
-
+@property (strong, nonatomic) NSString *sdkType;
 @end

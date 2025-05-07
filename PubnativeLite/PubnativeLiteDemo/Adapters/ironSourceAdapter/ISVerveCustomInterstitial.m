@@ -37,24 +37,12 @@
 }
 
 - (void)loadAdWithAdData:(ISAdData *)adData delegate:(id<ISInterstitialAdDelegate>)delegate {
-    if ([ISVerveUtils isAppTokenValid:adData] && [ISVerveUtils isZoneIDValid:adData]) {
-        if ([ISVerveUtils appToken:adData] != nil && [[ISVerveUtils appToken:adData] isEqualToString:[HyBidSDKConfig sharedConfig].appToken]) {
-            self.delegate = delegate;
-            self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[ISVerveUtils zoneID:adData] andWithDelegate:self];
-            self.interstitialAd.isMediation = YES;
-            [self.interstitialAd setMediationVendor:[ISVerveUtils mediationVendor]];
-            [self.interstitialAd load];
-        } else {
-            NSString *errorMessage = @"The provided app token doesn't match the one used to initialise HyBid.";
-            if (self.delegate && [self.delegate respondsToSelector:@selector(adDidFailToLoadWithErrorType:errorCode:errorMessage:)]) {
-                [HyBidLogger errorLogFromClass:NSStringFromClass([self class])
-                                    fromMethod:NSStringFromSelector(_cmd)
-                                   withMessage:errorMessage];
-                [self.delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
-                                                  errorCode:ISAdapterErrorMissingParams
-                                               errorMessage:errorMessage];
-            }
-        }
+    if ([ISVerveUtils isZoneIDValid:adData]) {
+        self.delegate = delegate;
+        self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:[ISVerveUtils zoneID:adData] andWithDelegate:self];
+        self.interstitialAd.isMediation = YES;
+        [self.interstitialAd setMediationVendor:[ISVerveUtils mediationVendor]];
+        [self.interstitialAd load];
     } else {
         NSString *errorMessage = @"Could not find the required params in ISVerveCustomInterstitial ad data.";
         if (self.delegate && [self.delegate respondsToSelector:@selector(adDidFailToLoadWithErrorType:errorCode:errorMessage:)]) {

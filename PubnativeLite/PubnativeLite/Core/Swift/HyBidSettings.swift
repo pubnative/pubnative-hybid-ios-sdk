@@ -105,6 +105,8 @@ public class HyBidSettings: NSObject, CLLocationManagerDelegate {
             return "-1"
         case .mac:
             return "2"
+        case .vision:
+            return "-1"
         @unknown default:
             return "-1"
         }

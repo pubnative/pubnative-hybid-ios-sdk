@@ -183,4 +183,8 @@ NSString * const kHyBidErrorDomain = @"net.pubnative.PubnativeLite";
     return [NSError errorWithCode:HyBidErrorCodeInvalidCustomCTAIconUrl localizedDescription:@"Invalid icon URL of custom CTA"];
 }
 
++ (instancetype)hyBidInvalidRemoteConfigData {
+    return [NSError errorWithCode:HyBidErrorCodeInvalidRemoteConfigData localizedDescription:@"Invalid remote config data provided"];
+}
+
 @end

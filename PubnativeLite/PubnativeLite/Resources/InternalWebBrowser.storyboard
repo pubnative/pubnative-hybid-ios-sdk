@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23094" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="C8j-qv-XiW">
+    <device id="retina6_12" orientation="portrait" appearance="dark"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23084"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--InternalWebBrowser-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController storyboardIdentifier="HyBidInternalWebBrowserViewController" title="InternalWebBrowser" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Y6W-OH-hqX" customClass="HyBidInternalWebBrowserViewController" customModule="HyBid" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="769"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="doe-Tt-Y9D">
+                                <rect key="frame" x="0.0" y="103" width="393" height="666"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.10000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="6Bl-NC-qmb">
+                                <rect key="frame" x="0.0" y="103" width="393" height="4"/>
+                            </progressView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="6Bl-NC-qmb" firstAttribute="trailing" secondItem="doe-Tt-Y9D" secondAttribute="trailing" id="4BT-7i-tfg"/>
+                            <constraint firstItem="doe-Tt-Y9D" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="4iz-Vt-OTf"/>
+                            <constraint firstItem="6Bl-NC-qmb" firstAttribute="top" secondItem="doe-Tt-Y9D" secondAttribute="top" id="HZx-m3-pzJ"/>
+                            <constraint firstItem="doe-Tt-Y9D" firstAttribute="top" secondItem="6Bl-NC-qmb" secondAttribute="bottom" constant="-4" id="LbX-Is-for"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="doe-Tt-Y9D" secondAttribute="trailing" id="P4g-J1-qU9"/>
+                            <constraint firstItem="6Bl-NC-qmb" firstAttribute="leading" secondItem="doe-Tt-Y9D" secondAttribute="leading" id="Pqk-UC-jFb"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="doe-Tt-Y9D" secondAttribute="bottom" id="tr7-h8-seU"/>
+                            <constraint firstItem="doe-Tt-Y9D" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="wJG-on-R5J"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems>
+                        <barButtonItem title="Item" id="z1R-ki-l7J">
+                            <imageReference key="image" image="chevron.left" catalog="system" symbolScale="large"/>
+                            <connections>
+                                <action selector="internalWebViewGoingBack:" destination="Y6W-OH-hqX" id="Ys1-cr-87L"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem title="Item" id="cjy-hD-i1X">
+                            <imageReference key="image" image="chevron.right" catalog="system" symbolScale="large"/>
+                            <connections>
+                                <action selector="internalWebViewGoingForward:" destination="Y6W-OH-hqX" id="NKE-ue-twJ"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" style="browser" id="Hfz-vS-Rsp">
+                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="uTV-gk-Lxa">
+                            <connections>
+                                <action selector="dismissInternalWebBrowser:" destination="Y6W-OH-hqX" id="0Q2-ge-ZVx"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="refresh" id="uX7-jY-vdp">
+                            <connections>
+                                <action selector="reloadInternalWebView:" destination="Y6W-OH-hqX" id="SPU-6S-43Y"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="doneBarButtonItem" destination="uTV-gk-Lxa" id="B2I-vA-8Xu"/>
+                        <outlet property="goingBackBarButtonItem" destination="z1R-ki-l7J" id="Zrp-b7-s6m"/>
+                        <outlet property="goingForwardBarButtonItem" destination="cjy-hD-i1X" id="R7P-5o-CE0"/>
+                        <outlet property="internalWebBrowserProgressView" destination="6Bl-NC-qmb" id="Qct-eN-8Hy"/>
+                        <outlet property="internalWebView" destination="doe-Tt-Y9D" id="Ulf-rO-KFs"/>
+                        <outlet property="reloadBarButtonItem" destination="uX7-jY-vdp" id="eug-2T-cL6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3790.0763358778622" y="-2.1126760563380285"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="EYf-MM-5B2">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="C8j-qv-XiW" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Zxb-y4-U7i">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="HnT-W9-PbM">
+                        <rect key="frame" x="0.0" y="769" width="393" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
+                    <connections>
+                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="kJB-3n-C2U"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2DN-9a-Cg2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2863.3587786259541" y="-2.1126760563380285"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="chevron.left" catalog="system" width="97" height="128"/>
+        <image name="chevron.right" catalog="system" width="97" height="128"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

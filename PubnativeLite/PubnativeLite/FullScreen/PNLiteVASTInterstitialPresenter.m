@@ -23,7 +23,6 @@
 #import "PNLiteVASTInterstitialPresenter.h"
 #import "PNLiteVASTPlayerInterstitialViewController.h"
 #import "UIApplication+PNLiteTopViewController.h"
-#import "HyBidSKAdNetworkViewController.h"
 
 @interface PNLiteVASTInterstitialPresenter()
 
@@ -66,6 +65,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [[UIApplication sharedApplication].topViewController presentViewController:self.vastViewController animated:NO completion:nil];
     });
+    [[HyBidVASTEventBeaconsManager shared] reportVASTEventWithType:HyBidReportingEventType.SHOW ad:self.ad];
 }
 
 - (void)showFromViewController:(UIViewController *)viewController {

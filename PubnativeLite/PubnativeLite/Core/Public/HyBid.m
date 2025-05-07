@@ -27,6 +27,7 @@
 #import "PNLiteAdFactory.h"
 #import "HyBidDiagnosticsManager.h"
 #import "HyBidATOMFlow.h"
+#import "HyBidConfigManager.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -38,8 +39,9 @@
 
 BOOL isInitialized = NO;
 
-
 @implementation HyBid
+
+static SDKIntegrationType _sdkIntegrationType = SDKIntegrationTypeHyBid;
 
 + (void)setCoppa:(BOOL)enabled {
     [HyBidConsentConfig sharedConfig].coppa = enabled;
@@ -65,10 +67,22 @@ BOOL isInitialized = NO;
         [HyBidSDKConfig sharedConfig].appToken = appToken;
         [HyBidViewabilityManager sharedInstance];
         isInitialized = YES;
+        HyBidConfigManager *configManager = [HyBidConfigManager new];
+        [configManager requestConfigWithCompletion:^(HyBidConfig *config, NSError *error) {
+            if (error == nil) {
+                if (config.atomEnabled) {
+                    [HyBidSDKConfig sharedConfig].atomEnabled = config.atomEnabled;
+                } else {
+                    [HyBidSDKConfig sharedConfig].atomEnabled = NO;
+                }
+            } else {
+                [HyBidSDKConfig sharedConfig].atomEnabled = NO;
+            }
+            [HyBidATOMFlow initFlow];
+        }];
         [HyBidDiagnosticsManager printDiagnosticsLogWithEvent:HyBidDiagnosticsEventInitialisation];
         [[HyBidSessionManager sharedInstance] setStartSession];
         [[HyBidSessionManager sharedInstance] setAgeOfAppSinceCreated];
-        [HyBidATOMFlow initFlow];
     }
     if (completion != nil) {
         completion(isInitialized);
@@ -124,4 +138,15 @@ BOOL isInitialized = NO;
     for (NSString *key in [HyBidGDPR allGDPRKeys]) { [NSUserDefaults.standardUserDefaults removeObjectForKey: key]; }
 }
 
++ (SDKIntegrationType)getIntegrationType {
+    return _sdkIntegrationType;
+}
+
++ (void)setIntegrationType:(SDKIntegrationType)integrationType {
+    if (integrationType == 0) {
+        _sdkIntegrationType = SDKIntegrationTypeHyBid;
+    } else {
+        _sdkIntegrationType = integrationType;
+    }
+}
 @end

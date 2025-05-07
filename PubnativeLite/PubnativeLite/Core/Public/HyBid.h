@@ -128,6 +128,9 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import "HyBidTimerState.h"
 #import "HyBidCustomCTAViewDelegate.h"
 #import "HyBidSKOverlay.h"
+#import "HyBidConfigModel.h"
+#import "HyBidConfig.h"
+#import "HyBidConfigManager.h"
 #import "NSUserDefaults+HyBidCustomMethods.h"
 #import "HyBidSKOverlayDelegate.h"
 
@@ -135,9 +138,18 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 // Avoid using custom module map
 #import "PNLiteLocationManager.h"
 #import "PNLiteAdRequestModel.h"
+#import "HyBidVASTEventProcessor.h"
+#import "HyBidVASTImpression.h"
+#import "UIApplication+PNLiteTopViewController.h"
+#import "HyBidAdFeedbackViewDelegate.h"
 
 @class HyBidTargetingModel;
 @class HyBidReportingManager;
+
+typedef NS_ENUM(NSInteger, SDKIntegrationType) {
+    SDKIntegrationTypeHyBid = 0,
+    SDKIntegrationTypeSmaato = 1
+};
 
 typedef enum {
     HyBidAudioStatusMuted,
@@ -168,12 +180,17 @@ typedef enum {
     HyBidCustomEndcardDisplayFallback
 } HyBidCustomEndcardDisplayBehaviour;
 
+typedef enum {
+    HyBidWebBrowserNavigationExternal,
+    HyBidWebBrowserNavigationInternal
+} HyBidWebBrowserNavigation;
+
 static NSString * const HyBidCustomEndcardDisplayExtentionValue = @"extension";
 static NSString * const HyBidCustomEndcardDisplayFallbackValue = @"fallback";
 static NSString * const HyBidAdExperiencePerformanceValue = @"performance";
 static NSString * const HyBidAdExperienceBrandValue = @"brand";
-
-#define kStoredATOMState @"storedATOMState"
+static NSString * const HyBidWebBrowserNavigationExternalValue = @"external";
+static NSString * const HyBidWebBrowserNavigationInternalValue = @"internal";
 
 //PNLiteAssetGroupType
 static const unsigned int MRAID_320x50 = 10;
@@ -197,6 +214,8 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 
 @interface HyBid : NSObject
 
+@property (nonatomic, assign) SDKIntegrationType sdkIntegrationType;
+
 + (void)setCoppa:(BOOL)enabled;
 + (void)setTargeting:(HyBidTargetingModel *)targeting;
 + (void)setTestMode:(BOOL)enabled;
@@ -212,5 +231,7 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 + (NSString*)getCustomRequestSignalData:(NSString*) mediationVendorName;
 + (void)setReporting:(BOOL)enabled;
 + (void)rightToBeForgotten;
++ (void)setIntegrationType:(SDKIntegrationType)integrationType;
++ (SDKIntegrationType)getIntegrationType;
 
 @end

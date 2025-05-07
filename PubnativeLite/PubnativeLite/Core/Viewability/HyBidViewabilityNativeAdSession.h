@@ -21,10 +21,12 @@
 //
 
 #import "HyBidViewabilityAdSession.h"
+#import "OMIDAdSessionWrapper.h"
 
 @interface HyBidViewabilityNativeAdSession : HyBidViewabilityAdSession
 
-- (OMIDPubnativenetAdSession*)createOMIDAdSessionforNative:(UIView *)view withScript:(NSMutableArray *)scripts;
+- (OMIDAdSessionWrapper*) createOMIDAdSessionforNative:(UIView *)view withScript:(NSMutableArray *)scripts;
 
 @end
+
 

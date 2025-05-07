@@ -35,7 +35,6 @@
 
 #import <WebKit/WebKit.h>
 #import <AVFoundation/AVFoundation.h>
-#import <OMSDK_Pubnativenet/OMIDAdSession.h>
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -47,9 +46,9 @@
 
 #import "HyBidSkipOverlay.h"
 #import "HyBidTimerState.h"
-#import <StoreKit/StoreKit.h>
 #import "UIApplication+PNLiteTopViewController.h"
-#import "HyBidSKAdNetworkViewController.h"
+#import "OMIDAdSessionWrapper.h"
+
 
 #define SYSTEM_VERSION_LESS_THAN(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
@@ -57,6 +56,8 @@
 
 CGFloat const kContentInfoViewHeight = 15.0f;
 CGFloat const kContentInfoViewWidth = 15.0f;
+CGFloat const landingPageJSInjectionDelay = 2.0f;
+CGFloat const landingPageSecondsToCloseAdDelay = 30.0f;
 
 typedef enum {
     PNLiteMRAIDStateLoading,
@@ -66,7 +67,7 @@ typedef enum {
     PNLiteMRAIDStateHidden
 } PNLiteMRAIDState;
 
-@interface HyBidMRAIDView () <WKNavigationDelegate, WKUIDelegate, PNLiteMRAIDModalViewControllerDelegate, UIGestureRecognizerDelegate, HyBidContentInfoViewDelegate, HyBidSkipOverlayDelegate, SKStoreProductViewControllerDelegate, HyBidURLRedirectorDelegate>
+@interface HyBidMRAIDView () <WKNavigationDelegate, WKUIDelegate, PNLiteMRAIDModalViewControllerDelegate, UIGestureRecognizerDelegate, HyBidContentInfoViewDelegate, HyBidSkipOverlayDelegate, HyBidInterruptionDelegate, HyBidURLRedirectorDelegate>
 {
     PNLiteMRAIDState state;
     // This corresponds to the MRAID placement type.
@@ -74,8 +75,9 @@ typedef enum {
     BOOL isEndcard;
     BOOL isAdSessionCreated;
     BOOL isScrollable;
+    BOOL isExpanded;
 
-    OMIDPubnativenetAdSession *adSession;
+    OMIDAdSessionWrapper *adSession;
     
     // The only property of the MRAID expandProperties we need to keep track of
     // on the native side is the useCustomClose property.
@@ -116,8 +118,6 @@ typedef enum {
     UITapGestureRecognizer *tapGestureRecognizer;
     BOOL bonafideTapObserved; //supressing redirect from banners
     BOOL tapObserved; // observing taps on MRAID (specifically for taps on endcard)
-    BOOL isStoreViewControllerPresented;
-    BOOL isStoreViewControllerBeingPresented;
     BOOL startedFromTap;
     
     NSString* urlFromMraidOpen;
@@ -133,6 +133,9 @@ typedef enum {
     BOOL adNeedsSkipOverlay;
     BOOL obtainedUseCustomCloseValue;
     CGSize buttonSize;
+    BOOL landingPageFlowActive;
+    BOOL firstLinkActiveRedirected;
+    BOOL hideCountdownForLandingPage;
 }
 
 - (void)deviceOrientationDidChange:(NSNotification *)notification;
@@ -158,20 +161,22 @@ typedef enum {
 
 // internal helper methods
 - (void)initWebView:(WKWebView *)wv;
-- (void)parseCommandUrl:(NSString *)commandUrlString;
+- (void)parseCommandUrl:(NSString *)commandUrlString prefixToRemove:(NSString *)prefixToRemove;
 
 @property (nonatomic, strong) NSTimer *closeButtonOffsetTimer;
 @property (nonatomic, assign) NSTimeInterval closeButtonTimeElapsed;
 @property (nonatomic, strong) HyBidSkipOverlay *skipOverlay;
 @property (nonatomic, assign) HyBidCountdownStyle countdownStyle;
 @property (nonatomic, strong) HyBidAd *ad;
-@property (nonatomic, assign) BOOL isFeedbackScreenShown;
-@property (nonatomic, assign) BOOL isSKStoreKitVisible;
 @property (nonatomic, assign) BOOL willShowFeedbackScreen;
 @property (nonatomic, strong) HyBidSkipOffset *nativeCloseButtonDelay;
 @property (nonatomic, assign) BOOL creativeAutoStorekitEnabled;
-@property (nonatomic, strong) SKStoreProductViewController *storeViewController;
-@property (nonatomic, assign) BOOL productLoadSuccessful;
+@property (nonatomic, strong) NSString *landingPageTemplateScript;
+@property (nonatomic, assign) int landingpageCloseDelay;
+@property (nonatomic, strong) NSTimer *landingpageTimer;
+@property (nonatomic, assign) int landingpageTimeElapsed;
+@property (nonatomic, assign) BOOL landingpageTimerShouldPause;
+@property (nonatomic, assign) HyBidLandingBehaviourType landingpageBehaviour;
 
 @end
 
@@ -214,7 +219,8 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
  rootViewController:(UIViewController *)rootViewController
         contentInfo:(HyBidContentInfoView *)contentInfo
          skipOffset:(NSInteger)skipOffset
-          isEndcard:(BOOL)isEndcardPresented {
+          isEndcard:(BOOL)isEndcardPresented
+shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
     return [self initWithFrame:frame
                   withHtmlData:htmlData
                    withBaseURL:bsURL
@@ -227,7 +233,8 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
             rootViewController:rootViewController
                    contentInfo:contentInfo
                     skipOffset:skipOffset
-                     isEndcard:isEndcardPresented];
+                     isEndcard:isEndcardPresented
+     shouldHandleInterruptions:shouldHandleInterruptions];
 }
 
 // designated initializer
@@ -243,7 +250,8 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
  rootViewController:(UIViewController *)rootViewController
         contentInfo:(HyBidContentInfoView *)contentInfo
          skipOffset:(NSInteger)skipOffset
-          isEndcard:(BOOL)isEndcardPresented {
+          isEndcard:(BOOL)isEndcardPresented
+shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
     self = [super initWithFrame:frame];
     if (self) {
         [self setUpTapGestureRecognizer];
@@ -262,9 +270,8 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
         _isViewable = NO;
         useCustomClose = NO;
         tapObserved = NO;
-        isStoreViewControllerPresented = NO;
-        isStoreViewControllerBeingPresented = NO;
         _skipOffset = skipOffset;
+        isExpanded = NO;
 
         orientationProperties = [[PNLiteMRAIDOrientationProperties alloc] init];
         resizeProperties = [[PNLiteMRAIDResizeProperties alloc] init];
@@ -311,7 +318,10 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
                     [self loadHTMLDataWithBaseURL:htmlData];
                 } else {
                     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
-                    if ([self.delegate respondsToSelector:@selector(mraidViewAdFailed:)]) {
+                    
+                    if (isEndcard && [self.delegate respondsToSelector:@selector(mraidViewAdFailed:withError:)]) {
+                        [self.delegate mraidViewAdFailed:self withError:error];
+                    } else if ([self.delegate respondsToSelector:@selector(mraidViewAdFailed:)]) {
                         [self.delegate mraidViewAdFailed:self];
                     }
                 }
@@ -325,8 +335,11 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
             bonafideTapObserved = YES;  // no autoRedirect suppression for Interstitials
         }
         
-        [self addObservers];
         buttonSize = [HyBidCloseButton buttonDefaultSize];
+        if (shouldHandleInterruptions) { HyBidInterruptionHandler.shared.delegate = self; }
+        
+        self.landingpageBehaviour = HyBidLandingBehaviourTypeCountdown;
+        self.landingpageCloseDelay = landingPageSecondsToCloseAdDelay;
     }
     return self;
 }
@@ -357,114 +370,33 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
     }
 }
 
-
-- (void)addObservers {
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(applicationDidBecomeActive:)
-                                                 name: UIApplicationDidBecomeActiveNotification
-                                               object: nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(applicationWillResignActive:)
-                                                 name: UIApplicationWillResignActiveNotification
-                                               object: nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(feedbackScreenWillShow:)
-                                                 name: @"adFeedbackViewWillShow"
-                                               object: nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(feedbackScreenDidShow:)
-                                                 name: @"adFeedbackViewDidShow"
-                                               object: nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(feedbackScreenIsDismissed:)
-                                                 name: @"adFeedbackViewIsDismissed"
-                                               object: nil];
-    
-    [HyBidNotificationCenter.shared addObserver: self
-                                       selector: @selector(skStoreProductViewIsPresented:)
-                               notificationType: HyBidNotificationTypeSKStoreProductViewIsShown
-                                         object: nil];
-    
-    [HyBidNotificationCenter.shared addObserver: self
-                                       selector: @selector(skStoreProductViewIsDismissed:)
-                               notificationType: HyBidNotificationTypeSKStoreProductViewIsDismissed
-                                         object: nil];
-}
-
-- (void)applicationDidBecomeActive:(NSNotification *)notification {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (modalVC != nil && !self.isFeedbackScreenShown && !self.isSKStoreKitVisible) {
-            [self playCountdownView];
-            [self playCloseButtonDelay];
-        }
-    });
-}
-
-- (void)applicationWillResignActive:(NSNotification *)notification {
-    if (modalVC != nil && !self.isFeedbackScreenShown && !self.isSKStoreKitVisible) {
-        [self pauseCountdownView];
-        [self pauseCloseButtonDelay];
-    }
-}
-
--(void)feedbackScreenWillShow:(NSNotification *)notification {
-    self.willShowFeedbackScreen = YES;
-}
-- (void)feedbackScreenDidShow:(NSNotification *)notification {
-    self.isFeedbackScreenShown = YES;
-    if (modalVC != nil) {
-        [self pauseCountdownView];
-        [self pauseCloseButtonDelay];
-    }
-}
-
-- (void)skStoreProductViewIsDismissed:(NSNotification *)notification {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (modalVC != nil && !self.isFeedbackScreenShown) {
-            self.isSKStoreKitVisible = NO;
-            [self playCountdownView];
-            [self playCloseButtonDelay];
-        }
-    });
-}
-
-- (void)skStoreProductViewIsPresented:(NSNotification *)notification {
-    if (modalVC != nil && !self.isFeedbackScreenShown) {
-        self.isSKStoreKitVisible = YES;
-        [self pauseCountdownView];
-        [self pauseCloseButtonDelay];
-    }
-}
-
-- (void)feedbackScreenIsDismissed:(NSNotification *)notification {
-    self.isFeedbackScreenShown = NO;
-    if (modalVC != nil) {
-        [self playCountdownView];
-        [self playCloseButtonDelay];
-    }
-}
-
 - (void)playCountdownView {
+    self.landingpageTimerShouldPause = NO;
+    [self playLandingpageTimer];
+    if (!self.skipOverlay) { return; }
     NSInteger remainingSeconds = [self.skipOverlay getRemainingTime];
     [self.skipOverlay updateTimerStateWithRemainingSeconds: remainingSeconds withTimerState:HyBidTimerState_Start];
 }
 
 - (void)pauseCountdownView {
+    self.landingpageTimerShouldPause = YES;
+    [self pauseLandingpageTimer];
+    if (!self.skipOverlay) { return; }
     NSInteger remainingSeconds = [self.skipOverlay getRemainingTime];
     [self.skipOverlay updateTimerStateWithRemainingSeconds:(remainingSeconds) withTimerState:HyBidTimerState_Pause];
 }
 
 - (void)playCloseButtonDelay {
+    self.landingpageTimerShouldPause = NO;
+    [self playLandingpageTimer];
     if(!self.skipOverlay){
         [self determineUseCustomCloseBehaviourWith:self.nativeCloseButtonDelay showSkipOverlay:NO];
     }
 }
 
 - (void)pauseCloseButtonDelay {
+    self.landingpageTimerShouldPause = YES;
+    [self pauseLandingpageTimer];
     if(!self.skipOverlay && [self.closeButtonOffsetTimer isValid]){
         [self invalidateCloseButtonOffsetTimer];
     }
@@ -566,9 +498,11 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
     self.serviceDelegate = nil;
     self.ad = nil;
     self.skipOverlay = nil;
-    self.isFeedbackScreenShown = nil;
     self.nativeCloseButtonDelay = nil;
+    self.urlStringForEndCardTracking = nil;
     [self invalidateCloseButtonOffsetTimer];
+    self.landingPageTemplateScript = nil;
+    self.landingpageTimer = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -675,6 +609,14 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
 
 #pragma mark - SkipOverlay Delegate helpers
 
+- (void)skipOverlayStarts {
+    if (self.landingpageTimerShouldPause) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self pauseCountdownView];
+        });
+    }
+}
+
 - (void)skipButtonTapped
 {
     [self removeView:self.skipOverlay];
@@ -685,6 +627,7 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
 {
     buttonSize = [HyBidCloseButton buttonSizeBasedOn:self.ad];
     if(isInterstitial && self.countdownStyle == HyBidCountdownPieChart){
+        if (hideCountdownForLandingPage && [self.skipOverlay isHidden]) { [self.skipOverlay setHidden:NO]; }
         if([modalVC.view.subviews containsObject:self.skipOverlay]){
             [self setCloseButtonPosition: self.skipOverlay];
         }
@@ -749,13 +692,16 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
         [self closeFromResize];
         return;
     }
-    [currentWebView stopLoading];
-    [currentWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"about:blank"]]];
-    [currentWebView removeFromSuperview];
-    currentWebView.navigationDelegate = nil;
-    currentWebView.UIDelegate = nil;
-    currentWebView = nil;
     
+    if (state != PNLiteMRAIDStateExpanded) {
+        [currentWebView stopLoading];
+        [currentWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"about:blank"]]];
+        [currentWebView removeFromSuperview];
+        currentWebView.navigationDelegate = nil;
+        currentWebView.UIDelegate = nil;
+        currentWebView = nil;
+    }
+
     if (modalVC) {
         [self removeView: closeButton];
         [currentWebView removeFromSuperview];
@@ -915,7 +861,8 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
         NSString *content = [NSString stringWithContentsOfURL:[NSURL URLWithString:urlString] encoding:NSUTF8StringEncoding error:&error];
         if (!error) {
             if (!supportVerve) {
-                [webViewPart2 loadHTMLString:content baseURL:baseURL];
+                isExpanded = true;
+                [webViewPart2 loadRequest:[[NSURLRequest alloc]initWithURL:[NSURL URLWithString:urlString]]];
             } else {
                 [webViewPart2 loadRequest:[[NSURLRequest alloc]initWithURL:[NSURL URLWithString:urlString]]];
             }
@@ -980,19 +927,36 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
 
 - (void)addSkipOverlay
 {
-    self.skipOverlay = [[HyBidSkipOverlay alloc] initWithSkipOffset:self->_skipOffset withCountdownStyle:HyBidCountdownPieChart withContentInfoPositionTopLeft:[self isContentInfoInTopLeftPosition] withShouldShowSkipButton:false ad:self.ad];
-    [self.skipOverlay addSkipOverlayViewIn:modalVC.view delegate:self withIsMRAID:YES];
+    if (modalVC && modalVC.view ) {
+        self.skipOverlay = [[HyBidSkipOverlay alloc] initWithSkipOffset:self->_skipOffset withCountdownStyle:HyBidCountdownPieChart withContentInfoPositionTopLeft:[self isContentInfoInTopLeftPosition] withShouldShowSkipButton:false ad:self.ad];
+        [self.skipOverlay addSkipOverlayViewIn:modalVC.view delegate:self];
+        if (hideCountdownForLandingPage) { [self.skipOverlay setHidden:YES]; }
+    }
 }
 
 - (void)setWebViewConstraintsInRelationWithView:(UIView *)view
 {
     [currentWebView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [[currentWebView.topAnchor constraintEqualToAnchor:view.topAnchor] setActive:YES];
-    [[currentWebView.bottomAnchor constraintEqualToAnchor:view.bottomAnchor] setActive:YES];
-    [[currentWebView.leadingAnchor constraintEqualToAnchor:view.leadingAnchor] setActive:YES];
-    [[currentWebView.trailingAnchor constraintEqualToAnchor:view.trailingAnchor] setActive:YES];
     
+    if (@available(iOS 11.0, *)) {
+        
+        UILayoutGuide *safeArea = view.safeAreaLayoutGuide;
+        [currentWebView.topAnchor constraintEqualToAnchor:safeArea.topAnchor].active = YES;
+        [currentWebView.bottomAnchor constraintEqualToAnchor:safeArea.bottomAnchor].active = YES;
+        [currentWebView.leadingAnchor constraintEqualToAnchor:safeArea.leadingAnchor].active = YES;
+        [currentWebView.trailingAnchor constraintEqualToAnchor:safeArea.trailingAnchor].active = YES;
+    } else {
+        [currentWebView.topAnchor constraintEqualToAnchor:view.topAnchor].active = YES;
+        [currentWebView.bottomAnchor constraintEqualToAnchor:view.bottomAnchor].active = YES;
+        [currentWebView.leadingAnchor constraintEqualToAnchor:view.leadingAnchor].active = YES;
+        [currentWebView.trailingAnchor constraintEqualToAnchor:view.trailingAnchor].active = YES;
+    }
+
     [currentWebView layoutIfNeeded];
+}
+
+- (void)openBrowserForUserClick:(NSString *)urlString {
+    [self openBrowserWithURLString:urlString];
 }
 
 - (void)open:(NSString *)urlString {
@@ -1005,7 +969,7 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
 
     if (!isEndcard) {
         urlFromMraidOpen = urlString;
-        [self openBrowserWithURLString:urlString];
+        [self openBrowserForUserClick:urlString];
         return;
     }
     
@@ -1015,7 +979,7 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
     }
     
     // Avoid opening multiple Store ViewControllers
-    if (isStoreViewControllerPresented || isStoreViewControllerBeingPresented) {
+    if ([HyBidSKAdNetworkViewController.shared isSKProductViewControllerPresented]) {
         [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Suppressing an attempt to manual/auto click when task is not finished yet"];
         return;
     }
@@ -1034,6 +998,9 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
             HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.DEFAULT_ENDCARD_CLICK adFormat:isInterstitial ? HyBidReportingAdFormat.FULLSCREEN : HyBidReportingAdFormat.REWARDED properties:nil];
             [[HyBid reportingManager] reportEventFor:reportingEvent];
         }
+        
+        [[HyBidVASTEventBeaconsManager shared] reportVASTEventWithType:HyBidReportingEventType.DEFAULT_ENDCARD_CLICK
+                                                                    ad:self.ad];
         return;
     }
 
@@ -1051,7 +1018,7 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
         [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"Trying to present StoreViewController with url: %@", urlString]];
         [self openAppStoreWithAppID:urlString];
     } else if (tapObserved) {
-        [self openBrowserWithURLString:urlString];
+        [self openBrowserForUserClick:urlString];
     }
     startedFromTap = NO;
 }
@@ -1182,10 +1149,148 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
 
 // DEPRECATED: useCustomClose is deprecated as from MRAID 3.0
 - (void)useCustomClose:(NSString *)isCustomCloseString {
+    if (self.landingpageBehaviour != HyBidLandingBehaviourTypeUnknown && landingPageFlowActive) { return; }
     BOOL isCustomClose = [isCustomCloseString boolValue];
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), (isCustomClose ? @"YES" : @"NO")]];
     useCustomClose = isCustomClose;
     obtainedUseCustomCloseValue = YES;
+}
+
+- (void)setcustomisation:(NSString *)text {
+    if (!self.ad.landingPage) { return; }
+    NSString *templateScript = [self convertBase64ToStringWith:text];
+    if (!templateScript) { return; }
+    self.landingPageTemplateScript = templateScript;
+    landingPageFlowActive = YES;
+    
+    [self playLandingpageTimer];
+    useCustomClose = NO;
+    hideCountdownForLandingPage = YES;
+    self.nativeCloseButtonDelay = [[HyBidSkipOffset alloc] initWithOffset:[[NSNumber alloc] initWithFloat:self.landingpageCloseDelay] isCustom:YES];
+    self->_skipOffset = [[NSNumber numberWithFloat:self.landingpageCloseDelay] integerValue];
+    [self determineUseCustomCloseBehaviourWith:self.nativeCloseButtonDelay showSkipOverlay:YES];
+}
+
+- (void)landingbehaviour:(NSString *)text {
+    
+    if (!self.ad.landingPage) { return; }
+    NSString *templateLandingBehaviour = [self convertBase64ToStringWith:text];
+    if (!templateLandingBehaviour) {
+        self.landingpageBehaviour = HyBidLandingBehaviourTypeCountdown;
+        return;
+    }
+    
+    hideCountdownForLandingPage = YES;
+    HyBidLandingBehaviourType behaviourType = [[[HyBidLandingBehaviour alloc] init] convertStringWithValue:templateLandingBehaviour];
+    self.landingpageBehaviour = behaviourType;
+    switch (behaviourType) {
+        case HyBidLandingBehaviourTypeInstantCloseButton:
+            useCustomClose = NO;
+            obtainedUseCustomCloseValue = YES;
+            [self invalidateCloseButtonOffsetTimer];
+            [self pauseLandingpageTimer];
+            break;
+        case HyBidLandingBehaviourTypeCountdown: {
+            useCustomClose = NO;
+            obtainedUseCustomCloseValue = YES;
+            self.landingpageCloseDelay = self.landingpageCloseDelay ? self.landingpageCloseDelay : landingPageSecondsToCloseAdDelay;
+            self->_skipOffset = self.landingpageCloseDelay - self.landingpageTimeElapsed;
+            self.landingpageTimeElapsed = 0;
+            HyBidSkipOffset *remainingSkipOffset = [[HyBidSkipOffset alloc] initWithOffset:[[NSNumber alloc] initWithFloat:self->_skipOffset] isCustom:YES];
+            [self invalidateCloseButtonOffsetTimer];
+            [self determineUseCustomCloseBehaviourWith:remainingSkipOffset showSkipOverlay:YES];
+            break;
+        }
+        case HyBidLandingBehaviourTypeNoCountdown:{
+            useCustomClose = YES;
+            obtainedUseCustomCloseValue = YES;
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+- (void)closedelay:(NSString *)text {
+    if (!self.ad.landingPage || self.landingpageBehaviour == HyBidLandingBehaviourTypeInstantCloseButton) { return; }
+    NSString *templateDelay = [self convertBase64ToStringWith:text];
+    if (!templateDelay) { return; }
+    
+    hideCountdownForLandingPage = YES;
+    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+    NSNumber *milliseconds = [numberFormatter numberFromString:templateDelay];
+    float delaySeconds = [milliseconds floatValue] / 1000;
+    if (delaySeconds <= 0.0) { return; }
+    delaySeconds = delaySeconds <= landingPageSecondsToCloseAdDelay ? delaySeconds : landingPageSecondsToCloseAdDelay;
+    self.landingpageCloseDelay = delaySeconds;
+    
+    float remaningSeconds = self.landingpageCloseDelay - self.landingpageTimeElapsed;
+    self.landingpageTimeElapsed = 0;
+    if (self.landingpageBehaviour == HyBidLandingBehaviourTypeCountdown) {
+        self->_skipOffset = [[NSNumber numberWithFloat:remaningSeconds] integerValue];
+    } else {
+        self.nativeCloseButtonDelay = [[HyBidSkipOffset alloc] initWithOffset:[[NSNumber alloc] initWithFloat:remaningSeconds] isCustom:YES];
+        self.closeButtonTimeElapsed = 0;
+    }
+    [self invalidateCloseButtonOffsetTimer];
+    [self.skipOverlay removeFromSuperview];
+    self.skipOverlay = nil;
+    [self determineUseCustomCloseBehaviourWith:self.nativeCloseButtonDelay showSkipOverlay:YES];
+}
+
+- (void)setFinalPage {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        switch (self.landingpageBehaviour) {
+            case HyBidLandingBehaviourTypeInstantCloseButton:
+                [self showCloseButtonForLandingPage];
+                break;
+            case HyBidLandingBehaviourTypeCountdown:{
+                float remaningSeconds = self.landingpageCloseDelay - self.landingpageTimeElapsed;
+                self.landingpageTimeElapsed = 0;
+                self->_skipOffset = [[NSNumber numberWithFloat:remaningSeconds] integerValue];
+                [self invalidateCloseButtonOffsetTimer];
+                [self.skipOverlay removeFromSuperview];
+                self.skipOverlay = nil;
+                hideCountdownForLandingPage = NO;
+                [self determineUseCustomCloseBehaviourWith:self.nativeCloseButtonDelay showSkipOverlay:YES];
+                break;
+            }
+            default:
+                break;
+        }
+    });
+}
+
+- (void)showCloseButtonForLandingPage {
+    if (!self.ad.landingPage) { return; }
+    self.nativeCloseButtonDelay = [[HyBidSkipOffset alloc] initWithOffset:[[NSNumber alloc] initWithInt:0] isCustom:YES];
+    [self determineUseCustomCloseBehaviourWith:self.nativeCloseButtonDelay showSkipOverlay:NO];
+}
+
+- (NSString *)convertBase64ToStringWith:(NSString *)text {
+    if (text == nil || text.length == 0 || [text isEqualToString:@""]) { return nil; }
+    NSData *data = [[NSData alloc] initWithBase64EncodedString:text options:0];
+    if(data == nil) { return nil; }
+    
+    NSString *templateScript = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    if(templateScript == nil || templateScript.length == 0 || [templateScript isEqualToString:@""]){ return nil; }
+    
+    return templateScript;
+}
+
+- (void)playLandingpageTimer {
+    if (!self.landingpageTimer) {
+        self.landingpageTimer = [NSTimer scheduledTimerWithTimeInterval: 1 repeats:YES block:^(NSTimer * _Nonnull timer) {
+            self.landingpageTimeElapsed += 1;
+        }];
+    }
+}
+
+- (void)pauseLandingpageTimer {
+    if (self.landingpageTimer && [self.landingpageTimer isValid]) {
+        [self.landingpageTimer invalidate];
+        self.landingpageTimer = nil;
+    }
 }
 
 #pragma mark - JavaScript --> native support helpers
@@ -1396,6 +1501,8 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
     //adding delay (0.5) to wait for get useCustomClose value
     CGFloat delay = obtainedUseCustomCloseValue ? 0.0 : secondsToWaitForCustomCloseValue;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        if (landingPageFlowActive && [self.closeButtonOffsetTimer isValid]) { return; }
+        
         if(useCustomClose){
             [self removeView:self.skipOverlay];
             [self invalidateCloseButtonOffsetTimer];
@@ -1440,7 +1547,6 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
         }];
     }
 }
-
 
 #pragma mark - native -->  JavaScript support
 
@@ -1714,50 +1820,95 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
     NSString *scheme = [url scheme];
     NSString *absUrlString = [url absoluteString];
     
-    if ([scheme isEqualToString:@"mraid"]) {
-        [self parseCommandUrl:absUrlString];
-        
-    } else if ([scheme isEqualToString:@"console-log"]) {
-        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"JS console: %@",
-                                                         [[absUrlString substringFromIndex:14] stringByRemovingPercentEncoding ]]];
-    } else {
-        [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Found URL %@ with type %@", absUrlString, @(navigationAction.navigationType)]];
-        
-        // Links, Form submissions
-        if (navigationAction.navigationType == WKNavigationTypeLinkActivated
-            || (navigationAction.navigationType == WKNavigationTypeOther && tapObserved)) {
-            tapObserved = NO;
-            // For banner views
-            if ([self.delegate respondsToSelector:@selector(mraidViewNavigate:withURL:)]) {
-                [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"JS webview load: %@",
-                                                                 [absUrlString stringByRemovingPercentEncoding]]];
-                if ([absUrlString containsString:@"vrvm.com"]
-                    && [absUrlString containsString:@"type=expandable"]
-                    && self.isViewable) {
-                    [self expand:absUrlString supportVerve:YES];
-                    if(isInterstitial){
-                        [self determineUseCustomCloseBehaviourWith:self.nativeCloseButtonDelay showSkipOverlay:NO];
-                    }
-                } else if ([absUrlString containsString:@"https://feedback.verve.com"]){
-                    if ([absUrlString containsString:@"close"]) {
-                        [self close];
-                    }
-                } else {
-                    if (urlFromMraidOpen && [urlFromMraidOpen isEqualToString:absUrlString]) {
-                        urlFromMraidOpen = nil;
+    if (landingPageFlowActive && self.landingPageTemplateScript) { [self injectJavaScript:self.landingPageTemplateScript]; }
+    
+    HyBidMRAIDCommandType command = [[HyBidMRAIDCommand alloc] commandTypeWithText:scheme];
+    switch(command){
+        case HyBidMRAIDCommandTypeMraid:
+            [self parseCommandUrl:absUrlString prefixToRemove:@"mraid://"];
+            decisionHandler(WKNavigationActionPolicyCancel);
+            return;
+        case HyBidMRAIDCommandTypeVerveAdExperience:
+            [self parseCommandUrl:absUrlString prefixToRemove:@"verveadexperience://"];
+            decisionHandler(WKNavigationActionPolicyCancel);
+            return;
+        case HyBidMRAIDCommandTypeConsoleLog:
+            [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"JS console: %@",
+                                                                                                                              [[absUrlString substringFromIndex:14] stringByRemovingPercentEncoding ]]];
+            decisionHandler(WKNavigationActionPolicyCancel);
+            return;
+        case HyBidMRAIDCommandTypeUnknown:
+            [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Found URL %@ with type %@", absUrlString, @(navigationAction.navigationType)]];
+            
+            // Links, Form submissions
+            if (navigationAction.navigationType == WKNavigationTypeLinkActivated
+                || (navigationAction.navigationType == WKNavigationTypeOther && tapObserved)) {
+                tapObserved = NO;
+                // For banner views
+                if ([self.delegate respondsToSelector:@selector(mraidViewNavigate:withURL:)]) {
+                    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"JS webview load: %@",
+                                                                                                                                      [absUrlString stringByRemovingPercentEncoding]]];
+                    if ([absUrlString containsString:@"vrvm.com"]
+                        && [absUrlString containsString:@"type=expandable"]
+                        && self.isViewable) {
+                        [self expand:absUrlString supportVerve:YES];
+                        if(isInterstitial){
+                            [self determineUseCustomCloseBehaviourWith:self.nativeCloseButtonDelay showSkipOverlay:NO];
+                        }
+                    } else if ([absUrlString containsString:@"https://feedback.verve.com"]){
+                        if ([absUrlString containsString:@"close"]) {
+                            [self close];
+                        }
                     } else {
-                        [self.delegate mraidViewNavigate:self withURL:url];
+                        if (landingPageFlowActive && navigationAction.navigationType == WKNavigationTypeLinkActivated) {
+                            if (!firstLinkActiveRedirected) {
+                                firstLinkActiveRedirected = YES;
+                                if (self.landingPageTemplateScript) {[self injectJavaScript:self.landingPageTemplateScript];}
+                                [self setFinalPage];
+                                decisionHandler(WKNavigationActionPolicyAllow);
+                                return;
+                            } else {
+                                landingPageFlowActive = NO;
+                                self.landingPageTemplateScript = nil;
+                                
+                                __weak typeof(self) weakSelf = self;
+                                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                                    [weakSelf showCloseButtonForLandingPage];
+                                });
+                            }
+                        }
+                        
+                        if (urlFromMraidOpen && [urlFromMraidOpen isEqualToString:absUrlString]) {
+                            urlFromMraidOpen = nil;
+                        } else {
+                            if(!isInterstitial && !bonafideTapObserved){
+                                decisionHandler(WKNavigationActionPolicyCancel);
+                                return;
+                            }
+                            
+                            if (isExpanded) {
+                                isExpanded = NO;
+                                decisionHandler(WKNavigationActionPolicyAllow);
+                                return;
+                            } else {
+                                [self.delegate mraidViewNavigate:self withURL:url];
+                                decisionHandler(WKNavigationActionPolicyCancel);
+                                return;
+                            }
+                        }
                     }
                 }
+                // Allow external links
+                decisionHandler(WKNavigationActionPolicyAllow);
+                return;
+                
+            } else {
+                // Need to let browser to handle rendering and other things
+                decisionHandler(WKNavigationActionPolicyAllow);
+                return;
             }
-        } else {
-            // Need to let browser to handle rendering and other things
-            decisionHandler(WKNavigationActionPolicyAllow);
-            return;
-        }
+            break;
     }
-    decisionHandler(WKNavigationActionPolicyCancel);
-    return;
 }
 
 #pragma mark - OM SDK Viewability
@@ -1867,8 +2018,8 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
         [wv evaluateJavaScript:@"function alert(){}; function prompt(){}; function confirm(){}" completionHandler:^(id result, NSError *error) {}];
 }
 
-- (void)parseCommandUrl:(NSString *)commandUrlString {
-    NSDictionary *commandDict = [mraidParser parseCommandUrl:commandUrlString];
+- (void)parseCommandUrl:(NSString *)commandUrlString prefixToRemove:(NSString *)prefixToRemove {
+    NSDictionary *commandDict = [mraidParser parseCommandUrl:commandUrlString prefixToRemove:prefixToRemove];
     if (!commandDict) {
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"invalid command URL: %@", commandUrlString]];
         return;
@@ -1914,7 +2065,7 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
 }
 
 - (void)oneFingerOneTap {
-    bonafideTapObserved=YES;
+    bonafideTapObserved = YES;
     tapObserved = YES;
     startedFromTap = YES;
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"tapGesture oneFingerTap observed"];
@@ -1938,7 +2089,7 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
 }
 
 - (void)openAppStoreWithAppID:(NSString *)urlString {
-    if (isStoreViewControllerPresented || isStoreViewControllerBeingPresented) {
+    if ([HyBidSKAdNetworkViewController.shared isSKProductViewControllerPresented]) {
         return; // Return early if the Store VC is already being presented
     }
     if ([self.ad.sdkAutoStorekitEnabled boolValue]){
@@ -1949,18 +2100,9 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
     NSString* appID = [self extractAppIDFromAppStoreURL:urlString];
     if (appID) {
         NSDictionary *parameters = @{SKStoreProductParameterITunesItemIdentifier: appID};
-        HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters: parameters delegate: self];
-        isStoreViewControllerBeingPresented = YES;
-        [skAdnetworkViewController presentSKStoreProductViewController:^(BOOL success) {
-            if (success) {
-                [self doTrackingEndcardWithUrlString:urlString];
-                isStoreViewControllerPresented = YES;
-                [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"StoreKit from CREATIVE is presented"]];
-            }
-        }];
-        isStoreViewControllerBeingPresented = NO;
+        [HyBidSKAdNetworkViewController.shared presentSKStoreProductViewControllerWithProductParameters:parameters adFormat:isInterstitial ? HyBidReportingAdFormat.FULLSCREEN : HyBidReportingAdFormat.BANNER isAutoSKPVC:NO];
+        self.urlStringForEndCardTracking = urlString;
     } else {
-        isStoreViewControllerBeingPresented = NO;
         [self openBrowserWithURLString:urlString];
     }
 }
@@ -2008,16 +2150,29 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
     
 }
 
-#pragma mark SKStoreProductViewControllerDelegate
+#pragma mark HyBidInterruptionDelegate
 
-// Delegate method when Store VC is dismissed
-- (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
-    if ([HyBidSDKConfig sharedConfig].reporting) {
-        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.STOREKIT_PRODUCT_VIEW_DISMISS adFormat:isInterstitial ? HyBidReportingAdFormat.FULLSCREEN : HyBidReportingAdFormat.BANNER properties:nil];
-        [[HyBid reportingManager] reportEventFor:reportingEvent];
+- (void)adHasFocus {
+    if (modalVC != nil) {
+        [self playCountdownView];
+        [self playCloseButtonDelay];
     }
-    isStoreViewControllerPresented = NO;
-    [HyBidNotificationCenter.shared post: HyBidNotificationTypeSKStoreProductViewIsDismissed object: self.ad userInfo: nil];
+}
+
+- (void)adHasNoFocus {
+    if (modalVC != nil) {
+        [self pauseCountdownView];
+        [self pauseCloseButtonDelay];
+    }
+}
+
+- (void)feedbackViewWillShow {
+    self.willShowFeedbackScreen = YES;
+}
+
+- (void)productViewControllerDidShow {
+    [self doTrackingEndcardWithUrlString:self.urlStringForEndCardTracking];
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"StoreKit from CREATIVE is presented"]];
 }
 
 @end

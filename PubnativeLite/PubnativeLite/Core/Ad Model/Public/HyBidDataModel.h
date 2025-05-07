@@ -37,6 +37,7 @@
 @property (nonatomic, readonly) NSNumber *width;
 @property (nonatomic, readonly) NSNumber *height;
 @property (nonatomic, readonly) NSDictionary *jsonData;
+@property (nonatomic, readonly) BOOL boolean;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 - (instancetype)initWithHTMLAsset:(NSString *)assetName withValue:(NSString *)value;

@@ -22,6 +22,7 @@
 
 #import "PNLiteDemoMarkupMainViewController.h"
 #import "PNLiteDemoMarkupDetailViewController.h"
+#import "PNLiteRequestInspector.h"
 #import "UITextView+KeyboardDismiss.h"
 
 @interface PNLiteDemoMarkupMainViewController ()
@@ -41,6 +42,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *universalRenderingSwitch;
 @property (nonatomic, strong) NSString *urTemplate;
 @property (nonatomic, assign) BOOL urWrap;
+@property (nonatomic, strong) NSDate *startTime;
 
 @end
 
@@ -85,6 +87,7 @@
 - (void)requestAd {
     [self clearDebugTools];
     self.debugButton.hidden = YES;
+    self.startTime = [NSDate date];
     if ([self canRequestAd]) {
         switch (self.placement) {
             case HyBidDemoAppPlacementBanner:
@@ -179,6 +182,17 @@
     }
     markupDetailVC.urWrap = self.urWrap;
     markupDetailVC.debugButton = self.debugButton;
+    
+    [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:nil
+                                                               withResponse:markup.text
+                                                                withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate: self.startTime] * 1000.0]
+                                                            withRequestBody:nil];
+    
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [weakSelf.debugButton setHidden:NO];
+    });
+    
     [self cleanUpAllParams];
     if (markup.placement != HyBidDemoAppPlacementLeaderboard) {
         [self.navigationController presentViewController:markupDetailVC animated:YES completion:nil];
@@ -193,6 +207,7 @@
     self.creativeURL = nil;
     self.urTemplate = nil;
     self.urWrap = nil;
+    self.startTime = nil;
 }
 
 - (IBAction)bannerTouchUpInside:(UIButton *)sender {
@@ -243,13 +258,18 @@
 - (void)invokeFinishWithResponse:(NSURLResponse *)response placement:(HyBidMarkupPlacement)placement withData:(NSData*)data {
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
     dispatch_async(dispatch_get_main_queue(), ^{
-    if ([response respondsToSelector:@selector(allHeaderFields)]) {
-        NSDictionary *dictionary = [httpResponse allHeaderFields];
-        self.creativeID = dictionary[@"Creative_id"];
-    }
-    NSString *adString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    self.markup = [[Markup alloc] initWithMarkupText: adString withAdPlacement:placement];
-    [self loadCreativeWithMarkup: self.markup];
+        if ([response respondsToSelector:@selector(allHeaderFields)]) {
+            NSDictionary *dictionary = [httpResponse allHeaderFields];
+            self.creativeID = dictionary[@"Creative_id"];
+        }
+        NSString *adString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        self.markup = [[Markup alloc] initWithMarkupText: adString withAdPlacement:placement];
+        [self loadCreativeWithMarkup: self.markup];
+        
+        [[PNLiteRequestInspector sharedInstance] setLastRequestInspectorWithURL:response.URL.absoluteString
+                                                                   withResponse:self.markup.text
+                                                                    withLatency:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate: self.startTime] * 1000.0]
+                                                                withRequestBody:nil];
     });
 }
 

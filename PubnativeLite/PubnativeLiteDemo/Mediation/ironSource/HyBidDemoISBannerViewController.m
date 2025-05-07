@@ -25,26 +25,38 @@
 #import "PNLiteDemoSettings.h"
 #import "IronSource/IronSource.h"
 
-@interface HyBidDemoISBannerViewController () <LevelPlayBannerDelegate, ISInitializationDelegate>
+@interface HyBidDemoISBannerViewController () <LPMBannerAdViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *bannerContainer;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bannerLoaderIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *debugButton;
-@property (nonatomic, strong) ISBannerView *ironSourceBanner;
+@property (nonatomic, strong) LPMBannerAdView *bannerAd;
 
 @end
 
 @implementation HyBidDemoISBannerViewController
 
 - (void)dealloc {
-    [IronSource destroyBanner:self.ironSourceBanner];
+    if (self.bannerAd) {
+        [self.bannerAd destroy];
+    }
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.navigationItem.title = @"IS Banner";
-    [IronSource initWithAppKey:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidISAppIDKey] adUnits:@[IS_BANNER] delegate:self];
+    
+    LPMInitRequestBuilder *requestBuilder = [[LPMInitRequestBuilder alloc] initWithAppKey:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidISAppIDKey]];
+    LPMInitRequest *initRequest = [requestBuilder build];
+    [LevelPlay initWithRequest:initRequest completion:^(LPMConfiguration * _Nullable config, NSError * _Nullable error) {
+        if(error) {
+            // There was an error on initialization. Take necessary actions or retry
+        } else {
+            // Initialization was successful. You can now create ad objects and load ads or perform other tasks
+        }
+    }];
+    
     [self.bannerLoaderIndicator stopAnimating];
 }
 
@@ -54,7 +66,7 @@
 }
 
 - (IBAction)requestBannerTouchUpInside:(id)sender {
-    if (self.ironSourceBanner) {
+    if (self.bannerAd) {
         [self destroyBanner];
     }
     [self requestAd];
@@ -62,9 +74,9 @@
 
 - (void)destroyBanner {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.ironSourceBanner) {
-            [IronSource destroyBanner:self.ironSourceBanner];
-            self.ironSourceBanner = nil;
+        if (self.bannerAd) {
+            [self.bannerAd destroy];
+            self.bannerAd = nil;
         }
     });
 }
@@ -74,52 +86,57 @@
     self.bannerContainer.hidden = YES;
     self.debugButton.hidden = YES;
     [self.bannerLoaderIndicator startAnimating];
-    [IronSource setLevelPlayBannerDelegate:self];
-    [IronSource loadBannerWithViewController:self size:ISBannerSize_BANNER];
+    
+    self.bannerAd = [[LPMBannerAdView alloc] initWithAdUnitId:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidISBannerAdUnitIdKey]];
+    LPMAdSize *bannerSize = [LPMAdSize bannerSize];
+    [self.bannerAd setAdSize: bannerSize];
+    [self.bannerAd setDelegate: self];
+    [self.bannerAd loadAdWithViewController: self];
 }
 
-#pragma mark - LevelPlayBannerDelegate
+#pragma mark - LPMBannerAdViewDelegate
 
-- (void)didLoad:(ISBannerView *)bannerView withAdInfo:(ISAdInfo *)adInfo {
+- (void)didLoadAdWithAdInfo:(LPMAdInfo *)adInfo {
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.ironSourceBanner = bannerView;
-        self.ironSourceBanner.frame = CGRectMake(0, 0, self.bannerContainer.frame.size.width, self.bannerContainer.frame.size.height);
+        self.bannerAd.frame = CGRectMake(0, 0, self.bannerContainer.frame.size.width, self.bannerContainer.frame.size.height);
         self.bannerContainer.hidden = NO;
         self.debugButton.hidden = NO;
         [self.bannerLoaderIndicator stopAnimating];
-        [self.bannerContainer addSubview:self.ironSourceBanner];
+        [self.bannerContainer addSubview:self.bannerAd];
 
-        [self.bannerContainer setIsAccessibilityElement:NO];
+        [self.bannerContainer setIsAccessibilityElement: NO];
         [self.bannerContainer setAccessibilityContainerType:UIAccessibilityContainerTypeSemanticGroup];
     });
 }
 
-- (void)didFailToLoadWithError:(NSError *)error{
+- (void)didFailToLoadAdWithAdUnitId:(NSString *)adUnitId error:(NSError *)error {
     self.debugButton.hidden = NO;
     [self.bannerLoaderIndicator stopAnimating];
     [self showAlertControllerWithMessage:[NSString stringWithFormat:@"IronSource Banner did fail to load with message:%@", error.localizedDescription]];
 }
 
-- (void)didClickWithAdInfo:(ISAdInfo *)adInfo{
-    NSLog(@"didClickAd");
+- (void)didClickAdWithAdInfo:(LPMAdInfo *)adInfo {
+    NSLog(@"didClickAdWithAdInfo");
 }
 
-- (void)didLeaveApplicationWithAdInfo:(ISAdInfo *)adInfo{
-    NSLog(@"didLeaveApplication");
+- (void)didDisplayAdWithAdInfo:(LPMAdInfo *)adInfo {
+    NSLog(@"didDisplayAdWithAdInfo");
 }
 
-- (void)didPresentScreenWithAdInfo:(ISAdInfo *)adInfo{
-    NSLog(@"didPresentScreen");
+- (void)didFailToDisplayAdWithAdInfo:(LPMAdInfo *)adInfo error:(NSError *)error {
+    NSLog(@"Failed to show rewarded ad with error: %@", [error localizedDescription]);
 }
 
-- (void)didDismissScreenWithAdInfo:(ISAdInfo *)adInfo{
-    NSLog(@"didDismissScreen");
+- (void)didLeaveAppWithAdInfo:(LPMAdInfo *)adInfo {
+    NSLog(@"didLeaveAppWithAdInfo");
 }
 
-#pragma mark - ISInitializationDelegate
+- (void)didExpandAdWithAdInfo:(LPMAdInfo *)adInfo {
+    NSLog(@"didExpandAdWithAdInfo");
+}
 
-- (void)initializationDidComplete {
-    
+- (void)didCollapseAdWithAdInfo:(LPMAdInfo *)adInfo {
+    NSLog(@"didCollapseAdWithAdInfo");
 }
 
 @end

@@ -44,17 +44,23 @@ NSInteger const PNLiteResponseStatusRequestNotFound = 404;
 
 - (void)dealloc {
     self.delegate = nil;
+    self.urlString = nil;
+    self.trackingType = nil;
 }
 
-- (void)trackAdWithDelegate:(NSObject<HyBidAdTrackerRequestDelegate> *)delegate withURL:(NSString *)url {
+- (void)trackAdWithDelegate:(NSObject<HyBidAdTrackerRequestDelegate> *)delegate
+                    withURL:(NSString *)url
+           withTrackingType:(NSString *)trackingType{
     if(!delegate) {
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd)withMessage:@"Given delegate is nil and required, droping this call."];
     } else if(!url || url.length == 0) {
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd)withMessage:@"URL nil or empty, droping this call."];
     } else {
         self.delegate = delegate;
+        self.urlString = url;
+        self.trackingType = trackingType;
         [self invokeDidStart];
-        [[PNLiteHttpRequest alloc] startWithUrlString:url withMethod:@"GET" delegate:self];
+        [[PNLiteHttpRequest alloc] startWithUrlString:url withMethod:@"GET" delegate:self withTrackingType:trackingType];
     }
 }
 
@@ -86,6 +92,8 @@ NSInteger const PNLiteResponseStatusRequestNotFound = 404;
 #pragma mark PNLiteHttpRequestDelegate
 
 - (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode {
+    self.urlString = request.urlString;
+    self.trackingType = request.trackingType;
     if(PNLiteResponseStatusRequestNotFound == statusCode) {
         NSError *statusError = [NSError hyBidServerError];
         [self invokeDidFail:statusError];
@@ -95,6 +103,8 @@ NSInteger const PNLiteResponseStatusRequestNotFound = 404;
 }
 
 - (void)request:(PNLiteHttpRequest *)request didFailWithError:(NSError *)error {
+    self.urlString = request.urlString;
+    self.trackingType = request.trackingType;
     [self invokeDidFail:error];
 }
 
