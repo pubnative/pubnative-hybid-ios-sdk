@@ -8,7 +8,7 @@ All the documentation is located under the [GitHub wiki](https://github.com/pubn
 
 ### License
 
-This code is distributed under the terms and conditions of the MIT license.
+This code is distributed under the terms and conditions of the HyBid SDK license.
 
 ### Contributing
 
