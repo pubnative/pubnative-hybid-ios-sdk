@@ -1,9 +1,7 @@
+// 
+// HyBid SDK License
 //
-//  XMLDictionary.h
-//  HyBid
-//
-//  Created by Eros Garcia Ponte on 25.03.20.
-//  Copyright © 2020 Can Soykarafakili. All rights reserved.
+// https://github.com/pubnative/pubnative-hybid-ios-sdk/blob/main/LICENSE
 //
 
 #import <Foundation/Foundation.h>

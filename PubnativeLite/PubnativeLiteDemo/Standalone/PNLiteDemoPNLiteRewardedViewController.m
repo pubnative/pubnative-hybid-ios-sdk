@@ -1,9 +1,7 @@
+// 
+// HyBid SDK License
 //
-//  PNLiteDemoPNLiteRewardedViewController.m
-//  HyBid
-//
-//  Created by Orkhan Alizada on 16.10.20.
-//  Copyright © 2020 Can Soykarafakili. All rights reserved.
+// https://github.com/pubnative/pubnative-hybid-ios-sdk/blob/main/LICENSE
 //
 
 #import "PNLiteDemoPNLiteRewardedViewController.h"
