@@ -10,3 +10,4 @@
 #import "PNLiteResponseModel.h"
 #import "HyBidVASTParser.h"
 #import "HyBidXMLEx.h"
+#import "AnalyticsDetailViewController.h"

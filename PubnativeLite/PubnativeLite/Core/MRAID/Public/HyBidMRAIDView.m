@@ -31,7 +31,9 @@
 
 #import "HyBidSkipOverlay.h"
 #import "HyBidTimerState.h"
+#import <StoreKit/StoreKit.h>
 #import "UIApplication+PNLiteTopViewController.h"
+#import "HyBidSKAdNetworkViewController.h"
 
 #define SYSTEM_VERSION_LESS_THAN(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
@@ -50,7 +52,7 @@ typedef enum {
     PNLiteMRAIDStateHidden
 } PNLiteMRAIDState;
 
-@interface HyBidMRAIDView () <WKNavigationDelegate, WKUIDelegate, PNLiteMRAIDModalViewControllerDelegate, UIGestureRecognizerDelegate, HyBidContentInfoViewDelegate, HyBidSkipOverlayDelegate, HyBidInterruptionDelegate, HyBidURLRedirectorDelegate>
+@interface HyBidMRAIDView () <WKNavigationDelegate, WKUIDelegate, PNLiteMRAIDModalViewControllerDelegate, UIGestureRecognizerDelegate, HyBidContentInfoViewDelegate, HyBidSkipOverlayDelegate, SKStoreProductViewControllerDelegate, HyBidURLRedirectorDelegate>
 {
     PNLiteMRAIDState state;
     // This corresponds to the MRAID placement type.
@@ -101,6 +103,8 @@ typedef enum {
     UITapGestureRecognizer *tapGestureRecognizer;
     BOOL bonafideTapObserved; //supressing redirect from banners
     BOOL tapObserved; // observing taps on MRAID (specifically for taps on endcard)
+    BOOL isStoreViewControllerPresented;
+    BOOL isStoreViewControllerBeingPresented;
     BOOL startedFromTap;
     
     NSString* urlFromMraidOpen;
@@ -151,9 +155,14 @@ typedef enum {
 @property (nonatomic, strong) HyBidSkipOverlay *skipOverlay;
 @property (nonatomic, assign) HyBidCountdownStyle countdownStyle;
 @property (nonatomic, strong) HyBidAd *ad;
+@property (nonatomic, assign) BOOL isFeedbackScreenShown;
+@property (nonatomic, assign) BOOL isSKStoreKitVisible;
+@property (nonatomic, assign) BOOL isInternalWebBrowserVisible;
 @property (nonatomic, assign) BOOL willShowFeedbackScreen;
 @property (nonatomic, strong) HyBidSkipOffset *nativeCloseButtonDelay;
 @property (nonatomic, assign) BOOL creativeAutoStorekitEnabled;
+@property (nonatomic, strong) SKStoreProductViewController *storeViewController;
+@property (nonatomic, assign) BOOL productLoadSuccessful;
 @property (nonatomic, strong) NSString *landingPageTemplateScript;
 @property (nonatomic, assign) int landingpageCloseDelay;
 @property (nonatomic, strong) NSTimer *landingpageTimer;
@@ -202,8 +211,7 @@ CGFloat secondsToWaitForCustomCloseValue = 0.5;
  rootViewController:(UIViewController *)rootViewController
         contentInfo:(HyBidContentInfoView *)contentInfo
          skipOffset:(NSInteger)skipOffset
-          isEndcard:(BOOL)isEndcardPresented
-shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
+          isEndcard:(BOOL)isEndcardPresented {
     return [self initWithFrame:frame
                   withHtmlData:htmlData
                    withBaseURL:bsURL
@@ -216,8 +224,7 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
             rootViewController:rootViewController
                    contentInfo:contentInfo
                     skipOffset:skipOffset
-                     isEndcard:isEndcardPresented
-     shouldHandleInterruptions:shouldHandleInterruptions];
+                     isEndcard:isEndcardPresented];
 }
 
 // designated initializer
@@ -233,8 +240,7 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
  rootViewController:(UIViewController *)rootViewController
         contentInfo:(HyBidContentInfoView *)contentInfo
          skipOffset:(NSInteger)skipOffset
-          isEndcard:(BOOL)isEndcardPresented
-shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
+          isEndcard:(BOOL)isEndcardPresented {
     self = [super initWithFrame:frame];
     if (self) {
         [self setUpTapGestureRecognizer];
@@ -253,6 +259,8 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
         _isViewable = NO;
         useCustomClose = NO;
         tapObserved = NO;
+        isStoreViewControllerPresented = NO;
+        isStoreViewControllerBeingPresented = NO;
         _skipOffset = skipOffset;
         isExpanded = NO;
 
@@ -318,8 +326,8 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
             bonafideTapObserved = YES;  // no autoRedirect suppression for Interstitials
         }
         
+        [self addObservers];
         buttonSize = [HyBidCloseButton buttonDefaultSize];
-        if (shouldHandleInterruptions) { HyBidInterruptionHandler.shared.delegate = self; }
         
         self.landingpageBehaviour = HyBidLandingBehaviourTypeCountdown;
         self.landingpageCloseDelay = landingPageSecondsToCloseAdDelay;
@@ -351,6 +359,91 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
     } else {
         self.creativeAutoStorekitEnabled = HyBidConstants.creativeAutoStorekitEnabled;
     }
+}
+
+
+- (void)addObservers {
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(applicationDidBecomeActive:)
+                                                 name: UIApplicationDidBecomeActiveNotification
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(applicationWillResignActive:)
+                                                 name: UIApplicationWillResignActiveNotification
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(feedbackScreenWillShow:)
+                                                 name: @"adFeedbackViewWillShow"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(feedbackScreenDidShow:)
+                                                 name: @"adFeedbackViewDidShow"
+                                               object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(feedbackScreenIsDismissed:)
+                                                 name: @"adFeedbackViewIsDismissed"
+                                               object: nil];
+    
+    [HyBidNotificationCenter.shared addObserver: self
+                                       selector: @selector(skStoreProductViewIsPresented:)
+                               notificationType: HyBidNotificationTypeSKStoreProductViewIsShown
+                                         object: nil];
+    
+    [HyBidNotificationCenter.shared addObserver: self
+                                       selector: @selector(skStoreProductViewIsDismissed:)
+                               notificationType: HyBidNotificationTypeSKStoreProductViewIsDismissed
+                                         object: nil];
+}
+
+- (void)applicationDidBecomeActive:(NSNotification *)notification {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (!self.isFeedbackScreenShown && !self.isSKStoreKitVisible && !self.isInternalWebBrowserVisible) {
+            [self playCountdownView];
+            [self playCloseButtonDelay];
+        }
+    });
+}
+
+- (void)applicationWillResignActive:(NSNotification *)notification {
+    [self pauseCountdownView];
+    [self pauseCloseButtonDelay];
+}
+
+-(void)feedbackScreenWillShow:(NSNotification *)notification {
+    self.willShowFeedbackScreen = YES;
+}
+- (void)feedbackScreenDidShow:(NSNotification *)notification {
+    self.isFeedbackScreenShown = YES;
+    [self pauseCountdownView];
+    [self pauseCloseButtonDelay];
+}
+
+- (void)skStoreProductViewIsDismissed:(NSNotification *)notification {
+    self.isSKStoreKitVisible = NO;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (!self.isFeedbackScreenShown) {
+            [self playCountdownView];
+            [self playCloseButtonDelay];
+        }
+    });
+}
+
+- (void)skStoreProductViewIsPresented:(NSNotification *)notification {
+    self.isSKStoreKitVisible = YES;
+    if (!self.isFeedbackScreenShown) {
+        [self pauseCountdownView];
+        [self pauseCloseButtonDelay];
+    }
+}
+
+- (void)feedbackScreenIsDismissed:(NSNotification *)notification {
+    self.isFeedbackScreenShown = NO;
+    [self playCountdownView];
+    [self playCloseButtonDelay];
 }
 
 - (void)playCountdownView {
@@ -481,8 +574,8 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
     self.serviceDelegate = nil;
     self.ad = nil;
     self.skipOverlay = nil;
+    self.isFeedbackScreenShown = nil;
     self.nativeCloseButtonDelay = nil;
-    self.urlStringForEndCardTracking = nil;
     [self invalidateCloseButtonOffsetTimer];
     self.landingPageTemplateScript = nil;
     self.landingpageTimer = nil;
@@ -952,7 +1045,7 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
     }
     
     // Avoid opening multiple Store ViewControllers
-    if ([HyBidSKAdNetworkViewController.shared isSKProductViewControllerPresented]) {
+    if (isStoreViewControllerPresented || isStoreViewControllerBeingPresented) {
         [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Suppressing an attempt to manual/auto click when task is not finished yet"];
         return;
     }
@@ -1521,6 +1614,21 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
     }
 }
 
+- (void)pauseUserInterfaceElementsForInternalWebBrowser {
+    [self pauseCountdownView];
+    [self pauseCloseButtonDelay];
+}
+
+- (void)resumeUserInterfaceElementsForInternalWebBrowser {
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (!self.isFeedbackScreenShown) {
+            [weakSelf playCountdownView];
+            [weakSelf playCloseButtonDelay];
+        }
+    });
+}
+
 #pragma mark - native -->  JavaScript support
 
 - (void)injectJavaScript:(NSString *)js {
@@ -1858,7 +1966,7 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
                                 decisionHandler(WKNavigationActionPolicyCancel);
                                 return;
                             }
-                            if (!HyBidSKAdNetworkViewController.shared.isSKProductViewControllerPresented && !isExpanded) {
+                            if (!isStoreViewControllerPresented && !isExpanded) {
                                 [self.delegate mraidViewNavigate:self withURL:url];
                                 decisionHandler(WKNavigationActionPolicyCancel);
                                 return;
@@ -2062,7 +2170,7 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
 }
 
 - (void)openAppStoreWithAppID:(NSString *)urlString {
-    if ([HyBidSKAdNetworkViewController.shared isSKProductViewControllerPresented]) {
+    if (isStoreViewControllerPresented || isStoreViewControllerBeingPresented) {
         return; // Return early if the Store VC is already being presented
     }
     if ([self.ad.sdkAutoStorekitEnabled boolValue]){
@@ -2073,9 +2181,18 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
     NSString* appID = [self extractAppIDFromAppStoreURL:urlString];
     if (appID) {
         NSDictionary *parameters = @{SKStoreProductParameterITunesItemIdentifier: appID};
-        [HyBidSKAdNetworkViewController.shared presentSKStoreProductViewControllerWithProductParameters:parameters adFormat:isInterstitial ? HyBidReportingAdFormat.FULLSCREEN : HyBidReportingAdFormat.BANNER isAutoSKPVC:NO];
-        self.urlStringForEndCardTracking = urlString;
+        HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters: parameters delegate: self];
+        isStoreViewControllerBeingPresented = YES;
+        [skAdnetworkViewController presentSKStoreProductViewController:^(BOOL success) {
+            if (success) {
+                [self doTrackingEndcardWithUrlString:urlString];
+                isStoreViewControllerPresented = YES;
+                [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"StoreKit from CREATIVE is presented"]];
+            }
+        }];
+        isStoreViewControllerBeingPresented = NO;
     } else {
+        isStoreViewControllerBeingPresented = NO;
         [self openBrowserWithURLString:urlString];
     }
 }
@@ -2123,29 +2240,39 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
     
 }
 
-#pragma mark HyBidInterruptionDelegate
+#pragma mark SKStoreProductViewControllerDelegate
 
-- (void)adHasFocus {
-    if (modalVC != nil) {
-        [self playCountdownView];
-        [self playCloseButtonDelay];
+// Delegate method when Store VC is dismissed
+- (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
+    if ([HyBidSDKConfig sharedConfig].reporting) {
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.STOREKIT_PRODUCT_VIEW_DISMISS adFormat:isInterstitial ? HyBidReportingAdFormat.FULLSCREEN : HyBidReportingAdFormat.BANNER properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
     }
+    isStoreViewControllerPresented = NO;
+    self.isSKStoreKitVisible = NO;
+    [HyBidNotificationCenter.shared post: HyBidNotificationTypeSKStoreProductViewIsDismissed object: self.ad userInfo: nil];
 }
 
-- (void)adHasNoFocus {
-    if (modalVC != nil) {
-        [self pauseCountdownView];
-        [self pauseCloseButtonDelay];
-    }
+#pragma mark HyBidInternalWebBrowserDelegate
+
+- (void)internalWebBrowserWillShow {
+    [self pauseUserInterfaceElementsForInternalWebBrowser];
 }
 
-- (void)feedbackViewWillShow {
-    self.willShowFeedbackScreen = YES;
+- (void)internalWebBrowserDidShow {
+    [self setIsInternalWebBrowserVisible:YES];
 }
 
-- (void)productViewControllerDidShow {
-    [self doTrackingEndcardWithUrlString:self.urlStringForEndCardTracking];
-    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"StoreKit from CREATIVE is presented"]];
+- (void)internalWebBrowserDidFail {
+    [self resumeUserInterfaceElementsForInternalWebBrowser];
+}
+
+- (void)internalWebBrowserWillDismiss {
+    [self resumeUserInterfaceElementsForInternalWebBrowser];
+}
+
+- (void)internalWebBrowserDidDismiss {
+    [self setIsInternalWebBrowserVisible:NO];
 }
 
 @end

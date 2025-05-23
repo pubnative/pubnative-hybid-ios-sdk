@@ -41,6 +41,7 @@ public class HyBidCustomCTAView: UIView {
     private var topViewController: UIViewController?
     private weak var delayTimer: Timer?
     private var remainingSecondsToShow = 0
+    private var elementsBlockingAdFocus = 0
     private var iconURL: URL?
     private var isIconError = false
     private weak var delegate: HyBidCustomCTAViewDelegate?
@@ -105,7 +106,6 @@ public class HyBidCustomCTAView: UIView {
         UIView.animate(withDuration: 0.5) { [weak self] in
             guard let self else { return }
             self.setPositionConstraint(type: .rightAnchor, viewController: topViewController, constant: -self.ctaRightPadding)
-            HyBidInterruptionHandler.shared.overlappingElementDelegate = self;
             
             guard let adFormat = self.adFormat else { return }
             if HyBidSDKConfig.sharedConfig.reporting == true {
@@ -210,7 +210,6 @@ public class HyBidCustomCTAView: UIView {
     }
     
     @IBAction func openOffer() {
-        HyBidInterruptionHandler.shared.overlappingElementDelegate = self;
         self.delegate?.customCTADidClick()
     }
 }
@@ -227,7 +226,6 @@ extension HyBidCustomCTAView {
         NotificationCenter.default.removeObserver(self)
         self.invalidateTimer()
         self.removeFromSuperview()
-        HyBidInterruptionHandler.shared.overlappingElementDelegate = nil
     }
     
     @objc(changeDelegateFor:)
@@ -331,18 +329,43 @@ extension HyBidCustomCTAView {
         NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange),
                                                name: UIDevice.orientationDidChangeNotification,
                                                object: nil)
-        HyBidInterruptionHandler.shared.overlappingElementDelegate = self
-    }
-}
+        NotificationCenter.default.addObserver(self, selector: #selector(adHasNotFocus),
+                                               name: UIApplication.willResignActiveNotification,
+                                               object: nil)
+        HyBidNotificationCenter.shared.addObserver(self, selector: #selector(adHasNotFocus),
+                                                   notificationType: .AdFeedbackViewDidShow,
+                                                   object: nil)
+        HyBidNotificationCenter.shared.addObserver(self, selector: #selector(adHasNotFocus),
+                                                   notificationType: .SKStoreProductViewIsShown,
+                                                   object: nil)
+        HyBidNotificationCenter.shared.addObserver(self, selector: #selector(adHasNotFocus),
+                                                   notificationType: .InternalWebBrowserDidShow,
+                                                   object: nil)
 
-//MARK: - Observers
-extension HyBidCustomCTAView: HyBidInterruptionDelegate {
-    
-    public func adHasFocus() {
-        updateCustomCTATimer(state: .start)
+        NotificationCenter.default.addObserver(self, selector: #selector(adMayHaveFocus),
+                                               name: UIApplication.didBecomeActiveNotification,
+                                               object: nil)
+        HyBidNotificationCenter.shared.addObserver(self, selector: #selector(adMayHaveFocus),
+                                                   notificationType: .AdFeedbackViewIsDismissed,
+                                                   object: nil)
+        HyBidNotificationCenter.shared.addObserver(self, selector: #selector(adMayHaveFocus),
+                                                   notificationType: .SKStoreProductViewIsDismissed,
+                                                   object: nil)
+        HyBidNotificationCenter.shared.addObserver(self, selector: #selector(adMayHaveFocus),
+                                                   notificationType: .InternalWebBrowserDidDismissed,
+                                                   object: nil)
+
     }
     
-    public func adHasNoFocus() {
+    @objc private func adHasNotFocus() {
         updateCustomCTATimer(state: .pause)
+        elementsBlockingAdFocus += 1
+    }
+    
+    @objc private func adMayHaveFocus() {
+        elementsBlockingAdFocus -= 1
+        if elementsBlockingAdFocus == 0 {
+            updateCustomCTATimer(state: .start)
+        }
     }
 }

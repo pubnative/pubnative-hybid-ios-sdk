@@ -117,6 +117,7 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import "HyBidConfigManager.h"
 #import "NSUserDefaults+HyBidCustomMethods.h"
 #import "HyBidSKOverlayDelegate.h"
+#import "HyBidInternalWebBrowserDelegate.h"
 
 // For swift compatibility, we are making this file public instead of private
 // Avoid using custom module map
@@ -125,7 +126,6 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import "HyBidVASTEventProcessor.h"
 #import "HyBidVASTImpression.h"
 #import "UIApplication+PNLiteTopViewController.h"
-#import "HyBidAdFeedbackViewDelegate.h"
 
 @class HyBidTargetingModel;
 @class HyBidReportingManager;

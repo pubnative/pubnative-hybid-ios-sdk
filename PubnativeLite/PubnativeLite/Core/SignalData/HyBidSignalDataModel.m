@@ -18,12 +18,10 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super initWithDictionary:dictionary];
     if (self) {
-        if ([dictionary isKindOfClass:[NSDictionary class]]) {
-            self.status = dictionary[@"status"];
-            self.tagid = dictionary[@"tagid"];
-            self.admurl = dictionary[@"admurl"];
-            self.adm = [[PNLiteResponseModel alloc] initWithDictionary:dictionary[@"adm"]];
-        }
+        self.status = dictionary[@"status"];
+        self.tagid = dictionary[@"tagid"];
+        self.admurl = dictionary[@"admurl"];
+        self.adm = [[PNLiteResponseModel alloc] initWithDictionary:dictionary[@"adm"]];
     }
     return self;
 }

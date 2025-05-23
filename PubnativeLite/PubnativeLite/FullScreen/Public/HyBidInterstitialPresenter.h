@@ -25,6 +25,7 @@
 - (void)interstitialPresenterDidFinish:(HyBidInterstitialPresenter *)interstitialPresenter;
 - (void)interstitialPresenterDidAppear:(HyBidInterstitialPresenter *)interstitialPresenter;
 - (void)interstitialPresenterDidDisappear:(HyBidInterstitialPresenter *)interstitialPresenter;
+- (void)interstitialPresenterPresentsSKOverlay:(HyBidInterstitialPresenter *)interstitialPresenter;
 - (void)interstitialPresenterDismissesSKOverlay:(HyBidInterstitialPresenter *)interstitialPresenter;
 - (void)interstitialPresenterDismissesCustomCTA:(HyBidInterstitialPresenter *)interstitialPresenter;
 - (void)interstitialPresenterWillPresentEndCard:(HyBidInterstitialPresenter *)interstitialPresenter

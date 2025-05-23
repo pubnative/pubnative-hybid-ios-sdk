@@ -11,7 +11,7 @@ public class HyBidConstants: NSObject {
     
     @objc public static let HYBID_SDK_NAME = "HyBid"
     @objc public static let HYBID_OMSDK_VERSION = "1.5.2"
-    @objc public static let HYBID_SDK_VERSION = "3.6.1-beta1"
+    @objc public static let HYBID_SDK_VERSION = "3.6.1-beta2"
     @objc public static let HYBID_OMSDK_IDENTIFIER = "Pubnativenet"
     
     //Rendering Constants
@@ -30,7 +30,6 @@ public class HyBidConstants: NSObject {
     @objc public static var pcVideoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_PC_VIDEO_SKIP_OFFSET), isCustom: false)
     @objc public static var interstitialActionBehaviour: HyBidInterstitialActionBehaviour = HB_CREATIVE
     @objc public static var endCardCloseOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_END_CARD_CLOSE_OFFSET), isCustom: false)
-    @objc public static var endCardCloseMaxOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_END_CARD_CLOSE_MAX_OFFSET), isCustom: false)
     @objc public static var nativeCloseButtonOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_NATIVE_CLOSE_BUTTON_OFFSET), isCustom: false)
     @objc public static var audioStatus: HyBidAudioStatus = HyBidAudioStatusON
     @objc public static var creativeAutoStorekitEnabled: Bool = false

@@ -191,38 +191,33 @@ private typealias HyBidAdSettingsDictionary = Dictionary<String,Any>
     }
     
     public func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        guard let headerView = view as? UITableViewHeaderFooterView else { return }
-        headerView.contentView.subviews.forEach { subview in
-            if let button = subview as? UIButton, button.accessibilityLabel?.contains("Clean Button") == true {
-                button.removeFromSuperview()
-            }
-        }
-        
-        if !adSettings[section].isEmpty, adSettings[section].contains(where: { $0.cellType == .dictionaryFieldCell && $0.remoteConfigName == HyBidAdCustomizationKeys.skAdNetworkModelInputValue.rawValue }) {
+        if !adSettings[section].isEmpty, adSettings[section].contains(where: {$0.cellType == .dictionaryFieldCell && $0.remoteConfigName == HyBidAdCustomizationKeys.skAdNetworkModelInputValue.rawValue}){
             
-            guard let row = adSettings[section].firstIndex(where: { $0.cellType == .dictionaryFieldCell && $0.remoteConfigName == HyBidAdCustomizationKeys.skAdNetworkModelInputValue.rawValue }) else { return }
-            
+            guard let row = adSettings[section].firstIndex(where: {$0.cellType == .dictionaryFieldCell && $0.remoteConfigName == HyBidAdCustomizationKeys.skAdNetworkModelInputValue.rawValue }) else { return }
             let indexPath = IndexPath(row: row, section: section)
             
+            let sectionHeaderView = tableView.headerView(forSection: section)
+            let clearTextButtonframe = CGRect(x: view.frame.size.width - 100, y: 0, width: 100, height: view.frame.size.height)
+
             let clearTextButton = UIButton(type: .system)
+            clearTextButton.frame = clearTextButtonframe
             clearTextButton.tag = section * 1000 + indexPath.row
             clearTextButton.accessibilityLabel = "Clean Button " + adSettings[section][row].remoteConfigName
             clearTextButton.accessibilityValue = "Clean Button " + adSettings[section][row].remoteConfigName
             clearTextButton.isAccessibilityElement = true
-            //in order to make clearTextButton visible
+            //in order to make clearTextButton visible 
             view.isAccessibilityElement = false
             clearTextButton.setTitle("Clean", for: .normal)
             clearTextButton.addTarget(self, action: #selector(cleanTextView), for: .touchUpInside)
             
-            clearTextButton.translatesAutoresizingMaskIntoConstraints = false
-            headerView.contentView.addSubview(clearTextButton)
+            view.addSubview(clearTextButton)
             
-            NSLayoutConstraint.activate([
-                clearTextButton.centerYAnchor.constraint(equalTo: headerView.contentView.centerYAnchor),
-                clearTextButton.trailingAnchor.constraint(equalTo: headerView.contentView.trailingAnchor, constant: -10),
-                clearTextButton.widthAnchor.constraint(equalToConstant: 80),
-                clearTextButton.heightAnchor.constraint(equalToConstant: 30)
-            ])
+            clearTextButton.translatesAutoresizingMaskIntoConstraints = false
+            let verticalConstraint = clearTextButton.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            let trailingConstraint = clearTextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            let widthConstraint = clearTextButton.widthAnchor.constraint(equalToConstant: clearTextButtonframe.width)
+            let heightConstraint = clearTextButton.heightAnchor.constraint(equalToConstant: clearTextButtonframe.height)
+            view.addConstraints([verticalConstraint, trailingConstraint, widthConstraint, heightConstraint])
         }
     }
 

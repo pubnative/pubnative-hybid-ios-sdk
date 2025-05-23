@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "HyBid"
-  s.version      = "3.6.1-beta1"
+  s.version      = "3.6.1-beta2"
   s.summary      = "This is the iOS SDK of HyBid. You can read more about it at https://pubnative.net."
   s.description = <<-DESC
                      HyBid leverages first-look prebid technology to maximize yield for the publishers across
@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
                    DESC
   s.homepage     = "https://github.com/pubnative/pubnative-hybid-ios-sdk"
   s.documentation_url = "https://developers.verve.com/v3.0/docs/hybid"
-  s.license             = { :type => "Custom", :text => <<-LICENSE
+  s.license             = { :type => "HyBid SDK License", :text => <<-LICENSE
     HyBid SDK License Terms ("License Terms")
 
 These License Terms apply to the Software (as defined below) provided by Verve Group Europe
@@ -182,7 +182,7 @@ regard to the Software is limited or excluded as follows:
   s.platform     = :ios
 
   s.ios.deployment_target = "12.0"
-  s.source       = { :git => "https://github.com/pubnative/pubnative-hybid-ios-sdk.git", :tag => "3.6.1-beta1" }
+  s.source       = { :git => "https://github.com/pubnative/pubnative-hybid-ios-sdk.git", :tag => "3.6.1-beta2" }
   s.resource_bundle = {
     "#{s.module_name}Resources" => "PubnativeLite/PubnativeLite/PrivacyInfo.xcprivacy"
   }

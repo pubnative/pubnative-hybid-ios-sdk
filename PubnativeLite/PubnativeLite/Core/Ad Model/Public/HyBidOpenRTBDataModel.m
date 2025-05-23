@@ -20,27 +20,25 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super initWithDictionary:dictionary];
     if (self) {
-        if ([dictionary isKindOfClass:[NSDictionary class]]) {
-            if (dictionary[@"data"] != nil) {
-                NSMutableDictionary *newDict = [NSMutableDictionary dictionary];
-                self.type = dictionary[@"data"][@"label"];
-                
-                id value = dictionary[@"data"][@"value"];
-                [newDict setObject:value forKey:([self.type isEqual: @"rating"] ? @"number" : @"text")];
-                [newDict removeObjectForKey:@"value"];
-                
-                self.data = newDict;
-            } else if (dictionary[@"img"] != nil) {
-                NSDictionary *typeDict = @{@1: @"icon", @3: @"banner"};
-                self.type = typeDict[dictionary[@"img"][@"type"]];
-                self.data = dictionary[@"img"];
-            } else if (dictionary[@"title"] != nil) {
-                self.type = @"title";
-                self.data = dictionary[@"title"];
-            } else if (dictionary[@"skadn"] != nil) {
-                self.type = [PNLiteMeta skadnetwork];
-                self.data = dictionary[@"skadn"];
-            }
+        if (dictionary[@"data"] != nil) {
+            NSMutableDictionary *newDict = [NSMutableDictionary dictionary];
+            self.type = dictionary[@"data"][@"label"];
+            
+            id value = dictionary[@"data"][@"value"];
+            [newDict setObject:value forKey:([self.type isEqual: @"rating"] ? @"number" : @"text")];
+            [newDict removeObjectForKey:@"value"];
+            
+            self.data = newDict;
+        } else if (dictionary[@"img"] != nil) {
+            NSDictionary *typeDict = @{@1: @"icon", @3: @"banner"};
+            self.type = typeDict[dictionary[@"img"][@"type"]];
+            self.data = dictionary[@"img"];
+        } else if (dictionary[@"title"] != nil) {
+            self.type = @"title";
+            self.data = dictionary[@"title"];
+        } else if (dictionary[@"skadn"] != nil) {
+            self.type = [PNLiteMeta skadnetwork];
+            self.data = dictionary[@"skadn"];
         }
     }
     return self;

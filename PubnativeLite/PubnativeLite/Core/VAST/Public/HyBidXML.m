@@ -344,18 +344,13 @@
 		
 		// ignore tags that start with ? or ! unless cdata "<![CDATA"
 		if (*elementNameStart == '?' || (*elementNameStart == '!' && isCDATA != 0)) {
-            if (elementEnd && elementEnd+1) {
-                elementStart = elementEnd+1;
-            }
+			elementStart = elementEnd+1;
 			continue;
 		}
 		
 		// ignore attributes/text if this is a closing element
 		if (*elementNameStart == '/') {
-            if (elementEnd && elementEnd+1) {
-                elementStart = elementEnd+1;
-            }
-
+			elementStart = elementEnd+1;
 			if (parentXMLElement) {
 
 				if (parentXMLElement->text) {
@@ -532,16 +527,14 @@
 		// if tag is not self closing, set parent to current element
 		if (!selfClosingElement) {
 			// set text on element to element end+1
-			if (elementEnd && elementEnd+1 && *(elementEnd+1) != '>')
-                xmlElement->text = elementEnd+1;
+			if (*(elementEnd+1) != '>')
+				xmlElement->text = elementEnd+1;
 			
 			parentXMLElement = xmlElement;
 		}
 		
 		// start looking for next element after end of current element
-        if (elementEnd && elementEnd+1) {
-            elementStart = elementEnd+1;
-        }
+		elementStart = elementEnd+1;
 	}
 }
 

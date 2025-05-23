@@ -13,10 +13,12 @@
 #import "HyBidAdImpression.h"
 #import "UIApplication+PNLiteTopViewController.h"
 #import <WebKit/WebKit.h>
+#import "HyBidSKAdNetworkViewController.h"
 #import "HyBidURLDriller.h"
 #import "HyBid.h"
 #import "HyBidSKAdNetworkParameter.h"
 #import "HyBidCustomClickUtil.h"
+#import "HyBidSKAdNetworkViewController.h"
 #import "HyBidStoreKitUtils.h"
 #import "PNLiteData.h"
 
@@ -35,7 +37,7 @@
 NSString * const PNLiteNativeAdBeaconImpression = @"impression";
 NSString * const PNLiteNativeAdBeaconClick = @"click";
 
-@interface HyBidNativeAd () <PNLiteImpressionTrackerDelegate, HyBidContentInfoViewDelegate, HyBidURLDrillerDelegate, HyBidInterruptionDelegate>
+@interface HyBidNativeAd () <PNLiteImpressionTrackerDelegate, HyBidContentInfoViewDelegate, HyBidURLDrillerDelegate, SKStoreProductViewControllerDelegate, HyBidInternalWebBrowserDelegate>
 
 @property (nonatomic, strong) PNLiteImpressionTracker *impressionTracker;
 @property (nonatomic, strong) NSDictionary *trackingExtras;
@@ -80,7 +82,6 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
     if (self) {
         self.ad = ad;
         self.sessionReportingProperties = [NSMutableDictionary new];
-        HyBidInterruptionHandler.shared.delegate = self;
     }
     return self;
 }
@@ -380,8 +381,12 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
             
             if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams]) {
                 [[HyBidURLDriller alloc] startDrillWithURLString:self.clickUrl delegate:self];
-                
-                [HyBidSKAdNetworkViewController.shared presentSKStoreProductViewControllerWithProductParameters:[HyBidStoreKitUtils cleanUpProductParams:productParams] adFormat:HyBidReportingAdFormat.NATIVE isAutoSKPVC:NO];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters: [HyBidStoreKitUtils cleanUpProductParams:productParams] delegate: self];
+                    [skAdnetworkViewController presentSKStoreProductViewController:^(BOOL success) {
+                        
+                    }];
+                });
             } else {
                 [self openBrowser:self.clickUrl navigationType:self.ad.navigationMode];
             }
@@ -396,7 +401,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
     HyBidWebBrowserNavigation navigation = [HyBidInternalWebBrowserNavigationController.shared webBrowserNavigationBehaviourFromString: navigationType];
     
     if (navigation == HyBidWebBrowserNavigationInternal) {
-        [HyBidInternalWebBrowserNavigationController.shared navigateToURL:url];
+        [HyBidInternalWebBrowserNavigationController.shared navigateToURL:url delegate:self];
     } else {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url] options:@{} completionHandler:nil];
     }
@@ -668,6 +673,15 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
 - (void)invokeDidClick {
     if (self.delegate && [self.delegate respondsToSelector:@selector(nativeAdDidClick:)]) {
         [self.delegate nativeAdDidClick:self];
+    }
+}
+
+#pragma mark SKStoreProductViewControllerDelegate
+
+- (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
+    if ([HyBidSDKConfig sharedConfig].reporting) {
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.STOREKIT_PRODUCT_VIEW_DISMISS adFormat:HyBidReportingAdFormat.NATIVE properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
     }
 }
 

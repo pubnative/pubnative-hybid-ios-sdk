@@ -17,9 +17,7 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super initWithDictionary:dictionary];
     if (self) {
-        if ([dictionary isKindOfClass:[NSDictionary class]]) {
-            self.appLevel = [NSMutableArray arrayWithArray:[HyBidDataModel parseArrayValues:dictionary[@"app_level"]]];
-        }
+        self.appLevel = [NSMutableArray arrayWithArray:[HyBidDataModel parseArrayValues:dictionary[@"app_level"]]];
     }
     return self;
 }

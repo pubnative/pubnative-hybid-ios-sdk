@@ -9,6 +9,7 @@
 #import "HyBidMRAIDServiceDelegate.h"
 #import "HyBidMRAIDServiceProvider.h"
 #import "UIApplication+PNLiteTopViewController.h"
+#import "HyBidSKAdNetworkViewController.h"
 #import "HyBidURLDriller.h"
 #import "HyBidError.h"
 #import "HyBid.h"
@@ -25,7 +26,7 @@
     #import "HyBid-Swift.h"
 #endif
 
-@interface PNLiteMRAIDInterstitialPresenter() <HyBidMRAIDViewDelegate, HyBidMRAIDServiceDelegate, HyBidURLDrillerDelegate, HyBidInterruptionDelegate>
+@interface PNLiteMRAIDInterstitialPresenter() <HyBidMRAIDViewDelegate, HyBidMRAIDServiceDelegate, HyBidURLDrillerDelegate, SKStoreProductViewControllerDelegate>
 
 @property (nonatomic, strong) HyBidMRAIDServiceProvider *serviceProvider;
 @property (nonatomic, retain) HyBidMRAIDView *mraidView;
@@ -67,8 +68,7 @@
                                         rootViewController:[UIApplication sharedApplication].topViewController
                                                contentInfo:self.adModel.contentInfo
                                                 skipOffset:_skipOffset
-                                                 isEndcard:NO
-                                 shouldHandleInterruptions:YES];
+                                                 isEndcard:NO];
 }
 
 - (void)show {
@@ -98,8 +98,14 @@
         
         if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams]) {
             [[HyBidURLDriller alloc] startDrillWithURLString:url delegate:self];
-            
-            [HyBidSKAdNetworkViewController.shared presentSKStoreProductViewControllerWithProductParameters:[HyBidStoreKitUtils cleanUpProductParams:productParams] adFormat:HyBidReportingAdFormat.FULLSCREEN isAutoSKPVC:NO];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters: [HyBidStoreKitUtils cleanUpProductParams:productParams] delegate: self];
+                [skAdnetworkViewController presentSKStoreProductViewController:^(BOOL success) {
+                    if (success) {
+                        [self.delegate interstitialPresenterDidDisappear:self];
+                    }
+                }];
+            });
         } else {
             [self openBrowser:url navigationType:self.ad.navigationMode];
         }
@@ -114,7 +120,7 @@
     
     if (navigation == HyBidWebBrowserNavigationInternal) {
         if (!self.mraidView) { return; }
-        [HyBidInternalWebBrowserNavigationController.shared navigateToURL:url];
+        [HyBidInternalWebBrowserNavigationController.shared navigateToURL:url delegate:self.mraidView];
     } else {
         [self.serviceProvider openBrowser:url];
     }
@@ -181,14 +187,15 @@
     [self.serviceProvider storePicture:urlString];
 }
 
-#pragma mark HyBidInterruptionDelegate
+#pragma mark SKStoreProductViewControllerDelegate
 
-- (void)adHasFocus {
+- (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
+    if ([HyBidSDKConfig sharedConfig].reporting) {
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.STOREKIT_PRODUCT_VIEW_DISMISS adFormat:HyBidReportingAdFormat.FULLSCREEN properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
+    }
+    [HyBidNotificationCenter.shared post: HyBidNotificationTypeSKStoreProductViewIsDismissed object: nil userInfo: nil];
     [self.delegate interstitialPresenterDidAppear:self];
-}
-
-- (void)adHasNoFocus {
-    [self.delegate interstitialPresenterDidDisappear:self];
 }
 
 @end

@@ -14,6 +14,7 @@
 #import "HyBidViewabilityNativeVideoAdSession.h"
 #import <OMSDK_Pubnativenet/OMIDAdSession.h>
 #import "HyBidAd.h"
+#import "HyBidSKAdNetworkViewController.h"
 #import "HyBidURLDriller.h"
 #import "HyBidError.h"
 #import "HyBid.h"
@@ -87,7 +88,7 @@ HyBidCloseButton *closeButton;
 #define HYBID_PNLiteVAST_CLOSE_BUTTON_TAG 1001
 #define kAudioMuteSize 30
 
-@interface PNLiteVASTPlayerViewController ()<HyBidVASTEventProcessorDelegate, HyBidContentInfoViewDelegate, HyBidURLDrillerDelegate, HyBidInterruptionDelegate, HyBidVASTEndCardViewDelegate, HyBidSkipOverlayDelegate, PNLiteOrientationManagerDelegate, HyBidCustomCTAViewDelegate, HyBidSKOverlayDelegate>
+@interface PNLiteVASTPlayerViewController ()<HyBidVASTEventProcessorDelegate, HyBidContentInfoViewDelegate, HyBidURLDrillerDelegate, SKStoreProductViewControllerDelegate, HyBidVASTEndCardViewDelegate, HyBidSkipOverlayDelegate, PNLiteOrientationManagerDelegate, HyBidCustomCTAViewDelegate, HyBidSKOverlayDelegate, HyBidInternalWebBrowserDelegate>
 
 @property (nonatomic, assign) BOOL shown;
 @property (nonatomic, assign) BOOL wantsToPlay;
@@ -95,6 +96,7 @@ HyBidCloseButton *closeButton;
 @property (nonatomic, assign) BOOL fullScreen;
 @property (nonatomic, assign) BOOL isAdSessionCreated;
 @property (nonatomic, assign) BOOL endCardShown;
+@property (nonatomic, assign) BOOL isAdFeedbackViewReady;
 @property (nonatomic, assign) BOOL isMoviePlaybackFinished;
 @property (nonatomic, assign) bool isCountdownTimerStarted;
 @property (nonatomic, assign) PNLiteVASTPlayerState currentState;
@@ -153,6 +155,10 @@ HyBidCloseButton *closeButton;
 @property (nonatomic, assign) HyBidCountdownStyle countdownStyle;
 @property (nonatomic, strong) HyBidSkipOverlay *skipOverlay;
 @property (nonatomic, strong) HyBidSkipOffset *vastSkipOffset;
+@property (nonatomic, assign) BOOL isFeedbackScreenShown;
+@property (nonatomic, assign) BOOL isSkAdnetworkViewControllerIsShown;
+@property (nonatomic, assign) BOOL isInternalWebBrowserVisible;
+@property (nonatomic, assign) BOOL isInternalWebBrowserWillBeVisible;
 @property (nonatomic, strong) NSString *iconPositionX;
 @property (nonatomic, strong) NSString *iconPositionY;
 @property (nonatomic, assign) BOOL skipOverlayConstraintsAdded;
@@ -161,12 +167,12 @@ HyBidCloseButton *closeButton;
 @property (nonatomic, strong) HyBidVASTCTAButton *ctaButton;
 @property (nonatomic, strong) NSArray *vastArray;
 @property (nonatomic, strong) NSArray *vastCachedArray;
+@property (nonatomic, assign) BOOL endCardIsDisplayed;
 @property (nonatomic, strong) NSMutableArray<NSString *> *vastCompanionsClicksTracking;
 @property (nonatomic, strong) NSMutableArray<NSString *> *vastVideoClicksTracking;
 @property (nonatomic, strong) NSMutableArray<NSString *> *vastImpressions;
 @property (nonatomic, assign) BOOL hideUserInterfaceElementsForBrandExperience;
-@property (nonatomic, assign) BOOL isAutoStoreKit;
-@property (nonatomic, assign) BOOL vastPlayerHasElementOnTop;
+@property (nonatomic, assign) BOOL isDisplayingCustomEndCard;
 
 @end
 
@@ -229,6 +235,30 @@ typedef enum {
         self.vastImpressions = [[NSMutableArray alloc] init];
         self.hideUserInterfaceElementsForBrandExperience = YES;
         buttonSize = [HyBidCloseButton buttonDefaultSize];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(preparePlayerForAdFeedbackView)
+                                                     name:@"adFeedbackViewIsReady"
+                                                   object:nil];
+        
+        [HyBidNotificationCenter.shared addObserver:self
+                                           selector:@selector(feedbackScreenDidShow:)
+                                   notificationType:HyBidNotificationTypeAdFeedbackViewDidShow
+                                             object:nil];
+        
+        [HyBidNotificationCenter.shared addObserver:self
+                                           selector:@selector(feedbackScreenIsDismissed:)
+                                   notificationType:HyBidNotificationTypeAdFeedbackViewIsDismissed
+                                             object:nil];
+        
+        [HyBidNotificationCenter.shared addObserver:self
+                                           selector:@selector(internalWebBrowserDidShowNotification)
+                                   notificationType:HyBidNotificationTypeInternalWebBrowserDidShow
+                                             object:nil];
+        
+        [HyBidNotificationCenter.shared addObserver:self
+                                           selector:@selector(internalWebBrowserDidDismissNotification)
+                                   notificationType:HyBidNotificationTypeInternalWebBrowserDidDismissed
+                                             object:nil];
     }
     return self;
 }
@@ -358,7 +388,7 @@ typedef enum {
 {
     if (self.ad != nil && self.contentInfoViewContainer != nil) {
         HyBidVASTIconUtils *utils = [[HyBidVASTIconUtils alloc] init];
-        HyBidContentInfoView *contentInfoViewFromIcon = [utils parseContentInfo:icon display:[self.ad determineContentInfoDisplay] clickAction: [self.ad contentInfoIconClickAction]];
+        HyBidContentInfoView *contentInfoViewFromIcon = [utils parseContentInfo:icon];
         HyBidContentInfoView *contentInfoView = [self getContentInfoView:self.ad fromContentInfoView:contentInfoViewFromIcon];
 
         if (contentInfoView != nil) {
@@ -459,10 +489,14 @@ typedef enum {
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
-    if (self.adFormat == HyBidAdFormatBanner) {
+    if (self.adFormat == HyBidAdFormatBanner && !self.isInternalWebBrowserVisible) {
         [self stop];
     }
     self.shown = NO;
+}
+
+- (void)preparePlayerForAdFeedbackView {
+    self.isAdFeedbackViewReady = YES;
 }
 
 #pragma mark - PUBLIC -
@@ -518,12 +552,16 @@ typedef enum {
 
 - (void)stop {
     @synchronized (self) {
-        if (self.vastPlayerHasElementOnTop) {
+        if (self.isAdFeedbackViewReady || self.isInternalWebBrowserVisible) {
             if (!self.isMoviePlaybackFinished) {
                 [self setState:PNLiteVASTPlayerState_PAUSE];
                 if(self.adFormat == HyBidAdFormatBanner) {
                     self.shown = NO;
                 }
+            }
+            
+            if (self.isAdFeedbackViewReady) {
+                self.isAdFeedbackViewReady = NO;
             }
         } else {
             [self stopAdSession];
@@ -1241,15 +1279,17 @@ typedef enum {
             if (throughClickURL != nil) {
                 [[HyBidURLDriller alloc] startDrillWithURLString:throughClickURL delegate:self];
             }
-            self.isAutoStoreKit = NO;
-            [HyBidSKAdNetworkViewController.shared
-             presentSKStoreProductViewControllerWithProductParameters:[HyBidStoreKitUtils cleanUpProductParams:productParams]
-             adFormat:self.adFormat == HyBidAdFormatBanner
-             ? HyBidReportingAdFormat.BANNER
-             : self.adFormat == HyBidAdFormatInterstitial
-                ? HyBidReportingAdFormat.FULLSCREEN
-                : HyBidReportingAdFormat.REWARDED
-             isAutoSKPVC:self.isAutoStoreKit];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSDictionary *cleanProductParams = [HyBidStoreKitUtils cleanUpProductParams:productParams];
+                HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters: cleanProductParams delegate: self];
+                [skAdnetworkViewController presentSKStoreProductViewController:^(BOOL success) {
+                    if (success) {
+                        self.isSkAdnetworkViewControllerIsShown = YES;
+                        [self setState:PNLiteVASTPlayerState_PAUSE];
+                    }
+                }];
+            });
         } else {
             if (throughClickURL != nil) {
                 [self openUrlInBrowser:throughClickURL navigationType:self.ad.navigationMode];
@@ -1415,7 +1455,7 @@ typedef enum {
     HyBidWebBrowserNavigation navigation = [HyBidInternalWebBrowserNavigationController.shared webBrowserNavigationBehaviourFromString: navigationType];
     
     if (navigation == HyBidWebBrowserNavigationInternal) {
-        [HyBidInternalWebBrowserNavigationController.shared navigateToURL:url];
+        [HyBidInternalWebBrowserNavigationController.shared navigateToURL:url delegate:self];
     } else {
         NSURL *clickUrl = [NSURL URLWithString:url];
         BOOL canOpenURL = [[UIApplication sharedApplication] canOpenURL:clickUrl];
@@ -1548,7 +1588,19 @@ typedef enum {
 #pragma mark - AVPlayer notifications
 
 - (void)addObservers {
-    HyBidInterruptionHandler.shared.delegate = self;
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(applicationDidBecomeActive:)
+                                                 name: UIApplicationDidBecomeActiveNotification
+                                               object: nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(applicationWillResignActive:)
+                                                 name: UIApplicationWillResignActiveNotification
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(applicationWillEnterForeground:)
+                                                 name: UIApplicationWillEnterForegroundNotification
+                                               object: nil];
 }
 
 - (void)removeObservers {
@@ -1558,6 +1610,51 @@ typedef enum {
     }
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];;
+}
+
+- (void)applicationWillResignActive:(NSNotification *)notification {
+    if(self.currentState == PNLiteVASTPlayerState_PLAY) {
+        [self setState:PNLiteVASTPlayerState_PAUSE];
+    }
+}
+
+- (void)applicationDidBecomeActive:(NSNotification *)notification {
+    if(self.currentState == PNLiteVASTPlayerState_PLAY ||
+       self.currentState == PNLiteVASTPlayerState_PAUSE) {
+        if(!self.isFeedbackScreenShown && !self.isSkAdnetworkViewControllerIsShown && !self.isInternalWebBrowserVisible){
+            [self setState:PNLiteVASTPlayerState_PLAY];
+        }
+    }
+    if(self.ad.hasCustomEndCard && self.endCardShown && self.currentState == PNLiteVASTPlayerState_READY) {
+        [self updateVideoFrameToLastInterruption];
+    }
+}
+
+- (void)applicationWillEnterForeground:(NSNotification *)notification {
+    if(self.ad.hasCustomEndCard && self.endCardShown && self.currentState == PNLiteVASTPlayerState_READY) {
+        [self updateVideoFrameToLastInterruption];
+    }
+}
+
+- (void)feedbackScreenDidShow:(NSNotification*)notification {
+    self.isFeedbackScreenShown = YES;
+    [self setState:PNLiteVASTPlayerState_PAUSE];
+}
+
+- (void)feedbackScreenIsDismissed:(NSNotification*)notification {
+    self.isFeedbackScreenShown = NO;
+    [self setState:PNLiteVASTPlayerState_PLAY];
+    if(self.ad.hasCustomEndCard && self.endCardShown && self.currentState == PNLiteVASTPlayerState_READY) {
+        [self updateVideoFrameToLastInterruption];
+    }
+}
+
+- (void)internalWebBrowserDidShowNotification {
+    [self setIsInternalWebBrowserVisible:YES];
+}
+
+- (void)internalWebBrowserDidDismissNotification {
+    [self setIsInternalWebBrowserVisible:NO];
 }
 
 - (void)updateVideoFrameToLastInterruption {
@@ -1904,11 +2001,12 @@ typedef enum {
     [self.loadingSpin stopAnimating];
     
     // Start playback
-    [self.player play];
-    if(self.skipOverlay){
-        [self playCountdownView];
+    if(!self.isFeedbackScreenShown && !self.isSkAdnetworkViewControllerIsShown && !self.isInternalWebBrowserWillBeVisible){
+        [self.player play];
+        if(self.skipOverlay){
+            [self playCountdownView];
+        }
     }
-    
     if([self currentPlaybackTime] > 0) {
         [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_resume];
     } else {
@@ -2212,7 +2310,9 @@ typedef enum {
                                skoverlayDelegate:self.endCardView
                                customCTADelegate:self.endCardView];
     }
-
+    if (self.isSkAdnetworkViewControllerIsShown) {
+        [HyBidNotificationCenter.shared post: HyBidNotificationTypeSKStoreProductViewIsShown object: [NSNumber numberWithBool: self.isSkAdnetworkViewControllerIsShown] userInfo: nil];
+    }
     if(self.skipOverlay){
         [self.skipOverlay removeFromSuperview];
     }
@@ -2234,9 +2334,7 @@ typedef enum {
 
     [self.endCardView displayEndCard:endCard withCTAButton:self.ctaButton withViewController:self];
     self.ad.shouldReportCustomEndcardImpression = endCard.isCustomEndCard;
-    if (endCard.isCustomEndCard) {
-        [self.contentInfoViewContainer setHidden: YES];
-    }
+    self.isDisplayingCustomEndCard = endCard.isCustomEndCard;
     [self.view addSubview:self.endCardView];
     if (!endCard.isCustomEndCard && self.companionEvents != nil && self.companionEvents.count != 0) {
         self.vastEventProcessor = [[HyBidVASTEventProcessor alloc] initWithEventsDictionary:self.companionEvents progressEventsDictionary:self.progressTrackingEvents delegate:self];
@@ -2276,15 +2374,21 @@ typedef enum {
         [HyBidStoreKitUtils insertFidelitiesIntoDictionaryIfNeeded:productParams];
         
         if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams]) {
-            self.isAutoStoreKit = YES;
-            [HyBidSKAdNetworkViewController.shared
-             presentSKStoreProductViewControllerWithProductParameters:[HyBidStoreKitUtils cleanUpProductParams:productParams]
-             adFormat:self.adFormat == HyBidAdFormatBanner
-             ? HyBidReportingAdFormat.BANNER
-             : self.adFormat == HyBidAdFormatInterstitial
-                ? HyBidReportingAdFormat.FULLSCREEN
-                : HyBidReportingAdFormat.REWARDED
-             isAutoSKPVC:self.isAutoStoreKit];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters: [HyBidStoreKitUtils cleanUpProductParams:productParams] delegate: self];
+                [skAdnetworkViewController presentSKStoreProductViewControllerWithBlock:^(BOOL success, NSError *error) {
+                    if (success) {
+                        if ([skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] != [NSNull null] && [[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] boolValue]) {
+                            [self trackClickForAutoStorekit:HyBidStorekitAutomaticClickVideo];
+                        }
+                        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"StoreKit from SDK is presented"]];
+                        
+                        [[HyBidVASTEventBeaconsManager shared] reportVASTEventWithType:HyBidReportingEventType.AUTO_STORE_KIT_IMPRESSION ad:self.ad onTopOf:HyBidOnTopOfTypeDISPLAY];
+                    } else {
+                        [[HyBidVASTEventBeaconsManager shared] reportVASTEventWithType:HyBidReportingEventType.AUTO_STORE_KIT_IMPRESSION_ERROR ad:self.ad onTopOf:HyBidOnTopOfTypeDISPLAY errorCode: error.code];
+                    }
+                }];
+            });
         }
     }
 }
@@ -2313,7 +2417,6 @@ typedef enum {
 // MARK: - HyBidVASTEndCardViewDelegate
 
 - (void)vastEndCardViewCloseButtonTapped {
-    self.vastPlayerHasElementOnTop = NO;
     [self invokeDidClose];
 }
 
@@ -2358,7 +2461,6 @@ typedef enum {
 }
 
 - (void)vastEndCardViewFailedToLoad {
-    [self.contentInfoViewContainer setHidden:NO];
     if (self.endCards.count > 0) {
         [self vastEndCardViewSkipButtonTapped];
     } else {
@@ -2371,7 +2473,7 @@ typedef enum {
 }
 
 - (void)vastEndCardViewDidDisplay {
-    self.vastPlayerHasElementOnTop = YES;
+    [self setEndCardIsDisplayed:YES];
 }
 
 #pragma mark - TIMERS -
@@ -2418,16 +2520,20 @@ typedef enum {
     [self.view layoutIfNeeded];
 }
 
-#pragma mark HyBidInterruptionDelegate
+#pragma mark SKStoreProductViewControllerDelegate
 
-- (void)adHasFocus {
+- (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
+    if ([HyBidSDKConfig sharedConfig].reporting) {
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.STOREKIT_PRODUCT_VIEW_DISMISS adFormat:self.adFormat == HyBidAdFormatBanner ?  HyBidReportingAdFormat.BANNER : self.adFormat == HyBidAdFormatInterstitial ? HyBidReportingAdFormat.FULLSCREEN : HyBidReportingAdFormat.REWARDED properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
+    }
+    [HyBidNotificationCenter.shared post: HyBidNotificationTypeSKStoreProductViewIsDismissedFromVideo object: [NSNumber numberWithBool: self.isSkAdnetworkViewControllerIsShown] userInfo: nil];
+    [self.delegate vastPlayerDidCloseOffer:self];
+    self.isSkAdnetworkViewControllerIsShown = NO;
     [self resumeAd];
-    self.vastPlayerHasElementOnTop = NO;
-}
-
-- (void)adHasNoFocus {
-    if(self.currentState == PNLiteVASTPlayerState_PLAY) {
-        [self setState:PNLiteVASTPlayerState_PAUSE];
+    
+    if ([HyBidCustomCTAView isCustomCTAValidWithAd:self.ad] || self.isDisplayingCustomEndCard){
+        [HyBidNotificationCenter.shared post: HyBidNotificationTypeSKStoreProductViewIsDismissed object: self.ad userInfo: nil];
     }
 }
 
@@ -2436,57 +2542,6 @@ typedef enum {
        self.currentState == PNLiteVASTPlayerState_PAUSE)) {
         [self setState:PNLiteVASTPlayerState_PLAY];
     }
-}
-
-- (void)willEnterForeground {
-    if(self.ad.hasCustomEndCard && self.endCardShown && self.currentState == PNLiteVASTPlayerState_READY) {
-        [self updateVideoFrameToLastInterruption];
-    }
-}
-
-- (void)feedbackViewDidDismiss {
-    if(self.ad.hasCustomEndCard && self.endCardShown && self.currentState == PNLiteVASTPlayerState_READY) {
-        [self updateVideoFrameToLastInterruption];
-    }
-}
-
-- (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
-    [self.delegate vastPlayerDidCloseOffer:self];
-}
-
-- (void)productViewControllerDidShow {
-    
-    if (self.isAutoStoreKit) {
-        HyBidSkAdNetworkModel *skAdNetworkModel = self.ad.isUsingOpenRTB
-        ? [self.ad getOpenRTBSkAdNetworkModel]
-        : [self.ad getSkAdNetworkModel];
-        NSMutableDictionary* productParams = [[skAdNetworkModel getStoreKitParameters] mutableCopy];
-        [HyBidStoreKitUtils insertFidelitiesIntoDictionaryIfNeeded:productParams];
-        
-        if ([skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] != [NSNull null] && [[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] boolValue]) {
-            [self trackClickForAutoStorekit:HyBidStorekitAutomaticClickVideo];
-        }
-        
-        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"StoreKit from SDK is presented"]];
-        
-        [[HyBidVASTEventBeaconsManager shared] reportVASTEventWithType:HyBidReportingEventType.AUTO_STORE_KIT_IMPRESSION ad:self.ad onTopOf:HyBidOnTopOfTypeDISPLAY];
-    }
-}
-
-- (void)productViewControllerDidFailWithError:(NSError *)error {
-    
-    if (self.isAutoStoreKit) {
-        [[HyBidVASTEventBeaconsManager shared] reportVASTEventWithType:HyBidReportingEventType.AUTO_STORE_KIT_IMPRESSION_ERROR ad:self.ad onTopOf:HyBidOnTopOfTypeDISPLAY errorCode: error.code];
-    }
-}
-
-- (void)internalWebBrowserDidShow {
-    [self updateVideoFrameToLastInterruption];
-    self.vastPlayerHasElementOnTop = YES;
-}
-
-- (void)feedbackViewWillShow {
-    self.vastPlayerHasElementOnTop = YES;
 }
 
 #pragma mark PNLiteOrientationManagerDelegate
@@ -2533,6 +2588,35 @@ typedef enum {
             
             [self trackClickForSKOverlayWithClickType: HyBidSKOverlayAutomaticCLickVideo];
         }
+    }
+}
+
+#pragma mark HyBidInternalWebBrowserDelegate
+
+- (void)internalWebBrowserWillShow {
+    [self setIsInternalWebBrowserWillBeVisible:YES];
+}
+
+- (void)internalWebBrowserDidShow {
+    [self setIsInternalWebBrowserVisible:YES];
+    [self pause];
+    [self updateVideoFrameToLastInterruption];
+}
+
+- (void)internalWebBrowserDidFail {
+    if(!self.isFeedbackScreenShown){
+        [self resumeAd];
+    }
+}
+
+- (void)internalWebBrowserWillDismiss {
+    [self setIsInternalWebBrowserWillBeVisible:NO];
+}
+
+- (void)internalWebBrowserDidDismiss {
+    [self setIsInternalWebBrowserVisible:NO];
+    if(!self.isFeedbackScreenShown){
+        [self resumeAd];
     }
 }
 

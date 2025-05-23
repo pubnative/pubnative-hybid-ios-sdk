@@ -192,8 +192,17 @@
     }
 }
 
-- (void)rewardedPresenterDidAppear:(HyBidRewardedPresenter *)rewardedPresenter {}
-- (void)rewardedPresenterDidDisappear:(HyBidRewardedPresenter *)rewardedPresenter {}
+- (void)rewardedPresenterDidAppear:(HyBidRewardedPresenter *)rewardedPresenter {
+    [self.skoverlay presentWithAd:rewardedPresenter.ad];
+}
+
+- (void)rewardedPresenterDidDisappear:(HyBidRewardedPresenter *)rewardedPresenter {
+    [self.skoverlay dismissEntirely:NO withAd:rewardedPresenter.ad causedByAutoCloseTimerCompletion:NO];
+}
+
+- (void)rewardedPresenterPresentsSKOverlay:(HyBidRewardedPresenter *)rewardedPresenter {
+    [self.skoverlay presentWithAd:rewardedPresenter.ad];
+}
 
 - (void)rewardedPresenterDismissesSKOverlay:(HyBidRewardedPresenter *)rewardedPresenter {
     [self.skoverlay dismissEntirely:YES withAd:rewardedPresenter.ad causedByAutoCloseTimerCompletion:NO];

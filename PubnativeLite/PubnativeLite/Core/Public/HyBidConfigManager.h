@@ -11,6 +11,9 @@ typedef void(^ConfigManagerCompletionBlock)(HyBidConfig* _Nullable config, NSErr
 
 @interface HyBidConfigManager : NSObject
 
++ (instancetype _Nonnull)sharedManager;
 - (void)requestConfigWithCompletion:(ConfigManagerCompletionBlock _Nonnull )completion;
+- (void)setHyBidConfigURLToProduction;
+- (void)setHyBidConfigURLToTestingWithURL:(NSString *_Nonnull)url;
 
 @end

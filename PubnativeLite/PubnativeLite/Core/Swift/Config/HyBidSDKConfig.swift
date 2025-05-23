@@ -35,5 +35,4 @@ public class HyBidSDKConfig: NSObject {
     }
     @objc public var openRtbApiURL: String = "https://dsp.pubnative.net"
     @objc public var appID: String?
-    @objc public var customRemoteConfigURL: String?
 }

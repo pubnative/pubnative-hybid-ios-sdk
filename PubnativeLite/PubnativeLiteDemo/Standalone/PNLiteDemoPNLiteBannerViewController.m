@@ -10,6 +10,7 @@
 #import "Quote.h"
 #import "QuoteCell.h"
 #import "BannerAdViewCell.h"
+#import "HyBidSKAdNetworkViewController.h"
 
 @interface PNLiteDemoPNLiteBannerViewController () <HyBidAdViewDelegate, UITableViewDelegate, UITableViewDataSource>
 

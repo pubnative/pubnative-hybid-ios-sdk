@@ -32,7 +32,8 @@ public class HyBidReportingEvent: NSObject {
         self.properties?[Common.TIMESTAMP] = String(Date().timeIntervalSince1970 * 1000.0)
     }
     
-    public func propertiesValue() -> String {
+    @objc
+    public func toJSON() -> String {
         guard var properties = properties else {
             return ""
         }
@@ -42,6 +43,10 @@ public class HyBidReportingEvent: NSObject {
             properties[VASTBeacon.BEACONS] = codableBeacons
         }
         
-        return "\(properties)"
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: properties, options: []),
+              let jsonString = String(data: jsonData, encoding: .utf8) else {
+            return ""
+        }
+        return jsonString
     }
 }

@@ -23,8 +23,6 @@
 
 @interface AppDelegate ()
 
-@property (nonatomic, strong) HyBidConfigManager *configManager;
-
 @end
 
 @implementation AppDelegate
@@ -40,7 +38,6 @@
         //The following UIAlertController & SDK initialisation sequence is just for QA purposes. In real life, there's no such flow for SDK initialisation.
         [self.window makeKeyAndVisible];
         
-        self.configManager = [HyBidConfigManager new];
         //Setting the appToken param here for HyBidConfigManager methods can use it.
         //Those methods are getting called before initWithAppToken: hence, no appToken to be used beforehand.
         [HyBidSDKConfig sharedConfig].appToken = [[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey];
@@ -60,12 +57,13 @@
         UIAlertAction *testingURL = [UIAlertAction actionWithTitle:kHyBidSDKConfigAlertActionTitleForTesting
                                                              style:UIAlertActionStyleDestructive
                                                            handler:^(UIAlertAction *action) {
-            [HyBidSDKConfig sharedConfig].customRemoteConfigURL = weakTextField.text;
+            [[HyBidConfigManager sharedManager] setHyBidConfigURLToTestingWithURL:weakTextField.text];
             [HyBid initWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey] completion:nil];
         }];
         UIAlertAction *productionURL = [UIAlertAction actionWithTitle:kHyBidSDKConfigAlertActionTitleForProduction
                                                                 style:UIAlertActionStyleCancel
                                                               handler:^(UIAlertAction *action) {
+            [[HyBidConfigManager sharedManager] setHyBidConfigURLToProduction];
             [HyBid initWithAppToken:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidDemoAppTokenKey] completion:nil];
         }];
         [sdkConfigURLAlert addAction:testingURL];

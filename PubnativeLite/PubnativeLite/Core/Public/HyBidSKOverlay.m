@@ -20,13 +20,7 @@
 #define SKOVERLAY_DELAY_MAXIMUM_VALUE 60
 #define SKOVERLAY_ENDCARDDELAY_MAXIMUM_VALUE 60
 
-typedef enum : NSUInteger {
-    HyBidSKOverlayWillStartPresentation,
-    HyBidSKOverlayDidFinishPresentation,
-    HyBidSKOverlayWillStartDismissal,
-} HyBidSKOverlaySimulateMethod;
-
-@interface HyBidSKOverlay() <SKOverlayDelegate, HyBidInterruptionDelegate>
+@interface HyBidSKOverlay() <SKOverlayDelegate>
 
 @property (nonatomic, strong) SKOverlay *overlay API_AVAILABLE(ios(14.0));
 @property (nonatomic, assign) BOOL isOverlayShown;
@@ -60,7 +54,6 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) NSObject <HyBidSKOverlayDelegate> *delegate;
 @property (nonatomic, assign) HyBidOnTopOfType onTopOf;
 
-@property (nonatomic, assign) BOOL simulateSKOverlayDismissal;
 @end
 
 @implementation HyBidSKOverlay
@@ -204,12 +197,78 @@ typedef enum : NSUInteger {
 #pragma mark Observers
 
 - (void)addObservers {
-    HyBidInterruptionHandler.shared.overlappingElementDelegate = self;
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(vastEndCardWillShow:)
+                                                 name:@"VASTEndCardWillShow"
+                                               object:nil];
+    
+    [HyBidNotificationCenter.shared addObserver: self
+                                       selector: @selector(skStoreProductViewIsReadyToPresent:)
+                               notificationType: HyBidNotificationTypeSKStoreProductViewIsReadyToPresent
+                                         object: nil];
+
+    [HyBidNotificationCenter.shared addObserver: self
+                                       selector: @selector(skStoreProductViewIsReadyToPresentForSdkStorekit:)
+                               notificationType: HyBidNotificationTypeSKStoreProductViewIsReadyToPresentForSDKStorekit
+                                         object: nil];
+    
+    [HyBidNotificationCenter.shared addObserver: self
+                                       selector: @selector(skStoretoreProductViewIsDismissed:)
+                               notificationType: HyBidNotificationTypeSKStoreProductViewIsDismissed
+                                         object: nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(feedbackScreenWillShow:)
+                                                 name:@"adFeedbackViewWillShow"
+                                               object:nil];
+            
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(feedbackScreenIsDismissed:)
+                                                 name:@"adFeedbackViewIsDismissed"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationDidEnterBackground:)
+                                                 name:UIApplicationDidEnterBackgroundNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationWillEnterForeground:)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
 }
 
 - (void)removeObservers {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    HyBidInterruptionHandler.shared.overlappingElementDelegate = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];;
+}
+
+#pragma mark HyBidVASTEndCard Notifications
+
+- (void)vastEndCardWillShow:(NSNotification *)notification {
+    self.endCardReadyToShow = YES;
+    if (notification.object){
+        BOOL isCustomEndCard = [notification.object boolValue];
+        self.onTopOf = isCustomEndCard ? HyBidOnTopOfTypeCUSTOM_ENDCARD : HyBidOnTopOfTypeCOMPANION_AD;
+    }
+    [self updateTimerStateWithRemainingSeconds:[self getRemainingTimeForTimerType:HyBidSKOverlayTimerType_EndCardDelay]
+                                withTimerState:HyBidTimerState_Start
+                                  forTimerType:HyBidSKOverlayTimerType_EndCardDelay];
+}
+
+#pragma mark SKStoreProductView Notifications
+- (void)skStoreProductViewIsReadyToPresentForSdkStorekit:(NSNotification *)notification {
+    self.isSecondViewPrepared = YES;
+    [self dismissEntirely:NO withAd:self.ad causedByAutoCloseTimerCompletion:NO];
+}
+
+- (void)skStoreProductViewIsReadyToPresent:(NSNotification *)notification {
+    self.isSecondViewPrepared = YES;
+    [self dismissEntirely:NO withAd:self.ad causedByAutoCloseTimerCompletion:NO];
+}
+
+- (void)skStoretoreProductViewIsDismissed:(NSNotification *)notification {
+    HyBidAd *ad = notification.object;
+    [self presentWithAd:ad];
 }
 
 #pragma mark SKOverlay Manipulations
@@ -229,29 +288,21 @@ typedef enum : NSUInteger {
             if (!self.isOverlayShown) {
                 if(self.delayTimerNeeded) {
                     if(self.delayTimerCompleted || self.delayPerformsDefaultBehaviour) {
-                        if (self.simulateSKOverlayDismissal) {
-                            [self simulateSKOverlayMethod: HyBidSKOverlayWillStartPresentation];
-                            [self simulateSKOverlayMethod: HyBidSKOverlayDidFinishPresentation];
-                        } else {
-                            UIViewController * topViewController = [self getTopViewControllerRemovingSKPVC:YES];
-                            [self.overlay presentInScene:topViewController.view.window.windowScene];
-                        }
+                        [self.overlay presentInScene:[UIApplication sharedApplication].topViewController.view.window.windowScene];
                     } else {
                         [self updateTimerStateWithRemainingSeconds:[self getRemainingTimeForTimerType:HyBidSKOverlayTimerType_Delay]
                                                     withTimerState:HyBidTimerState_Start
                                                       forTimerType:HyBidSKOverlayTimerType_Delay];
                     }
                 }
-                
+                if(self.autoCloseTimerNeeded && (!self.autoCloseTimerCompleted && !self.autoClosePerformsDefaultBehaviour)) {
+                    [self updateTimerStateWithRemainingSeconds:[self getRemainingTimeForTimerType:HyBidSKOverlayTimerType_AutoClose]
+                                                withTimerState:HyBidTimerState_Start
+                                                  forTimerType:HyBidSKOverlayTimerType_AutoClose];
+                }
                 if(self.endCardReadyToShow) {
                     if(self.endCardDelayTimerCompleted || self.endCardDelayPerformsDefaultBehaviour) {
-                        if (self.simulateSKOverlayDismissal) {
-                            [self simulateSKOverlayMethod: HyBidSKOverlayWillStartPresentation];
-                            [self simulateSKOverlayMethod: HyBidSKOverlayDidFinishPresentation];
-                        } else {
-                            UIViewController * topViewController = [self getTopViewControllerRemovingSKPVC:YES];
-                            [self.overlay presentInScene:topViewController.view.window.windowScene];
-                        }
+                        [self.overlay presentInScene:[UIApplication sharedApplication].topViewController.view.window.windowScene];
                     } else {
                         [self updateTimerStateWithRemainingSeconds:[self getRemainingTimeForTimerType:HyBidSKOverlayTimerType_EndCardDelay]
                                                     withTimerState:HyBidTimerState_Start
@@ -265,22 +316,6 @@ typedef enum : NSUInteger {
     }
 }
 
-- (UIViewController *)getTopViewControllerRemovingSKPVC:(BOOL)removeSKPVC {
-    UIViewController * topViewController = [UIApplication sharedApplication].topViewController;
-    if ([topViewController isMemberOfClass:[SKStoreProductViewController class]] && topViewController.presentingViewController) {
-        UIViewController * presentingViewController = topViewController.presentingViewController;
-        
-        if (removeSKPVC) {
-            [topViewController dismissViewControllerAnimated:NO completion:nil];
-            topViewController = nil;
-        }
-        
-        topViewController = presentingViewController;
-
-    }
-    return topViewController;
-}
-
 - (void)dismissEntirely:(BOOL)completed withAd:(HyBidAd *)ad causedByAutoCloseTimerCompletion:(BOOL)autoCloseTimerCompleted {
     if (ad.skoverlayEnabled) {
         if ([ad.skoverlayEnabled boolValue]) {
@@ -292,12 +327,7 @@ typedef enum : NSUInteger {
 - (void)checkSKOverlayAvailabilityAndDismiss:(BOOL)isSKOverlayDismissedEntirely causedByAutoCloseTimerCompletion:(BOOL)autoCloseTimerCompleted {
     if (@available(iOS 14.0, *)) {
         if (self.overlay) {
-            if (self.simulateSKOverlayDismissal) {
-                [self simulateSKOverlayMethod: HyBidSKOverlayWillStartDismissal];
-            } else {
-                UIViewController * topViewController = [self getTopViewControllerRemovingSKPVC:NO];
-                [SKOverlay dismissOverlayInScene:topViewController.view.window.windowScene];
-            }
+            [SKOverlay dismissOverlayInScene:[UIApplication sharedApplication].topViewController.view.window.windowScene];
             if (isSKOverlayDismissedEntirely) {
                 self.overlay = nil;
                 [self removeObservers];
@@ -573,16 +603,6 @@ typedef enum : NSUInteger {
 }
 
 - (void)storeOverlay:(SKOverlay *)overlay didFinishPresentation:(SKOverlayTransitionContext *)transitionContext  API_AVAILABLE(ios(14.0)){
-    HyBidInterruptionHandler.shared.overlappingElementDelegate = self;
-    
-    if(self.autoCloseTimerNeeded && !self.autoCloseTimerCompleted && !self.autoClosePerformsDefaultBehaviour) {
-        [self updateTimerStateWithRemainingSeconds:[self getRemainingTimeForTimerType:HyBidSKOverlayTimerType_AutoClose]
-                                    withTimerState:HyBidTimerState_Start
-                                      forTimerType:HyBidSKOverlayTimerType_AutoClose];
-    }
-    
-    if ([HyBidInterruptionHandler.shared hasOnlyAppLifeCycleInterruption]) { [self adHasNoFocus]; }
-    
     if (!self.impressionEventFired) {
         if ([HyBidSDKConfig sharedConfig].reporting) {
             NSMutableDictionary* reportingDictionary = [NSMutableDictionary new];
@@ -620,89 +640,41 @@ typedef enum : NSUInteger {
     }
 }
 
-- (void)storeOverlay:(SKOverlay *)overlay didFinishDismissal:(SKOverlayTransitionContext *)transitionContext  API_AVAILABLE(ios(14.0)){
-    if ([overlay isEqual:self.overlay]) {
-        self.isOverlayShown = NO;
-    }
-}
+- (void)storeOverlay:(SKOverlay *)overlay didFinishDismissal:(SKOverlayTransitionContext *)transitionContext  API_AVAILABLE(ios(14.0)){}
 - (void)storeOverlay:(SKOverlay *)overlay didFailToLoadWithError:(NSError *)error  API_AVAILABLE(ios(14.0)){
     [[HyBidVASTEventBeaconsManager shared] reportVASTEventWithType:HyBidReportingEventType.SKOVERLAY_IMPRESSION_ERROR
                                                                 ad:self.ad
                                                            onTopOf:self.onTopOf
                                                          errorCode:error.code];
-    HyBidInterruptionHandler.shared.overlappingElementDelegate = nil;
-    
-    if ([overlay isEqual:self.overlay]) {
-        self.isOverlayShown = NO;
+}
+
+#pragma mark UIApplication Notifications
+
+- (void)applicationDidEnterBackground:(NSNotification*)notification {
+    [self dismissEntirely:NO withAd:self.ad causedByAutoCloseTimerCompletion:NO];
+}
+
+- (void)applicationWillEnterForeground:(NSNotification *)notification {
+    if(!self.isSecondViewPrepared) {
+        [self presentWithAd:self.ad];
     }
 }
 
-// Simulating presenting/dismiss methods to load SKOverlay inmediatly after background mode and avoid its delay. SKOverlayTransitionContext is never use on our logic (no need to create an object of it)
-- (void)simulateSKOverlayMethod:(HyBidSKOverlaySimulateMethod) method {
-    if (@available(iOS 14.0, *)) {
-        if (!self.overlay || !self.overlay.delegate) { return; }
-        switch (method) {
-            case HyBidSKOverlayWillStartPresentation:
-                [self.overlay.delegate storeOverlay:self.overlay willStartPresentation: [SKOverlayTransitionContext alloc]];
-                break;
-            case HyBidSKOverlayDidFinishPresentation:
-                [self.overlay.delegate storeOverlay:self.overlay didFinishPresentation: [SKOverlayTransitionContext alloc]];
-                break;
-            case HyBidSKOverlayWillStartDismissal:
-                [self.overlay.delegate storeOverlay:self.overlay willStartDismissal: [SKOverlayTransitionContext alloc]];
-                break;
-        }
-    }
+#pragma mark HyBidAdFeedbackView Notifications
+
+- (void)feedbackScreenWillShow:(NSNotification*)notification {
+    self.isSecondViewPrepared = YES;
+    [self dismissEntirely:NO withAd:self.ad causedByAutoCloseTimerCompletion:NO];
+}
+
+- (void)feedbackScreenIsDismissed:(NSNotification*)notification {
+    [self presentWithAd:self.ad];
 }
 
 #pragma mark HyBidSKOverlayDelegate
 
 - (void)changeDelegateFor:(NSObject <HyBidSKOverlayDelegate> *)delegate {
     self.delegate = delegate;
-}
-
-#pragma mark HyBidInterruptionDelegate
-
-- (void)adHasFocus {
-    [self presentWithAd:self.ad];
-    self.simulateSKOverlayDismissal = NO;
-}
-
-- (void)adHasNoFocus {
-    if (![HyBidInterruptionHandler.shared hasOnlyAppLifeCycleInterruption]){
-        self.isSecondViewPrepared = YES;
-    } else {
-        self.simulateSKOverlayDismissal = YES;
-    }
-    [self dismissEntirely:NO withAd:self.ad causedByAutoCloseTimerCompletion:NO];
-}
-
-- (void)vastEndCardWillShow {
-    self.endCardReadyToShow = YES;
-    self.onTopOf = HyBidOnTopOfTypeCOMPANION_AD;
-    [self updateTimerStateWithRemainingSeconds:[self getRemainingTimeForTimerType:HyBidSKOverlayTimerType_EndCardDelay]
-                                withTimerState:HyBidTimerState_Start
-                                  forTimerType:HyBidSKOverlayTimerType_EndCardDelay];
-}
-
-- (void)vastCustomEndCardWillShow {
-    self.endCardReadyToShow = YES;
-    self.onTopOf = HyBidOnTopOfTypeCUSTOM_ENDCARD;
-    [self updateTimerStateWithRemainingSeconds:[self getRemainingTimeForTimerType:HyBidSKOverlayTimerType_EndCardDelay]
-                                withTimerState:HyBidTimerState_Start
-                                  forTimerType:HyBidSKOverlayTimerType_EndCardDelay];
-}
-
-- (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
-    if ([HyBidInterruptionHandler.shared hasOnlyAppLifeCycleInterruption]) { [self adHasFocus]; }
-}
-
-- (void)productViewControllerWillShow {
-    [self adHasNoFocus];
-}
-
-- (void)feedbackViewWillShow {
-    [self adHasNoFocus];
 }
 
 @end

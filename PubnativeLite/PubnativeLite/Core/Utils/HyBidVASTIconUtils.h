@@ -16,6 +16,6 @@ typedef void (^vastIconCompletionBlock)(NSArray<HyBidVASTIcon *> *, NSError *);
 
 - (void)getVASTIconFrom:(NSString *)adContent completion:(vastIconCompletionBlock)block;
 
-- (HyBidContentInfoView *)parseContentInfo:(HyBidVASTIcon *)icon display: (HyBidContentInfoDisplay) displayValue clickAction:(HyBidContentInfoClickAction) clickAction;
+- (HyBidContentInfoView *)parseContentInfo:(HyBidVASTIcon *)icon;
 
 @end
