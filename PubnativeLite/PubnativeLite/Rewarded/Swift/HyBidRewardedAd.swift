@@ -55,6 +55,7 @@ public class HyBidRewardedAd: NSObject {
     private var renderErrorReportingProperties: [String: String] = [:]
     private var sessionReportingProperties: [String: Any] = [:]
     private var closeOnFinish = false
+    private var adSessionData: HyBidAdSessionData?
     
     func cleanUp() {
         self.ad = nil
@@ -85,6 +86,7 @@ public class HyBidRewardedAd: NSObject {
         self.delegate = delegate
         self.htmlSkipOffset = HyBidConstants.rewardedHtmlSkipOffset
         self.closeOnFinish = HyBidConstants.rewardedCloseOnFinish
+        self.adSessionData = HyBidAdSessionData()
     }
     
     @objc
@@ -206,6 +208,9 @@ public class HyBidRewardedAd: NSObject {
             }
             if initialLoadTimestamp < adExpireTime {
                 self.rewardedPresenter?.show()
+                if let adSessionData = self.adSessionData {
+                    ATOMManager.fireAdSessionEvent(data: adSessionData)
+                }
             } else {
                 HyBidLogger.errorLog(fromClass: String(describing: HyBidRewardedAd.self), fromMethod: #function, withMessage: "Ad has expired")
                 self.cleanUp()
@@ -267,6 +272,7 @@ public class HyBidRewardedAd: NSObject {
             }
             return
         } else {
+            self.rewardedPresenter?.adSessionData = self.adSessionData
             self.rewardedPresenter?.load()
         }
     }
@@ -334,7 +340,10 @@ public class HyBidRewardedAd: NSObject {
         guard let delegate = self.delegate else { return }
         delegate.rewardedDidTrackImpression()
         if #available(iOS 14.5, *) {
-            HyBidAdImpression.sharedInstance().start(for: self.ad)
+            HyBidAdImpression.sharedInstance().startSKANImpression(for: self.ad)
+        }
+        if #available(iOS 17.4, *) {
+            HyBidAdImpression.sharedInstance().startAAKImpression(for: self.ad, adFormat: AdFormat.REWARDED)
         }
     }
     
@@ -366,7 +375,10 @@ public class HyBidRewardedAd: NSObject {
         guard let delegate = self.delegate else { return }
         delegate.rewardedDidDismiss()
         if #available(iOS 14.5, *) {
-            HyBidAdImpression.sharedInstance().end(for: self.ad)
+            HyBidAdImpression.sharedInstance().endSKANImpression(for: self.ad)
+        }
+        if #available(iOS 17.4, *) {
+            HyBidAdImpression.sharedInstance().endAAKImpression(for: self.ad, adFormat: AdFormat.REWARDED)
         }
     }
     
@@ -402,6 +414,7 @@ extension HyBidRewardedAd {
         
         if let ad = ad {
             self.ad = ad
+            self.adSessionData = ATOMManager.createAdSessionData(from: request, ad: ad)
             self.determineSkipOffsetValuesFor(ad)
             self.ad?.adType = Int(kHyBidAdTypeVideo)
             self.determineCloseOnFinishFor(ad)

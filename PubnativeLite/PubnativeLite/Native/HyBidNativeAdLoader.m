@@ -27,6 +27,7 @@
 
 @property (nonatomic, weak) NSTimer *autoRefreshTimer;
 @property (nonatomic, assign) BOOL shouldRunAutoRefresh;
+@property (nonatomic, strong) HyBidAdSessionData *adSessionData;
 
 @end
 
@@ -55,7 +56,6 @@
 }
 
 - (void)loadNativeExchangeAdWithDelegate:(NSObject<HyBidNativeAdLoaderDelegate> *)delegate withZoneID:(NSString *)zoneID {
-    //TODO: Add load with open rtb logic when using this func
     [self loadNativeAdWithDelegate:delegate withZoneID:zoneID withAppToken:nil];
 }
 
@@ -63,6 +63,9 @@
     self.delegate = delegate;
     self.zoneID = zoneID;
     self.appToken = appToken;
+    if (self.adSessionData == nil) {
+        self.adSessionData = [[HyBidAdSessionData alloc] init];
+    }
     [self requestAd];
 }
 
@@ -150,7 +153,10 @@
     if (!ad) {
         [self invokeDidFailWithError:[NSError hyBidNullAd]];
     } else {
-        [self invokeDidLoadWithNativeAd:[[HyBidNativeAd alloc] initWithAd:ad]];
+        self.adSessionData = [ATOMManager createAdSessionDataFrom:request ad:ad];
+        HyBidNativeAd *nativeAd = [[HyBidNativeAd alloc] initWithAd:ad];
+        nativeAd.adSessionData = self.adSessionData;
+        [self invokeDidLoadWithNativeAd:nativeAd];
     }
 }
 
@@ -165,7 +171,9 @@
     if (!ad) {
         [self invokeDidFailWithError:[NSError hyBidNullAd]];
     } else {
-        [self invokeDidLoadWithNativeAd:[[HyBidNativeAd alloc] initWithAd:ad]];
+        HyBidNativeAd *nativeAd = [[HyBidNativeAd alloc] initWithAd:ad];
+        nativeAd.adSessionData = self.adSessionData;
+        [self invokeDidLoadWithNativeAd:nativeAd];
     }
 }
 

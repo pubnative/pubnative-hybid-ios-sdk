@@ -54,6 +54,7 @@ public class HyBidInterstitialAd: NSObject {
     private var renderErrorReportingProperties: [String: Any] = [:]
     private var sessionReportingProperties: [String: Any] = [:]
     private var closeOnFinish = false
+    private var adSessionData: HyBidAdSessionData?
     
     func cleanUp() {
         self.ad = nil
@@ -85,6 +86,7 @@ public class HyBidInterstitialAd: NSObject {
         self.htmlSkipOffset = HyBidConstants.interstitialHtmlSkipOffset
         self.videoSkipOffset = HyBidConstants.videoSkipOffset
         self.closeOnFinish = HyBidConstants.interstitialCloseOnFinish
+        self.adSessionData = HyBidAdSessionData()
     }
     
     @objc
@@ -211,6 +213,9 @@ public class HyBidInterstitialAd: NSObject {
             }
             if initialLoadTimestamp < adExpireTime {
                 self.interstitialPresenter?.show()
+                if let adSessionData = self.adSessionData {
+                    ATOMManager.fireAdSessionEvent(data: adSessionData)
+                }
             } else {
                 HyBidLogger.errorLog(fromClass: String(describing: HyBidInterstitialAd.self), fromMethod: #function, withMessage: "Ad has expired")
                 self.cleanUp()
@@ -300,6 +305,7 @@ public class HyBidInterstitialAd: NSObject {
             }
             return
         } else {
+            self.interstitialPresenter?.adSessionData = self.adSessionData
             self.interstitialPresenter?.load()
         }
     }
@@ -373,7 +379,10 @@ public class HyBidInterstitialAd: NSObject {
         guard let delegate = self.delegate else { return }
         delegate.interstitialDidTrackImpression()
         if #available(iOS 14.5, *) {
-            HyBidAdImpression.sharedInstance().start(for: self.ad)
+            HyBidAdImpression.sharedInstance().startSKANImpression(for: self.ad)
+        }
+        if #available(iOS 17.4, *) {
+            HyBidAdImpression.sharedInstance().startAAKImpression(for: self.ad, adFormat: AdFormat.FULLSCREEN)
         }
     }
     
@@ -465,6 +474,7 @@ extension HyBidInterstitialAd {
         
         if let ad = ad {
             self.ad = ad
+            self.adSessionData = ATOMManager.createAdSessionData(from: request, ad: ad)
             self.determineSkipOffsetValuesFor(ad)
             self.determineCloseOnFinishFor(ad)
             self.renderAd(ad: ad)
@@ -512,7 +522,10 @@ extension HyBidInterstitialAd {
     func interstitialPresenterDidDismiss(_ interstitialPresenter: HyBidInterstitialPresenter!) {
         self.invokeDidDismiss()
         if #available(iOS 14.5, *) {
-            HyBidAdImpression.sharedInstance().end(for: self.ad)
+            HyBidAdImpression.sharedInstance().endSKANImpression(for: self.ad)
+        }
+        if #available(iOS 17.4, *) {
+            HyBidAdImpression.sharedInstance().endAAKImpression(for: self.ad, adFormat: AdFormat.FULLSCREEN)
         }
     }
     

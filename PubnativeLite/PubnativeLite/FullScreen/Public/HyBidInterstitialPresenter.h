@@ -10,6 +10,7 @@
 #import "HyBidSKOverlayDelegate.h"
 
 @class HyBidInterstitialPresenter;
+@class HyBidAdSessionData;
 
 @protocol HyBidInterstitialPresenterDelegate<NSObject>
 
@@ -25,7 +26,6 @@
 - (void)interstitialPresenterDidFinish:(HyBidInterstitialPresenter *)interstitialPresenter;
 - (void)interstitialPresenterDidAppear:(HyBidInterstitialPresenter *)interstitialPresenter;
 - (void)interstitialPresenterDidDisappear:(HyBidInterstitialPresenter *)interstitialPresenter;
-- (void)interstitialPresenterPresentsSKOverlay:(HyBidInterstitialPresenter *)interstitialPresenter;
 - (void)interstitialPresenterDismissesSKOverlay:(HyBidInterstitialPresenter *)interstitialPresenter;
 - (void)interstitialPresenterDismissesCustomCTA:(HyBidInterstitialPresenter *)interstitialPresenter;
 - (void)interstitialPresenterWillPresentEndCard:(HyBidInterstitialPresenter *)interstitialPresenter
@@ -37,6 +37,7 @@
 - (void)interstitialPresenterDidSKOverlayAutomaticClick:(HyBidInterstitialPresenter *)interstitialPresenter
                                               clickType:(HyBidSKOverlayAutomaticCLickType)clickType;
 - (void)interstitialPresenterDidStorekitAutomaticClick:(HyBidInterstitialPresenter *)interstitialPresenter           clickType:(HyBidStorekitAutomaticClickType)clickType;
+- (void)interstitialPresenterDidReplay:(HyBidInterstitialPresenter *)interstitialPresenter viewController:(UIViewController *)viewController;
 
 @end
 
@@ -46,6 +47,7 @@
 @property (nonatomic) NSObject <HyBidInterstitialPresenterDelegate> *delegate;
 @property (nonatomic, weak) NSObject <HyBidCustomCTAViewDelegate> *customCTADelegate;
 @property (nonatomic, weak) NSObject <HyBidSKOverlayDelegate> *skoverlayDelegate;
+@property (nonatomic, strong) HyBidAdSessionData *adSessionData;
 
 - (void)load;
 

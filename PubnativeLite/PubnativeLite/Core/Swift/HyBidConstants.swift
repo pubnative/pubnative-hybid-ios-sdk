@@ -10,9 +10,12 @@ import Foundation
 public class HyBidConstants: NSObject {
     
     @objc public static let HYBID_SDK_NAME = "HyBid"
-    @objc public static let HYBID_OMSDK_VERSION = "1.5.2"
-    @objc public static let HYBID_SDK_VERSION = "3.6.1-beta3"
+    @objc public static let HYBID_OMSDK_VERSION = "1.5.4"
+    @objc public static let HYBID_SDK_VERSION = "3.6.1-beta4"
     @objc public static let HYBID_OMSDK_IDENTIFIER = "Pubnativenet"
+    @objc public static let RENDERING_SUCCESS = "rendering success"
+    @objc public static let AD_SESSION_DATA = "ad_session_data"
+    @objc public static let PERCENT_VISIBLE = "percentVisible"
     
     //Rendering Constants
     @objc public static var mraidExpand: Bool = true
@@ -30,6 +33,7 @@ public class HyBidConstants: NSObject {
     @objc public static var pcVideoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_PC_VIDEO_SKIP_OFFSET), isCustom: false)
     @objc public static var interstitialActionBehaviour: HyBidInterstitialActionBehaviour = HB_CREATIVE
     @objc public static var endCardCloseOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_END_CARD_CLOSE_OFFSET), isCustom: false)
+    @objc public static var endCardCloseMaxOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_END_CARD_CLOSE_MAX_OFFSET), isCustom: false)
     @objc public static var nativeCloseButtonOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_NATIVE_CLOSE_BUTTON_OFFSET), isCustom: false)
     @objc public static var audioStatus: HyBidAudioStatus = HyBidAudioStatusON
     @objc public static var creativeAutoStorekitEnabled: Bool = false
@@ -41,4 +45,6 @@ public class HyBidConstants: NSObject {
     @objc public static var iconSizeReducedInputValue: Bool = false
     @objc public static var navigationModeInputValue: String = String()
     @objc public static var landingPageInputValue: Bool = false
+    @objc public static var ctaSizeTypeInputValue: String = String()
+    @objc public static var ctaLocationTypeInputValue: String = String()
 }

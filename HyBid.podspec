@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "HyBid"
-  s.version      = "3.6.1-beta3"
+  s.version      = "3.6.1-beta4"
   s.summary      = "This is the iOS SDK of HyBid. You can read more about it at https://pubnative.net."
   s.description = <<-DESC
                      HyBid leverages first-look prebid technology to maximize yield for the publishers across
@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
                    DESC
   s.homepage     = "https://github.com/pubnative/pubnative-hybid-ios-sdk"
   s.documentation_url = "https://developers.verve.com/v3.0/docs/hybid"
-  s.license             = { :type => "HyBid SDK License", :text => <<-LICENSE
+  s.license             = { :type => "Custom", :text => <<-LICENSE
     HyBid SDK License Terms ("License Terms")
 
 These License Terms apply to the Software (as defined below) provided by Verve Group Europe
@@ -182,7 +182,7 @@ regard to the Software is limited or excluded as follows:
   s.platform     = :ios
 
   s.ios.deployment_target = "12.0"
-  s.source       = { :git => "https://github.com/pubnative/pubnative-hybid-ios-sdk.git", :tag => "3.6.1-beta3" }
+  s.source       = { :git => "https://github.com/pubnative/pubnative-hybid-ios-sdk.git", :tag => "3.6.1-beta4" }
   s.resource_bundle = {
     "#{s.module_name}Resources" => "PubnativeLite/PubnativeLite/PrivacyInfo.xcprivacy"
   }
@@ -197,9 +197,9 @@ regard to the Software is limited or excluded as follows:
 
   s.subspec 'Core' do |core|
     core.source_files          = 'PubnativeLite/PubnativeLite/Core/**/*.{swift,h,m}'
-    core.resources            =  ['PubnativeLite/PubnativeLite/Resources/**/*', 'PubnativeLite/PubnativeLite/OMSDK-1.5.2/*.js', 'PubnativeLite/PubnativeLite/Core/MRAID/*.js']
+    core.resources            =  ['PubnativeLite/PubnativeLite/Resources/**/*', 'PubnativeLite/PubnativeLite/OMSDK-1.5.4/*.js', 'PubnativeLite/PubnativeLite/Core/MRAID/*.js']
     core.exclude_files         = 'PubnativeLite/PubnativeLite/Core/Public/HyBidStatic.{swift,h,m}'
-    core.vendored_frameworks   = ['PubnativeLite/PubnativeLite/OMSDK-1.5.2/*.{xcframework}']
+    core.vendored_frameworks   = ['PubnativeLite/PubnativeLite/OMSDK-1.5.4/*.{xcframework}']
     core.pod_target_xcconfig = { 'HEADER_SEARCH_PATHS' => '$(PODS_ROOT)/HyBid/module' }
     core.xcconfig = { 'HEADER_SEARCH_PATHS' => '$(SDKROOT)/usr/include/libxml2 $(PODS_ROOT)/HyBid/module' }
     core.public_header_files = ['PubnativeLite/PubnativeLite/Core/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Viewability/Public/*.h' , 'PubnativeLite/PubnativeLite/Core/Consent/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Ad Model/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Ad Request/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Ad Cache/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Ad Presenter/Public/*.h', 'PubnativeLite/PubnativeLite/Core/MRAID/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Remote Config/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Auction/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Utils/Public/*.h', 'PubnativeLite/PubnativeLite/Core/VAST/Public/*.h', 'PubnativeLite/PubnativeLite/Core/Analytics/Public/*.h']
@@ -232,7 +232,7 @@ regard to the Software is limited or excluded as follows:
 
   s.subspec 'ATOM' do |atom|
     atom.dependency 'HyBid/Core'
-    atom.dependency 'ATOM-Standalone'
+    atom.dependency 'ATOM-Standalone', '~> 3.7.0-beta.2'
   end
 
   s.default_subspecs = ['Core', 'Banner', 'Native', 'FullScreen', 'RewardedVideo', 'ATOM']

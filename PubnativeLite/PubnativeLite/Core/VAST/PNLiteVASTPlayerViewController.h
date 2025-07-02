@@ -50,6 +50,7 @@ typedef enum {
 - (void)vastPlayerDidShowAutoStorekit;
 - (void)vastPlayerDidClickCustomCTAOnEndCard:(BOOL)onEndCard;
 - (void)vastPlayerDidShowCustomCTA;
+- (void)vastPlayerDidReplay;
 
 @end
 

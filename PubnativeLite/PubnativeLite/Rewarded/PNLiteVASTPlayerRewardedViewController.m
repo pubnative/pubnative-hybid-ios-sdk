@@ -151,8 +151,11 @@
             [self.presenter.delegate rewardedPresenterDismissesSKOverlay:self.presenter];
         }
     } else {        
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"VASTEndCardWillShow"
-                                                            object:[NSNumber numberWithBool:isCustomEndCard]];
+        if (isCustomEndCard) {
+            [HyBidInterruptionHandler.shared vastCustomEndCardWillShow];
+        } else {
+            [HyBidInterruptionHandler.shared vastEndCardWillShow];
+        }
     }
 }
 
@@ -174,6 +177,12 @@
 - (void)vastPlayerDidClickCustomCTAOnEndCard:(BOOL)onEndCard {
     if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(rewardedPresenterDidClickCustomCTAOnEndCard:)]) {
         [self.presenter.delegate rewardedPresenterDidClickCustomCTAOnEndCard:onEndCard];
+    }
+}
+
+- (void)vastPlayerDidReplay {
+    if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(rewardedPresenterDidReplay:viewController:)]) {
+        [self.presenter.delegate rewardedPresenterDidReplay:self.presenter viewController:self];
     }
 }
 

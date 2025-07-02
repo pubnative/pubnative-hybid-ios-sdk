@@ -17,7 +17,7 @@
     #import "HyBid-Swift.h"
 #endif
 
-@interface PNLiteAdPresenterDecorator () <PNLiteImpressionTrackerDelegate>
+@interface PNLiteAdPresenterDecorator () <PNLiteImpressionTrackerDelegate,PercentVisibleDelegate>
 
 @property (nonatomic, strong) HyBidAdPresenter *adPresenter;
 @property (nonatomic, strong) HyBidAdTracker *adTracker;
@@ -95,6 +95,7 @@ NSString * const kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey = @"kUser
     self.trackedView = adView;
     if(!self.impressionTracker) {
         self.impressionTracker = [[PNLiteImpressionTracker alloc] init];
+        self.impressionTracker.visibilityTracker.visibilityDelegate = self;
         [self.impressionTracker determineViewbilityRemoteConfig:self.adPresenter.ad];
         self.impressionTracker.delegate = self;
     }
@@ -168,6 +169,10 @@ NSString * const kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey = @"kUser
     }
 }
 
+- (void)adPresenterDidReplay {
+    [self.adTracker trackReplayClickWithAdFormat:HyBidReportingAdFormat.BANNER];
+}
+
 #pragma mark PNLiteImpressionTrackerDelegate
 
 - (void)impressionDetectedWithView:(UIView *)view {
@@ -183,6 +188,13 @@ NSString * const kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey = @"kUser
                 [self.adPresenter startTracking];
             });
         }
+    }
+}
+
+- (void)percentVisibleDidChange:(CGFloat)newValue {
+    self.adPresenter.adSessionData.viewability = [NSNumber numberWithFloat:newValue];
+    if(self.adPresenter.adSessionData !=  nil) {
+        [ATOMManager fireAdSessionEventWithData:self.adPresenter.adSessionData];
     }
 }
 

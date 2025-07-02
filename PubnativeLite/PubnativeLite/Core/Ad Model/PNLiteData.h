@@ -69,5 +69,9 @@
 + (NSString *)navigationModeInputValue;
 + (NSString *)landingPage;
 + (NSString *)landingPageInputValue;
++ (NSString *)ctaButtonSize;
++ (NSString *)ctaButtonSizeInputValue;
++ (NSString *)ctaButtonLocation;
++ (NSString *)ctaButtonLocationInputValue;
 
 @end

@@ -124,4 +124,10 @@ CGFloat const PNLiteVASTMRectHeight = 250.0f;
     }
 }
 
+- (void)vastPlayerDidReplay {
+    if ([self.delegate respondsToSelector:@selector(adPresenterDidReplay)]) {
+        [self.delegate adPresenterDidReplay];
+    }
+}
+
 @end

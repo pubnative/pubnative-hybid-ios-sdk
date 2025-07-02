@@ -15,7 +15,8 @@
 
 @interface HyBidAdImpression ()
 
-+ (NSMutableDictionary *)impressionsDictionary;
++ (NSMutableDictionary *)skanImpressionsDictionary;
++ (NSMutableDictionary *)aakImpressionsDictionary;
 
 @end
 
@@ -30,31 +31,41 @@
     return _instance;
 }
 
-+ (NSMutableDictionary *)impressionsDictionary {
-    static NSMutableDictionary *impressionsDictionary = nil;
-    if (impressionsDictionary == nil) {
-        impressionsDictionary = [NSMutableDictionary dictionary];
++ (NSMutableDictionary *)skanImpressionsDictionary {
+    static NSMutableDictionary *skanImpressionsDictionary = nil;
+    if (skanImpressionsDictionary == nil) {
+        skanImpressionsDictionary = [NSMutableDictionary dictionary];
     }
-    return impressionsDictionary;
+    return skanImpressionsDictionary;
 }
 
-- (void)removeImpressionForAd:(HyBidAd *)ad
++ (NSMutableDictionary *)aakImpressionsDictionary {
+    static NSMutableDictionary *aakImpressionsDictionary = nil;
+    if (aakImpressionsDictionary == nil) {
+        aakImpressionsDictionary = [NSMutableDictionary dictionary];
+    }
+    return aakImpressionsDictionary;
+}
+
+#pragma mark - SKAN impression functions
+
+- (void)removeSkanImpressionForAd:(HyBidAd *)ad
 {
-    HyBidAdImpression.impressionsDictionary[ad.impressionID] = nil;
+    HyBidAdImpression.skanImpressionsDictionary[ad.impressionID] = nil;
 }
 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 140500
 
-- (void)addImpression:(SKAdImpression *)impression forAd:(HyBidAd *)ad
+- (void)addSkanImpression:(SKAdImpression *)impression forAd:(HyBidAd *)ad
 API_AVAILABLE(ios(14.5))
 {
-    HyBidAdImpression.impressionsDictionary[ad.impressionID] = impression;
+    HyBidAdImpression.skanImpressionsDictionary[ad.impressionID] = impression;
 }
 
 - (SKAdImpression *)getImpressionForAd:(HyBidAd *)ad
 API_AVAILABLE(ios(14.5))
 {
-    return HyBidAdImpression.impressionsDictionary[ad.impressionID];
+    return HyBidAdImpression.skanImpressionsDictionary[ad.impressionID];
 }
 
 - (SKAdImpression *)generateSkAdImpressionFrom:(HyBidSkAdNetworkModel *)model
@@ -141,7 +152,7 @@ API_AVAILABLE(ios(14.5)){
     return number;
 }
 
-- (void)startImpressionForAd:(HyBidAd *)ad
+- (void)startSKANImpressionForAd:(HyBidAd *)ad
 API_AVAILABLE(ios(14.5))
 {
     HyBidSkAdNetworkModel *model = [self getSkAdNetworkModelForAd:ad];
@@ -158,7 +169,7 @@ API_AVAILABLE(ios(14.5))
                     }
                 } else {
                     [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Impression started successfully."];
-                    [self addImpression:impression forAd:ad];
+                    [self addSkanImpression:impression forAd:ad];
                 }
             }];
         } else {
@@ -167,10 +178,10 @@ API_AVAILABLE(ios(14.5))
     }
 }
 
-- (void)endImpressionForAd:(HyBidAd *)ad
+- (void)endSKANImpressionForAd:(HyBidAd *)ad
 API_AVAILABLE(ios(14.5))
 {
-    SKAdImpression *impression = HyBidAdImpression.impressionsDictionary[ad.impressionID];
+    SKAdImpression *impression = HyBidAdImpression.skanImpressionsDictionary[ad.impressionID];
     
     if (impression != nil) {
         if (@available(iOS 14.5, *)) {
@@ -184,7 +195,7 @@ API_AVAILABLE(ios(14.5))
                 }
                 
                 [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Impression ended successfully."];
-                [self removeImpressionForAd:ad];
+                [self removeSkanImpressionForAd:ad];
             }];
         } else {
             // Fallback on earlier versions
@@ -197,6 +208,65 @@ API_AVAILABLE(ios(14.5))
 - (HyBidSkAdNetworkModel *)getSkAdNetworkModelForAd: (HyBidAd *)ad
 {
     return ad.isUsingOpenRTB ? [ad getOpenRTBSkAdNetworkModel] : [ad getSkAdNetworkModel];
+}
+
+#pragma mark - AAK impression functions
+
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 170400
+
+- (void)addAAKImpression:(HyBidAppImpressionWrapper *)impression forAd:(HyBidAd *)ad
+API_AVAILABLE(ios(17.4))
+{
+    HyBidAdImpression.aakImpressionsDictionary[ad.impressionID] = impression;
+}
+
+- (HyBidAppImpressionWrapper *)getAAKImpressionForAd:(HyBidAd *)ad
+API_AVAILABLE(ios(17.4))
+{
+    return HyBidAdImpression.aakImpressionsDictionary[ad.impressionID];
+}
+
+- (void)startAAKImpressionForAd:(HyBidAd *)ad adFormat:(NSString *)adFormat
+API_AVAILABLE(ios(17.4))
+{
+    [[HyBidAppImpressionWrapper alloc] createWithAd:ad adFormat:adFormat completion:^(HyBidAppImpressionWrapper *impressionWrapper) {
+        if(impressionWrapper) {
+            [impressionWrapper beginViewForAdFormat:adFormat completion:^(BOOL success) {
+                if (success) {
+                    [self addAAKImpression:impressionWrapper forAd:ad];
+                } else {
+                    [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Error starting AdAttribution View-through Impression"]];
+                }
+            }];
+            
+        } else {
+            [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Error creating HyBidAppImpressionWrapper"]];
+        }
+    }];
+}
+
+- (void)endAAKImpressionForAd:(HyBidAd *)ad adFormat:(NSString *)adFormat
+API_AVAILABLE(ios(17.4))
+{
+    HyBidAppImpressionWrapper *aakAppImpressionWrapper = HyBidAdImpression.aakImpressionsDictionary[ad.impressionID];
+    
+    if (aakAppImpressionWrapper != nil) {
+        [aakAppImpressionWrapper endViewForAdFormat:@"" completion:^(BOOL success) {
+            if (success) {
+                //impression did ended successfully
+                [self removeAAKImpressionForAd:ad];
+            } else {
+                [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Error ending AdAttribution View-through Impression"]];
+            }
+        }];
+    }
+}
+
+#endif
+
+- (void)removeAAKImpressionForAd:(HyBidAd *)ad
+{
+    HyBidAdImpression.aakImpressionsDictionary[ad.impressionID] = nil;
 }
 
 @end

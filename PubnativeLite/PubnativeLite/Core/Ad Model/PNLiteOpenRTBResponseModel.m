@@ -17,7 +17,9 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
      self = [super initWithDictionary:dictionary];
      if (self) {
-         self.bids = [HyBidOpenRTBAdModel parseArrayValuesForBids:dictionary[@"seatbid"]];
+         if ([dictionary isKindOfClass:[NSDictionary class]]) {
+             self.bids = [HyBidOpenRTBAdModel parseArrayValuesForBids:dictionary[@"seatbid"]];
+         }
      }
      return self;
  }

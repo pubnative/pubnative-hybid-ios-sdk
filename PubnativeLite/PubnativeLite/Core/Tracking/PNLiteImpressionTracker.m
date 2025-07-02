@@ -22,7 +22,6 @@ NSTimeInterval const kPNImpressionCheckPeriod = 0.25f; // Check every 250 ms
 
 @property (nonatomic, strong) NSMutableArray<PNLiteImpressionTrackerItem*> *visibleViews;
 @property (nonatomic, strong) NSMutableArray<UIView*> *trackedViews;
-@property (nonatomic, strong) HyBidVisibilityTracker *visibilityTracker;
 @property (nonatomic, assign) BOOL isVisibiltyCheckScheduled;
 @property (nonatomic, assign) BOOL isVisibiltyCheckValid;
 @property (nonatomic, assign) long minVisibleTime;

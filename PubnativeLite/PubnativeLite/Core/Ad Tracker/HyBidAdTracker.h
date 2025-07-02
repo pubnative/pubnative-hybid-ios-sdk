@@ -45,5 +45,6 @@ extern NSString *const PNLiteAdCustomCTAEndCardClick;
 - (void)trackStorekitAutomaticClickWithAdFormat:(NSString *)adFormat;
 - (void)trackStorekitAutomaticDefaultEndCardClickWithAdFormat:(NSString *)adFormat;
 - (void)trackStorekitAutomaticCustomEndCardClickWithAdFormat:(NSString *)adFormat;
+- (void)trackReplayClickWithAdFormat:(NSString *)adFormat;
 
 @end

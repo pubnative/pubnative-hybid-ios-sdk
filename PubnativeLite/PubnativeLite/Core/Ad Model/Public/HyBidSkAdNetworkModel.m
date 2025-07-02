@@ -59,7 +59,7 @@ NSString * const REQUEST_SKADNETWORK_V4 = @"4.0";
                         NSString *sourceIdString = [self.productParameters objectForKey:HyBidSKAdNetworkParameter.sourceIdentifier];
                         NSNumber *sourceId = [self getNSNumberFromString:sourceIdString];
                         if (sourceId != nil) {
-                            [storeKitParameters setObject:sourceId forKey:SKStoreProductParameterAdNetworkSourceIdentifier];
+                            [storeKitParameters setValue:sourceId forKey:SKStoreProductParameterAdNetworkSourceIdentifier];
                         }
                     }
                 }
@@ -153,6 +153,13 @@ NSString * const REQUEST_SKADNETWORK_V4 = @"4.0";
                 } else {
                     if (self.productParameters[HyBidSKAdNetworkParameter.fidelities] != nil) {
                         [storeKitParameters setObject:self.productParameters[HyBidSKAdNetworkParameter.fidelities] forKey:HyBidSKAdNetworkParameter.fidelities];
+                    }
+                }
+                
+                if (@available(iOS 15.0, *)) {
+                    NSString *productPageId = [self.productParameters objectForKey:HyBidSKAdNetworkParameter.productPageId];
+                    if (productPageId != nil) {
+                        [storeKitParameters setObject:productPageId forKey:SKStoreProductParameterCustomProductPageIdentifier];
                     }
                 }
             }

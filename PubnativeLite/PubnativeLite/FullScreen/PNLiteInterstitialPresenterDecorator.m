@@ -104,9 +104,13 @@
 }
 
 - (void)interstitialPresenterDidShow:(HyBidInterstitialPresenter *)interstitialPresenter {
-    if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenterDidShow:)] && !self.adTracker.impressionTracked) {
-        [self.adTracker trackImpressionWithAdFormat:HyBidReportingAdFormat.FULLSCREEN];
-        [self.interstitialPresenterDelegate interstitialPresenterDidShow:interstitialPresenter];
+    if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenterDidShow:)]) {
+        
+        if (!self.adTracker.impressionTracked) {
+            [self.adTracker trackImpressionWithAdFormat:HyBidReportingAdFormat.FULLSCREEN];
+            [self.interstitialPresenterDelegate interstitialPresenterDidShow:interstitialPresenter];
+        }
+        
         [self.skoverlay addObservers];
         [self.skoverlay presentWithAd:interstitialPresenter.ad];
         [self.customCTA presentCustomCTAWithDelay];
@@ -191,17 +195,8 @@
     }
 }
 
-- (void)interstitialPresenterDidAppear:(HyBidInterstitialPresenter *)interstitialPresenter {
-    [self.skoverlay presentWithAd:interstitialPresenter.ad];
-}
-
-- (void)interstitialPresenterDidDisappear:(HyBidInterstitialPresenter *)interstitialPresenter {
-    [self.skoverlay dismissEntirely:NO withAd:interstitialPresenter.ad causedByAutoCloseTimerCompletion:NO];
-}
-
-- (void)interstitialPresenterPresentsSKOverlay:(HyBidInterstitialPresenter *)interstitialPresenter {
-    [self.skoverlay presentWithAd:interstitialPresenter.ad];
-}
+- (void)interstitialPresenterDidAppear:(HyBidInterstitialPresenter *)interstitialPresenter {}
+- (void)interstitialPresenterDidDisappear:(HyBidInterstitialPresenter *)interstitialPresenter {}
 
 - (void)interstitialPresenterDismissesSKOverlay:(HyBidInterstitialPresenter *)interstitialPresenter {
     [self.skoverlay dismissEntirely:YES withAd:interstitialPresenter.ad causedByAutoCloseTimerCompletion:NO];
@@ -228,6 +223,27 @@
 
 - (void)interstitialPresenterDidClickCustomCTAOnEndCard:(BOOL)onEndCard {
     [self.adTracker trackCustomCTAClickWithAdFormat:HyBidReportingAdFormat.FULLSCREEN onEndCard:onEndCard];
+}
+
+- (void)interstitialPresenterDidReplay:(HyBidInterstitialPresenter *)interstitialPresenter
+                        viewController:(UIViewController *)viewController {
+    [self interstitialPresenterDismissesSKOverlay:interstitialPresenter];
+    
+    if (self.interstitialPresenter.ad.skoverlayEnabled && [self.interstitialPresenter.ad.skoverlayEnabled boolValue]) {
+        self.skoverlay = [[HyBidSKOverlay alloc] initWithAd:interstitialPresenter.ad
+                                                 isRewarded:NO
+                                                   delegate:interstitialPresenter.skoverlayDelegate];
+    }
+    
+    if ([HyBidCustomCTAView isCustomCTAValidWithAd: interstitialPresenter.ad]) {
+        self.customCTA = [[HyBidCustomCTAView alloc] initWithAd:interstitialPresenter.ad
+                                                 viewController:viewController
+                                                       delegate:interstitialPresenter.customCTADelegate
+                                                       adFormat:HyBidReportingAdFormat.FULLSCREEN];
+    }
+    
+    [self interstitialPresenterDidShow:interstitialPresenter];
+    [self.adTracker trackReplayClickWithAdFormat:HyBidReportingAdFormat.FULLSCREEN];
 }
 
 - (void)impressionDetectedWithView:(UIView *)view {}
