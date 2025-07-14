@@ -1101,7 +1101,20 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
             }
             
             if(shouldOpenBrowser) {
-                [HyBidSKAdNetworkViewController.shared presentStoreKitViewWithProductParameters:[HyBidStoreKitUtils cleanUpProductParams:productParams] adFormat:self.isInterstitial ? HyBidReportingAdFormat.FULLSCREEN : HyBidReportingAdFormat.REWARDED isAutoStoreKitView:self.isAutoStoreKit ad:self.ad];
+                NSDictionary *params = [HyBidStoreKitUtils cleanUpProductParams:productParams];
+                NSString *adFormat = self.isInterstitial ? HyBidReportingAdFormat.FULLSCREEN : HyBidReportingAdFormat.REWARDED;
+                if (self.isAutoStoreKit) {
+                    [HyBidSKAdNetworkViewController.shared presentStoreKitViewWithProductParameters:params
+                                                                                           adFormat:adFormat
+                                                                                 isAutoStoreKitView:self.isAutoStoreKit
+                                                                                                 ad:self.ad
+                                                                                 rootViewController:self.mraidView.rootViewController];
+                } else {
+                    [HyBidSKAdNetworkViewController.shared presentStoreKitViewWithProductParameters:params
+                                                                                           adFormat:adFormat
+                                                                                 isAutoStoreKitView:self.isAutoStoreKit
+                                                                                                 ad:self.ad];
+                }
             }
         } else {
             if(endCardType == HyBidEndCardType_STATIC) {

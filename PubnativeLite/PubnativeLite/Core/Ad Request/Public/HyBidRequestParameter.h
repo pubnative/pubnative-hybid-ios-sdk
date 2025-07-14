@@ -116,5 +116,4 @@
 + (NSString * _Nonnull)openRTBgpp;
 + (NSString * _Nonnull)openRTBgpp_sid;
 + (NSString * _Nonnull)openRTBus_privacy;
-
 @end

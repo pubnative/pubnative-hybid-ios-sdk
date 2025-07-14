@@ -11,7 +11,7 @@ public class HyBidConstants: NSObject {
     
     @objc public static let HYBID_SDK_NAME = "HyBid"
     @objc public static let HYBID_OMSDK_VERSION = "1.5.4"
-    @objc public static let HYBID_SDK_VERSION = "3.6.1-beta4"
+    @objc public static let HYBID_SDK_VERSION = "3.6.1-beta6"
     @objc public static let HYBID_OMSDK_IDENTIFIER = "Pubnativenet"
     @objc public static let RENDERING_SUCCESS = "rendering success"
     @objc public static let AD_SESSION_DATA = "ad_session_data"

@@ -1,4 +1,5 @@
 source 'https://cdn.cocoapods.org/'
+source 'https://github.com/vervegroup/specs-private.git'
 
 workspace 'HyBid.xcworkspace'
 project 'PubnativeLite/HyBid.xcodeproj'
@@ -9,7 +10,7 @@ platform :ios, '12.0'
 use_frameworks!
 
 target 'HyBid' do
-  pod 'ATOM-Standalone', '3.7.0-beta.2'
+  pod 'ATOM-Standalone-Private', '3.7.0-beta.13'
 end
 
 target 'HyBidDemo' do

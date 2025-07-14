@@ -134,6 +134,16 @@
         }
     }
     
+    if (@available(iOS 17.4, *)) {
+        HyBidAAKNetworkRequestModel *aakNetworkRequestModel = [[HyBidAAKNetworkRequestModel alloc] init];
+        NSString *aakIDs = [aakNetworkRequestModel getAAKNetworkIDsString];
+        if (aakIDs) {
+            NSString *skanNetworks = self.adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkAdNetworkIDs];
+            NSString *networks = skanNetworks.length > 0 ? [NSString stringWithFormat: @"%@,%@", skanNetworks, aakIDs] : aakIDs;
+            self.adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkAdNetworkIDs] = networks;
+        }
+    }
+    
     NSString* privacyString = [[HyBidUserDataManager sharedInstance] getIABUSPrivacyString];
     if (privacyString != nil && !([privacyString length] == 0)) {
         self.adRequestModel.requestParameters[HyBidRequestParameter.usprivacy] = privacyString;

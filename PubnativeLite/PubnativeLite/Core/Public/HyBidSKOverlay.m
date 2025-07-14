@@ -102,6 +102,14 @@ typedef enum : NSUInteger {
                                                             position:position];
                 configuration.userDismissible = userDismissible;
                 
+                
+                if (@available(iOS 15.0, *)) {
+                    NSString *productPageId = [skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.productPageId];
+                    if (productPageId && productPageId.length > 0) {
+                        configuration.customProductPageIdentifier = productPageId;
+                    }
+                }
+                
                 if (@available(iOS 17.4, *)) {
                     [[[HyBidAdAttributionSKOverlayManager alloc] init] getAppConfigurationWithAppIdentifier:appIdentifier position:position userDismissible:userDismissible ad:self.ad adFormat:isRewarded ? HyBidReportingAdFormat.REWARDED : HyBidReportingAdFormat.FULLSCREEN completionHandler:^(SKOverlayAppConfiguration * _Nullable appConfiguration) {
                                                 

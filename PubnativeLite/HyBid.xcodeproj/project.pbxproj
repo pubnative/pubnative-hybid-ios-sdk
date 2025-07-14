@@ -621,6 +621,7 @@
 		91B1EF722B1A4F080092900C /* HyBidCustomCTAView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91B1EF732B1A4F080092900C /* HyBidCustomCTAView.xib */; };
 		91B6C8F52B87B6FD00462C88 /* HyBidDemoALNativeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B6C8F32B87B4E800462C88 /* HyBidDemoALNativeViewController.swift */; };
 		91B6C8FA2B88F0D500462C88 /* HyBidDemoAppLovinNativeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91B6C8F62B88D48900462C88 /* HyBidDemoAppLovinNativeView.xib */; };
+		91BD16A92E18035000A9B1E9 /* HyBidAAKNetworkRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91BD16A82E18035000A9B1E9 /* HyBidAAKNetworkRequestModel.swift */; };
 		91BEB89B2CBFCD54001A3B3E /* HyBidInternalWebBrowserNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91BEB89A2CBFCD54001A3B3E /* HyBidInternalWebBrowserNavigationController.swift */; };
 		91C1AF082DD5F72300B7D88C /* HyBidAdAttributionParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C1AF072DD5F72300B7D88C /* HyBidAdAttributionParameter.swift */; };
 		91D77D3F2C53E1EC00DED210 /* HyBidGDPR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D77D3E2C53E1EC00DED210 /* HyBidGDPR.swift */; };
@@ -635,7 +636,7 @@
 		91ED577B2C578CC80099C70B /* NSUserDefaults+HyBidCustomMethods.h in Headers */ = {isa = PBXBuildFile; fileRef = 91ED57782C578CC80099C70B /* NSUserDefaults+HyBidCustomMethods.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		91ED577D2C578E1C0099C70B /* NSUserDefaults+HyBidCustomMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = 91ED577C2C578E1B0099C70B /* NSUserDefaults+HyBidCustomMethods.m */; };
 		91FB516E2AC6CF5400CB5F31 /* HyBidOpenRTBRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FB516D2AC6CF5400CB5F31 /* HyBidOpenRTBRequestModel.swift */; };
-		AA59B293880467668EE13EA0 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		AA59B293880467668EE13EA0 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
 		CE21BD712BFF409600CD9892 /* HyBidStoreKitUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = CE21BD6F2BFF409600CD9892 /* HyBidStoreKitUtils.h */; };
 		CE21BD722BFF409600CD9892 /* HyBidStoreKitUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = CE21BD702BFF409600CD9892 /* HyBidStoreKitUtils.m */; };
 		CE4A74162B30F19F00E62B10 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = CE4A74152B30F19F00E62B10 /* PrivacyInfo.xcprivacy */; };
@@ -1452,6 +1453,7 @@
 		91B1EF732B1A4F080092900C /* HyBidCustomCTAView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HyBidCustomCTAView.xib; sourceTree = "<group>"; };
 		91B6C8F32B87B4E800462C88 /* HyBidDemoALNativeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyBidDemoALNativeViewController.swift; sourceTree = "<group>"; };
 		91B6C8F62B88D48900462C88 /* HyBidDemoAppLovinNativeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HyBidDemoAppLovinNativeView.xib; sourceTree = "<group>"; };
+		91BD16A82E18035000A9B1E9 /* HyBidAAKNetworkRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyBidAAKNetworkRequestModel.swift; sourceTree = "<group>"; };
 		91BEB89A2CBFCD54001A3B3E /* HyBidInternalWebBrowserNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyBidInternalWebBrowserNavigationController.swift; sourceTree = "<group>"; };
 		91C1AF072DD5F72300B7D88C /* HyBidAdAttributionParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyBidAdAttributionParameter.swift; sourceTree = "<group>"; };
 		91D77D3E2C53E1EC00DED210 /* HyBidGDPR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyBidGDPR.swift; sourceTree = "<group>"; };
@@ -1568,7 +1570,7 @@
 				5A9B66CD20BD63810067964E /* libxml2.2.tbd in Frameworks */,
 				34049C6D2DD5F47000442D16 /* OMSDK_Pubnativenet.xcframework in Frameworks */,
 				5A9B66CB20BD63590067964E /* libxml2.tbd in Frameworks */,
-				AA59B293880467668EE13EA0 /* (null) in Frameworks */,
+				AA59B293880467668EE13EA0 /* BuildFile in Frameworks */,
 				2FD67452710D0A5F8BA22964 /* Pods_HyBid.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3075,6 +3077,7 @@
 			isa = PBXGroup;
 			children = (
 				91537E4F2D8C3EB6008E14C6 /* HyBidAdAttributionManager.swift */,
+				91BD16A82E18035000A9B1E9 /* HyBidAAKNetworkRequestModel.swift */,
 				91C1AF072DD5F72300B7D88C /* HyBidAdAttributionParameter.swift */,
 				9157ED282DBA60DF008D46B6 /* HyBidAdAttributionSKOverlayManager.swift */,
 				9157ED262DBA6067008D46B6 /* HyBidAppImpressionWrapper.swift */,
@@ -3704,7 +3707,7 @@
 				"${PODS_ROOT}/Target Support Files/Pods-HyBidTests/Pods-HyBidTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/OCHamcrest/OCHamcrest.framework",
 				"${BUILT_PRODUCTS_DIR}/OCMockito/OCMockito.framework",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ATOM-Standalone/ATOM.framework/ATOM",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ATOM-Standalone-Private/ATOM.framework/ATOM",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -3737,7 +3740,7 @@
 				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AppLovinSDK/AppLovinSDK.framework/AppLovinSDK",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ATOM-Standalone/ATOM.framework/ATOM",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ATOM-Standalone-Private/ATOM.framework/ATOM",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -4077,6 +4080,7 @@
 				62E8D73F26CFAA8000828E6A /* HyBidVASTTracking.m in Sources */,
 				91E84FC72AD698EC00BE0EAF /* HyBidOpenRTBRequestDeviceModel.swift in Sources */,
 				5AB6D21922575FF200AB9C8F /* HyBidViewabilityManager.m in Sources */,
+				91BD16A92E18035000A9B1E9 /* HyBidAAKNetworkRequestModel.swift in Sources */,
 				5AEC31792469AAD6008FD8BD /* HyBidViewabilityNativeAdSession.m in Sources */,
 				5AEC317524698D8D008FD8BD /* HyBidViewabilityNativeVideoAdSession.m in Sources */,
 				91A524302DF1BC6900D379B3 /* HyBidTriggeredTracker.swift in Sources */,
@@ -4295,7 +4299,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.6.1-beta4;
+				MARKETING_VERSION = "3.6.1-beta6";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -4345,7 +4349,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.6.1-beta4;
+				MARKETING_VERSION = "3.6.1-beta6";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -4519,7 +4523,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.6.1-beta4;
+				MARKETING_VERSION = "3.6.1-beta6";
 				MODULEMAP_FILE = "";
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -4564,7 +4568,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.6.1-beta4;
+				MARKETING_VERSION = "3.6.1-beta6";
 				MODULEMAP_FILE = "";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;

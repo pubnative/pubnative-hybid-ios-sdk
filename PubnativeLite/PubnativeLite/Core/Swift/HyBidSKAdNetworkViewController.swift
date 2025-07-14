@@ -28,6 +28,7 @@ public class HyBidSKAdNetworkViewController: NSObject {
     private var skStoreProductViewController : SKStoreProductViewController?
     private var ad: HyBidAd?
     @objc public var avoidAutoStoreKitPresentationAfterReplay = false
+    private var rootViewController : UIViewController? = .none
     
     @available(iOS 17.4, *)
     private func loadStoreKitViewAAK(parameters: [String : Any], adFormat: String, isAutoStoreKitView: Bool) async {
@@ -82,8 +83,10 @@ public class HyBidSKAdNetworkViewController: NSObject {
         HyBidInterruptionHandler.shared.productViewControllerIsReadyToShow()
         handlerController.isStoreKitViewPresented = true
         guard let skStoreProductViewController = handlerController.skStoreProductViewController else { return }
-        UIApplication.shared.topViewController.present(skStoreProductViewController, animated: true) {
+        guard let presentationViewController = self.rootViewController ?? UIApplication.shared.topViewController else { return }
+        presentationViewController.present(skStoreProductViewController, animated: true) {
             handlerController.isStoreKitViewPresented = true
+            handlerController.rootViewController = nil
             HyBidInterruptionHandler.shared.productViewControllerDidShow(isAutoStoreKitView: isAutoStoreKitView, adFormat: adFormat)
         }
     }
@@ -96,6 +99,12 @@ public class HyBidSKAdNetworkViewController: NSObject {
         guard let error else { return false }
         HyBidInterruptionHandler.shared.productViewControllerDidFail(error: error)
         return false
+    }
+    
+    @objc public func presentStoreKitView(productParameters: Dictionary<String,Any>, adFormat: String,
+                                          isAutoStoreKitView: Bool, ad:HyBidAd, rootViewController: UIViewController) {
+        self.rootViewController = rootViewController
+        self.presentStoreKitView(productParameters: productParameters, adFormat: adFormat, isAutoStoreKitView: isAutoStoreKitView, ad: ad)
     }
     
     @objc public func presentStoreKitView(productParameters: Dictionary<String,Any>, adFormat: String,

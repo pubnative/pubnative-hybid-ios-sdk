@@ -237,7 +237,6 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
 shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
     self = [super initWithFrame:frame];
     if (self) {
-        [self setUpTapGestureRecognizer];
         [self determineNativeCloseButtonDelayForAd:ad];
         [self determineCreativeAutoStorekitEnabledForAd:ad];
         isInterstitial = isInter;
@@ -293,6 +292,7 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
         baseURL = bsURL;
         state = PNLiteMRAIDStateLoading;
         
+        [self setUpTapGestureRecognizer];
         if (baseURL != nil && [[baseURL absoluteString] length]!= 0) {
             __block NSString *htmlData = htmlData;
             [self htmlFromUrl:baseURL handler:^(NSString *html, NSError *error) {
