@@ -10,7 +10,7 @@ platform :ios, '12.0'
 use_frameworks!
 
 target 'HyBid' do
-  pod 'ATOM-Standalone-Private', '3.7.0-beta.13'
+  pod 'ATOM-Standalone', '3.7.0-beta.2'
 end
 
 target 'HyBidDemo' do
