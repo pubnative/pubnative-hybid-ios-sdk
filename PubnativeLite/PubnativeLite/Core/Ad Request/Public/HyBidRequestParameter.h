@@ -92,6 +92,7 @@
 + (NSString * _Nonnull)darkmode;
 + (NSString * _Nonnull)airplaneMode;
 + (NSString * _Nonnull)btype;
++ (NSString * _Nonnull)hver;
 
 #pragma mark - SKAdNetwork parameters
 + (NSString * _Nonnull)skAdNetworkVersion;

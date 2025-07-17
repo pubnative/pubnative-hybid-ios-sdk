@@ -65,7 +65,7 @@ import Foundation
         }
     }
     
-    @objc public class func createAdSessionData(from request: HyBidAdRequest, ad: HyBidAd) -> HyBidAdSessionData {
+    @objc public class func createAdSessionData(from request: HyBidAdRequest?, ad: HyBidAd) -> HyBidAdSessionData {
         let adSessionData = HyBidAdSessionData()
         if let creativeId = ad.creativeID {
             adSessionData.creativeId = creativeId
@@ -75,8 +75,14 @@ import Foundation
             adSessionData.campaignId = campaignID
         }
         
-        if let adFormat = request.getAdFormat() {
+        if let adFormat = request?.getAdFormat() {
             adSessionData.adFormat = adFormat
+        }
+        
+        if (adSessionData.adFormat == nil) {
+            if let adFormat = ad.adFormat {
+                adSessionData.adFormat = adFormat
+            }
         }
 
         if let bidPrice = HyBidHeaderBiddingUtils.eCPM(from: ad, withDecimalPlaces: HyBidKeywordMode.THREE_DECIMAL_PLACES) {

@@ -540,6 +540,7 @@ extension HyBidInterstitialAd {
 extension HyBidInterstitialAd {
     func signalDataDidFinish(with ad: HyBidAd) {
         self.ad = ad
+        self.adSessionData = ATOMManager.createAdSessionData(from: nil, ad: ad)
         self.renderAd(ad: ad)
     }
     

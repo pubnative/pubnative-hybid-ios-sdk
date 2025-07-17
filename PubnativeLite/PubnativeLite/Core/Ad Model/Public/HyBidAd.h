@@ -77,6 +77,8 @@ typedef enum : NSUInteger {
 @property (nonatomic, readonly) NSString *contentInfoIconClickAction;
 @property (nonatomic, readonly) NSString *contentInfoDisplay;
 @property (nonatomic, readonly) NSString *contentInfoText;
+@property (nonatomic, readonly) NSString *adFormat;
+
 //@property (nonatomic, readonly) NSString *contentInfoHorizontalPosition;
 //@property (nonatomic, readonly) NSString *contentInfoVeritcalPosition;
 @property (nonatomic, readonly) NSNumber *interstitialHtmlSkipOffset;

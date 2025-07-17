@@ -451,14 +451,14 @@ NSInteger const PNLiteResponseStatusOK = 200;
                 if (self.isUsingOpenRTB) {
                     NSInteger assetGroupID = 21;
                     NSInteger type = kHyBidAdTypeHTML;
-                    if (self.openRTBAdType == HyBidOpenRTBAdNative){
+                    if (self.openRTBAdType == HyBidOpenRTBAdNative) {
                         #if __has_include(<ATOM/ATOM-Swift.h>)
                         NSArray<NSString *> *cohorts = [self getCohortsFromRequestURL];
                         ad = [[HyBidAd alloc] initOpenRTBWithData:adModel withZoneID:self.zoneID withCohorts:cohorts];
                         #else
                         ad = [[HyBidAd alloc] initOpenRTBWithData:adModel withZoneID:self.zoneID];
                         #endif
-                    } else if (self.openRTBAdType == HyBidOpenRTBAdBanner){
+                    } else if (self.openRTBAdType == HyBidOpenRTBAdBanner) {
                         #if __has_include(<ATOM/ATOM-Swift.h>)
                         ad = [[HyBidAd alloc] initWithAssetGroupForOpenRTB:assetGroupID withAdContent: adContent withAdType:type withBidObject:bid];
                         #else

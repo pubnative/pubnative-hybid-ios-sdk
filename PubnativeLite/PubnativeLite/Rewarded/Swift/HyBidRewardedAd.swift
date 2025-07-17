@@ -474,6 +474,7 @@ extension HyBidRewardedAd {
 extension HyBidRewardedAd {
     func signalDataDidFinish(with ad: HyBidAd) {
         self.ad = ad
+        self.adSessionData = ATOMManager.createAdSessionData(from: nil, ad: ad)
         self.ad?.adType = Int(kHyBidAdTypeVideo)
         self.renderAd(ad: ad)
     }

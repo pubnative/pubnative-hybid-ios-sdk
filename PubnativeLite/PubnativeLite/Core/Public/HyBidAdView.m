@@ -372,7 +372,7 @@
             adRequest.placement = HyBidDemoAppPlacementMRect;
             adRequest.openRTBAdType = HyBidOpenRTBAdVideo;
         }
-        if ([self.adSize isEqualTo:HyBidAdSize.SIZE_300x50]){
+        if ([self.adSize isEqualTo:HyBidAdSize.SIZE_300x50] || [self.adSize isEqualTo:HyBidAdSize.SIZE_320x50]){
             adRequest.placement = HyBidDemoAppPlacementBanner;
             adRequest.openRTBAdType = HyBidOpenRTBAdBanner;
         }
@@ -622,6 +622,7 @@
 
 - (void)signalDataDidFinishWithAd:(HyBidAd *)ad {
     self.ad = ad;
+    self.adSessionData = [ATOMManager createAdSessionDataFrom:nil ad:ad];
     [self renderAdForSignalData];
 }
 

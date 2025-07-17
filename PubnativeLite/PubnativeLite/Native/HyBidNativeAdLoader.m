@@ -153,10 +153,7 @@
     if (!ad) {
         [self invokeDidFailWithError:[NSError hyBidNullAd]];
     } else {
-        self.adSessionData = [ATOMManager createAdSessionDataFrom:request ad:ad];
-        HyBidNativeAd *nativeAd = [[HyBidNativeAd alloc] initWithAd:ad];
-        nativeAd.adSessionData = self.adSessionData;
-        [self invokeDidLoadWithNativeAd:nativeAd];
+        [self loadNativeAdWithRequest:request ad:ad];
     }
 }
 
@@ -171,14 +168,19 @@
     if (!ad) {
         [self invokeDidFailWithError:[NSError hyBidNullAd]];
     } else {
-        HyBidNativeAd *nativeAd = [[HyBidNativeAd alloc] initWithAd:ad];
-        nativeAd.adSessionData = self.adSessionData;
-        [self invokeDidLoadWithNativeAd:nativeAd];
+        [self loadNativeAdWithRequest:nil ad:ad];
     }
 }
 
 - (void)signalDataDidFailWithError:(NSError *)error {
     [self invokeDidFailWithError:error];
+}
+
+- (void)loadNativeAdWithRequest:(HyBidAdRequest *)request ad:(HyBidAd *)ad {
+    self.adSessionData = [ATOMManager createAdSessionDataFrom:request ad:ad];
+    HyBidNativeAd *nativeAd = [[HyBidNativeAd alloc] initWithAd:ad];
+    nativeAd.adSessionData = self.adSessionData;
+    [self invokeDidLoadWithNativeAd:nativeAd];
 }
 
 @end

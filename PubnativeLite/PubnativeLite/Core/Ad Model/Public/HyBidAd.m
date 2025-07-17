@@ -34,6 +34,7 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
 @property (nonatomic, strong)HyBidOpenRTBAdModel *openRTBData;
 @property (nonatomic, strong)HyBidContentInfoView *contentInfoView;
 @property (nonatomic, strong)NSString *_zoneID;
+@property (nonatomic, readwrite)NSString *adFormat;
 
 #if __has_include(<ATOM/ATOM-Swift.h>)
 @property (nonatomic, strong)NSArray<NSString *> *_cohorts;
@@ -61,6 +62,7 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     if (self) {
         self.data = data;
         self._zoneID = zoneID;
+        [self saveAdFormat:data];
     }
     return self;
 }
@@ -74,9 +76,26 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
         self.data = data;
         self._zoneID = zoneID;
         self._cohorts = cohorts;
+        [self saveAdFormat:data];
     }
     return self;
 }
+
+- (void)saveAdFormat:(id)data {
+    if ([data respondsToSelector:@selector(assets)]) {
+        NSArray *assets = [data valueForKey:@"assets"];
+        if ([assets isKindOfClass:[NSArray class]] && assets.count > 0) {
+            id firstAsset = assets.firstObject;
+            if ([firstAsset respondsToSelector:@selector(type)]) {
+                id typeValue = [firstAsset valueForKey:@"type"];
+                if (typeValue) {
+                    self.adFormat = typeValue;
+                }
+            }
+        }
+    }
+}
+
 
 - (instancetype)initOpenRTBWithData:(HyBidOpenRTBAdModel *)data withZoneID:(NSString *)zoneID withCohorts:(NSArray<NSString *> *)cohorts {
     self = [super init];
@@ -84,6 +103,7 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
         self.openRTBData = data;
         self._zoneID = zoneID;
         self._cohorts = cohorts;
+        [self saveAdFormat:data];
     }
     return self;
 }
@@ -94,6 +114,7 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     if (self) {
         self.openRTBData = data;
         self._zoneID = zoneID;
+        [self saveAdFormat:data];
     }
     return self;
 }
@@ -109,10 +130,12 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
             apiAsset = PNLiteAsset.vast;
             data = [[HyBidOpenRTBDataModel alloc] initWithVASTAsset:apiAsset withValue:adContent];
             self.adType = kHyBidAdTypeVideo;
+            self.adFormat = @"VAST";
         } else {
             apiAsset = PNLiteAsset.htmlBanner;
             data = [[HyBidOpenRTBDataModel alloc] initWithHTMLAsset:apiAsset withValue:adContent];
             self.adType = kHyBidAdTypeHTML;
+            self.adFormat = @"htmlBanner";
         }
         [assets addObject:data];
         
@@ -134,10 +157,12 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
             apiAsset = PNLiteAsset.vast;
             data = [[HyBidDataModel alloc] initWithVASTAsset:apiAsset withValue:adContent];
             self.adType = kHyBidAdTypeVideo;
+            self.adFormat = @"VAST";
         } else {
             apiAsset = PNLiteAsset.htmlBanner;
             data = [[HyBidDataModel alloc] initWithHTMLAsset:apiAsset withValue:adContent];
             self.adType = kHyBidAdTypeHTML;
+            self.adFormat = @"htmlBanner";
         }
         [assets addObject:data];
         
