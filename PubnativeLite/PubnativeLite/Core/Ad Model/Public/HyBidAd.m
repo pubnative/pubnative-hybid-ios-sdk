@@ -67,20 +67,6 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     return self;
 }
 
-
-#if __has_include(<ATOM/ATOM-Swift.h>)
-- (instancetype)initWithData:(HyBidAdModel *)data withZoneID:(NSString *)zoneID withCohorts:(NSArray<NSString *> *)cohorts
-{
-    self = [super init];
-    if (self) {
-        self.data = data;
-        self._zoneID = zoneID;
-        self._cohorts = cohorts;
-        [self saveAdFormat:data];
-    }
-    return self;
-}
-
 - (void)saveAdFormat:(id)data {
     if ([data respondsToSelector:@selector(assets)]) {
         NSArray *assets = [data valueForKey:@"assets"];
@@ -96,6 +82,18 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     }
 }
 
+#if __has_include(<ATOM/ATOM-Swift.h>)
+- (instancetype)initWithData:(HyBidAdModel *)data withZoneID:(NSString *)zoneID withCohorts:(NSArray<NSString *> *)cohorts
+{
+    self = [super init];
+    if (self) {
+        self.data = data;
+        self._zoneID = zoneID;
+        self._cohorts = cohorts;
+        [self saveAdFormat:data];
+    }
+    return self;
+}
 
 - (instancetype)initOpenRTBWithData:(HyBidOpenRTBAdModel *)data withZoneID:(NSString *)zoneID withCohorts:(NSArray<NSString *> *)cohorts {
     self = [super init];

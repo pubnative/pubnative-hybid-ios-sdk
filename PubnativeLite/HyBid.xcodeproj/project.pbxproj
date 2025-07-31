@@ -636,7 +636,7 @@
 		91ED577B2C578CC80099C70B /* NSUserDefaults+HyBidCustomMethods.h in Headers */ = {isa = PBXBuildFile; fileRef = 91ED57782C578CC80099C70B /* NSUserDefaults+HyBidCustomMethods.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		91ED577D2C578E1C0099C70B /* NSUserDefaults+HyBidCustomMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = 91ED577C2C578E1B0099C70B /* NSUserDefaults+HyBidCustomMethods.m */; };
 		91FB516E2AC6CF5400CB5F31 /* HyBidOpenRTBRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FB516D2AC6CF5400CB5F31 /* HyBidOpenRTBRequestModel.swift */; };
-		AA59B293880467668EE13EA0 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		AA59B293880467668EE13EA0 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
 		CE21BD712BFF409600CD9892 /* HyBidStoreKitUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = CE21BD6F2BFF409600CD9892 /* HyBidStoreKitUtils.h */; };
 		CE21BD722BFF409600CD9892 /* HyBidStoreKitUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = CE21BD702BFF409600CD9892 /* HyBidStoreKitUtils.m */; };
 		CE4A74162B30F19F00E62B10 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = CE4A74152B30F19F00E62B10 /* PrivacyInfo.xcprivacy */; };
@@ -1570,7 +1570,7 @@
 				5A9B66CD20BD63810067964E /* libxml2.2.tbd in Frameworks */,
 				34049C6D2DD5F47000442D16 /* OMSDK_Pubnativenet.xcframework in Frameworks */,
 				5A9B66CB20BD63590067964E /* libxml2.tbd in Frameworks */,
-				AA59B293880467668EE13EA0 /* (null) in Frameworks */,
+				AA59B293880467668EE13EA0 /* BuildFile in Frameworks */,
 				2FD67452710D0A5F8BA22964 /* Pods_HyBid.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3707,7 +3707,7 @@
 				"${PODS_ROOT}/Target Support Files/Pods-HyBidTests/Pods-HyBidTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/OCHamcrest/OCHamcrest.framework",
 				"${BUILT_PRODUCTS_DIR}/OCMockito/OCMockito.framework",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ATOM-Standalone-Private/ATOM.framework/ATOM",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ATOM-Standalone/ATOM.framework/ATOM",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -3740,7 +3740,7 @@
 				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AppLovinSDK/AppLovinSDK.framework/AppLovinSDK",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ATOM-Standalone-Private/ATOM.framework/ATOM",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ATOM-Standalone/ATOM.framework/ATOM",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
