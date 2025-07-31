@@ -12,5 +12,5 @@ typedef enum : NSUInteger {
 
 @protocol HyBidSKOverlayDelegate <NSObject>
 @optional
-- (void)skoverlayDidShowOnCreative;
+- (void)skoverlayDidShowOnCreative:(BOOL)isFirstPresentation;
 @end

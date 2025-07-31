@@ -12,6 +12,7 @@
 #import "HyBidSkAdNetworkModel.h"
 
 @class HyBidNativeAd;
+@class HyBidAdSessionData;
 
 @protocol HyBidNativeAdDelegate <NSObject>
 
@@ -41,6 +42,7 @@
 @property (nonatomic, readonly) UIImage *icon;
 @property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, readonly) HyBidContentInfoView *contentInfo;
+@property (nonatomic, strong) HyBidAdSessionData *adSessionData;
 
 - (instancetype)initWithAd:(HyBidAd *)ad;
 - (void)renderAd:(HyBidNativeAdRenderer *)renderer;

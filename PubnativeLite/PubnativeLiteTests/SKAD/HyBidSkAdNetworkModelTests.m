@@ -25,6 +25,7 @@ NSString * const RESPONSE_TIMESTAMP_KEY = @"timestamp";
 NSString * const RESPONSE_NONCE_KEY = @"nonce";
 NSString * const RESPONSE_FIDELITY_TYPE_KEY = @"fidelity-type";
 NSString * const RESPONSE_SOURCE_IDENTIFIER_KEY = @"sourceidentifier";
+NSString * const RESPONSE_PRODUCT_PAGE_ID_KEY = @"productpageid";
 
 NSDictionary *dict;
 
@@ -72,7 +73,8 @@ NSDictionary *dict;
     NSMutableDictionary *tempDict = [dict mutableCopy];
     [tempDict addEntriesFromDictionary:@{
         RESPONSE_SKADNETWORK_VERSION_KEY: @"4.0",
-        RESPONSE_SOURCE_IDENTIFIER_KEY: @"mockSourceIdentifier"
+        RESPONSE_SOURCE_IDENTIFIER_KEY: @"mockSourceIdentifier",
+        RESPONSE_PRODUCT_PAGE_ID_KEY: @"45812c9b-c296-43d3-c6a0-c5a02f74bf6e"
     }];
     BOOL result = [self.skAdNetworkModel checkV4_0_Parameters:tempDict];
     XCTAssertTrue(result, @"Should return TRUE for valid v4.0 parameters");

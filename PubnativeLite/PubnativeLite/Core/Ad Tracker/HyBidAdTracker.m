@@ -56,6 +56,7 @@ NSString *const PNLiteAdCustomCTAEndCardClick = @"custom_cta_endcard_click";
 
 @property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, strong) NSMutableDictionary<NSString*, NSArray<NSString *>*> *trackedURLsDictionary;
+@property (nonatomic, assign) BOOL vastReplayCLickTracked;
 
 @end
 
@@ -313,6 +314,19 @@ NSString *const PNLiteAdCustomCTAEndCardClick = @"custom_cta_endcard_click";
     }
 }
 
+- (void)trackReplayClickWithAdFormat:(NSString *)adFormat {
+    if ([HyBidSDKConfig sharedConfig].reporting) {
+        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.REPLAY
+                                                                          adFormat:adFormat
+                                                                        properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
+    }
+    
+    if (self.vastReplayCLickTracked) { return; }
+    [[HyBidVASTEventBeaconsManager shared] reportVASTEventWithType:HyBidReportingEventType.REPLAY ad:self.ad];
+    self.vastReplayCLickTracked = YES;
+}
+
 - (void)trackURLs:(NSArray *)URLs withTrackingType:(NSString *)trackingType {
     if (URLs != nil) {
         for (HyBidDataModel *dataModel in URLs) {
@@ -420,9 +434,7 @@ NSString *const PNLiteAdCustomCTAEndCardClick = @"custom_cta_endcard_click";
     if ([beaconType isEqualToString:PNLiteAdCustomEndCardClick]) { beaconType = HyBidReportingBeaconType.CUSTOM_ENDCARD_CLICK; }
     if ([beaconType isEqualToString:PNLiteAdCustomCTAImpression]) { beaconType = HyBidReportingEventType.CUSTOM_CTA_IMPRESSION; }
     if ([beaconType isEqualToString:PNLiteAdCustomCTAClick]) { beaconType = HyBidReportingEventType.CUSTOM_CTA_CLICK; }
-    if ([beaconType isEqualToString:PNLiteAdCustomCTAEndCardClick]) {
-        beaconType = HyBidReportingEventType.CUSTOM_CTA_ENDCARD_CLICK;
-    }
+    if ([beaconType isEqualToString:PNLiteAdCustomCTAEndCardClick]) { beaconType = HyBidReportingEventType.CUSTOM_CTA_ENDCARD_CLICK; }
     
     NSMutableDictionary* beaconProperties = [NSMutableDictionary new];
     [beaconProperties setObject: beaconType forKey: @"type"];

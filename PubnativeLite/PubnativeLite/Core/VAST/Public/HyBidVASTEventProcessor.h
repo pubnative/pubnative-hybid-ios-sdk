@@ -12,6 +12,7 @@
 typedef NS_ENUM(NSInteger, HyBidVASTUrlType) {
     HyBidVASTImpressionURL,
     HyBidVASTClickTrackingURL,
+    HyBidVASTIconClickTrackingURL,
     HyBidVASTParserErrorURL,
     HyBidVASTErrorURL,
 };
@@ -35,7 +36,7 @@ typedef NS_ENUM(NSInteger, HyBidVASTUrlType) {
 - (void)trackImpression:(HyBidVASTImpression*)impression;
 - (void)trackImpressionWith:(NSString*)impressionURL;
 
-- (void)sendVASTBeaconUrl:(NSString *)url withTrackingType:(NSString *)trackingType;
+- (void)sendVASTBeaconUrl:(NSString *)url withTrackingType:(NSString *)trackingType beaconName:(NSString *)beaconName;
 // sends the set of http requests to supplied URLs, used for Impressions, ClickTracking, and Errors.
 - (void)sendVASTUrls:(NSArray *)urls withType:(HyBidVASTUrlType)type;
 

@@ -42,9 +42,13 @@ static HyBidATOMStatus atomStatus = HyBidATOMStatusIdle;
     NSString *bundleID = [[NSBundle mainBundle] bundleIdentifier];
     [Atom startWithApiKey:bundleID isTest:NO error:&atomError withCallback:^(BOOL isSuccess) {
         if (isSuccess) {
-            NSArray *atomCohorts = [Atom getCohorts];
-            [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: [[NSString alloc] initWithFormat: @"ATOM: Received ATOM cohorts: %@", atomCohorts], NSStringFromSelector(_cmd)]];
-            [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: [[NSString alloc] initWithFormat: @"ATOM: started"], NSStringFromSelector(_cmd)]];
+            SEL selector = NSSelectorFromString(@"getCohortsWithCompletion:");
+            if ([Atom respondsToSelector:selector]) {
+                [Atom performSelector:selector withObject:^(NSArray<ATOMCohort *> *cohorts) {
+                    [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"ATOM: Received ATOM cohorts: %@", cohorts]];
+                }];
+            }
+            [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"ATOM: started"]];
             [self reportHyBidEventWithStatus:HyBidATOMStatusStarted];
             [HyBidReportingManager sharedInstance].isAtomStarted = true;
         } else {
@@ -60,8 +64,8 @@ static HyBidATOMStatus atomStatus = HyBidATOMStatusIdle;
     #if __has_include(<ATOM/ATOM-Swift.h>)
     [Atom stopWithCallback:^(BOOL isSuccess) {
         if (isSuccess) {
-            [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: [[NSString alloc] initWithFormat: @"Stopping ATOM"], NSStringFromSelector(_cmd)]];
-            [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: [[NSString alloc] initWithFormat: @"ATOM: stopped"], NSStringFromSelector(_cmd)]];
+            [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Stopping ATOM"]];
+            [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"ATOM: stopped"]];
             [self reportHyBidEventWithStatus:HyBidATOMStatusStopped];
             [HyBidReportingManager sharedInstance].isAtomStarted = false;
         } else {

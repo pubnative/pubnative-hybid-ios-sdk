@@ -13,9 +13,16 @@
 
 @end
 
+@protocol PercentVisibleDelegate <NSObject>
+@optional
+- (void)percentVisibleDidChange:(CGFloat)newValue;
+@end
+
 @interface HyBidVisibilityTracker : NSObject
 
 @property (nonatomic, weak) NSObject <HyBidVisibilityTrackerDelegate> *delegate;
+@property (nonatomic, assign) CGFloat percentVisible;
+@property (nonatomic, weak) id<PercentVisibleDelegate> visibilityDelegate;
 
 - (void)addView:(UIView*)view withMinVisibility:(CGFloat)minVisibility;
 - (void)removeView:(UIView*)view;

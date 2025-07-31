@@ -442,7 +442,6 @@ public extension UIDevice {
       }
       #endif
     }
-    
     return mapToDevice(identifier: identifier)
   }()
 

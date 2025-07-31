@@ -37,6 +37,7 @@ typedef enum {
 @property (nonatomic, readonly) IntegrationType integrationType;
 @property (nonatomic) NSObject <HyBidAdRequestDelegate> *delegate;
 @property (nonatomic, assign) HyBidMarkupPlacement placement;
+@property (nonatomic, strong) NSString *adFormat;
 
 - (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID;
 - (void)setIntegrationType:(IntegrationType)integrationType withZoneID:(NSString *)zoneID withAppToken:(NSString *)appToken;
@@ -50,4 +51,6 @@ typedef enum {
 - (void)processResponseWithJSON:(NSString *)adReponse;
 - (void)processVASTTagResponseFrom:(NSString *)vastAdContent;
 - (void)processResponseWithData:(NSData *)data;
+- (NSString *)getAdFormat;
+
 @end

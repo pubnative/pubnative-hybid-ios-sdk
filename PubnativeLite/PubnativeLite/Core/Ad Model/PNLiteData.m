@@ -69,5 +69,9 @@
 + (NSString *)navigationModeInputValue { return @"navigation_mode_input_value"; }
 + (NSString *)landingPage { return @"landing_page"; }
 + (NSString *)landingPageInputValue { return @"landing_page_input_value"; }
++ (NSString *)ctaButtonSize { return @"bc_learn_more_size"; }
++ (NSString *)ctaButtonSizeInputValue { return @"bc_learn_more_size_input_value"; }
++ (NSString *)ctaButtonLocation { return @"bc_learn_more_location"; }
++ (NSString *)ctaButtonLocationInputValue { return @"bc_learn_more_location_input_value"; }
 
 @end

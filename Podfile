@@ -1,4 +1,5 @@
 source 'https://cdn.cocoapods.org/'
+source 'https://github.com/vervegroup/specs-private.git'
 
 workspace 'HyBid.xcworkspace'
 project 'PubnativeLite/HyBid.xcodeproj'
@@ -9,7 +10,7 @@ platform :ios, '12.0'
 use_frameworks!
 
 target 'HyBid' do
-  pod 'ATOM-Standalone', '3.6.0'
+  pod 'ATOM-Standalone'
 end
 
 target 'HyBidDemo' do
@@ -17,7 +18,7 @@ target 'HyBidDemo' do
   pod 'FLEX', :configurations => ['Debug']
   pod 'Firebase/Performance', '8.13.0'
   pod 'Firebase/Crashlytics', '8.13.0'
-  pod 'Google-Mobile-Ads-SDK', '~> 11.0'
+  pod 'Google-Mobile-Ads-SDK', '~> 12.0'
   pod 'AppLovinSDK', '>= 13.0.1'
   pod 'IronSourceSDK','~> 8.5.0'
   pod 'ChartboostSDK'

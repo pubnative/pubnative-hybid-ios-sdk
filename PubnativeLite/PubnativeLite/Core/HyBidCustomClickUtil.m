@@ -15,7 +15,14 @@ NSString * const kClickNavigateParam = @"url";
 + (NSString*)extractPNClickUrl:(NSString*) url {
     if (url != nil && ![url isEqualToString:@""]) {
         NSURL *clickUrl = [NSURL URLWithString:url];
-        BOOL canOpenURL = [[UIApplication sharedApplication] canOpenURL:clickUrl];
+        __block BOOL canOpenURL = NO;
+        if ([NSThread isMainThread]) {
+            canOpenURL = [[UIApplication sharedApplication] canOpenURL:clickUrl];
+        } else {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                canOpenURL = [[UIApplication sharedApplication] canOpenURL:clickUrl];
+            });
+        }
         if(!canOpenURL){
             url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet  URLQueryAllowedCharacterSet]];
             clickUrl = [NSURL URLWithString:url];
