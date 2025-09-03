@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>AdNetworkIdentifiers</key>
+	<array>
+		<string>m2jqnlggk3.adattributionkit</string>
+		<string>raa6f494kr.adattributionkit</string>
+		<string>6lz2ygh3q6.adattributionkit</string>
+	</array>
 	<key>AppLovinSdkKey</key>
 	<string>sMRyqsHzbW5B55p5RLfJTNaXBH1rFzvkU5_LGa_Kerigolzf62Jl6iwzLtMIqn2XRt0tDol1bAc8g0N7C7c51N</string>
 	<key>CFBundleDevelopmentRegion</key>
@@ -346,10 +352,10 @@
 			<key>SKAdNetworkIdentifier</key>
 			<string>su67r6k2v3.skadnetwork</string>
 		</dict>
-        <dict>
-            <key>SKAdNetworkIdentifier</key>
-            <string>f38h382jlk.skadnetwork</string>
-        </dict>
+		<dict>
+			<key>SKAdNetworkIdentifier</key>
+			<string>f38h382jlk.skadnetwork</string>
+		</dict>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>Launch Screen</string>
@@ -364,6 +370,7 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>

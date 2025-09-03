@@ -39,6 +39,7 @@
 @property (nonatomic, strong) NSMutableDictionary *loadReportingProperties;
 @property (nonatomic, strong) NSMutableDictionary *renderReportingProperties;
 @property (nonatomic, strong) NSMutableDictionary *sessionReportingProperties;
+@property (nonatomic, strong) HyBidAdSessionData *adSessionData;
 
 @property (nonatomic, weak) NSTimer *autoRefreshTimer;
 @property (nonatomic, assign) BOOL shouldRunAutoRefresh;
@@ -52,6 +53,7 @@
 @synthesize autoRefreshTimeInSeconds = _autoRefreshTimeInSeconds;
 
 - (void)dealloc {
+    [self stopTracking];
     self.ad = nil;
     self.zoneID = nil;
     self.appToken = nil;
@@ -89,6 +91,7 @@
         self.renderReportingProperties = [NSMutableDictionary new];
         self.sessionReportingProperties = [NSMutableDictionary new];
         self.markup = NO;
+        self.adSessionData = [[HyBidAdSessionData alloc] init];
     }
     return self;
 }
@@ -97,6 +100,9 @@
     self = [self initWithFrame:CGRectMake(0, 0, adSize.width, adSize.height)];
     if (self) {
         self.adSize = adSize;
+        if (self.adSessionData == nil) {
+            self.adSessionData = [[HyBidAdSessionData alloc] init];
+        }
     }
     return self;
 }
@@ -366,7 +372,7 @@
             adRequest.placement = HyBidDemoAppPlacementMRect;
             adRequest.openRTBAdType = HyBidOpenRTBAdVideo;
         }
-        if ([self.adSize isEqualTo:HyBidAdSize.SIZE_300x50]){
+        if ([self.adSize isEqualTo:HyBidAdSize.SIZE_300x50] || [self.adSize isEqualTo:HyBidAdSize.SIZE_320x50]){
             adRequest.placement = HyBidDemoAppPlacementBanner;
             adRequest.openRTBAdType = HyBidOpenRTBAdBanner;
         }
@@ -399,20 +405,30 @@
         
         if (impressionTrackingMethod == HyBidAdImpressionTrackerViewable) {
             [self.adPresenter startTracking];
-        } 
-
-        #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 140500
-        [[HyBidAdImpression sharedInstance] startImpressionForAd:self.ad];
-        #endif
+        }
+        
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 140500
+        [[HyBidAdImpression sharedInstance] startSKANImpressionForAd:self.ad];
+#endif
+        
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 170400
+        [[HyBidAdImpression sharedInstance] startAAKImpressionForAd:self.ad adFormat:HyBidReportingAdFormat.BANNER];
+#endif
+        
     }
 }
 
 - (void)stopTracking {
     [self.adPresenter stopTracking];
     
-    #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 140500
-    [[HyBidAdImpression sharedInstance] endImpressionForAd:self.ad];
-    #endif
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 140500
+    [[HyBidAdImpression sharedInstance] endSKANImpressionForAd:self.ad];
+#endif
+    
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 170400
+    [[HyBidAdImpression sharedInstance] endAAKImpressionForAd:self.ad adFormat:HyBidReportingAdFormat.BANNER];
+#endif
+    
 }
 
 - (HyBidAdPresenter *)createAdPresenter {
@@ -441,8 +457,8 @@
     if (self.zoneID != nil && self.zoneID.length > 0){
         [reportingDictionary setObject:self.zoneID forKey:HyBidReportingCommon.ZONE_ID];
     }
-    if ([HyBidSessionManager sharedInstance].impressionCounter != nil) {
-        [reportingDictionary setObject:[HyBidSessionManager sharedInstance].impressionCounter forKey:HyBidReportingCommon.IMPRESSION_SESSION_COUNT];
+    if ([HyBidSessionManager sharedInstance].safeImpressionCounter != nil) {
+        [reportingDictionary setObject:[HyBidSessionManager sharedInstance].safeImpressionCounter forKey:HyBidReportingCommon.IMPRESSION_SESSION_COUNT];
     }
     if ([[NSUserDefaults standardUserDefaults] stringForKey: HyBidReportingCommon.SESSION_DURATION] != nil){
         [reportingDictionary setObject: [[NSUserDefaults standardUserDefaults] stringForKey: HyBidReportingCommon.SESSION_DURATION] forKey: HyBidReportingCommon.SESSION_DURATION];
@@ -545,6 +561,7 @@
         } else {
             self.ad.adType = kHyBidAdTypeUnsupported;
         }
+        self.adSessionData = [ATOMManager createAdSessionDataFrom:request ad:ad];
         if (self.autoShowOnLoad) {
             [self renderAd];
         } else {
@@ -566,6 +583,7 @@
     } else {
         [self setupAdView:adView];
     }
+    adPresenter.adSessionData = self.adSessionData;
 }
 
 - (void)adPresenterDidStartPlaying:(HyBidAdPresenter *)adPresenter {
@@ -604,6 +622,7 @@
 
 - (void)signalDataDidFinishWithAd:(HyBidAd *)ad {
     self.ad = ad;
+    self.adSessionData = [ATOMManager createAdSessionDataFrom:nil ad:ad];
     [self renderAdForSignalData];
 }
 

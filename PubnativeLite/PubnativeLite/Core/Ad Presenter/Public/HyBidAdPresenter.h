@@ -5,11 +5,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 #import "HyBidAd.h"
 #import "HyBidAdSize.h"
 
 @class HyBidAdPresenter;
+@class HyBidAdSessionData;
 
 @protocol HyBidAdPresenterDelegate<NSObject>
 
@@ -24,6 +24,7 @@
 - (void)adPresenterDidAppear:(HyBidAdPresenter *)adPresenter;
 - (void)adPresenterDidDisappear:(HyBidAdPresenter *)adPresenter;
 - (void)adPresenterDidPresentCustomEndCard:(HyBidAdPresenter *)adPresenter;
+- (void)adPresenterDidReplay;
 
 @end
 
@@ -31,6 +32,7 @@
 
 @property (nonatomic, readonly) HyBidAd *ad;
 @property (nonatomic, weak) NSObject <HyBidAdPresenterDelegate> *delegate;
+@property (nonatomic, strong) HyBidAdSessionData *adSessionData;
 
 - (void)load;
 - (void)loadMarkupWithSize:(HyBidAdSize *)adSize;

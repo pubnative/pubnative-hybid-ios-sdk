@@ -37,6 +37,8 @@ typedef enum : NSUInteger {
     HyBidStorekitAutomaticClickCustomEndCard = 1 << 2
 } HyBidStorekitAutomaticClickType;
 
+@class HyBidCTAData;
+
 @interface HyBidAd : NSObject
 
 @property (nonatomic, readonly) NSString *vast;
@@ -75,6 +77,8 @@ typedef enum : NSUInteger {
 @property (nonatomic, readonly) NSString *contentInfoIconClickAction;
 @property (nonatomic, readonly) NSString *contentInfoDisplay;
 @property (nonatomic, readonly) NSString *contentInfoText;
+@property (nonatomic, readonly) NSString *adFormat;
+
 //@property (nonatomic, readonly) NSString *contentInfoHorizontalPosition;
 //@property (nonatomic, readonly) NSString *contentInfoVeritcalPosition;
 @property (nonatomic, readonly) NSNumber *interstitialHtmlSkipOffset;
@@ -106,6 +110,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) BOOL isBrandCompatible;
 @property (nonatomic, readonly) NSString *navigationMode;
 @property (nonatomic, assign) BOOL landingPage;
+@property (nonatomic, strong) HyBidCTAData* ctaData;
 
 // The following 15 properties are created as NSNumber instead of BOOL beacuse it'll be important whether they have a value or not when we'll decide which setting to use.
 @property (nonatomic, readonly) NSNumber *endcardEnabled;
@@ -143,7 +148,11 @@ typedef enum : NSUInteger {
 - (NSArray *)beaconsDataWithType:(NSString *)type;
 - (HyBidSkAdNetworkModel *)getSkAdNetworkModel;
 - (HyBidSkAdNetworkModel *)getOpenRTBSkAdNetworkModel;
+- (HyBidSkAdNetworkModel *)getAdAttributionModel;
+- (HyBidSkAdNetworkModel *)getOpenRTBAdAttributionModel;
 - (HyBidContentInfoView *)getContentInfoView;
 - (HyBidContentInfoView *)getContentInfoViewFrom:(HyBidContentInfoView *)infoView;
+- (HyBidContentInfoDisplay)determineContentInfoDisplay;
+- (HyBidContentInfoClickAction)determineContentInfoIconClickAction;
 
 @end

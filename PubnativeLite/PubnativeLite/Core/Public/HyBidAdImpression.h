@@ -16,8 +16,10 @@
 @interface HyBidAdImpression : NSObject
 
 + (HyBidAdImpression *)sharedInstance;
-- (void)startImpressionForAd:(HyBidAd *)ad;
-- (void)endImpressionForAd:(HyBidAd *)ad;
+- (void)startSKANImpressionForAd:(HyBidAd *)ad;
+- (void)endSKANImpressionForAd:(HyBidAd *)ad;
+- (void)startAAKImpressionForAd:(HyBidAd *)ad adFormat:(NSString *)adFormat;
+- (void)endAAKImpressionForAd:(HyBidAd *)ad adFormat:(NSString *)adFormat;
 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 140500
 - (SKAdImpression *)generateSkAdImpressionFrom:(HyBidSkAdNetworkModel *)model API_AVAILABLE(ios(14.5));

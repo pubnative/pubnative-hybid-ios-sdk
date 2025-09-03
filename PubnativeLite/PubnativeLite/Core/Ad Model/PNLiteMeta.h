@@ -19,4 +19,5 @@
 + (NSString *)remoteconfigs;
 + (NSString *)adExperience;
 + (NSString *)customBundleIdValue;
++ (NSString *)adattributionkit;
 @end

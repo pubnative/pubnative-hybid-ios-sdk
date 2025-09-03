@@ -17,6 +17,9 @@ struct HyBidVASTsdkEvent {
         case EventType.SHOW:
             return .SHOW
             
+        case EventType.REPLAY:
+            return .REPLAY
+            
         default:
             return .UNKNOWN_SDK_EVENT
         }

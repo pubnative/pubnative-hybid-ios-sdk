@@ -79,16 +79,7 @@
 - (IBAction)showVASTAd:(UIButton *)sender {
     if (!self.vastAdString || !self.vastAdURL ) { return; }
     [self.vastLoadingIndicator startAnimating];
-    
-    NSArray* configs = [HyBidAdCustomizationUtility checkSavedHyBidAdSettings];
-    if (configs.count > 0) {
-        [self prepareAdWithVASTContent:self.vastAdString];
-        
-    } else {
-        self.interstitialAd = [[HyBidInterstitialAd alloc] initWithZoneID:nil andWithDelegate:self];
-        [self.interstitialAd prepareVideoTagFrom:self.vastAdURL];
-        [self.vastLoadingIndicator stopAnimating];
-    }
+    [self prepareAdWithVASTContent:self.vastAdString];
 }
 
 - (void)requestAd {

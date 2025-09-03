@@ -16,4 +16,6 @@ enum HyBidAdCustomizationKeys: String {
     case iconSizeReducedInputValue = "pc_reduced_icon_sizes_input_value"
     case navigationModeInputValue = "navigation_mode_input_value"
     case landingPageInputValue = "landing_page_input_value"
+    case ctaSizeTypeInputValue = "bc_learn_more_size_input_value"
+    case ctaLocationTypeInputValue = "bc_learn_more_location_input_value"
 }

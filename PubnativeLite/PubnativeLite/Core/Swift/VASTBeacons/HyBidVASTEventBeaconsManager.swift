@@ -18,6 +18,7 @@ public class HyBidVASTEventBeaconsManager: NSObject {
         HyBidVASTsdkEvent(name: EventType.LOAD, vastEventBeaconType: .sdk_event),
         HyBidVASTsdkEvent(name: EventType.LOAD_FAIL, vastEventBeaconType: .sdk_event),
         HyBidVASTsdkEvent(name: EventType.SHOW, vastEventBeaconType: .sdk_event),
+        HyBidVASTsdkEvent(name: EventType.REPLAY, vastEventBeaconType: .sdk_event)
     ]
     
     private let vastAuxiliaryAdEvent: [HyBidVASTauxiliaryAdEvent] = [
@@ -129,7 +130,7 @@ public class HyBidVASTEventBeaconsManager: NSObject {
         }
         
         if !urlForRequest.isEmpty {
-            HyBidVASTEventProcessor().sendVASTBeaconUrl(urlForRequest, withTrackingType: vastEventBeaconType)
+            HyBidVASTEventProcessor().sendVASTBeaconUrl(urlForRequest, withTrackingType: vastEventBeaconType, beaconName: type)
         }
     }
 }

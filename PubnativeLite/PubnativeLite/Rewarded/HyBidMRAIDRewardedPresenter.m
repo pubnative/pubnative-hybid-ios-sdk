@@ -9,7 +9,6 @@
 #import "HyBidMRAIDServiceDelegate.h"
 #import "HyBidMRAIDServiceProvider.h"
 #import "UIApplication+PNLiteTopViewController.h"
-#import "HyBidSKAdNetworkViewController.h"
 #import "HyBidURLDriller.h"
 #import "HyBidError.h"
 #import "HyBid.h"
@@ -26,11 +25,12 @@
     #import "HyBid-Swift.h"
 #endif
 
-@interface HyBidMRAIDRewardedPresenter() <HyBidMRAIDViewDelegate, HyBidMRAIDServiceDelegate, HyBidURLDrillerDelegate, SKStoreProductViewControllerDelegate>
+@interface HyBidMRAIDRewardedPresenter() <HyBidMRAIDViewDelegate, HyBidMRAIDServiceDelegate, HyBidURLDrillerDelegate, HyBidInterruptionDelegate>
 
 @property (nonatomic, strong) HyBidMRAIDServiceProvider *serviceProvider;
 @property (nonatomic, retain) HyBidMRAIDView *mraidView;
 @property (nonatomic, strong) HyBidAd *adModel;
+@property (nonatomic, strong) HyBidAdAttributionCustomClickAdsWrapper* aakCustomClickAd;
 
 @end
 
@@ -39,6 +39,7 @@
 - (void)dealloc {
     self.serviceProvider = nil;
     self.adModel = nil;
+    self.aakCustomClickAd = nil;
 }
 
 - (instancetype)initWithAd:(HyBidAd *)ad withSkipOffset:(NSInteger)skipOffset {
@@ -46,6 +47,8 @@
     if (self) {
         self.adModel = ad;
         self.skipOffset = skipOffset;
+        self.aakCustomClickAd = [[HyBidAdAttributionCustomClickAdsWrapper alloc] initWithAd:self.ad
+                                                                                   adFormat:HyBidReportingAdFormat.REWARDED];
     }
     return self;
 }
@@ -68,7 +71,8 @@
                                         rootViewController:[UIApplication sharedApplication].topViewController
                                                contentInfo:self.adModel.contentInfo
                                                 skipOffset:_skipOffset
-                                                 isEndcard:NO];
+                                                 isEndcard:NO
+                                 shouldHandleInterruptions:YES];
 }
 
 - (void)show {
@@ -86,6 +90,16 @@
 - (void)handleClick:(NSString*) url {
     [self.delegate rewardedPresenterDidClick:self];
     
+    if(![self.aakCustomClickAd adHasCustomMarketPlace]){
+        [self triggerClickFlowWithUrl:url];
+    } else {
+        [self.aakCustomClickAd handlingCustomMarketPlaceWithCompletion:^(BOOL successful) {
+            if (!successful) { [self triggerClickFlowWithUrl:url]; }
+        }];
+    }
+}
+
+- (void)triggerClickFlowWithUrl:(NSString *)url {
     HyBidSkAdNetworkModel* skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.adModel getOpenRTBSkAdNetworkModel] : [self.adModel getSkAdNetworkModel];
     
     NSString *customUrl = [HyBidCustomClickUtil extractPNClickUrl:url];
@@ -98,14 +112,8 @@
         
         if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams]) {
             [[HyBidURLDriller alloc] startDrillWithURLString:url delegate:self];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                HyBidSKAdNetworkViewController *skAdnetworkViewController = [[HyBidSKAdNetworkViewController alloc] initWithProductParameters: [HyBidStoreKitUtils cleanUpProductParams:productParams] delegate: self];
-                [skAdnetworkViewController presentSKStoreProductViewController:^(BOOL success) {
-                    if (success) {
-                        [self.delegate rewardedPresenterDidDisappear:self];
-                    }
-                }];
-            });
+            
+            [HyBidSKAdNetworkViewController.shared presentStoreKitViewWithProductParameters:[HyBidStoreKitUtils cleanUpProductParams:productParams] adFormat:HyBidReportingAdFormat.REWARDED isAutoStoreKitView:NO ad:self.ad];
         } else {
             [self openBrowser:url navigationType:self.ad.navigationMode];
         }
@@ -116,11 +124,11 @@
 
 - (void)openBrowser:(NSString*)url navigationType:(NSString *)navigationType {
     
-    HyBidWebBrowserNavigation navigation = [HyBidInternalWebBrowserNavigationController.shared webBrowserNavigationBehaviourFromString: navigationType];
+    HyBidWebBrowserNavigation navigation = [HyBidInternalWebBrowser.shared webBrowserNavigationBehaviourFromString: navigationType];
     
     if (navigation == HyBidWebBrowserNavigationInternal) {
         if (!self.mraidView) { return; }
-        [HyBidInternalWebBrowserNavigationController.shared navigateToURL:url delegate:self.mraidView];
+        [HyBidInternalWebBrowser.shared navigateToURL:url];
     } else {
         [self.serviceProvider openBrowser:url];
     }
@@ -144,6 +152,7 @@
     if (self.mraidView) {
         [self.mraidView startAdSession];
     }
+    [self.aakCustomClickAd startImpressionWithAdView: [mraidView modalView]];
 }
 
 - (void)mraidViewDidClose:(HyBidMRAIDView *)mraidView {
@@ -187,15 +196,14 @@
     [self.serviceProvider storePicture:urlString];
 }
 
-#pragma mark SKStoreProductViewControllerDelegate
+#pragma mark HyBidInterruptionDelegate
 
-- (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
-    if ([HyBidSDKConfig sharedConfig].reporting) {
-        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.STOREKIT_PRODUCT_VIEW_DISMISS adFormat:HyBidReportingAdFormat.REWARDED properties:nil];
-        [[HyBid reportingManager] reportEventFor:reportingEvent];
-    }
-    [HyBidNotificationCenter.shared post: HyBidNotificationTypeSKStoreProductViewIsDismissed object: nil userInfo: nil];
+- (void)adHasFocus {
     [self.delegate rewardedPresenterDidAppear:self];
+}
+
+- (void)adHasNoFocus {
+    [self.delegate rewardedPresenterDidDisappear:self];
 }
 
 @end

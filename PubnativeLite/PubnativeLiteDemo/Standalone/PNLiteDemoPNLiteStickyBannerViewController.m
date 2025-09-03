@@ -7,7 +7,6 @@
 #import "PNLiteDemoPNLiteStickyBannerViewController.h"
 
 #import "PNLiteDemoSettings.h"
-#import "HyBidSKAdNetworkViewController.h"
 
 @interface PNLiteDemoPNLiteStickyBannerViewController () <HyBidAdViewDelegate>
 

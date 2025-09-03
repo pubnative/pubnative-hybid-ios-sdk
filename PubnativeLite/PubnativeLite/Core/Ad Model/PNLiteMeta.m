@@ -19,4 +19,5 @@
 + (NSString *)remoteconfigs { return @"remoteconfigs"; }
 + (NSString *)adExperience { return @"adexperience"; }
 + (NSString *)customBundleIdValue { return @"custom_bundle_id_value"; }
++ (NSString *)adattributionkit { return @"adattributionkit"; }
 @end

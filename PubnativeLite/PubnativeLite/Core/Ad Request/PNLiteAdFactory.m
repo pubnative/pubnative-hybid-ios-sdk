@@ -100,6 +100,7 @@
         self.adRequestModel.requestParameters[HyBidRequestParameter.ip] = [HyBidSettings sharedInstance].ip;
     }
     
+    self.adRequestModel.requestParameters[HyBidRequestParameter.hver] = HyBidConstants.HYBID_SDK_VERSION;
     self.adRequestModel.requestParameters[HyBidRequestParameter.versionOfOMSDKIntegration] = HyBidConstants.HYBID_OMSDK_VERSION;
     self.adRequestModel.requestParameters[HyBidRequestParameter.identifierOfOMSDKIntegration] = HyBidConstants.HYBID_OMSDK_IDENTIFIER;
 //    adRequestModel.requestParameters[HyBidRequestParameter.supportedAPIFrameworks] = [supportedAPIFrameworks componentsJoinedByString:@","];
@@ -131,6 +132,16 @@
             self.adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkVersion] = [skAdNetworkRequestModel getSkAdNetworkVersion];
         } else {
             [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"No SKAdNetworkIdentifier items were found in `info.plist` file. Please add the required items and try again."];
+        }
+    }
+    
+    if (@available(iOS 17.4, *)) {
+        HyBidAAKNetworkRequestModel *aakNetworkRequestModel = [[HyBidAAKNetworkRequestModel alloc] init];
+        NSString *aakIDs = [aakNetworkRequestModel getAAKNetworkIDsString];
+        if (aakIDs) {
+            NSString *skanNetworks = self.adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkAdNetworkIDs];
+            NSString *networks = skanNetworks.length > 0 ? [NSString stringWithFormat: @"%@,%@", skanNetworks, aakIDs] : aakIDs;
+            self.adRequestModel.requestParameters[HyBidRequestParameter.skAdNetworkAdNetworkIDs] = networks;
         }
     }
     

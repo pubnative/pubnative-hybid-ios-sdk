@@ -11,6 +11,7 @@
 + (NSString *)sourceIdentifier;
 + (NSString *)campaign;
 + (NSString *)itunesitem;
++ (NSString *)productPageId;
 + (NSString *)network;
 + (NSString *)sourceapp;
 + (NSString *)version;

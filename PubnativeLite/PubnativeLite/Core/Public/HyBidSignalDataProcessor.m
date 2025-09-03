@@ -229,9 +229,14 @@ NSInteger const HyBidSignalDataResponseStatusRequestMalformed = 422;
         }
     }
     
+    dispatch_group_t group = dispatch_group_create();
     for (HyBidVASTCompanion *companion in [companionAds companions]) {
-        [self.endCardManager addCompanion:companion];
+        dispatch_group_enter(group);
+        [self.endCardManager addCompanion:companion completion:^{
+            dispatch_group_leave(group);
+        }];
     }
+    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
     
     NSArray *endCards = [self.endCardManager endCards];
     return [[NSArray alloc] initWithArray:endCards];

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23094" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23084"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -21,16 +21,16 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rH8-lM-Ghc" userLabel="VAST Player">
-                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                    <rect key="frame" x="0.0" y="48" width="414" height="814"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
+                <constraint firstItem="rH8-lM-Ghc" firstAttribute="bottom" secondItem="Q5M-cg-NOt" secondAttribute="bottom" id="MMB-i3-pNS"/>
                 <constraint firstItem="rH8-lM-Ghc" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="OA0-ae-kzE"/>
-                <constraint firstItem="rH8-lM-Ghc" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="bUc-rp-rhy"/>
-                <constraint firstAttribute="bottom" secondItem="rH8-lM-Ghc" secondAttribute="bottom" id="mp6-Re-6mI"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="top" secondItem="rH8-lM-Ghc" secondAttribute="top" id="TS1-K5-GEk"/>
                 <constraint firstItem="rH8-lM-Ghc" firstAttribute="trailing" secondItem="Q5M-cg-NOt" secondAttribute="trailing" id="pxX-kM-Fsp"/>
             </constraints>
             <point key="canvasLocation" x="102.89855072463769" y="72.991071428571431"/>

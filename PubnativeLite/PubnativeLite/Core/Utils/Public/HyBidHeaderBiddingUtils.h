@@ -7,10 +7,10 @@
 #import <Foundation/Foundation.h>
 #import "HyBidAd.h"
 
-typedef enum {
+typedef NS_ENUM(NSInteger, HyBidKeywordMode) {
     TWO_DECIMAL_PLACES,
-    THREE_DECIMAL_PLACES,
-} HyBidKeywordMode;
+    THREE_DECIMAL_PLACES
+};
 
 @interface HyBidHeaderBiddingUtils : NSObject
 
@@ -21,5 +21,6 @@ typedef enum {
 + (NSMutableDictionary *)createHeaderBiddingKeywordsDictionaryWithAd:(HyBidAd *)ad;
 + (NSMutableDictionary *)createHeaderBiddingKeywordsDictionaryWithAd:(HyBidAd *)ad withZoneID:(NSString *)zoneID;
 + (NSMutableDictionary *)createHeaderBiddingKeywordsDictionaryWithAd:(HyBidAd *)ad withKeywordMode:(HyBidKeywordMode)keywordMode;
++ (NSString *)eCPMFromAd:(HyBidAd *)ad withDecimalPlaces:(HyBidKeywordMode)decimalPlaces;
 
 @end

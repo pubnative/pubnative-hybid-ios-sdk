@@ -92,6 +92,7 @@
 + (NSString * _Nonnull)darkmode                      { return @"darkmode"; }
 + (NSString * _Nonnull)airplaneMode                  { return @"airplane"; }
 + (NSString * _Nonnull)btype                         { return @"btype"; }
++ (NSString * _Nonnull)hver                         { return @"hver"; }
 
 #pragma mark - SKAdNetwork parameters
 + (NSString * _Nonnull)skAdNetworkVersion            { return @"skadn_version"; }
@@ -108,7 +109,7 @@
 + (NSString * _Nonnull)extension                     { return @"ext"; }
 + (NSString * _Nonnull)geolocation                   { return @"geo"; }
 
-#pragma mark - Voyager parameters
+#pragma mark - Atom parameters
 + (NSString * _Nonnull)vg                            { return @"vg"; }
 
 #pragma mark - DSPv1 / OpenRTB parameters

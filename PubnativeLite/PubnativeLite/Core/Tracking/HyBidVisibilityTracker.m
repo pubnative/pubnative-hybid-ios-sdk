@@ -25,6 +25,8 @@ NSTimeInterval const PNLiteVisibilityTrackerPeriod = 0.1f; // 100ms
 @property (nonatomic, strong) NSMutableArray<UIView *> *invisibleViews;
 @property (nonatomic, strong) NSMutableArray<PNLiteVisibilityTrackerItem *> *removedItems;
 @property (nonatomic, assign) BOOL isValid;
+@property (nonatomic, assign) BOOL isVisibilityCaptured;
+
 
 @end
 
@@ -194,9 +196,18 @@ NSTimeInterval const PNLiteVisibilityTrackerPeriod = 0.1f; // 100ms
     CGRect viewFrameInWindowCoordinates = [view.superview convertRect:view.frame toView:parentWindow];
     CGRect intersection = CGRectIntersection(viewFrameInWindowCoordinates, parentWindow.frame);
     
-    CGFloat intersectionArea = CGRectGetWidth(intersection) * CGRectGetHeight(intersection);
-    CGFloat originalArea = CGRectGetWidth(view.bounds) * CGRectGetHeight(view.bounds);
+    CGFloat intersectionArea = CGRectGetWidth(intersection) * CGRectGetHeight(intersection); //visibleArea
+    CGFloat originalArea = CGRectGetWidth(view.bounds) * CGRectGetHeight(view.bounds); //viewArea
     
+    self.percentVisible = intersectionArea / originalArea;
+    
+    if(!self.isVisibilityCaptured) {
+        if ([self.visibilityDelegate respondsToSelector:@selector(percentVisibleDidChange:)]) {
+            self.isVisibilityCaptured = true;
+            [self.visibilityDelegate percentVisibleDidChange:self.percentVisible];
+            
+        }
+    }
     return intersectionArea >= (originalArea * percentVisible);
 }
 

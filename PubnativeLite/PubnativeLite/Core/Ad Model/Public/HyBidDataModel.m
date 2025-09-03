@@ -20,8 +20,10 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super initWithDictionary:dictionary];
     if (self) {
-        self.type = dictionary[@"type"];
-        self.data = dictionary[@"data"];
+        if ([dictionary isKindOfClass:[NSDictionary class]]) {
+            self.type = dictionary[@"type"];
+            self.data = dictionary[@"data"];
+        }
     }
     return self;
 }

@@ -59,6 +59,8 @@
     
     if (type == HyBidVASTAdTrackingEventType_start) {
         eventString = HyBidVASTAdTrackingEventType_start;
+    } else if (type == HyBidVASTAdTrackingEventType_rewind) {
+        eventString = HyBidVASTAdTrackingEventType_rewind;
     } else if (type == HyBidVASTAdTrackingEventType_firstQuartile) {
         eventString = HyBidVASTAdTrackingEventType_firstQuartile;
         [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDFirstQuartileEvent];
@@ -157,8 +159,8 @@
     }
 }
 
-- (void)sendVASTBeaconUrl:(NSString *)url withTrackingType:(NSString *)trackingType {
-    [self sendTrackingRequest:url trackingType:trackingType];
+- (void)sendVASTBeaconUrl:(NSString *)url withTrackingType:(NSString *)trackingType beaconName:(NSString *)beaconName {
+    [self sendTrackingRequest:url trackingType:trackingType beaconTrackerName:beaconName];
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Sent http request to url: %@", url]];
 }
 
@@ -167,6 +169,7 @@
     switch (type) {
         case HyBidVASTImpressionURL: trackingType = @"Impression"; break;
         case HyBidVASTClickTrackingURL: trackingType = @"ClickTracking"; break;
+        case HyBidVASTIconClickTrackingURL: trackingType = @"IconClickTracking"; break;
         case HyBidVASTParserErrorURL: trackingType = @"ParserError"; break;
         case HyBidVASTErrorURL: trackingType = @"Error"; break;
         default: trackingType = @"HTTP request to URL"; break;
@@ -184,8 +187,16 @@
 }
 
 - (void)sendTrackingRequest:(NSString *)url trackingType:(NSString *)vastTrackerType {
+    [self sendTrackingRequest:url trackingType:vastTrackerType beaconTrackerName:nil];
+}
+
+- (void)sendTrackingRequest:(NSString *)url trackingType:(NSString *)vastTrackerType beaconTrackerName:(NSString *)beaconTrackerName {
     dispatch_queue_t sendTrackRequestQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(sendTrackRequestQueue, ^{
+        
+        HyBidVASTTracker *tracker = [[HyBidVASTTracker alloc] initWithType:vastTrackerType url:url beaconName:beaconTrackerName];
+        if (![tracker shouldBeTriggered]) { return; }
+        [tracker addToTriggeredTrackersList];
         
         [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Event processor sending request to url: %@", url]];
         

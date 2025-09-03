@@ -11,7 +11,7 @@
 
 @interface HyBidVASTEndCardManager : NSObject
 
-- (void)addCompanion:(HyBidVASTCompanion *)companion;
+- (void)addCompanion:(HyBidVASTCompanion *)companion completion:(void(^)(void))completion;
 - (HyBidVASTCompanion *)pickBestCompanionFromCompanionAds:(HyBidVASTCompanionAds *)companionAds;
 - (NSArray<HyBidVASTEndCard *> *)endCards;
 

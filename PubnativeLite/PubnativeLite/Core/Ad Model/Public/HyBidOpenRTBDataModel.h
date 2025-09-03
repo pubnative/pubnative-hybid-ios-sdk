@@ -18,6 +18,7 @@
  @property (nonatomic, readonly) NSString *html;
 
  - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+ - (instancetype)initWithDictionary:(NSDictionary *)dictionary preferedValue:(NSString *)key;
  - (instancetype)initWithHTMLAsset:(NSString *)assetName withValue:(NSString *)value;
  - (instancetype)initWithVASTAsset:(NSString *)assetName withValue:(NSString *)value;
  - (NSString *)stringFieldWithKey:(NSString *)key;

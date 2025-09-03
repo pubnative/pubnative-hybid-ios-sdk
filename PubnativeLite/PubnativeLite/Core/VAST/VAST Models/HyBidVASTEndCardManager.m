@@ -24,17 +24,36 @@
     return self;
 }
 
-- (void)addCompanion:(HyBidVASTCompanion *)companion
-{
+- (void)addCompanion:(HyBidVASTCompanion *)companion completion:(void(^)(void))completion {
+    dispatch_group_t group = dispatch_group_create();
+
     if ([[companion staticResources] count] > 0) {
         for (HyBidVASTStaticResource *resource in [companion staticResources]) {
-            if ([[resource content] length] > 0) {
-                BOOL isAvailable = [self verifyImageAtURL:[resource content]];
+            NSString *content = [[resource content] copy];
+            if (content.length == 0) continue;
+
+            NSString *clickThrough = [[[companion companionClickThrough] content] copy];
+            NSArray *clickTrackingsRaw = [companion companionClickTracking];
+            HyBidVASTTrackingEvents *events = [companion trackingEvents];
+            NSMutableArray<NSString *> *clickTrackings = [NSMutableArray new];
+            for (HyBidVASTCompanionClickTracking *event in clickTrackingsRaw) {
+                [clickTrackings addObject:[[event content] copy]];
+            }
+
+            dispatch_group_enter(group);
+            [self verifyImageAtURL:content completion:^(BOOL isAvailable) {
                 if (isAvailable) {
-                    HyBidVASTEndCard *endCard = [self createEndCardWithType:HyBidEndCardType_STATIC fromCompanion:companion withContent:[resource content]];
+                    HyBidVASTEndCard *endCard = [[HyBidVASTEndCard alloc] init];
+                    [endCard setType:HyBidEndCardType_STATIC];
+                    [endCard setContent:content];
+                    [endCard setClickThrough:clickThrough];
+                    [endCard setClickTrackings:clickTrackings];
+                    [endCard setEvents:events];
+                    
                     [self.endCardsStorage addObject:endCard];
                 }
-            }
+                dispatch_group_leave(group);
+            }];
         }
     }
     if ([[companion htmlResources] count] > 0) {
@@ -53,25 +72,48 @@
             }
         }
     }
+
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        if (completion) {
+            completion();
+        }
+    });
 }
 
-- (BOOL)verifyImageAtURL:(NSString *)urlString {
-    __block BOOL isAvailable = NO;
-    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+- (void)verifyImageAtURL:(NSString *)urlString completion:(void(^)(BOOL isAvailable))completion {
+    if (urlString.length == 0 || !completion) {
+        if (completion) {
+            completion(NO);
+        }
+        return;
+    }
 
     NSURL *url = [NSURL URLWithString:urlString];
-    NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        isAvailable = (data != nil && error == nil && ((NSHTTPURLResponse *)response).statusCode == 200 && [UIImage imageWithData:data]);
-        dispatch_semaphore_signal(semaphore);
-    }];
-    [dataTask resume];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url
+                                             cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
+                                         timeoutInterval:5.0];
 
-    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-    return isAvailable;
+    void (^safeCompletion)(BOOL) = [completion copy];
+    NSURLSessionDataTask *task = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        BOOL valid = NO;
+
+        if (data && error == nil) {
+            NSHTTPURLResponse *httpResp = (NSHTTPURLResponse *)response;
+            if (httpResp.statusCode == 200 && [UIImage imageWithData:data] != nil) {
+                valid = YES;
+            }
+        }
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (safeCompletion) {
+                safeCompletion(valid);
+            }
+        });
+    }];
+    [task resume];
 }
 
-- (HyBidVASTEndCard *)createEndCardWithType:(HyBidVASTEndCardType)type fromCompanion:(HyBidVASTCompanion *)companion withContent:(NSString *)content
-{
+- (HyBidVASTEndCard *)createEndCardWithType:(HyBidVASTEndCardType)type fromCompanion:(HyBidVASTCompanion *)companion withContent:(NSString *)content {
     HyBidVASTEndCard *endCard = [[HyBidVASTEndCard alloc] init];
     [endCard setType:type];
     [endCard setContent:content];

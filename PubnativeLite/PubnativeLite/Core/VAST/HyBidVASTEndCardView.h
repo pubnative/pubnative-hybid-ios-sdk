@@ -14,6 +14,13 @@
 #import "HyBidVASTEndCardManager.h"
 #import "HyBidSKOverlayDelegate.h"
 #import "HyBidCustomCTAViewDelegate.h"
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 
 @protocol HyBidVASTEndCardViewDelegate<NSObject>
 
@@ -21,12 +28,15 @@
 - (void)vastEndCardViewCloseButtonTapped;
 - (void)vastEndCardViewSkipButtonTapped;
 - (void)vastEndCardViewFailedToLoad;
-- (void)vastEndCardViewClicked:(BOOL)triggerAdClick;
-- (void)vastEndCardViewSKOverlayClicked:(BOOL)triggerAdClick clickType:(HyBidSKOverlayAutomaticCLickType)clickType;
+- (void)vastEndCardViewClicked:(BOOL)triggerAdClick aakCustomClickAd:(HyBidAdAttributionCustomClickAdsWrapper*)aakCustomClickAd;
+- (void)vastEndCardViewSKOverlayClicked:(BOOL)triggerAdClick
+                              clickType:(HyBidSKOverlayAutomaticCLickType)clickType
+                    isFirstPresentation:(BOOL)isFirstPresentation;
 - (void)vastEndCardViewAutoStorekitClicked:(BOOL)triggerAdClick clickType:(HyBidStorekitAutomaticClickType)clickType;
 - (void)vastEndCardViewRedirectedWithSuccess:(BOOL)success;
 - (void)vastEndCardViewCustomCTAPresented;
 - (void)vastEndCardViewCustomCTAClicked;
+- (void)vastEndCardViewReplayButtonClicked;
 
 @end
 

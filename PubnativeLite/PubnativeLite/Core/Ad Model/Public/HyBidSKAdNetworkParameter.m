@@ -11,6 +11,7 @@
 + (NSString *)sourceIdentifier { return @"sourceidentifier"; }
 + (NSString *)campaign { return @"campaign"; }
 + (NSString *)itunesitem { return @"itunesitem"; }
++ (NSString *)productPageId { return @"productpageid"; }
 + (NSString *)network { return @"network"; }
 + (NSString *)sourceapp { return @"sourceapp"; }
 + (NSString *)version { return @"version"; }
