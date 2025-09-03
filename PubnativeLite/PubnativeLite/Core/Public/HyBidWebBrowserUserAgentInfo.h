@@ -8,7 +8,7 @@
 
 @interface HyBidWebBrowserUserAgentInfo : NSObject
 
-/// Returns shared instance that hold user agent;
+/// Returns shared instance that holds user agent;
 @property (class, atomic, strong) HyBidWebBrowserUserAgentInfo *sharedInstance;
 
 - (instancetype)init NS_UNAVAILABLE;
