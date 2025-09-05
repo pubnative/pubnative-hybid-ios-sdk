@@ -236,7 +236,7 @@ NSInteger const HyBidSignalDataResponseStatusRequestMalformed = 422;
             dispatch_group_leave(group);
         }];
     }
-    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+    //dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
     
     NSArray *endCards = [self.endCardManager endCards];
     return [[NSArray alloc] initWithArray:endCards];

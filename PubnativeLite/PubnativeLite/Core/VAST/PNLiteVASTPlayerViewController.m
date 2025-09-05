@@ -12,7 +12,6 @@
 #import "PNLiteProgressLabel.h"
 #import "UIApplication+PNLiteTopViewController.h"
 #import "HyBidViewabilityNativeVideoAdSession.h"
-#import <OMSDK_Pubnativenet/OMIDAdSession.h>
 #import "HyBidAd.h"
 #import "HyBidURLDriller.h"
 #import "HyBidError.h"
@@ -32,6 +31,8 @@
 #import "HyBidCustomClickUtil.h"
 #import "HyBidVASTParserError.h"
 #import "HyBidStoreKitUtils.h"
+#import "OMIDAdSessionWrapper.h"
+#import "OMIDVerificationScriptResourceWrapper.h"
 
 #define kContentInfoContainerTag 2343
 
@@ -115,7 +116,7 @@ HyBidCloseButton *closeButton;
 @property (nonatomic, strong) HyBidContentInfoView *contentInfoView;
 @property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, strong) HyBidSkAdNetworkModel *skAdModel;
-@property (nonatomic, strong) OMIDPubnativenetAdSession *adSession;
+@property (nonatomic, strong) OMIDAdSessionWrapper *adSession;
 
 @property (nonatomic, strong) NSTimer *loadTimer;
 @property (nonatomic, strong) id playbackObserverToken;
@@ -195,9 +196,9 @@ typedef enum {
 
 - (instancetype)init {
     if (self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded) {
-        self = [super initWithNibName:[self nameForResource:@"PNLiteVASTPlayerFullScreenViewController": @"nib"] bundle:[self getBundle]];
+        self = [super initWithNibName:@"PNLiteVASTPlayerFullScreenViewController" bundle:[self getBundle]];
     } else {
-        self = [super initWithNibName:[self nameForResource:@"PNLiteVASTPlayerViewController": @"nib"] bundle:[self getBundle]];
+        self = [super initWithNibName:@"PNLiteVASTPlayerViewController" bundle:[self getBundle]];
     }
     if (self) {
         [HyBidVASTTracker cleanTriggeredTrackersList];
@@ -629,46 +630,57 @@ typedef enum {
 
 - (void)startAdSession {
     if (!self.isAdSessionCreated) {
-        NSMutableArray<OMIDPubnativenetVerificationScriptResource *> *scriptResources = [[NSMutableArray alloc] init];
+        NSMutableArray *scriptResources = [[NSMutableArray alloc] init];
         NSArray<HyBidVASTAd *> *ads = [self.hyBidVastModel ads];
-        
+
         if ([ads count] > 0) {
             HyBidVASTAd *firstAd = [ads firstObject];
-            
-            NSArray<HyBidVASTVerification *> * adVerifications = [[firstAd inLine] adVerifications];
+            NSArray<HyBidVASTVerification *> *adVerifications = [[firstAd inLine] adVerifications];
+
             if (adVerifications) {
                 for (HyBidVASTVerification *verification in adVerifications) {
                     if (verification) {
                         for (HyBidVASTJavaScriptResource *res in [verification javaScriptResource]) {
-                            NSString* urlString = [res url];
-                            NSString* vendor = [verification vendor];
-                            NSString* params = [[verification verificationParameters] content];
+                            NSString *urlString = [res url];
+                            NSString *vendor = [verification vendor];
+                            NSString *params = [[verification verificationParameters] content];
 
-                        if (urlString && [urlString length] != 0 && vendor && [vendor length] != 0 && params && [params length] != 0) {
-                                [scriptResources addObject: [[OMIDPubnativenetVerificationScriptResource alloc] initWithURL:[NSURL URLWithString:urlString] vendorKey:vendor parameters:params]];
+                            if (urlString.length != 0 && vendor.length != 0 && params.length != 0) {
+                                OMIDVerificationScriptResourceWrapper *scriptResource =
+                                    [[OMIDVerificationScriptResourceWrapper alloc] initWithURL:[NSURL URLWithString:urlString]
+                                                                                     vendorKey:vendor
+                                                                                    parameters:params];
+
+                                if (scriptResource.verificationScriptResource) {
+                                    [scriptResources addObject:scriptResource.verificationScriptResource];
+                                }
                             }
                         }
                     }
                 }
             }
         }
-        
+
         self.adSession = [[HyBidViewabilityNativeVideoAdSession sharedInstance] createOMIDAdSessionforNativeVideo:self.view withScript:scriptResources];
-        
+ 
         if (self.contentInfoView) {
             [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.contentInfoView toOMIDAdSession:self.adSession withReason:@"This view is related to Content Info" isInterstitial:(self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded)];
             [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.contentInfoViewContainer toOMIDAdSession:self.adSession withReason:@"This view is related to Content Info" isInterstitial:(self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded)];
         }
         if (self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded) {
-            [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction: self.skipOverlay toOMIDAdSession:self.adSession withReason:@"" isInterstitial:(self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded)];
+            [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.skipOverlay toOMIDAdSession:self.adSession withReason:@"" isInterstitial:(self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded)];
         }
         [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.btnMute toOMIDAdSession:self.adSession withReason:@"This view is related to mute button" isInterstitial:(self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded)];
         [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.btnOpenOffer toOMIDAdSession:self.adSession withReason:@"This view is related to open offer" isInterstitial:(self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded)];
+
         [[HyBidViewabilityNativeVideoAdSession sharedInstance] startOMIDAdSession:self.adSession];
+
         self.isAdSessionCreated = YES;
+
         [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDAdLoadEvent:self.adSession];
     }
 }
+
 
 - (BOOL)isValidToShowCustomCountdown {
     Float64 duration = ([self duration] - (int) [self duration]) > 0.5 ? ((int) [self duration] + 1) : (int) [self duration];
@@ -888,10 +900,10 @@ typedef enum {
 - (UIImage*)bundledImageNamed:(NSString*)name {
     NSBundle *bundle = [self getBundle];
     // Try getting the regular PNG
-    NSString *imagePath = [bundle pathForResource:[self nameForResource:name :@"png"] ofType:@"png"];
+    NSString *imagePath = [bundle pathForResource:name ofType:@"png"];
     // If nil, let's try to get the combined TIFF, JIC it's enabled
     if(!imagePath) {
-        imagePath = [bundle pathForResource:[self nameForResource:name :@"tiff"] ofType:@"tiff"];
+        imagePath = [bundle pathForResource:name ofType:@"tiff"];
     }
     return [UIImage imageWithContentsOfFile:imagePath];
 }
@@ -1840,7 +1852,8 @@ typedef enum {
                     [self invokeDidFailLoadingWithError:mediaNotFoundError errorType:HyBidVASTInLineLevelError];
                 } else {
                     if (mediaUrl != nil && ![mediaUrl isEqualToString:@""]) {
-                        [self createVideoPlayerWithVideoUrl:[[NSURL alloc] initWithString: mediaUrl]];
+                        NSString *encodedUrl = [mediaUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+                        [self createVideoPlayerWithVideoUrl:[[NSURL alloc] initWithString: encodedUrl]];
                     }
                 }
             } else {
@@ -2693,17 +2706,6 @@ typedef enum {
 
 - (void)orientationManagerDidChangeOrientation {
     [self.view layoutIfNeeded];
-}
-
-#pragma mark - Utils: check for bundle resource existance.
-
-- (NSString*)nameForResource:(NSString*)name :(NSString*)type {
-    NSString* resourceName = [NSString stringWithFormat:@"iqv.bundle/%@", name];
-    NSString *path = [[self getBundle]pathForResource:resourceName ofType:type];
-    if (!path) {
-        resourceName = name;
-    }
-    return resourceName;
 }
 
 #pragma mark - HyBidCustomCTAViewDelegate

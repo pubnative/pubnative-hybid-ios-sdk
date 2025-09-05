@@ -96,7 +96,7 @@
         eventString = HyBidVASTAdTrackingEventType_unmute;
     } else if ([type isEqualToString:@"click"]) {
         eventString = @"click";
-        [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDClikedEvent];
+        [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDClickedEvent];
     }
     
     [self invokeDidTrackEvent:type];

@@ -62,6 +62,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) HyBidOnTopOfType onTopOf;
 
 @property (nonatomic, assign) BOOL simulateSKOverlayDismissal;
+@property (nonatomic, assign) BOOL isSKOverlayPresentationStarted;
 @end
 
 @implementation HyBidSKOverlay
@@ -256,8 +257,11 @@ typedef enum : NSUInteger {
                             [self simulateSKOverlayMethod: HyBidSKOverlayWillStartPresentation];
                             [self simulateSKOverlayMethod: HyBidSKOverlayDidFinishPresentation];
                         } else {
-                            UIViewController * topViewController = [self getTopViewControllerRemovingStoreKitView:YES];
-                            [self.overlay presentInScene:topViewController.view.window.windowScene];
+                            if (!self.isSKOverlayPresentationStarted) {
+                                UIViewController * topViewController = [self getTopViewControllerRemovingStoreKitView:YES];
+                                [self.overlay presentInScene:topViewController.view.window.windowScene];
+                                self.isSKOverlayPresentationStarted = YES;
+                            }
                         }
                     } else {
                         [self updateTimerStateWithRemainingSeconds:[self getRemainingTimeForTimerType:HyBidSKOverlayTimerType_Delay]
@@ -598,6 +602,7 @@ typedef enum : NSUInteger {
 
 - (void)storeOverlay:(SKOverlay *)overlay didFinishPresentation:(SKOverlayTransitionContext *)transitionContext  API_AVAILABLE(ios(14.0)){
     HyBidInterruptionHandler.shared.overlappingElementDelegate = self;
+    self.isSKOverlayPresentationStarted = NO;
     
     if(self.autoCloseTimerNeeded && !self.autoCloseTimerCompleted && !self.autoClosePerformsDefaultBehaviour) {
         [self updateTimerStateWithRemainingSeconds:[self getRemainingTimeForTimerType:HyBidSKOverlayTimerType_AutoClose]
@@ -650,6 +655,7 @@ typedef enum : NSUInteger {
     }
 }
 - (void)storeOverlay:(SKOverlay *)overlay didFailToLoadWithError:(NSError *)error  API_AVAILABLE(ios(14.0)){
+    self.isSKOverlayPresentationStarted = NO;
     [[HyBidVASTEventBeaconsManager shared] reportVASTEventWithType:HyBidReportingEventType.SKOVERLAY_IMPRESSION_ERROR
                                                                 ad:self.ad
                                                            onTopOf:self.onTopOf

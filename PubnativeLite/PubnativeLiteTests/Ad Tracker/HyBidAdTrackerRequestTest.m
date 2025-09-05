@@ -35,28 +35,28 @@
 - (void)test_trackAdWithDelegate_withNilDelegateAndWithValidUrl_shouldPass
 {
     HyBidAdTrackerRequest *request = [[HyBidAdTrackerRequest alloc] init];
-    [request trackAdWithDelegate:nil withURL:@"validURL"];
+    [request trackAdWithDelegate:nil withURL:@"validURL" withTrackingType:request.trackingType];
 }
 
 - (void)test_trackAdWithDelegate_withValidDelegateAndWithNilUrl_shouldPass
 {
     HyBidAdTrackerRequest *request = [[HyBidAdTrackerRequest alloc] init];
     NSObject <HyBidAdTrackerRequestDelegate> *delegate = mockProtocol(@protocol(HyBidAdTrackerRequestDelegate));
-    [request trackAdWithDelegate:delegate withURL:nil];
+    [request trackAdWithDelegate:delegate withURL:nil withTrackingType:request.trackingType];
 }
 
 - (void)test_trackAdWithDelegate_withValidDelegateAndWithEmptyUrl_shouldPass
 {
     HyBidAdTrackerRequest *request = [[HyBidAdTrackerRequest alloc] init];
     NSObject <HyBidAdTrackerRequestDelegate> *delegate = mockProtocol(@protocol(HyBidAdTrackerRequestDelegate));
-    [request trackAdWithDelegate:delegate withURL:@""];
+    [request trackAdWithDelegate:delegate withURL:@"" withTrackingType:request.trackingType];
 }
 
 - (void)test_trackAdWithDelegate_withValidDelegateAndWithValidUrl_shouldPass
 {
     HyBidAdTrackerRequest *request = [[HyBidAdTrackerRequest alloc] init];
     NSObject <HyBidAdTrackerRequestDelegate> *delegate = mockProtocol(@protocol(HyBidAdTrackerRequestDelegate));
-    [request trackAdWithDelegate:delegate withURL:@"validURL"];
+    [request trackAdWithDelegate:delegate withURL:@"validURL" withTrackingType:request.trackingType];
 }
 
 - (void)test_invokeDidStart_withNilListener_shouldPass

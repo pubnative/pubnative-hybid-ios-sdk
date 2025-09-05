@@ -25,6 +25,8 @@ BOOL isInitialized = NO;
 
 @implementation HyBid
 
+static SDKIntegrationType _sdkIntegrationType = SDKIntegrationTypeHyBid;
+
 + (void)setCoppa:(BOOL)enabled {
     [HyBidConsentConfig sharedConfig].coppa = enabled;
 }
@@ -120,4 +122,15 @@ BOOL isInitialized = NO;
     for (NSString *key in [HyBidGDPR allGDPRKeys]) { [NSUserDefaults.standardUserDefaults removeObjectForKey: key]; }
 }
 
++ (SDKIntegrationType)getIntegrationType {
+    return _sdkIntegrationType;
+}
+
++ (void)setIntegrationType:(SDKIntegrationType)integrationType {
+    if (integrationType == 0) {
+        _sdkIntegrationType = SDKIntegrationTypeHyBid;
+    } else {
+        _sdkIntegrationType = integrationType;
+    }
+}
 @end

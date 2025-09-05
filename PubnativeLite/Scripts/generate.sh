@@ -1,14 +1,16 @@
+# Accept PRODUCT_NAME as an argument
+PRODUCT_NAME=${1:-HyBid} # Default to "HyBid" if no argument is provided
+
 export LIBXML2_CFLAGS=`xml2-config --cflags`
 export LIBXML2_LIBS=`xml2-config --libs`
 
 # Variable Declarations
 BASE_DIR=/private/tmp/circleci-artifacts
-PRODUCT_NAME=HyBid
 FRAMEWORK_NAME=$PRODUCT_NAME.framework
 FRAMEWORK_DSYM_NAME=$FRAMEWORK_NAME.dSYM
 XCFRAMEWORK_NAME=$PRODUCT_NAME.xcframework
 XCFRAMEWORK=$BASE_DIR/$XCFRAMEWORK_NAME
-XCFRAMEWORK_ZIP_PATH=$BASE_DIR/HyBid.xcframework.zip
+XCFRAMEWORK_ZIP_PATH=$BASE_DIR/$PRODUCT_NAME.xcframework.zip
 IPHONEOS_PATH=$BASE_DIR/iphoneos
 IPHONEOS_ARCH=$IPHONEOS_PATH/arch
 IPHONEOS_FRAMEWORK=$IPHONEOS_PATH/$FRAMEWORK_NAME
@@ -40,7 +42,7 @@ xcodebuild -create-xcframework -framework $IPHONEOS_FRAMEWORK -debug-symbols $IP
 # Removing HyBid from generated swift interface
 echo "Removing HyBid from generated swift interface"
 cd $BASE_DIR
-find . -name "*.swiftinterface" -exec sed -i -e 's/HyBid\.//g' {} \;\
+find . -name "*.swiftinterface" -exec sed -i -e "s/${PRODUCT_NAME}\.//g" {} \;
 
 # Create a .zip xcframework
 echo "Create a .zip xcframework"

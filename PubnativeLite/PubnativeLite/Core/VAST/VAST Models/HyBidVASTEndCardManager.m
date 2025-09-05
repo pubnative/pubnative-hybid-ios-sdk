@@ -24,59 +24,87 @@
     return self;
 }
 
-- (void)addCompanion:(HyBidVASTCompanion *)companion completion:(void(^)(void))completion {
+- (void)addCompanion:(HyBidVASTCompanion *)companion completion:(void(^)(void))completion
+{
+    if (!companion) {
+        if (completion) completion();
+        return;
+    }
+
+    // Prepare common metadata
+    NSString *clickThrough = [[[companion companionClickThrough] content] copy];
+    HyBidVASTTrackingEvents *events = [companion trackingEvents];
+
+    // Add HTML & iFrame end cards synchronously
+    for (HyBidVASTHTMLResource *r in (companion.htmlResources ?: @[])) {
+        if (r.content.length > 0) {
+            HyBidVASTEndCard *endCard = [self createEndCardWithType:HyBidEndCardType_HTML
+                                                      fromCompanion:companion
+                                                       withContent:r.content];
+            @synchronized (self.endCardsStorage) {
+                [self.endCardsStorage addObject:endCard];
+            }
+        }
+    }
+
+    for (HyBidVASTIFrameResource *r in (companion.iFrameResources ?: @[])) {
+        if (r.content.length > 0) {
+            HyBidVASTEndCard *endCard = [self createEndCardWithType:HyBidEndCardType_IFRAME
+                                                      fromCompanion:companion
+                                                       withContent:r.content];
+            @synchronized (self.endCardsStorage) {
+                [self.endCardsStorage addObject:endCard];
+            }
+        }
+    }
+
+    // Collect static resources that actually need async verification
+    NSArray<HyBidVASTStaticResource *> *statics = companion.staticResources ?: @[];
+    NSMutableArray<HyBidVASTStaticResource *> *work = [NSMutableArray arrayWithCapacity:statics.count];
+    for (HyBidVASTStaticResource *res in statics) {
+        if (res.content.length > 0) { [work addObject:res]; }
+    }
+
+    // No async work? Finish immediately.
+    if (work.count == 0) {
+        if (completion) completion();
+        return;
+    }
+
+    // Async verification for static images
     dispatch_group_t group = dispatch_group_create();
 
-    if ([[companion staticResources] count] > 0) {
-        for (HyBidVASTStaticResource *resource in [companion staticResources]) {
-            NSString *content = [[resource content] copy];
-            if (content.length == 0) continue;
+    for (HyBidVASTStaticResource *res in work) {
+        NSString *content = [res.content copy];
 
-            NSString *clickThrough = [[[companion companionClickThrough] content] copy];
-            NSArray *clickTrackingsRaw = [companion companionClickTracking];
-            HyBidVASTTrackingEvents *events = [companion trackingEvents];
-            NSMutableArray<NSString *> *clickTrackings = [NSMutableArray new];
-            for (HyBidVASTCompanionClickTracking *event in clickTrackingsRaw) {
-                [clickTrackings addObject:[[event content] copy]];
-            }
+        // Snapshot per-resource values
+        NSArray *clickTrackingsRaw = companion.companionClickTracking ?: @[];
+        NSMutableArray<NSString *> *clickTrackings = [NSMutableArray arrayWithCapacity:clickTrackingsRaw.count];
+        for (HyBidVASTCompanionClickTracking *e in clickTrackingsRaw) {
+            if (e.content.length > 0) { [clickTrackings addObject:[e.content copy]]; }
+        }
 
-            dispatch_group_enter(group);
-            [self verifyImageAtURL:content completion:^(BOOL isAvailable) {
-                if (isAvailable) {
-                    HyBidVASTEndCard *endCard = [[HyBidVASTEndCard alloc] init];
-                    [endCard setType:HyBidEndCardType_STATIC];
-                    [endCard setContent:content];
-                    [endCard setClickThrough:clickThrough];
-                    [endCard setClickTrackings:clickTrackings];
-                    [endCard setEvents:events];
-                    
+        dispatch_group_enter(group);
+        [self verifyImageAtURL:content completion:^(BOOL isAvailable) {
+            if (isAvailable) {
+                HyBidVASTEndCard *endCard = [HyBidVASTEndCard new];
+                endCard.type = HyBidEndCardType_STATIC;
+                endCard.content = content;
+                endCard.clickThrough = clickThrough;
+                endCard.clickTrackings = clickTrackings;
+                endCard.events = events;
+
+                @synchronized (self.endCardsStorage) {
                     [self.endCardsStorage addObject:endCard];
                 }
-                dispatch_group_leave(group);
-            }];
-        }
-    }
-    if ([[companion htmlResources] count] > 0) {
-        for (HyBidVASTHTMLResource *resource in [companion htmlResources]) {
-            if ([[resource content] length] > 0) {
-                HyBidVASTEndCard *endCard = [self createEndCardWithType:HyBidEndCardType_HTML fromCompanion:companion withContent:[resource content]];
-                [self.endCardsStorage addObject:endCard];
             }
-        }
-    }
-    if ([[companion iFrameResources] count] > 0) {
-        for (HyBidVASTIFrameResource *resource in [companion iFrameResources]) {
-            if ([[resource content] length] > 0) {
-                HyBidVASTEndCard *endCard = [self createEndCardWithType:HyBidEndCardType_IFRAME fromCompanion:companion withContent:[resource content]];
-                [self.endCardsStorage addObject:endCard];
-            }
-        }
+            dispatch_group_leave(group);
+        }];
     }
 
+    // Call completion when all verifications finish.
     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-        if (completion) {
-            completion();
-        }
+        if (completion) completion();
     });
 }
 

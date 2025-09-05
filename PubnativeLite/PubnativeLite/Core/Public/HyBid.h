@@ -131,6 +131,11 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 @class HyBidReportingManager;
 @class HyBidAdAttributionCustomClickAdsWrapper;
 
+typedef NS_ENUM(NSInteger, SDKIntegrationType) {
+    SDKIntegrationTypeHyBid = 0,
+    SDKIntegrationTypeSmaato = 1
+};
+
 typedef enum {
     HyBidAudioStatusMuted,
     HyBidAudioStatusON,
@@ -194,6 +199,8 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 
 @interface HyBid : NSObject
 
+@property (nonatomic, assign) SDKIntegrationType sdkIntegrationType;
+
 + (void)setCoppa:(BOOL)enabled;
 + (void)setTargeting:(HyBidTargetingModel *)targeting;
 + (void)setTestMode:(BOOL)enabled;
@@ -209,5 +216,7 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 + (NSString*)getCustomRequestSignalData:(NSString*) mediationVendorName;
 + (void)setReporting:(BOOL)enabled;
 + (void)rightToBeForgotten;
++ (void)setIntegrationType:(SDKIntegrationType)integrationType;
++ (SDKIntegrationType)getIntegrationType;
 
 @end

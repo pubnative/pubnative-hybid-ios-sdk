@@ -11,12 +11,15 @@ public class HyBidConstants: NSObject {
     
     @objc public static let HYBID_SDK_NAME = "HyBid"
     @objc public static let HYBID_OMSDK_VERSION = "1.5.4"
-    @objc public static let HYBID_SDK_VERSION = "3.6.1"
+    @objc public static let HYBID_SDK_VERSION = "3.7.0"
+    @objc public static let SMAATO_SDK_VERSION = "23.0.0"
     @objc public static let HYBID_OMSDK_IDENTIFIER = "Pubnativenet"
+    @objc public static let SMAATO_OMSDK_IDENTIFIER = "Smaato"
+    @objc public static let SMAATO_OMSDK_VERSION = "1.5.2"
     @objc public static let RENDERING_SUCCESS = "rendering success"
     @objc public static let AD_SESSION_DATA = "ad_session_data"
     @objc public static let PERCENT_VISIBLE = "percentVisible"
-    
+
     //Rendering Constants
     @objc public static var mraidExpand: Bool = true
     @objc public static var showEndCard: Bool = true

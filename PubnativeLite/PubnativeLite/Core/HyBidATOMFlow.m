@@ -42,9 +42,12 @@ static HyBidATOMStatus atomStatus = HyBidATOMStatusIdle;
     NSString *bundleID = [[NSBundle mainBundle] bundleIdentifier];
     [Atom startWithApiKey:bundleID isTest:NO error:&atomError withCallback:^(BOOL isSuccess) {
         if (isSuccess) {
-            [Atom getCohortsWithCompletion:^(NSArray<ATOMCohort *> *cohorts) {
-                [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"ATOM: Received ATOM cohorts: %@", cohorts]];
-            }];
+            SEL selector = NSSelectorFromString(@"getCohortsWithCompletion:");
+            if ([Atom respondsToSelector:selector]) {
+                [Atom performSelector:selector withObject:^(NSArray<ATOMCohort *> *cohorts) {
+                    [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"ATOM: Received ATOM cohorts: %@", cohorts]];
+                }];
+            }
             [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"ATOM: started"]];
             [self reportHyBidEventWithStatus:HyBidATOMStatusStarted];
             [HyBidReportingManager sharedInstance].isAtomStarted = true;

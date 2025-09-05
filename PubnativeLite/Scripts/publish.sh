@@ -8,7 +8,7 @@ rm -rf $OUTPUT_FOLDER
 
 #Generate Archive
 cd PubnativeLite
-agvtool -noscm new-marketing-version "$(agvtool what-marketing-version -terse1)-${CIRCLE_BRANCH}.${CIRCLE_BUILD_NUM}"
+agvtool -noscm new-marketing-version "$(agvtool what-marketing-version -terse1)"
 agvtool new-version -all $CIRCLE_BUILD_NUM
 
 xcodebuild -workspace ../HyBid.xcworkspace -list

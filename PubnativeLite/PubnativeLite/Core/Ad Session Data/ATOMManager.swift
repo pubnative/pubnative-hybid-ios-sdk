@@ -46,8 +46,13 @@ import Foundation
         if let renderingStatus = data.renderingStatus, !renderingStatus.isEmpty {
             adSessionDict["Rendering_status"] = renderingStatus
         }
-        if let viewability = data.viewability {
-            adSessionDict["Viewability"] = viewability
+        if let vNum = data.viewability {
+            let v = vNum.doubleValue
+            if v.isFinite {
+                adSessionDict["Viewability"] = v
+            } else {
+                adSessionDict["Viewability"] = -1
+            }
         }
         
         guard !adSessionDict.isEmpty else {
@@ -58,11 +63,13 @@ import Foundation
             HyBidConstants.AD_SESSION_DATA: adSessionDict
         ]
         
+        #if canImport(ATOM)
         if let jsonData = try? JSONSerialization.data(withJSONObject: jsonObject, options: []),
            let jsonString = String(data: jsonData, encoding: .utf8) {
             Atom.fire(eventWithName: HyBidConstants.AD_SESSION_DATA, eventWithValue: jsonString)
             ATOMManager.reportAdSessionDataSharedEvent(adSessionDict:adSessionDict)
         }
+        #endif
     }
     
     @objc public class func createAdSessionData(from request: HyBidAdRequest?, ad: HyBidAd) -> HyBidAdSessionData {

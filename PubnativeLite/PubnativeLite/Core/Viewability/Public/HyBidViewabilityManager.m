@@ -5,7 +5,6 @@
 //
 
 #import "HyBidViewabilityManager.h"
-#import <OMSDK_Pubnativenet/OMIDImports.h>
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -15,13 +14,19 @@
     #import "HyBid-Swift.h"
 #endif
 
-static NSString *const HyBidViewabilityPartnerName = @"Pubnativenet";
-static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
+#if __has_include(<OMSDK_Pubnativenet/OMIDImports.h>)
+    #import <OMSDK_Pubnativenet/OMIDImports.h>
+#endif
 
-@interface HyBidViewabilityManager()
+#if __has_include(<OMSDK_Smaato/OMIDImports.h>)
+    #import <OMSDK_Smaato/OMIDImports.h>
+#endif
 
-@property (nonatomic, readwrite, strong) NSString* omidJSString;
+static NSString *const OMIDSDKJSFilename = @"omsdk";
 
+@interface HyBidViewabilityManager ()
+@property (nonatomic, strong) NSString *omidJSString;
+@property (nonatomic, strong) OMIDAdSessionWrapper *omidAdSessionWrapper;
 @end
 
 @implementation HyBidViewabilityManager
@@ -39,77 +44,120 @@ static NSString *const HyBidOMIDSDKJSFilename = @"omsdk";
     self = [super init];
     if (self) {
         self.viewabilityMeasurementEnabled = YES;
-        NSError *error;
-        
-        if (!OMIDPubnativenetSDK.sharedInstance.isActive) {
-            [[OMIDPubnativenetSDK sharedInstance] activate];
-            self.partner = [[OMIDPubnativenetPartner alloc] initWithName:HyBidViewabilityPartnerName versionString:HyBidConstants.HYBID_SDK_VERSION];
-        } else {
-            [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd)withMessage:[NSString stringWithFormat:@"Viewability Manager couldn't initialized properly with error: %@", error.debugDescription]];
-        }
-        
-        if(!self.omidJSString){
-            [self fetchOMIDJS];
-        }
+        [self activateOMSDK];
+        [self fetchOMIDJS];
     }
     return self;
 }
 
-- (void)fetchOMIDJS {
-    if(!self.isViewabilityMeasurementActivated)
-        return;
-    
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    NSString *omSdkJSPath = [bundle pathForResource:HyBidOMIDSDKJSFilename ofType:@"js"];
-    if (!omSdkJSPath) {
-        return;
+#pragma mark - OM SDK Activation
+
+- (void)activateOMSDK {
+    if ([HyBid getIntegrationType] == SDKIntegrationTypeHyBid) {
+        #if __has_include(<OMSDK_Pubnativenet/OMIDImports.h>)
+        if (!OMIDPubnativenetSDK.sharedInstance.isActive) {
+            [[OMIDPubnativenetSDK sharedInstance] activate];
+        }
+        self.partner = [[OMIDPubnativenetPartner alloc] initWithName:HyBidConstants.HYBID_OMSDK_IDENTIFIER versionString:HyBidConstants.HYBID_SDK_VERSION];
+        #endif
+    } else if ([HyBid getIntegrationType] == SDKIntegrationTypeSmaato) {
+        #if __has_include(<OMSDK_Smaato/OMIDImports.h>)
+        if (!OMIDSmaatoSDK.sharedInstance.isActive) {
+            [[OMIDSmaatoSDK sharedInstance] activate];
+        }
+        self.partner = [[OMIDSmaatoPartner alloc] initWithName:HyBidConstants.SMAATO_OMSDK_IDENTIFIER versionString:HyBidConstants.SMAATO_SDK_VERSION];
+        #endif
     }
-    NSData *omSdkJsData = [NSData dataWithContentsOfFile:omSdkJSPath];
-    self.omidJSString = [[NSString alloc] initWithData:omSdkJsData encoding:NSUTF8StringEncoding];
+}
+
+#pragma mark - Fetching OMID JS
+
+- (void)fetchOMIDJS {
+    if (![self isViewabilityMeasurementActivated]) return;
+
+    NSString *omidFilename = OMIDSDKJSFilename;
+    
+    if ([HyBid getIntegrationType] == SDKIntegrationTypeSmaato) {
+        omidFilename = @"omsdk_Smaato";
+    }
+
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    NSString *path = [bundle pathForResource:omidFilename ofType:@"js"];
+    
+    if (!path) return;
+    
+    NSData *jsData = [NSData dataWithContentsOfFile:path];
+    self.omidJSString = [[NSString alloc] initWithData:jsData encoding:NSUTF8StringEncoding];
 }
 
 - (NSString *)getOMIDJS {
-    if(!self.isViewabilityMeasurementActivated)
-        return nil;
-    
-    NSString *scriptContent  = nil;
-    @synchronized (self) {
-        scriptContent  = self.omidJSString;
-        if (!scriptContent) {
-            [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd)withMessage:@"Script Content is nil."];
-            scriptContent=  @"";
-        }
-    }
-    return scriptContent;
+    return self.omidJSString;
 }
 
+#pragma mark - OMID Event Handling
 
-- (OMIDPubnativenetAdEvents *)getAdEvents:(OMIDPubnativenetAdSession*)omidAdSession {
-    if (omidAdSession != self.omidAdSession) {
-        NSError *adEventsError;
-        self.omidAdSession = omidAdSession;
-        self.adEvents = [[OMIDPubnativenetAdEvents alloc] initWithAdSession:self.omidAdSession error:&adEventsError];
+- (id)getAdEvents:(OMIDAdSessionWrapper *)omidAdSessionWrapper {
+    if (!omidAdSessionWrapper.adSession) return nil;
+
+    NSError *adEventsError;
+    if ([HyBid getIntegrationType] == SDKIntegrationTypeHyBid) {
+        #if __has_include(<OMSDK_Pubnativenet/OMIDImports.h>)
+        return [[OMIDPubnativenetAdEvents alloc] initWithAdSession:omidAdSessionWrapper.adSession error:&adEventsError];
+        #endif
+    } else if ([HyBid getIntegrationType] == SDKIntegrationTypeSmaato) {
+        #if __has_include(<OMSDK_Smaato/OMIDImports.h>)
+        return [[OMIDSmaatoAdEvents alloc] initWithAdSession:omidAdSessionWrapper.adSession error:&adEventsError];
+        #endif
     }
-    return self.adEvents;
+
+    return nil;
 }
 
-- (OMIDPubnativenetMediaEvents *)getMediaEvents:(OMIDPubnativenetAdSession*)omidAdSession {
-    if (omidAdSession != self.omidMediaAdSession) {
-        NSError *mediaEventsError;
-        self.omidMediaAdSession = omidAdSession;
-        self.omidMediaEvents = [[OMIDPubnativenetMediaEvents alloc] initWithAdSession:self.omidMediaAdSession error:&mediaEventsError];
+- (id)getMediaEvents:(OMIDAdSessionWrapper *)omidAdSessionWrapper {
+    if (!omidAdSessionWrapper.adSession) return nil;
+
+    NSError *mediaEventsError;
+    if ([HyBid getIntegrationType] == SDKIntegrationTypeHyBid) {
+        #if __has_include(<OMSDK_Pubnativenet/OMIDImports.h>)
+        return [[OMIDPubnativenetMediaEvents alloc] initWithAdSession:omidAdSessionWrapper.adSession error:&mediaEventsError];
+        #endif
+    } else if ([HyBid getIntegrationType] == SDKIntegrationTypeSmaato) {
+        #if __has_include(<OMSDK_Smaato/OMIDImports.h>)
+        return [[OMIDSmaatoMediaEvents alloc] initWithAdSession:omidAdSessionWrapper.adSession error:&mediaEventsError];
+        #endif
     }
-    return self.omidMediaEvents;
+
+    return nil;
 }
+
+#pragma mark - Activation Status
 
 - (BOOL)isViewabilityMeasurementActivated {
-    return OMIDPubnativenetSDK.sharedInstance.isActive && self.viewabilityMeasurementEnabled;
+    if ([HyBid getIntegrationType] == SDKIntegrationTypeHyBid) {
+        #if __has_include(<OMSDK_Pubnativenet/OMIDImports.h>)
+        return OMIDPubnativenetSDK.sharedInstance.isActive && self.viewabilityMeasurementEnabled;
+        #endif
+    } else if ([HyBid getIntegrationType] == SDKIntegrationTypeSmaato) {
+        #if __has_include(<OMSDK_Smaato/OMIDImports.h>)
+        return OMIDSmaatoSDK.sharedInstance.isActive && self.viewabilityMeasurementEnabled;
+        #endif
+    }
+    return NO;
 }
 
+#pragma mark - Reporting Events
+
 - (void)reportEvent:(NSString *)eventType {
-    if ([HyBidSDKConfig sharedConfig].reporting) {
-        HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:eventType adFormat:nil properties:nil];
-        [[HyBid reportingManager]reportEventFor:reportingEvent];
+    if ([HyBid getIntegrationType] == SDKIntegrationTypeHyBid) {
+        #if __has_include(<HyBid/HyBid-Swift.h>)
+        if ([HyBidSDKConfig sharedConfig].reporting) {
+            HyBidReportingEvent *reportingEvent = [[HyBidReportingEvent alloc] initWith:eventType adFormat:nil properties:nil];
+            [[HyBid reportingManager] reportEventFor:reportingEvent];
+            [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"HyBid reporting event %@", eventType]];
+        }
+        #endif
+    } else if ([HyBid getIntegrationType] == SDKIntegrationTypeSmaato) {
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Smaato reporting event %@", eventType]];
     }
 }
 

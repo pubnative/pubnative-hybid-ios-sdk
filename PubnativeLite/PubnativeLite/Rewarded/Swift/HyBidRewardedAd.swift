@@ -245,8 +245,8 @@ public class HyBidRewardedAd: NSObject {
     func hide(from viewController: UIViewController) {
         self.rewardedPresenter?.hide(from: viewController)
     }
-    
-    func renderAd(ad: HyBidAd) {
+    @objc
+    public func renderAd(ad: HyBidAd) {
         let rewardedPresenterFactory = HyBidRewardedPresenterFactory()
         if let skipOffset = self.htmlSkipOffset?.offset?.intValue, skipOffset >= 0 {
             if skipOffset >= HyBidSkipOffset.DEFAULT_REWARDED_HTML_MAX_SKIP_OFFSET {

@@ -236,7 +236,8 @@ extension HyBidCustomCTAView {
     }
     
     @objc static public func isCustomCTAValid(ad: HyBidAd) -> Bool {
-        guard ad.skoverlayEnabled == nil || 
+        guard ad.adExperience != HyBidAdExperienceBrandValue,
+              ad.skoverlayEnabled == nil ||
               (ad.skoverlayEnabled != nil &&
               ad.skoverlayEnabled.boolValue == false) ||
               (ad.isUsingOpenRTB ? ad.getOpenRTBSkAdNetworkModel() : ad.getSkAdNetworkModel()) == nil ||

@@ -16,4 +16,7 @@
 + (NSString*)setDisplayManager:(IntegrationType)integrationType;
 + (NSString*)getDisplayManager;
 
++ (NSString*)getSmaatoDisplayManager;
++ (NSString*)getSmaatoDisplayManagerVersion;
+
 @end

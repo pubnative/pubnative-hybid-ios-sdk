@@ -19,7 +19,6 @@
 
 #import <WebKit/WebKit.h>
 #import <AVFoundation/AVFoundation.h>
-#import <OMSDK_Pubnativenet/OMIDAdSession.h>
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -32,6 +31,8 @@
 #import "HyBidSkipOverlay.h"
 #import "HyBidTimerState.h"
 #import "UIApplication+PNLiteTopViewController.h"
+#import "OMIDAdSessionWrapper.h"
+
 
 #define SYSTEM_VERSION_LESS_THAN(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
@@ -60,7 +61,7 @@ typedef enum {
     BOOL isScrollable;
     BOOL isExpanded;
 
-    OMIDPubnativenetAdSession *adSession;
+    OMIDAdSessionWrapper *adSession;
     
     // The only property of the MRAID expandProperties we need to keep track of
     // on the native side is the useCustomClose property.
@@ -1208,7 +1209,7 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
     NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
     NSNumber *milliseconds = [numberFormatter numberFromString:templateDelay];
     float delaySeconds = [milliseconds floatValue] / 1000;
-    if (delaySeconds <= 0.0) { return; }
+    if (delaySeconds < 0.0) { return; }
     delaySeconds = delaySeconds <= landingPageSecondsToCloseAdDelay ? delaySeconds : landingPageSecondsToCloseAdDelay;
     self.landingpageCloseDelay = delaySeconds;
     
@@ -1668,32 +1669,28 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
     }
 }
 
+
 - (void)setScreenSize {
-    CGSize screenSize = self.frame.size;
-    // screenSize is ALWAYS for portrait orientation, so we need to figure out the
-    // actual interface orientation to get the correct current screenRect.
-    UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
-    BOOL isLandscape = UIInterfaceOrientationIsLandscape(interfaceOrientation);
-    
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
-        screenSize = CGSizeMake(screenSize.width, screenSize.height);
-    } else {
-        if (isLandscape) {
-            screenSize = CGSizeMake(screenSize.height, screenSize.width);
-        }
+    CGSize screenSize = self.bounds.size;
+
+    UIWindow *win = self.window ?: UIApplication.sharedApplication.keyWindow ?: UIApplication.sharedApplication.windows.firstObject;
+    CGFloat topInset = 0, bottomInset = 0;
+    if (@available(iOS 11.0, *)) {
+        topInset = win.safeAreaInsets.top;
+        bottomInset = win.safeAreaInsets.bottom;
     }
-    if (!CGSizeEqualToSize(screenSize, previousScreenSize)) {
+
+    // Height that matches visualViewport.height
+    CGFloat usableH = screenSize.height - topInset - bottomInset;
+
+    if (!CGSizeEqualToSize(CGSizeMake(screenSize.width, usableH), previousScreenSize)) {
         [self injectJavaScript:[NSString stringWithFormat:@"mraid.setScreenSize(%d,%d);",
-                                (int)screenSize.width,
-                                (int)screenSize.height]];
-        previousScreenSize = CGSizeMake(screenSize.width, screenSize.height);
+                                (int)screenSize.width, (int)usableH]];
+        previousScreenSize = CGSizeMake(screenSize.width, usableH);
+
         if (isInterstitial) {
-            [self injectJavaScript:[NSString stringWithFormat:@"mraid.setMaxSize(%d,%d);",
-                                    (int)screenSize.width,
-                                    (int)screenSize.height]];
-            [self injectJavaScript:[NSString stringWithFormat:@"mraid.setDefaultPosition(0,0,%d,%d);",
-                                    (int)screenSize.width,
-                                    (int)screenSize.height]];
+            [self injectJavaScript:[NSString stringWithFormat:@"mraid.setMaxSize(%d,%d);",(int)screenSize.width,(int)usableH]];
+            [self injectJavaScript:[NSString stringWithFormat:@"mraid.setDefaultPosition(0,0,%d,%d);",(int)screenSize.width,(int)usableH]];
         }
     }
 }
