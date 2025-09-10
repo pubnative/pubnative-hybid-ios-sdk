@@ -103,7 +103,15 @@ NSString *const PNLiteAdCustomCTAEndCardClick = @"custom_cta_endcard_click";
         self.customEndcardImpressionURLs = customEndcardImpressionURLs;
         self.clickURLs = clickURLs;
         self.customEndcardClickURLs = customEndcardClickURLs;
-        self.wkWebView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:[WKWebViewConfiguration new]];
+        
+        if ([NSThread isMainThread]) {
+            self.wkWebView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:[WKWebViewConfiguration new]];
+        } else {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                self.wkWebView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:[WKWebViewConfiguration new]];
+            });
+        }
+        
         self.customCTATracking = customCTATracking;
     }
     return self;

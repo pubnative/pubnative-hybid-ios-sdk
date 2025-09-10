@@ -12,11 +12,11 @@ typedef enum {
     HyBidEndCardType_STATIC,
     HyBidEndCardType_HTML,
     HyBidEndCardType_IFRAME,
-} HyBidVASTEndCardType;
+} HyBidEndCardType;
 
-@interface HyBidVASTEndCard : NSObject
+@interface HyBidEndCard : NSObject
 
-@property (nonatomic) HyBidVASTEndCardType type;
+@property (nonatomic) HyBidEndCardType type;
 
 @property (nonatomic, strong) NSString *content;
 

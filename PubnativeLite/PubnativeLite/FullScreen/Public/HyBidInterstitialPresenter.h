@@ -29,14 +29,15 @@
 - (void)interstitialPresenterDismissesSKOverlay:(HyBidInterstitialPresenter *)interstitialPresenter;
 - (void)interstitialPresenterDismissesCustomCTA:(HyBidInterstitialPresenter *)interstitialPresenter;
 - (void)interstitialPresenterWillPresentEndCard:(HyBidInterstitialPresenter *)interstitialPresenter
-                              skoverlayDelegate:(id<HyBidSKOverlayDelegate>)skoverlayDelegate
+                              skOverlayDelegate:(id<HyBidSKOverlayDelegate>)skOverlayDelegate
                               customCTADelegate:(id<HyBidCustomCTAViewDelegate>)customCTADelegate;
 - (void)interstitialPresenterDidPresentCustomEndCard:(HyBidInterstitialPresenter *)interstitialPresenter;
 - (void)interstitialPresenterDidPresentCustomCTA;
 - (void)interstitialPresenterDidClickCustomCTAOnEndCard:(BOOL)onEndCard;
 - (void)interstitialPresenterDidSKOverlayAutomaticClick:(HyBidInterstitialPresenter *)interstitialPresenter
                                               clickType:(HyBidSKOverlayAutomaticCLickType)clickType;
-- (void)interstitialPresenterDidStorekitAutomaticClick:(HyBidInterstitialPresenter *)interstitialPresenter           clickType:(HyBidStorekitAutomaticClickType)clickType;
+- (void)interstitialPresenterDidStorekitAutomaticClick:(HyBidInterstitialPresenter *)interstitialPresenter
+                                             clickType:(HyBidStorekitAutomaticClickType)clickType;
 - (void)interstitialPresenterDidReplay:(HyBidInterstitialPresenter *)interstitialPresenter viewController:(UIViewController *)viewController;
 
 @end
@@ -46,7 +47,7 @@
 @property (nonatomic, readonly) HyBidAd *ad;
 @property (nonatomic) NSObject <HyBidInterstitialPresenterDelegate> *delegate;
 @property (nonatomic, weak) NSObject <HyBidCustomCTAViewDelegate> *customCTADelegate;
-@property (nonatomic, weak) NSObject <HyBidSKOverlayDelegate> *skoverlayDelegate;
+@property (nonatomic, weak) NSObject <HyBidSKOverlayDelegate> *skOverlayDelegate;
 @property (nonatomic, strong) HyBidAdSessionData *adSessionData;
 
 - (void)load;

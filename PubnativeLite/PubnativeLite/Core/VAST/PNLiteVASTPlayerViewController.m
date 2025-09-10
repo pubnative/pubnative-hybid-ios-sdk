@@ -17,9 +17,9 @@
 #import "HyBidError.h"
 #import "HyBid.h"
 #import "HyBidVASTIconUtils.h"
-#import "HyBidVASTEndCard.h"
-#import "HyBidVASTEndCardManager.h"
-#import "HyBidVASTEndCardView.h"
+#import "HyBidEndCard.h"
+#import "HyBidEndCardManager.h"
+#import "HyBidEndCardView.h"
 #import "UIApplication+PNLiteTopViewController.h"
 #import <StoreKit/SKOverlay.h>
 #import "StoreKit/StoreKit.h"
@@ -88,7 +88,7 @@ HyBidCloseButton *closeButton;
 #define HYBID_PNLiteVAST_CLOSE_BUTTON_TAG 1001
 #define kAudioMuteSize 30
 
-@interface PNLiteVASTPlayerViewController ()<HyBidVASTEventProcessorDelegate, HyBidContentInfoViewDelegate, HyBidURLDrillerDelegate, HyBidInterruptionDelegate, HyBidVASTEndCardViewDelegate, HyBidSkipOverlayDelegate, PNLiteOrientationManagerDelegate, HyBidCustomCTAViewDelegate, HyBidSKOverlayDelegate>
+@interface PNLiteVASTPlayerViewController ()<HyBidVASTEventProcessorDelegate, HyBidContentInfoViewDelegate, HyBidURLDrillerDelegate, HyBidInterruptionDelegate, HyBidEndCardViewDelegate, HyBidSkipOverlayDelegate, PNLiteOrientationManagerDelegate, HyBidCustomCTAViewDelegate, HyBidSKOverlayDelegate>
 
 @property (nonatomic, assign) BOOL shown;
 @property (nonatomic, assign) BOOL wantsToPlay;
@@ -146,9 +146,9 @@ HyBidCloseButton *closeButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewProgressBottomConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewProgressTrailingConstraint;
 
-@property (nonatomic, strong) NSMutableArray<HyBidVASTEndCard *> *endCards;
-@property (nonatomic, strong) HyBidVASTEndCardManager *endCardManager;
-@property (nonatomic, strong) HyBidVASTEndCardView *endCardView;
+@property (nonatomic, strong) NSMutableArray<HyBidEndCard *> *endCards;
+@property (nonatomic, strong) HyBidEndCardManager *endCardManager;
+@property (nonatomic, strong) HyBidEndCardView *endCardView;
 @property (nonatomic, strong) NSMutableArray<NSString *> *vastCompanionsClicksThrough;
 @property (nonatomic) HyBidInterstitialActionBehaviour fullscreenClickabilityBehaviour;
 @property (nonatomic, assign) HyBidCountdownStyle countdownStyle;
@@ -170,7 +170,7 @@ HyBidCloseButton *closeButton;
 @property (nonatomic, assign) BOOL isAutoStoreKit;
 @property (nonatomic, assign) BOOL vastPlayerHasElementOnTop;
 @property (nonatomic, strong) HyBidAdAttributionCustomClickAdsWrapper* aakCustomClickAd;
-@property (nonatomic, strong) HyBidVASTEndCard* currentEndCard;
+@property (nonatomic, strong) HyBidEndCard* currentEndCard;
 @property (nonatomic, assign) BOOL adHasBeenReplayed;
 
 @end
@@ -226,15 +226,15 @@ typedef enum {
             self.muted = [self isAdAudioMuted:HyBidConstants.audioStatus];
         }
     }
-    [self determineSdkAutoStorekitEnabledForAd:self.ad];
+    self.sdkAutoStorekitEnabled = [HyBidSKAdNetworkViewController isAutoStorekitEnabledForAd:self.ad];
     [self setAdAudioMuted:self.muted];
     self.canResize = YES;
-    self.endCardManager = [[HyBidVASTEndCardManager alloc] init];
+    self.endCardManager = [[HyBidEndCardManager alloc] init];
     self.events = [[NSDictionary alloc] init];
     self.progressTrackingEvents = [NSMutableDictionary new];
     self.companionEvents = [[NSMutableDictionary alloc] init];
     self.customCTADelegate = self;
-    self.skoverlayDelegate = self;
+    self.skOverlayDelegate = self;
     self.endCards = [[NSMutableArray alloc] init];
     self.vastCompanionsClicksThrough = [[NSMutableArray alloc] init];
     self.vastCompanionsClicksTracking = [[NSMutableArray alloc] init];
@@ -887,7 +887,7 @@ typedef enum {
         self.vastVideoClicksTracking = nil;
         self.vastImpressions = nil;
         self.progressTrackingEvents = nil;
-        self.skoverlayDelegate = nil;
+        self.skOverlayDelegate = nil;
         self.sdkAutoStorekitEnabled = nil;
         self.hasFiredStartEvent = NO;
         self.vastSkipOffset = nil;
@@ -1619,7 +1619,7 @@ typedef enum {
 #pragma mark - AVPlayer notifications
 
 - (void)addObservers {
-    HyBidInterruptionHandler.shared.delegate = self;
+    [[HyBidInterruptionHandler shared] setDelegate:self for:HyBidAdContextVastPlayer];
 }
 
 - (void)removeObservers {
@@ -1628,7 +1628,8 @@ typedef enum {
         [self.player removeTimeObserver:self.playbackObserverToken];
     }
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self];;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[HyBidInterruptionHandler shared] deactivateContext:HyBidAdContextVastPlayer];
 }
 
 - (void)updateVideoFrameToLastInterruption {
@@ -1937,6 +1938,7 @@ typedef enum {
 }
 
 - (void)setReadyState {
+    [[HyBidInterruptionHandler shared] activateContext:HyBidAdContextVastPlayer];
     self.loadingSpin.hidden = YES;
     self.btnMute.hidden = YES;
     self.viewProgress.hidden = YES;
@@ -2239,7 +2241,7 @@ typedef enum {
 - (void)fetchEndCards
 {
     if (self.ad.hasCustomEndCard || (self.ad.customEndcardEnabled == nil && HyBidConstants.showCustomEndCard)) {
-        HyBidVASTEndCard *customEndCard = [[HyBidVASTEndCard alloc] init];
+        HyBidEndCard *customEndCard = [[HyBidEndCard alloc] init];
         [customEndCard setType:HyBidEndCardType_HTML];
         [customEndCard setContent:self.ad.customEndCardData];
         [customEndCard setIsCustomEndCard:YES];
@@ -2265,7 +2267,7 @@ typedef enum {
 
 - (void)showEndCard
 {
-    HyBidVASTEndCard *endCard;
+    HyBidEndCard *endCard;
     NSUInteger endCardCount;
     [self.endCards sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"isCustomEndCard" ascending:YES]]];
     if (self.ad.hasCustomEndCard) {
@@ -2275,7 +2277,7 @@ typedef enum {
         endCard = [self.endCards lastObject];
         endCardCount = PNLiteVASTPlayerWrapperMaximumValue;
     }
-    self.endCardView = [[HyBidVASTEndCardView alloc] initWithDelegate:self
+    self.endCardView = [[HyBidEndCardView alloc] initWithDelegate:self
                                                                     withViewController:self
                                                                                 withAd:self.ad
                                                                             withVASTAd:[self getVastAd]
@@ -2288,10 +2290,10 @@ typedef enum {
                                          vastVideoClicksTracking:[self.vastVideoClicksTracking copy]];
     
     
-    if (self.delegate && [self.delegate respondsToSelector:@selector(vastPlayerWillShowEndCard:isCustomEndCard:skoverlayDelegate:customCTADelegate:)]) {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(vastPlayerWillShowEndCard:isCustomEndCard:skOverlayDelegate:customCTADelegate:)]) {
         [self.delegate vastPlayerWillShowEndCard:self
                                  isCustomEndCard:endCard.isCustomEndCard
-                               skoverlayDelegate:self.endCardView
+                               skOverlayDelegate:self.endCardView
                                customCTADelegate:self.endCardView];
     }
 
@@ -2339,14 +2341,6 @@ typedef enum {
         [self.endCards removeObject:endCard];
     }
 }
-
-- (void)determineSdkAutoStorekitEnabledForAd:(HyBidAd *)ad {
-    if (ad.sdkAutoStorekitEnabled != nil && [ad.sdkAutoStorekitEnabled integerValue] >= 0 && [ad.sdkAutoStorekitEnabled boolValue] == YES) {
-        self.sdkAutoStorekitEnabled = YES;
-    } else {
-        self.sdkAutoStorekitEnabled = HyBidConstants.sdkAutoStorekitEnabled;
-    }
-} 
 
 - (BOOL)isHideEnabled {
     return self.ad.isBrandCompatible && self.ad.hideControls == YES && [self.ad.adExperience isEqualToString:HyBidAdExperienceBrandValue];
@@ -2462,18 +2456,18 @@ typedef enum {
     });
 }
 
-// MARK: - HyBidVASTEndCardViewDelegate
+// MARK: - HyBidEndCardViewDelegate
 
-- (void)vastEndCardViewCloseButtonTapped {
+- (void)endCardViewCloseButtonTapped {
     self.vastPlayerHasElementOnTop = NO;
     [self invokeDidClose];
 }
 
-- (void)vastEndCardViewSkipButtonTapped {
+- (void)endCardViewSkipButtonTapped {
     [self showEndCard];
 }
 
-- (void)vastEndCardViewClicked:(BOOL)triggerAdClick aakCustomClickAd:(HyBidAdAttributionCustomClickAdsWrapper *)aakCustomClickAd {
+- (void)endCardViewClicked:(BOOL)triggerAdClick aakCustomClickAd:(HyBidAdAttributionCustomClickAdsWrapper *)aakCustomClickAd {
     if(triggerAdClick){
         [self trackClickWithAAKCustomClickAd:aakCustomClickAd];
     } else {
@@ -2481,15 +2475,15 @@ typedef enum {
     }
 }
 
-- (void)vastEndCardViewCustomCTAClicked {
+- (void)endCardViewCustomCTAClicked {
     [self invokeDidClickCustomCTAOnEndCard:YES];
 }
 
-- (void)vastEndCardViewCustomCTAPresented {
+- (void)endCardViewCustomCTAPresented {
     [self invokeDidShowCustomCTA];
 }
 
-- (void)vastEndCardViewSKOverlayClicked:(BOOL)triggerAdClick clickType:(HyBidSKOverlayAutomaticCLickType)clickType isFirstPresentation:(BOOL)isFirstPresentation {
+- (void)endCardViewSKOverlayClicked:(BOOL)triggerAdClick clickType:(HyBidSKOverlayAutomaticCLickType)clickType isFirstPresentation:(BOOL)isFirstPresentation {
     if(triggerAdClick){
         [self trackClickForSKOverlayWithClickType:clickType isFirstPresentation:isFirstPresentation];
     } else {
@@ -2497,7 +2491,7 @@ typedef enum {
     }
 }
 
-- (void)vastEndCardViewAutoStorekitClicked:(BOOL)triggerAdClick clickType:(HyBidStorekitAutomaticClickType)clickType {
+- (void)endCardViewAutoStorekitClicked:(BOOL)triggerAdClick clickType:(HyBidStorekitAutomaticClickType)clickType {
     if(triggerAdClick){
         [self trackClickForAutoStorekit:clickType];
     } else {
@@ -2505,14 +2499,14 @@ typedef enum {
     }
 }
 
-- (void)vastEndCardViewRedirectedWithSuccess:(BOOL)success {
+- (void)endCardViewRedirectedWithSuccess:(BOOL)success {
     [self togglePlaybackStateOnSuccess:success];
 }
 
-- (void)vastEndCardViewFailedToLoad {
+- (void)endCardViewFailedToLoad {
     [self.contentInfoViewContainer setHidden:NO];
     if (self.endCards.count > 0) {
-        [self vastEndCardViewSkipButtonTapped];
+        [self endCardViewSkipButtonTapped];
     } else {
         if(self.endCardView != nil) {
             [self.endCardView removeFromSuperview];
@@ -2522,11 +2516,11 @@ typedef enum {
     }
 }
 
-- (void)vastEndCardViewDidDisplay {
+- (void)endCardViewDidDisplay {
     self.vastPlayerHasElementOnTop = YES;
 }
 
-- (void)vastEndCardViewReplayButtonClicked {
+- (void)endCardViewReplayButtonClicked {
     
     self.adHasBeenReplayed = YES;
     [self invokeDidVASTPlayerReplay];
@@ -2571,8 +2565,8 @@ typedef enum {
     }
     
     for (id subview in self.view.subviews) {
-        if ([subview isMemberOfClass:[HyBidVASTEndCardView class]]) {
-            HyBidVASTEndCardView *endCardView = (HyBidVASTEndCardView *)subview;
+        if ([subview isMemberOfClass:[HyBidEndCardView class]]) {
+            HyBidEndCardView *endCardView = (HyBidEndCardView *)subview;
             [endCardView removeFromSuperview];
             endCardView = nil;
         }
@@ -2726,7 +2720,7 @@ typedef enum {
 
 #pragma mark - HyBidSKOverlayDelegate
 
-- (void)skoverlayDidShowOnCreative:(BOOL)isFirstPresentation {
+- (void)skOverlayDidShowOnCreative:(BOOL)isFirstPresentation {
     HyBidSkAdNetworkModel* skAdNetworkModel = [self.ad getSkAdNetworkModel];
     if ([skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] != [NSNull null] && [[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] boolValue]) {
         

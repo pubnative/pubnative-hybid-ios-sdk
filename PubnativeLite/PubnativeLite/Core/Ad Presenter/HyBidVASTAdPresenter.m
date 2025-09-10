@@ -118,7 +118,7 @@ CGFloat const PNLiteVASTMRectHeight = 250.0f;
     }
 }
 
-- (void)vastPlayerDidShowEndCard:(PNLiteVASTPlayerViewController *)vastPlayer endcard:(HyBidVASTEndCard *)endcard {
+- (void)vastPlayerDidShowEndCard:(PNLiteVASTPlayerViewController *)vastPlayer endcard:(HyBidEndCard *)endcard {
     if (self.delegate && [self.delegate respondsToSelector:@selector(adPresenterDidPresentCustomEndCard:)]) {
         [self.delegate adPresenterDidPresentCustomEndCard:self];
     }

@@ -30,11 +30,10 @@
 - (void)rewardedPresenterDismissesSKOverlay:(HyBidRewardedPresenter *)rewardedPresenter;
 - (void)rewardedPresenterDismissesCustomCTA:(HyBidRewardedPresenter *)rewardedPresenter;
 - (void)rewardedPresenteWillPresentEndCard:(HyBidRewardedPresenter *)rewardedPresenter
-                         skoverlayDelegate:(id<HyBidSKOverlayDelegate>)skoverlayDelegate
+                         skOverlayDelegate:(id<HyBidSKOverlayDelegate>)skOverlayDelegate
                          customCTADelegate:(id<HyBidCustomCTAViewDelegate>)customCTADelegate;
-- (void)rewardedPresenteDidPresentCustomEndCard:(HyBidRewardedPresenter *)rewardedPresenter;
-- (void)rewardedPresenterDidPresentsCustomCTA;
 - (void)rewardedPresenterDidClickCustomCTAOnEndCard:(BOOL)OnEndCard;
+- (void)rewardedPresenterDidPresentsCustomCTA;
 - (void)rewardedPresenterDidPresentCustomEndCard:(HyBidRewardedPresenter *)rewardedPresenter;
 - (void)rewardedPresenterDidSKOverlayAutomaticClick:(HyBidRewardedPresenter *)rewardedPresenter
                                               clickType:(HyBidSKOverlayAutomaticCLickType)clickType;
@@ -49,7 +48,7 @@
 @property (nonatomic, readonly) HyBidAd *ad;
 @property (nonatomic) NSObject <HyBidRewardedPresenterDelegate> *delegate;
 @property (nonatomic) NSObject <HyBidCustomCTAViewDelegate> *customCTADelegate;
-@property (nonatomic) NSObject <HyBidSKOverlayDelegate> *skoverlayDelegate;
+@property (nonatomic) NSObject <HyBidSKOverlayDelegate> *skOverlayDelegate;
 @property (nonatomic, strong) HyBidAdSessionData *adSessionData;
 
 - (void)load;

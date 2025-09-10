@@ -27,6 +27,9 @@ public class HyBidSkipOffset: NSObject {
     
     @objc public static let DEFAULT_PC_INTERSTITIAL_SKIP_OFFSET = 8
     @objc public static let DEFAULT_PC_INTERSTITIAL_MAX_SKIP_OFFSET = 15
+    
+    @objc public static let DEFAULT_PC_END_CARD_CLOSE_DELAY = 5
+    @objc public static let DEFAULT_BC_END_CARD_CLOSE_DELAY = 0
 
     @objc public var offset: NSNumber?
     @objc public var isCustom: Bool = false

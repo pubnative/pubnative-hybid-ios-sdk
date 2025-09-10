@@ -31,8 +31,11 @@
 #import "HyBidSkipOverlay.h"
 #import "HyBidTimerState.h"
 #import "UIApplication+PNLiteTopViewController.h"
+#import "HyBidEndCardView.h"
+#import "HyBidStoreKitUtils.h"
+#import "HyBidCustomClickUtil.h"
+#import "HyBidURLDriller.h"
 #import "OMIDAdSessionWrapper.h"
-
 
 #define SYSTEM_VERSION_LESS_THAN(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
@@ -51,7 +54,7 @@ typedef enum {
     PNLiteMRAIDStateHidden
 } PNLiteMRAIDState;
 
-@interface HyBidMRAIDView () <WKNavigationDelegate, WKUIDelegate, PNLiteMRAIDModalViewControllerDelegate, UIGestureRecognizerDelegate, HyBidContentInfoViewDelegate, HyBidSkipOverlayDelegate, HyBidInterruptionDelegate, HyBidURLRedirectorDelegate>
+@interface HyBidMRAIDView () <WKNavigationDelegate, WKUIDelegate, PNLiteMRAIDModalViewControllerDelegate, UIGestureRecognizerDelegate, HyBidContentInfoViewDelegate, HyBidSkipOverlayDelegate, HyBidInterruptionDelegate, HyBidURLRedirectorDelegate, HyBidEndCardViewDelegate, HyBidURLDrillerDelegate>
 {
     PNLiteMRAIDState state;
     // This corresponds to the MRAID placement type.
@@ -120,6 +123,7 @@ typedef enum {
     BOOL landingPageFlowActive;
     BOOL firstLinkActiveRedirected;
     BOOL hideCountdownForLandingPage;
+    BOOL isSkipTimerCompleted;
 }
 
 - (void)deviceOrientationDidChange:(NSNotification *)notification;
@@ -161,6 +165,14 @@ typedef enum {
 @property (nonatomic, assign) int landingpageTimeElapsed;
 @property (nonatomic, assign) BOOL landingpageTimerShouldPause;
 @property (nonatomic, assign) HyBidLandingBehaviourType landingpageBehaviour;
+@property (nonatomic, strong) HyBidEndCardView *endCardView;
+@property (nonatomic, strong) NSURL * _Nullable clickThrough;
+@property (nonatomic, strong) NSTimer *autoStoreKitDelayTimer;
+@property (nonatomic, assign) NSTimeInterval storekitDelayTimeElapsed;
+@property (nonatomic, strong) NSDate *storekitDelayTimerStartDate;
+@property (nonatomic, assign) BOOL isTimerPaused;
+@property (nonatomic, assign) BOOL isAutoStoreKit;
+@property (nonatomic, strong) HyBidVASTEventProcessor *vastEventProcessor;
 
 @end
 
@@ -277,7 +289,13 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
         }
         self.ad = ad;
         navigatorGeolocation = [[HyBidNavigatorGeolocation alloc] init];
-        webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height) configuration:[self createConfiguration]];
+        if ([NSThread isMainThread]) {
+            webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height) configuration:[self createConfiguration]];
+        } else {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height) configuration:[self createConfiguration]];
+            });
+        }
         [self initWebView:webView];
         currentWebView = webView;
         [navigatorGeolocation assignWebView:currentWebView];
@@ -320,10 +338,23 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
         }
         
         buttonSize = [HyBidCloseButton buttonDefaultSize];
-        if (shouldHandleInterruptions) { HyBidInterruptionHandler.shared.delegate = self; }
+        if (shouldHandleInterruptions) {
+            [[HyBidInterruptionHandler shared] setDelegate:self for:HyBidAdContextMraidView];
+        }
         
         self.landingpageBehaviour = HyBidLandingBehaviourTypeCountdown;
         self.landingpageCloseDelay = landingPageSecondsToCloseAdDelay;
+        
+        self.vastEventProcessor = [[HyBidVASTEventProcessor alloc] initWithEventsDictionary:nil
+                                                                   progressEventsDictionary:nil
+                                                                                   delegate:nil];
+        if (![self hasValidSkanObject] && ad.link && [ad.link isKindOfClass:[NSString class]]) {
+            NSString *link = [ad.link stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+            if (link.length > 0 && ad.link == link) {
+                NSURL *url = [[NSURL alloc] initWithString:link];
+                self.clickThrough = url;
+            }
+        }
     }
     return self;
 }
@@ -461,7 +492,8 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
     
-    
+    [[HyBidInterruptionHandler shared] deactivateContext:HyBidAdContextMraidView];
+
     webView = nil;
     webViewPart2 = nil;
     currentWebView = nil;
@@ -493,6 +525,12 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
     self.landingPageTemplateScript = nil;
     self.landingpageTimer = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    self.endCardView = nil;
+    self.clickThrough = nil;
+    [self removingAutoStoreKitViewTimer];
+    self.storekitDelayTimeElapsed = 0;
+    self.storekitDelayTimerStartDate = nil;
+    self.vastEventProcessor = nil;
 }
 
 - (BOOL)isValidFeatureSet:(NSArray *)features {
@@ -608,12 +646,17 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
 
 - (void)skipButtonTapped
 {
-    [self removeView:self.skipOverlay];
-    [self close];
+    if ([self isValidToCreateCustomEndCardForAd:self.ad]) {
+        [self showCustomEndCard];
+    } else {
+        [self removeView:self.skipOverlay];
+        [self close];
+    }
 }
 
 - (void)skipTimerCompleted
 {
+    isSkipTimerCompleted = YES;
     buttonSize = [HyBidCloseButton buttonSizeBasedOn:self.ad];
     if(isInterstitial && self.countdownStyle == HyBidCountdownPieChart){
         if (hideCountdownForLandingPage && [self.skipOverlay isHidden]) { [self.skipOverlay setHidden:NO]; }
@@ -621,6 +664,53 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
             [self setCloseButtonPosition: self.skipOverlay];
         }
     }
+}
+
+- (void)showCustomEndCard {
+    HyBidEndCard *customEndCard = [[HyBidEndCard alloc] init];
+    [customEndCard setType:HyBidEndCardType_HTML];
+    [customEndCard setContent:self.ad.customEndCardData];
+    [customEndCard setClickThrough:self.clickThrough.absoluteString];
+    [customEndCard setIsCustomEndCard:YES];
+    self.ad.customEndCard = customEndCard;
+    
+    NSString *iconXposition = contentInfoView.horizontalPosition == HyBidContentInfoHorizontalPositionLeft ? @"left" : @"right";
+    NSString *iconYposition = contentInfoView.verticalPosition == HyBidContentInfoVerticalPositionTop ? @"top" : @"bottom";
+    self.endCardView = [[HyBidEndCardView alloc] initWithDelegate:self
+                                                   withViewController:modalVC
+                                                               withAd:self.ad
+                                                           withVASTAd:nil
+                                                       isInterstitial:isInterstitial
+                                                        iconXposition:iconXposition
+                                                        iconYposition:iconYposition
+                                                       withSkipButton:NO
+                                          vastCompanionsClicksThrough:nil
+                                         vastCompanionsClicksTracking:nil
+                                              vastVideoClicksTracking:nil
+    ];
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(mraidViewWillShowEndCard:isCustomEndCard:skOverlayDelegate:)]){
+        [self.delegate mraidViewWillShowEndCard:self isCustomEndCard:YES skOverlayDelegate:self.endCardView];
+    }
+    
+    if(self.skipOverlay){ [self.skipOverlay removeFromSuperview]; }
+    [self.endCardView setAutoStoreKitPresentationAllowed:NO];
+    [self.endCardView displayEndCard:customEndCard withCTAButton:nil withViewController:modalVC];
+    self.ad.shouldReportCustomEndcardImpression = YES;
+    [contentInfoViewContainer setHidden: YES];
+        
+    [modalVC.view addSubview:self.endCardView];
+    self.endCardView.frame = modalVC.view.frame;
+    [self addingConstrainsForEndcard];
+}
+
+- (void)addingConstrainsForEndcard {
+    if (self.endCardView == nil) {return;}
+    [self.endCardView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [[self.endCardView.topAnchor constraintEqualToAnchor:modalVC.view.topAnchor] setActive:YES];
+    [[self.endCardView.bottomAnchor constraintEqualToAnchor:modalVC.view.bottomAnchor] setActive:YES];
+    [[self.endCardView.leadingAnchor constraintEqualToAnchor:modalVC.view.leadingAnchor] setActive:YES];
+    [[self.endCardView.trailingAnchor constraintEqualToAnchor:modalVC.view.trailingAnchor] setActive:YES];
 }
 
 #pragma mark - interstitial support
@@ -745,6 +835,7 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
     }
     self.skipOverlay = nil;
     [self invalidateCloseButtonOffsetTimer];
+    [HyBidVASTTracker cleanTriggeredTrackersList];
 }
 
 // This is a helper method which is not part of the official MRAID API.
@@ -827,7 +918,13 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
         [webView removeFromSuperview];
     } else {
         // 2-part expansion
-        webViewPart2 = [[WKWebView alloc] initWithFrame:frame configuration:[self createConfiguration]];
+        if ([NSThread isMainThread]) {
+            webViewPart2 = [[WKWebView alloc] initWithFrame:frame configuration:[self createConfiguration]];
+        } else {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                webViewPart2 = [[WKWebView alloc] initWithFrame:frame configuration:[self createConfiguration]];
+            });
+        }
         [self initWebView:webViewPart2];
         currentWebView = webViewPart2;
         [navigatorGeolocation assignWebView:webViewPart2];
@@ -912,12 +1009,18 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
     
     [self fireSizeChangeEvent];
     self.isViewable = YES;
+    
+    [self setAutoStoreKitViewTimer];
 }
 
 - (void)addSkipOverlay
 {
     if (modalVC && modalVC.view ) {
-        self.skipOverlay = [[HyBidSkipOverlay alloc] initWithSkipOffset:self->_skipOffset withCountdownStyle:HyBidCountdownPieChart withContentInfoPositionTopLeft:[self isContentInfoInTopLeftPosition] withShouldShowSkipButton:false ad:self.ad];
+        self.skipOverlay = [[HyBidSkipOverlay alloc] initWithSkipOffset:self->_skipOffset
+                                                     withCountdownStyle:HyBidCountdownPieChart
+                                         withContentInfoPositionTopLeft:[self isContentInfoInTopLeftPosition]
+                                               withShouldShowSkipButton:[self isValidToCreateCustomEndCardForAd:self.ad] ? YES : NO
+                                                                     ad:self.ad];
         [self.skipOverlay addSkipOverlayViewIn:modalVC.view delegate:self];
         if (hideCountdownForLandingPage) { [self.skipOverlay setHidden:YES]; }
     }
@@ -1261,10 +1364,10 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
     NSData *data = [[NSData alloc] initWithBase64EncodedString:text options:0];
     if(data == nil) { return nil; }
     
-    NSString *templateScript = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    if(templateScript == nil || templateScript.length == 0 || [templateScript isEqualToString:@""]){ return nil; }
+    NSString *stringData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    if(stringData == nil || stringData.length == 0 || [stringData isEqualToString:@""]){ return nil; }
     
-    return templateScript;
+    return stringData;
 }
 
 - (void)playLandingpageTimer {
@@ -1279,6 +1382,20 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
     if (self.landingpageTimer && [self.landingpageTimer isValid]) {
         [self.landingpageTimer invalidate];
         self.landingpageTimer = nil;
+    }
+}
+
+- (void)setRedirectionUrl:(NSString *)text {
+    if ([self hasValidSkanObject] || self.clickThrough) { return; }
+    NSString *urlString = [self convertBase64ToStringWith:text];
+    if (!urlString || urlString.length == 0) { return; }
+    NSURL *url = [[NSURL alloc] initWithString:urlString];
+    if (!url || isSkipTimerCompleted) { return; }
+    self.clickThrough = url;
+    if ([self isValidToCreateCustomEndCardForAd:self.ad]) {
+        // Show the skip button only when a valid custom end card is created.
+        // This ensures the skip button is displayed appropriately during the redirection flow.
+        [self.skipOverlay setShouldShowSkipButton: YES];
     }
 }
 
@@ -1539,6 +1656,21 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
             }
         }];
     }
+}
+
+- (BOOL)isValidToCreateCustomEndCardForAd:(HyBidAd *)ad {
+    BOOL hasValidClickThrough = ((self.clickThrough != nil) || [self hasValidSkanObject]);
+    if (!isInterstitial ||
+        ad.customEndcardEnabled == nil ||
+        ad.customEndcardEnabled.boolValue != YES ||
+        ad.customEndCardData == nil ||
+        ad.customEndCardData.length == 0 ||
+        !hasValidClickThrough ||
+        ad.landingPage == YES ||
+        landingPageFlowActive == YES) {
+        return NO;
+    }
+    return YES;
 }
 
 #pragma mark - native -->  JavaScript support
@@ -1956,6 +2088,11 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
 
 #pragma mark - internal helper methods
 
+- (BOOL)hasValidSkanObject {
+    HyBidSkAdNetworkModel *skanModel = self.ad.isUsingOpenRTB ? [self.ad getOpenRTBSkAdNetworkModel] : [self.ad getSkAdNetworkModel];
+    return (skanModel.productParameters[HyBidSKAdNetworkParameter.itunesitem] != nil && [skanModel.productParameters[HyBidSKAdNetworkParameter.itunesitem] isKindOfClass:[NSString class]]);
+}
+
 - (WKWebViewConfiguration *)createConfiguration {
     WKUserContentController *wkUController = [[WKUserContentController alloc] init];
     WKWebViewConfiguration *webConfiguration = [[WKWebViewConfiguration alloc] init];
@@ -2089,7 +2226,8 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
     NSString* appID = [self extractAppIDFromAppStoreURL:urlString];
     if (appID) {
         NSDictionary *parameters = @{SKStoreProductParameterITunesItemIdentifier: appID};
-        [HyBidSKAdNetworkViewController.shared presentStoreKitViewWithProductParameters:parameters adFormat:isInterstitial ? HyBidReportingAdFormat.FULLSCREEN : HyBidReportingAdFormat.BANNER isAutoStoreKitView:NO ad:self.ad];
+        self.isAutoStoreKit = NO;
+        [HyBidSKAdNetworkViewController.shared presentStoreKitViewWithProductParameters:parameters adFormat:isInterstitial ? HyBidReportingAdFormat.FULLSCREEN : HyBidReportingAdFormat.BANNER isAutoStoreKitView:self.isAutoStoreKit ad:self.ad];
         self.urlStringForEndCardTracking = urlString;
     } else {
         [self openBrowserWithURLString:urlString];
@@ -2111,10 +2249,143 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
     
     return nil;
 }
+
+- (void)setAutoStoreKitViewTimer {
     
+    if (![HyBidSKAdNetworkViewController isAutoStorekitEnabledForAd:self.ad]) { return; }
+    
+    if (self.autoStoreKitDelayTimer && [self.autoStoreKitDelayTimer isValid]) {
+        [self.autoStoreKitDelayTimer invalidate];
+        self.autoStoreKitDelayTimer = nil;
+    }
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSInteger delay = [HyBidSKAdNetworkViewController getStorekitAutoCloseDelayWithAd:self.ad];
+        self.autoStoreKitDelayTimer = [NSTimer scheduledTimerWithTimeInterval:delay
+                                                                       target:self
+                                                                     selector:@selector(triggerAutoStorekitView)
+                                                                     userInfo:nil
+                                                                      repeats:NO];
+    });
+    self.storekitDelayTimerStartDate = [NSDate date];
+    self.storekitDelayTimeElapsed = 0.0;
+}
+
+- (void)resumeAutoStorekitViewTimer {
+    if (!isInterstitial) { return; }
+    
+    if (self.storekitDelayTimeElapsed > 0 && self.isTimerPaused) {
+        NSTimeInterval remainingTime = [HyBidSKAdNetworkViewController getStorekitAutoCloseDelayWithAd:self.ad] - self.storekitDelayTimeElapsed;
+        if (remainingTime > 0) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.autoStoreKitDelayTimer = [NSTimer scheduledTimerWithTimeInterval:remainingTime
+                                                                               target:self
+                                                                             selector:@selector(triggerAutoStorekitView)
+                                                                             userInfo:nil
+                                                                              repeats:NO];
+            });
+            self.storekitDelayTimerStartDate = [NSDate date];
+        }
+        self.isTimerPaused = NO;
+    }
+}
+
+- (void)pauseAutoStorekitViewTimer {
+    if ([self.autoStoreKitDelayTimer isValid] && !self.isTimerPaused) {
+        [self.autoStoreKitDelayTimer invalidate];
+        self.autoStoreKitDelayTimer = nil;
+        self.storekitDelayTimeElapsed += [[NSDate date] timeIntervalSinceDate:self.storekitDelayTimerStartDate];
+        self.isTimerPaused = YES;
+    }
+}
+
+- (void)triggerAutoStorekitView {
+    HyBidSkAdNetworkModel *skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.ad getOpenRTBSkAdNetworkModel] : [self.ad getSkAdNetworkModel];
+    NSMutableDictionary* productParams = [[skAdNetworkModel getStoreKitParameters] mutableCopy];
+    
+    if (productParams.count == 0) { return; }
+    [HyBidStoreKitUtils insertFidelitiesIntoDictionaryIfNeeded:productParams];
+    
+    if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams]) {
+        productParams = [[HyBidStoreKitUtils cleanUpProductParams:productParams] mutableCopy];
+        self.isAutoStoreKit = YES;
+        [HyBidSKAdNetworkViewController.shared presentStoreKitViewWithProductParameters: productParams
+                                                                               adFormat: isInterstitial
+                                                                                       ? HyBidReportingAdFormat.FULLSCREEN
+                                                                                       : HyBidReportingAdFormat.REWARDED
+                                                                     isAutoStoreKitView: self.isAutoStoreKit
+                                                                                     ad: self.ad];
+    }
+}
+
+- (void)removingAutoStoreKitViewTimer {
+    if ([self.autoStoreKitDelayTimer isValid]) {
+        [self.autoStoreKitDelayTimer invalidate];
+    }
+    self.autoStoreKitDelayTimer = nil;
+}
+
+- (void)trackClickForAutoStoreKitViewWith:(HyBidStorekitAutomaticClickType)clickType {
+    HyBidSkAdNetworkModel *skAdNetworkModel = self.ad.isUsingOpenRTB
+    ? [self.ad getOpenRTBSkAdNetworkModel]
+    : [self.ad getSkAdNetworkModel];
+    
+    if ([skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] != [NSNull null] && [[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] boolValue]) {
+        [self invokeDidClickForAutoStorekit:clickType];
+        [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_click];
+        
+        NSString *customUrl = [HyBidCustomClickUtil extractPNClickUrl:self.clickThrough.absoluteString];
+        if (!customUrl && skAdNetworkModel) {
+            NSMutableDictionary* productParams = [[skAdNetworkModel getStoreKitParameters] mutableCopy];
+            [HyBidStoreKitUtils insertFidelitiesIntoDictionaryIfNeeded:productParams];
+            if (self.clickThrough.absoluteString && [productParams count] > 0) {
+                [[HyBidURLDriller alloc] startDrillWithURLString:self.clickThrough.absoluteString delegate:self];
+            }
+        }
+    }
+}
+
+- (void)trackClickForSKOverlayWithClickType:(HyBidSKOverlayAutomaticCLickType)clickType isFirstPresentation:(BOOL)isFirstPresentation {
+    HyBidSkAdNetworkModel *skAdNetworkModel = self.ad.isUsingOpenRTB
+    ? [self.ad getOpenRTBSkAdNetworkModel]
+    : [self.ad getSkAdNetworkModel];
+    
+    [self invokeDidClickForSKOverlayWithClickType:clickType];
+    if (isFirstPresentation) {
+        [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_click];
+    }
+    
+    NSString *customUrl = [HyBidCustomClickUtil extractPNClickUrl:self.clickThrough.absoluteString];
+    if (!customUrl && skAdNetworkModel) {
+        NSMutableDictionary* productParams = [[skAdNetworkModel getStoreKitParameters] mutableCopy];
+        [HyBidStoreKitUtils insertFidelitiesIntoDictionaryIfNeeded:productParams];
+        if (self.clickThrough.absoluteString && [productParams count] > 0) {
+            [[HyBidURLDriller alloc] startDrillWithURLString:self.clickThrough.absoluteString delegate:self];
+        }
+    }
+}
+
 - (void)openBrowserWithURLString:(NSString *)urlString {
     if ([self.serviceDelegate respondsToSelector:@selector(mraidServiceOpenBrowserWithUrlString:)]) {
         [self.serviceDelegate mraidServiceOpenBrowserWithUrlString:urlString];
+    }
+}
+
+- (void)invokeDidClickForAutoStorekit:(HyBidStorekitAutomaticClickType)clickType {
+    if ([self.delegate respondsToSelector:@selector(mraidViewAutoStoreKitDidShowWithClickType:)]) {
+        [self.delegate mraidViewAutoStoreKitDidShowWithClickType:clickType];
+    }
+}
+
+- (void)invokeDidPresentCustomEndCard {
+    if ([self.delegate respondsToSelector:@selector(mraidViewDidPresentCustomEndCard:)]) {
+        [self.delegate mraidViewDidPresentCustomEndCard:self];
+    }
+}
+
+- (void)invokeDidClickForSKOverlayWithClickType:(HyBidSKOverlayAutomaticCLickType)clickType {
+    if ([self.delegate respondsToSelector:@selector(mraidViewDidShowSKOverlayWithClickType:)]) {
+        [self.delegate mraidViewDidShowSKOverlayWithClickType:clickType];
     }
 }
 
@@ -2145,6 +2416,7 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
     if (modalVC != nil) {
         [self playCountdownView];
         [self playCloseButtonDelay];
+        [self resumeAutoStorekitViewTimer];
     }
 }
 
@@ -2152,6 +2424,7 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
     if (modalVC != nil) {
         [self pauseCountdownView];
         [self pauseCloseButtonDelay];
+        [self pauseAutoStorekitViewTimer];
     }
 }
 
@@ -2162,6 +2435,73 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
 - (void)productViewControllerDidShow {
     [self doTrackingEndcardWithUrlString:self.urlStringForEndCardTracking];
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"StoreKit from CREATIVE is presented"]];
+    
+    if (self.isAutoStoreKit) {
+        [self trackClickForAutoStoreKitViewWith:HyBidStorekitAutomaticClickVideo];
+        [[HyBidVASTEventBeaconsManager shared] reportVASTEventWithType:HyBidReportingEventType.AUTO_STORE_KIT_IMPRESSION
+                                                                    ad:self.ad
+                                                               onTopOf:HyBidOnTopOfTypeDISPLAY];
+    }
+}
+
+- (void)productViewControllerDidFailWithError:(NSError *)error {
+    if (self.isAutoStoreKit) {
+        [[HyBidVASTEventBeaconsManager shared] reportVASTEventWithType:HyBidReportingEventType.AUTO_STORE_KIT_IMPRESSION_ERROR ad:self.ad onTopOf:HyBidOnTopOfTypeDISPLAY errorCode: error.code];
+    }
+}
+
+#pragma mark HyBidEndCardViewDelegate
+
+- (void)endCardViewDidDisplay {
+    [self invokeDidPresentCustomEndCard];
+    [self removingAutoStoreKitViewTimer];
+}
+- (void)endCardViewCloseButtonTapped {
+    [self close];
+}
+
+- (void)endCardViewFailedToLoad {
+    [contentInfoViewContainer setHidden: NO];
+    if(self.endCardView != nil) {
+        [self.endCardView removeFromSuperview];
+    }
+    [self addCloseEventRegion];
+}
+
+- (void)endCardViewClicked:(BOOL)triggerAdClick aakCustomClickAd:(HyBidAdAttributionCustomClickAdsWrapper *)aakCustomClickAd {
+    if(triggerAdClick){
+        [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_click];
+    }
+    
+    [self openBrowserForUserClick:self.clickThrough.absoluteString];
+}
+- (void)endCardViewSKOverlayClicked:(BOOL)triggerAdClick
+                              clickType:(HyBidSKOverlayAutomaticCLickType)clickType
+                    isFirstPresentation:(BOOL)isFirstPresentation {
+    if (triggerAdClick) {
+        [self trackClickForSKOverlayWithClickType:clickType isFirstPresentation:isFirstPresentation];
+    } else {
+        [self invokeDidClickForSKOverlayWithClickType:clickType];
+    }
+}
+
+- (void)endCardViewAutoStorekitClicked:(BOOL)triggerAdClick clickType:(HyBidStorekitAutomaticClickType)clickType {
+    if(triggerAdClick){
+        [self trackClickForAutoStoreKitViewWith:clickType];
+    } else {
+        [self invokeDidClickForAutoStorekit:clickType];
+    }
+}
+
+- (void)endCardViewRedirectedWithSuccess:(BOOL)success {}
+
+#pragma mark - HyBidSKOverlayDelegate
+
+- (void)skOverlayDidShowOnCreative:(BOOL)isFirstPresentation {
+    HyBidSkAdNetworkModel* skAdNetworkModel = [self.ad getSkAdNetworkModel];
+    if (!isInterstitial || [skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] == [NSNull null] || ![[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] boolValue]) { return; }
+    
+    [self trackClickForSKOverlayWithClickType: HyBidSKOverlayAutomaticCLickVideo isFirstPresentation:isFirstPresentation];
 }
 
 @end

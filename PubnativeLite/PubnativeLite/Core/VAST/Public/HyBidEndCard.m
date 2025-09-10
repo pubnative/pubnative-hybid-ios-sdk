@@ -4,9 +4,9 @@
 // https://github.com/pubnative/pubnative-hybid-ios-sdk/blob/main/LICENSE
 //
 
-#import "HyBidVASTEndCard.h"
+#import "HyBidEndCard.h"
 
-@implementation HyBidVASTEndCard
+@implementation HyBidEndCard
 
 - (instancetype)init
 {

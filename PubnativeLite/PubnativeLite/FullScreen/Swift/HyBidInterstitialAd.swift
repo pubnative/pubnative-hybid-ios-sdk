@@ -408,6 +408,11 @@ public class HyBidInterstitialAd: NSObject {
     }
     
     func determineSkipOffsetValuesFor(_ ad: HyBidAd) {
+        self.determineHtmlSkipOffSetFor(ad)
+        self.determineVideoSkipOffSetFor(ad)
+    }
+    
+    func determineHtmlSkipOffSetFor(_ ad: HyBidAd) {
         if isValidBundleID(ad: ad) {
             if let skipOffset = ad.pcInterstitialHtmlSkipOffset {
                 if skipOffset.intValue < 0 {
@@ -429,6 +434,9 @@ public class HyBidInterstitialAd: NSObject {
                 }
             }
         }
+    }
+    
+    func determineVideoSkipOffSetFor(_ ad: HyBidAd) {
         if let skipOffset = ad.videoSkipOffset {
             var defaultSkipOffset = HyBidSkipOffset.DEFAULT_PC_VIDEO_MAX_SKIP_OFFSET_NON_COMPANION
             if ad.hasEndCard || ad.hasCustomEndCard {
@@ -449,6 +457,7 @@ public class HyBidInterstitialAd: NSObject {
             }
         }
     }
+    
     func determineCloseOnFinishFor(_ ad: HyBidAd) {
         if (ad.closeInterstitialAfterFinish != nil) {
             self.closeOnFinish = ad.closeInterstitialAfterFinish.boolValue;

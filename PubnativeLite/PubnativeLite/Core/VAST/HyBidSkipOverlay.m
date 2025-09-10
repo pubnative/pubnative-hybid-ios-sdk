@@ -389,7 +389,9 @@
     }
     self.buttonSize = [HyBidCloseButton buttonSizeBasedOn:self.ad];
     self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.buttonSize.width, self.buttonSize.height);
-    [self.delegate skipTimerCompleted];
+    if ([self.delegate respondsToSelector:@selector(skipTimerCompleted)]) {
+        [self.delegate skipTimerCompleted];
+    }
 }
 
 - (void)invalidateSkipTimer

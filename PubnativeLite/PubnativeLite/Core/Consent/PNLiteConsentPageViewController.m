@@ -50,7 +50,13 @@ NSString *const PNLiteConsentClose = @"https://pubnative.net/";
 }
 
 - (void)setUpWebView {
-    self.webView = [[WKWebView alloc] initWithFrame:CGRectZero];
+    if ([NSThread isMainThread]) {
+        self.webView = [[WKWebView alloc] initWithFrame:CGRectZero];
+    } else {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            self.webView = [[WKWebView alloc] initWithFrame:CGRectZero];
+        });
+    }
     self.webView.navigationDelegate = self;
     self.webView.UIDelegate = self;
     self.webView.scrollView.bounces = NO;

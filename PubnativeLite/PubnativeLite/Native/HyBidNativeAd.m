@@ -73,6 +73,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
     self.fetchDelegate = nil;
     self.sessionReportingProperties = nil;
     self.aakCustomClickAd = nil;
+    [[HyBidInterruptionHandler shared] deactivateContext:HyBidAdContextNativeAd];
 }
 
 #pragma mark HyBidNativeAd
@@ -82,7 +83,8 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
     if (self) {
         self.ad = ad;
         self.sessionReportingProperties = [NSMutableDictionary new];
-        HyBidInterruptionHandler.shared.delegate = self;
+        [[HyBidInterruptionHandler shared] setDelegate:self for:HyBidAdContextNativeAd];
+        [[HyBidInterruptionHandler shared] activateContext:HyBidAdContextNativeAd];
         self.aakCustomClickAd = [[HyBidAdAttributionCustomClickAdsWrapper alloc] initWithAd:self.ad
                                                                                    adFormat:HyBidReportingAdFormat.NATIVE];
     }
@@ -459,7 +461,14 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
                         WKWebViewConfiguration *wkWebConfig = [[WKWebViewConfiguration alloc] init];
                         wkWebConfig.userContentController = wkUController;
 
-                        WKWebView *webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:wkWebConfig];
+                        __block WKWebView *webView;
+                        if ([NSThread isMainThread]) {
+                            webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:wkWebConfig];
+                        } else {
+                            dispatch_sync(dispatch_get_main_queue(), ^{
+                                webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:wkWebConfig];
+                            });
+                        }
                         webView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
 //                        [webView evaluateJavaScript:beaconJsBlock completionHandler:nil];
                         [webView evaluateJavaScript:beaconJsBlock completionHandler:^(id result, NSError *error) {

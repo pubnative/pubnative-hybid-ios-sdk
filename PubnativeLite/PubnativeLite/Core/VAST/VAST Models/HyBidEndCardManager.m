@@ -4,16 +4,16 @@
 // https://github.com/pubnative/pubnative-hybid-ios-sdk/blob/main/LICENSE
 //
 
-#import "HyBidVASTEndCardManager.h"
+#import "HyBidEndCardManager.h"
 #import <UIKit/UIKit.h>
 
-@interface HyBidVASTEndCardManager ()
+@interface HyBidEndCardManager ()
 
-@property (nonatomic, strong) NSMutableArray<HyBidVASTEndCard *> *endCardsStorage;
+@property (nonatomic, strong) NSMutableArray<HyBidEndCard *> *endCardsStorage;
 
 @end
 
-@implementation HyBidVASTEndCardManager
+@implementation HyBidEndCardManager
 
 - (instancetype)init
 {
@@ -22,6 +22,11 @@
         self.endCardsStorage = [NSMutableArray new];
     }
     return self;
+}
+
+- (void)dealloc
+{
+    self.endCardsStorage = nil;
 }
 
 - (void)addCompanion:(HyBidVASTCompanion *)companion completion:(void(^)(void))completion
@@ -38,7 +43,7 @@
     // Add HTML & iFrame end cards synchronously
     for (HyBidVASTHTMLResource *r in (companion.htmlResources ?: @[])) {
         if (r.content.length > 0) {
-            HyBidVASTEndCard *endCard = [self createEndCardWithType:HyBidEndCardType_HTML
+            HyBidEndCard *endCard = [self createEndCardWithType:HyBidEndCardType_HTML
                                                       fromCompanion:companion
                                                        withContent:r.content];
             @synchronized (self.endCardsStorage) {
@@ -49,7 +54,7 @@
 
     for (HyBidVASTIFrameResource *r in (companion.iFrameResources ?: @[])) {
         if (r.content.length > 0) {
-            HyBidVASTEndCard *endCard = [self createEndCardWithType:HyBidEndCardType_IFRAME
+            HyBidEndCard *endCard = [self createEndCardWithType:HyBidEndCardType_IFRAME
                                                       fromCompanion:companion
                                                        withContent:r.content];
             @synchronized (self.endCardsStorage) {
@@ -87,7 +92,7 @@
         dispatch_group_enter(group);
         [self verifyImageAtURL:content completion:^(BOOL isAvailable) {
             if (isAvailable) {
-                HyBidVASTEndCard *endCard = [HyBidVASTEndCard new];
+                HyBidEndCard *endCard = [HyBidEndCard new];
                 endCard.type = HyBidEndCardType_STATIC;
                 endCard.content = content;
                 endCard.clickThrough = clickThrough;
@@ -141,8 +146,8 @@
     [task resume];
 }
 
-- (HyBidVASTEndCard *)createEndCardWithType:(HyBidVASTEndCardType)type fromCompanion:(HyBidVASTCompanion *)companion withContent:(NSString *)content {
-    HyBidVASTEndCard *endCard = [[HyBidVASTEndCard alloc] init];
+- (HyBidEndCard *)createEndCardWithType:(HyBidEndCardType)type fromCompanion:(HyBidVASTCompanion *)companion withContent:(NSString *)content {
+    HyBidEndCard *endCard = [[HyBidEndCard alloc] init];
     [endCard setType:type];
     [endCard setContent:content];
     [endCard setClickThrough:[[companion companionClickThrough] content]];
@@ -158,7 +163,7 @@
     return endCard;
 }
 
-- (NSArray<HyBidVASTEndCard *> *)endCards {
+- (NSArray<HyBidEndCard *> *)endCards {
     return self.endCardsStorage;
 }
 
@@ -201,6 +206,40 @@
     }
 
     return sortedCompanions[bestMatchIndex];
+}
+
+- (void)fetchEndCardsFromCreatives:(NSArray<HyBidVASTCreative *>*)creatives
+                        completion:(void(^)(NSArray<HyBidEndCard *> * _Nullable endCards))completion {
+    if (creatives.count == 0) {
+        if (completion) completion(nil);
+        return;
+    }
+    
+    dispatch_group_t group = dispatch_group_create();
+    [self addCompanionsFromCreatives:creatives dispatchGroup:group];
+    
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        NSArray<HyBidEndCard *> *endCards = [self endCards];
+        if (completion) {
+            completion(endCards);
+        }
+    });
+}
+
+- (void)addCompanionsFromCreatives:(NSArray<HyBidVASTCreative *> *)creatives dispatchGroup:(dispatch_group_t)group {
+    for (HyBidVASTCreative *creative in creatives) {
+        HyBidVASTCompanionAds *companionAds = [creative companionAds];
+        if (companionAds && [companionAds companions]) {
+            for (HyBidVASTCompanion *companion in [companionAds companions]) {
+                dispatch_group_enter(group);
+                dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    [self addCompanion:companion completion:^{
+                        dispatch_group_leave(group);
+                    }];
+                });
+            }
+        }
+    }
 }
 
 @end

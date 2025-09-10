@@ -30,6 +30,7 @@
 @property (nonatomic, strong) HyBidMRAIDServiceProvider *serviceProvider;
 @property (nonatomic, retain) HyBidMRAIDView *mraidView;
 @property (nonatomic, strong) HyBidAd *adModel;
+@property (nonatomic, strong) HyBidSkAdNetworkModel *skAdModel;
 @property (nonatomic, strong) HyBidAdAttributionCustomClickAdsWrapper* aakCustomClickAd;
 
 @end
@@ -39,6 +40,7 @@
 - (void)dealloc {
     self.serviceProvider = nil;
     self.adModel = nil;
+    self.skAdModel = nil;
     self.aakCustomClickAd = nil;
 }
 
@@ -47,6 +49,7 @@
     if (self) {
         self.adModel = ad;
         self.skipOffset = skipOffset;
+        self.skAdModel = ad.isUsingOpenRTB ? [self.adModel getOpenRTBSkAdNetworkModel] : [self.adModel getSkAdNetworkModel];
         self.aakCustomClickAd = [[HyBidAdAttributionCustomClickAdsWrapper alloc] initWithAd:self.ad
                                                                                    adFormat:HyBidReportingAdFormat.REWARDED];
     }
@@ -172,6 +175,43 @@
 
 - (BOOL)mraidViewShouldResize:(HyBidMRAIDView *)mraidView toPosition:(CGRect)position allowOffscreen:(BOOL)allowOffscreen {
     return allowOffscreen;
+}
+
+- (void)mraidViewWillShowEndCard:(HyBidMRAIDView *)mraidView
+                 isCustomEndCard:(BOOL)isCustomEndCard
+               skOverlayDelegate:(id<HyBidSKOverlayDelegate>)skOverlayDelegate {
+    
+    if (self.delegate &&
+        [self.delegate respondsToSelector:@selector(rewardedPresenteWillPresentEndCard:skOverlayDelegate:customCTADelegate:)]){
+        [self.delegate rewardedPresenteWillPresentEndCard:self skOverlayDelegate:skOverlayDelegate customCTADelegate:nil];
+    }
+
+    if ([self.skAdModel.productParameters objectForKey:HyBidSKAdNetworkParameter.endcardDelay] != [NSNull null] && [self.skAdModel.productParameters objectForKey:HyBidSKAdNetworkParameter.endcardDelay] &&
+        [[self.skAdModel.productParameters objectForKey:HyBidSKAdNetworkParameter.endcardDelay] intValue] == -1) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(rewardedPresenterDismissesSKOverlay:)]) {
+            [self.delegate rewardedPresenterDismissesSKOverlay:self];
+        }
+    } else {
+        if (isCustomEndCard) {
+            [HyBidInterruptionHandler.shared customEndCardWillShow];
+        } else {
+            [HyBidInterruptionHandler.shared endCardWillShow];
+        }
+    }
+}
+
+- (void)mraidViewDidPresentCustomEndCard:(HyBidMRAIDView *)mraidView {
+    [self.delegate rewardedPresenterDidPresentCustomEndCard:self];
+}
+
+
+- (void)mraidViewAutoStoreKitDidShowWithClickType:(HyBidStorekitAutomaticClickType)clickType {
+    [self.delegate rewardedPresenterDidStorekitAutomaticClick:self clickType:clickType];
+}
+
+
+- (void)mraidViewDidShowSKOverlayWithClickType:(HyBidSKOverlayAutomaticCLickType)clickType {
+    [self.delegate rewardedPresenterDidSKOverlayAutomaticClick:self clickType:clickType];
 }
 
 #pragma mark HyBidMRAIDServiceDelegate

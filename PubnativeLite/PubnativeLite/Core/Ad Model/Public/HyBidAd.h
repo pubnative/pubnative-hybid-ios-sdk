@@ -10,7 +10,7 @@
 #import "HyBidContentInfoView.h"
 #import "HyBidSkAdNetworkModel.h"
 #import "HyBidOpenRTBDataModel.h"
-#import "HyBidVASTEndCard.h"
+#import "HyBidEndCard.h"
 
 #define kHyBidAdTypeHTML 0
 #define kHyBidAdTypeVideo 1
@@ -58,7 +58,7 @@ typedef enum : NSUInteger {
 #if __has_include(<ATOM/ATOM-Swift.h>)
 @property (nonatomic, readonly) NSArray<NSString *> *cohorts;
 #endif
-@property (nonatomic, strong) HyBidVASTEndCard *customEndCard;
+@property (nonatomic, strong) HyBidEndCard *customEndCard;
 @property (nonatomic, readonly) NSNumber *assetGroupID;
 @property (nonatomic, readonly) NSNumber *openRTBAssetGroupID;
 @property (nonatomic, readonly) NSNumber *eCPM;
@@ -117,7 +117,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, readonly) NSNumber *pcEndcardEnabled;
 @property (nonatomic, readonly) NSNumber *customEndcardEnabled;
 @property (nonatomic, readonly) NSString *customEndCardInputValue;
-@property (nonatomic, readonly) NSNumber *skoverlayEnabled;
+@property (nonatomic, readonly) NSNumber *skOverlayEnabled;
 @property (nonatomic, readonly) NSNumber *pcSKoverlayEnabled;
 @property (nonatomic, readonly) NSNumber *closeInterstitialAfterFinish;
 @property (nonatomic, readonly) NSNumber *closeRewardedAfterFinish;

@@ -85,7 +85,8 @@
         [command isEqualToString:@"useCustomClose"] ||
         [command isEqualToString:@"setcustomisation"] ||
         [command isEqualToString:@"landingbehaviour"] ||
-        [command isEqualToString:@"closedelay"]
+        [command isEqualToString:@"closedelay"] ||
+        [command isEqualToString:@"setRedirectionUrl"]
         ) {
         if ([command isEqualToString:@"expand"] ||
                    [command isEqualToString:@"open"] ||
@@ -101,7 +102,8 @@
             paramObj = [params valueForKey:@"useCustomClose"];
         } else if ([command isEqualToString:@"setcustomisation"] ||
                    [command isEqualToString:@"landingbehaviour"] ||
-                   [command isEqualToString:@"closedelay"]) {
+                   [command isEqualToString:@"closedelay"] ||
+                   [command isEqualToString:@"setRedirectionUrl"]) {
             paramObj = [params valueForKey:@"text"];
         }
         command = [command stringByAppendingString:@":"];
@@ -129,7 +131,8 @@
                            @"useCustomClose",
                            @"setcustomisation",
                            @"landingbehaviour",
-                           @"closedelay"
+                           @"closedelay",
+                           @"setRedirectionUrl"
                            ];
 
     return [kCommands containsObject:command];

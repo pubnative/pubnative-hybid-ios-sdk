@@ -6,12 +6,12 @@
 
 #import <UIKit/UIKit.h>
 #import "HyBidMRAIDView.h"
-#import "HyBidVASTEndCard.h"
+#import "HyBidEndCard.h"
 #import "HyBidVASTEventProcessor.h"
 #import "HyBidVASTCTAButton.h"
 #import "HyBidAd.h"
 #import "HyBidVASTAd.h"
-#import "HyBidVASTEndCardManager.h"
+#import "HyBidEndCardManager.h"
 #import "HyBidSKOverlayDelegate.h"
 #import "HyBidCustomCTAViewDelegate.h"
 #if __has_include(<HyBid/HyBid-Swift.h>)
@@ -22,30 +22,30 @@
     #import "HyBid-Swift.h"
 #endif
 
-@protocol HyBidVASTEndCardViewDelegate<NSObject>
-
-- (void)vastEndCardViewDidDisplay;
-- (void)vastEndCardViewCloseButtonTapped;
-- (void)vastEndCardViewSkipButtonTapped;
-- (void)vastEndCardViewFailedToLoad;
-- (void)vastEndCardViewClicked:(BOOL)triggerAdClick aakCustomClickAd:(HyBidAdAttributionCustomClickAdsWrapper*)aakCustomClickAd;
-- (void)vastEndCardViewSKOverlayClicked:(BOOL)triggerAdClick
-                              clickType:(HyBidSKOverlayAutomaticCLickType)clickType
-                    isFirstPresentation:(BOOL)isFirstPresentation;
-- (void)vastEndCardViewAutoStorekitClicked:(BOOL)triggerAdClick clickType:(HyBidStorekitAutomaticClickType)clickType;
-- (void)vastEndCardViewRedirectedWithSuccess:(BOOL)success;
-- (void)vastEndCardViewCustomCTAPresented;
-- (void)vastEndCardViewCustomCTAClicked;
-- (void)vastEndCardViewReplayButtonClicked;
+@protocol HyBidEndCardViewDelegate<NSObject>
+@optional
+- (void)endCardViewDidDisplay;
+- (void)endCardViewCloseButtonTapped;
+- (void)endCardViewSkipButtonTapped;
+- (void)endCardViewFailedToLoad;
+- (void)endCardViewClicked:(BOOL)triggerAdClick aakCustomClickAd:(HyBidAdAttributionCustomClickAdsWrapper*)aakCustomClickAd;
+- (void)endCardViewSKOverlayClicked:(BOOL)triggerAdClick
+                          clickType:(HyBidSKOverlayAutomaticCLickType)clickType
+                isFirstPresentation:(BOOL)isFirstPresentation;
+- (void)endCardViewAutoStorekitClicked:(BOOL)triggerAdClick clickType:(HyBidStorekitAutomaticClickType)clickType;
+- (void)endCardViewRedirectedWithSuccess:(BOOL)success;
+- (void)endCardViewCustomCTAPresented;
+- (void)endCardViewCustomCTAClicked;
+- (void)endCardViewReplayButtonClicked;
 
 @end
 
-@interface HyBidVASTEndCardView : UIView <HyBidSKOverlayDelegate, HyBidCustomCTAViewDelegate>
+@interface HyBidEndCardView : UIView <HyBidSKOverlayDelegate, HyBidCustomCTAViewDelegate>
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithCoder:(NSCoder *)coder NS_UNAVAILABLE;
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil NS_UNAVAILABLE;
-- (instancetype)initWithDelegate:(NSObject<HyBidVASTEndCardViewDelegate> *)delegate
+- (instancetype)initWithDelegate:(NSObject<HyBidEndCardViewDelegate> *)delegate
               withViewController:(UIViewController*)viewController
                           withAd:(HyBidAd *)ad
                       withVASTAd:(HyBidVASTAd *)vastAd
@@ -56,8 +56,9 @@
           vastCompanionsClicksThrough:(NSArray<NSString *>*)vastCompanionsClicksThrough
     vastCompanionsClicksTracking:(NSArray<NSString *>*)vastCompanionsClicksTracking
          vastVideoClicksTracking:(NSArray<NSString *>*)vastVideoClicksTracking;
-- (void)displayEndCard:(HyBidVASTEndCard *)endCard withViewController:(UIViewController*) viewController;
-- (void)displayEndCard:(HyBidVASTEndCard *)endCard withCTAButton:(HyBidVASTCTAButton *)ctaButton withViewController:(UIViewController*) viewController;
+- (void)displayEndCard:(HyBidEndCard *)endCard withViewController:(UIViewController*) viewController;
+- (void)displayEndCard:(HyBidEndCard *)endCard withCTAButton:(HyBidVASTCTAButton *)ctaButton withViewController:(UIViewController*) viewController;
 - (void)setupUI;
+- (void)setAutoStoreKitPresentationAllowed:(BOOL)autoStoreKitAllowed;
 
 @end

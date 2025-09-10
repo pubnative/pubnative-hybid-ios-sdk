@@ -5,14 +5,16 @@
 //
 
 #import "HyBidVASTCompanion.h"
-#import "HyBidVASTEndCard.h"
+#import "HyBidEndCard.h"
 #import "HyBidVASTCompanionAds.h"
+#import "HyBidVASTCreative.h"
 
-
-@interface HyBidVASTEndCardManager : NSObject
+@interface HyBidEndCardManager : NSObject
 
 - (void)addCompanion:(HyBidVASTCompanion *)companion completion:(void(^)(void))completion;
 - (HyBidVASTCompanion *)pickBestCompanionFromCompanionAds:(HyBidVASTCompanionAds *)companionAds;
-- (NSArray<HyBidVASTEndCard *> *)endCards;
+- (NSArray<HyBidEndCard *> *)endCards;
+- (void)fetchEndCardsFromCreatives:(NSArray<HyBidVASTCreative *>*)creatives
+                        completion:(void(^)(NSArray<HyBidEndCard *> *endCards))completion;
 
 @end

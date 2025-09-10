@@ -15,6 +15,10 @@ private struct HyBidStoreProductHelper {
     static let transitionDuration = 0.5
 }
 
+private let STOREKIT_DELAY_MAXIMUM_VALUE = 35
+private let STOREKIT_DELAY_MINIMUM_VALUE = 0
+private let STOREKIT_DELAY_DEFAULT_VALUE = 2
+
 @objc
 public class HyBidSKAdNetworkViewController: NSObject {
     
@@ -133,6 +137,33 @@ public class HyBidSKAdNetworkViewController: NSObject {
     
     @objc public func isSKProductViewControllerPresented() -> Bool {
         return self.isStoreKitViewPresented
+    }
+}
+
+// MARK: - Helpers
+extension HyBidSKAdNetworkViewController {
+    
+    @objc(isAutoStorekitEnabledForAd:)
+    static public func isAutoStorekitEnabledForAd(ad: HyBidAd) -> Bool {
+        
+        guard ad.sdkAutoStorekitEnabled != nil, ad.sdkAutoStorekitEnabled.intValue >= 0, ad.sdkAutoStorekitEnabled.boolValue else {
+            return HyBidConstants.sdkAutoStorekitEnabled
+        }
+        
+        return true;
+    }
+    
+    @objc static public func getStorekitAutoCloseDelay(ad: HyBidAd) -> Int {
+        
+        guard let sdkAutoStorekitDelay = ad.sdkAutoStorekitDelay else { return STOREKIT_DELAY_DEFAULT_VALUE }
+        let autoStoreKitDelay = sdkAutoStorekitDelay.intValue
+        guard autoStoreKitDelay >= 0 && sdkAutoStorekitDelay.stringValue.isNumber else { return STOREKIT_DELAY_DEFAULT_VALUE }
+        
+        guard (STOREKIT_DELAY_MINIMUM_VALUE...STOREKIT_DELAY_MAXIMUM_VALUE).contains(autoStoreKitDelay) else {
+            return autoStoreKitDelay < STOREKIT_DELAY_MINIMUM_VALUE ? STOREKIT_DELAY_MINIMUM_VALUE : STOREKIT_DELAY_MAXIMUM_VALUE
+        }
+        
+        return autoStoreKitDelay
     }
 }
 
