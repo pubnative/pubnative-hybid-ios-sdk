@@ -1177,7 +1177,7 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
         if ([data stringFieldWithKey:HyBidSKAdNetworkParameter.campaign] != nil) {
             [dict setValue:[data stringFieldWithKey:HyBidSKAdNetworkParameter.campaign] forKey:HyBidSKAdNetworkParameter.campaign];
         }
-        if ([data stringFieldWithKey:HyBidSKAdNetworkParameter.productPageId] != nil) {
+        if ([data stringFieldWithKey:HyBidSKAdNetworkParameter.productPageId] != nil && [data stringFieldWithKey:HyBidSKAdNetworkParameter.productPageId].length > 0) {
             [dict setValue:[data stringFieldWithKey:HyBidSKAdNetworkParameter.productPageId] forKey:HyBidSKAdNetworkParameter.productPageId];
         }
         

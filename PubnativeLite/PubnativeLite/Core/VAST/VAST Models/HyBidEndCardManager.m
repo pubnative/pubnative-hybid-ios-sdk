@@ -219,7 +219,8 @@
     [self addCompanionsFromCreatives:creatives dispatchGroup:group];
     
     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-        NSArray<HyBidEndCard *> *endCards = [self endCards];
+        __weak typeof(self) weakSelf = self;
+        NSArray<HyBidEndCard *> *endCards = [weakSelf endCards];
         if (completion) {
             completion(endCards);
         }
@@ -232,11 +233,14 @@
         if (companionAds && [companionAds companions]) {
             for (HyBidVASTCompanion *companion in [companionAds companions]) {
                 dispatch_group_enter(group);
-                dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    [self addCompanion:companion completion:^{
+                __weak typeof(self) weakSelf = self;
+                if (weakSelf) {
+                    [weakSelf addCompanion:companion completion:^{
                         dispatch_group_leave(group);
                     }];
-                });
+                } else {
+                    dispatch_group_leave(group);
+                }
             }
         }
     }

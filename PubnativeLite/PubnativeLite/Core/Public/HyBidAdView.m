@@ -42,6 +42,7 @@
 @property (nonatomic, strong) HyBidAdSessionData *adSessionData;
 
 @property (nonatomic, weak) NSTimer *autoRefreshTimer;
+@property (nonatomic, strong) NSTimer *skanImpressionTimer;
 @property (nonatomic, assign) BOOL shouldRunAutoRefresh;
 @property (nonatomic, assign) BOOL markup;
 @property (nonatomic, assign) BOOL isUsingOpenRTB;
@@ -54,6 +55,9 @@
 
 - (void)dealloc {
     [self stopTracking];
+    if (self.skanImpressionTimer) {
+        [self stopSKANImpressionTracking];
+    }
     self.ad = nil;
     self.zoneID = nil;
     self.appToken = nil;
@@ -422,7 +426,16 @@
 
 - (void)stopTracking {
     [self.adPresenter stopTracking];
+    //[self stopSKANImpressionTracking];
+}
+
+- (void)stopSKANImpressionTracking {
+    if (self.skanImpressionTimer) {
+        [self.skanImpressionTimer invalidate];
+        self.skanImpressionTimer = nil;
+    }
     
+    [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@" Stopping viewthrough attribution impression"];
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 140500
     [[HyBidAdImpression sharedInstance] endSKANImpressionForAd:self.ad];
 #endif
@@ -430,7 +443,6 @@
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 170400
     [[HyBidAdImpression sharedInstance] endAAKImpressionForAd:self.ad adFormat:HyBidReportingAdFormat.BANNER];
 #endif
-    
 }
 
 - (HyBidAdPresenter *)createAdPresenter {
@@ -600,6 +612,11 @@
             }
         }
     }
+    
+    [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@" Viewthrough attribution impression end timer set for 4 seconds."];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.skanImpressionTimer = [NSTimer scheduledTimerWithTimeInterval:4.0 target:self selector:@selector(stopSKANImpressionTracking) userInfo:nil repeats:NO];
+    });
 }
 
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error {

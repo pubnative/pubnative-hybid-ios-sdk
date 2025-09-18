@@ -647,20 +647,6 @@ NSInteger const PNLiteResponseStatusOK = 200;
     }
 }
 
-- (void)addCompanionsFromCreatives:(NSArray<HyBidVASTCreative *> *)creatives dispatchGroup:(dispatch_group_t)group {
-    for (HyBidVASTCreative *creative in creatives) {
-        HyBidVASTCompanionAds *companionAds = [creative companionAds];
-        if (companionAds && [companionAds companions]) {
-            for (HyBidVASTCompanion *companion in [companionAds companions]) {
-                dispatch_group_enter(group);
-                [self.endCardManager addCompanion:companion completion:^{
-                    dispatch_group_leave(group);
-                }];
-            }
-        }
-    }
-}
-
 - (void)fetchEndCardsFromVastAd:(NSArray *)vastModel completion:(void(^)(NSArray<HyBidEndCard *> * _Nullable endCards))completion {
     NSOrderedSet *vastSet = [[NSOrderedSet alloc] initWithArray:vastModel];
     NSArray *vastArray = [[NSMutableArray alloc] initWithArray:[vastSet array]];
