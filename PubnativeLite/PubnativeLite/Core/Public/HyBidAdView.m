@@ -575,7 +575,7 @@
         } else {
             self.ad.adType = kHyBidAdTypeUnsupported;
         }
-        self.adSessionData = [ATOMManager createAdSessionDataFrom:request ad:ad];
+        self.adSessionData = [ATOMManager createAdSessionDataFromRequest:request ad:ad];
         if (self.autoShowOnLoad) {
             [self renderAd];
         } else {
@@ -641,7 +641,7 @@
 
 - (void)signalDataDidFinishWithAd:(HyBidAd *)ad {
     self.ad = ad;
-    self.adSessionData = [ATOMManager createAdSessionDataFrom:nil ad:ad];
+    self.adSessionData = [ATOMManager createAdSessionDataFromRequest:nil ad:ad];
     [self renderAdForSignalData];
 }
 

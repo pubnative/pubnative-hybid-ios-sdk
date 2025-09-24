@@ -214,7 +214,7 @@ public class HyBidInterstitialAd: NSObject {
             if initialLoadTimestamp < adExpireTime {
                 self.interstitialPresenter?.show()
                 if let adSessionData = self.adSessionData {
-                    ATOMManager.fireAdSessionEvent(data: adSessionData)
+                    ATOMManager.fireAdSessionEvent(with: adSessionData)
                 }
             } else {
                 HyBidLogger.errorLog(fromClass: String(describing: HyBidInterstitialAd.self), fromMethod: #function, withMessage: "Ad has expired")

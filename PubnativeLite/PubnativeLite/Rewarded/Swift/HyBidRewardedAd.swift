@@ -209,7 +209,7 @@ public class HyBidRewardedAd: NSObject {
             if initialLoadTimestamp < adExpireTime {
                 self.rewardedPresenter?.show()
                 if let adSessionData = self.adSessionData {
-                    ATOMManager.fireAdSessionEvent(data: adSessionData)
+                    ATOMManager.fireAdSessionEvent(with: adSessionData)
                 }
             } else {
                 HyBidLogger.errorLog(fromClass: String(describing: HyBidRewardedAd.self), fromMethod: #function, withMessage: "Ad has expired")

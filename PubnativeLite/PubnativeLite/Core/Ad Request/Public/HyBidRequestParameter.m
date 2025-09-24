@@ -92,7 +92,7 @@
 + (NSString * _Nonnull)darkmode                      { return @"darkmode"; }
 + (NSString * _Nonnull)airplaneMode                  { return @"airplane"; }
 + (NSString * _Nonnull)btype                         { return @"btype"; }
-+ (NSString * _Nonnull)hver                         { return @"hver"; }
++ (NSString * _Nonnull)hver                          { return @"hver"; }
 
 #pragma mark - SKAdNetwork parameters
 + (NSString * _Nonnull)skAdNetworkVersion            { return @"skadn_version"; }

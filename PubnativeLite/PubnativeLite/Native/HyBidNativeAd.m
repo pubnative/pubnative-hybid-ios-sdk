@@ -18,6 +18,7 @@
 #import "HyBidSKAdNetworkParameter.h"
 #import "HyBidCustomClickUtil.h"
 #import "HyBidStoreKitUtils.h"
+#import "HyBidDeeplinkHandler.h"
 #import "PNLiteData.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
@@ -403,6 +404,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
 }
 
 - (void)triggerClickFlow {
+    HyBidDeeplinkHandler *deeplinkHandler = [[HyBidDeeplinkHandler alloc] initWithLink:self.ad.link];
     HyBidSkAdNetworkModel* skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.ad getOpenRTBSkAdNetworkModel] : [self.ad getSkAdNetworkModel];
     
     if (skAdNetworkModel) {
@@ -411,9 +413,14 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
         [HyBidStoreKitUtils insertFidelitiesIntoDictionaryIfNeeded:productParams];
         
         if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams]) {
+            if (deeplinkHandler.isCapable && deeplinkHandler.fallbackURL) {
+                [[HyBidURLDriller alloc] startDrillWithURLString:deeplinkHandler.fallbackURL.absoluteString delegate:self];
+            }
             [[HyBidURLDriller alloc] startDrillWithURLString:self.clickUrl delegate:self];
             
             [HyBidSKAdNetworkViewController.shared presentStoreKitViewWithProductParameters:[HyBidStoreKitUtils cleanUpProductParams:productParams] adFormat:HyBidReportingAdFormat.NATIVE isAutoStoreKitView:NO ad:self.ad];
+        } else if (deeplinkHandler.isCapable) {
+            [deeplinkHandler openWithNavigationType:self.ad.navigationMode];
         } else {
             [self openBrowser:self.clickUrl navigationType:self.ad.navigationMode];
         }

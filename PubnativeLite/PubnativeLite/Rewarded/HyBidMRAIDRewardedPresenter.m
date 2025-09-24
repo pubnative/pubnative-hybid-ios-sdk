@@ -16,6 +16,7 @@
 #import "HyBidSKAdNetworkParameter.h"
 #import "HyBidCustomClickUtil.h"
 #import "HyBidStoreKitUtils.h"
+#import "HyBidDeeplinkHandler.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -103,6 +104,7 @@
 }
 
 - (void)triggerClickFlowWithUrl:(NSString *)url {
+    HyBidDeeplinkHandler *deeplinkHandler = [[HyBidDeeplinkHandler alloc] initWithLink:self.ad.link];
     HyBidSkAdNetworkModel* skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.adModel getOpenRTBSkAdNetworkModel] : [self.adModel getSkAdNetworkModel];
     
     NSString *customUrl = [HyBidCustomClickUtil extractPNClickUrl:url];
@@ -115,8 +117,13 @@
         
         if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams]) {
             [[HyBidURLDriller alloc] startDrillWithURLString:url delegate:self];
+            if (deeplinkHandler.isCapable && deeplinkHandler.fallbackURL) {
+                [[HyBidURLDriller alloc] startDrillWithURLString:deeplinkHandler.fallbackURL.absoluteString delegate:self];
+            }
             
             [HyBidSKAdNetworkViewController.shared presentStoreKitViewWithProductParameters:[HyBidStoreKitUtils cleanUpProductParams:productParams] adFormat:HyBidReportingAdFormat.REWARDED isAutoStoreKitView:NO ad:self.ad];
+        } else if (deeplinkHandler.isCapable) {
+            [deeplinkHandler openWithNavigationType:self.ad.navigationMode];
         } else {
             [self openBrowser:url navigationType:self.ad.navigationMode];
         }

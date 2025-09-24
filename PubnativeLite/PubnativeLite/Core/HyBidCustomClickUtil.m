@@ -12,34 +12,27 @@ NSString * const kClickNavigateParam = @"url";
 
 @implementation HyBidCustomClickUtil
 
-+ (NSString*)extractPNClickUrl:(NSString*) url {
-    if (url != nil && ![url isEqualToString:@""]) {
-        NSURL *clickUrl = [NSURL URLWithString:url];
-        __block BOOL canOpenURL = NO;
-        if ([NSThread isMainThread]) {
-            canOpenURL = [[UIApplication sharedApplication] canOpenURL:clickUrl];
-        } else {
-            dispatch_sync(dispatch_get_main_queue(), ^{
-                canOpenURL = [[UIApplication sharedApplication] canOpenURL:clickUrl];
-            });
-        }
-        if(!canOpenURL){
-            url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet  URLQueryAllowedCharacterSet]];
-            clickUrl = [NSURL URLWithString:url];
-        }
++ (NSString*)extractPNClickUrl:(NSString*)urlString {
+    if (urlString.length == 0) { return nil; }
+
+    NSURLComponents *components = [NSURLComponents componentsWithString:urlString];
+
+    if (!components) {
+        NSString *encoded = [urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]];
         
-        if ([clickUrl.scheme isEqualToString:kPNClickUrlSchema]) {
-            NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:clickUrl resolvingAgainstBaseURL:false];
-            NSArray *queryItems = urlComponents.queryItems;
-            int i = 0;
-            while (i < queryItems.count) {
-                NSURLQueryItem *item = queryItems[i];
-                if ([item.name isEqualToString:kClickNavigateParam] && ![item.value isEqualToString:@""]) {
-                    return [item.value stringByRemovingPercentEncoding];
-                } else {
-                    i++;
-                }
-            }
+        if (![encoded isEqualToString:urlString]) {
+            components = [NSURLComponents componentsWithString:encoded];
+        }
+        if (!components) { return nil; }
+    }
+
+    if (![components.scheme isEqualToString:kPNClickUrlSchema]) {
+        return nil;
+    }
+
+    for (NSURLQueryItem *item in (components.queryItems ?: @[])) {
+        if ([item.name isEqualToString:kClickNavigateParam] && item.value.length > 0) {
+            return item.value.stringByRemovingPercentEncoding ?: item.value;
         }
     }
     

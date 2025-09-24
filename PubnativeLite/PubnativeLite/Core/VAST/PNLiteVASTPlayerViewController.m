@@ -31,6 +31,7 @@
 #import "HyBidCustomClickUtil.h"
 #import "HyBidVASTParserError.h"
 #import "HyBidStoreKitUtils.h"
+#import "HyBidDeeplinkHandler.h"
 #import "OMIDAdSessionWrapper.h"
 #import "OMIDVerificationScriptResourceWrapper.h"
 
@@ -1280,6 +1281,7 @@ typedef enum {
 }
 
 - (void)triggerClickFlowWith:(NSDictionary *)trackersDictionary {
+    HyBidDeeplinkHandler *deeplinkHandler = [[HyBidDeeplinkHandler alloc] initWithLink:self.ad.link];
     NSMutableArray<NSString *> *trackingClickURLs = [trackersDictionary objectForKey: @"trackingClickURLs"];
     NSString *throughClickURL = [trackersDictionary objectForKey: @"throughClickURL"];
     
@@ -1299,6 +1301,9 @@ typedef enum {
         [HyBidStoreKitUtils insertFidelitiesIntoDictionaryIfNeeded:productParams];
         
         if ([productParams count] > 0) {
+            if (deeplinkHandler.isCapable && deeplinkHandler.fallbackURL) {
+                [[HyBidURLDriller alloc] startDrillWithURLString:deeplinkHandler.fallbackURL.absoluteString delegate:self];
+            }
             if (throughClickURL != nil) {
                 [[HyBidURLDriller alloc] startDrillWithURLString:throughClickURL delegate:self];
             }
@@ -1310,6 +1315,8 @@ typedef enum {
                                                                 : HyBidReportingAdFormat.REWARDED
                                           isAutoStoreKitView:self.isAutoStoreKit
                                                           ad:self.ad];
+        } else if (deeplinkHandler.isCapable) {
+            [deeplinkHandler openWithNavigationType:self.ad.navigationMode];
         } else {
             if (throughClickURL != nil) {
                 [self openUrlInBrowser:throughClickURL navigationType:self.ad.navigationMode];
@@ -2285,10 +2292,9 @@ typedef enum {
                                                                          iconXposition:self.iconPositionX
                                                                          iconYposition:self.iconPositionY
                                                                         withSkipButton:self.endCards.count == endCardCount
-                                               vastCompanionsClicksThrough:[self.vastCompanionsClicksThrough copy]
-                                         vastCompanionsClicksTracking:[self.vastCompanionsClicksTracking copy]
-                                         vastVideoClicksTracking:[self.vastVideoClicksTracking copy]];
-    
+                                                           vastCompanionsClicksThrough:[self.vastCompanionsClicksThrough copy]
+                                                          vastCompanionsClicksTracking:[self.vastCompanionsClicksTracking copy]
+                                              vastVideoClicksTracking:[self.vastVideoClicksTracking copy]];
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(vastPlayerWillShowEndCard:isCustomEndCard:skOverlayDelegate:customCTADelegate:)]) {
         [self.delegate vastPlayerWillShowEndCard:self

@@ -17,6 +17,7 @@
 #import "HyBidSKAdNetworkParameter.h"
 #import "HyBidCustomClickUtil.h"
 #import "HyBidStoreKitUtils.h"
+#import "HyBidDeeplinkHandler.h"
 #import "HyBidSkipOverlay.h"
 
 #define kContentInfoContainerTag 2343
@@ -813,7 +814,7 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
 }
 
 - (void)triggerClickFlowWith:(HyBidEndCardType)endCardType url:(NSString *)url shouldOpenBrowser:(BOOL)shouldOpenBrowser {
-    
+    HyBidDeeplinkHandler *deeplinkHandler = [[HyBidDeeplinkHandler alloc] initWithLink:self.ad.link];
     NSDictionary *trackersDictionary = [self gettingTrackingAndThroughClickURLWith:endCardType];
     NSMutableArray<NSString *> *trackingClickURLs = [trackersDictionary objectForKey: @"trackingClickURLs"];
     NSString *throughClickURL = [trackersDictionary objectForKey: @"throughClickURL"];
@@ -835,6 +836,9 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
         [HyBidStoreKitUtils insertFidelitiesIntoDictionaryIfNeeded:productParams];
         
         if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams]) {
+            if (deeplinkHandler.isCapable && deeplinkHandler.fallbackURL) {
+                [[HyBidURLDriller alloc] startDrillWithURLString:deeplinkHandler.fallbackURL.absoluteString delegate:self];
+            }
             if(endCardType == HyBidEndCardType_STATIC) {
                 if (throughClickURL != nil) {
                     [[HyBidURLDriller alloc] startDrillWithURLString:throughClickURL delegate:self];
@@ -847,6 +851,8 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
                 [HyBidSKAdNetworkViewController.shared presentStoreKitViewWithProductParameters:[HyBidStoreKitUtils cleanUpProductParams:productParams] adFormat:self.isInterstitial ? HyBidReportingAdFormat.FULLSCREEN : HyBidReportingAdFormat.REWARDED isAutoStoreKitView:self.isAutoStoreKit ad:self.ad];
             }
 
+        } else if (deeplinkHandler.isCapable) {
+            [deeplinkHandler openWithNavigationType:self.ad.navigationMode];
         } else {
             if(endCardType == HyBidEndCardType_STATIC) {
                 if (throughClickURL != nil) {

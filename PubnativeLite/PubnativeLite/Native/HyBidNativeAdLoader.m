@@ -177,7 +177,7 @@
 }
 
 - (void)loadNativeAdWithRequest:(HyBidAdRequest *)request ad:(HyBidAd *)ad {
-    self.adSessionData = [ATOMManager createAdSessionDataFrom:request ad:ad];
+    self.adSessionData = [ATOMManager createAdSessionDataFromRequest:request ad:ad];
     HyBidNativeAd *nativeAd = [[HyBidNativeAd alloc] initWithAd:ad];
     nativeAd.adSessionData = self.adSessionData;
     [self invokeDidLoadWithNativeAd:nativeAd];
