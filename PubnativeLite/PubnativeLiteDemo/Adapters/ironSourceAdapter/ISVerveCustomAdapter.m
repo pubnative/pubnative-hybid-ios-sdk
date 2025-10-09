@@ -29,7 +29,7 @@
 }
 
 - (NSString *)networkSDKVersion {
-    return @"3.7.0-beta4";
+    return @"3.7.0-beta5";
 }
 
 - (NSString *)adapterVersion {

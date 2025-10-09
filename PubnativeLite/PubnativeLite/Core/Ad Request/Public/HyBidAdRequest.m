@@ -199,8 +199,22 @@ NSInteger const PNLiteResponseStatusOK = 200;
                 NSMutableArray *query = [NSMutableArray array];
                 NSDictionary *parametersDictionary = adRequestModel.requestParameters;
                 for (id key in parametersDictionary) {
+                    // Ensure key is a string
+                    if (![key isKindOfClass:[NSString class]]) { continue; }
                     id value = parametersDictionary[key];
-                    [query addObject:[NSURLQueryItem queryItemWithName:key value:value]];
+                    if (value == (id)kCFNull || value == nil) { continue; }
+                    
+                    NSString *valueString = nil;
+                    if ([value isKindOfClass:[NSString class]]) {
+                        valueString = value;
+                    } else if ([value respondsToSelector:@selector(stringValue)]) {
+                        valueString = [value stringValue];
+                    } else {
+                        valueString = [value description];
+                    }
+                    if (valueString.length == 0) { continue; }
+                    
+                    [query addObject:[NSURLQueryItem queryItemWithName:(NSString *)key value:valueString]];
                 }
                 components.queryItems = query;
             }
@@ -214,10 +228,23 @@ NSInteger const PNLiteResponseStatusOK = 200;
                 NSMutableArray *query = [NSMutableArray array];
                 NSDictionary *parametersDictionary = adRequestModel.requestParameters;
                 for (id key in parametersDictionary) {
+                    // Ensure key is a string
+                    if (![key isKindOfClass:[NSString class]]) { continue; }
                     id value = parametersDictionary[key];
-                    if ([key isEqual:@"apptoken"] || [key isEqual:@"zoneid"]) {
-                        [query addObject:[NSURLQueryItem queryItemWithName:key value:value]];
+                    if (!([key isEqual:@"apptoken"] || [key isEqual:@"zoneid"])) { continue; }
+                    if (value == (id)kCFNull || value == nil) { continue; }
+                    
+                    NSString *valueString = nil;
+                    if ([value isKindOfClass:[NSString class]]) {
+                        valueString = value;
+                    } else if ([value respondsToSelector:@selector(stringValue)]) {
+                        valueString = [value stringValue];
+                    } else {
+                        valueString = [value description];
                     }
+                    if (valueString.length == 0) { continue; }
+                    
+                    [query addObject:[NSURLQueryItem queryItemWithName:(NSString *)key value:valueString]];
                 }
                 components.queryItems = query;
             }
@@ -650,21 +677,24 @@ NSInteger const PNLiteResponseStatusOK = 200;
 - (void)fetchEndCardsFromVastAd:(NSArray *)vastModel completion:(void(^)(NSArray<HyBidEndCard *> * _Nullable endCards))completion {
     NSOrderedSet *vastSet = [[NSOrderedSet alloc] initWithArray:vastModel];
     NSArray *vastArray = [[NSMutableArray alloc] initWithArray:[vastSet array]];
+    NSMutableArray<HyBidVASTCreative *> *creatives = [NSMutableArray array];
+    // Keep strong references to all parser instances so their XML trees remain valid while processing creatives
+    NSMutableArray *parsers = [NSMutableArray array];
     for (NSData *vast in vastArray) {
         NSString *xml = [[NSString alloc] initWithData:vast encoding:NSUTF8StringEncoding];
         HyBidXMLEx *parser = [HyBidXMLEx parserWithXML:xml];
+        [parsers addObject:parser];
         NSArray *result = [[parser rootElement] query:@"Ad"];
-        for (int i = 0; i < [result count]; i++) {
-            HyBidVASTAd *ad = [[HyBidVASTAd alloc] initWithXMLElement:result[i]];
-            if ([ad wrapper] != nil) {
-                NSArray<HyBidVASTCreative *> *creatives = [[ad wrapper] creatives];
-                [self.endCardManager fetchEndCardsFromCreatives:creatives completion:completion];
-            } else if ([ad inLine] != nil) {
-                NSArray<HyBidVASTCreative *> *creatives = [[ad inLine] creatives];
-                [self.endCardManager fetchEndCardsFromCreatives:creatives completion:completion];
+        for (id element in result) {
+            HyBidVASTAd *ad = [[HyBidVASTAd alloc] initWithXMLElement:element];
+            if (ad.wrapper) {
+                [creatives addObjectsFromArray:[ad.wrapper creatives]];
+            } else if (ad.inLine) {
+                [creatives addObjectsFromArray:[ad.inLine creatives]];
             }
         }
     }
+    [self.endCardManager fetchEndCardsFromCreatives:creatives completion:completion];
 }
 
 - (void)setMediationVendor:(NSString *)mediationVendor

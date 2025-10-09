@@ -12,20 +12,13 @@ jobs:
     steps:
       - checkout
 
+      # 💎 Modern Bundler
       - run:
-          name: Bundler Update
-          command: gem install bundler --version 1.16.3
+          name: Install Bundler
+          command: gem install bundler --version 2.5.9
 
       - restore_cache:
           key: 1-gems-{{ checksum "Gemfile.lock" }}
-
-      - run:
-          name: Export Env
-          command: |
-            echo "export RAILS_ENV=test" >> $BASH_ENV
-            echo "export RACK_ENV=test" >> $BASH_ENV
-            echo "export LC_ALL=en_US.UTF-8" >> $BASH_ENV
-            echo "export LANG=en_US.UTF-8" >> $BASH_ENV
 
       - run:
           name: Bundle Install
@@ -40,61 +33,132 @@ jobs:
             - vendor/bundle
 
       - run:
-          name: Install Firebase CLI
+          name: Export Env
+          command: |
+            echo "export RAILS_ENV=test" >> $BASH_ENV
+            echo "export RACK_ENV=test" >> $BASH_ENV
+            echo "export LC_ALL=en_US.UTF-8" >> $BASH_ENV
+            echo "export LANG=en_US.UTF-8" >> $BASH_ENV
+            echo "export MATCH_SKIP_SET_PARTITION_LIST=true" >> $BASH_ENV
+
+      # ⚠️ Re-resolve Pods with Xcode 16
+      - run:
+          name: Install CocoaPods (ignore Podfile.lock on CI)
+          command: |
+            rm -f Podfile.lock
+            pod install --repo-update
+            
+      - run:
+          name: Install Firebase CLI via npm
           command: npm install -g firebase-tools
 
       - run:
-          name: Create CircleCI Artifacts & Test Results Directories
+          name: Install jq
+          command: brew install jq
+          
+      - run:
+          name: Create CircleCI Artifacts Directory
+          command: mkdir -p /tmp/circleci-artifacts
+      - run:
+          name: Create CircleCI Test Results Directory
+          command: mkdir -p /tmp/circleci-test-results
+
+      # 🔑 Setup fastlane temporary keychain
+      - run:
+          name: Setup fastlane temporary keychain
           command: |
-            mkdir -p /tmp/circleci-artifacts
-            mkdir -p /tmp/circleci-test-results
+            security create-keychain -p "" fastlane_tmp_keychain
+            security set-keychain-settings fastlane_tmp_keychain
+            security unlock-keychain -p "" fastlane_tmp_keychain
+            security list-keychains -s ~/Library/Keychains/fastlane_tmp_keychain-db
+            security default-keychain -s ~/Library/Keychains/fastlane_tmp_keychain-db
 
+      # 🔓 Sync AdHoc Certificates & Profiles
       - run:
-          name: List Xcode Schemes
-          command: xcodebuild -workspace HyBid.xcworkspace -list
-
+          name: Run Fastlane Match (AdHoc)
+          command: bundle exec fastlane match adhoc --readonly --keychain_name fastlane_tmp_keychain
+          
+      # 🔓 Sync Development Certificates & Profiles
       - run:
-          name: Install pods in HyBidTests
-          command: PubnativeLite/Scripts/hybidtests.sh
-
+          name: Run Fastlane Match (Development)
+          command: bundle exec fastlane match development --readonly --keychain_name fastlane_tmp_keychain
+          
+      # 🔍 Verify Installed Certificates
       - run:
-          name: Xcode Build
+          name: Verify certs in keychain
           command: |
-            xcodebuild \
-              -workspace HyBid.xcworkspace \
-              -scheme HyBid \
-              -destination 'platform=iOS Simulator,OS=18.0,name=iPhone 16' \
-              clean build \
-              | tee /tmp/circleci-artifacts/build_xcodebuild.log \
-              | bundle exec xcpretty -c -r json-compilation-database --output /tmp/circleci-artifacts/build_compilation_database.json
+            echo "Listing installed code signing identities..."
+            security find-identity -v -p codesigning || echo "⚠️ No valid identities found"
 
+      # 🔍 Debug Provisioning Profiles
+      - run:
+          name: Debug Provisioning Profiles
+          command: |
+            echo "Listing installed provisioning profiles..."
+            ls ~/Library/MobileDevice/Provisioning\ Profiles || echo "⚠️ No provisioning profiles found"
+            
+      - run:
+          name: Write Firebase key
+          command: |
+            if [ -z "$FIREBASE_SERVICE_ACCOUNT_JSON" ]; then
+                echo "❌ FIREBASE_SERVICE_ACCOUNT_JSON is not set"
+                exit 1
+            fi
+            echo "$FIREBASE_SERVICE_ACCOUNT_JSON" > firebase.json
+            echo "export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/firebase.json" >> $BASH_ENV
+
+      - store_artifacts:
+          path: xcodebuild-full.log
+          destination: xcodebuild-full.log
+
+      # 🏗 Generate Demo App (only certain branches)
       - run:
           name: Generate Demo App
           command: |
-               if [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ]; then
-                   PubnativeLite/Scripts/demo.sh
-               fi
+            if [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ]; then
+              PubnativeLite/Scripts/demo.sh
+            fi
 
+      # 📦 Generate Framework
       - run:
           name: Generate Framework
           command: |
-               if [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ]; then
-                   PubnativeLite/Scripts/generate.sh
-               fi
+            if [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ]; then
+              PubnativeLite/Scripts/generate.sh
+            fi
 
+      # 🚀 Publish to Firebase (runs fastlane build+publish)
       - run:
           name: Publish to Firebase
           command: |
-               if [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ]; then
-                   PubnativeLite/Scripts/publish.sh
-               fi
-
+            if [ "${CIRCLE_BRANCH}" == "beta" ] || [ "${CIRCLE_BRANCH}" == "development" ]; then
+              bundle exec fastlane ios distribute
+            fi
+            
+      # 🛠 Namespace framework
       - run:
           name: Namespace HyBid framework
           command: |
                if [ "${CIRCLE_BRANCH}" == "beta-unified-sdk" ]; then
                    PubnativeLite/Scripts/namespace.sh
                fi
+      - run:
+          name: Copy IPA to CircleCI artifacts (safe)
+          command: |
+            IPA_PATH=./build/HyBidDemo.ipa
+            ARTIFACTS_DIR=/tmp/circleci-artifacts
+        
+            if [ -f "$IPA_PATH" ]; then
+                echo "✅ IPA found, copying to artifacts..."
+                mkdir -p "$ARTIFACTS_DIR"
+                cp "$IPA_PATH" "$ARTIFACTS_DIR/"
+            else
+                echo "⚠️ No IPA found at $IPA_PATH. Skipping artifact copy."
+            fi
+      
+      - store_artifacts:
+          path: /tmp/circleci-artifacts
+          destination: HyBidDemoIPA
 
       - store_test_results:
           path: /tmp/circleci-test-results
@@ -103,8 +167,7 @@ jobs:
           path: /tmp/circleci-artifacts
 
       - store_artifacts:
-          path: /Users/distiller/Library/Logs/gym
-          destination: fastlane_gym_logs
+          path: /tmp/circleci-test-results
 
       - run:
           name: Setup GitHub release

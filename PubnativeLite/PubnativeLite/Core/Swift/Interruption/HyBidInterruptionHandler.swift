@@ -61,12 +61,11 @@ public class HyBidInterruptionHandler: NSObject {
         if let idx = activeContextStack.lastIndex(of: context) {
             activeContextStack.remove(at: idx)
         }
-        notifyFocusIfNeeded()
     }
 
     // MARK: - Routing helpers
 
-    private func activeDelegate() -> HyBidInterruptionDelegate? {
+    @objc public func activeDelegate() -> HyBidInterruptionDelegate? {
         guard let top = activeContextStack.last else { return nil }
         switch top {
         case .vastPlayer:        return vastPlayerDelegate

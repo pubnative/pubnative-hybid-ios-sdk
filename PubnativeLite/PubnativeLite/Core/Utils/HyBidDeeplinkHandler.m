@@ -63,11 +63,21 @@
         if (success) { return; }
 
         if (self.fallbackURL) {
-            [[UIApplication sharedApplication] openURL:self.fallbackURL
-                                               options:@{}
-                                     completionHandler:nil];
+            [self openUrlInBrowser:[self.fallbackURL absoluteString] navigationType:navigationType];
         }
     }];
+}
+
+- (void)openUrlInBrowser:(NSString*) url navigationType:(NSString *)navigationType {
+    HyBidWebBrowserNavigation navigation = [HyBidInternalWebBrowser.shared webBrowserNavigationBehaviourFromString: navigationType];
+    
+    if (navigation == HyBidWebBrowserNavigationInternal) {
+        [HyBidInternalWebBrowser.shared navigateToURL:url];
+    } else {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]
+                                           options:@{}
+                                 completionHandler:nil];
+    }
 }
 
 @end

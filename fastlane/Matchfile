@@ -1,0 +1,9 @@
+git_url("https://github.com/vervegroup/iOSHyBidCertificates.git")
+app_identifier("com.pubnative.HyBid.demo")
+username("aysel.abdullayeva@smaato.de")
+team_id("TL55SBB4FM")
+storage_mode("git")
+readonly(false)
+# 🔑 Force use of the CI keychain
+keychain_name("fastlane_tmp_keychain")
+keychain_password("")

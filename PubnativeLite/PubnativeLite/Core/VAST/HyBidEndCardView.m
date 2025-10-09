@@ -371,6 +371,7 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
 
 - (void)close
 {
+    [[HyBidInterruptionHandler shared] deactivateContext:HyBidAdContextEndcard];
     if (!self.withSkipButton) {
         [[NSNotificationCenter defaultCenter] removeObserver:self];
         [self.rootViewController dismissViewControllerAnimated:NO completion:^{
@@ -848,7 +849,9 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
             }
             
             if(shouldOpenBrowser) {
-                [HyBidSKAdNetworkViewController.shared presentStoreKitViewWithProductParameters:[HyBidStoreKitUtils cleanUpProductParams:productParams] adFormat:self.isInterstitial ? HyBidReportingAdFormat.FULLSCREEN : HyBidReportingAdFormat.REWARDED isAutoStoreKitView:self.isAutoStoreKit ad:self.ad];
+                NSDictionary *cleanedParams = [HyBidStoreKitUtils cleanUpProductParams:productParams];
+                NSLog(@"HyBid SKAN params dictionary: %@", cleanedParams);
+                [HyBidSKAdNetworkViewController.shared presentStoreKitViewWithProductParameters: cleanedParams adFormat:self.isInterstitial ? HyBidReportingAdFormat.FULLSCREEN : HyBidReportingAdFormat.REWARDED isAutoStoreKitView:self.isAutoStoreKit ad:self.ad];
             }
 
         } else if (deeplinkHandler.isCapable) {
@@ -1099,6 +1102,7 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
             
             if(shouldOpenBrowser) {
                 NSDictionary *params = [HyBidStoreKitUtils cleanUpProductParams:productParams];
+                NSLog(@"HyBid SKAN params dictionary: %@", params);
                 NSString *adFormat = self.isInterstitial ? HyBidReportingAdFormat.FULLSCREEN : HyBidReportingAdFormat.REWARDED;
                 if (self.isAutoStoreKit) {
                     [HyBidSKAdNetworkViewController.shared presentStoreKitViewWithProductParameters:params

@@ -122,7 +122,9 @@
                 [[HyBidURLDriller alloc] startDrillWithURLString:deeplinkHandler.fallbackURL.absoluteString delegate:self];
             }
             
-            [HyBidSKAdNetworkViewController.shared presentStoreKitViewWithProductParameters:[HyBidStoreKitUtils cleanUpProductParams:productParams] adFormat:HyBidReportingAdFormat.FULLSCREEN isAutoStoreKitView:NO ad:self.ad];
+            NSDictionary *cleanedParams = [HyBidStoreKitUtils cleanUpProductParams:productParams];
+            NSLog(@"HyBid SKAN params dictionary: %@", cleanedParams);
+            [HyBidSKAdNetworkViewController.shared presentStoreKitViewWithProductParameters:cleanedParams adFormat:HyBidReportingAdFormat.FULLSCREEN isAutoStoreKitView:NO ad:self.ad];
         } else if (deeplinkHandler.isCapable) {
             [deeplinkHandler openWithNavigationType:self.ad.navigationMode];
         } else {

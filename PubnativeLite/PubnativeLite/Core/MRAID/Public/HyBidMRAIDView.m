@@ -173,6 +173,7 @@ typedef enum {
 @property (nonatomic, assign) BOOL isTimerPaused;
 @property (nonatomic, assign) BOOL isAutoStoreKit;
 @property (nonatomic, strong) HyBidVASTEventProcessor *vastEventProcessor;
+@property (nonatomic, assign) BOOL shouldHandleInterruptions;
 
 @end
 
@@ -283,6 +284,7 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
                           PNLiteMRAIDSupportsLocation,
                           ];
         
+        self.shouldHandleInterruptions = shouldHandleInterruptions;
         
         if([self isValidFeatureSet:currentFeatures] && serviceDelegate) {
             supportedFeatures=currentFeatures;
@@ -338,7 +340,7 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
         }
         
         buttonSize = [HyBidCloseButton buttonDefaultSize];
-        if (shouldHandleInterruptions) {
+        if (self.shouldHandleInterruptions) {
             [[HyBidInterruptionHandler shared] setDelegate:self for:HyBidAdContextMraidView];
         }
         
@@ -1001,6 +1003,10 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
     if (isInterstitial) {
         [self addContentInfoViewToView:modalVC.view ];
         [self determineUseCustomCloseBehaviourWith:self.nativeCloseButtonDelay showSkipOverlay:YES];
+    }
+    
+    if (self.shouldHandleInterruptions && ![[[HyBidInterruptionHandler shared] activeDelegate] isMemberOfClass:[HyBidMRAIDView class]]) {
+        [[HyBidInterruptionHandler shared] activateContext:HyBidAdContextMraidView];
     }
     
     if(state == PNLiteMRAIDStateExpanded){
@@ -2308,6 +2314,7 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
     
     if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams]) {
         productParams = [[HyBidStoreKitUtils cleanUpProductParams:productParams] mutableCopy];
+        NSLog(@"HyBid SKAN params dictionary: %@", productParams);
         self.isAutoStoreKit = YES;
         [HyBidSKAdNetworkViewController.shared presentStoreKitViewWithProductParameters: productParams
                                                                                adFormat: isInterstitial

@@ -215,6 +215,8 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 + (NSString*)getSDKVersionInfo;
 + (NSString*)getCustomRequestSignalData;
 + (NSString*)getCustomRequestSignalData:(NSString*) mediationVendorName;
++ (NSString*)getEncodedCustomRequestSignalData;
++ (NSString*)getEncodedCustomRequestSignalData:(NSString*) mediationVendorName;
 + (void)setReporting:(BOOL)enabled;
 + (void)rightToBeForgotten;
 + (void)setIntegrationType:(SDKIntegrationType)integrationType;

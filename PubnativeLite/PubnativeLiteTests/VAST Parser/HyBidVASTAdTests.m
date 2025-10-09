@@ -7,6 +7,7 @@
 //#import <XCTest/XCTest.h>
 //#import "HyBidVASTParser.h"
 //
+
 //@interface HyBidVASTAdTests : XCTestCase
 //
 //@property (nonatomic, strong) HyBidVASTParser *parser;

@@ -173,6 +173,7 @@ HyBidCloseButton *closeButton;
 @property (nonatomic, strong) HyBidAdAttributionCustomClickAdsWrapper* aakCustomClickAd;
 @property (nonatomic, strong) HyBidEndCard* currentEndCard;
 @property (nonatomic, assign) BOOL adHasBeenReplayed;
+@property (nonatomic, assign) BOOL interruptionHandlerActivated;
 
 @end
 
@@ -891,6 +892,7 @@ typedef enum {
         self.skOverlayDelegate = nil;
         self.sdkAutoStorekitEnabled = nil;
         self.hasFiredStartEvent = NO;
+        self.interruptionHandlerActivated = NO;
         self.vastSkipOffset = nil;
         self.aakCustomClickAd = nil;
         [HyBidVASTTracker cleanTriggeredTrackersList];
@@ -1308,7 +1310,9 @@ typedef enum {
                 [[HyBidURLDriller alloc] startDrillWithURLString:throughClickURL delegate:self];
             }
             self.isAutoStoreKit = NO;
-            [HyBidSKAdNetworkViewController.shared presentStoreKitViewWithProductParameters:[HyBidStoreKitUtils cleanUpProductParams:productParams] adFormat:self.adFormat == HyBidAdFormatBanner
+            NSDictionary *cleanedParams = [HyBidStoreKitUtils cleanUpProductParams:productParams];
+            NSLog(@"HyBid SKAN params dictionary: %@", cleanedParams);
+            [HyBidSKAdNetworkViewController.shared presentStoreKitViewWithProductParameters:cleanedParams adFormat:self.adFormat == HyBidAdFormatBanner
                                                             ? HyBidReportingAdFormat.BANNER
                                                             : self.adFormat == HyBidAdFormatInterstitial
                                                                 ? HyBidReportingAdFormat.FULLSCREEN
@@ -1789,6 +1793,15 @@ typedef enum {
             return nil;
         }
     } else {
+        if (self.adFormat == HyBidAdFormatInterstitial) {
+            if (self.ad.videoSkipOffset != nil && [self.ad.videoSkipOffset integerValue] > 0){
+                return [[HyBidSkipOffset alloc] initWithOffset:self.ad.videoSkipOffset isCustom:NO];
+            }
+        } else if (self.adFormat == HyBidAdFormatRewarded) {
+            if (self.ad.rewardedVideoSkipOffset != nil && [self.ad.rewardedVideoSkipOffset integerValue] > 0){
+                return [[HyBidSkipOffset alloc] initWithOffset:self.ad.rewardedVideoSkipOffset isCustom:NO];
+            }
+        }
         if ((self.ad.hasEndCard || self.ad.hasCustomEndCard) && HyBidConstants.showEndCard) {
             if (self.adFormat == HyBidAdFormatInterstitial) {
                 return [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithLong:HyBidSkipOffset.DEFAULT_VIDEO_SKIP_OFFSET] isCustom:NO];
@@ -1860,8 +1873,11 @@ typedef enum {
                     [self invokeDidFailLoadingWithError:mediaNotFoundError errorType:HyBidVASTInLineLevelError];
                 } else {
                     if (mediaUrl != nil && ![mediaUrl isEqualToString:@""]) {
-                        NSString *encodedUrl = [mediaUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-                        [self createVideoPlayerWithVideoUrl:[[NSURL alloc] initWithString: encodedUrl]];
+                        NSString *decodedMediaUrl = [mediaUrl stringByRemovingPercentEncoding];
+                        if ([mediaUrl isEqualToString:decodedMediaUrl]) {
+                            mediaUrl = [mediaUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+                        }
+                        [self createVideoPlayerWithVideoUrl:[[NSURL alloc] initWithString: mediaUrl]];
                     }
                 }
             } else {
@@ -1918,6 +1934,10 @@ typedef enum {
                         [weakSelf invokeDidFailLoadingWithError:mediaNotFoundError errorType:HyBidVASTInLineLevelError];
                     } else {
                         if (mediaUrl != nil && ![mediaUrl isEqualToString:@""]) {
+                            NSString *decodedMediaUrl = [mediaUrl stringByRemovingPercentEncoding];
+                            if ([mediaUrl isEqualToString:decodedMediaUrl]) {
+                                mediaUrl = [mediaUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+                            }
                             [weakSelf createVideoPlayerWithVideoUrl:[[NSURL alloc] initWithString: mediaUrl]];
                         }
                     }
@@ -1945,7 +1965,6 @@ typedef enum {
 }
 
 - (void)setReadyState {
-    [[HyBidInterruptionHandler shared] activateContext:HyBidAdContextVastPlayer];
     self.loadingSpin.hidden = YES;
     self.btnMute.hidden = YES;
     self.viewProgress.hidden = YES;
@@ -1961,6 +1980,10 @@ typedef enum {
 }
 
 - (void)setPlayState {
+    if (!self.interruptionHandlerActivated) {
+        [[HyBidInterruptionHandler shared] activateContext:HyBidAdContextVastPlayer];
+        self.interruptionHandlerActivated = YES;
+    }
     [self activateAudioSession:YES];
     self.loadingSpin.hidden = YES;
     self.btnMute.hidden = NO;
@@ -2276,6 +2299,7 @@ typedef enum {
 {
     HyBidEndCard *endCard;
     NSUInteger endCardCount;
+    [[HyBidInterruptionHandler shared] deactivateContext:HyBidAdContextVastPlayer];
     [self.endCards sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"isCustomEndCard" ascending:YES]]];
     if (self.ad.hasCustomEndCard) {
         endCard = [self.endCards firstObject];
@@ -2361,8 +2385,10 @@ typedef enum {
         
         if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams]) {
             self.isAutoStoreKit = YES;
+            NSDictionary *cleanedParams = [HyBidStoreKitUtils cleanUpProductParams:productParams];
+            NSLog(@"HyBid SKAN params dictionary: %@", cleanedParams);
             [HyBidSKAdNetworkViewController.shared
-             presentStoreKitViewWithProductParameters:[HyBidStoreKitUtils cleanUpProductParams:productParams]
+             presentStoreKitViewWithProductParameters:cleanedParams
              adFormat:self.adFormat == HyBidAdFormatBanner
              ? HyBidReportingAdFormat.BANNER
              : self.adFormat == HyBidAdFormatInterstitial
@@ -2527,7 +2553,7 @@ typedef enum {
 }
 
 - (void)endCardViewReplayButtonClicked {
-    
+    self.interruptionHandlerActivated = NO;
     self.adHasBeenReplayed = YES;
     [self invokeDidVASTPlayerReplay];
     [self removeElementsForReplay];

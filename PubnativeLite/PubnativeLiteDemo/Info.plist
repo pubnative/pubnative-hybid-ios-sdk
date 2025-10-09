@@ -47,9 +47,9 @@
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Location is used for testing purposes.</string>
+	<string>Location data is used to include geo-related parameters (UTC offset and accuracy) in ad requests for testing and demonstration purposes. This helps verify SDK functionality for location-enabled ad targeting and bidstream enhancements</string>
 	<key>NSUserTrackingUsageDescription</key>
-	<string>Tracking is used for testing purposes.</string>
+	<string>Tracking is used to measure and validate ad performance while testing HyBid SDK features, such as rendering and tracking ads</string>
 	<key>SKAdNetworkItems</key>
 	<array>
 		<dict>

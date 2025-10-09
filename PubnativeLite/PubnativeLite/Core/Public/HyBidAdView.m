@@ -426,23 +426,6 @@
 
 - (void)stopTracking {
     [self.adPresenter stopTracking];
-    //[self stopSKANImpressionTracking];
-}
-
-- (void)stopSKANImpressionTracking {
-    if (self.skanImpressionTimer) {
-        [self.skanImpressionTimer invalidate];
-        self.skanImpressionTimer = nil;
-    }
-    
-    [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@" Stopping viewthrough attribution impression"];
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 140500
-    [[HyBidAdImpression sharedInstance] endSKANImpressionForAd:self.ad];
-#endif
-    
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 170400
-    [[HyBidAdImpression sharedInstance] endAAKImpressionForAd:self.ad adFormat:HyBidReportingAdFormat.BANNER];
-#endif
 }
 
 - (HyBidAdPresenter *)createAdPresenter {
@@ -613,10 +596,19 @@
         }
     }
     
-    [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@" Viewthrough attribution impression end timer set for 4 seconds."];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.skanImpressionTimer = [NSTimer scheduledTimerWithTimeInterval:4.0 target:self selector:@selector(stopSKANImpressionTracking) userInfo:nil repeats:NO];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self stopSKANImpressionTracking];
     });
+}
+
+- (void) stopSKANImpressionTracking {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 140500
+    [[HyBidAdImpression sharedInstance] endSKANImpressionForAd:self.ad];
+#endif
+    
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 170400
+    [[HyBidAdImpression sharedInstance] endAAKImpressionForAd:self.ad adFormat:HyBidReportingAdFormat.BANNER];
+#endif
 }
 
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error {

@@ -64,16 +64,22 @@
 
 + (NSNumber *)getNSNumberFromString:(NSString *)string
 {
-    if (string == nil || [string length] == 0) {
+    if (string == nil || string.length == 0) {
+        return nil;
+    }
+
+    NSString *trimmed = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if (trimmed.length == 0) {
         return nil;
     }
 
     NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
     numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
-    NSNumber *number = [numberFormatter numberFromString:string];
 
+    NSNumber *number = [numberFormatter numberFromString:trimmed];
     return number;
 }
+
 
 + (NSDictionary *)cleanUpProductParams:(NSDictionary *)productParams {
     NSMutableDictionary* cleanDictionary = [productParams mutableCopy];

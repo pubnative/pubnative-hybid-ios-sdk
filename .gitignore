@@ -18,6 +18,9 @@ iqv.bundle
 !default.perspectivev3
 xcuserdata/
 
+# macOS system files
+.DS_Store
+
 ## Other
 *.moved-aside
 *.xccheckout
@@ -28,6 +31,9 @@ xcuserdata/
 *.ipa
 *.dSYM.zip
 *.dSYM
+
+# CircleCI will re-resolve pods
+Podfile.lock
 
 # CocoaPods
 #

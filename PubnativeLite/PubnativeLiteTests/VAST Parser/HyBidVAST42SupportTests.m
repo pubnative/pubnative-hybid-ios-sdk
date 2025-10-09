@@ -29,7 +29,7 @@
 
     NSData *vastData = [[self readFromTxtFileNamed:@"vast_4_20_example"] dataUsingEncoding:NSUTF8StringEncoding];
 
-    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError *vastError) {
+    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError vastError) {
         XCTAssertNotNil(vastModel);
 
         HyBidVASTAd *firstAd = [[vastModel ads] firstObject];
@@ -71,7 +71,7 @@
 
     NSData *vastData = [[self readFromTxtFileNamed:@"vast_4_20_example"] dataUsingEncoding:NSUTF8StringEncoding];
 
-    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError *vastError) {
+    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError vastError) {
         XCTAssertNotNil(vastModel);
 
         HyBidVASTAd *firstAd = [[vastModel ads] firstObject];
@@ -108,7 +108,7 @@
 
     NSData *vastData = [[self readFromTxtFileNamed:@"vast_4_20_example"] dataUsingEncoding:NSUTF8StringEncoding];
 
-    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError *vastError) {
+    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError vastError) {
         XCTAssertNotNil(vastModel);
 
         HyBidVASTAd *firstAd = [[vastModel ads] firstObject];
@@ -151,7 +151,7 @@
 
     NSData *vastData = [[self readFromTxtFileNamed:@"vast_4_20_example"] dataUsingEncoding:NSUTF8StringEncoding];
 
-    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError *vastError) {
+    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError vastError) {
         XCTAssertNotNil(vastModel);
 
         HyBidVASTAd *firstAd = [[vastModel ads] firstObject];
@@ -185,7 +185,7 @@
 
     NSData *vastData = [[self readFromTxtFileNamed:@"vast_4_20_example"] dataUsingEncoding:NSUTF8StringEncoding];
 
-    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError *vastError) {
+    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError vastError) {
         XCTAssertNotNil(vastModel);
 
         HyBidVASTAd *firstAd = [[vastModel ads] firstObject];
@@ -248,7 +248,7 @@
 
     NSData *vastData = [[self readFromTxtFileNamed:@"vast_4_20_example"] dataUsingEncoding:NSUTF8StringEncoding];
 
-    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError *vastError) {
+    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError vastError) {
         XCTAssertNotNil(vastModel);
 
         HyBidVASTAd *firstAd = [[vastModel ads] firstObject];
@@ -287,7 +287,7 @@
 
     NSData *vastData = [[self readFromTxtFileNamed:@"vast_4_20_example"] dataUsingEncoding:NSUTF8StringEncoding];
 
-    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError *vastError) {
+    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError vastError) {
         XCTAssertNotNil(vastModel);
 
         HyBidVASTAd *firstAd = [[vastModel ads] firstObject];
@@ -321,7 +321,7 @@
 
     NSData *vastData = [[self readFromTxtFileNamed:@"vast_4_20_example"] dataUsingEncoding:NSUTF8StringEncoding];
 
-    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError *vastError) {
+    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError vastError) {
         XCTAssertNotNil(vastModel);
 
         HyBidVASTAd *firstAd = [[vastModel ads] firstObject];
@@ -380,7 +380,7 @@
 
     NSData *vastData = [[self readFromTxtFileNamed:@"vast_4_20_example"] dataUsingEncoding:NSUTF8StringEncoding];
 
-    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError *vastError) {
+    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError vastError) {
         XCTAssertNotNil(vastModel);
 
         HyBidVASTAd *firstAd = [[vastModel ads] firstObject];
@@ -408,7 +408,7 @@
 
     NSData *vastData = [[self readFromTxtFileNamed:@"vast_4_20_example"] dataUsingEncoding:NSUTF8StringEncoding];
 
-    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError *vastError) {
+    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError vastError) {
         XCTAssertNotNil(vastModel);
 
         HyBidVASTAd *firstAd = [[vastModel ads] firstObject];
@@ -472,7 +472,7 @@
 
     NSData *vastData = [[self readFromTxtFileNamed:@"vast_4_20_example"] dataUsingEncoding:NSUTF8StringEncoding];
 
-    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError *vastError) {
+    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError vastError) {
         XCTAssertNotNil(vastModel);
 
         HyBidVASTAd *firstAd = [[vastModel ads] firstObject];
