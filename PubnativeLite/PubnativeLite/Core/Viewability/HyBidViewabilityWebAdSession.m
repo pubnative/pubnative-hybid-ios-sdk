@@ -8,11 +8,23 @@
 #import "HyBid.h"
 #import <OMSDK_Pubnativenet/OMIDImports.h>
 
+#import "HyBidViewabilityWebAdSession.h"
+#import "HyBidViewabilityManager.h"
+
+#import "HyBidViewabilityWebAdSession.h"
+#import "HyBidViewabilityManager.h"
+
+#if __has_include(<OMSDK_Pubnativenet/OMIDImports.h>)
+    #import <OMSDK_Pubnativenet/OMIDImports.h>
+#endif
+
+#if __has_include(<OMSDK_Smaato/OMIDImports.h>)
+    #import <OMSDK_Smaato/OMIDImports.h>
+#endif
+
 @interface HyBidViewabilityWebAdSession()
-
-@property (nonatomic, strong) OMIDPubnativenetMediaEvents *omidMediaEvents;
-@property (nonatomic, strong) OMIDPubnativenetAdEvents *adEvents;
-
+@property (nonatomic, strong) id omidMediaEvents;
+@property (nonatomic, strong) id adEvents;
 @end
 
 @implementation HyBidViewabilityWebAdSession
@@ -26,64 +38,106 @@
     return sharedInstance;
 }
 
-- (OMIDPubnativenetAdSession *)createOMIDAdSessionforWebView:(WKWebView *)webView isVideoAd:(BOOL)videoAd {
-    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-        return nil;
-    
+- (OMIDAdSessionWrapper*) createOMIDAdSessionforWebView:(WKWebView *)webView isVideoAd:(BOOL)videoAd {
+    if (![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) return nil;
+
     NSError *contextError;
     NSString *customReferenceID = @"";
     NSString *contentUrl = @"";
-    
-    OMIDPubnativenetAdSessionContext *context = [[OMIDPubnativenetAdSessionContext alloc] initWithPartner:[HyBidViewabilityManager sharedInstance].partner
-                                                                                                  webView:webView
-                                                                                               contentUrl:contentUrl
-                                                                                customReferenceIdentifier:customReferenceID
-                                                                                                    error:&contextError];
+
+    id partner = [HyBidViewabilityManager sharedInstance].partner;
+
+    id context = nil;
+
+    if ([HyBid getIntegrationType] == SDKIntegrationTypeHyBid) {
+        #if __has_include(<OMSDK_Pubnativenet/OMIDImports.h>)
+        context = [[OMIDPubnativenetAdSessionContext alloc] initWithPartner:partner
+                                                                   webView:webView
+                                                                contentUrl:contentUrl
+                                                 customReferenceIdentifier:customReferenceID
+                                                                     error:&contextError];
+        #endif
+    } else if ([HyBid getIntegrationType] == SDKIntegrationTypeSmaato) {
+        #if __has_include(<OMSDK_Smaato/OMIDImports.h>)
+        context = [[OMIDSmaatoAdSessionContext alloc] initWithPartner:partner
+                                                             webView:webView
+                                                          contentUrl:contentUrl
+                                           customReferenceIdentifier:customReferenceID
+                                                               error:&contextError];
+        #endif
+    }
+
     OMIDOwner impressionOwner = (videoAd) ? OMIDJavaScriptOwner : OMIDNativeOwner;
     OMIDOwner mediaEventsOwner = (videoAd) ? OMIDJavaScriptOwner : OMIDNoneOwner;
-    
-    return [self initialseOMIDAdSessionForView:webView withSessionContext:context andImpressionOwner:impressionOwner andMediaEventsOwner:mediaEventsOwner isVideoAd:videoAd];
-}
 
-- (OMIDPubnativenetAdSession *)initialseOMIDAdSessionForView:(id)view
-                                          withSessionContext:(OMIDPubnativenetAdSessionContext*)context
-                                          andImpressionOwner:(OMIDOwner)impressionOwner
-                                         andMediaEventsOwner:(OMIDOwner)mediaEventsOwner
-                                                   isVideoAd:(BOOL)videoAd{
-    NSError *configurationError;
-    OMIDCreativeType creativeType = (videoAd) ? OMIDCreativeTypeDefinedByJavaScript : OMIDCreativeTypeHtmlDisplay;
-    OMIDImpressionType impressionType = (videoAd) ? OMIDImpressionTypeDefinedByJavaScript : OMIDImpressionTypeBeginToRender;
-    
-    OMIDPubnativenetAdSessionConfiguration *config = [[OMIDPubnativenetAdSessionConfiguration alloc] initWithCreativeType:creativeType
-                                                                                                           impressionType:impressionType
-                                                                                                          impressionOwner:impressionOwner
-                                                                                                         mediaEventsOwner:mediaEventsOwner
-                                                                                               isolateVerificationScripts:NO
-                                                                                                                    error:&configurationError];
+    id config = nil;
+
+    if ([HyBid getIntegrationType] == SDKIntegrationTypeHyBid) {
+        #if __has_include(<OMSDK_Pubnativenet/OMIDImports.h>)
+        config = [[OMIDPubnativenetAdSessionConfiguration alloc] initWithCreativeType:OMIDCreativeTypeHtmlDisplay
+                                                                      impressionType:OMIDImpressionTypeBeginToRender
+                                                                     impressionOwner:impressionOwner
+                                                                    mediaEventsOwner:mediaEventsOwner
+                                                          isolateVerificationScripts:NO
+                                                                               error:&contextError];
+        #endif
+    } else if ([HyBid getIntegrationType] == SDKIntegrationTypeSmaato) {
+        #if __has_include(<OMSDK_Smaato/OMIDImports.h>)
+        config = [[OMIDSmaatoAdSessionConfiguration alloc] initWithCreativeType:OMIDCreativeTypeHtmlDisplay
+                                                                  impressionType:OMIDImpressionTypeBeginToRender
+                                                                 impressionOwner:impressionOwner
+                                                                mediaEventsOwner:mediaEventsOwner
+                                                      isolateVerificationScripts:NO
+                                                                           error:&contextError];
+        #endif
+    }
+
     NSError *sessionError;
-    OMIDPubnativenetAdSession *omidAdSession = [[OMIDPubnativenetAdSession alloc] initWithConfiguration:config
-                                                                                       adSessionContext:context
-                                                                                                  error:&sessionError];
-    
-    omidAdSession.mainAdView = view;
-    
-    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.AD_SESSION_INITIALIZED];
+    id omidAdSession = nil;
 
-    return omidAdSession;
+    if ([HyBid getIntegrationType] == SDKIntegrationTypeHyBid) {
+        #if __has_include(<OMSDK_Pubnativenet/OMIDImports.h>)
+        omidAdSession = [[OMIDPubnativenetAdSession alloc] initWithConfiguration:config
+                                                               adSessionContext:context
+                                                                          error:&sessionError];
+        #endif
+    } else if ([HyBid getIntegrationType] == SDKIntegrationTypeSmaato) {
+        #if __has_include(<OMSDK_Smaato/OMIDImports.h>)
+        omidAdSession = [[OMIDSmaatoAdSession alloc] initWithConfiguration:config
+                                                           adSessionContext:context
+                                                                      error:&sessionError];
+        #endif
+    }
+
+    [[HyBidViewabilityManager sharedInstance] reportEvent:HyBidReportingEventType.AD_SESSION_INITIALIZED];
+
+    if (omidAdSession) {
+        [omidAdSession setMainAdView:webView];
+        return [[OMIDAdSessionWrapper alloc] initWithAdSession:omidAdSession];
+    }
+
+    return nil;
 }
 
-
-- (void)fireOMIDAdLoadEvent:(OMIDPubnativenetAdSession *)omidAdSession {
+- (void)fireOMIDAdLoadEvent:(id)omidAdSession {
     [super fireOMIDAdLoadEvent:omidAdSession];
-    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-    return;
+    if (![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) return;
     
-    if(omidAdSession != nil){
-        self.adEvents = [[HyBidViewabilityManager sharedInstance]getAdEvents:omidAdSession];
-        
+    if (omidAdSession) {
+        self.adEvents = [[HyBidViewabilityManager sharedInstance] getAdEvents:omidAdSession];
+
         NSError *loadedError;
-        [self.adEvents loadedWithError:&loadedError];
-        
+        if (self.adEvents) {
+            if ([HyBid getIntegrationType] == SDKIntegrationTypeHyBid) {
+                #if __has_include(<OMSDK_Pubnativenet/OMIDImports.h>)
+                [(OMIDPubnativenetAdEvents *)self.adEvents loadedWithError:&loadedError];
+                #endif
+            } else if ([HyBid getIntegrationType] == SDKIntegrationTypeSmaato) {
+                #if __has_include(<OMSDK_Smaato/OMIDImports.h>)
+                [(OMIDSmaatoAdEvents *)self.adEvents loadedWithError:&loadedError];
+                #endif
+            }
+        }
     }
 }
 

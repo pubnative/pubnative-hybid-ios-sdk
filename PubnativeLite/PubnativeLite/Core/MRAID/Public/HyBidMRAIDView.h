@@ -23,13 +23,19 @@
 - (void)mraidViewWillExpand:(HyBidMRAIDView *)mraidView;
 - (void)mraidViewDidClose:(HyBidMRAIDView *)mraidView;
 - (void)mraidViewNavigate:(HyBidMRAIDView *)mraidView withURL:(NSURL *)url;
+- (void)mraidViewWillShowEndCard:(HyBidMRAIDView *)mraidView
+                 isCustomEndCard:(BOOL)isCustomEndCard
+               skOverlayDelegate:(id<HyBidSKOverlayDelegate>)skOverlayDelegate;
+- (void)mraidViewDidPresentCustomEndCard:(HyBidMRAIDView *)mraidView;
+- (void)mraidViewAutoStoreKitDidShowWithClickType:(HyBidStorekitAutomaticClickType)clickType;
+- (void)mraidViewDidShowSKOverlayWithClickType:(HyBidSKOverlayAutomaticCLickType)clickType;
 
 // This callback is to ask permission to resize an ad.
 - (BOOL)mraidViewShouldResize:(HyBidMRAIDView *)mraidView toPosition:(CGRect)position allowOffscreen:(BOOL)allowOffscreen;
 
 @end
 
-@interface HyBidMRAIDView : UIView
+@interface HyBidMRAIDView : UIView <HyBidSKOverlayDelegate>
 
 @property (nonatomic, strong) id<HyBidMRAIDViewDelegate> delegate;
 @property (nonatomic, strong) id<HyBidMRAIDServiceDelegate> serviceDelegate;

@@ -6,17 +6,21 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "HyBidViewabilityManager.h"
+#import "OMIDAdSessionWrapper.h"
 
 @interface HyBidViewabilityAdSession : NSObject
 
-+ (instancetype)sharedInstance;
-- (void)startOMIDAdSession:(OMIDPubnativenetAdSession *)omidAdSession;
-- (void)stopOMIDAdSession:(OMIDPubnativenetAdSession *)omidAdSession;
-- (void)fireOMIDImpressionOccuredEvent:(OMIDPubnativenetAdSession*)omidAdSession;
-- (void)fireOMIDAdLoadEvent:(OMIDPubnativenetAdSession*)omidAdSession;
-- (void)addFriendlyObstruction:(UIView *)view
-               toOMIDAdSession:(OMIDPubnativenetAdSession*)omidAdSession
-                    withReason:(NSString *)reasonForFriendlyObstruction
++ (instancetype _Nonnull)sharedInstance;
+
+- (void)startOMIDAdSession:(OMIDAdSessionWrapper * _Nonnull)omidAdSessionWrapper;
+- (void)stopOMIDAdSession:(OMIDAdSessionWrapper * _Nonnull)omidAdSessionWrapper;
+- (void)fireOMIDImpressionOccuredEvent:(OMIDAdSessionWrapper * _Nonnull)omidAdSessionWrapper;
+- (void)fireOMIDAdLoadEvent:(OMIDAdSessionWrapper * _Nonnull)omidAdSessionWrapper;
+- (void)addFriendlyObstruction:(UIView * _Nonnull)view
+               toOMIDAdSession:(OMIDAdSessionWrapper * _Nonnull)omidAdSessionWrapper
+                    withReason:(NSString * _Nonnull)reasonForFriendlyObstruction
                 isInterstitial:(BOOL)isInterstitial;
+
 @end
+
+

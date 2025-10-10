@@ -78,16 +78,20 @@ NSString *const PNLiteAdCustomCTAEndCardClick = @"custom_cta_endcard_click";
             withCustomEndcardClickURLs:(NSArray *)customEndcardClickURLs
                  withCustomCTATracking:(HyBidCustomCTATracking *)customCTATracking
                                  forAd:(HyBidAd *)ad {
-    self.trackedURLsDictionary = [NSMutableDictionary new];
-    self.ad = ad;
     HyBidAdTrackerRequest *adTrackerRequest = [[HyBidAdTrackerRequest alloc] init];
-    return [self initWithAdTrackerRequest:adTrackerRequest
+
+    self = [self initWithAdTrackerRequest:adTrackerRequest
                        withImpressionURLs:impressionURLs
           withCustomEndcardImpressionURLs:customEndcardImpressionURLs
                             withClickURLs:clickURLs
                withCustomEndcardClickURLs:customEndcardClickURLs
-                    withCustomCTATracking:customCTATracking
-    ];
+                    withCustomCTATracking:customCTATracking];
+    if (!self) { return nil; }
+
+    self.trackedURLsDictionary = [NSMutableDictionary new];
+    self.ad = ad;
+
+    return self;
 }
 
 - (instancetype)initWithAdTrackerRequest:(HyBidAdTrackerRequest *)adTrackerRequest
@@ -103,10 +107,22 @@ NSString *const PNLiteAdCustomCTAEndCardClick = @"custom_cta_endcard_click";
         self.customEndcardImpressionURLs = customEndcardImpressionURLs;
         self.clickURLs = clickURLs;
         self.customEndcardClickURLs = customEndcardClickURLs;
-        self.wkWebView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:[WKWebViewConfiguration new]];
         self.customCTATracking = customCTATracking;
     }
     return self;
+}
+
+- (WKWebView *)wkWebView {
+    if (!_wkWebView) {
+        if ([NSThread isMainThread]) {
+            _wkWebView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:[WKWebViewConfiguration new]];
+        } else {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                _wkWebView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:[WKWebViewConfiguration new]];
+            });
+        }
+    }
+    return _wkWebView;
 }
 
 - (void)trackClickWithAdFormat:(NSString *)adFormat {

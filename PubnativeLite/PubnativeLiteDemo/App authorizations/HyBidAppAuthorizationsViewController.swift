@@ -115,21 +115,34 @@ extension HyBidAppAuthorizationsViewController: UITableViewDelegate, UITableView
     }
     
     private func setCellButtonAction(appAuthorization: HyBidAppAuthorization){
-        var action: UIAlertAction?
+        let isTrackingNotDetermined = (appAuthorization.type == .tracking && appAuthorization.status == .notDetermined)
+
+        if isTrackingNotDetermined {
+            let title = "Status - \(appAuthorization.status.rawValue)"
+            let message = "Do you want to set the \(appAuthorization.type) authorization status?"
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            let continueAction = UIAlertAction(title: "Continue", style: .default) { [weak self] _ in
+                self?.requestTrackingAuthorization()
+            }
+            alert.addAction(continueAction)
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
+
         let message = appAuthorization.status == .notDetermined ?
         "Do you want to set the \(appAuthorization.type) authorization status?" :
         "Do you want to change the \(appAuthorization.type) authorization status? (you'll be redirected to the config section)"
-        
-        action = getAlertActionBaseOn(type: appAuthorization.type, isAuthorizationNotDetermined: appAuthorization.status == .notDetermined)
-        
-        self.showCustomAlert(title: "Status - \(appAuthorization.status.rawValue)", message: message,firstAction: action, secondAction: cancelAction)
+
+        let action = getAlertActionBaseOn(type: appAuthorization.type, isAuthorizationNotDetermined: appAuthorization.status == .notDetermined)
+
+        self.showCustomAlert(title: "Status - \(appAuthorization.status.rawValue)", message: message, firstAction: action, secondAction: cancelAction)
     }
     
     private func getAlertActionBaseOn(type: HyBidAppAuthorizationType, isAuthorizationNotDetermined: Bool) -> UIAlertAction? {
         var action: UIAlertAction?
         
         if isAuthorizationNotDetermined {
-            action = UIAlertAction(title: "Request \(type)", style: .default) { [weak self] _ in
+            action = UIAlertAction(title: "Continue", style: .default) { [weak self] _ in
                 switch type {
                 case .location:
                     self?.requestLocationAuthorization()

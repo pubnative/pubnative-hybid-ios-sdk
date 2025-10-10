@@ -14,7 +14,7 @@
 #import "HyBidSignalDataModel.h"
 #import "PNLiteHttpRequest.h"
 #import "HyBidError.h"
-#import "HyBidVASTEndCardManager.h"
+#import "HyBidEndCardManager.h"
 #import "HyBidVASTEventProcessor.h"
 #import "HyBidVASTParserError.h"
 
@@ -36,7 +36,7 @@ NSInteger const HyBidSignalDataResponseStatusRequestMalformed = 422;
 
 @property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, strong) HyBidSignalDataModel *signalDataModel;
-@property (nonatomic, strong) HyBidVASTEndCardManager *endCardManager;
+@property (nonatomic, strong) HyBidEndCardManager *endCardManager;
 
 @end
 
@@ -52,7 +52,7 @@ NSInteger const HyBidSignalDataResponseStatusRequestMalformed = 422;
 {
     self = [super init];
     if (self) {
-        self.endCardManager = [[HyBidVASTEndCardManager alloc] init];
+        self.endCardManager = [[HyBidEndCardManager alloc] init];
     }
     return self;
 }
@@ -146,35 +146,37 @@ NSInteger const HyBidSignalDataResponseStatusRequestMalformed = 422;
                             HyBidVASTEventProcessor *vastEventProcessor = [[HyBidVASTEventProcessor alloc] init];
                             [vastEventProcessor sendVASTUrls: error.errorTagURLs withType:HyBidVASTParserErrorURL];
                         } else {
-                            NSArray *endCards = [self fetchEndCardsFromVastAd:vastModel.ads.firstObject];
-                            if ([ad.endcardEnabled boolValue] || (ad.endcardEnabled == nil && HyBidConstants.showEndCard)) {
-                                if ([endCards count] > 0) {
-                                    [ad setHasEndCard:YES];
-                                    if ([ad.customEndcardEnabled boolValue] || (ad.customEndcardEnabled == nil && HyBidConstants.showCustomEndCard)) {
-                                        if ([self customEndcardDisplayBehaviourFromString:ad.customEndcardDisplay] == HyBidCustomEndcardDisplayExtention || (ad.customEndcardDisplay == nil && HyBidConstants.customEndcardDisplay == HyBidCustomEndcardDisplayExtention)) {
+                            [self fetchEndCardsFromVastAd:vastModel.ads.firstObject completion:^(NSArray<HyBidEndCard *> *endCards) {
+                                if ([ad.endcardEnabled boolValue] || (ad.endcardEnabled == nil && HyBidConstants.showEndCard)) {
+                                    if (endCards && [endCards count] > 0) {
+                                        [ad setHasEndCard:YES];
+                                        if ([ad.customEndcardEnabled boolValue] || (ad.customEndcardEnabled == nil && HyBidConstants.showCustomEndCard)) {
+                                            if ([self customEndcardDisplayBehaviourFromString:ad.customEndcardDisplay] == HyBidCustomEndcardDisplayExtention || (ad.customEndcardDisplay == nil && HyBidConstants.customEndcardDisplay == HyBidCustomEndcardDisplayExtention)) {
+                                                if (ad.customEndCardData && ad.customEndCardData.length > 0) {
+                                                    [ad setHasCustomEndCard:YES];
+                                                }
+                                            }
+                                        }
+                                    } else if (!endCards || [endCards count] == 0) {
+                                        if ([ad.customEndcardEnabled boolValue] || (ad.customEndcardEnabled == nil && HyBidConstants.showCustomEndCard)) {
                                             if (ad.customEndCardData && ad.customEndCardData.length > 0) {
                                                 [ad setHasCustomEndCard:YES];
                                             }
                                         }
                                     }
-                                } else if ([endCards count] == 0) {
+                                } else if (ad.endcardEnabled != nil || (ad.endcardEnabled == nil && !HyBidConstants.showEndCard)) {
                                     if ([ad.customEndcardEnabled boolValue] || (ad.customEndcardEnabled == nil && HyBidConstants.showCustomEndCard)) {
                                         if (ad.customEndCardData && ad.customEndCardData.length > 0) {
                                             [ad setHasCustomEndCard:YES];
                                         }
                                     }
                                 }
-                            } else if (ad.endcardEnabled != nil || (ad.endcardEnabled == nil && !HyBidConstants.showEndCard)) {
-                                if ([ad.customEndcardEnabled boolValue] || (ad.customEndcardEnabled == nil && HyBidConstants.showCustomEndCard)) {
-                                    if (ad.customEndCardData && ad.customEndCardData.length > 0) {
-                                        [ad setHasCustomEndCard:YES];
-                                    }
-                                }
-                            }
-                            HyBidVideoAdCacheItem *videoAdCacheItem = [[HyBidVideoAdCacheItem alloc] init];
-                            videoAdCacheItem.vastModel = vastModel;
-                            [[HyBidVideoAdCache sharedInstance] putVideoAdCacheItemToCache:videoAdCacheItem withZoneID: self.signalDataModel.tagid];
-                            [self invokeDidLoad:ad];
+                                HyBidVideoAdCacheItem *videoAdCacheItem = [[HyBidVideoAdCacheItem alloc] init];
+                                videoAdCacheItem.vastModel = vastModel;
+                                [[HyBidVideoAdCache sharedInstance] putVideoAdCacheItemToCache:videoAdCacheItem withZoneID: self.signalDataModel.tagid];
+                                [self invokeDidLoad:ad];
+                                
+                            }];
                         }
                     }];
                     break;
@@ -213,33 +215,14 @@ NSInteger const HyBidSignalDataResponseStatusRequestMalformed = 422;
     }
 }
 
-- (NSArray<HyBidVASTEndCard *> *)fetchEndCardsFromVastAd:(HyBidVASTAd *)ad
-{
+- (void)fetchEndCardsFromVastAd:(HyBidVASTAd *)ad completion:(void(^)(NSArray<HyBidEndCard *> * _Nullable endCards))completion {
     if (ad == nil) {
-        return [NSArray new];
+        if (completion) completion(nil);
+        return;
     }
     
     NSArray<HyBidVASTCreative *> *creatives = [[ad inLine] creatives];
-    HyBidVASTCompanionAds *companionAds;
-    
-    for (HyBidVASTCreative *creative in creatives) {
-        if ([creative companionAds] != nil) {
-            companionAds = [creative companionAds];
-            break;
-        }
-    }
-    
-    dispatch_group_t group = dispatch_group_create();
-    for (HyBidVASTCompanion *companion in [companionAds companions]) {
-        dispatch_group_enter(group);
-        [self.endCardManager addCompanion:companion completion:^{
-            dispatch_group_leave(group);
-        }];
-    }
-    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
-    
-    NSArray *endCards = [self.endCardManager endCards];
-    return [[NSArray alloc] initWithArray:endCards];
+    [self.endCardManager fetchEndCardsFromCreatives:creatives completion:completion];
 }
 
 #pragma mark PNLiteHttpRequestDelegate

@@ -89,7 +89,7 @@
 }
 
 - (BOOL)boolean {
-    return [[self numberFieldWithKey:PNLiteData.boolean] boolValue];
+    return [[self numberFieldWithKey:PNLiteData.boolean] isKindOfClass:[NSNumber class]] ? [[self numberFieldWithKey:PNLiteData.boolean] boolValue] : false;
 }
 
 - (NSString *)stringFieldWithKey:(NSString *)key {

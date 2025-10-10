@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>method</key>
-	<string>development</string>
+	<string>ad-hoc</string>
 	<key>ProvisioningStyle</key>
 	<string>Manual</string>
 	<key>compileBitcode</key>

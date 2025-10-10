@@ -18,6 +18,7 @@
 #import "HyBidSKAdNetworkParameter.h"
 #import "HyBidCustomClickUtil.h"
 #import "HyBidStoreKitUtils.h"
+#import "HyBidDeeplinkHandler.h"
 #import "PNLiteData.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
@@ -73,6 +74,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
     self.fetchDelegate = nil;
     self.sessionReportingProperties = nil;
     self.aakCustomClickAd = nil;
+    [[HyBidInterruptionHandler shared] deactivateContext:HyBidAdContextNativeAd];
 }
 
 #pragma mark HyBidNativeAd
@@ -82,7 +84,8 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
     if (self) {
         self.ad = ad;
         self.sessionReportingProperties = [NSMutableDictionary new];
-        HyBidInterruptionHandler.shared.delegate = self;
+        [[HyBidInterruptionHandler shared] setDelegate:self for:HyBidAdContextNativeAd];
+        [[HyBidInterruptionHandler shared] activateContext:HyBidAdContextNativeAd];
         self.aakCustomClickAd = [[HyBidAdAttributionCustomClickAdsWrapper alloc] initWithAd:self.ad
                                                                                    adFormat:HyBidReportingAdFormat.NATIVE];
     }
@@ -401,6 +404,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
 }
 
 - (void)triggerClickFlow {
+    HyBidDeeplinkHandler *deeplinkHandler = [[HyBidDeeplinkHandler alloc] initWithLink:self.ad.link];
     HyBidSkAdNetworkModel* skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.ad getOpenRTBSkAdNetworkModel] : [self.ad getSkAdNetworkModel];
     
     if (skAdNetworkModel) {
@@ -409,9 +413,16 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
         [HyBidStoreKitUtils insertFidelitiesIntoDictionaryIfNeeded:productParams];
         
         if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams]) {
+            if (deeplinkHandler.isCapable && deeplinkHandler.fallbackURL) {
+                [[HyBidURLDriller alloc] startDrillWithURLString:deeplinkHandler.fallbackURL.absoluteString delegate:self];
+            }
             [[HyBidURLDriller alloc] startDrillWithURLString:self.clickUrl delegate:self];
             
-            [HyBidSKAdNetworkViewController.shared presentStoreKitViewWithProductParameters:[HyBidStoreKitUtils cleanUpProductParams:productParams] adFormat:HyBidReportingAdFormat.NATIVE isAutoStoreKitView:NO ad:self.ad];
+            NSDictionary *cleanedParams = [HyBidStoreKitUtils cleanUpProductParams:productParams];
+            NSLog(@"HyBid SKAN params dictionary: %@", cleanedParams);
+            [HyBidSKAdNetworkViewController.shared presentStoreKitViewWithProductParameters: cleanedParams adFormat:HyBidReportingAdFormat.NATIVE isAutoStoreKitView:NO ad:self.ad];
+        } else if (deeplinkHandler.isCapable) {
+            [deeplinkHandler openWithNavigationType:self.ad.navigationMode];
         } else {
             [self openBrowser:self.clickUrl navigationType:self.ad.navigationMode];
         }
@@ -459,7 +470,14 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
                         WKWebViewConfiguration *wkWebConfig = [[WKWebViewConfiguration alloc] init];
                         wkWebConfig.userContentController = wkUController;
 
-                        WKWebView *webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:wkWebConfig];
+                        __block WKWebView *webView;
+                        if ([NSThread isMainThread]) {
+                            webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:wkWebConfig];
+                        } else {
+                            dispatch_sync(dispatch_get_main_queue(), ^{
+                                webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:wkWebConfig];
+                            });
+                        }
                         webView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
 //                        [webView evaluateJavaScript:beaconJsBlock completionHandler:nil];
                         [webView evaluateJavaScript:beaconJsBlock completionHandler:^(id result, NSError *error) {

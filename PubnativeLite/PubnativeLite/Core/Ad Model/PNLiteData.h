@@ -18,7 +18,7 @@
 + (NSString *)height;
 + (NSString *)jsonData;
 + (NSString *)boolean;
-+ (NSString *)skoverlayEnabled;
++ (NSString *)skOverlayEnabled;
 + (NSString *)pcSKoverlayEnabled;
 + (NSString *)audioState;
 + (NSString *)endcardEnabled;

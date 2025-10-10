@@ -240,8 +240,8 @@ typedef enum : NSUInteger {
 
 - (void)presentWithAd:(HyBidAd *)ad {
     self.isSecondViewPrepared = NO;
-    if (ad.skoverlayEnabled) {
-        if ([ad.skoverlayEnabled boolValue]) {
+    if (ad.skOverlayEnabled) {
+        if ([ad.skOverlayEnabled boolValue]) {
             [self checkSKOverlayAvailabilityAndPresent];
         }
     }
@@ -309,8 +309,8 @@ typedef enum : NSUInteger {
 }
 
 - (void)dismissEntirely:(BOOL)completed withAd:(HyBidAd *)ad causedByAutoCloseTimerCompletion:(BOOL)autoCloseTimerCompleted {
-    if (ad.skoverlayEnabled) {
-        if ([ad.skoverlayEnabled boolValue]) {
+    if (ad.skOverlayEnabled) {
+        if ([ad.skOverlayEnabled boolValue]) {
             [self checkSKOverlayAvailabilityAndDismiss:completed causedByAutoCloseTimerCompletion:autoCloseTimerCompleted];
         }
     } 
@@ -593,8 +593,8 @@ typedef enum : NSUInteger {
             self.isOverlayShown = YES;
         }
         
-        if (self.delegate && [self.delegate respondsToSelector:@selector(skoverlayDidShowOnCreative:)]){
-            [self.delegate skoverlayDidShowOnCreative:!self.hasBeenPresented];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(skOverlayDidShowOnCreative:)]){
+            [self.delegate skOverlayDidShowOnCreative:!self.hasBeenPresented];
             self.hasBeenPresented = YES;
         }
     }
@@ -707,7 +707,7 @@ typedef enum : NSUInteger {
     [self dismissEntirely:NO withAd:self.ad causedByAutoCloseTimerCompletion:NO];
 }
 
-- (void)vastEndCardWillShow {
+- (void)endCardWillShow {
     self.endCardReadyToShow = YES;
     self.onTopOf = HyBidOnTopOfTypeCOMPANION_AD;
     [self updateTimerStateWithRemainingSeconds:[self getRemainingTimeForTimerType:HyBidSKOverlayTimerType_EndCardDelay]
@@ -715,7 +715,7 @@ typedef enum : NSUInteger {
                                   forTimerType:HyBidSKOverlayTimerType_EndCardDelay];
 }
 
-- (void)vastCustomEndCardWillShow {
+- (void)customEndCardWillShow {
     self.endCardReadyToShow = YES;
     self.onTopOf = HyBidOnTopOfTypeCUSTOM_ENDCARD;
     [self updateTimerStateWithRemainingSeconds:[self getRemainingTimeForTimerType:HyBidSKOverlayTimerType_EndCardDelay]

@@ -6,7 +6,7 @@
 
 #import "HyBidViewabilityAdSession.h"
 #import "HyBid.h"
-#import <OMSDK_Pubnativenet/OMIDImports.h>
+#import "HyBidViewabilityManager.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -16,68 +16,85 @@
     #import "HyBid-Swift.h"
 #endif
 
+#if __has_include(<OMSDK_Pubnativenet/OMIDImports.h>)
+    #import <OMSDK_Pubnativenet/OMIDImports.h>
+#endif
+
+#if __has_include(<OMSDK_Smaato/OMIDImports.h>)
+    #import <OMSDK_Smaato/OMIDImports.h>
+#endif
+
 @implementation HyBidViewabilityAdSession
 
 + (instancetype)sharedInstance {
-    return nil;
+    static HyBidViewabilityAdSession *sharedInstance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[HyBidViewabilityAdSession alloc] init];
+    });
+    return sharedInstance;
 }
 
-- (void)startOMIDAdSession:(OMIDPubnativenetAdSession *)omidAdSession {
-    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-        return;
-    
-    if(omidAdSession){
-        [omidAdSession start];
-        [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.AD_SESSION_STARTED];
+- (void)startOMIDAdSession:(OMIDAdSessionWrapper * _Nonnull)omidAdSessionWrapper {
+    if (![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) return;
+
+    if (omidAdSessionWrapper) {
+        [omidAdSessionWrapper startAdSession];
+        [[HyBidViewabilityManager sharedInstance] reportEvent:HyBidReportingEventType.AD_SESSION_STARTED];
     }
 }
 
-- (void)stopOMIDAdSession:(OMIDPubnativenetAdSession *)omidAdSession {
-    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-        return;
-    
-    if(omidAdSession){
-        [omidAdSession finish];
-        [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.AD_SESSION_STOPPED];
-        omidAdSession = nil;
+- (void)stopOMIDAdSession:(OMIDAdSessionWrapper * _Nonnull)omidAdSessionWrapper {
+    if (![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) return;
+
+    if (omidAdSessionWrapper) {
+        [omidAdSessionWrapper stopAdSession];
+        [[HyBidViewabilityManager sharedInstance] reportEvent:HyBidReportingEventType.AD_SESSION_STOPPED];
     }
 }
 
-- (void)fireOMIDImpressionOccuredEvent:(OMIDPubnativenetAdSession *)omidAdSession {
-    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-        return;
-    
-    if(omidAdSession != nil){
-        OMIDPubnativenetAdEvents* adEvents = [[HyBidViewabilityManager sharedInstance]getAdEvents:omidAdSession];
-        NSError *impressionError;
-        [adEvents impressionOccurredWithError:&impressionError];
-    }
-    
-    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.OMID_IMPRESSION];
-}
+- (void)fireOMIDImpressionOccuredEvent:(OMIDAdSessionWrapper * _Nonnull)omidAdSessionWrapper {
+    if (![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) return;
 
-- (void)fireOMIDAdLoadEvent:(OMIDPubnativenetAdSession *)omidAdSession {
-    [[HyBidViewabilityManager sharedInstance]reportEvent:HyBidReportingEventType.AD_SESSION_LOADED];
-}
+    if (omidAdSessionWrapper) {
+        id adEvents = [[HyBidViewabilityManager sharedInstance] getAdEvents:omidAdSessionWrapper];
 
-- (void)addFriendlyObstruction:(UIView *)view toOMIDAdSession:(OMIDPubnativenetAdSession *)omidAdSession withReason:(NSString *)reasonForFriendlyObstruction isInterstitial:(BOOL)isInterstitial {
-    
-    if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
-        return;
-    
-    if(omidAdSession != nil){
-        NSError *addFriendlyObstructionError;
-        if (isInterstitial) {
-            [omidAdSession addFriendlyObstruction:view
-                                          purpose:OMIDFriendlyObstructionCloseAd
-                                   detailedReason:reasonForFriendlyObstruction
-                                            error:&addFriendlyObstructionError];
-        } else {
-            [omidAdSession addFriendlyObstruction:view
-                                          purpose:OMIDFriendlyObstructionOther
-                                   detailedReason:reasonForFriendlyObstruction
-                                            error:&addFriendlyObstructionError];
+        if (adEvents) {
+            NSError *impressionError = nil;
+
+            if ([HyBid getIntegrationType] == SDKIntegrationTypeHyBid) {
+                #if __has_include(<OMSDK_Pubnativenet/OMIDImports.h>)
+                [(OMIDPubnativenetAdEvents *)adEvents impressionOccurredWithError:&impressionError];
+                #endif
+            } else if ([HyBid getIntegrationType] == SDKIntegrationTypeSmaato) {
+                #if __has_include(<OMSDK_Smaato/OMIDImports.h>)
+                [(OMIDSmaatoAdEvents *)adEvents impressionOccurredWithError:&impressionError];
+                #endif
+            }
         }
+    }
+
+    [[HyBidViewabilityManager sharedInstance] reportEvent:HyBidReportingEventType.OMID_IMPRESSION];
+}
+
+- (void)fireOMIDAdLoadEvent:(OMIDAdSessionWrapper * _Nonnull)omidAdSessionWrapper {
+    if (![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) return;
+
+    if (omidAdSessionWrapper) {
+        [omidAdSessionWrapper fireAdLoadEvent];
+    }
+    [[HyBidViewabilityManager sharedInstance] reportEvent:HyBidReportingEventType.AD_SESSION_LOADED];
+}
+
+- (void)addFriendlyObstruction:(UIView * _Nonnull)view
+               toOMIDAdSession:(OMIDAdSessionWrapper * _Nonnull)omidAdSessionWrapper
+                    withReason:(NSString * _Nonnull)reasonForFriendlyObstruction
+                isInterstitial:(BOOL)isInterstitial {
+    
+    if (![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) return;
+
+    if (omidAdSessionWrapper) {
+        [omidAdSessionWrapper addFriendlyObstruction:view withReason:reasonForFriendlyObstruction isInterstitial:isInterstitial]; 
     }
 }
 

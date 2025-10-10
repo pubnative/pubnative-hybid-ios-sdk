@@ -4,7 +4,7 @@
 // https://github.com/pubnative/pubnative-hybid-ios-sdk/blob/main/LICENSE
 //
 
-import Foundation
+import UIKit
 
 extension UIViewController {
     

@@ -117,6 +117,7 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import "HyBidConfigManager.h"
 #import "NSUserDefaults+HyBidCustomMethods.h"
 #import "HyBidSKOverlayDelegate.h"
+#import "ATOMManager.h"
 
 // For swift compatibility, we are making this file public instead of private
 // Avoid using custom module map
@@ -130,6 +131,11 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 @class HyBidTargetingModel;
 @class HyBidReportingManager;
 @class HyBidAdAttributionCustomClickAdsWrapper;
+
+typedef NS_ENUM(NSInteger, SDKIntegrationType) {
+    SDKIntegrationTypeHyBid = 0,
+    SDKIntegrationTypeSmaato = 1
+};
 
 typedef enum {
     HyBidAudioStatusMuted,
@@ -194,6 +200,8 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 
 @interface HyBid : NSObject
 
+@property (nonatomic, assign) SDKIntegrationType sdkIntegrationType;
+
 + (void)setCoppa:(BOOL)enabled;
 + (void)setTargeting:(HyBidTargetingModel *)targeting;
 + (void)setTestMode:(BOOL)enabled;
@@ -207,7 +215,11 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 + (NSString*)getSDKVersionInfo;
 + (NSString*)getCustomRequestSignalData;
 + (NSString*)getCustomRequestSignalData:(NSString*) mediationVendorName;
++ (NSString*)getEncodedCustomRequestSignalData;
++ (NSString*)getEncodedCustomRequestSignalData:(NSString*) mediationVendorName;
 + (void)setReporting:(BOOL)enabled;
 + (void)rightToBeForgotten;
++ (void)setIntegrationType:(SDKIntegrationType)integrationType;
++ (SDKIntegrationType)getIntegrationType;
 
 @end

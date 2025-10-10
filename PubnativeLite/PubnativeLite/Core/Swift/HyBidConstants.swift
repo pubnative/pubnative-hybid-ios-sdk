@@ -11,11 +11,17 @@ public class HyBidConstants: NSObject {
     
     @objc public static let HYBID_SDK_NAME = "HyBid"
     @objc public static let HYBID_OMSDK_VERSION = "1.5.4"
-    @objc public static let HYBID_SDK_VERSION = "3.6.1"
+    @objc public static let HYBID_SDK_VERSION = "3.7.0"
+    @objc public static let SMAATO_SDK_VERSION = "23.0.0"
     @objc public static let HYBID_OMSDK_IDENTIFIER = "Pubnativenet"
+    @objc public static let SMAATO_OMSDK_IDENTIFIER = "Smaato"
+    @objc public static let SMAATO_OMSDK_VERSION = "1.5.2"
     @objc public static let RENDERING_SUCCESS = "rendering success"
     @objc public static let AD_SESSION_DATA = "ad_session_data"
     @objc public static let PERCENT_VISIBLE = "percentVisible"
+    @objc public static let HYBID_DEEPLINK_SCHEME = "vrvdl"
+    @objc public static let HYBID_DEEPLINK_PARAM  = "deeplinkUrl"
+    @objc public static let HYBID_FALLBACK_PARAM  = "fallbackUrl"
     
     //Rendering Constants
     @objc public static var mraidExpand: Bool = true
@@ -32,7 +38,6 @@ public class HyBidConstants: NSObject {
     @objc public static var videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_VIDEO_SKIP_OFFSET), isCustom: false)
     @objc public static var pcVideoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_PC_VIDEO_SKIP_OFFSET), isCustom: false)
     @objc public static var interstitialActionBehaviour: HyBidInterstitialActionBehaviour = HB_CREATIVE
-    @objc public static var endCardCloseOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_END_CARD_CLOSE_OFFSET), isCustom: false)
     @objc public static var endCardCloseMaxOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_END_CARD_CLOSE_MAX_OFFSET), isCustom: false)
     @objc public static var nativeCloseButtonOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_NATIVE_CLOSE_BUTTON_OFFSET), isCustom: false)
     @objc public static var audioStatus: HyBidAudioStatus = HyBidAudioStatusON
@@ -47,4 +52,16 @@ public class HyBidConstants: NSObject {
     @objc public static var landingPageInputValue: Bool = false
     @objc public static var ctaSizeTypeInputValue: String = String()
     @objc public static var ctaLocationTypeInputValue: String = String()
+    
+    @objc public static func endCardCloseOffset(adExperience: String?) -> HyBidSkipOffset {
+        switch adExperience {
+        case HyBidAdExperiencePerformanceValue:
+            return HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_PC_END_CARD_CLOSE_DELAY), isCustom: false)
+        case HyBidAdExperienceBrandValue:
+            return HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_BC_END_CARD_CLOSE_DELAY), isCustom: false)
+        default:
+            return HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_END_CARD_CLOSE_OFFSET), isCustom: false)
+        }
+        
+    }
 }

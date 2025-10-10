@@ -170,42 +170,7 @@ public class HyBidSettings: NSObject, CLLocationManagerDelegate {
 
     @available(iOS 14.1, *)
     @objc public var connectionType: String {
-        guard let reachability = SCNetworkReachabilityCreateWithName(nil, "www.google.com") else {
-            return "0"
-        }
-
-        var flags = SCNetworkReachabilityFlags()
-        SCNetworkReachabilityGetFlags(reachability, &flags)
-
-        let isReachable = flags.contains(.reachable)
-        let isWWAN = flags.contains(.isWWAN)
-
-        if isReachable {
-            if isWWAN {
-                let networkInfo = CTTelephonyNetworkInfo()
-                
-                guard let carrierType = networkInfo.serviceCurrentRadioAccessTechnology?.values.first else {
-                    return "3"
-                }
-
-                switch carrierType {
-                case CTRadioAccessTechnologyGPRS, CTRadioAccessTechnologyEdge, CTRadioAccessTechnologyCDMA1x:
-                    return "4"
-                case CTRadioAccessTechnologyWCDMA, CTRadioAccessTechnologyHSDPA, CTRadioAccessTechnologyHSUPA, CTRadioAccessTechnologyCDMAEVDORev0, CTRadioAccessTechnologyCDMAEVDORevA, CTRadioAccessTechnologyCDMAEVDORevB, CTRadioAccessTechnologyeHRPD:
-                    return "5"
-                case CTRadioAccessTechnologyLTE:
-                    return "6"
-                case CTRadioAccessTechnologyNRNSA, CTRadioAccessTechnologyNR:
-                    return "7"
-                default:
-                    return "3"
-                }
-            } else {
-                return "2"
-            }
-        } else {
-            return "0"
-        }
+        return HyBidNetworkInfoProvider.shared.connectionTypeCode()
     }
 
     func getOrientationIndependentScreenSize() -> CGSize {

@@ -42,6 +42,7 @@
 @property (nonatomic, strong) HyBidAdSessionData *adSessionData;
 
 @property (nonatomic, weak) NSTimer *autoRefreshTimer;
+@property (nonatomic, strong) NSTimer *skanImpressionTimer;
 @property (nonatomic, assign) BOOL shouldRunAutoRefresh;
 @property (nonatomic, assign) BOOL markup;
 @property (nonatomic, assign) BOOL isUsingOpenRTB;
@@ -54,6 +55,9 @@
 
 - (void)dealloc {
     [self stopTracking];
+    if (self.skanImpressionTimer) {
+        [self stopSKANImpressionTracking];
+    }
     self.ad = nil;
     self.zoneID = nil;
     self.appToken = nil;
@@ -309,7 +313,9 @@
 }
 
 - (void)renderAd {
+    [[HyBidInterruptionHandler shared] activateContext:HyBidAdContextMraidView];
     NSTimeInterval currentTime = [[NSDate date] timeIntervalSince1970];
+    self.initialLoadTimestamp = currentTime;
     NSTimeInterval adExpireTime = self.initialLoadTimestamp + TIME_TO_EXPIRE;
     if (currentTime < adExpireTime) {
         self.adPresenter = [self createAdPresenter];
@@ -420,15 +426,6 @@
 
 - (void)stopTracking {
     [self.adPresenter stopTracking];
-    
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 140500
-    [[HyBidAdImpression sharedInstance] endSKANImpressionForAd:self.ad];
-#endif
-    
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 170400
-    [[HyBidAdImpression sharedInstance] endAAKImpressionForAd:self.ad adFormat:HyBidReportingAdFormat.BANNER];
-#endif
-    
 }
 
 - (HyBidAdPresenter *)createAdPresenter {
@@ -561,7 +558,7 @@
         } else {
             self.ad.adType = kHyBidAdTypeUnsupported;
         }
-        self.adSessionData = [ATOMManager createAdSessionDataFrom:request ad:ad];
+        self.adSessionData = [ATOMManager createAdSessionDataFromRequest:request ad:ad];
         if (self.autoShowOnLoad) {
             [self renderAd];
         } else {
@@ -598,6 +595,20 @@
             }
         }
     }
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self stopSKANImpressionTracking];
+    });
+}
+
+- (void) stopSKANImpressionTracking {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 140500
+    [[HyBidAdImpression sharedInstance] endSKANImpressionForAd:self.ad];
+#endif
+    
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 170400
+    [[HyBidAdImpression sharedInstance] endAAKImpressionForAd:self.ad adFormat:HyBidReportingAdFormat.BANNER];
+#endif
 }
 
 - (void)adPresenter:(HyBidAdPresenter *)adPresenter didFailWithError:(NSError *)error {
@@ -622,7 +633,7 @@
 
 - (void)signalDataDidFinishWithAd:(HyBidAd *)ad {
     self.ad = ad;
-    self.adSessionData = [ATOMManager createAdSessionDataFrom:nil ad:ad];
+    self.adSessionData = [ATOMManager createAdSessionDataFromRequest:nil ad:ad];
     [self renderAdForSignalData];
 }
 

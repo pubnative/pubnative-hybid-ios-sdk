@@ -145,7 +145,7 @@ private typealias HyBidAdSettingsDictionary = Dictionary<String,Any>
                
                [
                 AdSetting(sectionTitle: "Endcard", settingTitle: "Show EndCard", cellType: .switchCell, isChecked: false, remoteConfigName: "endcardenabled", value: HyBidConstants.showEndCard),
-                AdSetting(sectionTitle: "Endcard", settingTitle: "EndCard Close Delay", cellType: .numberFieldCell, isChecked: false, remoteConfigName: "endcard_close_delay", value: HyBidConstants.endCardCloseOffset.offset),
+                AdSetting(sectionTitle: "Endcard", settingTitle: "EndCard Close Delay", cellType: .numberFieldCell, isChecked: false, remoteConfigName: "endcard_close_delay", value: HyBidConstants.endCardCloseOffset(adExperience: .none).offset),
                 AdSetting(sectionTitle: "Endcard", settingTitle: "Custom EndCard", cellType: .switchCell, isChecked: false, remoteConfigName: "custom_endcard_enabled", value: HyBidConstants.showCustomEndCard),
                 AdSetting(sectionTitle: "Endcard", settingTitle: CustomEndcardBehaviorStringTitle, cellType: .segmentedControlCell, isChecked: false, remoteConfigName: "custom_endcard_display", value: stringifyDisplayBehavior(with: HyBidConstants.customEndcardDisplay)),
                 AdSetting(sectionTitle: "Endcard", settingTitle: "Custom EndCard Value", cellType: .textFieldCell, isChecked: true, remoteConfigName: HyBidAdCustomizationKeys.customEndcardInputValue.rawValue, value: HyBidConstants.customEndCardInputValue),

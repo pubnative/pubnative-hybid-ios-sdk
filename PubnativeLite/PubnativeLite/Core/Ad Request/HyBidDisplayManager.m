@@ -17,6 +17,8 @@
 NSString * const DISPLAY_MANAGER_NAME = @"HyBid";
 NSString * const DISPLAY_MANAGER_ENGINE = @"sdkios";
 
+NSString * const SMAATO_DISPLAY_MANAGER_NAME = @"Smaato";
+
 @implementation HyBidDisplayManager
 
 + (NSString*)getDisplayManagerVersion {
@@ -45,6 +47,14 @@ NSString * const DISPLAY_MANAGER_ENGINE = @"sdkios";
 
 + (NSString*)getDisplayManager {
     return DISPLAY_MANAGER_NAME;
+}
+
++ (NSString *)getSmaatoDisplayManager {
+    return SMAATO_DISPLAY_MANAGER_NAME;
+}
+
++ (NSString *)getSmaatoDisplayManagerVersion {
+    return [NSString stringWithFormat:@"sdk_%@", HyBidConstants.SMAATO_SDK_VERSION];
 }
 
 @end

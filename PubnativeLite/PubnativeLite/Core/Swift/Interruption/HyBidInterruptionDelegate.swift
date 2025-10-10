@@ -10,8 +10,8 @@ public protocol HyBidInterruptionDelegate: NSObjectProtocol {
     @objc optional func adHasNoFocus()
     @objc optional func adHasFocus()
     
-    @objc optional func vastEndCardWillShow()
-    @objc optional func vastCustomEndCardWillShow()
+    @objc optional func endCardWillShow()
+    @objc optional func customEndCardWillShow()
     
     @objc optional func willEnterForeground()
     

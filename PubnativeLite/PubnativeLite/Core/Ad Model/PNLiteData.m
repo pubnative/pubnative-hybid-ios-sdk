@@ -18,7 +18,7 @@
 + (NSString *)height { return @"h"; }
 + (NSString *)jsonData { return @"jsondata"; }
 + (NSString *)boolean { return @"boolean"; }
-+ (NSString *)skoverlayEnabled { return @"SKOverlayenabled"; }
++ (NSString *)skOverlayEnabled { return @"SKOverlayenabled"; }
 + (NSString *)pcSKoverlayEnabled { return @"pc_skoverlayenabled"; }
 + (NSString *)audioState { return @"audiostate"; }
 + (NSString *)endcardEnabled { return @"endcardenabled"; }

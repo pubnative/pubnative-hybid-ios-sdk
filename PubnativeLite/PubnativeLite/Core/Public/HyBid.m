@@ -25,6 +25,8 @@ BOOL isInitialized = NO;
 
 @implementation HyBid
 
+static SDKIntegrationType _sdkIntegrationType = SDKIntegrationTypeHyBid;
+
 + (void)setCoppa:(BOOL)enabled {
     [HyBidConsentConfig sharedConfig].coppa = enabled;
 }
@@ -112,6 +114,33 @@ BOOL isInitialized = NO;
     return url.query;
 }
 
++ (NSString*)getEncodedCustomRequestSignalData {
+    return [self encodeToBase64: [self getCustomRequestSignalData]];
+}
+
++ (NSString*)getEncodedCustomRequestSignalData:(NSString*) mediationVendorName {
+    return [self encodeToBase64: [self getCustomRequestSignalData:mediationVendorName]];
+}
+
++ (NSString *)encodeToBase64:(NSString *)string {
+    if (!string) {
+        return @"";
+    }
+    
+    NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
+    if (!data) {
+        return @"";
+    }
+    
+    NSString *base64Encoded = [data base64EncodedStringWithOptions:0];
+    NSString *urlSafe = [[base64Encoded stringByReplacingOccurrencesOfString:@"+" withString:@"-"] stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
+
+    // Optionally remove padding (=), often used for URL-safe Base64
+    urlSafe = [urlSafe stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"="]];
+
+    return urlSafe;
+}
+
 + (void)setReporting:(BOOL)enabled {
     [HyBidSDKConfig sharedConfig].reporting = enabled;
 }
@@ -120,4 +149,15 @@ BOOL isInitialized = NO;
     for (NSString *key in [HyBidGDPR allGDPRKeys]) { [NSUserDefaults.standardUserDefaults removeObjectForKey: key]; }
 }
 
++ (SDKIntegrationType)getIntegrationType {
+    return _sdkIntegrationType;
+}
+
++ (void)setIntegrationType:(SDKIntegrationType)integrationType {
+    if (integrationType == 0) {
+        _sdkIntegrationType = SDKIntegrationTypeHyBid;
+    } else {
+        _sdkIntegrationType = integrationType;
+    }
+}
 @end

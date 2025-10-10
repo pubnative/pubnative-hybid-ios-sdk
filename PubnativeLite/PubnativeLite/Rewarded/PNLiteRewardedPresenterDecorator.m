@@ -24,7 +24,7 @@
 @property (nonatomic, strong) HyBidAdTracker *adTracker;
 @property (nonatomic) NSObject<HyBidRewardedPresenterDelegate> *rewardedPresenterDelegate;
 @property (nonatomic, strong) NSMutableDictionary *errorReportingProperties;
-@property (nonatomic, strong) HyBidSKOverlay *skoverlay;
+@property (nonatomic, strong) HyBidSKOverlay *skOverlay;
 @property (nonatomic, strong) PNLiteImpressionTracker *impressionTracker;
 @property (nonatomic, strong) HyBidCustomCTAView *customCTA;
 
@@ -37,9 +37,9 @@
     self.adTracker = nil;
     self.rewardedPresenterDelegate = nil;
     self.errorReportingProperties = nil;
-    self.skoverlay = nil;
+    self.skOverlay = nil;
     self.customCTA = nil;
-    self.skoverlayDelegate = nil;
+    self.skOverlayDelegate = nil;
 }
 
 - (void)load {
@@ -75,11 +75,11 @@
 
 - (void)rewardedPresenterDidLoad:(HyBidRewardedPresenter *)rewardedPresenter {
     if (self.rewardedPresenterDelegate && [self.rewardedPresenterDelegate respondsToSelector:@selector(rewardedPresenterDidLoad:)]) {
-        if (self.rewardedPresenter.ad.skoverlayEnabled) {
-            if ([self.rewardedPresenter.ad.skoverlayEnabled boolValue]) {
-                self.skoverlay = [[HyBidSKOverlay alloc] initWithAd:rewardedPresenter.ad
+        if (self.rewardedPresenter.ad.skOverlayEnabled) {
+            if ([self.rewardedPresenter.ad.skOverlayEnabled boolValue]) {
+                self.skOverlay = [[HyBidSKOverlay alloc] initWithAd:rewardedPresenter.ad
                                                          isRewarded:YES
-                                                           delegate:rewardedPresenter.skoverlayDelegate];
+                                                           delegate:rewardedPresenter.skOverlayDelegate];
             }
         } 
         [self.rewardedPresenterDelegate rewardedPresenterDidLoad:rewardedPresenter];
@@ -110,8 +110,8 @@
             [self.rewardedPresenterDelegate rewardedPresenterDidShow:rewardedPresenter];
         }
 
-        [self.skoverlay addObservers];
-        [self.skoverlay presentWithAd:rewardedPresenter.ad];
+        [self.skOverlay addObservers];
+        [self.skOverlay presentWithAd:rewardedPresenter.ad];
         [self.customCTA presentCustomCTAWithDelay];
     }
 }
@@ -164,7 +164,7 @@
             [[HyBid reportingManager] reportEventFor:reportingEvent];
         }
         [self.rewardedPresenterDelegate rewardedPresenterDidDismiss:rewardedPresenter];
-        [self.skoverlay dismissEntirely:YES withAd:rewardedPresenter.ad causedByAutoCloseTimerCompletion:NO];
+        [self.skOverlay dismissEntirely:YES withAd:rewardedPresenter.ad causedByAutoCloseTimerCompletion:NO];
     }
     
     if (self.customCTA) {
@@ -200,7 +200,7 @@
 - (void)rewardedPresenterDidDisappear:(HyBidRewardedPresenter *)rewardedPresenter {}
 
 - (void)rewardedPresenterDismissesSKOverlay:(HyBidRewardedPresenter *)rewardedPresenter {
-    [self.skoverlay dismissEntirely:YES withAd:rewardedPresenter.ad causedByAutoCloseTimerCompletion:NO];
+    [self.skOverlay dismissEntirely:YES withAd:rewardedPresenter.ad causedByAutoCloseTimerCompletion:NO];
 }
 
 - (void)rewardedPresenterDismissesCustomCTA:(HyBidRewardedPresenter *)rewardedPresenter {
@@ -209,8 +209,10 @@
     }
 }
 
-- (void)rewardedPresenteWillPresentEndCard:(HyBidRewardedPresenter *)rewardedPresenter skoverlayDelegate:(id<HyBidSKOverlayDelegate>)skoverlayDelegate customCTADelegate:(id<HyBidCustomCTAViewDelegate>)customCTADelegate {
-    [self.skoverlay changeDelegateFor:skoverlayDelegate];
+- (void)rewardedPresenteWillPresentEndCard:(HyBidRewardedPresenter *)rewardedPresenter
+                         skOverlayDelegate:(id<HyBidSKOverlayDelegate>)skOverlayDelegate
+                         customCTADelegate:(id<HyBidCustomCTAViewDelegate>)customCTADelegate {
+    [self.skOverlay changeDelegateFor:skOverlayDelegate];
     [self.customCTA changeDelegateFor:customCTADelegate];
 }
 
@@ -229,10 +231,10 @@
 - (void)rewardedPresenterDidReplay:(HyBidRewardedPresenter *)rewardedPresenter viewController:(UIViewController *)viewController {
     [self rewardedPresenterDismissesSKOverlay:rewardedPresenter];
     
-    if (self.rewardedPresenter.ad.skoverlayEnabled && [self.rewardedPresenter.ad.skoverlayEnabled boolValue]) {
-        self.skoverlay = [[HyBidSKOverlay alloc] initWithAd:rewardedPresenter.ad
+    if (self.rewardedPresenter.ad.skOverlayEnabled && [self.rewardedPresenter.ad.skOverlayEnabled boolValue]) {
+        self.skOverlay = [[HyBidSKOverlay alloc] initWithAd:rewardedPresenter.ad
                                                  isRewarded:YES
-                                                   delegate:rewardedPresenter.skoverlayDelegate];
+                                                   delegate:rewardedPresenter.skOverlayDelegate];
     }
     
     if ([HyBidCustomCTAView isCustomCTAValidWithAd: rewardedPresenter.ad]) {

@@ -5,6 +5,12 @@
       location = "group:PubnativeLite/Scripts"
       name = "Scripts">
       <FileRef
+         location = "group:namespace_xcodeproj.rb">
+      </FileRef>
+      <FileRef
+         location = "group:namespace.sh">
+      </FileRef>
+      <FileRef
          location = "group:hybidtests.sh">
       </FileRef>
       <FileRef

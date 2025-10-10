@@ -12,15 +12,14 @@
 #import "PNLiteProgressLabel.h"
 #import "UIApplication+PNLiteTopViewController.h"
 #import "HyBidViewabilityNativeVideoAdSession.h"
-#import <OMSDK_Pubnativenet/OMIDAdSession.h>
 #import "HyBidAd.h"
 #import "HyBidURLDriller.h"
 #import "HyBidError.h"
 #import "HyBid.h"
 #import "HyBidVASTIconUtils.h"
-#import "HyBidVASTEndCard.h"
-#import "HyBidVASTEndCardManager.h"
-#import "HyBidVASTEndCardView.h"
+#import "HyBidEndCard.h"
+#import "HyBidEndCardManager.h"
+#import "HyBidEndCardView.h"
 #import "UIApplication+PNLiteTopViewController.h"
 #import <StoreKit/SKOverlay.h>
 #import "StoreKit/StoreKit.h"
@@ -32,6 +31,9 @@
 #import "HyBidCustomClickUtil.h"
 #import "HyBidVASTParserError.h"
 #import "HyBidStoreKitUtils.h"
+#import "HyBidDeeplinkHandler.h"
+#import "OMIDAdSessionWrapper.h"
+#import "OMIDVerificationScriptResourceWrapper.h"
 
 #define kContentInfoContainerTag 2343
 
@@ -87,7 +89,7 @@ HyBidCloseButton *closeButton;
 #define HYBID_PNLiteVAST_CLOSE_BUTTON_TAG 1001
 #define kAudioMuteSize 30
 
-@interface PNLiteVASTPlayerViewController ()<HyBidVASTEventProcessorDelegate, HyBidContentInfoViewDelegate, HyBidURLDrillerDelegate, HyBidInterruptionDelegate, HyBidVASTEndCardViewDelegate, HyBidSkipOverlayDelegate, PNLiteOrientationManagerDelegate, HyBidCustomCTAViewDelegate, HyBidSKOverlayDelegate>
+@interface PNLiteVASTPlayerViewController ()<HyBidVASTEventProcessorDelegate, HyBidContentInfoViewDelegate, HyBidURLDrillerDelegate, HyBidInterruptionDelegate, HyBidEndCardViewDelegate, HyBidSkipOverlayDelegate, PNLiteOrientationManagerDelegate, HyBidCustomCTAViewDelegate, HyBidSKOverlayDelegate>
 
 @property (nonatomic, assign) BOOL shown;
 @property (nonatomic, assign) BOOL wantsToPlay;
@@ -115,7 +117,7 @@ HyBidCloseButton *closeButton;
 @property (nonatomic, strong) HyBidContentInfoView *contentInfoView;
 @property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, strong) HyBidSkAdNetworkModel *skAdModel;
-@property (nonatomic, strong) OMIDPubnativenetAdSession *adSession;
+@property (nonatomic, strong) OMIDAdSessionWrapper *adSession;
 
 @property (nonatomic, strong) NSTimer *loadTimer;
 @property (nonatomic, strong) id playbackObserverToken;
@@ -145,9 +147,9 @@ HyBidCloseButton *closeButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewProgressBottomConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewProgressTrailingConstraint;
 
-@property (nonatomic, strong) NSMutableArray<HyBidVASTEndCard *> *endCards;
-@property (nonatomic, strong) HyBidVASTEndCardManager *endCardManager;
-@property (nonatomic, strong) HyBidVASTEndCardView *endCardView;
+@property (nonatomic, strong) NSMutableArray<HyBidEndCard *> *endCards;
+@property (nonatomic, strong) HyBidEndCardManager *endCardManager;
+@property (nonatomic, strong) HyBidEndCardView *endCardView;
 @property (nonatomic, strong) NSMutableArray<NSString *> *vastCompanionsClicksThrough;
 @property (nonatomic) HyBidInterstitialActionBehaviour fullscreenClickabilityBehaviour;
 @property (nonatomic, assign) HyBidCountdownStyle countdownStyle;
@@ -169,8 +171,9 @@ HyBidCloseButton *closeButton;
 @property (nonatomic, assign) BOOL isAutoStoreKit;
 @property (nonatomic, assign) BOOL vastPlayerHasElementOnTop;
 @property (nonatomic, strong) HyBidAdAttributionCustomClickAdsWrapper* aakCustomClickAd;
-@property (nonatomic, strong) HyBidVASTEndCard* currentEndCard;
+@property (nonatomic, strong) HyBidEndCard* currentEndCard;
 @property (nonatomic, assign) BOOL adHasBeenReplayed;
+@property (nonatomic, assign) BOOL interruptionHandlerActivated;
 
 @end
 
@@ -195,9 +198,9 @@ typedef enum {
 
 - (instancetype)init {
     if (self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded) {
-        self = [super initWithNibName:[self nameForResource:@"PNLiteVASTPlayerFullScreenViewController": @"nib"] bundle:[self getBundle]];
+        self = [super initWithNibName:@"PNLiteVASTPlayerFullScreenViewController" bundle:[self getBundle]];
     } else {
-        self = [super initWithNibName:[self nameForResource:@"PNLiteVASTPlayerViewController": @"nib"] bundle:[self getBundle]];
+        self = [super initWithNibName:@"PNLiteVASTPlayerViewController" bundle:[self getBundle]];
     }
     if (self) {
         [HyBidVASTTracker cleanTriggeredTrackersList];
@@ -225,15 +228,15 @@ typedef enum {
             self.muted = [self isAdAudioMuted:HyBidConstants.audioStatus];
         }
     }
-    [self determineSdkAutoStorekitEnabledForAd:self.ad];
+    self.sdkAutoStorekitEnabled = [HyBidSKAdNetworkViewController isAutoStorekitEnabledForAd:self.ad];
     [self setAdAudioMuted:self.muted];
     self.canResize = YES;
-    self.endCardManager = [[HyBidVASTEndCardManager alloc] init];
+    self.endCardManager = [[HyBidEndCardManager alloc] init];
     self.events = [[NSDictionary alloc] init];
     self.progressTrackingEvents = [NSMutableDictionary new];
     self.companionEvents = [[NSMutableDictionary alloc] init];
     self.customCTADelegate = self;
-    self.skoverlayDelegate = self;
+    self.skOverlayDelegate = self;
     self.endCards = [[NSMutableArray alloc] init];
     self.vastCompanionsClicksThrough = [[NSMutableArray alloc] init];
     self.vastCompanionsClicksTracking = [[NSMutableArray alloc] init];
@@ -629,46 +632,57 @@ typedef enum {
 
 - (void)startAdSession {
     if (!self.isAdSessionCreated) {
-        NSMutableArray<OMIDPubnativenetVerificationScriptResource *> *scriptResources = [[NSMutableArray alloc] init];
+        NSMutableArray *scriptResources = [[NSMutableArray alloc] init];
         NSArray<HyBidVASTAd *> *ads = [self.hyBidVastModel ads];
-        
+
         if ([ads count] > 0) {
             HyBidVASTAd *firstAd = [ads firstObject];
-            
-            NSArray<HyBidVASTVerification *> * adVerifications = [[firstAd inLine] adVerifications];
+            NSArray<HyBidVASTVerification *> *adVerifications = [[firstAd inLine] adVerifications];
+
             if (adVerifications) {
                 for (HyBidVASTVerification *verification in adVerifications) {
                     if (verification) {
                         for (HyBidVASTJavaScriptResource *res in [verification javaScriptResource]) {
-                            NSString* urlString = [res url];
-                            NSString* vendor = [verification vendor];
-                            NSString* params = [[verification verificationParameters] content];
+                            NSString *urlString = [res url];
+                            NSString *vendor = [verification vendor];
+                            NSString *params = [[verification verificationParameters] content];
 
-                        if (urlString && [urlString length] != 0 && vendor && [vendor length] != 0 && params && [params length] != 0) {
-                                [scriptResources addObject: [[OMIDPubnativenetVerificationScriptResource alloc] initWithURL:[NSURL URLWithString:urlString] vendorKey:vendor parameters:params]];
+                            if (urlString.length != 0 && vendor.length != 0 && params.length != 0) {
+                                OMIDVerificationScriptResourceWrapper *scriptResource =
+                                    [[OMIDVerificationScriptResourceWrapper alloc] initWithURL:[NSURL URLWithString:urlString]
+                                                                                     vendorKey:vendor
+                                                                                    parameters:params];
+
+                                if (scriptResource.verificationScriptResource) {
+                                    [scriptResources addObject:scriptResource.verificationScriptResource];
+                                }
                             }
                         }
                     }
                 }
             }
         }
-        
+
         self.adSession = [[HyBidViewabilityNativeVideoAdSession sharedInstance] createOMIDAdSessionforNativeVideo:self.view withScript:scriptResources];
-        
+ 
         if (self.contentInfoView) {
             [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.contentInfoView toOMIDAdSession:self.adSession withReason:@"This view is related to Content Info" isInterstitial:(self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded)];
             [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.contentInfoViewContainer toOMIDAdSession:self.adSession withReason:@"This view is related to Content Info" isInterstitial:(self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded)];
         }
         if (self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded) {
-            [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction: self.skipOverlay toOMIDAdSession:self.adSession withReason:@"" isInterstitial:(self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded)];
+            [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.skipOverlay toOMIDAdSession:self.adSession withReason:@"" isInterstitial:(self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded)];
         }
         [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.btnMute toOMIDAdSession:self.adSession withReason:@"This view is related to mute button" isInterstitial:(self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded)];
         [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.btnOpenOffer toOMIDAdSession:self.adSession withReason:@"This view is related to open offer" isInterstitial:(self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded)];
+
         [[HyBidViewabilityNativeVideoAdSession sharedInstance] startOMIDAdSession:self.adSession];
+
         self.isAdSessionCreated = YES;
+
         [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDAdLoadEvent:self.adSession];
     }
 }
+
 
 - (BOOL)isValidToShowCustomCountdown {
     Float64 duration = ([self duration] - (int) [self duration]) > 0.5 ? ((int) [self duration] + 1) : (int) [self duration];
@@ -875,9 +889,10 @@ typedef enum {
         self.vastVideoClicksTracking = nil;
         self.vastImpressions = nil;
         self.progressTrackingEvents = nil;
-        self.skoverlayDelegate = nil;
+        self.skOverlayDelegate = nil;
         self.sdkAutoStorekitEnabled = nil;
         self.hasFiredStartEvent = NO;
+        self.interruptionHandlerActivated = NO;
         self.vastSkipOffset = nil;
         self.aakCustomClickAd = nil;
         [HyBidVASTTracker cleanTriggeredTrackersList];
@@ -888,10 +903,10 @@ typedef enum {
 - (UIImage*)bundledImageNamed:(NSString*)name {
     NSBundle *bundle = [self getBundle];
     // Try getting the regular PNG
-    NSString *imagePath = [bundle pathForResource:[self nameForResource:name :@"png"] ofType:@"png"];
+    NSString *imagePath = [bundle pathForResource:name ofType:@"png"];
     // If nil, let's try to get the combined TIFF, JIC it's enabled
     if(!imagePath) {
-        imagePath = [bundle pathForResource:[self nameForResource:name :@"tiff"] ofType:@"tiff"];
+        imagePath = [bundle pathForResource:name ofType:@"tiff"];
     }
     return [UIImage imageWithContentsOfFile:imagePath];
 }
@@ -1268,6 +1283,7 @@ typedef enum {
 }
 
 - (void)triggerClickFlowWith:(NSDictionary *)trackersDictionary {
+    HyBidDeeplinkHandler *deeplinkHandler = [[HyBidDeeplinkHandler alloc] initWithLink:self.ad.link];
     NSMutableArray<NSString *> *trackingClickURLs = [trackersDictionary objectForKey: @"trackingClickURLs"];
     NSString *throughClickURL = [trackersDictionary objectForKey: @"throughClickURL"];
     
@@ -1287,17 +1303,24 @@ typedef enum {
         [HyBidStoreKitUtils insertFidelitiesIntoDictionaryIfNeeded:productParams];
         
         if ([productParams count] > 0) {
+            if (deeplinkHandler.isCapable && deeplinkHandler.fallbackURL) {
+                [[HyBidURLDriller alloc] startDrillWithURLString:deeplinkHandler.fallbackURL.absoluteString delegate:self];
+            }
             if (throughClickURL != nil) {
                 [[HyBidURLDriller alloc] startDrillWithURLString:throughClickURL delegate:self];
             }
             self.isAutoStoreKit = NO;
-            [HyBidSKAdNetworkViewController.shared presentStoreKitViewWithProductParameters:[HyBidStoreKitUtils cleanUpProductParams:productParams] adFormat:self.adFormat == HyBidAdFormatBanner
+            NSDictionary *cleanedParams = [HyBidStoreKitUtils cleanUpProductParams:productParams];
+            NSLog(@"HyBid SKAN params dictionary: %@", cleanedParams);
+            [HyBidSKAdNetworkViewController.shared presentStoreKitViewWithProductParameters:cleanedParams adFormat:self.adFormat == HyBidAdFormatBanner
                                                             ? HyBidReportingAdFormat.BANNER
                                                             : self.adFormat == HyBidAdFormatInterstitial
                                                                 ? HyBidReportingAdFormat.FULLSCREEN
                                                                 : HyBidReportingAdFormat.REWARDED
                                           isAutoStoreKitView:self.isAutoStoreKit
                                                           ad:self.ad];
+        } else if (deeplinkHandler.isCapable) {
+            [deeplinkHandler openWithNavigationType:self.ad.navigationMode];
         } else {
             if (throughClickURL != nil) {
                 [self openUrlInBrowser:throughClickURL navigationType:self.ad.navigationMode];
@@ -1607,7 +1630,7 @@ typedef enum {
 #pragma mark - AVPlayer notifications
 
 - (void)addObservers {
-    HyBidInterruptionHandler.shared.delegate = self;
+    [[HyBidInterruptionHandler shared] setDelegate:self for:HyBidAdContextVastPlayer];
 }
 
 - (void)removeObservers {
@@ -1616,7 +1639,8 @@ typedef enum {
         [self.player removeTimeObserver:self.playbackObserverToken];
     }
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self];;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[HyBidInterruptionHandler shared] deactivateContext:HyBidAdContextVastPlayer];
 }
 
 - (void)updateVideoFrameToLastInterruption {
@@ -1769,6 +1793,15 @@ typedef enum {
             return nil;
         }
     } else {
+        if (self.adFormat == HyBidAdFormatInterstitial) {
+            if (self.ad.videoSkipOffset != nil && [self.ad.videoSkipOffset integerValue] > 0){
+                return [[HyBidSkipOffset alloc] initWithOffset:self.ad.videoSkipOffset isCustom:NO];
+            }
+        } else if (self.adFormat == HyBidAdFormatRewarded) {
+            if (self.ad.rewardedVideoSkipOffset != nil && [self.ad.rewardedVideoSkipOffset integerValue] > 0){
+                return [[HyBidSkipOffset alloc] initWithOffset:self.ad.rewardedVideoSkipOffset isCustom:NO];
+            }
+        }
         if ((self.ad.hasEndCard || self.ad.hasCustomEndCard) && HyBidConstants.showEndCard) {
             if (self.adFormat == HyBidAdFormatInterstitial) {
                 return [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithLong:HyBidSkipOffset.DEFAULT_VIDEO_SKIP_OFFSET] isCustom:NO];
@@ -1840,8 +1873,11 @@ typedef enum {
                     [self invokeDidFailLoadingWithError:mediaNotFoundError errorType:HyBidVASTInLineLevelError];
                 } else {
                     if (mediaUrl != nil && ![mediaUrl isEqualToString:@""]) {
-                        NSString *encodedUrl = [mediaUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-                        [self createVideoPlayerWithVideoUrl:[[NSURL alloc] initWithString: encodedUrl]];
+                        NSString *decodedMediaUrl = [mediaUrl stringByRemovingPercentEncoding];
+                        if ([mediaUrl isEqualToString:decodedMediaUrl]) {
+                            mediaUrl = [mediaUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+                        }
+                        [self createVideoPlayerWithVideoUrl:[[NSURL alloc] initWithString: mediaUrl]];
                     }
                 }
             } else {
@@ -1898,6 +1934,10 @@ typedef enum {
                         [weakSelf invokeDidFailLoadingWithError:mediaNotFoundError errorType:HyBidVASTInLineLevelError];
                     } else {
                         if (mediaUrl != nil && ![mediaUrl isEqualToString:@""]) {
+                            NSString *decodedMediaUrl = [mediaUrl stringByRemovingPercentEncoding];
+                            if ([mediaUrl isEqualToString:decodedMediaUrl]) {
+                                mediaUrl = [mediaUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+                            }
                             [weakSelf createVideoPlayerWithVideoUrl:[[NSURL alloc] initWithString: mediaUrl]];
                         }
                     }
@@ -1940,6 +1980,10 @@ typedef enum {
 }
 
 - (void)setPlayState {
+    if (!self.interruptionHandlerActivated) {
+        [[HyBidInterruptionHandler shared] activateContext:HyBidAdContextVastPlayer];
+        self.interruptionHandlerActivated = YES;
+    }
     [self activateAudioSession:YES];
     self.loadingSpin.hidden = YES;
     self.btnMute.hidden = NO;
@@ -2227,7 +2271,7 @@ typedef enum {
 - (void)fetchEndCards
 {
     if (self.ad.hasCustomEndCard || (self.ad.customEndcardEnabled == nil && HyBidConstants.showCustomEndCard)) {
-        HyBidVASTEndCard *customEndCard = [[HyBidVASTEndCard alloc] init];
+        HyBidEndCard *customEndCard = [[HyBidEndCard alloc] init];
         [customEndCard setType:HyBidEndCardType_HTML];
         [customEndCard setContent:self.ad.customEndCardData];
         [customEndCard setIsCustomEndCard:YES];
@@ -2253,8 +2297,9 @@ typedef enum {
 
 - (void)showEndCard
 {
-    HyBidVASTEndCard *endCard;
+    HyBidEndCard *endCard;
     NSUInteger endCardCount;
+    [[HyBidInterruptionHandler shared] deactivateContext:HyBidAdContextVastPlayer];
     [self.endCards sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"isCustomEndCard" ascending:YES]]];
     if (self.ad.hasCustomEndCard) {
         endCard = [self.endCards firstObject];
@@ -2263,7 +2308,7 @@ typedef enum {
         endCard = [self.endCards lastObject];
         endCardCount = PNLiteVASTPlayerWrapperMaximumValue;
     }
-    self.endCardView = [[HyBidVASTEndCardView alloc] initWithDelegate:self
+    self.endCardView = [[HyBidEndCardView alloc] initWithDelegate:self
                                                                     withViewController:self
                                                                                 withAd:self.ad
                                                                             withVASTAd:[self getVastAd]
@@ -2271,15 +2316,14 @@ typedef enum {
                                                                          iconXposition:self.iconPositionX
                                                                          iconYposition:self.iconPositionY
                                                                         withSkipButton:self.endCards.count == endCardCount
-                                               vastCompanionsClicksThrough:[self.vastCompanionsClicksThrough copy]
-                                         vastCompanionsClicksTracking:[self.vastCompanionsClicksTracking copy]
-                                         vastVideoClicksTracking:[self.vastVideoClicksTracking copy]];
+                                                           vastCompanionsClicksThrough:[self.vastCompanionsClicksThrough copy]
+                                                          vastCompanionsClicksTracking:[self.vastCompanionsClicksTracking copy]
+                                              vastVideoClicksTracking:[self.vastVideoClicksTracking copy]];
     
-    
-    if (self.delegate && [self.delegate respondsToSelector:@selector(vastPlayerWillShowEndCard:isCustomEndCard:skoverlayDelegate:customCTADelegate:)]) {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(vastPlayerWillShowEndCard:isCustomEndCard:skOverlayDelegate:customCTADelegate:)]) {
         [self.delegate vastPlayerWillShowEndCard:self
                                  isCustomEndCard:endCard.isCustomEndCard
-                               skoverlayDelegate:self.endCardView
+                               skOverlayDelegate:self.endCardView
                                customCTADelegate:self.endCardView];
     }
 
@@ -2328,14 +2372,6 @@ typedef enum {
     }
 }
 
-- (void)determineSdkAutoStorekitEnabledForAd:(HyBidAd *)ad {
-    if (ad.sdkAutoStorekitEnabled != nil && [ad.sdkAutoStorekitEnabled integerValue] >= 0 && [ad.sdkAutoStorekitEnabled boolValue] == YES) {
-        self.sdkAutoStorekitEnabled = YES;
-    } else {
-        self.sdkAutoStorekitEnabled = HyBidConstants.sdkAutoStorekitEnabled;
-    }
-} 
-
 - (BOOL)isHideEnabled {
     return self.ad.isBrandCompatible && self.ad.hideControls == YES && [self.ad.adExperience isEqualToString:HyBidAdExperienceBrandValue];
 }
@@ -2349,8 +2385,10 @@ typedef enum {
         
         if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams]) {
             self.isAutoStoreKit = YES;
+            NSDictionary *cleanedParams = [HyBidStoreKitUtils cleanUpProductParams:productParams];
+            NSLog(@"HyBid SKAN params dictionary: %@", cleanedParams);
             [HyBidSKAdNetworkViewController.shared
-             presentStoreKitViewWithProductParameters:[HyBidStoreKitUtils cleanUpProductParams:productParams]
+             presentStoreKitViewWithProductParameters:cleanedParams
              adFormat:self.adFormat == HyBidAdFormatBanner
              ? HyBidReportingAdFormat.BANNER
              : self.adFormat == HyBidAdFormatInterstitial
@@ -2450,18 +2488,18 @@ typedef enum {
     });
 }
 
-// MARK: - HyBidVASTEndCardViewDelegate
+// MARK: - HyBidEndCardViewDelegate
 
-- (void)vastEndCardViewCloseButtonTapped {
+- (void)endCardViewCloseButtonTapped {
     self.vastPlayerHasElementOnTop = NO;
     [self invokeDidClose];
 }
 
-- (void)vastEndCardViewSkipButtonTapped {
+- (void)endCardViewSkipButtonTapped {
     [self showEndCard];
 }
 
-- (void)vastEndCardViewClicked:(BOOL)triggerAdClick aakCustomClickAd:(HyBidAdAttributionCustomClickAdsWrapper *)aakCustomClickAd {
+- (void)endCardViewClicked:(BOOL)triggerAdClick aakCustomClickAd:(HyBidAdAttributionCustomClickAdsWrapper *)aakCustomClickAd {
     if(triggerAdClick){
         [self trackClickWithAAKCustomClickAd:aakCustomClickAd];
     } else {
@@ -2469,15 +2507,15 @@ typedef enum {
     }
 }
 
-- (void)vastEndCardViewCustomCTAClicked {
+- (void)endCardViewCustomCTAClicked {
     [self invokeDidClickCustomCTAOnEndCard:YES];
 }
 
-- (void)vastEndCardViewCustomCTAPresented {
+- (void)endCardViewCustomCTAPresented {
     [self invokeDidShowCustomCTA];
 }
 
-- (void)vastEndCardViewSKOverlayClicked:(BOOL)triggerAdClick clickType:(HyBidSKOverlayAutomaticCLickType)clickType isFirstPresentation:(BOOL)isFirstPresentation {
+- (void)endCardViewSKOverlayClicked:(BOOL)triggerAdClick clickType:(HyBidSKOverlayAutomaticCLickType)clickType isFirstPresentation:(BOOL)isFirstPresentation {
     if(triggerAdClick){
         [self trackClickForSKOverlayWithClickType:clickType isFirstPresentation:isFirstPresentation];
     } else {
@@ -2485,7 +2523,7 @@ typedef enum {
     }
 }
 
-- (void)vastEndCardViewAutoStorekitClicked:(BOOL)triggerAdClick clickType:(HyBidStorekitAutomaticClickType)clickType {
+- (void)endCardViewAutoStorekitClicked:(BOOL)triggerAdClick clickType:(HyBidStorekitAutomaticClickType)clickType {
     if(triggerAdClick){
         [self trackClickForAutoStorekit:clickType];
     } else {
@@ -2493,14 +2531,14 @@ typedef enum {
     }
 }
 
-- (void)vastEndCardViewRedirectedWithSuccess:(BOOL)success {
+- (void)endCardViewRedirectedWithSuccess:(BOOL)success {
     [self togglePlaybackStateOnSuccess:success];
 }
 
-- (void)vastEndCardViewFailedToLoad {
+- (void)endCardViewFailedToLoad {
     [self.contentInfoViewContainer setHidden:NO];
     if (self.endCards.count > 0) {
-        [self vastEndCardViewSkipButtonTapped];
+        [self endCardViewSkipButtonTapped];
     } else {
         if(self.endCardView != nil) {
             [self.endCardView removeFromSuperview];
@@ -2510,12 +2548,12 @@ typedef enum {
     }
 }
 
-- (void)vastEndCardViewDidDisplay {
+- (void)endCardViewDidDisplay {
     self.vastPlayerHasElementOnTop = YES;
 }
 
-- (void)vastEndCardViewReplayButtonClicked {
-    
+- (void)endCardViewReplayButtonClicked {
+    self.interruptionHandlerActivated = NO;
     self.adHasBeenReplayed = YES;
     [self invokeDidVASTPlayerReplay];
     [self removeElementsForReplay];
@@ -2559,8 +2597,8 @@ typedef enum {
     }
     
     for (id subview in self.view.subviews) {
-        if ([subview isMemberOfClass:[HyBidVASTEndCardView class]]) {
-            HyBidVASTEndCardView *endCardView = (HyBidVASTEndCardView *)subview;
+        if ([subview isMemberOfClass:[HyBidEndCardView class]]) {
+            HyBidEndCardView *endCardView = (HyBidEndCardView *)subview;
             [endCardView removeFromSuperview];
             endCardView = nil;
         }
@@ -2696,17 +2734,6 @@ typedef enum {
     [self.view layoutIfNeeded];
 }
 
-#pragma mark - Utils: check for bundle resource existance.
-
-- (NSString*)nameForResource:(NSString*)name :(NSString*)type {
-    NSString* resourceName = [NSString stringWithFormat:@"iqv.bundle/%@", name];
-    NSString *path = [[self getBundle]pathForResource:resourceName ofType:type];
-    if (!path) {
-        resourceName = name;
-    }
-    return resourceName;
-}
-
 #pragma mark - HyBidCustomCTAViewDelegate
 
 - (void)customCTADidLoadWithSuccess:(BOOL)success {
@@ -2725,7 +2752,7 @@ typedef enum {
 
 #pragma mark - HyBidSKOverlayDelegate
 
-- (void)skoverlayDidShowOnCreative:(BOOL)isFirstPresentation {
+- (void)skOverlayDidShowOnCreative:(BOOL)isFirstPresentation {
     HyBidSkAdNetworkModel* skAdNetworkModel = [self.ad getSkAdNetworkModel];
     if ([skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] != [NSNull null] && [[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] boolValue]) {
         

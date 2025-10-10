@@ -13,6 +13,7 @@ public class HyBidVASTEventBeaconsManager: NSObject {
     private let eventTypeMacro = "[EVENTTYPE]"
     private let onTopOfMacro = "[ONTOPOF]"
     private let errorCodeMacro = "[ERRORCODE]"
+    private let allowedAssetGroupIDforBeacons = [VAST_MRECT, VAST_INTERSTITIAL, VAST_REWARDED, MRAID_300x600, MRAID_320x480, MRAID_480x320, MRAID_1024x768, MRAID_768x1024]
     private let vastSDKeventsList: [HyBidVASTsdkEvent] = [
         //MARK: - LOAD_EVENTS
         HyBidVASTsdkEvent(name: EventType.LOAD, vastEventBeaconType: .sdk_event),
@@ -104,9 +105,8 @@ public class HyBidVASTEventBeaconsManager: NSObject {
     private func reportVASTEventWith(type: String, ad: HyBidAd?, onTopOf:HyBidOnTopOfType, errorCode: Int? = nil) {
         var urlForRequest = String()
         guard let ad, let assetGroupID = ad.isUsingOpenRTB ? ad.openRTBAssetGroupID : ad.assetGroupID,
-              (assetGroupID.intValue == VAST_MRECT ||
-               assetGroupID.intValue == VAST_INTERSTITIAL ||
-               assetGroupID.intValue == VAST_REWARDED) else { return }
+              let assetGroupIDUInt32Value = UInt32(exactly: assetGroupID),
+              allowedAssetGroupIDforBeacons.contains(assetGroupIDUInt32Value) else { return }
         
         var vastEventBeaconType = "Unknown Beacon"
         if let sdkEvent = vastSDKeventsList.first(where: { $0.name == type } ) {

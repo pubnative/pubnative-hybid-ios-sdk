@@ -96,7 +96,7 @@
         eventString = HyBidVASTAdTrackingEventType_unmute;
     } else if ([type isEqualToString:@"click"]) {
         eventString = @"click";
-        [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDClikedEvent];
+        [[HyBidViewabilityNativeVideoAdSession sharedInstance] fireOMIDClickedEvent];
     }
     
     [self invokeDidTrackEvent:type];
@@ -176,8 +176,20 @@
     }
     
     for (NSString *stringURL in urls) {
-        [self sendTrackingRequest:stringURL trackingType:trackingType];
-        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Sent http request to url: %@", stringURL]];
+        
+        if (!stringURL || [stringURL isKindOfClass:[NSNull class]]) { continue; }
+
+        NSString *urlString = [stringURL isKindOfClass:[NSString class]]
+                                ? (NSString *)stringURL
+                                : [stringURL description];
+
+        if (urlString.length == 0) { continue; }
+        
+        [self sendTrackingRequest:urlString trackingType:trackingType];
+
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class])
+                             fromMethod:NSStringFromSelector(_cmd)
+                            withMessage:[@"Sent http request to url: " stringByAppendingString:urlString]];
     }
 }
 

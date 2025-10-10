@@ -100,9 +100,15 @@
         self.adRequestModel.requestParameters[HyBidRequestParameter.ip] = [HyBidSettings sharedInstance].ip;
     }
     
-    self.adRequestModel.requestParameters[HyBidRequestParameter.hver] = HyBidConstants.HYBID_SDK_VERSION;
-    self.adRequestModel.requestParameters[HyBidRequestParameter.versionOfOMSDKIntegration] = HyBidConstants.HYBID_OMSDK_VERSION;
-    self.adRequestModel.requestParameters[HyBidRequestParameter.identifierOfOMSDKIntegration] = HyBidConstants.HYBID_OMSDK_IDENTIFIER;
+    if ([HyBid getIntegrationType] == SDKIntegrationTypeSmaato) {
+        self.adRequestModel.requestParameters[HyBidRequestParameter.hver] = HyBidConstants.HYBID_SDK_VERSION;
+        self.adRequestModel.requestParameters[HyBidRequestParameter.versionOfOMSDKIntegration] = HyBidConstants.SMAATO_OMSDK_VERSION;
+        self.adRequestModel.requestParameters[HyBidRequestParameter.identifierOfOMSDKIntegration] = HyBidConstants.SMAATO_OMSDK_IDENTIFIER;
+    } else {
+        self.adRequestModel.requestParameters[HyBidRequestParameter.hver] = HyBidConstants.HYBID_SDK_VERSION;
+        self.adRequestModel.requestParameters[HyBidRequestParameter.versionOfOMSDKIntegration] = HyBidConstants.HYBID_OMSDK_VERSION;
+        self.adRequestModel.requestParameters[HyBidRequestParameter.identifierOfOMSDKIntegration] = HyBidConstants.HYBID_OMSDK_IDENTIFIER;
+    }
 //    adRequestModel.requestParameters[HyBidRequestParameter.supportedAPIFrameworks] = [supportedAPIFrameworks componentsJoinedByString:@","];
     self.adRequestModel.requestParameters[HyBidRequestParameter.identifierForVendor] = [HyBidSettings sharedInstance].identifierForVendor;
     
@@ -285,9 +291,14 @@
 }
 
 - (void)setDisplayManager:(PNLiteAdRequestModel *)adRequestModel withIntegrationType:(IntegrationType)integrationType {
-    adRequestModel.requestParameters[HyBidRequestParameter.displayManager] = [HyBidDisplayManager getDisplayManager];
-    adRequestModel.requestParameters[HyBidRequestParameter.displayManagerVersion] =
-    [HyBidDisplayManager getDisplayManagerVersionWithIntegrationType:integrationType andWithMediationVendor:self.mediationVendor];    
+    if ([HyBid getIntegrationType] == SDKIntegrationTypeSmaato) {
+        adRequestModel.requestParameters[HyBidRequestParameter.displayManager] = @"Smaato";
+        adRequestModel.requestParameters[HyBidRequestParameter.displayManagerVersion] = [NSString stringWithFormat:@"sdk_%@", HyBidConstants.SMAATO_SDK_VERSION];
+    } else {
+        adRequestModel.requestParameters[HyBidRequestParameter.displayManager] = [HyBidDisplayManager getDisplayManager];
+        adRequestModel.requestParameters[HyBidRequestParameter.displayManagerVersion] =
+        [HyBidDisplayManager getDisplayManagerVersionWithIntegrationType:integrationType andWithMediationVendor:self.mediationVendor];
+    }
 }
 
 - (void)setIDFA:(PNLiteAdRequestModel *)adRequestModel {

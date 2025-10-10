@@ -4,27 +4,25 @@
 // https://github.com/pubnative/pubnative-hybid-ios-sdk/blob/main/LICENSE
 //
 
-@class OMIDPubnativenetPartner;
-@class OMIDPubnativenetAdEvents;
-@class OMIDPubnativenetAdSession;
-@class OMIDPubnativenetMediaEvents;
-
 #import <Foundation/Foundation.h>
+#import "OMIDAdSessionWrapper.h"
 
 @interface HyBidViewabilityManager : NSObject
 
 @property (nonatomic, assign) BOOL viewabilityMeasurementEnabled;
-@property (nonatomic, assign) BOOL isViewabilityMeasurementActivated;
-@property (nonatomic, strong) OMIDPubnativenetPartner *partner;
-@property (nonatomic, strong) OMIDPubnativenetAdSession *omidAdSession;
-@property (nonatomic, strong) OMIDPubnativenetAdSession *omidMediaAdSession;
-@property (nonatomic, strong) OMIDPubnativenetAdEvents *adEvents;
-@property (nonatomic, strong) OMIDPubnativenetMediaEvents *omidMediaEvents;
+@property (nonatomic, assign, readonly) BOOL isViewabilityMeasurementActivated;
+
+@property (nonatomic, strong) id partner;
+@property (nonatomic, strong) OMIDAdSessionWrapper *omidAdSession;
+@property (nonatomic, strong) OMIDAdSessionWrapper *omidMediaAdSession;
+@property (nonatomic, strong) id adEvents;
+@property (nonatomic, strong) id omidMediaEvents;
 
 + (instancetype)sharedInstance;
 - (NSString *)getOMIDJS;
-- (OMIDPubnativenetAdEvents *)getAdEvents:(OMIDPubnativenetAdSession*)omidAdSession;
-- (OMIDPubnativenetMediaEvents *)getMediaEvents:(OMIDPubnativenetAdSession*)omidAdSession;
-- (void) reportEvent: (NSString*)eventType;
+- (id)getAdEvents:(OMIDAdSessionWrapper *)omidAdSessionWrapper;
+- (id)getMediaEvents:(OMIDAdSessionWrapper *)omidAdSessionWrapper;
+- (void)reportEvent:(NSString *)eventType;
 
 @end
+

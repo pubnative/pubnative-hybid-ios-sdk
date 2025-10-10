@@ -395,15 +395,15 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
     return result;
 }
 
-- (NSNumber *)skoverlayEnabled {
+- (NSNumber *)skOverlayEnabled {
     NSNumber *result = nil;
     if ([self.adExperience isEqualToString:HyBidAdExperiencePerformanceValue] && self.isPerformanceCompatible) {
         return self.pcSKoverlayEnabled;
     } else {
         NSDictionary *jsonDictionary = [self jsonData];
         if (jsonDictionary) {
-            if ([jsonDictionary objectForKey:PNLiteData.skoverlayEnabled] != (id)[NSNull null]) {
-                result = [jsonDictionary objectForKey:PNLiteData.skoverlayEnabled];
+            if ([jsonDictionary objectForKey:PNLiteData.skOverlayEnabled] != (id)[NSNull null]) {
+                result = [jsonDictionary objectForKey:PNLiteData.skOverlayEnabled];
             }
         }
     }
@@ -1177,7 +1177,7 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
         if ([data stringFieldWithKey:HyBidSKAdNetworkParameter.campaign] != nil) {
             [dict setValue:[data stringFieldWithKey:HyBidSKAdNetworkParameter.campaign] forKey:HyBidSKAdNetworkParameter.campaign];
         }
-        if ([data stringFieldWithKey:HyBidSKAdNetworkParameter.productPageId] != nil) {
+        if ([data stringFieldWithKey:HyBidSKAdNetworkParameter.productPageId] != nil && [data stringFieldWithKey:HyBidSKAdNetworkParameter.productPageId].length > 0) {
             [dict setValue:[data stringFieldWithKey:HyBidSKAdNetworkParameter.productPageId] forKey:HyBidSKAdNetworkParameter.productPageId];
         }
         
@@ -1480,7 +1480,12 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
 }
 
 - (BOOL)isBrandCompatible {
-    return [self.assetGroupID intValue] == VAST_INTERSTITIAL;
+    return [self.assetGroupID intValue] == VAST_INTERSTITIAL ||
+           [self.assetGroupID intValue] == MRAID_320x480 ||
+           [self.assetGroupID intValue] == MRAID_480x320 ||
+           [self.assetGroupID intValue] == MRAID_768x1024 ||
+           [self.assetGroupID intValue] == MRAID_1024x768 ||
+           [self.assetGroupID intValue] == MRAID_300x600;
 }
 
 @end

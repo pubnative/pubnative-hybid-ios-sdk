@@ -15,6 +15,7 @@
 #import "StoreKit/StoreKit.h"
 #import "HyBidSKAdNetworkParameter.h"
 #import "HyBidCustomClickUtil.h"
+#import "HyBidDeeplinkHandler.h"
 #import "HyBidStoreKitUtils.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
@@ -30,6 +31,7 @@
 @property (nonatomic, strong) HyBidMRAIDServiceProvider *serviceProvider;
 @property (nonatomic, retain) HyBidMRAIDView *mraidView;
 @property (nonatomic, strong) HyBidAd *adModel;
+@property (nonatomic, strong) HyBidSkAdNetworkModel *skAdModel;
 @property (nonatomic, strong) HyBidAdAttributionCustomClickAdsWrapper* aakCustomClickAd;
 
 @end
@@ -39,6 +41,8 @@
 - (void)dealloc {
     self.serviceProvider = nil;
     self.adModel = nil;
+    self.skOverlayDelegate = nil;
+    self.skAdModel = nil;
     self.aakCustomClickAd = nil;
 }
 
@@ -47,6 +51,7 @@
     if (self) {
         self.adModel = ad;
         self.skipOffset = skipOffset;
+        self.skAdModel = ad.isUsingOpenRTB ? [self.adModel getOpenRTBSkAdNetworkModel] : [self.adModel getSkAdNetworkModel];
         self.aakCustomClickAd = [[HyBidAdAttributionCustomClickAdsWrapper alloc] initWithAd:self.ad
                                                                                    adFormat:HyBidReportingAdFormat.FULLSCREEN];
     }
@@ -73,6 +78,7 @@
                                                 skipOffset:_skipOffset
                                                  isEndcard:NO
                                  shouldHandleInterruptions:YES];
+    self.skOverlayDelegate = self.mraidView;
 }
 
 - (void)show {
@@ -100,20 +106,27 @@
 }
 
 - (void)triggerClickFlowWithUrl:(NSString *)url {
+    HyBidDeeplinkHandler *deeplinkHandler = [[HyBidDeeplinkHandler alloc] initWithLink:self.ad.link];
     HyBidSkAdNetworkModel* skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.adModel getOpenRTBSkAdNetworkModel] : [self.adModel getSkAdNetworkModel];
-    
     NSString *customUrl = [HyBidCustomClickUtil extractPNClickUrl:url];
     if (customUrl != nil) {
         [self openBrowser:customUrl navigationType:HyBidWebBrowserNavigationExternalValue];
-    } else if (skAdNetworkModel) {
-        NSMutableDictionary* productParams = [[skAdNetworkModel getStoreKitParameters] mutableCopy];
+    } else if (self.skAdModel) {
+        NSMutableDictionary* productParams = [[self.skAdModel getStoreKitParameters] mutableCopy];
 
         [HyBidStoreKitUtils insertFidelitiesIntoDictionaryIfNeeded:productParams];
         
-        if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams]) {
+        if ([productParams count] > 0 && [self.skAdModel isSKAdNetworkIDVisible:productParams]) {
             [[HyBidURLDriller alloc] startDrillWithURLString:url delegate:self];
+            if (deeplinkHandler.isCapable && deeplinkHandler.fallbackURL) {
+                [[HyBidURLDriller alloc] startDrillWithURLString:deeplinkHandler.fallbackURL.absoluteString delegate:self];
+            }
             
-            [HyBidSKAdNetworkViewController.shared presentStoreKitViewWithProductParameters:[HyBidStoreKitUtils cleanUpProductParams:productParams] adFormat:HyBidReportingAdFormat.FULLSCREEN isAutoStoreKitView:NO ad:self.ad];
+            NSDictionary *cleanedParams = [HyBidStoreKitUtils cleanUpProductParams:productParams];
+            NSLog(@"HyBid SKAN params dictionary: %@", cleanedParams);
+            [HyBidSKAdNetworkViewController.shared presentStoreKitViewWithProductParameters:cleanedParams adFormat:HyBidReportingAdFormat.FULLSCREEN isAutoStoreKitView:NO ad:self.ad];
+        } else if (deeplinkHandler.isCapable) {
+            [deeplinkHandler openWithNavigationType:self.ad.navigationMode];
         } else {
             [self openBrowser:url navigationType:self.ad.navigationMode];
         }
@@ -151,6 +164,7 @@
     [self.delegate interstitialPresenterDidShow:self];
     if (self.mraidView) {
         [self.mraidView startAdSession];
+        [[HyBidVASTEventBeaconsManager shared] reportVASTEventWithType:HyBidReportingEventType.SHOW ad:self.ad];
     }
     [self.aakCustomClickAd startImpressionWithAdView: [mraidView modalView]];
 }
@@ -172,6 +186,40 @@
 
 - (BOOL)mraidViewShouldResize:(HyBidMRAIDView *)mraidView toPosition:(CGRect)position allowOffscreen:(BOOL)allowOffscreen {
     return allowOffscreen;
+}
+
+- (void)mraidViewWillShowEndCard:(HyBidMRAIDView *)mraidView
+                 isCustomEndCard:(BOOL)isCustomEndCard
+               skOverlayDelegate:(id<HyBidSKOverlayDelegate>)skOverlayDelegate {
+    if (self.delegate &&
+        [self.delegate respondsToSelector:@selector(interstitialPresenterWillPresentEndCard:skOverlayDelegate:customCTADelegate:)]){
+        [self.delegate interstitialPresenterWillPresentEndCard:self skOverlayDelegate:skOverlayDelegate customCTADelegate:nil];
+    }
+
+    if ([self.skAdModel.productParameters objectForKey:HyBidSKAdNetworkParameter.endcardDelay] != [NSNull null] && [self.skAdModel.productParameters objectForKey:HyBidSKAdNetworkParameter.endcardDelay] &&
+        [[self.skAdModel.productParameters objectForKey:HyBidSKAdNetworkParameter.endcardDelay] intValue] == -1) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(interstitialPresenterDismissesSKOverlay:)]) {
+            [self.delegate interstitialPresenterDismissesSKOverlay:self];
+        }
+    } else {
+        if (isCustomEndCard) {
+            [HyBidInterruptionHandler.shared customEndCardWillShow];
+        } else {
+            [HyBidInterruptionHandler.shared endCardWillShow];
+        }
+    }
+}
+
+- (void)mraidViewDidPresentCustomEndCard:(HyBidMRAIDView *)mraidView {
+    [self.delegate interstitialPresenterDidPresentCustomEndCard:self];
+}
+
+- (void)mraidViewAutoStoreKitDidShowWithClickType:(HyBidStorekitAutomaticClickType)clickType {
+    [self.delegate interstitialPresenterDidStorekitAutomaticClick:self clickType:clickType];
+}
+
+- (void)mraidViewDidShowSKOverlayWithClickType:(HyBidSKOverlayAutomaticCLickType)clickType {
+    [self.delegate interstitialPresenterDidSKOverlayAutomaticClick:self clickType:clickType];
 }
 
 #pragma mark HyBidMRAIDServiceDelegate

@@ -72,4 +72,9 @@
     }
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    PNLiteDemoPNLiteBannerViewController *vc = [segue destinationViewController];
+    vc.sdkType = self.sdkType;
+}
+
 @end

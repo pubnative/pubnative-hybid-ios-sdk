@@ -69,7 +69,7 @@
 - (void)loadFullScreenPlayerWithPresenter:(HyBidInterstitialPresenter *)interstitialPresenter withAd:(HyBidAd *)ad withSkipOffset:(HyBidSkipOffset *)skipOffset {
     self.presenter = interstitialPresenter;
     self.presenter.customCTADelegate = self.player.customCTADelegate;
-    self.presenter.skoverlayDelegate = self.player.skoverlayDelegate;
+    self.presenter.skOverlayDelegate = self.player.skOverlayDelegate;
     self.adModel = ad;
     self.player = [[PNLiteVASTPlayerViewController alloc] initPlayerWithAdModel:self.adModel withAdFormat:HyBidAdFormatInterstitial];
     self.player.delegate = self;
@@ -97,7 +97,7 @@
     self.player.view.frame = self.playerContainer.bounds;
     [self.playerContainer addSubview:self.player.view];
     self.presenter.customCTADelegate = self.player.customCTADelegate;
-    self.presenter.skoverlayDelegate = self.player.skoverlayDelegate;
+    self.presenter.skOverlayDelegate = self.player.skOverlayDelegate;
     [self.presenter.delegate interstitialPresenterDidLoad:self.presenter viewController: self];
 }
 
@@ -144,10 +144,10 @@
 
 - (void)vastPlayerWillShowEndCard:(PNLiteVASTPlayerViewController *)vastPlayer
                   isCustomEndCard:(BOOL)isCustomEndCard
-                skoverlayDelegate:(id<HyBidSKOverlayDelegate>)skoverlayDelegate
+                skOverlayDelegate:(id<HyBidSKOverlayDelegate>)skOverlayDelegate
                 customCTADelegate:(id<HyBidCustomCTAViewDelegate>)customCTADelegate {
-    if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(interstitialPresenterWillPresentEndCard:skoverlayDelegate:customCTADelegate:)]) {
-        [self.presenter.delegate interstitialPresenterWillPresentEndCard:self.presenter skoverlayDelegate:skoverlayDelegate customCTADelegate:customCTADelegate];
+    if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(interstitialPresenterWillPresentEndCard:skOverlayDelegate:customCTADelegate:)]) {
+        [self.presenter.delegate interstitialPresenterWillPresentEndCard:self.presenter skOverlayDelegate:skOverlayDelegate customCTADelegate:customCTADelegate];
     }
     
     self.skAdModel = self.adModel.isUsingOpenRTB ? self.adModel.getOpenRTBSkAdNetworkModel : self.adModel.getSkAdNetworkModel;
@@ -157,14 +157,14 @@
         }
     } else {
         if (isCustomEndCard) {
-            [HyBidInterruptionHandler.shared vastCustomEndCardWillShow];
+            [HyBidInterruptionHandler.shared customEndCardWillShow];
         } else {
-            [HyBidInterruptionHandler.shared vastEndCardWillShow];
+            [HyBidInterruptionHandler.shared endCardWillShow];
         }
     }
 }
 
-- (void)vastPlayerDidShowEndCard:(PNLiteVASTPlayerViewController *)vastPlayer endcard:(HyBidVASTEndCard *)endcard {
+- (void)vastPlayerDidShowEndCard:(PNLiteVASTPlayerViewController *)vastPlayer endcard:(HyBidEndCard *)endcard {
     if (self.presenter.delegate && [self.presenter.delegate respondsToSelector:@selector(interstitialPresenterDismissesCustomCTA:)] && endcard.isCustomEndCard) {
         [self.presenter.delegate interstitialPresenterDismissesCustomCTA:self.presenter];
     }

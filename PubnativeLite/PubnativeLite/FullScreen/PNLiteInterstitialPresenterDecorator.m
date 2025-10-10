@@ -24,7 +24,7 @@
 @property (nonatomic, strong) HyBidAdTracker *adTracker;
 @property (nonatomic) NSObject<HyBidInterstitialPresenterDelegate> *interstitialPresenterDelegate;
 @property (nonatomic, strong) NSMutableDictionary *errorReportingProperties;
-@property (nonatomic, strong) HyBidSKOverlay *skoverlay;
+@property (nonatomic, strong) HyBidSKOverlay *skOverlay;
 @property (nonatomic, strong) PNLiteImpressionTracker *impressionTracker;
 @property (nonatomic, strong) HyBidCustomCTAView *customCTA;
 
@@ -37,9 +37,9 @@
     self.adTracker = nil;
     self.interstitialPresenterDelegate = nil;
     self.errorReportingProperties = nil;
-    self.skoverlay = nil;
+    self.skOverlay = nil;
     self.customCTA = nil;
-    self.skoverlayDelegate = nil;
+    self.skOverlayDelegate = nil;
 }
 
 - (void)load {
@@ -85,11 +85,11 @@
     }
     
     if (self.interstitialPresenterDelegate && [self.interstitialPresenterDelegate respondsToSelector:@selector(interstitialPresenterDidLoad:)]) {
-        if (self.interstitialPresenter.ad.skoverlayEnabled) {
-            if ([self.interstitialPresenter.ad.skoverlayEnabled boolValue]) {
-                self.skoverlay = [[HyBidSKOverlay alloc] initWithAd:interstitialPresenter.ad
+        if (self.interstitialPresenter.ad.skOverlayEnabled) {
+            if ([self.interstitialPresenter.ad.skOverlayEnabled boolValue]) {
+                self.skOverlay = [[HyBidSKOverlay alloc] initWithAd:interstitialPresenter.ad
                                                          isRewarded:NO
-                                                           delegate:interstitialPresenter.skoverlayDelegate];
+                                                           delegate:interstitialPresenter.skOverlayDelegate];
             }
         }
         [self.interstitialPresenterDelegate interstitialPresenterDidLoad:interstitialPresenter];
@@ -111,8 +111,8 @@
             [self.interstitialPresenterDelegate interstitialPresenterDidShow:interstitialPresenter];
         }
         
-        [self.skoverlay addObservers];
-        [self.skoverlay presentWithAd:interstitialPresenter.ad];
+        [self.skOverlay addObservers];
+        [self.skOverlay presentWithAd:interstitialPresenter.ad];
         [self.customCTA presentCustomCTAWithDelay];
     }
 }
@@ -165,7 +165,7 @@
             [[HyBid reportingManager] reportEventFor:reportingEvent];
         }
         [self.interstitialPresenterDelegate interstitialPresenterDidDismiss:interstitialPresenter];
-        [self.skoverlay dismissEntirely:YES withAd:interstitialPresenter.ad causedByAutoCloseTimerCompletion:NO];
+        [self.skOverlay dismissEntirely:YES withAd:interstitialPresenter.ad causedByAutoCloseTimerCompletion:NO];
     }
     
     if (self.customCTA) {
@@ -199,7 +199,7 @@
 - (void)interstitialPresenterDidDisappear:(HyBidInterstitialPresenter *)interstitialPresenter {}
 
 - (void)interstitialPresenterDismissesSKOverlay:(HyBidInterstitialPresenter *)interstitialPresenter {
-    [self.skoverlay dismissEntirely:YES withAd:interstitialPresenter.ad causedByAutoCloseTimerCompletion:NO];
+    [self.skOverlay dismissEntirely:YES withAd:interstitialPresenter.ad causedByAutoCloseTimerCompletion:NO];
 }
 
 - (void)interstitialPresenterDismissesCustomCTA:(HyBidInterstitialPresenter *)interstitialPresenter {
@@ -208,8 +208,10 @@
     }
 }
 
-- (void)interstitialPresenterWillPresentEndCard:(HyBidInterstitialPresenter *)interstitialPresenter skoverlayDelegate:(id<HyBidSKOverlayDelegate>)skoverlayDelegate customCTADelegate:(id<HyBidCustomCTAViewDelegate>)customCTADelegate {
-        [self.skoverlay changeDelegateFor:skoverlayDelegate];
+- (void)interstitialPresenterWillPresentEndCard:(HyBidInterstitialPresenter *)interstitialPresenter
+                              skOverlayDelegate:(id<HyBidSKOverlayDelegate>)skOverlayDelegate
+                              customCTADelegate:(id<HyBidCustomCTAViewDelegate>)customCTADelegate {
+        [self.skOverlay changeDelegateFor:skOverlayDelegate];
         [self.customCTA changeDelegateFor:customCTADelegate];
 }
 
@@ -229,10 +231,10 @@
                         viewController:(UIViewController *)viewController {
     [self interstitialPresenterDismissesSKOverlay:interstitialPresenter];
     
-    if (self.interstitialPresenter.ad.skoverlayEnabled && [self.interstitialPresenter.ad.skoverlayEnabled boolValue]) {
-        self.skoverlay = [[HyBidSKOverlay alloc] initWithAd:interstitialPresenter.ad
+    if (self.interstitialPresenter.ad.skOverlayEnabled && [self.interstitialPresenter.ad.skOverlayEnabled boolValue]) {
+        self.skOverlay = [[HyBidSKOverlay alloc] initWithAd:interstitialPresenter.ad
                                                  isRewarded:NO
-                                                   delegate:interstitialPresenter.skoverlayDelegate];
+                                                   delegate:interstitialPresenter.skOverlayDelegate];
     }
     
     if ([HyBidCustomCTAView isCustomCTAValidWithAd: interstitialPresenter.ad]) {

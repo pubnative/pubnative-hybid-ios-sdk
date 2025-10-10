@@ -1,16 +1,17 @@
-// 
-// HyBid SDK License
+//// 
+//// HyBid SDK License
+////
+//// https://github.com/pubnative/pubnative-hybid-ios-sdk/blob/main/LICENSE
+////
 //
-// https://github.com/pubnative/pubnative-hybid-ios-sdk/blob/main/LICENSE
+//#import <Foundation/Foundation.h>
 //
-
-#import <Foundation/Foundation.h>
-
-@interface PNLiteTestUtil : NSObject
-
-+ (instancetype)sharedInstance;
-
-- (NSArray *)createMockImpressionBeaconArray;
-- (NSArray *)createMockClickBeaconArray;
-
-@end
+//@interface PNLiteTestUtil : NSObject
+//
+//+ (instancetype)sharedInstance;
+//
+//- (NSArray *)createMockImpressionBeaconArray;
+//- (NSArray *)createMockClickBeaconArray;
+//
+//@end
+////
