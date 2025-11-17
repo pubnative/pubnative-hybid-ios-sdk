@@ -19,8 +19,8 @@ target 'HyBidDemo' do
   pod 'Firebase/Performance', '8.13.0'
   pod 'Firebase/Crashlytics', '8.13.0'
   pod 'Google-Mobile-Ads-SDK', '~> 12.0'
-  pod 'AppLovinSDK', '>= 13.0.1'
-  pod 'IronSourceSDK','~> 8.5.0'
+  pod 'AppLovinSDK', '>= 13.4.0'
+  pod 'IronSourceSDK','~> 9.0.0.0'
   pod 'ChartboostSDK'
 end
 

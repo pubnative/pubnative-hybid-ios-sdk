@@ -84,8 +84,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
     if (self) {
         self.ad = ad;
         self.sessionReportingProperties = [NSMutableDictionary new];
-        [[HyBidInterruptionHandler shared] setDelegate:self for:HyBidAdContextNativeAd];
-        [[HyBidInterruptionHandler shared] activateContext:HyBidAdContextNativeAd];
+        [[HyBidInterruptionHandler shared] activateContext:HyBidAdContextNativeAd with:self];
         self.aakCustomClickAd = [[HyBidAdAttributionCustomClickAdsWrapper alloc] initWithAd:self.ad
                                                                                    adFormat:HyBidReportingAdFormat.NATIVE];
     }
@@ -422,7 +421,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
             NSLog(@"HyBid SKAN params dictionary: %@", cleanedParams);
             [HyBidSKAdNetworkViewController.shared presentStoreKitViewWithProductParameters: cleanedParams adFormat:HyBidReportingAdFormat.NATIVE isAutoStoreKitView:NO ad:self.ad];
         } else if (deeplinkHandler.isCapable) {
-            [deeplinkHandler openWithNavigationType:self.ad.navigationMode];
+            [deeplinkHandler openWithNavigationType:self.ad.navigationMode clickthroughURL:self.clickUrl];
         } else {
             [self openBrowser:self.clickUrl navigationType:self.ad.navigationMode];
         }

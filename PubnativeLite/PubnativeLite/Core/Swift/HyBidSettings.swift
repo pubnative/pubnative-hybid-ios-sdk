@@ -168,8 +168,10 @@ public class HyBidSettings: NSObject, CLLocationManagerDelegate {
         return nil
     }
 
-    @available(iOS 14.1, *)
     @objc public var connectionType: String {
+        guard #available(iOS 14.1, *) else {
+            return ""
+        }
         return HyBidNetworkInfoProvider.shared.connectionTypeCode()
     }
 

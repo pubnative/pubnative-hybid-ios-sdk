@@ -71,9 +71,13 @@
     self.debugButton.hidden = YES;
     [self.bannerLoaderIndicator startAnimating];
     
-    self.bannerAd = [[LPMBannerAdView alloc] initWithAdUnitId:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidISBannerAdUnitIdKey]];
     LPMAdSize *bannerSize = [LPMAdSize bannerSize];
-    [self.bannerAd setAdSize: bannerSize];
+    LPMBannerAdViewConfigBuilder *adConfigBuilder = [LPMBannerAdViewConfigBuilder new];
+    [adConfigBuilder setWithAdSize:bannerSize];
+    [adConfigBuilder setWithPlacementName:@"HyBidBanner"];
+    LPMBannerAdViewConfig *adConfig = [adConfigBuilder build];
+    
+    self.bannerAd = [[LPMBannerAdView alloc] initWithAdUnitId:[[NSUserDefaults standardUserDefaults] stringForKey:kHyBidISBannerAdUnitIdKey] config: adConfig];
     [self.bannerAd setDelegate: self];
     [self.bannerAd loadAdWithViewController: self];
 }

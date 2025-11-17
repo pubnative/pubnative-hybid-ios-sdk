@@ -313,7 +313,6 @@
 }
 
 - (void)renderAd {
-    [[HyBidInterruptionHandler shared] activateContext:HyBidAdContextMraidView];
     NSTimeInterval currentTime = [[NSDate date] timeIntervalSince1970];
     self.initialLoadTimestamp = currentTime;
     NSTimeInterval adExpireTime = self.initialLoadTimestamp + TIME_TO_EXPIRE;

@@ -84,16 +84,33 @@ public class HyBidSKAdNetworkViewController: NSObject {
             return
         }
         
+
+        guard let skVC = handlerController.skStoreProductViewController else {
+            handlerController.isStoreKitViewBeingPresented = false
+            handlerController.isStoreKitViewPresented = false
+            return
+        }
+        guard let presenter = self.rootViewController ?? UIApplication.shared.topViewController else {
+            handlerController.isStoreKitViewBeingPresented = false
+            handlerController.isStoreKitViewPresented = false
+            return
+        }
+
+        handlerController.isStoreKitViewBeingPresented = true
         HyBidInterruptionHandler.shared.productViewControllerIsReadyToShow()
-        handlerController.isStoreKitViewPresented = true
-        guard let skStoreProductViewController = handlerController.skStoreProductViewController else { return }
-        guard let presentationViewController = self.rootViewController ?? UIApplication.shared.topViewController else { return }
-        presentationViewController.present(skStoreProductViewController, animated: true) {
-            handlerController.isStoreKitViewPresented = true
-            handlerController.rootViewController = nil
-            HyBidInterruptionHandler.shared.productViewControllerDidShow(isAutoStoreKitView: isAutoStoreKitView, adFormat: adFormat)
+
+        DispatchQueue.main.async {
+            presenter.present(skVC, animated: true) {
+                handlerController.isStoreKitViewBeingPresented = false
+                handlerController.isStoreKitViewPresented = true
+                handlerController.rootViewController = nil
+                HyBidInterruptionHandler.shared.productViewControllerDidShow(
+                    isAutoStoreKitView: isAutoStoreKitView, adFormat: adFormat
+                )
+            }
         }
     }
+
 
     private func isStoreKitViewResultSuccessful(error: Error?, success: Bool = false) -> Bool {
         guard success == false else { return true }
@@ -123,15 +140,20 @@ public class HyBidSKAdNetworkViewController: NSObject {
             HyBidInterruptionHandler.shared.productViewControllerWillShow()
 
             if #available(iOS 17.4, *) {
-                Task { [weak self] in
-                    guard let self else { return }
-                    await self.loadStoreKitViewAAK(parameters: productParameters, adFormat: adFormat, isAutoStoreKitView: isAutoStoreKitView)
-                }
+                self.loadStoreKitViewAAKAsync(parameters: productParameters, adFormat: adFormat, isAutoStoreKitView: isAutoStoreKitView)
             } else {
                 DispatchQueue.global().async {
                     self.loadStoreKitView(parameters: productParameters, adFormat: adFormat, isAutoStoreKitView: isAutoStoreKitView)
                 }
             }
+        }
+    }
+
+    @available(iOS 17.4, *)
+    private func loadStoreKitViewAAKAsync(parameters: Dictionary<String,Any>, adFormat: String, isAutoStoreKitView: Bool) {
+        Task { [weak self] in
+            guard let self else { return }
+            await self.loadStoreKitViewAAK(parameters: parameters, adFormat: adFormat, isAutoStoreKitView: isAutoStoreKitView)
         }
     }
     
@@ -170,6 +192,9 @@ extension HyBidSKAdNetworkViewController {
 extension HyBidSKAdNetworkViewController: SKStoreProductViewControllerDelegate {
     
     public func productViewControllerDidFinish(_ viewController: SKStoreProductViewController) {
+        self.isStoreKitViewPresented = false
+        self.isStoreKitViewBeingPresented = false
+
         if !HyBidStoreProductHelper.productViewControllerDidFinishHasBeenCalled {
             HyBidInterruptionHandler.shared.productViewControllerDidFinish()
             HyBidStoreProductHelper.productViewControllerDidFinishHasBeenCalled = true

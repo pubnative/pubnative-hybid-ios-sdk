@@ -48,8 +48,9 @@ NSString * const REQUEST_SKADNETWORK_V4 = @"4.0";
         
         // SkAdNetwork v1.0 and later
         if (@available(iOS 11.3, *)) {
-            if ([self.productParameters objectForKey:HyBidSKAdNetworkParameter.network] != nil) {
-                [storeKitParameters setObject:[self.productParameters objectForKey:HyBidSKAdNetworkParameter.network] forKey:SKStoreProductParameterAdNetworkIdentifier];
+            NSString *network = [self stringFromValue:self.productParameters[HyBidSKAdNetworkParameter.network]];
+            if (network != nil) {
+                [storeKitParameters setObject:network forKey:SKStoreProductParameterAdNetworkIdentifier];
             }
             
             // SkAdNetwork v4.0
@@ -75,9 +76,11 @@ NSString * const REQUEST_SKADNETWORK_V4 = @"4.0";
                 if (timestamp != nil) {
                     [storeKitParameters setObject:timestamp forKey:SKStoreProductParameterAdNetworkTimestamp];
                 }
-                
-                if ([[NSUUID alloc] initWithUUIDString:[self.productParameters objectForKey:HyBidSKAdNetworkParameter.nonce]] != nil) {
-                    [storeKitParameters setObject:[[NSUUID alloc] initWithUUIDString:[self.productParameters objectForKey:HyBidSKAdNetworkParameter.nonce]] forKey:SKStoreProductParameterAdNetworkNonce];
+                                
+                NSString *nonceString = [self stringFromValue:self.productParameters[HyBidSKAdNetworkParameter.nonce]];
+                NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:nonceString];
+                if (uuid != nil) {
+                    [storeKitParameters setObject:uuid forKey:SKStoreProductParameterAdNetworkNonce];
                 }
             }
         } else {
@@ -217,7 +220,7 @@ NSString * const REQUEST_SKADNETWORK_V4 = @"4.0";
             return NO;
         }
     } else {
-        NSString *campaignID = [NSString stringWithFormat:@"%@", dict[HyBidSKAdNetworkParameter.campaign]];
+        NSString *campaignID = [self stringFromValue:dict[HyBidSKAdNetworkParameter.campaign]];
         if(!(dict[HyBidSKAdNetworkParameter.campaign] && [campaignID length] > 0)) {
             return NO;
         }
@@ -229,29 +232,27 @@ NSString * const REQUEST_SKADNETWORK_V4 = @"4.0";
 - (BOOL)checkBasicParameters:(NSDictionary *)dict supportMultipleFidelities:(BOOL)supportsMultipleFidelities {
     BOOL isValid = NO;
     
-    NSString *timestamp = [NSString stringWithFormat:@"%@", dict[HyBidSKAdNetworkParameter.timestamp]];
-    NSString *nonce = [NSString stringWithFormat:@"%@", dict[HyBidSKAdNetworkParameter.nonce]];
-    NSString *itunesitem;
-    if([dict[HyBidSKAdNetworkParameter.itunesitem] isKindOfClass:[NSString class]]) {
-        itunesitem = [NSString stringWithFormat:@"%@", dict[HyBidSKAdNetworkParameter.itunesitem]];
-    }
+    NSString *timestamp = [self stringFromValue:dict[HyBidSKAdNetworkParameter.timestamp]];
+    NSString *nonce = [self stringFromValue:dict[HyBidSKAdNetworkParameter.nonce]];
+    NSString *network = [self stringFromValue:dict[HyBidSKAdNetworkParameter.network]];
+    NSString *signature = [self stringFromValue:dict[HyBidSKAdNetworkParameter.signature]];
+    NSString *itunesitem = [self stringFromValue:dict[HyBidSKAdNetworkParameter.itunesitem]];
     
     if (supportsMultipleFidelities) {
-        isValid = itunesitem != nil && [itunesitem length] > 0 &&
-        dict[HyBidSKAdNetworkParameter.network] && [dict[HyBidSKAdNetworkParameter.network] length] > 0;
+        isValid = itunesitem != nil && [itunesitem length] > 0 && network && [network length] > 0;
     } else {
-        isValid = dict[HyBidSKAdNetworkParameter.signature] != nil && [dict[HyBidSKAdNetworkParameter.signature] length] > 0 &&
+        isValid = signature != nil && [signature length] > 0 &&
                   itunesitem != nil && [itunesitem length] > 0 &&
-                  dict[HyBidSKAdNetworkParameter.network] && [dict[HyBidSKAdNetworkParameter.network] length] > 0 &&
-                  dict[HyBidSKAdNetworkParameter.timestamp] && [timestamp length] > 0 &&
-                  dict[HyBidSKAdNetworkParameter.nonce] && [nonce length] > 0;
+                  network && [network length] > 0 &&
+                  timestamp && [timestamp length] > 0 &&
+                  nonce && [nonce length] > 0;
     }
     
     return isValid;
 }
 
 - (BOOL)checkV2Parameters:(NSDictionary *)dict {
-    NSString *appStoreID = [NSString stringWithFormat:@"%@", dict[HyBidSKAdNetworkParameter.sourceapp]];
+    NSString *appStoreID =  [self stringFromValue:dict[HyBidSKAdNetworkParameter.sourceapp]];
     
     return dict[HyBidSKAdNetworkParameter.version] && [dict[HyBidSKAdNetworkParameter.version] length] > 0 &&
            dict[HyBidSKAdNetworkParameter.sourceapp] && [appStoreID length] > 0;
@@ -275,14 +276,17 @@ NSString * const REQUEST_SKADNETWORK_V4 = @"4.0";
             break; // Checking only for the first item is enough
         }
     } else {
-        isValid = dict[HyBidSKAdNetworkParameter.fidelityType] != nil && [[NSString stringWithFormat:@"%@", dict[HyBidSKAdNetworkParameter.fidelityType]] length] > 0;
+        NSString *fidelityType = [self stringFromValue:dict[HyBidSKAdNetworkParameter.fidelityType]];
+        isValid = fidelityType != nil && [fidelityType length] > 0;
     }
     
     return isValid;
 }
 
 - (BOOL)checkV4_0_Parameters:(NSDictionary *)dict {
-    BOOL isValid = [dict[HyBidSKAdNetworkParameter.sourceIdentifier] length] > 0 && dict[HyBidSKAdNetworkParameter.sourceIdentifier] != nil;
+    NSString *sourceIdentifier = [self stringFromValue:dict[HyBidSKAdNetworkParameter.sourceIdentifier]];
+    BOOL isValid = sourceIdentifier && sourceIdentifier.length > 0;
+    
     return isValid;
 }
 
@@ -295,13 +299,21 @@ NSString * const REQUEST_SKADNETWORK_V4 = @"4.0";
     }
 
    for (NSDictionary* skAdNetworkID in networkItems) {
-       NSString *skAdNetworkIdentifier = [[NSString stringWithFormat:@"%@",skAdNetworkID[@"SKAdNetworkIdentifier"]] lowercaseString];
-       NSString *adNetworkId = [[NSString stringWithFormat:@"%@",productParams[@"adNetworkId"]] lowercaseString];
-       if ([skAdNetworkIdentifier isEqualToString: adNetworkId]) {
+       NSString *skAdNetworkIdentifier = [[self stringFromValue:skAdNetworkID[@"SKAdNetworkIdentifier"]] lowercaseString];
+       NSString *adNetworkId = [[self stringFromValue:productParams[@"adNetworkId"]] lowercaseString];
+       if (skAdNetworkIdentifier && adNetworkId && [skAdNetworkIdentifier isEqualToString:adNetworkId]) {
            return YES;
        }
    }
    return NO;
+}
+
+
+- (NSString *)stringFromValue:(id)value {
+    if (!value || value == (id)kCFNull || value == [NSNull null]) return nil;
+    if ([value isKindOfClass:[NSString class]]) return value;
+    if ([value respondsToSelector:@selector(stringValue)]) return [value stringValue];
+    return nil;
 }
 
 @end

@@ -75,10 +75,14 @@ public class HyBidVASTEventBeaconsManager: NSObject {
     }
     
     private func getURLFrom(ad: HyBidAd?, vastEventBeacon: HyBidVASTEventBeaconsType) -> String? {
-        guard let ad = ad,
-              let beacons = ad.beacons,
-              let beacon = beacons.first(where: { $0.type == vastEventBeacon.stringValue() }),
-              let eventURL = beacon.url else { return nil }
+        guard let ad = ad else { return nil }
+        guard let rawBeacons = ad.value(forKey: "beacons") as? [Any] else { return nil }
+        let dataModels = rawBeacons.compactMap { $0 as? HyBidDataModel }
+        guard let beacon = dataModels.first(where: { $0.type == vastEventBeacon.stringValue() }),
+              let eventURL = beacon.url, !eventURL.isEmpty else {
+            return nil
+        }
+
         return eventURL
     }
     

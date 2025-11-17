@@ -7,91 +7,70 @@
 import Foundation
 import AdAttributionKit
 
-@objc public class HyBidAdAttributionCustomClickAdsWrapper: NSObject {
-    
-    private var adManager : Any?
-    private var isAdUsingCustomMarketplace = false
-    
-    @objc public init(ad: HyBidAd, adFormat: String? = nil) {
-        guard #available(iOS 17.4, *) else { return }
-        self.adManager = HyBidAdAttributionCustomClickAdsManager(ad: ad, adFormat: adFormat)
-        
-        guard let aakModel = ad.isUsingOpenRTB ? ad.getOpenRTBAdAttributionModel() : ad.getAttributionModel(),
-              let productParameters = aakModel.productParameters,
-              let customMarketPlaceParameter = productParameters[HyBidAdAttributionParameter.custom_market_place],
-              let customMarketPlaceValue = customMarketPlaceParameter as? Bool else { return }
-        
-        self.isAdUsingCustomMarketplace = customMarketPlaceValue
-    }
-    
-    @objc public func startImpression(adView: UIView?) {
-        
-        guard #available(iOS 17.4, *), self.isAdUsingCustomMarketplace,
-              let adManager = self.adManager as? HyBidAdAttributionCustomClickAdsManager,
-              let adView = adView else { return }
-        adManager.startImpression(adView: adView)
-    }
-    
-    @objc public func adHasCustomMarketPlace() -> Bool {
-        return self.isAdUsingCustomMarketplace
-    }
-    
-    @objc public func handlingCustomMarketPlace(completion: @escaping(Bool) -> Void) {
-        
-        guard #available(iOS 17.4, *), self.isAdUsingCustomMarketplace,
-              let adManager = self.adManager as? HyBidAdAttributionCustomClickAdsManager else { return completion(false) }
-        Task {
-            completion(await adManager.handleTap())
-        }
-    }
-}
-
-@available(iOS 17.4, *)
-fileprivate class HyBidAdAttributionCustomClickAdsManager {
-    
+@objc class HyBidAdAttributionCustomClickAdsManager: NSObject {
     private let refreshImpressionMinutesInterval = 15.0
     private var ad: HyBidAd
     private var adFormat: String? = .none
-    private var eventAttributionView: UIEventAttributionView?
+    private var eventAttributionView: Any?
     private var adView: UIView?
-    private var impresion: AppImpression? {
+    private var impression: Any? {
         didSet { self.refreshAppImpression() }
     }
     
-    fileprivate init(ad: HyBidAd, adFormat: String? = nil) {
+    init(ad: HyBidAd, adFormat: String? = nil) {
         self.ad = ad
         self.adFormat = adFormat
     }
-    
-    fileprivate func startImpression(adView: UIView) {
+
+    func startImpression(adView: UIView) {
+        guard #available(iOS 17.4, *) else { return }
+        
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
             self.adView = adView
-            self.eventAttributionView = UIEventAttributionView(frame: adView.frame)
-            guard let eventAttributionView = self.eventAttributionView else { return }
+            let eventAttributionView = UIEventAttributionView(frame: adView.frame)
+            self.eventAttributionView = eventAttributionView
             adView.addSubview(eventAttributionView)
             adView.bringSubviewToFront(eventAttributionView)
             eventAttributionView.translatesAutoresizingMaskIntoConstraints = true
             eventAttributionView.center = CGPoint(x: adView.bounds.midX, y: adView.bounds.midY)
             eventAttributionView.autoresizingMask = [.flexibleLeftMargin, .flexibleRightMargin, .flexibleTopMargin, .flexibleBottomMargin, .flexibleWidth ,.flexibleHeight]
-            
-            Task { self.impresion = await HyBidAdAttributionManager.getAppImpression(ad: self.ad, adFormat: self.adFormat, aakAdType: .clickThrough) }
+
+            self.loadImpressionAsync()
+        }
+    }
+
+    @available(iOS 17.4, *)
+    private func loadImpressionAsync() {
+        Task {
+            self.impression = await HyBidAdAttributionManager.getAppImpression(ad: self.ad, adFormat: self.adFormat, aakAdType: .clickThrough)
         }
     }
     
-    private func refreshAppImpression() {
+    func refreshAppImpression() {
+        guard #available(iOS 17.4, *) else { return }
         let deadlineTime: DispatchTime = .now() + (self.refreshImpressionMinutesInterval * 60)
-        DispatchQueue.global().asyncAfter(deadline: deadlineTime) {
-            Task { self.impresion = await HyBidAdAttributionManager.getAppImpression(ad: self.ad, adFormat: self.adFormat, aakAdType: .clickThrough) }
+        DispatchQueue.global().asyncAfter(deadline: deadlineTime) { [weak self] in
+            guard let self else { return }
+            self.refreshImpressionAsync()
+        }
+    }
+
+    @available(iOS 17.4, *)
+    private func refreshImpressionAsync() {
+        Task {
+            self.impression = await HyBidAdAttributionManager.getAppImpression(ad: self.ad, adFormat: self.adFormat, aakAdType: .clickThrough)
         }
     }
     
-    fileprivate func handleTap() async -> Bool {
+    @available(iOS 13.0, *)
+    func handleTap() async -> Bool {
+        guard #available(iOS 17.4, *) else { return false}
         do {
-            guard let eventAttributionView = self.eventAttributionView else { return false }
+            guard let eventAttributionView = self.eventAttributionView as? UIEventAttributionView else { return false }
             await self.adView?.bringSubviewToFront(eventAttributionView)
             
-            guard let impression = self.impresion else { return false }
+            guard let impression = self.impression as? AppImpression else { return false }
             
             if #available(iOS 18.0, *), let reengagementURL = await HyBidAdAttributionManager.getReengagementURL(ad: ad) {
                 try await impression.handleTap(reengagementURL: reengagementURL)

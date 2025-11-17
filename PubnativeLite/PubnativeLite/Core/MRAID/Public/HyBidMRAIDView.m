@@ -340,9 +340,6 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
         }
         
         buttonSize = [HyBidCloseButton buttonDefaultSize];
-        if (self.shouldHandleInterruptions) {
-            [[HyBidInterruptionHandler shared] setDelegate:self for:HyBidAdContextMraidView];
-        }
         
         self.landingpageBehaviour = HyBidLandingBehaviourTypeCountdown;
         self.landingpageCloseDelay = landingPageSecondsToCloseAdDelay;
@@ -494,8 +491,6 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
     
-    [[HyBidInterruptionHandler shared] deactivateContext:HyBidAdContextMraidView];
-
     webView = nil;
     webViewPart2 = nil;
     currentWebView = nil;
@@ -762,6 +757,8 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
 - (void)close {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@", NSStringFromSelector(_cmd)]];
     
+    [[HyBidInterruptionHandler shared] deactivateContext:HyBidAdContextMraidView];
+
     if (state == PNLiteMRAIDStateLoading ||
         (state == PNLiteMRAIDStateDefault && !isInterstitial) ||
         state == PNLiteMRAIDStateHidden) {
@@ -1005,8 +1002,8 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
         [self determineUseCustomCloseBehaviourWith:self.nativeCloseButtonDelay showSkipOverlay:YES];
     }
     
-    if (self.shouldHandleInterruptions && ![[[HyBidInterruptionHandler shared] activeDelegate] isMemberOfClass:[HyBidMRAIDView class]]) {
-        [[HyBidInterruptionHandler shared] activateContext:HyBidAdContextMraidView];
+    if (self.shouldHandleInterruptions) {
+        [[HyBidInterruptionHandler shared] activateContext:HyBidAdContextMraidView with:self];
     }
     
     if(state == PNLiteMRAIDStateExpanded){

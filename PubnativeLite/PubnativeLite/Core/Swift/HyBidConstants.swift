@@ -11,7 +11,7 @@ public class HyBidConstants: NSObject {
     
     @objc public static let HYBID_SDK_NAME = "HyBid"
     @objc public static let HYBID_OMSDK_VERSION = "1.5.4"
-    @objc public static let HYBID_SDK_VERSION = "3.7.0"
+    @objc public static let HYBID_SDK_VERSION = "3.7.1"
     @objc public static let SMAATO_SDK_VERSION = "23.0.0"
     @objc public static let HYBID_OMSDK_IDENTIFIER = "Pubnativenet"
     @objc public static let SMAATO_OMSDK_IDENTIFIER = "Smaato"

@@ -98,11 +98,11 @@
         if ([self.delegate respondsToSelector:@selector(adDidOpen)]) {
             [self.delegate adDidOpen];
         }
-        if ([self.delegate respondsToSelector:@selector(adDidShowSucceed)]) {
-            [self.delegate adDidShowSucceed];
-        }
         if ([self.delegate respondsToSelector:@selector(adDidBecomeVisible)]) {
             [self.delegate adDidBecomeVisible];
+        }
+        if ([self.delegate respondsToSelector:@selector(adDidStart)]) {
+            [self.delegate adDidStart];
         }
     }
 }

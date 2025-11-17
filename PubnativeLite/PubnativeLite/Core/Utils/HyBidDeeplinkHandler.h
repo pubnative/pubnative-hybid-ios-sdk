@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithLink:(NSString * _Nullable)link;
 
 - (void)openWithNavigationType:(NSString *)navigationType;
+- (void)openWithNavigationType:(NSString *)navigationType clickthroughURL:(NSString * _Nullable)clickthroughURL;
 
 @end
 

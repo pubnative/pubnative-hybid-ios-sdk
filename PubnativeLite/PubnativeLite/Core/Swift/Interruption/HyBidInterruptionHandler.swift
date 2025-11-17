@@ -22,12 +22,10 @@ public class HyBidInterruptionHandler: NSObject {
     private weak var mraidViewDelegate: HyBidInterruptionDelegate?
     private weak var nativeAdDelegate: HyBidInterruptionDelegate?
 
-    // Other delegates you already expose
     @objc public weak var overlappingElementDelegate: HyBidInterruptionDelegate?
     @objc public weak var feedbackViewDelegate: HyBidAdFeedbackViewDelegate?
 
     private var interruptions = [HyBidInterruption]()
-
     private var activeContextStack: [HyBidAdContext] = []
 
     public override init() {
@@ -39,39 +37,39 @@ public class HyBidInterruptionHandler: NSObject {
         NotificationCenter.default.removeObserver(self)
     }
 
-    // MARK: - Register & activate
+    // MARK: - Unified API
 
-    /// Register a delegate for a specific context (call once per owner lifecycle).
-    @objc public func setDelegate(_ delegate: HyBidInterruptionDelegate, for context: HyBidAdContext) {
-        switch context {
-        case .vastPlayer:        vastPlayerDelegate = delegate
-        case .endcard:           endCardDelegate = delegate
-        case .mraidView:         mraidViewDelegate = delegate
-        case .nativeAd:          nativeAdDelegate = delegate
-        }
-    }
-
-    /// Make this context the current receiver (push on stack).
-    @objc public func activateContext(_ context: HyBidAdContext) {
+    /// Assigns the delegate for `context` and pushes it on the active stack.
+    @objc public func activateContext(_ context: HyBidAdContext, with delegate: HyBidInterruptionDelegate) {
+        setWeakDelegate(delegate, for: context)
         activeContextStack.append(context)
     }
 
-    /// Remove this context from the stack (usually on dismiss/deinit).
+    /// Removes the context from the stack.
     @objc public func deactivateContext(_ context: HyBidAdContext) {
         if let idx = activeContextStack.lastIndex(of: context) {
             activeContextStack.remove(at: idx)
         }
     }
 
-    // MARK: - Routing helpers
+    // MARK: - Routing
+
+    private func setWeakDelegate(_ delegate: HyBidInterruptionDelegate, for context: HyBidAdContext) {
+        switch context {
+        case .vastPlayer: vastPlayerDelegate = delegate
+        case .endcard:    endCardDelegate = delegate
+        case .mraidView:  mraidViewDelegate = delegate
+        case .nativeAd:   nativeAdDelegate = delegate
+        }
+    }
 
     @objc public func activeDelegate() -> HyBidInterruptionDelegate? {
         guard let top = activeContextStack.last else { return nil }
         switch top {
-        case .vastPlayer:        return vastPlayerDelegate
-        case .endcard:           return endCardDelegate
-        case .mraidView:         return mraidViewDelegate
-        case .nativeAd:          return nativeAdDelegate
+        case .vastPlayer: return vastPlayerDelegate
+        case .endcard:    return endCardDelegate
+        case .mraidView:  return mraidViewDelegate
+        case .nativeAd:   return nativeAdDelegate
         }
     }
 
@@ -81,10 +79,9 @@ public class HyBidInterruptionHandler: NSObject {
     }
 
     private func notifyFocusIfNeeded() {
-        if interruptions.isEmpty {
-            activeDelegate()?.adHasFocus?()
-            overlappingElementDelegate?.adHasFocus?()
-        }
+        guard interruptions.isEmpty else { return }
+        activeDelegate()?.adHasFocus?()
+        overlappingElementDelegate?.adHasFocus?()
     }
 
     // MARK: - Observers
@@ -101,14 +98,12 @@ public class HyBidInterruptionHandler: NSObject {
     // MARK: - Interruption bookkeeping
 
     private func setAdInterruption(adFormat: String, interruptionType: HyBidInterruptionType) {
-        let interruption = HyBidInterruption(adFormat: adFormat, type: interruptionType)
-        interruptions.append(interruption)
+        interruptions.append(HyBidInterruption(adFormat: adFormat, type: interruptionType))
         notifyNoFocus()
     }
 
     private func setAdInterruption(interruptionType: HyBidInterruptionType) {
-        let interruption = HyBidInterruption(type: interruptionType)
-        interruptions.append(interruption)
+        interruptions.append(HyBidInterruption(type: interruptionType))
         notifyNoFocus()
     }
 
@@ -119,21 +114,18 @@ public class HyBidInterruptionHandler: NSObject {
     }
 
     @objc public func hasOnlyAppLifeCycleInterruption() -> Bool {
-        guard interruptions.count == 1,
-              let last = interruptions.last,
-              last.type == .appLifeCycle else { return false }
-        return true
+        return interruptions.count == 1 && interruptions.last?.type == .appLifeCycle
     }
 }
 
 // MARK: - Endcard notifier
 extension HyBidInterruptionHandler {
     @objc public func endCardWillShow() {
-        self.overlappingElementDelegate?.endCardWillShow?()
+        overlappingElementDelegate?.endCardWillShow?()
     }
     
     @objc public func customEndCardWillShow() {
-        self.overlappingElementDelegate?.customEndCardWillShow?()
+        overlappingElementDelegate?.customEndCardWillShow?()
     }
 }
 
