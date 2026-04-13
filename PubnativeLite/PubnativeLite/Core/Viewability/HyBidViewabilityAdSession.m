@@ -35,7 +35,7 @@
     return sharedInstance;
 }
 
-- (void)startOMIDAdSession:(OMIDAdSessionWrapper * _Nonnull)omidAdSessionWrapper {
+- (void)startOMIDAdSession:(HyBidOMIDAdSessionWrapper * _Nonnull)omidAdSessionWrapper {
     if (![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) return;
 
     if (omidAdSessionWrapper) {
@@ -44,7 +44,7 @@
     }
 }
 
-- (void)stopOMIDAdSession:(OMIDAdSessionWrapper * _Nonnull)omidAdSessionWrapper {
+- (void)stopOMIDAdSession:(HyBidOMIDAdSessionWrapper * _Nonnull)omidAdSessionWrapper {
     if (![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) return;
 
     if (omidAdSessionWrapper) {
@@ -53,7 +53,7 @@
     }
 }
 
-- (void)fireOMIDImpressionOccuredEvent:(OMIDAdSessionWrapper * _Nonnull)omidAdSessionWrapper {
+- (void)fireOMIDImpressionOccuredEvent:(HyBidOMIDAdSessionWrapper * _Nonnull)omidAdSessionWrapper {
     if (![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) return;
 
     if (omidAdSessionWrapper) {
@@ -77,7 +77,7 @@
     [[HyBidViewabilityManager sharedInstance] reportEvent:HyBidReportingEventType.OMID_IMPRESSION];
 }
 
-- (void)fireOMIDAdLoadEvent:(OMIDAdSessionWrapper * _Nonnull)omidAdSessionWrapper {
+- (void)fireOMIDAdLoadEvent:(HyBidOMIDAdSessionWrapper * _Nonnull)omidAdSessionWrapper {
     if (![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) return;
 
     if (omidAdSessionWrapper) {
@@ -87,7 +87,7 @@
 }
 
 - (void)addFriendlyObstruction:(UIView * _Nonnull)view
-               toOMIDAdSession:(OMIDAdSessionWrapper * _Nonnull)omidAdSessionWrapper
+               toOMIDAdSession:(HyBidOMIDAdSessionWrapper * _Nonnull)omidAdSessionWrapper
                     withReason:(NSString * _Nonnull)reasonForFriendlyObstruction
                 isInterstitial:(BOOL)isInterstitial {
     

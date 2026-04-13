@@ -10,6 +10,7 @@
 #import "HyBidVASTSchema.h"
 #import "HyBidXMLEx.h"
 #import "HyBidVASTParserError.h"
+#import "HyBidStringUtils.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <HyBid/HyBid-Swift.h>
@@ -233,8 +234,11 @@ BOOL const HyBidVASTModel_ValidateWithSchema = NO;
         NSString *vastVersion = [[parser rootElement] attribute:@"version"];
 
         if (vastVersion != nil) {
-            NSString *customVASTLine = [[NSString alloc] initWithFormat: @"<VAST version=\"%@\">", vastVersion];
-            newXmlString = [vastDataString stringByReplacingOccurrencesOfString:matchedString withString:customVASTLine options:0 range:NSMakeRange(0, [vastDataString length])];
+            NSString *customVASTLine = [[NSString alloc] initWithFormat:@"<VAST version=\"%@\">", vastVersion];
+            NSString *safeXmlString = [HyBidStringUtils safeReplaceInValue:vastDataString target:matchedString replacement:customVASTLine];
+            if (safeXmlString) {
+                newXmlString = safeXmlString;
+            }
         }
     }
 

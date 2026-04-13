@@ -9,7 +9,7 @@
 #import "HyBidURLDriller.h"
 #import <WebKit/WebKit.h>
 #import "HyBid.h"
-#import "ATOMError.h"
+#import "HyBidATOMError.h"
 #import "PNLiteData.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
@@ -45,8 +45,9 @@ NSString *const PNLiteAdCustomCTAEndCardClick = @"custom_cta_endcard_click";
 @property (nonatomic, assign) BOOL customEndCardClickTracked;
 @property (nonatomic, assign) BOOL customEndCardImpressionTracked;
 @property (nonatomic, assign) BOOL customCTAImpressionTracked;
-@property (nonatomic, assign) BOOL automaticCustomEndCardClickTracked;
 @property (nonatomic, assign) BOOL automaticClickTracked;
+@property (nonatomic, assign) BOOL automaticCustomEndCardClickTracked;
+@property (nonatomic, assign) BOOL automaticDefaultEndCardClickTracked;
 @property (nonatomic, assign) BOOL clickBeaconsTracked;
 
 @property (nonatomic, strong) NSString *trackTypeForURL;
@@ -220,7 +221,6 @@ NSString *const PNLiteAdCustomCTAEndCardClick = @"custom_cta_endcard_click";
     if (self.automaticClickTracked) {
         return;
     }
-    
     [self trackURLs:self.clickURLs withTrackingType:PNLiteAdTrackerClick];
     if ([HyBidSDKConfig sharedConfig].reporting) {
         HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.SKOVERLAY_AUTOMATIC_CLICK adFormat:adFormat properties:nil];
@@ -235,17 +235,15 @@ NSString *const PNLiteAdCustomCTAEndCardClick = @"custom_cta_endcard_click";
                                                                     ad:self.ad];
         self.clickBeaconsTracked = YES;
     }
-    
+
     if (self.automaticClickTracked) {
         return;
     }
-    
     [self trackURLs:self.clickURLs withTrackingType:PNLiteAdTrackerClick];
     if ([HyBidSDKConfig sharedConfig].reporting) {
         HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.SKOVERLAY_AUTOMATIC_DEFAULT_ENDCARD_CLICK adFormat:adFormat properties:nil];
         [[HyBid reportingManager] reportEventFor:reportingEvent];
     }
-    
     self.automaticClickTracked = YES;
 }
 
@@ -255,7 +253,7 @@ NSString *const PNLiteAdCustomCTAEndCardClick = @"custom_cta_endcard_click";
                                                                     ad:self.ad];
         self.clickBeaconsTracked = YES;
     }
-    
+
     if (self.automaticCustomEndCardClickTracked && self.automaticClickTracked) {
         return;
     }
@@ -267,7 +265,6 @@ NSString *const PNLiteAdCustomCTAEndCardClick = @"custom_cta_endcard_click";
         [self trackURLs:self.customEndcardClickURLs withTrackingType:HyBidReportingEventType.CUSTOM_ENDCARD_CLICK];
         self.automaticCustomEndCardClickTracked = YES;
     }
-    
     if ([HyBidSDKConfig sharedConfig].reporting) {
         HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.SKOVERLAY_AUTOMATIC_CUSTOM_ENDCARD_CLICK adFormat:adFormat properties:nil];
         [[HyBid reportingManager] reportEventFor:reportingEvent];
@@ -278,7 +275,6 @@ NSString *const PNLiteAdCustomCTAEndCardClick = @"custom_cta_endcard_click";
     if (self.automaticClickTracked) {
         return;
     }
-
     [self trackURLs:self.clickURLs withTrackingType:PNLiteAdTrackerClick];
     if ([HyBidSDKConfig sharedConfig].reporting) {
         HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.STOREKIT_AUTOMATIC_CLICK adFormat:adFormat properties:nil];
@@ -293,17 +289,19 @@ NSString *const PNLiteAdCustomCTAEndCardClick = @"custom_cta_endcard_click";
                                                                     ad:self.ad];
         self.clickBeaconsTracked = YES;
     }
-    
-    if (self.automaticClickTracked) {
+
+    if (self.automaticDefaultEndCardClickTracked) {
         return;
     }
-    
-    [self trackURLs:self.clickURLs withTrackingType:PNLiteAdTrackerClick];
+    if (!self.automaticClickTracked) {
+        [self trackURLs:self.clickURLs withTrackingType:PNLiteAdTrackerClick];
+    }
+    self.automaticClickTracked = YES;
     if ([HyBidSDKConfig sharedConfig].reporting) {
         HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.STOREKIT_AUTOMATIC_DEFAULT_ENDCARD_CLICK adFormat:adFormat properties:nil];
         [[HyBid reportingManager] reportEventFor:reportingEvent];
     }
-    self.automaticClickTracked = YES;
+    self.automaticDefaultEndCardClickTracked = YES;
 }
 
 - (void)trackStorekitAutomaticCustomEndCardClickWithAdFormat:(NSString *)adFormat {
@@ -462,6 +460,12 @@ NSString *const PNLiteAdCustomCTAEndCardClick = @"custom_cta_endcard_click";
 
 - (void)request:(HyBidAdTrackerRequest *)request didFailWithError:(NSError *)error {
     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Ad Tracker Request %@ failed with error: %@",request,error.localizedDescription]];
+    if (request.urlString.length > 0) {
+        HyBidReportingBeacon *reportingBeacon = [self beaconReportObjectWith:request.trackingType content:@{PNLiteData.url : request.urlString}];
+        if ([HyBidSDKConfig sharedConfig].reporting && reportingBeacon) {
+            [[HyBid reportingManager] reportBeaconFor:reportingBeacon];
+        }
+    }
 }
 
 #pragma mark HyBidURLDrillerDelegate

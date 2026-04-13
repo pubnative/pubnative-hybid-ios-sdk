@@ -26,7 +26,7 @@ static NSString *const OMIDSDKJSFilename = @"omsdk";
 
 @interface HyBidViewabilityManager ()
 @property (nonatomic, strong) NSString *omidJSString;
-@property (nonatomic, strong) OMIDAdSessionWrapper *omidAdSessionWrapper;
+@property (nonatomic, strong) HyBidOMIDAdSessionWrapper *omidAdSessionWrapper;
 @end
 
 @implementation HyBidViewabilityManager
@@ -96,38 +96,54 @@ static NSString *const OMIDSDKJSFilename = @"omsdk";
 
 #pragma mark - OMID Event Handling
 
-- (id)getAdEvents:(OMIDAdSessionWrapper *)omidAdSessionWrapper {
+- (id)getAdEvents:(HyBidOMIDAdSessionWrapper *)omidAdSessionWrapper {
     if (!omidAdSessionWrapper.adSession) return nil;
 
-    NSError *adEventsError;
-    if ([HyBid getIntegrationType] == SDKIntegrationTypeHyBid) {
-        #if __has_include(<OMSDK_Pubnativenet/OMIDImports.h>)
-        return [[OMIDPubnativenetAdEvents alloc] initWithAdSession:omidAdSessionWrapper.adSession error:&adEventsError];
-        #endif
-    } else if ([HyBid getIntegrationType] == SDKIntegrationTypeSmaato) {
-        #if __has_include(<OMSDK_Smaato/OMIDImports.h>)
-        return [[OMIDSmaatoAdEvents alloc] initWithAdSession:omidAdSessionWrapper.adSession error:&adEventsError];
-        #endif
-    }
+    @synchronized(self) {
+        if (!self.omidAdSession || self.omidAdSession.adSession != omidAdSessionWrapper.adSession) {
+            self.omidAdSession = omidAdSessionWrapper;
+            
+            NSError *adEventsError = nil;
+            if ([HyBid getIntegrationType] == SDKIntegrationTypeHyBid) {
+                #if __has_include(<OMSDK_Pubnativenet/OMIDImports.h>)
+                self.adEvents = [[OMIDPubnativenetAdEvents alloc] initWithAdSession:omidAdSessionWrapper.adSession
+                                                                              error:&adEventsError];
+                #endif
+            } else if ([HyBid getIntegrationType] == SDKIntegrationTypeSmaato) {
+                #if __has_include(<OMSDK_Smaato/OMIDImports.h>)
+                self.adEvents = [[OMIDSmaatoAdEvents alloc] initWithAdSession:omidAdSessionWrapper.adSession error:&adEventsError];
+                #endif
+            }
+            
+            if (adEventsError) {
+                [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Failed to initialize ad events: %@", adEventsError.localizedDescription]];
+            }
+        }
 
-    return nil;
+        return self.adEvents;
+    }
 }
 
-- (id)getMediaEvents:(OMIDAdSessionWrapper *)omidAdSessionWrapper {
+- (id)getMediaEvents:(HyBidOMIDAdSessionWrapper *)omidAdSessionWrapper {
     if (!omidAdSessionWrapper.adSession) return nil;
 
-    NSError *mediaEventsError;
+    NSError *mediaEventsError = nil;
+    id mediaEvents = nil;
     if ([HyBid getIntegrationType] == SDKIntegrationTypeHyBid) {
         #if __has_include(<OMSDK_Pubnativenet/OMIDImports.h>)
-        return [[OMIDPubnativenetMediaEvents alloc] initWithAdSession:omidAdSessionWrapper.adSession error:&mediaEventsError];
+        mediaEvents = [[OMIDPubnativenetMediaEvents alloc] initWithAdSession:omidAdSessionWrapper.adSession error:&mediaEventsError];
         #endif
     } else if ([HyBid getIntegrationType] == SDKIntegrationTypeSmaato) {
         #if __has_include(<OMSDK_Smaato/OMIDImports.h>)
-        return [[OMIDSmaatoMediaEvents alloc] initWithAdSession:omidAdSessionWrapper.adSession error:&mediaEventsError];
+        mediaEvents = [[OMIDSmaatoMediaEvents alloc] initWithAdSession:omidAdSessionWrapper.adSession error:&mediaEventsError];
         #endif
     }
+    
+    if (mediaEventsError) {
+        [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Failed to initialize media events: %@", mediaEventsError.localizedDescription]];
+    }
 
-    return nil;
+    return mediaEvents;
 }
 
 #pragma mark - Activation Status
@@ -148,16 +164,10 @@ static NSString *const OMIDSDKJSFilename = @"omsdk";
 #pragma mark - Reporting Events
 
 - (void)reportEvent:(NSString *)eventType {
-    if ([HyBid getIntegrationType] == SDKIntegrationTypeHyBid) {
-        #if __has_include(<HyBid/HyBid-Swift.h>)
-        if ([HyBidSDKConfig sharedConfig].reporting) {
-            HyBidReportingEvent *reportingEvent = [[HyBidReportingEvent alloc] initWith:eventType adFormat:nil properties:nil];
-            [[HyBid reportingManager] reportEventFor:reportingEvent];
-            [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"HyBid reporting event %@", eventType]];
-        }
-        #endif
-    } else if ([HyBid getIntegrationType] == SDKIntegrationTypeSmaato) {
-        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Smaato reporting event %@", eventType]];
+    if ([HyBidSDKConfig sharedConfig].reporting) {
+        HyBidReportingEvent *reportingEvent = [[HyBidReportingEvent alloc] initWith:eventType adFormat:nil properties:nil];
+        [[HyBid reportingManager] reportEventFor:reportingEvent];
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"reporting event %@", eventType]];
     }
 }
 

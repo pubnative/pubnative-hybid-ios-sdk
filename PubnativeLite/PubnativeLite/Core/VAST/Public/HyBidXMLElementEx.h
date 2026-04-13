@@ -11,12 +11,14 @@
 	HyBidXMLElement *element;
 	BOOL firstPass;
 	NSMutableDictionary *attributes;
+	HyBidXML *_parser;
 }
 
 // A dictionary with all attributes of a given element
 @property (nonatomic, readonly) NSDictionary *attributes;
 
 -(id) initWithElement:(HyBidXMLElement *) value;
+-(id) initWithElement:(HyBidXMLElement *) value parser:(HyBidXML *) parser;
 
 // Looks for a child element. Returns an autoreleased object
 // if the element exists, of nil otherwise

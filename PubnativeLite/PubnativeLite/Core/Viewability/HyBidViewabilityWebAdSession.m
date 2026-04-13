@@ -6,8 +6,6 @@
 
 #import "HyBidViewabilityWebAdSession.h"
 #import "HyBid.h"
-#import <OMSDK_Pubnativenet/OMIDImports.h>
-
 #import "HyBidViewabilityWebAdSession.h"
 #import "HyBidViewabilityManager.h"
 
@@ -38,7 +36,7 @@
     return sharedInstance;
 }
 
-- (OMIDAdSessionWrapper*) createOMIDAdSessionforWebView:(WKWebView *)webView isVideoAd:(BOOL)videoAd {
+- (HyBidOMIDAdSessionWrapper*) createOMIDAdSessionforWebView:(WKWebView *)webView isVideoAd:(BOOL)videoAd {
     if (![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) return nil;
 
     NSError *contextError;
@@ -113,7 +111,7 @@
 
     if (omidAdSession) {
         [omidAdSession setMainAdView:webView];
-        return [[OMIDAdSessionWrapper alloc] initWithAdSession:omidAdSession];
+        return [[HyBidOMIDAdSessionWrapper alloc] initWithAdSession:omidAdSession];
     }
 
     return nil;

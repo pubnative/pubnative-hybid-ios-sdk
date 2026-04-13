@@ -173,13 +173,14 @@ NSString * const REQUEST_SKADNETWORK_V4 = @"4.0";
     return storeKitParameters;
 }
 
-- (NSNumber *)getNSNumberFromString:(NSString *)string
-{
-    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
-    numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
-    NSNumber *number = [numberFormatter numberFromString:string];
-    
-    return number;
+- (NSNumber *)getNSNumberFromString:(NSString *)string {
+    if (!string || string.length == 0) { return nil; }
+    NSScanner *scanner = [NSScanner scannerWithString:string];
+    long long value;
+    if ([scanner scanLongLong:&value] && scanner.isAtEnd) {
+        return @(value);
+    }
+    return nil;
 }
 
 - (BOOL)areProductParametersValid:(NSDictionary *)dict {

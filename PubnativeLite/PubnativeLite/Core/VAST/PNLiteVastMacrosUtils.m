@@ -7,6 +7,7 @@
 #import "PNLiteVastMacrosUtils.h"
 #import "HyBidUserDataManager.h"
 #import "HyBidWebBrowserUserAgentInfo.h"
+#import "HyBidStringUtils.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -19,35 +20,23 @@
 @implementation PNLiteVastMacrosUtils
 
 + (NSString *)formatUrl:(NSString *)vastUrl {
-    if ([HyBidSettings sharedInstance].advertisingId) {
-        vastUrl = [vastUrl stringByReplacingOccurrencesOfString:@"${IDFA}"
-                                             withString:[HyBidSettings sharedInstance].advertisingId];
-    } else {
-        vastUrl = [vastUrl stringByReplacingOccurrencesOfString:@"${IDFA}"
-                                             withString:@"-1"];
-    }
-    vastUrl = [vastUrl stringByReplacingOccurrencesOfString:@"${BUNDLE_ID}"
-                                         withString:[HyBidSettings sharedInstance].appBundleID];
-    vastUrl = [vastUrl stringByReplacingOccurrencesOfString:@"${CB}"
-                                                  withString:[NSString stringWithFormat:@"%f", [[NSDate alloc]init].timeIntervalSince1970]];
-    vastUrl = [vastUrl stringByReplacingOccurrencesOfString:@"${UA}"
-                                         withString:[self urlEncode:HyBidWebBrowserUserAgentInfo.hyBidUserAgent]];
-   
-    if ([[HyBidUserDataManager sharedInstance]getIABGDPRConsentString] != nil) {
-        vastUrl = [vastUrl stringByReplacingOccurrencesOfString:@"${CONSENT_STRING}"
-                                             withString: [[HyBidUserDataManager sharedInstance]getIABGDPRConsentString]];
+    NSString *idfa = [HyBidSettings sharedInstance].advertisingId ?: @"-1";
+    vastUrl = [HyBidStringUtils safeReplaceInValue:vastUrl target:@"${IDFA}" replacement:idfa] ?: vastUrl;
+    vastUrl = [HyBidStringUtils safeReplaceInValue:vastUrl target:@"${BUNDLE_ID}" replacement:[HyBidSettings sharedInstance].appBundleID] ?: vastUrl;
+    vastUrl = [HyBidStringUtils safeReplaceInValue:vastUrl target:@"${CB}" replacement:[NSString stringWithFormat:@"%f", [[NSDate alloc]init].timeIntervalSince1970]] ?: vastUrl;
+    vastUrl = [HyBidStringUtils safeReplaceInValue:vastUrl target:@"${UA}" replacement:[self urlEncode:HyBidWebBrowserUserAgentInfo.hyBidUserAgent]] ?: vastUrl;
+
+    if ([[HyBidUserDataManager sharedInstance] getIABGDPRConsentString] != nil) {
+        vastUrl = [HyBidStringUtils safeReplaceInValue:vastUrl target:@"${CONSENT_STRING}" replacement:[[HyBidUserDataManager sharedInstance] getIABGDPRConsentString]] ?: vastUrl;
     }
 
-    vastUrl = [vastUrl stringByReplacingOccurrencesOfString:@"${CONSENT_OPTIN}"
-                                                 withString:[NSString stringWithFormat:@"%d", ![[HyBidUserDataManager sharedInstance]shouldAskConsent]]];
-    vastUrl = [vastUrl stringByReplacingOccurrencesOfString:@"${CONSENT_OPTOUT}"
-                                                 withString:[NSString stringWithFormat:@"%d", [[HyBidUserDataManager sharedInstance]isConsentDenied]]];
+    vastUrl = [HyBidStringUtils safeReplaceInValue:vastUrl target:@"${CONSENT_OPTIN}" replacement:[NSString stringWithFormat:@"%d", ![[HyBidUserDataManager sharedInstance] shouldAskConsent]]] ?: vastUrl;
+    vastUrl = [HyBidStringUtils safeReplaceInValue:vastUrl target:@"${CONSENT_OPTOUT}" replacement:[NSString stringWithFormat:@"%d", [[HyBidUserDataManager sharedInstance] isConsentDenied]]] ?: vastUrl;
+
     if ([HyBidConsentConfig sharedConfig].coppa) {
-        NSNumber* age = [HyBidSDKConfig sharedConfig].targeting.age ;
-        vastUrl = [vastUrl stringByReplacingOccurrencesOfString:@"${AGE}"
-                                                     withString:[NSString stringWithFormat:@"%@",age]];
-        vastUrl = [vastUrl stringByReplacingOccurrencesOfString:@"${GENDER}"
-                                             withString:[HyBidSDKConfig sharedConfig].targeting.gender];
+        NSNumber *age = [HyBidSDKConfig sharedConfig].targeting.age;
+        vastUrl = [HyBidStringUtils safeReplaceInValue:vastUrl target:@"${AGE}" replacement:[NSString stringWithFormat:@"%@", age]] ?: vastUrl;
+        vastUrl = [HyBidStringUtils safeReplaceInValue:vastUrl target:@"${GENDER}" replacement:[HyBidSDKConfig sharedConfig].targeting.gender] ?: vastUrl;
     }
 
     return [vastUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];

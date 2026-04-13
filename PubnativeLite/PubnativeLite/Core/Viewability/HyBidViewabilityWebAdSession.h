@@ -6,7 +6,7 @@
 
 #import "HyBidViewabilityAdSession.h"
 #import <WebKit/WebKit.h>
-#import "OMIDAdSessionWrapper.h"
+#import "HyBidOMIDAdSessionWrapper.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -18,7 +18,7 @@
 
 @interface HyBidViewabilityWebAdSession : HyBidViewabilityAdSession
 
-- (OMIDAdSessionWrapper*)createOMIDAdSessionforWebView:(WKWebView *)webView isVideoAd:(BOOL)videoAd;
+- (HyBidOMIDAdSessionWrapper*)createOMIDAdSessionforWebView:(WKWebView *)webView isVideoAd:(BOOL)videoAd;
 
 @end
 

@@ -10,18 +10,21 @@ import Foundation
 public class HyBidConstants: NSObject {
     
     @objc public static let HYBID_SDK_NAME = "HyBid"
-    @objc public static let HYBID_OMSDK_VERSION = "1.5.4"
-    @objc public static let HYBID_SDK_VERSION = "3.7.1"
-    @objc public static let SMAATO_SDK_VERSION = "23.0.0"
+    @objc public static let HYBID_OMSDK_VERSION = "1.6.3"
+    @objc public static let HYBID_SDK_VERSION = "3.8.0"
+    @objc public static let SMAATO_SDK_VERSION = "23.0.1"
     @objc public static let HYBID_OMSDK_IDENTIFIER = "Pubnativenet"
     @objc public static let SMAATO_OMSDK_IDENTIFIER = "Smaato"
-    @objc public static let SMAATO_OMSDK_VERSION = "1.5.2"
+    @objc public static let SMAATO_OMSDK_VERSION = "1.6.3"
     @objc public static let RENDERING_SUCCESS = "rendering success"
     @objc public static let AD_SESSION_DATA = "ad_session_data"
     @objc public static let PERCENT_VISIBLE = "percentVisible"
     @objc public static let HYBID_DEEPLINK_SCHEME = "vrvdl"
     @objc public static let HYBID_DEEPLINK_PARAM  = "deeplinkUrl"
     @objc public static let HYBID_FALLBACK_PARAM  = "fallbackUrl"
+    @objc public static let ATOM_SURVEY_PARAM  = "SurveyHtml"
+    @objc public static let ATOM_SURVEY_DATA_PARAM  = "SurveyData"
+    @objc public static let ATOM_KEY_PREFIX    = "atomvalue_"
     
     //Rendering Constants
     @objc public static var mraidExpand: Bool = true
@@ -46,12 +49,15 @@ public class HyBidConstants: NSObject {
     @objc public static var skAdNetworkModelInputValue: NSDictionary = NSDictionary()
     @objc public static var itunesIdValue: String = String()
     @objc public static var customCTAInputValue: String = String()
+    @objc public static var customCtaEnabledInputValue: Bool = false
+    @objc public static var customCtaDelayInputValue: Int = 2
     @objc public static var customBundleId: String = String()
     @objc public static var iconSizeReducedInputValue: Bool = false
     @objc public static var navigationModeInputValue: String = String()
     @objc public static var landingPageInputValue: Bool = false
     @objc public static var ctaSizeTypeInputValue: String = String()
     @objc public static var ctaLocationTypeInputValue: String = String()
+    @objc public static var sdkAutoStoreKitDelayInputValue: Int = 0
     
     @objc public static func endCardCloseOffset(adExperience: String?) -> HyBidSkipOffset {
         switch adExperience {

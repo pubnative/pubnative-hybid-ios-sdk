@@ -5,6 +5,7 @@
 //
 
 #import "HyBidMRAIDView.h"
+#import "HyBidVRVAdJIBridge.h"
 #import "PNLiteMRAIDOrientationProperties.h"
 #import "PNLiteMRAIDResizeProperties.h"
 #import "PNLiteMRAIDParser.h"
@@ -35,7 +36,11 @@
 #import "HyBidStoreKitUtils.h"
 #import "HyBidCustomClickUtil.h"
 #import "HyBidURLDriller.h"
-#import "OMIDAdSessionWrapper.h"
+#import "HyBidOMIDAdSessionWrapper.h"
+
+#if __has_include(<ATOM/ATOM-Swift.h>)
+    #import <ATOM/ATOM-Swift.h>
+#endif
 
 #define SYSTEM_VERSION_LESS_THAN(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
@@ -54,7 +59,7 @@ typedef enum {
     PNLiteMRAIDStateHidden
 } PNLiteMRAIDState;
 
-@interface HyBidMRAIDView () <WKNavigationDelegate, WKUIDelegate, PNLiteMRAIDModalViewControllerDelegate, UIGestureRecognizerDelegate, HyBidContentInfoViewDelegate, HyBidSkipOverlayDelegate, HyBidInterruptionDelegate, HyBidURLRedirectorDelegate, HyBidEndCardViewDelegate, HyBidURLDrillerDelegate>
+@interface HyBidMRAIDView () <WKNavigationDelegate, WKUIDelegate, PNLiteMRAIDModalViewControllerDelegate, UIGestureRecognizerDelegate, HyBidContentInfoViewDelegate, HyBidSkipOverlayDelegate, HyBidInterruptionDelegate, HyBidURLRedirectorDelegate, HyBidEndCardViewDelegate, HyBidURLDrillerDelegate, WKScriptMessageHandler>
 {
     PNLiteMRAIDState state;
     // This corresponds to the MRAID placement type.
@@ -64,7 +69,7 @@ typedef enum {
     BOOL isScrollable;
     BOOL isExpanded;
 
-    OMIDAdSessionWrapper *adSession;
+    HyBidOMIDAdSessionWrapper *adSession;
     
     // The only property of the MRAID expandProperties we need to keep track of
     // on the native side is the useCustomClose property.
@@ -174,6 +179,7 @@ typedef enum {
 @property (nonatomic, assign) BOOL isAutoStoreKit;
 @property (nonatomic, strong) HyBidVASTEventProcessor *vastEventProcessor;
 @property (nonatomic, assign) BOOL shouldHandleInterruptions;
+@property (nonatomic, strong) UIView *watermarkView;
 
 @end
 
@@ -304,6 +310,10 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
         [self addSubview:currentWebView];
         
         [self setWebViewConstraintsInRelationWithView:self];
+        
+        if (!isEndcard) {
+            [self addMediationWatermarkView:self];
+        }
         
         previousMaxSize = CGSizeZero;
         previousScreenSize = CGSizeZero;
@@ -479,21 +489,52 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
 
 - (void)cancel {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"cancel"];
-    [currentWebView stopLoading];
-    currentWebView = nil;
+    
+    // Clean up webView to prevent callbacks to deallocated object
+    if (currentWebView) {
+        [currentWebView stopLoading];
+        currentWebView.navigationDelegate = nil;
+        currentWebView.UIDelegate = nil;
+        currentWebView = nil;
+    }
+    
     [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
 }
 
 - (void)dealloc {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"%@ %@", [self.class description], NSStringFromSelector(_cmd)]];
     
-    [self removeObserver:self forKeyPath:@"frame"];
+    // Clean up WKWebView delegates before deallocation to prevent bmalloc crash
+    if (webView) {
+        [webView stopLoading];
+        webView.navigationDelegate = nil;
+        webView.UIDelegate = nil;
+        webView = nil;
+    }
+    
+    if (webViewPart2) {
+        [webViewPart2 stopLoading];
+        webViewPart2.navigationDelegate = nil;
+        webViewPart2.UIDelegate = nil;
+        webViewPart2 = nil;
+    }
+    
+    if (currentWebView && currentWebView != webView && currentWebView != webViewPart2) {
+        [currentWebView stopLoading];
+        currentWebView.navigationDelegate = nil;
+        currentWebView.UIDelegate = nil;
+    }
+    currentWebView = nil;
+    
+    @try {
+        [self removeObserver:self forKeyPath:@"frame"];
+    } @catch (NSException *exception) {
+        [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"Exception removing observer: %@", exception]];
+    }
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
     
-    webView = nil;
-    webViewPart2 = nil;
-    currentWebView = nil;
     navigatorGeolocation = nil;
     
     mraidParser = nil;
@@ -528,6 +569,8 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
     self.storekitDelayTimeElapsed = 0;
     self.storekitDelayTimerStartDate = nil;
     self.vastEventProcessor = nil;
+    [self removeView:self.watermarkView];
+    self.watermarkView = nil;
 }
 
 - (BOOL)isValidFeatureSet:(NSArray *)features {
@@ -757,12 +800,13 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
 - (void)close {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@", NSStringFromSelector(_cmd)]];
     
-    [[HyBidInterruptionHandler shared] deactivateContext:HyBidAdContextMraidView];
+    if (self.shouldHandleInterruptions && !modalVC) {
+        [[HyBidInterruptionHandler shared] deactivateContext:HyBidAdContextMraidView];
+    }
 
     if (state == PNLiteMRAIDStateLoading ||
         (state == PNLiteMRAIDStateDefault && !isInterstitial) ||
         state == PNLiteMRAIDStateHidden) {
-        // do nothing
         return;
     }
     
@@ -783,15 +827,21 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
     if (modalVC) {
         [self removeView: closeButton];
         [currentWebView removeFromSuperview];
+        __weak typeof(self) weakSelf = self;
         if ([modalVC respondsToSelector:@selector(dismissViewControllerAnimated:completion:)]) {
-            // used if running >= iOS 6
-            [modalVC dismissViewControllerAnimated:NO completion:nil];
+            [modalVC dismissViewControllerAnimated:NO completion:^{
+                if (weakSelf.shouldHandleInterruptions) {
+                    [[HyBidInterruptionHandler shared] deactivateContext:HyBidAdContextMraidView];
+                }
+            }];
         } else {
-            // Turn off the warning about using a deprecated method.
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             [modalVC dismissModalViewControllerAnimated:NO];
 #pragma clang diagnostic pop
+            if (self.shouldHandleInterruptions) {
+                [[HyBidInterruptionHandler shared] deactivateContext:HyBidAdContextMraidView];
+            }
         }
     }
     
@@ -991,6 +1041,8 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
 #pragma clang diagnostic pop
     }
     
+    [self addMediationWatermarkView:modalVC.view];
+    
     if (!isInterstitial) {
         [self addContentInfoViewToView:modalVC.view];
         state = PNLiteMRAIDStateExpanded;
@@ -1188,6 +1240,7 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
         resizeView = [[UIView alloc] initWithFrame:resizeFrame];
         [webView removeFromSuperview];
         [resizeView addSubview:webView];
+        [self addMediationWatermarkView:resizeView];
         [self addContentInfoViewToView:webView];
         [self.rootViewController.view addSubview:resizeView];
     }
@@ -2081,6 +2134,26 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
     return nil;
 }
 
+#pragma mark - WKScriptMessageHandler
+
+- (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message {
+    if ([message.name isEqualToString:@"onSurveyDataCollected"]) {
+        // Fire ATOM event with survey data
+        if ([message.body isKindOfClass:[NSString class]]) {
+            #if __has_include(<ATOM/ATOM-Swift.h>)
+            [Atom fireWithEventWithName:HyBidConstants.ATOM_SURVEY_DATA_PARAM eventWithValue:message.body withDelegate:self completion:^(BOOL success, NSError * _Nullable error) {
+                if (!success) {
+                    [HyBidLogger atomLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage: [NSString stringWithFormat: @"❌ Failed to save survey data: %@", error]];
+                } else {
+                    [Atom deleteValueForKey:HyBidConstants.ATOM_SURVEY_PARAM];
+                    [Atom uploadLocalDatabasesIfNeeded];
+                }
+            }];
+            #endif
+        }
+    }
+}
+
 #pragma mark - MRAIDModalViewControllerDelegate
 
 - (void)mraidModalViewControllerDidRotate:(PNLiteMRAIDModalViewController *)modalViewController {
@@ -2109,9 +2182,17 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
         webConfiguration.mediaTypesRequiringUserActionForPlayback = WKAudiovisualMediaTypeAll;
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"No inline video support has been included, videos will play full screen without autoplay."]];
     }
-    
+
+    #if __has_include(<ATOM/ATOM-Swift.h>)
+    // Inject VRVAdJI bridge with ATOM data before any page content loads
+    [HyBidVRVAdJIBridge injectIntoController:wkUController];
+
+    [wkUController addScriptMessageHandler:self name:@"onSurveyDataCollected"];
+    #endif
+
     return webConfiguration;
 }
+
 
 - (void)initWebView:(WKWebView *)wv {
     wv.navigationDelegate = self;
@@ -2506,6 +2587,65 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
     if (!isInterstitial || [skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] == [NSNull null] || ![[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] boolValue]) { return; }
     
     [self trackClickForSKOverlayWithClickType: HyBidSKOverlayAutomaticCLickVideo isFirstPresentation:isFirstPresentation];
+}
+
+#pragma mark - Watermark
+
+- (void)addMediationWatermarkView:(UIView *)view {
+    if (!view || !self.ad) {
+        return;
+    }
+    NSData *pngData = self.ad.mediationWatermarkData;
+    if (!pngData || pngData.length == 0) {
+        return;
+    }
+
+    UIImage *patternImage = [UIImage imageWithData:pngData
+                                             scale:[UIScreen mainScreen].scale];
+    if (!patternImage) return;
+
+    if (!self.watermarkView) {
+        UIView *overlay = [[UIView alloc] initWithFrame:CGRectZero];
+        overlay.userInteractionEnabled = NO;
+        self.watermarkView = overlay;
+    }
+    self.watermarkView.backgroundColor = [UIColor colorWithPatternImage:patternImage];
+
+    if (self.watermarkView.superview != view) {
+        [self.watermarkView removeFromSuperview];
+
+        if (currentWebView && currentWebView.superview == view) {
+            [view insertSubview:self.watermarkView aboveSubview:currentWebView];
+        } else {
+            [view addSubview:self.watermarkView];
+        }
+
+        self.watermarkView.translatesAutoresizingMaskIntoConstraints = NO;
+
+        if (@available(iOS 11.0, *)) {
+            UILayoutGuide *safe = view.safeAreaLayoutGuide;
+            [NSLayoutConstraint activateConstraints:@[
+                [self.watermarkView.topAnchor constraintEqualToAnchor:safe.topAnchor],
+                [self.watermarkView.bottomAnchor constraintEqualToAnchor:safe.bottomAnchor],
+                [self.watermarkView.leadingAnchor constraintEqualToAnchor:safe.leadingAnchor],
+                [self.watermarkView.trailingAnchor constraintEqualToAnchor:safe.trailingAnchor]
+            ]];
+        } else {
+            [NSLayoutConstraint activateConstraints:@[
+                [self.watermarkView.topAnchor constraintEqualToAnchor:view.topAnchor],
+                [self.watermarkView.bottomAnchor constraintEqualToAnchor:view.bottomAnchor],
+                [self.watermarkView.leadingAnchor constraintEqualToAnchor:view.leadingAnchor],
+                [self.watermarkView.trailingAnchor constraintEqualToAnchor:view.trailingAnchor]
+            ]];
+        }
+
+        if (adSession) {
+            [[HyBidViewabilityWebAdSession sharedInstance] addFriendlyObstruction:self.watermarkView
+                                                                 toOMIDAdSession:adSession
+                                                                      withReason:@"This view is a non-interactive watermark overlay"
+                                                                  isInterstitial:isInterstitial];
+        }
+    }
 }
 
 @end

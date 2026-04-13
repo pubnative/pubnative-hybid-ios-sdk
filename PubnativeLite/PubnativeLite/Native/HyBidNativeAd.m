@@ -721,7 +721,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
 
 - (void)percentVisibleDidChange:(CGFloat)newValue {
     self.adSessionData.viewability = [NSNumber numberWithFloat:newValue];
-    [ATOMManager fireAdSessionEventWithData:self.adSessionData];
+    [HyBidATOMManager fireAdSessionEventWithData:self.adSessionData];
 }
 
 @end

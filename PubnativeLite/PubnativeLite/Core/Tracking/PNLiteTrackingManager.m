@@ -6,7 +6,7 @@
 #import "PNLiteTrackingManager.h"
 #import "PNLiteTrackingManagerItem.h"
 #import "PNLiteHttpRequest.h"
-#import "ATOMError.h"
+#import "HyBidATOMError.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>

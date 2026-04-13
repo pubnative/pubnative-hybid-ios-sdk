@@ -30,7 +30,9 @@ static HyBidATOMStatus atomStatus = HyBidATOMStatusIdle;
 
 + (void)initFlow {
     if ([HyBidSDKConfig sharedConfig].atomEnabled) {
-        [self startATOM];
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
+            [self startATOM];
+        });
     }
 }
 

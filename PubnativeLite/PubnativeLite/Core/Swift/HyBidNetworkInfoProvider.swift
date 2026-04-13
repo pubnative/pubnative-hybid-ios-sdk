@@ -41,7 +41,6 @@ final class HyBidNetworkInfoProvider {
         } else if path.usesInterfaceType(.cellular) {
             let info = CTTelephonyNetworkInfo()
             let tech = info.serviceCurrentRadioAccessTechnology?.values.first
-                ?? info.currentRadioAccessTechnology // fallback for older iOS
 
             guard let carrierType = tech else {
                 return "3" // unknown cellular

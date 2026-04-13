@@ -21,6 +21,8 @@
 #import "HyBidSkipOverlay.h"
 
 #define kContentInfoContainerTag 2343
+#define kIPadOS26ControlTopPadding 44.f
+#define kIPadOS26ControlSidePadding 16.f
 
 @interface HyBidEndCardView () <HyBidMRAIDViewDelegate, HyBidMRAIDServiceDelegate, UIGestureRecognizerDelegate, WKNavigationDelegate, HyBidVASTEventProcessorDelegate, HyBidURLDrillerDelegate, HyBidInterruptionDelegate, HyBidSkipOverlayDelegate>
 
@@ -149,8 +151,11 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
 }
 
 - (void)removingReferences {
+    [[HyBidInterruptionHandler shared] deactivateContext:HyBidAdContextEndcard];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     self.endCardImageView = nil;
+    self.mraidView.delegate = nil;
+    self.mraidView.serviceDelegate = nil;
     self.mraidView = nil;
     self.serviceProvider = nil;
     self.delegate = nil;
@@ -262,8 +267,9 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
     if (!self.isInterstitial) { return; }
     
     if (self.closeButtonTimeElapsed != -1) {
+        __weak typeof(self) weakSelf = self;
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.closeButtonTimer = [NSTimer scheduledTimerWithTimeInterval:([self.endCardCloseDelay.offset integerValue] - self.closeButtonTimeElapsed) target:self selector:@selector(addCloseButton) userInfo:nil repeats:NO];
+            weakSelf.closeButtonTimer = [NSTimer scheduledTimerWithTimeInterval:([weakSelf.endCardCloseDelay.offset integerValue] - weakSelf.closeButtonTimeElapsed) repeats:NO block:^(NSTimer *t) { [weakSelf addCloseButton]; }];
         });
         
         self.closeButtonTimerStartDate = [NSDate date];
@@ -276,8 +282,9 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
     if (self.storekitDelayTimeElapsed > 0 && self.isTimerPaused) {
         NSTimeInterval remainingTime = self.sdkAutoStorekitDelay - self.storekitDelayTimeElapsed;
         if (remainingTime > 0) {
+            __weak typeof(self) weakSelf = self;
             dispatch_async(dispatch_get_main_queue(), ^{
-                self.delayTimer = [NSTimer scheduledTimerWithTimeInterval:remainingTime target:self selector:@selector(triggerShowStorekitPage) userInfo:nil repeats:NO];
+                weakSelf.delayTimer = [NSTimer scheduledTimerWithTimeInterval:remainingTime repeats:NO block:^(NSTimer *t) { [weakSelf triggerShowStorekitPage]; }];
             });
             self.storekitDelayTimerStartDate = [NSDate date];
         }
@@ -314,8 +321,9 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
                                                                      ad:self.ad];
         [self.skipOverlay addSkipOverlayViewIn:self delegate:self];
     } else {
+        __weak typeof(self) weakSelf = self;
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.closeButtonTimer = [NSTimer scheduledTimerWithTimeInterval:self.endCardCloseDelay.offset.integerValue target:self selector:@selector(addCloseButton) userInfo:nil repeats:NO];
+            weakSelf.closeButtonTimer = [NSTimer scheduledTimerWithTimeInterval:weakSelf.endCardCloseDelay.offset.integerValue repeats:NO block:^(NSTimer *t) { [weakSelf addCloseButton]; }];
         });
         
         self.closeButtonTimerStartDate = [NSDate date];
@@ -330,40 +338,54 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
     return isLeftPosition && isTopPosition ? YES : NO;
 }
 
+- (BOOL)pn_shouldApplyIPadOS26ControlInsets {
+    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad) {
+        return NO;
+    }
+    NSOperatingSystemVersion version = [[NSProcessInfo processInfo] operatingSystemVersion];
+    return version.majorVersion >= 26;
+}
+
 - (void)addCloseButton {
     [self.closeButtonTimer invalidate];
     self.closeButtonTimer = nil;
     self.closeButtonTimeElapsed = -1;
         
     dispatch_async(dispatch_get_main_queue(), ^{
+        if (!self.rootViewController || !self.rootViewController.view) return;
+        BOOL shouldApplyInsets = [self pn_shouldApplyIPadOS26ControlInsets];
+        CGFloat topPadding = shouldApplyInsets ? kIPadOS26ControlTopPadding : 0.f;
+
+        // When content-info is in the top-left, place the close button on the trailing side
+        // to avoid overlapping the content-info view. iPadOS 26 traffic-light controls appear
+        // on the leading side, so only apply extra side padding when using the leading side.
+        BOOL placeOnLeading = ![self isContentInfoInTopLeftPosition];
+        NSLayoutAttribute sideAttribute = placeOnLeading ? NSLayoutAttributeLeading : NSLayoutAttributeTrailing;
+        CGFloat sidePadding = (shouldApplyInsets && placeOnLeading) ? kIPadOS26ControlSidePadding : 0.f;
+
         self.closeButton = [[HyBidCloseButton alloc] initWithRootView:self.rootViewController.view action:@selector(close) target:self showSkipButton:self.withSkipButton ad:self.ad];
-        if([self isContentInfoInTopLeftPosition]){
-            if (@available(iOS 11.0, *)) {
-                [NSLayoutConstraint activateConstraints:@[
-                    [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
-                    [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]
-                ]];
-            } else {
-                [NSLayoutConstraint activateConstraints:@[
-                    [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
-                    [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]
-                ]];
-            }
-        } else {
-            if (@available(iOS 11.0, *)) {
-                [NSLayoutConstraint activateConstraints:@[
-                    [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
-                    [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view.safeAreaLayoutGuide attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]
-                ]];
-            } else {
-                [NSLayoutConstraint activateConstraints:@[
-                    [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
-                    [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.rootViewController.view attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]
-                ]];
+
+        UIView *rootView = self.rootViewController.view;
+        NSArray *existingConstraints = [rootView.constraints copy];
+        for (NSLayoutConstraint *constraint in existingConstraints) {
+            if (constraint.firstItem == self.closeButton || constraint.secondItem == self.closeButton) {
+                [rootView removeConstraint:constraint];
             }
         }
+
+        if (@available(iOS 11.0, *)) {
+            [NSLayoutConstraint activateConstraints:@[
+                [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:rootView.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:topPadding],
+                [NSLayoutConstraint constraintWithItem:self.closeButton attribute:sideAttribute relatedBy:NSLayoutRelationEqual toItem:rootView.safeAreaLayoutGuide attribute:sideAttribute multiplier:1.f constant:sidePadding]
+            ]];
+        } else {
+            [NSLayoutConstraint activateConstraints:@[
+                [NSLayoutConstraint constraintWithItem:self.closeButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:rootView attribute:NSLayoutAttributeTop multiplier:1.f constant:topPadding],
+                [NSLayoutConstraint constraintWithItem:self.closeButton attribute:sideAttribute relatedBy:NSLayoutRelationEqual toItem:rootView attribute:sideAttribute multiplier:1.f constant:sidePadding]
+            ]];
+        }
         
-        [self.rootViewController.view bringSubviewToFront:self.closeButton];
+        [rootView bringSubviewToFront:self.closeButton];
     });
 }
 
@@ -884,17 +906,33 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
 }
 
 - (void)navigationToURL:(NSString *)url shouldOpenBrowser:(BOOL)shouldOpenBrowser navigationType:(NSString *)navigationType {
-    
-    if(shouldOpenBrowser) {
-        HyBidWebBrowserNavigation navigation = [HyBidInternalWebBrowser.shared webBrowserNavigationBehaviourFromString: navigationType];
-        
-        if (navigation == HyBidWebBrowserNavigationInternal) {
-            [HyBidInternalWebBrowser.shared navigateToURL:url];
-        } else {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url] options:@{} completionHandler:^(BOOL success) {
-                [self.delegate endCardViewRedirectedWithSuccess:success];
-            }];
-        }
+    if (!shouldOpenBrowser ||
+        ![url isKindOfClass:[NSString class]] ||
+        url.length == 0) {
+        [self.delegate endCardViewRedirectedWithSuccess:NO];
+        return;
+    }
+
+    NSURL *targetURL = [NSURL URLWithString:url];
+    if (!targetURL) {
+        NSString *encoded = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+        targetURL = encoded.length ? [NSURL URLWithString:encoded] : nil;
+    }
+
+    if (!targetURL) {
+        [self.delegate endCardViewRedirectedWithSuccess:NO];
+        return;
+    }
+
+    HyBidWebBrowserNavigation navigation =
+        [HyBidInternalWebBrowser.shared webBrowserNavigationBehaviourFromString:navigationType];
+
+    if (navigation == HyBidWebBrowserNavigationInternal) {
+        [HyBidInternalWebBrowser.shared navigateToURL:targetURL.absoluteString];
+    } else {
+        [[UIApplication sharedApplication] openURL:targetURL options:@{} completionHandler:^(BOOL success) {
+            [self.delegate endCardViewRedirectedWithSuccess:success];
+        }];
     }
 }
 
@@ -1039,8 +1077,9 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
     }
     
     if (self.sdkAutoStorekitDelay > 0) {
+        __weak typeof(self) weakSelf = self;
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.delayTimer = [NSTimer scheduledTimerWithTimeInterval:self.sdkAutoStorekitDelay target:self selector:@selector(triggerShowStorekitPage) userInfo:nil repeats:NO];
+            weakSelf.delayTimer = [NSTimer scheduledTimerWithTimeInterval:weakSelf.sdkAutoStorekitDelay repeats:NO block:^(NSTimer *t) { [weakSelf triggerShowStorekitPage]; }];
         });
         self.storekitDelayTimerStartDate = [NSDate date];
         self.storekitDelayTimeElapsed = 0.0;
@@ -1058,20 +1097,21 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
     if (self.showStorekitEnabled && self.isInterstitial) {
         if(self.endCard.isCustomEndCard && self.isExtensionDisplay) {
             self.shouldOpenBrowser = YES;
+            self.isAutoStoreKit = YES;
             if (self.sdkAutoStorekitDelay > 0) {
                 [self determineStorekitDelayOffsetAndBehaviour];
             } else {
                 [self showStorekitPage:[self.endCard type] withURL:nil withShouldOpenBrowser:YES];
             }
-        } else if (![self.ad.customEndcardEnabled boolValue] || self.isFallbackDisplay) {
+        } else if (![self.ad.customEndcardEnabled boolValue] || self.isFallbackDisplay || (self.isExtensionDisplay && !self.endCard.isCustomEndCard && self.ad.customEndCard == nil)) {
             self.shouldOpenBrowser = YES;
+            self.isAutoStoreKit = YES;
             if (self.sdkAutoStorekitDelay > 0) {
                 [self determineStorekitDelayOffsetAndBehaviour];
             } else {
                 [self showStorekitPage:[self.endCard type] withURL:nil withShouldOpenBrowser:YES];
             }
         }
-        self.isAutoStoreKit = YES;
     }
 }
 
@@ -1213,7 +1253,7 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
 }
 
 - (void)determineIfAdClickIsTriggeredWithURL:(NSString *)url withShouldOpenBrowser:(BOOL)shouldOpenBrowser {
-    if(!self.shouldTriggerAdClick && shouldOpenBrowser) {
+    if(!self.shouldTriggerAdClick && shouldOpenBrowser && [url isKindOfClass:[NSString class]] && url.length > 0) {
         HyBidWebBrowserNavigation navigation = [HyBidInternalWebBrowser.shared webBrowserNavigationBehaviourFromString:self.ad.navigationMode];
         
         if (navigation == HyBidWebBrowserNavigationInternal) {

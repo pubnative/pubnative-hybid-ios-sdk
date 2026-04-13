@@ -32,6 +32,7 @@ typedef id<GADMediationBannerAdEventDelegate> _Nullable(^HyBidGADBannerCustomEve
                    completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
     self.completionBlock = completionHandler;
     NSString *serverParameter = [adConfiguration.credentials.settings objectForKey:@"parameter"];
+    
     if ([HyBidGADUtils areExtrasValid:serverParameter] && [HyBidGADUtils appToken:serverParameter] != nil) {
         if (HyBid.isInitialized && [[HyBidGADUtils appToken:serverParameter] isEqualToString:[HyBidSDKConfig sharedConfig].appToken]) {
             [self loadBannerWithZoneID:[HyBidGADUtils zoneID:serverParameter]];

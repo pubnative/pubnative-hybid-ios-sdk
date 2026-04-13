@@ -294,7 +294,9 @@
     } else {
         [self show:adView withPosition:self.bannerPosition];
     }
-    
+
+    [self addMediationWatermarkView:adView];
+
     if (self.autoShowOnLoad) {
         [self invokeDidLoad];
     }
@@ -533,6 +535,10 @@
     }
 }
 
+- (void)setMediationWatermark:(NSData *)pngData {
+    self.mediationWatermarkData = pngData;
+}
+
 #pragma mark HyBidAdRequestDelegate
 
 - (void)requestDidStart:(HyBidAdRequest *)request {
@@ -557,7 +563,7 @@
         } else {
             self.ad.adType = kHyBidAdTypeUnsupported;
         }
-        self.adSessionData = [ATOMManager createAdSessionDataFromRequest:request ad:ad];
+        self.adSessionData = [HyBidATOMManager createAdSessionDataFromRequest:request ad:ad];
         if (self.autoShowOnLoad) {
             [self renderAd];
         } else {
@@ -632,7 +638,7 @@
 
 - (void)signalDataDidFinishWithAd:(HyBidAd *)ad {
     self.ad = ad;
-    self.adSessionData = [ATOMManager createAdSessionDataFromRequest:nil ad:ad];
+    self.adSessionData = [HyBidATOMManager createAdSessionDataFromRequest:nil ad:ad];
     [self renderAdForSignalData];
 }
 
@@ -679,5 +685,57 @@
                                                         constant:adSize.width]];
 }
 
-@end
+#pragma mark - Watermark Overlay
 
+- (void)addMediationWatermarkView:(UIView *)adView {
+    UIImage *overlayImage = nil;
+    if (self.mediationWatermarkData != nil) {
+        overlayImage = [UIImage imageWithData:self.mediationWatermarkData
+                                        scale:[UIScreen mainScreen].scale];
+    }
+
+    if (!overlayImage) {
+        return;
+    }
+
+    UIView *overlay = [[UIView alloc] initWithFrame:adView.bounds];
+    overlay.backgroundColor = [UIColor colorWithPatternImage:overlayImage];
+    overlay.userInteractionEnabled = NO;
+
+    [adView addSubview:overlay];
+
+    overlay.translatesAutoresizingMaskIntoConstraints = NO;
+
+    [NSLayoutConstraint activateConstraints:@[
+        [NSLayoutConstraint constraintWithItem:overlay
+                                     attribute:NSLayoutAttributeTop
+                                     relatedBy:NSLayoutRelationEqual
+                                        toItem:adView
+                                     attribute:NSLayoutAttributeTop
+                                    multiplier:1.0
+                                      constant:0.0],
+        [NSLayoutConstraint constraintWithItem:overlay
+                                     attribute:NSLayoutAttributeBottom
+                                     relatedBy:NSLayoutRelationEqual
+                                        toItem:adView
+                                     attribute:NSLayoutAttributeBottom
+                                    multiplier:1.0
+                                      constant:0.0],
+        [NSLayoutConstraint constraintWithItem:overlay
+                                     attribute:NSLayoutAttributeLeading
+                                     relatedBy:NSLayoutRelationEqual
+                                        toItem:adView
+                                     attribute:NSLayoutAttributeLeading
+                                    multiplier:1.0
+                                      constant:0.0],
+        [NSLayoutConstraint constraintWithItem:overlay
+                                     attribute:NSLayoutAttributeTrailing
+                                     relatedBy:NSLayoutRelationEqual
+                                        toItem:adView
+                                     attribute:NSLayoutAttributeTrailing
+                                    multiplier:1.0
+                                      constant:0.0]
+    ]];
+}
+
+@end

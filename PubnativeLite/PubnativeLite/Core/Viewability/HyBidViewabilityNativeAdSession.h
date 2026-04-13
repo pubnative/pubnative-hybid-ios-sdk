@@ -5,11 +5,11 @@
 //
 
 #import "HyBidViewabilityAdSession.h"
-#import "OMIDAdSessionWrapper.h"
+#import "HyBidOMIDAdSessionWrapper.h"
 
 @interface HyBidViewabilityNativeAdSession : HyBidViewabilityAdSession
 
-- (OMIDAdSessionWrapper*) createOMIDAdSessionforNative:(UIView *)view withScript:(NSMutableArray *)scripts;
+- (HyBidOMIDAdSessionWrapper*) createOMIDAdSessionforNative:(UIView *)view withScript:(NSMutableArray *)scripts;
 
 @end
 

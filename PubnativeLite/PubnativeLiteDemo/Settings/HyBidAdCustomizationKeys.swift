@@ -12,10 +12,13 @@ enum HyBidAdCustomizationKeys: String {
     case customEndcardInputValue = "custom_endcard_input_value"
     case skAdNetworkModelInputValue = "skadnetwork_input_value"
     case customCTAInputValue = "custom_cta_input_value"
+    case customCtaEnabledInputValue = "custom_cta_enabled_input_value"
+    case customCtaDelayInputValue = "custom_cta_delay_input_value"
     case customBundleIdValue = "custom_bundle_id_value"
     case iconSizeReducedInputValue = "pc_reduced_icon_sizes_input_value"
     case navigationModeInputValue = "navigation_mode_input_value"
     case landingPageInputValue = "landing_page_input_value"
     case ctaSizeTypeInputValue = "bc_learn_more_size_input_value"
     case ctaLocationTypeInputValue = "bc_learn_more_location_input_value"
+    case sdkAutoStoreKitDelayInputValue = "sdk_autostorekit_delay_input_value"
 }

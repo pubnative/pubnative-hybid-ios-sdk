@@ -114,15 +114,20 @@
     [[HyBidViewabilityManager sharedInstance] reportEvent:HyBidReportingEventType.AD_SESSION_INITIALIZED];
 
     if (omidAdSession) {
-        OMIDAdSessionWrapper* adSessionWrapper = [[OMIDAdSessionWrapper alloc] initWithAdSession:omidAdSession];
-        [omidAdSession setMainAdView:view];
-        self.adEvents = [[HyBidViewabilityManager sharedInstance] getAdEvents:adSessionWrapper];
-        self.omidMediaEvents = [[HyBidViewabilityManager sharedInstance] getMediaEvents:adSessionWrapper];
-
-        return adSessionWrapper;
+        return [self wrapAndSetupOMIDSession:omidAdSession forView:view];
     }
 
     return nil;
+}
+
+/// Wraps an OMID ad session in HyBidOMIDAdSessionWrapper, sets main ad view, and fetches ad/media events.
+/// Used so the same path can be covered by tests with a fake session when OMSDK is not linked.
+- (id)wrapAndSetupOMIDSession:(id)omidAdSession forView:(id)view {
+    HyBidOMIDAdSessionWrapper *adSessionWrapper = [[HyBidOMIDAdSessionWrapper alloc] initWithAdSession:omidAdSession];
+    [omidAdSession setMainAdView:view];
+    self.adEvents = [[HyBidViewabilityManager sharedInstance] getAdEvents:adSessionWrapper];
+    self.omidMediaEvents = [[HyBidViewabilityManager sharedInstance] getMediaEvents:adSessionWrapper];
+    return adSessionWrapper;
 }
 
 - (void)fireOMIDAdLoadEvent {

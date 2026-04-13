@@ -271,7 +271,7 @@ static BOOL sHyBidHasLGPD = NO;
 #pragma mark - GDPR Consent String
 
 - (void)setIABGDPRConsentString:(NSString *)consentString {
-    [self setUserDataWithKey:consentString withValue:kGDPRConsentKey];
+    [self setUserDataWithKey:kGDPRConsentKey withValue:consentString];
 }
 
 - (NSString *)getIABGDPRConsentString {
@@ -286,17 +286,17 @@ static BOOL sHyBidHasLGPD = NO;
 }
 
 - (void)setIABGDPRConsentStringFromPublicKey {
-    if ([self getUserDataWithKey:kGDPRPublicConsentV2Key] &&
-        [[self getUserDataWithKey:kGDPRPublicConsentV2Key] isKindOfClass:[NSString class]] &&
-        [NSString stringWithString:[self getUserDataWithKey:kGDPRPublicConsentV2Key]].length != 0) {
-        [self setIABGDPRConsentString:[self getUserDataWithKey:kGDPRPublicConsentV2Key]];
-    } else if ([self getUserDataWithKey:kGDPRPublicConsentKey] &&
-               [[self getUserDataWithKey:kGDPRPublicConsentKey] isKindOfClass:[NSString class]] &&
-               [NSString stringWithString:[self getUserDataWithKey:kGDPRPublicConsentKey]].length != 0) {
-        [self setIABGDPRConsentString:[self getUserDataWithKey:kGDPRPublicConsentKey]];
-    } else {
-        [self setIABGDPRConsentString:@""];
+    NSString *consentV2 = [self getUserDataWithKey:kGDPRPublicConsentV2Key];
+    if ([consentV2 isKindOfClass:[NSString class]] && consentV2.length != 0) {
+        [self setIABGDPRConsentString:consentV2];
+        return;
     }
+    NSString *consent = [self getUserDataWithKey:kGDPRPublicConsentKey];
+    if ([consent isKindOfClass:[NSString class]] && consent.length != 0) {
+        [self setIABGDPRConsentString:consent];
+        return;
+    }
+    [self setIABGDPRConsentString:@""];
 }
 
 - (void)removeIABGDPRConsentString {
@@ -306,7 +306,7 @@ static BOOL sHyBidHasLGPD = NO;
 #pragma mark - U.S. Privacy String (CCPA)
 
 - (void)setIABUSPrivacyString:(NSString *)privacyString {
-    [self setUserDataWithKey:privacyString withValue:kCCPAPrivacyKey];
+    [self setUserDataWithKey:kCCPAPrivacyKey withValue:privacyString];
 }
 
 - (NSString *)getIABUSPrivacyString {
@@ -318,10 +318,9 @@ static BOOL sHyBidHasLGPD = NO;
 }
 
 - (void)setIABUSPrivacyStringFromPublicKey {
-    if ([self getUserDataWithKey:kCCPAPublicPrivacyKey] &&
-        [[self getUserDataWithKey:kCCPAPublicPrivacyKey] isKindOfClass:[NSString class]] &&
-        [NSString stringWithString:[self getUserDataWithKey:kCCPAPublicPrivacyKey]].length != 0) {
-        [self setUserDataWithKey:kCCPAPrivacyKey withValue:[self getUserDataWithKey:kCCPAPublicPrivacyKey]];
+    NSString *privacyString = [self getUserDataWithKey:kCCPAPublicPrivacyKey];
+    if ([privacyString isKindOfClass:[NSString class]] && privacyString.length != 0) {
+        [self setUserDataWithKey:kCCPAPrivacyKey withValue:privacyString];
     } else {
         [self setUserDataWithKey:kCCPAPrivacyKey withValue:@""];
     }

@@ -117,8 +117,6 @@ private typealias HyBidAdSettingsDictionary = Dictionary<String,Any>
                [
                 AdSetting(sectionTitle: "General", settingTitle: "Native Close Button Delay", cellType: .numberFieldCell, isChecked: false, remoteConfigName: "close_button_delay" , value: HyBidConstants.nativeCloseButtonOffset.offset),
                 AdSetting(sectionTitle: "General", settingTitle: AudioStatusStringTitle, cellType: .segmentedControlCell, isChecked: false, remoteConfigName: "audiostate", value: stringifyAudioStatus(with: HyBidConstants.audioStatus)),
-                AdSetting(sectionTitle: "General", settingTitle: "Creative Autostore Kit", cellType: .switchCell, isChecked: false, remoteConfigName: "creative_autostorekit", value: HyBidConstants.creativeAutoStorekitEnabled),
-                AdSetting(sectionTitle: "General", settingTitle: "SDK Autostore Kit", cellType: .switchCell, isChecked: false, remoteConfigName: "sdk_autostorekit", value: HyBidConstants.sdkAutoStorekitEnabled),
                 AdSetting(sectionTitle: "General", settingTitle: "MRAID Expand Enabled", cellType: .switchCell, isChecked: false, remoteConfigName: "mraid_expand", value: HyBidConstants.mraidExpand),
                 AdSetting(sectionTitle: "General", settingTitle: "SKOverlay Enabled", cellType: .switchCell, isChecked: false, remoteConfigName: "SKOverlayenabled", value: false),
                 AdSetting(sectionTitle: "General", settingTitle: ClickBehaviorStringTitle, cellType: .segmentedControlCell, isChecked: false, remoteConfigName: "fullscreen_clickability", value: boolActionBehavior(with: HyBidConstants.interstitialActionBehaviour)),
@@ -142,7 +140,26 @@ private typealias HyBidAdSettingsDictionary = Dictionary<String,Any>
                 AdSetting(sectionTitle: "Rewarded", settingTitle: "Video Skip Offset", cellType: .numberFieldCell, isChecked: false, remoteConfigName: "rewarded_video_skip_offset", value: HyBidConstants.rewardedVideoSkipOffset.offset),
                 AdSetting(sectionTitle: "Rewarded", settingTitle: "Close After Finish", cellType: .switchCell, isChecked: false, remoteConfigName: "close_reward_after_finished", value: HyBidConstants.rewardedCloseOnFinish)
                ],
-               
+               [
+                AdSetting(sectionTitle: "Store Kit",
+                          settingTitle: "Creative AutoStoreKit",
+                          cellType: .switchCell,
+                          isChecked: false,
+                          remoteConfigName: "creative_autostorekit",
+                          value: HyBidConstants.creativeAutoStorekitEnabled),
+                AdSetting(sectionTitle: "Store Kit",
+                          settingTitle: "SDK AutoStoreKit",
+                          cellType: .switchCell,
+                          isChecked: false,
+                          remoteConfigName: "sdk_autostorekit",
+                          value: HyBidConstants.sdkAutoStorekitEnabled),
+                AdSetting(sectionTitle: "Store Kit",
+                          settingTitle: "SDK AutoStoreKit delay",
+                          cellType: .numberFieldCell,
+                          isChecked: false,
+                          remoteConfigName: HyBidAdCustomizationKeys.sdkAutoStoreKitDelayInputValue.rawValue,
+                          value: HyBidConstants.sdkAutoStoreKitDelayInputValue),
+               ],
                [
                 AdSetting(sectionTitle: "Endcard", settingTitle: "Show EndCard", cellType: .switchCell, isChecked: false, remoteConfigName: "endcardenabled", value: HyBidConstants.showEndCard),
                 AdSetting(sectionTitle: "Endcard", settingTitle: "EndCard Close Delay", cellType: .numberFieldCell, isChecked: false, remoteConfigName: "endcard_close_delay", value: HyBidConstants.endCardCloseOffset(adExperience: .none).offset),
@@ -157,7 +174,24 @@ private typealias HyBidAdSettingsDictionary = Dictionary<String,Any>
                 AdSetting(sectionTitle: "Bundle ID", settingTitle: "Custom Bundle ID Value", cellType: .textFieldCell, isChecked: true, remoteConfigName: HyBidAdCustomizationKeys.customBundleIdValue.rawValue, value: HyBidConstants.customBundleId),
                ],
                [
-                AdSetting(sectionTitle: "Custom CTA", settingTitle: "Custom CTA Value", cellType: .textFieldCell, isChecked: true, remoteConfigName: HyBidAdCustomizationKeys.customCTAInputValue.rawValue, value: HyBidConstants.customCTAInputValue)
+                AdSetting(sectionTitle: "Custom CTA",
+                          settingTitle: "Custom CTA Enabled",
+                          cellType: .switchCell,
+                          isChecked: false,
+                          remoteConfigName: HyBidAdCustomizationKeys.customCtaEnabledInputValue.rawValue,
+                          value: HyBidConstants.customCtaEnabledInputValue),
+                AdSetting(sectionTitle: "Custom CTA",
+                          settingTitle: "Custom CTA Delay",
+                          cellType: .numberFieldCell,
+                          isChecked: false,
+                          remoteConfigName: HyBidAdCustomizationKeys.customCtaDelayInputValue.rawValue,
+                          value: HyBidConstants.customCtaDelayInputValue),
+                AdSetting(sectionTitle: "Custom CTA",
+                          settingTitle: "Custom CTA value",
+                          cellType: .textFieldCell,
+                          isChecked: true,
+                          remoteConfigName: HyBidAdCustomizationKeys.customCTAInputValue.rawValue,
+                          value: HyBidConstants.customCTAInputValue)
                ],
                [
                 AdSetting(sectionTitle: "Navigation mode",

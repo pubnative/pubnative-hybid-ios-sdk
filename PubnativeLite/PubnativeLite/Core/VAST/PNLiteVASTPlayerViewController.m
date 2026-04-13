@@ -32,8 +32,8 @@
 #import "HyBidVASTParserError.h"
 #import "HyBidStoreKitUtils.h"
 #import "HyBidDeeplinkHandler.h"
-#import "OMIDAdSessionWrapper.h"
-#import "OMIDVerificationScriptResourceWrapper.h"
+#import "HyBidOMIDAdSessionWrapper.h"
+#import "HyBidOMIDVerificationScriptResourceWrapper.h"
 
 #define kContentInfoContainerTag 2343
 
@@ -88,6 +88,8 @@ HyBidCloseButton *closeButton;
 
 #define HYBID_PNLiteVAST_CLOSE_BUTTON_TAG 1001
 #define kAudioMuteSize 30
+#define kIPadOS26ControlTopPadding 44.f
+#define kIPadOS26ControlSidePadding 16.f
 
 @interface PNLiteVASTPlayerViewController ()<HyBidVASTEventProcessorDelegate, HyBidContentInfoViewDelegate, HyBidURLDrillerDelegate, HyBidInterruptionDelegate, HyBidEndCardViewDelegate, HyBidSkipOverlayDelegate, PNLiteOrientationManagerDelegate, HyBidCustomCTAViewDelegate, HyBidSKOverlayDelegate>
 
@@ -117,7 +119,7 @@ HyBidCloseButton *closeButton;
 @property (nonatomic, strong) HyBidContentInfoView *contentInfoView;
 @property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, strong) HyBidSkAdNetworkModel *skAdModel;
-@property (nonatomic, strong) OMIDAdSessionWrapper *adSession;
+@property (nonatomic, strong) HyBidOMIDAdSessionWrapper *adSession;
 
 @property (nonatomic, strong) NSTimer *loadTimer;
 @property (nonatomic, strong) id playbackObserverToken;
@@ -146,6 +148,8 @@ HyBidCloseButton *closeButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewProgressLeadingConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewProgressBottomConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewProgressTrailingConstraint;
+@property (nonatomic, strong) UIView *progressFillView;
+@property (nonatomic, strong) NSLayoutConstraint *progressFillWidthConstraint;
 
 @property (nonatomic, strong) NSMutableArray<HyBidEndCard *> *endCards;
 @property (nonatomic, strong) HyBidEndCardManager *endCardManager;
@@ -174,6 +178,7 @@ HyBidCloseButton *closeButton;
 @property (nonatomic, strong) HyBidEndCard* currentEndCard;
 @property (nonatomic, assign) BOOL adHasBeenReplayed;
 @property (nonatomic, assign) BOOL interruptionHandlerActivated;
+@property (nonatomic, strong) UIView *watermarkView;
 
 @end
 
@@ -260,6 +265,11 @@ typedef enum {
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
+    
+    if (!self.watermarkView) {
+        [self addMediationWatermarkView];
+    }
+    
     if (self.layer && self.player.currentItem.presentationSize.width > 0 && self.player.currentItem.presentationSize.height > 0) {
         CGSize videoSize = self.player.currentItem.presentationSize;
         CGFloat aspectRatio = videoSize.width / videoSize.height;
@@ -277,6 +287,17 @@ typedef enum {
                          : UIRectCornerTopLeft|UIRectCornerBottomLeft;
     [self setRoundedCornersOf:self.btnOpenOffer corners:corners radius:CGSizeMake([self.ad ctaData].cornerRadius, [self.ad ctaData].cornerRadius)];
     [self settingCTAPosition];
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    
+    __weak typeof(self) weakSelf = self;
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
+        [weakSelf pn_updateOverlayPositionsForCurrentLayout];
+    } completion:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
+        [weakSelf pn_updateOverlayPositionsForCurrentLayout];
+    }];
 }
 
 - (void)setCloseButtonPosition:(HyBidVASTButtonPosition)position withLayerFrame:(CGRect)frame
@@ -316,6 +337,9 @@ typedef enum {
     if (self.skipOverlay.superview != self.view) {
         return;
     }
+    if ([self pn_shouldApplyIPadOS26ControlInsets]) {
+        skipOverlayY = MAX(skipOverlayY, kIPadOS26ControlTopPadding);
+    }
     NSLayoutConstraint *trailingConstraint = [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0];
     NSLayoutConstraint *topConstraint = [NSLayoutConstraint constraintWithItem:self.skipOverlay attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:skipOverlayY];
     
@@ -353,6 +377,32 @@ typedef enum {
     self.endCardShown = NO;
     self.isCountdownTimerStarted = NO;
     [self hideUserInterfaceVideoElementsWith:self.ad hideByDefault:NO isOnClick:NO];
+    [self setupProgressFillView];
+}
+
+- (void)setupProgressFillView {
+    if (self.progressFillView) {
+        [self.progressFillWidthConstraint setActive:NO];
+        [self.progressFillView removeFromSuperview];
+        self.progressFillView = nil;
+        self.progressFillWidthConstraint = nil;
+    }
+    
+    [self.viewProgress setTintColor:[UIColor clearColor]];
+    [self.viewProgress setTrackTintColor:[UIColor clearColor]];
+
+    self.progressFillView = [[UIView alloc] init];
+    self.progressFillView.backgroundColor = [UIColor whiteColor];
+    self.progressFillView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.viewProgress addSubview:self.progressFillView];
+
+    self.progressFillWidthConstraint = [self.progressFillView.widthAnchor constraintEqualToConstant:0];
+    [NSLayoutConstraint activateConstraints:@[
+        [self.progressFillView.leadingAnchor constraintEqualToAnchor:self.viewProgress.leadingAnchor],
+        [self.progressFillView.topAnchor constraintEqualToAnchor:self.viewProgress.topAnchor],
+        [self.progressFillView.bottomAnchor constraintEqualToAnchor:self.viewProgress.bottomAnchor],
+        self.progressFillWidthConstraint
+    ]];
 }
 
 - (HyBidVASTIcon *)getIconFromArray:(NSArray<HyBidVASTIcon *> *)icons
@@ -648,8 +698,8 @@ typedef enum {
                             NSString *params = [[verification verificationParameters] content];
 
                             if (urlString.length != 0 && vendor.length != 0 && params.length != 0) {
-                                OMIDVerificationScriptResourceWrapper *scriptResource =
-                                    [[OMIDVerificationScriptResourceWrapper alloc] initWithURL:[NSURL URLWithString:urlString]
+                                HyBidOMIDVerificationScriptResourceWrapper *scriptResource =
+                                    [[HyBidOMIDVerificationScriptResourceWrapper alloc] initWithURL:[NSURL URLWithString:urlString]
                                                                                      vendorKey:vendor
                                                                                     parameters:params];
 
@@ -671,6 +721,12 @@ typedef enum {
         }
         if (self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded) {
             [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.skipOverlay toOMIDAdSession:self.adSession withReason:@"" isInterstitial:(self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded)];
+        }
+        if (self.watermarkView) {
+            [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.watermarkView
+                                                                 toOMIDAdSession:self.adSession
+                                                                      withReason:@"This view is a non-interactive watermark overlay"
+                                                                   isInterstitial:(self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded)];
         }
         [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.btnMute toOMIDAdSession:self.adSession withReason:@"This view is related to mute button" isInterstitial:(self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded)];
         [[HyBidViewabilityNativeVideoAdSession sharedInstance] addFriendlyObstruction:self.btnOpenOffer toOMIDAdSession:self.adSession withReason:@"This view is related to open offer" isInterstitial:(self.adFormat == HyBidAdFormatInterstitial || self.adFormat == HyBidAdFormatRewarded)];
@@ -762,16 +818,19 @@ typedef enum {
                                                          [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:buttonSize.width],
                                                          [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:buttonSize.height], nil];
     
+    BOOL shouldApplyIPadOS26InsetsForMute = [self pn_shouldApplyIPadOS26ControlInsets];
+    CGFloat muteTopPadding = shouldApplyIPadOS26InsetsForMute ? kIPadOS26ControlTopPadding : 0.f;
+
     switch (position) {
         case TOP_RIGHT:
             if (@available(iOS 11.0, *)) {
                 [constraints addObjectsFromArray: @[
-                    [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:2.f],
+                    [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:2.f + muteTopPadding],
                     [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant:2.f]
                 ]];
             } else {
                 [constraints addObjectsFromArray: @[
-                    [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
+                    [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.f constant:muteTopPadding],
                     [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]
                 ]];
             }
@@ -816,32 +875,26 @@ typedef enum {
     NSMutableArray<NSLayoutConstraint *> *constraints = [NSMutableArray arrayWithObjects:
                                                          [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:buttonSize.width],
                                                          [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:buttonSize.height], nil];
-    if([self isContentInfoInTopLeftPosition]){
-        if (@available(iOS 11.0, *)) {
-            [constraints addObjectsFromArray: @[
-                [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
-                [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]
-            ]];
-        } else {
-            [constraints addObjectsFromArray: @[
-                [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
-                [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f]
-            ]];
-        }
-    }
-    else {
-        if (@available(iOS 11.0, *)) {
-            [constraints addObjectsFromArray: @[
-                [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
-                [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.view.safeAreaLayoutGuide attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]
-                
-            ]];
-        } else {
-            [constraints addObjectsFromArray: @[
-                [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f],
-                [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f]
-            ]];
-        }
+    BOOL shouldApplyIPadOS26Insets = [self pn_shouldApplyIPadOS26ControlInsets];
+    CGFloat topPadding = shouldApplyIPadOS26Insets ? kIPadOS26ControlTopPadding : 0.f;
+    CGFloat sidePadding = shouldApplyIPadOS26Insets ? kIPadOS26ControlSidePadding : 0.f;
+    
+    // Place close button on the opposite side if content info is in the top-left,
+    // to avoid overlap with the content info UI.
+    BOOL contentInfoInTopLeft = self.isContentInfoInTopLeftPosition;
+    NSLayoutAttribute horizontalAttribute = contentInfoInTopLeft ? NSLayoutAttributeTrailing : NSLayoutAttributeLeading;
+    CGFloat horizontalConstant = contentInfoInTopLeft ? -sidePadding : sidePadding;
+    
+    if (@available(iOS 11.0, *)) {
+        [constraints addObjectsFromArray: @[
+            [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view.safeAreaLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.f constant:topPadding],
+            [NSLayoutConstraint constraintWithItem:closeButtonView attribute:horizontalAttribute relatedBy:NSLayoutRelationEqual toItem:self.view.safeAreaLayoutGuide attribute:horizontalAttribute multiplier:1.f constant:horizontalConstant]
+        ]];
+    } else {
+        [constraints addObjectsFromArray: @[
+            [NSLayoutConstraint constraintWithItem:closeButtonView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.f constant:topPadding],
+            [NSLayoutConstraint constraintWithItem:closeButtonView attribute:horizontalAttribute relatedBy:NSLayoutRelationEqual toItem:self.view attribute:horizontalAttribute multiplier:1.f constant:horizontalConstant]
+        ]];
     }
     [NSLayoutConstraint activateConstraints: constraints];
 }
@@ -898,6 +951,7 @@ typedef enum {
         self.interruptionHandlerActivated = NO;
         self.vastSkipOffset = nil;
         self.aakCustomClickAd = nil;
+        self.watermarkView = nil;
         [HyBidVASTTracker cleanTriggeredTrackersList];
         HyBidSKAdNetworkViewController.shared.avoidAutoStoreKitPresentationAfterReplay = NO;
     }
@@ -935,7 +989,7 @@ typedef enum {
                          context:&_playerItem];
     
     self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(moviePlayBackDidFinish:)
                                                  name:AVPlayerItemDidPlayToEndTimeNotification
@@ -956,7 +1010,7 @@ typedef enum {
     __weak typeof(self) weakSelf = self;
     CMTime interval = CMTimeMakeWithSeconds(PNLiteVASTPlayerDefaultPlaybackInterval, NSEC_PER_SEC);
     self.playbackObserverToken = [self.player addPeriodicTimeObserverForInterval:interval
-                                                                           queue:nil
+                                                                           queue:dispatch_get_main_queue()
                                                                       usingBlock:^(CMTime time) {
         [weakSelf onPlaybackProgressTick];
     }];
@@ -1012,6 +1066,7 @@ typedef enum {
 
 - (void)onPlaybackProgressTick {
     Float64 currentDuration = [self duration];
+    if (isnan(currentDuration) || isinf(currentDuration) || currentDuration <= 0.0) { return; }
     Float64 currentPlaybackTime = [self currentPlaybackTime];
     Float64 currentPlayedPercent = currentPlaybackTime / currentDuration;
     
@@ -1104,9 +1159,11 @@ typedef enum {
 
 - (void)startBottomProgressBarAnimationWithProgress:(Float64)progress
 {
-    [UIView animateWithDuration:progress delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
-        [self.viewProgress setProgress:progress animated:YES];
-    } completion:nil];
+    if (isnan(progress) || isinf(progress)) { return; }
+    CGFloat clamped = MAX(0.0, MIN(1.0, progress));
+    CGFloat totalWidth = self.viewProgress.bounds.size.width;
+    self.progressFillWidthConstraint.constant = totalWidth * clamped;
+    [self.viewProgress layoutIfNeeded];
 }
 
 - (Float64)duration {
@@ -1200,7 +1257,7 @@ typedef enum {
 }
 
 - (void)configureAudioSessionForAdPlayback {
-    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient
                                      withOptions:AVAudioSessionCategoryOptionMixWithOthers
                                            error:nil];
     
@@ -1423,7 +1480,11 @@ typedef enum {
                                 }
                             }
                             if([[videoClicksObject clickThrough] content] != nil) {
-                                throughClickURL = [[videoClicksObject clickThrough] content];
+                                NSString *rawURL = [[videoClicksObject clickThrough] content];
+                                if (rawURL.length > 0) {
+                                    NSString *decoded = [rawURL stringByRemovingPercentEncoding];
+                                    throughClickURL = decoded != nil ? decoded : rawURL;
+                                }
                             }
                         }
                     }
@@ -1441,7 +1502,11 @@ typedef enum {
                                 }
                             }
                             if([[videoClicksObject clickThrough] content] != nil) {
-                                throughClickURL = [[videoClicksObject clickThrough] content];
+                                NSString *rawURL = [[videoClicksObject clickThrough] content];
+                                if (rawURL.length > 0) {
+                                    NSString *decoded = [rawURL stringByRemovingPercentEncoding];
+                                    throughClickURL = decoded != nil ? decoded : rawURL;
+                                }
                             }
                             [videoClicks addObject:[[creative linear] videoClicks]];
                         }
@@ -1691,7 +1756,7 @@ typedef enum {
 - (void)activateAudioSession:(BOOL)activate {
     NSError *categoryError = nil;
     AVAudioSession *session = [AVAudioSession sharedInstance];
-    [session setCategory:(AVAudioSessionCategoryPlayback) error:&categoryError];
+    [session setCategory:(AVAudioSessionCategoryAmbient) error:&categoryError];
     
     if (categoryError) {
         [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Error setting the audio session category."];
@@ -1712,12 +1777,33 @@ typedef enum {
     return isLeftPosition && isTopPosition ? YES : NO;
 }
 
+- (BOOL)pn_shouldApplyIPadOS26ControlInsets {
+    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad) {
+        return NO;
+    }
+    NSOperatingSystemVersion version = [[NSProcessInfo processInfo] operatingSystemVersion];
+    return version.majorVersion >= 26;
+}
+
+- (void)pn_updateOverlayPositionsForCurrentLayout {
+    if (![self pn_shouldApplyIPadOS26ControlInsets]) {
+        return;
+    }
+    if (closeButton) {
+        [self setCloseButtonPositionConstraints:closeButton];
+    }
+    if (self.countdownStyle == HyBidCountdownPieChart && self.skipOverlay.isCloseButtonShown) {
+        [self setCloseButtonPositionConstraints:self.skipOverlay];
+    }
+}
+
 - (void)addCloseButton {
     [self.skipOverlay removeFromSuperview];
     if (closeButton) {
         return;
     }
     closeButton = [[HyBidCloseButton alloc] initWithRootView:self.view action:@selector(invokeDidClose) target:self ad:self.ad];
+    [self pn_updateOverlayPositionsForCurrentLayout];
 }
 
 #pragma mark - State Machine
@@ -2275,7 +2361,19 @@ typedef enum {
     if (self.ad.hasCustomEndCard || (self.ad.customEndcardEnabled == nil && HyBidConstants.showCustomEndCard)) {
         HyBidEndCard *customEndCard = [[HyBidEndCard alloc] init];
         [customEndCard setType:HyBidEndCardType_HTML];
+        
+        #if __has_include(<ATOM/ATOM-Swift.h>)
+        NSString * _Nullable surveyHTML = [HyBidATOMManager getATOMValueForKey:HyBidConstants.ATOM_SURVEY_PARAM];
+        
+        if (surveyHTML) {
+            [customEndCard setContent:surveyHTML];
+        } else {
+            [customEndCard setContent:self.ad.customEndCardData];
+        }
+        #else
         [customEndCard setContent:self.ad.customEndCardData];
+        #endif
+                        
         [customEndCard setIsCustomEndCard:YES];
         self.ad.customEndCard = customEndCard;
         [self.endCards addObject:customEndCard];
@@ -2307,8 +2405,27 @@ typedef enum {
         endCard = [self.endCards firstObject];
         endCardCount = PNLiteVASTPlayerCustomEndCardValue;
     } else {
+        #if __has_include(<ATOM/ATOM-Swift.h>)
+        NSString *surveyKey = HyBidConstants.ATOM_SURVEY_PARAM;
+        
+        NSString * _Nullable surveyHTML = [HyBidATOMManager getATOMValueForKey:surveyKey];
+        if (surveyHTML && [surveyHTML length] > 0) {
+            HyBidEndCard *customEndCard = [[HyBidEndCard alloc] init];
+            [customEndCard setType:HyBidEndCardType_HTML];
+
+            [customEndCard setContent:surveyHTML];            
+            [customEndCard setIsCustomEndCard:YES];
+            
+            endCard = customEndCard;
+            endCardCount = PNLiteVASTPlayerCustomEndCardValue;
+        } else {
+            endCard = [self.endCards lastObject];
+            endCardCount = PNLiteVASTPlayerWrapperMaximumValue;
+        }
+        #else
         endCard = [self.endCards lastObject];
         endCardCount = PNLiteVASTPlayerWrapperMaximumValue;
+        #endif
     }
     self.endCardView = [[HyBidEndCardView alloc] initWithDelegate:self
                                                                     withViewController:self
@@ -2569,6 +2686,7 @@ typedef enum {
 
 - (void)resetElementsForReplay {
     //Reset flags to allow re-play
+    self.shown = YES;
     self.isMoviePlaybackFinished = NO;
     self.endCardShown = NO;
     if (self.currentEndCard.isCustomEndCard) {
@@ -2598,20 +2716,18 @@ typedef enum {
         self.skipOverlay = nil;
     }
     
-    for (id subview in self.view.subviews) {
+    for (id subview in [self.view.subviews copy]) {
         if ([subview isMemberOfClass:[HyBidEndCardView class]]) {
-            HyBidEndCardView *endCardView = (HyBidEndCardView *)subview;
-            [endCardView removeFromSuperview];
-            endCardView = nil;
+            [subview removeFromSuperview];
         }
-        
+
         if ([subview isMemberOfClass:[HyBidCloseButton class]]) {
-            HyBidCloseButton *closeButton = (HyBidCloseButton *)subview;
-            [closeButton removeFromSuperview];
-            closeButton = nil;
+            [subview removeFromSuperview];
         }
     }
-    
+    self.endCardView = nil;
+    closeButton = nil;
+
     [self.contentInfoViewContainer removeFromSuperview];
 }
 
@@ -2764,6 +2880,42 @@ typedef enum {
             [self trackClickForSKOverlayWithClickType: HyBidSKOverlayAutomaticCLickVideo isFirstPresentation:isFirstPresentation];
         }
     }
+}
+
+#pragma mark - Watermark
+
+- (void)addMediationWatermarkView {
+    if (self.watermarkView) {
+        return;
+    }
+
+    NSData *pngData = self.ad.mediationWatermarkData;
+    if (!pngData || pngData.length == 0) {
+        return;
+    }
+
+    UIImage *patternImage = [UIImage imageWithData:pngData scale:[UIScreen mainScreen].scale];
+    if (!patternImage) {
+        return;
+    }
+
+    UIColor *patternColor = [UIColor colorWithPatternImage:patternImage];
+
+    UIView *overlay = [[UIView alloc] init];
+    overlay.translatesAutoresizingMaskIntoConstraints = NO;
+    overlay.backgroundColor = patternColor;
+    overlay.userInteractionEnabled = NO;
+
+    [self.view addSubview:overlay];
+
+    [NSLayoutConstraint activateConstraints:@[
+        [overlay.topAnchor constraintEqualToAnchor:self.view.topAnchor],
+        [overlay.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor],
+        [overlay.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+        [overlay.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor]
+    ]];
+    
+    self.watermarkView = overlay;
 }
 
 @end

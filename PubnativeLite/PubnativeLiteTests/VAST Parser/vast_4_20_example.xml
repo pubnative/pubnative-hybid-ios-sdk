@@ -54,7 +54,7 @@
                                 <![CDATA[https://www.iab.com/wp-content/uploads/2014/09/iab-tech-lab-6-644x290.png]]>
                             </StaticResource>
                             <CompanionClickThrough>
-                                <![CDATA[https://pubnative.net1]]>
+                                    <![CDATA[https://pubnative.net1]]>
                             </CompanionClickThrough>
                             <HTMLResource>&lt;img src=&#34;https://cdn.pubnative.net/widget/v3/assets/easyforecast_320x480.jpg&#34;&gt;</HTMLResource>
                             <TrackingEvents>
@@ -193,7 +193,7 @@
                         </TrackingEvents>
                         <VideoClicks>
                             <ClickThrough>
-                                <![CDATA[https://pubnative.net]]>
+                                <![CDATA[https://ams.creativecdn.com/ad/clicks?ed_vast-clicked-area=companionAd&tk=UCQADTAsqiLrO6Km0KU90BJ9daAitZRhqz2lrE-8jW2quI0M-3tEngc9em2FnfBeKmRCneTeXrdFxKwx0oKJ5YsozRkRAky8308A_WkGrUYnNRFmevlwVdLTx4LVn2KQQPJ2e8Q0Mb36rFCkJLO463FZOLsgskLaaT-Txuih2o1oj0w_nh6GSuNpn_VzBlt9sjTApyOjSl8fTJW9UvM8W9ABsRPUR8lEkx7K3Xdo0h9Ua-gUE__ijkOHdjH5jfvKwmAKpDvRL9BB5KDlpZAkpVU82sMtDVrT3mVb99SShMC3ccDTDBTZwfHTqcOfT8KdUKsFESuq4BnRAwE78vw-u85Xbq90qNiAmmA-XlAqg46XOJm2Dvtxlge5Vxrdzv9eg27lGexRWP__OOQY9yqDWhV9yk0eTHUSFL6Ljo92qDulpswt72xANHFFIfFz4B5J9kTjU6KpmXY7IGiRzWjdCln9WZRA8c4TmP8xaxSIAh1NHeNG4PBnXSdMxvdj-4B44a3rnkkgb7WQhRTKva2W6Yiw-Xqntkbz_LDhS7KldNAx195i0VZaLoo0VucI15AzNEyUjaDUJQ2DN1DV6Hj4HXB5d5aOWU0wewO3DcFv7hpZgQ_C7nbNqRNXqAel0uLj]]>
                             </ClickThrough>
                             <ClickTracking id="test_id">
                                 <![CDATA[https://backend.europe-west4gcp0.pubnative.net/mockdsp/v1/tracker/clickTracking]]>
@@ -283,7 +283,7 @@
                                 <![CDATA[https://www.iab.com/wp-content/uploads/2014/09/iab-tech-lab-6-644x290.png]]>
                             </StaticResource>
                             <CompanionClickThrough>
-                                <![CDATA[https://pubnative.net1]]>
+                                    <![CDATA[https://pubnative.net1]]>
                             </CompanionClickThrough>
                             <HTMLResource>&lt;img src=&#34;https://cdn.pubnative.net/widget/v3/assets/easyforecast_320x480.jpg&#34;&gt;</HTMLResource>
                             <TrackingEvents>
@@ -298,7 +298,7 @@
                         <Companion width="720" height="480">
                             <HTMLResource>&lt;img src=&#34;https://cdn.pubnative.net/widget/v3/assets/easyforecast_480x720.jpg&#34;&gt;</HTMLResource>
                             <CompanionClickThrough>
-                                <![CDATA[https://pubnative.net2]]>
+                                    <![CDATA[https://pubnative.net1]]>
                             </CompanionClickThrough>
                             <TrackingEvents>
                                 <Tracking event="creativeView">
@@ -421,9 +421,6 @@
                             </Tracking>
                         </TrackingEvents>
                         <VideoClicks>
-                            <ClickThrough>
-                                <![CDATA[https://pubnative.net]]>
-                            </ClickThrough>
                             <ClickTracking id="test_id">
                                 <![CDATA[https://backend.europe-west4gcp0.pubnative.net/mockdsp/v1/tracker/clickTracking]]>
                             </ClickTracking>

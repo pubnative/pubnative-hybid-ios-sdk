@@ -194,7 +194,7 @@ NSString * const kUserDefaultsHyBidPreviousBannerPresenterDecoratorKey = @"kUser
 - (void)percentVisibleDidChange:(CGFloat)newValue {
     self.adPresenter.adSessionData.viewability = [NSNumber numberWithFloat:newValue];
     if(self.adPresenter.adSessionData !=  nil) {
-        [ATOMManager fireAdSessionEventWithData:self.adPresenter.adSessionData];
+        [HyBidATOMManager fireAdSessionEventWithData:self.adPresenter.adSessionData];
     }
 }
 

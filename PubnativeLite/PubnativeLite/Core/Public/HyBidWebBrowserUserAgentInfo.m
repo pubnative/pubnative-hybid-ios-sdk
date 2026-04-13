@@ -6,6 +6,7 @@
 
 #import <WebKit/WebKit.h>
 #import "HyBidWebBrowserUserAgentInfo.h"
+#import "HyBidStringUtils.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -62,7 +63,11 @@ NSString * const kUserDefaultsHyBidUserAgentKey = @"com.pubnative.hybid-ios-sdk.
         // Use the cached value before the async JavaScript evaluation is successful.
         return cachedUserAgent;
     } else {
-        NSString *systemVersion = [[UIDevice currentDevice].systemVersion stringByReplacingOccurrencesOfString:@"." withString:@"_"];
+        NSString *systemVersion = [[UIDevice currentDevice] systemVersion];
+        NSString *safeSystemVersion = [HyBidStringUtils safeReplaceInValue:systemVersion target:@"." replacement:@"_"];
+        if (safeSystemVersion) {
+            systemVersion = safeSystemVersion;
+        }
         NSString *deviceType = UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad ? @"iPad" : @"iPhone";
         return [NSString stringWithFormat:@"Mozilla/5.0 (%@; CPU %@ OS %@ like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
                       deviceType, deviceType, systemVersion];

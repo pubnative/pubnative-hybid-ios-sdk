@@ -98,7 +98,9 @@ public class HyBidSKAdNetworkViewController: NSObject {
 
         handlerController.isStoreKitViewBeingPresented = true
         HyBidInterruptionHandler.shared.productViewControllerIsReadyToShow()
-
+        //Re-set flag to avoid bug blocking productViewControllerDidFinish call
+        HyBidStoreProductHelper.productViewControllerDidFinishHasBeenCalled = false
+        
         DispatchQueue.main.async {
             presenter.present(skVC, animated: true) {
                 handlerController.isStoreKitViewBeingPresented = false
@@ -208,12 +210,6 @@ extension SKStoreProductViewController {
         case superClassOption
         case presentingViewControllerOption
         case customImplementationOption
-    }
-    
-    open override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        HyBidStoreProductHelper.productViewControllerDidFinishHasBeenCalled = false
     }
     
     open override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {

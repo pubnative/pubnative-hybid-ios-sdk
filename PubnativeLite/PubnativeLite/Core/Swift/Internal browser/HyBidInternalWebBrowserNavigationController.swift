@@ -32,7 +32,7 @@ import UIKit
 fileprivate class HyBidInternalWebBrowserNavigationController: UINavigationController {
     
     //-MARK: Variables
-    private let storyboardName = "InternalWebBrowser"
+    private let storyboardName = "HyBidInternalWebBrowser"
     private let internalWebBrowserIdentifier = "HyBidInternalWebBrowserViewController"
     
     public override func viewDidLoad() {
@@ -66,8 +66,12 @@ fileprivate class HyBidInternalWebBrowserNavigationController: UINavigationContr
         
         guard HyBidInternalWebBrowser.shared.isInternalBrowserBeingPresented == false else { return }
         
+        guard let topVC = UIApplication.shared.topViewController else {
+            HyBidLogger.warningLog(fromClass: String(describing: HyBidInternalWebBrowserNavigationController.self), fromMethod: #function, withMessage: "Cannot present internal browser: no key window. URL: \(url.absoluteString)")
+            return
+        }
         HyBidInternalWebBrowser.shared.isInternalBrowserBeingPresented = true
         self.setUpInternalBrowser(url: url)
-        UIApplication.shared.topViewController.present(self, animated: true)
+        topVC.present(self, animated: true)
     }
 }

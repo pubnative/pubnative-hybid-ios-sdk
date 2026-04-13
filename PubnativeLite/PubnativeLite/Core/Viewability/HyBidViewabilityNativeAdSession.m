@@ -35,7 +35,7 @@
     return sharedInstance;
 }
 
-- (OMIDAdSessionWrapper *)createOMIDAdSessionforNative:(UIView *)view withScript:(NSMutableArray *)scripts {
+- (HyBidOMIDAdSessionWrapper *)createOMIDAdSessionforNative:(UIView *)view withScript:(NSMutableArray *)scripts {
     if (![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) return nil;
 
     NSError *contextError;
@@ -71,7 +71,7 @@
     return [self initialiseOMIDAdSessionForView:view withSessionContext:context andImpressionOwner:OMIDNativeOwner andMediaEventsOwner:OMIDNoneOwner];
 }
 
-- (OMIDAdSessionWrapper *)initialiseOMIDAdSessionForView:(UIView *)view
+- (HyBidOMIDAdSessionWrapper *)initialiseOMIDAdSessionForView:(UIView *)view
                                       withSessionContext:(id)context
                                       andImpressionOwner:(OMIDOwner)impressionOwner
                                      andMediaEventsOwner:(OMIDOwner)mediaEventsOwner {
@@ -122,10 +122,10 @@
 
     [[HyBidViewabilityManager sharedInstance] reportEvent:HyBidReportingEventType.AD_SESSION_INITIALIZED];
 
-    return [[OMIDAdSessionWrapper alloc] initWithAdSession:omidAdSession];
+    return [[HyBidOMIDAdSessionWrapper alloc] initWithAdSession:omidAdSession];
 }
 
-- (void)fireOMIDAdLoadEvent:(OMIDAdSessionWrapper *)omidAdSessionWrapper {
+- (void)fireOMIDAdLoadEvent:(HyBidOMIDAdSessionWrapper *)omidAdSessionWrapper {
     [super fireOMIDAdLoadEvent:omidAdSessionWrapper];
     
     if (![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated) return;

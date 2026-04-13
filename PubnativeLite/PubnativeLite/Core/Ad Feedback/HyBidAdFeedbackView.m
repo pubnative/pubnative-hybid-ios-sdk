@@ -14,6 +14,7 @@
 #import "HyBidMRAIDServiceProvider.h"
 #import "HyBidAdFeedbackMacroUtil.h"
 #import "HyBidAdFeedbackViewDelegate.h"
+#import "HyBidStringUtils.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <HyBid/HyBid-Swift.h>
@@ -56,8 +57,7 @@
                 [mutableQueryItems addObject:appToken];
                 components.queryItems = mutableQueryItems;
                 url = [components.URL absoluteString];
-                url = [url stringByReplacingOccurrencesOfString:@"token_macro"
-                                                     withString:HYBID_AD_FEEDBACK_MACRO_APP_TOKEN];
+                url = [HyBidStringUtils safeReplaceInValue:url target:@"token_macro" replacement:HYBID_AD_FEEDBACK_MACRO_APP_TOKEN] ?: url;
             }
         }
         NSString *processedString = [HyBidAdFeedbackMacroUtil formatUrl:url withZoneID:self.zoneID];

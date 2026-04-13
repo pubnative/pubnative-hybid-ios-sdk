@@ -112,14 +112,18 @@ echo "🔍 Searching for HyBid.xcframework after build..."
 find "$BASE_DIR" -type d -name "HyBid.xcframework" || echo "❌ HyBid.xcframework not found after generation"
 
 # 🧱 Copy to SDK root (for packaging step)
-FINAL_XCFRAMEWORK_PATH=$(find "$BASE_DIR" -type d -name "HyBid.xcframework" | head -n 1)
+FINAL_XCFRAMEWORK_PATH=$(find "$BASE_DIR" -type d -name "${PRODUCT_NAME}.xcframework" | head -n 1)
 if [ -d "$FINAL_XCFRAMEWORK_PATH" ]; then
-  echo "📦 Copying HyBid.xcframework to destination: $DEST_DIR"
+  echo "📦 Copying ${PRODUCT_NAME}.xcframework to destination: $DEST_DIR"
   mkdir -p "$DEST_DIR"
   cp -R "$FINAL_XCFRAMEWORK_PATH" "$DEST_DIR/"
-  echo "✅ Copied to: $DEST_DIR/HyBid.xcframework"
+  echo "✅ Copied to: $DEST_DIR/${PRODUCT_NAME}.xcframework"
+  # Sanitize embedded build paths in .abi.json and .swiftinterface so audit passes (no pubnative/hybid in paths)
+  if [ -f "$SCRIPT_DIR/sanitize_xcframework_paths.sh" ]; then
+    bash "$SCRIPT_DIR/sanitize_xcframework_paths.sh" "$DEST_DIR/${PRODUCT_NAME}.xcframework" && echo "✅ Sanitized embedded paths in xcframework." || true
+  fi
 else
-  echo "❌ HyBid.xcframework not found after generation — packaging will fail."
+  echo "❌ ${PRODUCT_NAME}.xcframework not found after generation — packaging will fail."
   exit 1
 fi
 

@@ -5,7 +5,7 @@
 //
 
 #import "HyBidAdSourceConfig.h"
-#import "AdSourceConfigParameter.h"
+#import "HyBidAdSourceConfigParameter.h"
 
 @implementation HyBidAdSourceConfig
 
@@ -13,28 +13,28 @@
     self = [super initWithDictionary:dictionary];
     if (self) {
         if ([dictionary isKindOfClass:[NSDictionary class]]) {
-            self.eCPM = [dictionary[AdSourceConfigParameter.eCPM] doubleValue];
-            self.enabled = [dictionary[AdSourceConfigParameter.enabled] boolValue];
+            self.eCPM = [dictionary[HyBidAdSourceConfigParameter.eCPM] doubleValue];
+            self.enabled = [dictionary[HyBidAdSourceConfigParameter.enabled] boolValue];
             
-            if ([[dictionary objectForKey:AdSourceConfigParameter.name] respondsToSelector:@selector(stringValue)]) {
-                self.name = [dictionary[AdSourceConfigParameter.name] stringValue];
+            if ([[dictionary objectForKey:HyBidAdSourceConfigParameter.name] respondsToSelector:@selector(stringValue)]) {
+                self.name = [dictionary[HyBidAdSourceConfigParameter.name] stringValue];
             }
             else {
-                self.name = dictionary[AdSourceConfigParameter.name];
+                self.name = dictionary[HyBidAdSourceConfigParameter.name];
             }
             
-            if ([[dictionary objectForKey:AdSourceConfigParameter.vastTagUrl] respondsToSelector:@selector(stringValue)]) {
-                self.vastTagUrl = [dictionary[AdSourceConfigParameter.vastTagUrl] stringValue];
+            if ([[dictionary objectForKey:HyBidAdSourceConfigParameter.vastTagUrl] respondsToSelector:@selector(stringValue)]) {
+                self.vastTagUrl = [dictionary[HyBidAdSourceConfigParameter.vastTagUrl] stringValue];
             }
             else {
-                self.vastTagUrl = dictionary[AdSourceConfigParameter.vastTagUrl];
+                self.vastTagUrl = dictionary[HyBidAdSourceConfigParameter.vastTagUrl];
             }
             
-            if ([[dictionary objectForKey:AdSourceConfigParameter.type] respondsToSelector:@selector(stringValue)]) {
-                self.type = [dictionary[AdSourceConfigParameter.type] stringValue];
+            if ([[dictionary objectForKey:HyBidAdSourceConfigParameter.type] respondsToSelector:@selector(stringValue)]) {
+                self.type = [dictionary[HyBidAdSourceConfigParameter.type] stringValue];
             }
             else {
-                self.type = dictionary[AdSourceConfigParameter.type];
+                self.type = dictionary[HyBidAdSourceConfigParameter.type];
             }
         }
     }

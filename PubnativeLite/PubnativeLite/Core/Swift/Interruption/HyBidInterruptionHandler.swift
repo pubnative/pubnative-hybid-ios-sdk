@@ -4,6 +4,8 @@
 // https://github.com/pubnative/pubnative-hybid-ios-sdk/blob/main/LICENSE
 //
 
+import Foundation
+
 @objc public enum HyBidAdContext: Int {
     case vastPlayer
     case endcard
@@ -107,15 +109,17 @@ public class HyBidInterruptionHandler: NSObject {
         notifyNoFocus()
     }
 
+    /// Removes all interruptions of the given type. Notifies focus only when at least one was present (idempotent).
     private func removeAdInterruption(interruptionType: HyBidInterruptionType) {
-        guard let last = interruptions.last(where: { $0.type == interruptionType }) else { return }
-        interruptions.removeAll { $0.id == last.id }
-        notifyFocusIfNeeded()
+        let hadAny = interruptions.contains { $0.type == interruptionType }
+        interruptions.removeAll { $0.type == interruptionType }
+        if hadAny { notifyFocusIfNeeded() }
     }
 
     @objc public func hasOnlyAppLifeCycleInterruption() -> Bool {
         return interruptions.count == 1 && interruptions.last?.type == .appLifeCycle
     }
+
 }
 
 // MARK: - Endcard notifier
@@ -129,7 +133,7 @@ extension HyBidInterruptionHandler {
     }
 }
 
-//MARK: - App life cycle
+// MARK: - App life cycle
 extension HyBidInterruptionHandler {
     @objc private func willResignActive() {
         setAdInterruption(interruptionType: .appLifeCycle)
@@ -158,14 +162,15 @@ extension HyBidInterruptionHandler {
     }
     public func productViewControllerDidFinish() {
         HyBidSKAdNetworkViewController.shared.isStoreKitViewPresented = false
-        if let last = interruptions.last(where: { $0.type == .storeKitView || $0.type == .autoStoreKitView }) {
+        let hadStoreKit = interruptions.contains { $0.type == .storeKitView || $0.type == .autoStoreKitView }
+        if hadStoreKit, let first = interruptions.first(where: { $0.type == .storeKitView || $0.type == .autoStoreKitView }) {
             if HyBidSDKConfig.sharedConfig.reporting {
-                let event = HyBidReportingEvent(with: EventType.STOREKIT_PRODUCT_VIEW_DISMISS,
-                                                adFormat: last.adFormat)
+                let event = HyBidReportingEvent(with: EventType.STOREKIT_PRODUCT_VIEW_DISMISS, adFormat: first.adFormat)
                 HyBid.reportingManager().reportEvent(for: event)
             }
-            removeAdInterruption(interruptionType: last.type)
         }
+        interruptions.removeAll { $0.type == .storeKitView || $0.type == .autoStoreKitView }
+        if hadStoreKit { notifyFocusIfNeeded() }
         activeDelegate()?.productViewControllerDidFinish?()
         overlappingElementDelegate?.productViewControllerDidFinish?()
     }

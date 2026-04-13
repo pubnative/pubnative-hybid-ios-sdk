@@ -26,6 +26,7 @@ public class HyBidInterstitialAd: NSObject {
     @objc public var ad: HyBidAd?
     @objc public var isReady = false
     @objc public var isMediation = false
+    @objc public var mediationWatermarkData: Data?
     @objc public var isAutoCacheOnLoad: Bool {
         set {
             self.interstitialAdRequest?.isAutoCacheOnLoad = newValue
@@ -214,7 +215,7 @@ public class HyBidInterstitialAd: NSObject {
             if initialLoadTimestamp < adExpireTime {
                 self.interstitialPresenter?.show()
                 if let adSessionData = self.adSessionData {
-                    ATOMManager.fireAdSessionEvent(with: adSessionData)
+                    HyBidATOMManager.fireAdSessionEvent(with: adSessionData)
                 }
             } else {
                 HyBidLogger.errorLog(fromClass: String(describing: HyBidInterstitialAd.self), fromMethod: #function, withMessage: "Ad has expired")
@@ -463,6 +464,11 @@ public class HyBidInterstitialAd: NSObject {
             self.closeOnFinish = ad.closeInterstitialAfterFinish.boolValue;
         }
     }
+    
+    @objc(setMediationWatermark:)
+    public func setMediationWatermark(_ pngData: Data?) {
+        self.mediationWatermarkData = pngData
+    }
 }
 
 // MARK: - HyBidAdRequestDelegate
@@ -483,9 +489,10 @@ extension HyBidInterstitialAd {
         
         if let ad = ad {
             self.ad = ad
-            self.adSessionData = ATOMManager.createAdSessionData(from: request, ad: ad)
+            self.adSessionData = HyBidATOMManager.createAdSessionData(from: request, ad: ad)
             self.determineSkipOffsetValuesFor(ad)
             self.determineCloseOnFinishFor(ad)
+            self.ad?.mediationWatermarkData = self.mediationWatermarkData
             self.renderAd(ad: ad)
         } else {
             self.invokeDidFailWithError(error: NSError.hyBidNullAd())
@@ -549,7 +556,7 @@ extension HyBidInterstitialAd {
 extension HyBidInterstitialAd {
     func signalDataDidFinish(with ad: HyBidAd) {
         self.ad = ad
-        self.adSessionData = ATOMManager.createAdSessionData(from: nil, ad: ad)
+        self.adSessionData = HyBidATOMManager.createAdSessionData(from: nil, ad: ad)
         self.renderAd(ad: ad)
     }
     

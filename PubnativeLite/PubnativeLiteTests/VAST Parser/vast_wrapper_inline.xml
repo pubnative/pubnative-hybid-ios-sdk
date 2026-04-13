@@ -1,0 +1,108 @@
+<VAST version="3.0">
+<Ad id="64143eeacb5992338557b4e08574b40f">
+<InLine>
+<AdSystem>Criteo</AdSystem>
+<AdTitle>StaticVideo</AdTitle>
+<Error>
+<![CDATA[ https://cat.jp2.as.criteo.com/delivery/vt.php?cppv=3&cpp=MyR_WAURK0keOQLSpRXysGuylvwsD6OBN_0H8cE2Rw65kP5luLVNTcW1Arbi0nQH66JaqPRcOW9KS4x5tnZyJAXigsNpev5XplxTaOgwj6_5iOQtN1EGYSNaEXpYxhM3hShQ6VJamnh3Q4wiIePoMMmgLLH-Ikdc_v1yemxyjQD0XesxnLS1FXKrMBVXZU_xu1ivi4RGKFW4u06Tb_Tivc2TpGpCtacA1Scl8LY4RMoeKmcpmqglnu_g3ewrG7Ho50XzCXBoYa4YyY0K8ZH8rNZ2pjAcHdX_9D_pQA&err=[ERRORCODE] ]]>
+</Error>
+<Impression>
+<![CDATA[ https://cat.jp2.as.criteo.com/delivery/lg.php?cppv=3&cpp=uesiP7U76mUL9KnfwXDJXCBtwClZD4DZrF61-XiCqLJIvxNf9uyCn7EIyz43GPRSwLRbLbVL5zLzXouZn_lRs2hBXWbpFHpIiWhkFFCnTrGxTOUY65F8Z0twttMEIRuVbR2omJ6DyDpa_yunfOSb_BOl-sPwA6OWJMvNCvWKHy1u8TB4c3rAigqkd9UE9iKdAVEv-eS_AWMPUDhlcI2baQYJBkvtb6x0Cw-z1B6AQ0kPPV3-ZOJ7-_RSZ8Rcezzk9HWaqLNMmMBljcvcr-4RCB8HWTwBHDLWD8lJNhqnLl97dB1uZEIUwrPnC8iTKfmGdkAlSlaOgKLpy_ZYxCrqAuIgPQUab_zKmqKIgQ2hNsSCwF3jJAotg-KmDf7g_yS6ixaUyLXUaCynVnq5RqXIu5V24mXU3sE75GjNSPFt54H9vFF4YVVyBc9wseWqpZMkQEkxKNwWLla-2tnzo0B5aN9s-qM ]]>
+</Impression>
+<Creatives>
+<Creative id="11291981">
+<Linear>
+<Icons>
+<Icon program="AdChoices" width="19" height="15" xPosition="left" yPosition="top" duration="00:00:29">
+<StaticResource creativeType="image/png">
+<![CDATA[ https://static.criteo.net/flash/icon/privacy_small.svg ]]>
+</StaticResource>
+<IconClicks>
+<IconClickThrough>
+<![CDATA[ https://privacy.as.criteo.com/adchoices?cppv=3&cpp=m_DLuO_6XTToB5BaI5ob4hH4_mabia-TFzW14-PCq39ZmHlb2GpFb49xhC40VSvWOslv3_QNAvWh-STCMsN_VitB2wIS7uo-adBIW1ODBkDVk1vJ5q6Xg0TPh98XYTpN1bgrZ0F02IhEqySiVW7SBod_9h3tkblgcBgZeuTI8TG9H1wq ]]>
+</IconClickThrough>
+</IconClicks>
+</Icon>
+</Icons>
+<Duration>00:00:29</Duration>
+<TrackingEvents>
+<Tracking event="start">
+<![CDATA[ https://cat.jp2.as.criteo.com/delivery/vt.php?cppv=3&cpp=Re4DUoN_b6dnLfOKjKwp1kS3RBQYHxr0mlOFvrThEtAfkgc7Ng2fhO34ow-wJ0Y4VF9voL8cqHYh73MiC1-6lhIf568LX5kuZzg3t-NRTk1cSPNkBtzyp65xdI71_usW2KFMgkSSpCpcrtM_kYACGClKpDnilweAdjJd6iCV8Qo6CU9R&err=[ERRORCODE] ]]>
+</Tracking>
+<Tracking event="firstQuartile">
+<![CDATA[ https://cat.jp2.as.criteo.com/delivery/vt.php?cppv=3&cpp=2LJYhYN_b6dnLfOKPcMRKyx_U7P4rc6ochhRc4SvtTlrrQ-ToAn6hUkuq-5SrnuIIVfBWqUQ1QA9jjchiiiUWiJ3z3tXo1QoTN5AxyfKUnUFW4sTYNe4vrvKeWGjfamEhhOG_nosIkmlHNPYQF4Jmb91NqUYcgl-2sdE6Kv5yyHVUmRE&err=[ERRORCODE] ]]>
+</Tracking>
+<Tracking event="midpoint">
+<![CDATA[ https://cat.jp2.as.criteo.com/delivery/vt.php?cppv=3&cpp=i4m3C-aDK4C6GmELalLP_2APHNWZd1TYMv5aKNGTkAecJSZO17DwT28b-30VFYYMVt_8Oco2SMS0z4YbjGk4lfwhpDdbraELQDcCmCWAAyB9x3DZv0GOCb_rRTeaIGaJrbinSiTrnyVRP2a48h_j4_H3ivTVqm5jsJGj0zxxYnBDgU6P&err=[ERRORCODE] ]]>
+</Tracking>
+<Tracking event="thirdQuartile">
+<![CDATA[ https://cat.jp2.as.criteo.com/delivery/vt.php?cppv=3&cpp=c7GOfOaDK4C6GmEL0Zn41H9diksLXcWjPsrkybeGt9Hg2kKRmOh69AZ3o1zrl6zdxeWu1accxYB9zEIeXe1_hKNnC3q3JWKR5ehEaJpFXFKkSpHkqA0xvv2VI3_Bh6U4JCF9JpgcP4L6yZnv5Re-w5TpLW20O8JbfK3h4JXG_y8HgdqM&err=[ERRORCODE] ]]>
+</Tracking>
+<Tracking event="complete">
+<![CDATA[ https://cat.jp2.as.criteo.com/delivery/vt.php?cppv=3&cpp=l5bJGoN_b6dnLfOKVju4HFUGUx_b7lNpUJ4vtPxZ6bnQYbsOaBldQiAIAN4WsBBymttmEmKcQ0buYJu8W-m-o2samGfvgiRP1ElFpxKnqw0RIgyV9eAGi3INQG2IddF-12KFVPHd8CxK0WRFJSAZHnWB6kcS9hSa8dpnaZPVecCc86GC&err=[ERRORCODE] ]]>
+</Tracking>
+<Tracking event="skip">
+<![CDATA[ https://cat.jp2.as.criteo.com/delivery/vt.php?cppv=3&cpp=1G783YN_b6dnLfOK-9XdEjptiqN-DmX9X1BBqDpIi8j_Qqo2_lve4rKRstquxJyZoiRgrWvBzbRCp4XuYPgcQrue6qQRzQz4IEsAsGyyj9lB_Z7N6dLeeeCw5-B-d6OEol1ue4Ho-f0lrLqZLRFeqNPh0lTGg3QIWtxtLZr8J466fZSr&err=[ERRORCODE] ]]>
+</Tracking>
+<Tracking event="mute">
+<![CDATA[ https://cat.jp2.as.criteo.com/delivery/vt.php?cppv=3&cpp=rj8-KOaDK4C6GmELxbPnwudCBGQed2bI5A7Az6uA-9ofFWH526Z6XPtGhbYLOSS_ir3gfdywJZP_uWtY23D6lIlFnFAFFjbL3HHFFUVUAJ1EW9EHF9WCZFoL35rHs6z6eHwIbPm_q3MTydtde-9xIOi4OQmEzvYPOuzX6ezb_L_qfgb8&err=[ERRORCODE] ]]>
+</Tracking>
+<Tracking event="unmute">
+<![CDATA[ https://cat.jp2.as.criteo.com/delivery/vt.php?cppv=3&cpp=qZbx4uaDK4C6GmELo8CByVS7PFjojjpyjy8ht3z-wHbwXzuBE4jc449lX7omz2SE7KecqEQGK78yPtJhc8-z1KVU4WDdKodGKwDLoDrTeJUPrxFaGD0yZSxi1b-Z8CjdJRrGtPzy7_ZFL5P2ZbCAN_esiQWHVWT2OOhPu8Y0JqFCU4aK&err=[ERRORCODE] ]]>
+</Tracking>
+<Tracking event="pause">
+<![CDATA[ https://cat.jp2.as.criteo.com/delivery/vt.php?cppv=3&cpp=7ynPO4N_b6dnLfOKYu-I4LwaN2AGeHTeyg6vpAfPv8vIDxY9i_2eawGcYBKoY1vb1GxqopiA35TAYMe86wcckLToX4LGf37H_83HxTwwGIbLDwkIP7KSk7hbguh4GkJcpOlPCvTZ4j4HX5B_bJntCuMIhPUKKBext7mPxCIXQolwMFCM&err=[ERRORCODE] ]]>
+</Tracking>
+<Tracking event="resume">
+<![CDATA[ https://cat.jp2.as.criteo.com/delivery/vt.php?cppv=3&cpp=QQ2kQoN_b6dnLfOKOknRSOWyVAPrpB6zIUywXD5geDrncO8GhNcUU08XrUHB5shW_GlFIR-QmPE04tKdAHzvQbKX3OFGC_UGlvuZ1ujrisBJPjcwvuNiqdW6q1RN8sjuBuXn2s3vp0h0SD86t7UGTsnP9r34cZ62ll20DQeEr1yngTxS&err=[ERRORCODE] ]]>
+</Tracking>
+<Tracking event="canPlayThrough">
+<![CDATA[ https://cat.jp2.as.criteo.com/delivery/vt.php?cppv=3&cpp=cYK-OYN_b6dnLfOK0068fpUkpNmMMQ_-GaCLQgS10qHwuqL3xcagoggiIeGdMtAY58XRrL8cVICYfg5lmbZOGkKfG945gcsM7LGeezlMDJKO7KXp_WtVYLRlu_Sr2QAK47o0vocN4wbgvtIlxKUPvVoPpJAnOQ3IjHwizCvCHquK_JRR&err=[ERRORCODE] ]]>
+</Tracking>
+<Tracking event="stalled">
+<![CDATA[ https://cat.jp2.as.criteo.com/delivery/vt.php?cppv=3&cpp=X01vxOaDK4C6GmELT4-hhzGj5qbEguNY3Mb4uA1-hMF0xZgKEs_Jio5RHHPfqXTDAY25gwqh6bjDDg5Zu_LgL2OzgKWmoKTXcFpZu-_XuycoCrP1FNjewsbtNZI6SuHmI_RX9-VzSt94Vb232hHY20xZ6zdseWhCASJx1kl41R0iPx-5&err=[ERRORCODE] ]]>
+</Tracking>
+<Tracking event="waiting">
+<![CDATA[ https://cat.jp2.as.criteo.com/delivery/vt.php?cppv=3&cpp=txPUmYN_b6dnLfOKV-UAgFwOiVzL6onP4POfEOV8pIyqzZp24UDr-xjqVNz8z5yKuSPtX9-EnOoWHCZtjNagJTb-4ZGA1yKZ51nvd248BwLxUUV5cT-OrvH9tkq9gTnu9ft79EdecbI3brK876eGcTXmUY_W5XBo_1ZOS27nx8JHrbTe&err=[ERRORCODE] ]]>
+</Tracking>
+</TrackingEvents>
+<VideoClicks>
+<ClickThrough id="Criteo">
+<![CDATA[ https://cat.jp2.as.criteo.com/delivery/ck.php?cppv=3&cpp=4trjfLU76mUL9KnfwXDJXCBtwClZD4DZrF61-XiCqLJIvxNf9uyCn7EIyz43GPRSwLRbLbVL5zLzXouZn_lRs2hBXWbpFHpIiWhkFFCnTrGxTOUY65F8Z0twttMEIRuVbR2omJ6DyDpa_yunfOSb_BOl-sPYZCjwTL6iADFNDNb_WdaPQMEJYYK9pj4mBwX5XZQZLGCOiN_udS4QcLV6d7x0yzHar5Gi9va8NpSdKLdw4sHVokHemydpmGgawRUSbJBNQNyYSQ0b3kKqxsbiPStMzm10KjP5J949TEkyu-5ZIXOVuG9l_ek4p86WRP0TySAy00I6pXrjsgGNsffC_fucgzeF-vDpr3orhsnJxKnk8yZjZyMDAHuBDJf-SMuS_ErGBGAHXIRD28vgst6B9aYYZiIf9TsTBj9OfPO3c3IcXujHZMTI2CLlaJ0qdUxeNjGFvCjyFXn6ivNQshdOLKC2zFOGe5lBRecLWraOnFYFwqAF&maxdest=https%3A%2F%2Fbioderma.naosindia.in%2Fcollections%2Fpigmentbio-hyperpigmented-skin%2Fproducts%2Fpigmentbio-foaming-cream%3Futm_source%3Dcriteo%26utm_medium%3Dvideo%26utm_campaign%3DBioderma_video_march23 ]]>
+</ClickThrough>
+</VideoClicks>
+<MediaFiles>
+<MediaFile id="Criteo_mp4_ABC" delivery="progressive" width="1080" height="1920" type="video/mp4" scalable="true" maintainAspectRatio="true">
+<![CDATA[ https://static.criteo.net/design/dt/102744/230316/5c48adc4e8fe47e88345ecba1d5facfd_pigmentbio_influencer_tanvi.mp4 ]]>
+</MediaFile>
+</MediaFiles>
+</Linear>
+</Creative>
+</Creatives>
+<Extensions>
+<Extension type="activeview">
+<CustomTracking>
+<Tracking event="measurable_impression">
+<![CDATA[ https://csm.as.criteo.net/google-vast-measurability?cppv=3&cpp=9K4xp9kTXPP-tgpJNScmLG7QUQze3LGTqLICahQ2SHqO1Sdv-lxI_3edmBtgXKb1hjuoFr2xeCLdmub6ywtBI4oC45qz4sYgiPdy4PZxgW652HkSmCVo7xGqOd5ftZR4lYwjyzUlYqZjdjdWsn2abfXnCsfIXCEw6Dp-416f3jLpbZFtOyqjO3NqP1LjprXc6iqhqgX64Uu27Qxi_TJeOzGTBPy8Uf3mbX6V43Y-QrPkaf5UkMrJGcztyBDBmCp2Aj4pWJXYRHUd4oQcovjqboM-sNs ]]>
+</Tracking>
+<Tracking event="viewable_impression">
+<![CDATA[ https://csm.as.criteo.net/google-vast-viewability?cppv=3&cpp=9K4xp9kTXPP-tgpJNScmLG7QUQze3LGTqLICahQ2SHqO1Sdv-lxI_3edmBtgXKb1hjuoFr2xeCLdmub6ywtBI4oC45qz4sYgiPdy4PZxgW652HkSmCVo7xGqOd5ftZR4lYwjyzUlYqZjdjdWsn2abfXnCsfIXCEw6Dp-416f3jLpbZFtOyqjO3NqP1LjprXc6iqhqgX64Uu27Qxi_TJeOzGTBPy8Uf3mbX6V43Y-QrPkaf5UkMrJGcztyBDBmCp2Aj4pWJXYRHUd4oQcovjqboM-sNs ]]>
+</Tracking>
+</CustomTracking>
+</Extension>
+<Extension type="AdVerifications">
+<AdVerifications>
+<Verification vendor="company.com-omid">
+<JavaScriptResource apiFramework="omid" browserOptional="true">
+<![CDATA[ https://static.criteo.net/banners/js/omidjs/stable/omid-validation-verification-script.js ]]>
+</JavaScriptResource>
+<VerificationParameters>
+<![CDATA[ {"javascriptBase64":"window._RENDER_STORE_DATA_={\"ad\":\"85089\",\"o\":!1,\"ae\":0,\"b\":\"https://csm.as.criteo.net/all?cppv=3&cpp=9K4xp9kTXPP-tgpJNScmLG7QUQze3LGTqLICahQ2SHqO1Sdv-lxI_3edmBtgXKb1hjuoFr2xeCLdmub6ywtBI4oC45qz4sYgiPdy4PZxgW652HkSmCVo7xGqOd5ftZR4lYwjyzUlYqZjdjdWsn2abfXnCsfIXCEw6Dp-416f3jLpbZFtOyqjO3NqP1LjprXc6iqhqgX64Uu27Qxi_TJeOzGTBPy8Uf3mbX6V43Y-QrPkaf5UkMrJGcztyBDBmCp2Aj4pWJXYRHUd4oQcovjqboM-sNs\",\"m\":!1,\"n\":!1,\"ah\":!1,\"u\":!1,\"t\":!1,\"ap\":0,\"l\":!1,\"q\":!1};var bundle_1=function(n){\"use strict\";var r=window._RENDER_STORE_DATA_;function e(n,e){return void 0!==r[n]||arguments.length<2?r[n]:e}var h=function(){return(h=Object.assign||function(n){for(var e,r=1,t=arguments.length;r<t;r++)for(var o in e=arguments[r])Object.prototype.hasOwnProperty.call(e,o)&&(n[o]=e[o]);return n}).apply(this,arguments)};function g(){for(var n=0,e=0,r=arguments.length;e<r;e++)n+=arguments[e].length;var t=Array(n),o=0;for(e=0;e<r;e++)for(var u=arguments[e],i=0,a=u.length;i<a;i++,o++)t[o]=u[i];return t}function c(n,e,r,t){var o=n(),u=!t;o.open(\"POST\",e+\"&sendBeacon=false\"+(t?\"&sync\":\"\"),u),o.setRequestHeader(\"Content-Type\",\"text/plain;charset=UTF-8\"),o.send(r)}var w,t;(t=w=w||{})[t.High=0]=\"High\",t[t.Medium=1]=\"Medium\",t[t.Low=2]=\"Low\";function o(n){void 0===n&&(n=0);var e=[2e3,1e3,500];return function(){return e[Math.min(n++,e.length-1)]}}function i(){var n,e=((n={})[w.Low]=2e3,n[w.Medium]=1e3,n[w.High]=0,n);return function(n){return e[n]}}function u(n){function e(r){return function(n,e){return t(s+\"&sds=\"+r,JSON.stringify(n),e)}}var t=function(o,u,i,a){return function(n,e,r){var t=a?n+\"&rev=\"+encodeURIComponent(a):n;try{!i&&o.sendBeacon&&o.sendBeacon(t+\"&sendBeacon=true\",e)||c(u,t,e,r)}catch(n){c(u,t,e,r)}}}(navigator,function(){return new XMLHttpRequest},n,f);switch(v){case-1:return function(){};case 1:case 3:case 2:var r=1===v?function(){return function(){return 2e3}}:2===v?o:i;return function(c,f,v){var s=function(){},d={},l=f();return function(n,e,r,t){var o;void 0===r&&(r=w.Low),s();var u=d[n],i=void 0===u?[]:u;d=h(h({},d),((o={})[n]=Array.isArray(e)?g(i,e):g(i,[e]),o));function a(){v(d,t),d={},l=f()}r===w.High?a():s=c(a,l(r))}}(function(u){var i=!1,n=function(){i=!0,u.removeEventListener(\"beforeunload\",n)};return u.addEventListener(\"beforeunload\",n),function(n,e){if(i)return n(),function(){};function r(){u.removeEventListener(\"beforeunload\",t),u.clearTimeout(o)}var t=function(){n(),r()},o=u.setTimeout(t,e);return u.addEventListener(\"beforeunload\",t),r}}(window),r,e(v));default:var u=e(0);return function(n,e,r,t){var o;return void 0===r&&(r=w.Low),u(((o={})[n]=Array.isArray(e)?e:[e],o),t)}}}var a=e(\"o\",!1),f=e(\"ad\"),v=e(\"ae\"),s=e(\"b\");return window.sendData=u(a),n.setupSendDataAgg=u,n}({});\n"} ]]>
+</VerificationParameters>
+</Verification>
+</AdVerifications>
+</Extension>
+</Extensions>
+</InLine>
+</Ad>
+</VAST>

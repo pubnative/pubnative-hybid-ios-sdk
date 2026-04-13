@@ -107,7 +107,6 @@
 
 - (void)triggerClickFlowWithUrl:(NSString *)url {
     HyBidDeeplinkHandler *deeplinkHandler = [[HyBidDeeplinkHandler alloc] initWithLink:self.ad.link];
-    HyBidSkAdNetworkModel* skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.adModel getOpenRTBSkAdNetworkModel] : [self.adModel getSkAdNetworkModel];
     NSString *customUrl = [HyBidCustomClickUtil extractPNClickUrl:url];
     if (customUrl != nil) {
         [self openBrowser:customUrl navigationType:HyBidWebBrowserNavigationExternalValue];

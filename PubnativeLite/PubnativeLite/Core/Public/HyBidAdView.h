@@ -17,6 +17,8 @@ typedef enum {
     BANNER_POSITION_BOTTOM
 } HyBidBannerPosition;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol HyBidAdViewDelegate<NSObject>
 
 - (void)adViewDidLoad:(HyBidAdView *)adView;
@@ -40,6 +42,7 @@ typedef enum {
 @property (nonatomic) HyBidBannerPosition bannerPosition;
 @property (nonatomic, assign) BOOL isAutoCacheOnLoad;
 @property (nonatomic) NSInteger autoRefreshTimeInSeconds;
+@property (nonatomic, strong, nullable) NSData *mediationWatermarkData;
 
 - (instancetype)initWithSize:(HyBidAdSize *)adSize;
 - (instancetype)initWithCoder:(NSCoder *)coder NS_UNAVAILABLE;
@@ -64,5 +67,8 @@ typedef enum {
 - (HyBidAdPresenter *)createAdPresenter;
 
 - (void)setMediationVendor:(NSString *)mediationVendor;
+- (void)setMediationWatermark:(NSData * _Nullable)pngData;
 
 @end
+
+NS_ASSUME_NONNULL_END

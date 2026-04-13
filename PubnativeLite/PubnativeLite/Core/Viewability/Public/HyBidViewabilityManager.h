@@ -5,7 +5,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "OMIDAdSessionWrapper.h"
+#import "HyBidOMIDAdSessionWrapper.h"
 
 @interface HyBidViewabilityManager : NSObject
 
@@ -13,15 +13,15 @@
 @property (nonatomic, assign, readonly) BOOL isViewabilityMeasurementActivated;
 
 @property (nonatomic, strong) id partner;
-@property (nonatomic, strong) OMIDAdSessionWrapper *omidAdSession;
-@property (nonatomic, strong) OMIDAdSessionWrapper *omidMediaAdSession;
+@property (nonatomic, strong) HyBidOMIDAdSessionWrapper *omidAdSession;
+@property (nonatomic, strong) HyBidOMIDAdSessionWrapper *omidMediaAdSession;
 @property (nonatomic, strong) id adEvents;
 @property (nonatomic, strong) id omidMediaEvents;
 
 + (instancetype)sharedInstance;
 - (NSString *)getOMIDJS;
-- (id)getAdEvents:(OMIDAdSessionWrapper *)omidAdSessionWrapper;
-- (id)getMediaEvents:(OMIDAdSessionWrapper *)omidAdSessionWrapper;
+- (id)getAdEvents:(HyBidOMIDAdSessionWrapper *)omidAdSessionWrapper;
+- (id)getMediaEvents:(HyBidOMIDAdSessionWrapper *)omidAdSessionWrapper;
 - (void)reportEvent:(NSString *)eventType;
 
 @end
