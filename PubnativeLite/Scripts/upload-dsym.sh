@@ -70,9 +70,9 @@ fi
 cat <<EOF > "$SYMBOLS_DIR/manifest.json"
 {
   "version": "${HYBID_PRIVATE_REPO_RELEASE_TAG:-unknown}",
-  "branch": "${CIRCLE_BRANCH:-unknown}",
+  "branch": "${GITHUB_REF_NAME:-unknown}",
   "commit": "$(git rev-parse HEAD 2>/dev/null || echo 'unknown')",
-  "build_num": "${CIRCLE_BUILD_NUM:-local}",
+  "build_num": "${GITHUB_RUN_NUMBER:-local}",
   "upload_exit_code": "$UPLOAD_EXIT",
   "created_at": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
 }

@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
 # ========================================
 # 📦 Package HyBid SDK for Private Distribution
@@ -13,7 +13,7 @@ set -e
 #     (contains LICENSE, HyBid.xcframework, OMSDK_Pubnativenet/)
 # ========================================
 
-trap 'rm -rf "$STAGE_DIR"' EXIT
+trap '[[ -n "${STAGE_DIR:-}" ]] && rm -rf "$STAGE_DIR"' EXIT
 
 # 🧭 Resolve paths
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

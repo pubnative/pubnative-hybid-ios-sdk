@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
 # ========================================
 # 🧩 Generate HyBid-private.podspec
@@ -47,9 +47,9 @@ echo -e "${GREEN}✅ Detected base version from HyBid.podspec: ${BASE_VERSION}${
 # -----------------------------------------
 # 🧠 Determine build type and version postfix
 # -----------------------------------------
-if [ -n "$CIRCLE_BUILD_NUM" ]; then
-  POSTFIX="build.${CIRCLE_BUILD_NUM}"
-  echo -e "${GREEN}🤖 Running in CI — using build number ${CIRCLE_BUILD_NUM}${NC}"
+if [ "${GITHUB_ACTIONS:-}" = "true" ] && [ -n "${GITHUB_RUN_NUMBER:-}" ]; then
+  POSTFIX="build.${GITHUB_RUN_NUMBER}"
+  echo -e "${GREEN}🤖 Running in CI — using build number ${GITHUB_RUN_NUMBER}${NC}"
 else
   COUNTER_FILE=".local_build_number"
   if [ -f "$COUNTER_FILE" ]; then

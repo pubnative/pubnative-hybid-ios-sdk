@@ -92,6 +92,7 @@
 		34FB950B29761EF8006FDE89 /* ur.txt in Resources */ = {isa = PBXBuildFile; fileRef = 34FB950A29761EF8006FDE89 /* ur.txt */; };
 		34FB950C29761EF8006FDE89 /* ur.txt in Resources */ = {isa = PBXBuildFile; fileRef = 34FB950A29761EF8006FDE89 /* ur.txt */; };
 		34FB950D29761EF8006FDE89 /* ur.txt in Resources */ = {isa = PBXBuildFile; fileRef = 34FB950A29761EF8006FDE89 /* ur.txt */; };
+		44750EB82F8D43A500F2D322 /* HyBidSKAdNetworkViewControllerOrientationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44750EB72F8D43A500F2D322 /* HyBidSKAdNetworkViewControllerOrientationTests.swift */; };
 		449E2E3D2F3F55EC000F93A6 /* HyBidMRAIDServiceProviderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 449E2E3C2F3F55EC000F93A6 /* HyBidMRAIDServiceProviderTest.swift */; };
 		449E2E492F3FACAC000F93A6 /* HyBidEndCardViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 449E2E482F3FACAC000F93A6 /* HyBidEndCardViewTest.swift */; };
 		44BD729D2F61A39300FC4C1B /* HyBidStringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 44BD729C2F61A39300FC4C1B /* HyBidStringUtils.m */; };
@@ -952,6 +953,7 @@
 		34FA74832A0D441C00095976 /* HyBidDemoOpenRTBAPITesterDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HyBidDemoOpenRTBAPITesterDetailViewController.m; sourceTree = "<group>"; };
 		34FA74842A0D441C00095976 /* HyBidDemoOpenRTBAPITesterDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyBidDemoOpenRTBAPITesterDetailViewController.h; sourceTree = "<group>"; };
 		34FB950A29761EF8006FDE89 /* ur.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ur.txt; sourceTree = "<group>"; };
+		44750EB72F8D43A500F2D322 /* HyBidSKAdNetworkViewControllerOrientationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyBidSKAdNetworkViewControllerOrientationTests.swift; sourceTree = "<group>"; };
 		449E2E3C2F3F55EC000F93A6 /* HyBidMRAIDServiceProviderTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyBidMRAIDServiceProviderTest.swift; sourceTree = "<group>"; };
 		449E2E432F3F655B000F93A6 /* HyBidMRAIDServiceProvider+Testing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HyBidMRAIDServiceProvider+Testing.h"; sourceTree = "<group>"; };
 		449E2E472F3FACAC000F93A6 /* HyBidEndCardView+Testing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HyBidEndCardView+Testing.h"; sourceTree = "<group>"; };
@@ -2846,6 +2848,7 @@
 			isa = PBXGroup;
 			children = (
 				7E76FCCB2A314E0A0099C722 /* HyBidSkAdNetworkModelTests.m */,
+				44750EB72F8D43A500F2D322 /* HyBidSKAdNetworkViewControllerOrientationTests.swift */,
 			);
 			path = SKAD;
 			sourceTree = "<group>";
@@ -4658,6 +4661,7 @@
 				7EAD20032F278B1600B9C475 /* HyBidATOMManagerTests.m in Sources */,
 				7EAD20042F278B1600B9C476 /* HyBidAdViewTests.m in Sources */,
 				7EAD20052F278B1600B9C477 /* HyBidInterstitialAdTests.swift in Sources */,
+				44750EB82F8D43A500F2D322 /* HyBidSKAdNetworkViewControllerOrientationTests.swift in Sources */,
 				7EAD20062F278B1600B9C478 /* HyBidRewardedAdTests.swift in Sources */,
 				7EAD20072F278B1600B9C479 /* HyBidNativeAdTests.m in Sources */,
 				7EAD20082F278B1600B9C47A /* HyBidNativeAdLoaderTests.m in Sources */,
@@ -4738,7 +4742,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.8.0;
+				MARKETING_VERSION = 3.8.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -4788,7 +4792,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.8.0;
+				MARKETING_VERSION = 3.8.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -4958,7 +4962,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.8.0;
+				MARKETING_VERSION = 3.8.1;
 				MODULEMAP_FILE = "";
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -4998,7 +5002,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.8.0;
+				MARKETING_VERSION = 3.8.1;
 				MODULEMAP_FILE = "";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = net.pubnative.PubnativeLite;

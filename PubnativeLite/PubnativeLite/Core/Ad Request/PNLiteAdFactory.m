@@ -218,7 +218,7 @@
         self.adRequestModel.requestParameters[HyBidRequestParameter.sessionDuration] = sessionDuration;
     }
     
-    NSDictionary *impressionDepth = [[HyBidSessionManager sharedInstance] impressionCounter];
+    NSDictionary *impressionDepth = [[HyBidSessionManager sharedInstance] safeImpressionCounter];
     if (impressionDepth && [impressionDepth count] != 0) {
         NSString *value = impressionDepth[zoneID];
         self.adRequestModel.requestParameters[HyBidRequestParameter.impressionDepth] = [NSString stringWithFormat:@"%@", value];

@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
 # ========================================
 # 🏗 Generate HyBid.xcframework for Distribution
@@ -9,29 +9,45 @@ set -e
 #
 # 📦 Output:
 #   - HyBid.xcframework  (copied to the repo root for packaging)
-#   - HyBid.xcframework.zip (in /private/tmp/circleci-artifacts)
 #
 # 💻 Usage:
 #   ./PubnativeLite/Scripts/generate.sh
+#   ./PubnativeLite/Scripts/generate.sh HyBid   (optional product name)
 #
 # 🧩 Notes:
 #   - Must run before package-private-framework.sh.
-#   - Uses the same working directory locally and on CircleCI.
+#   - Uses a temp artifacts dir that works locally and on GitHub Actions.
 # ========================================
 
-# Accept PRODUCT_NAME as an argument
-PRODUCT_NAME=${1:-HyBid} # Default to "HyBid" if no argument is provided
+# Accept SCHEME + PRODUCT_NAME as arguments
+SCHEME=${1:-HyBid}             # Build scheme (must exist in workspace)
+PRODUCT_NAME=${2:-$SCHEME}     # Output framework/module name (e.g. Smaato_HyBid)
 
 export LIBXML2_CFLAGS=$(xml2-config --cflags)
 export LIBXML2_LIBS=$(xml2-config --libs)
 
-# Variable Declarations
-BASE_DIR=/private/tmp/circleci-artifacts
+# -------------------------------
+# 📂 Resolve paths
+# -------------------------------
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SDK_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+DEST_DIR="$SDK_ROOT"
+
+# -------------------------------
+# 📦 Artifacts dir
+# -------------------------------
+if [ "${GITHUB_ACTIONS:-}" = "true" ] && [ -n "${RUNNER_TEMP:-}" ]; then
+  BASE_DIR="${RUNNER_TEMP}/hybid-artifacts"
+else
+  BASE_DIR="/tmp/hybid-artifacts"
+fi
+
+DERIVED_DATA_PATH="${BASE_DIR}/DerivedData"
+
 FRAMEWORK_NAME=$PRODUCT_NAME.framework
 FRAMEWORK_DSYM_NAME=$FRAMEWORK_NAME.dSYM
 XCFRAMEWORK_NAME=$PRODUCT_NAME.xcframework
 XCFRAMEWORK=$BASE_DIR/$XCFRAMEWORK_NAME
-XCFRAMEWORK_ZIP_PATH=$BASE_DIR/$PRODUCT_NAME.xcframework.zip
 IPHONEOS_PATH=$BASE_DIR/iphoneos
 IPHONEOS_FRAMEWORK=$IPHONEOS_PATH/$FRAMEWORK_NAME
 IPHONESIMULATOR_PATH=$BASE_DIR/iphonesimulator
@@ -40,27 +56,31 @@ IPHONEOS_DSYM=$IPHONEOS_PATH/$FRAMEWORK_DSYM_NAME
 IPHONESIMULATOR_DSYM=$IPHONESIMULATOR_PATH/$FRAMEWORK_DSYM_NAME
 IPHONE_BCSYMBOLMAP_PATHS=$IPHONEOS_PATH/*
 
-# 🧭 Resolve absolute paths
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SDK_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-DEST_DIR="$SDK_ROOT"
 echo "📍 Script directory: $SCRIPT_DIR"
 echo "📦 SDK root directory: $SDK_ROOT"
-echo "📤 Framework destination (expanded): $DEST_DIR"
+echo "📤 Framework destination: $DEST_DIR"
+echo "🗂 Artifacts directory: $BASE_DIR"
 
-# Generate Frameworks
-echo "⚙️ Building iPhoneOS framework..."
+mkdir -p "$BASE_DIR" "$IPHONEOS_PATH" "$IPHONESIMULATOR_PATH"
+
 # Ensure clean output before building new XCFramework
 rm -rf "$XCFRAMEWORK"
+rm -rf "$DERIVED_DATA_PATH"
 
+# -------------------------------
+# ⚙️ Build iPhoneOS framework
+# -------------------------------
+echo "⚙️ Building iPhoneOS framework..."
 xcodebuild -workspace HyBid.xcworkspace \
-  -scheme HyBid \
+  -scheme "$SCHEME" \
   -sdk iphoneos \
+  -destination 'generic/platform=iOS' \
+  -derivedDataPath "$DERIVED_DATA_PATH" \
   -configuration Release \
-  clean build \
+  build \
   CODE_SIGN_IDENTITY="" \
   CODE_SIGNING_REQUIRED=NO \
-  CONFIGURATION_BUILD_DIR=$IPHONEOS_PATH \
+  CONFIGURATION_BUILD_DIR="$IPHONEOS_PATH" \
   GCC_OPTIMIZATION_LEVEL=0 \
   SWIFT_OPTIMIZATION_LEVEL=-Onone \
   ENABLE_STRICT_OBJC_MSGSEND=NO \
@@ -68,15 +88,20 @@ xcodebuild -workspace HyBid.xcworkspace \
   OTHER_LDFLAGS="-ObjC -all_load -weak_framework Foundation -weak_framework UIKit" \
   OTHER_CFLAGS="-fobjc-arc" \
   VALIDATE_PRODUCT=NO \
-  -UseModernBuildSystem=YES | xcpretty -c
+  -UseModernBuildSystem=YES | bundle exec xcpretty -c
 
+# -------------------------------
+# ⚙️ Build iPhoneSimulator framework
+# -------------------------------
 echo "⚙️ Building iPhoneSimulator framework..."
 xcodebuild -workspace HyBid.xcworkspace \
-  -scheme HyBid \
+  -scheme "$SCHEME" \
   -sdk iphonesimulator \
+  -destination 'generic/platform=iOS Simulator' \
+  -derivedDataPath "$DERIVED_DATA_PATH" \
   -configuration Release \
-  clean build \
-  CONFIGURATION_BUILD_DIR=$IPHONESIMULATOR_PATH \
+  build \
+  CONFIGURATION_BUILD_DIR="$IPHONESIMULATOR_PATH" \
   GCC_OPTIMIZATION_LEVEL=0 \
   SWIFT_OPTIMIZATION_LEVEL=-Onone \
   ENABLE_STRICT_OBJC_MSGSEND=NO \
@@ -84,38 +109,47 @@ xcodebuild -workspace HyBid.xcworkspace \
   OTHER_LDFLAGS="-ObjC -all_load -weak_framework Foundation -weak_framework UIKit" \
   OTHER_CFLAGS="-fobjc-arc" \
   VALIDATE_PRODUCT=NO \
-  -UseModernBuildSystem=YES | xcpretty -c
+  -UseModernBuildSystem=YES | bundle exec xcpretty -c
 
-# Collect .bcsymbolmap files
+# -------------------------------
+# 🔍 Collect .bcsymbolmap files
+# -------------------------------
 echo "🔍 Collecting .bcsymbolmap files..."
 IPHONE_BCSYMBOLMAP_COMMANDS=""
 for path in $IPHONE_BCSYMBOLMAP_PATHS; do
-    if [[ ${path} =~ ".bcsymbolmap" ]]; then
-        IPHONE_BCSYMBOLMAP_COMMANDS="$IPHONE_BCSYMBOLMAP_COMMANDS -debug-symbols $path "
-    fi
+  if [[ ${path} =~ ".bcsymbolmap" ]]; then
+    IPHONE_BCSYMBOLMAP_COMMANDS="$IPHONE_BCSYMBOLMAP_COMMANDS -debug-symbols $path "
+  fi
 done
 
-# Generate XCFramework
+# -------------------------------
+# 🏗 Create XCFramework
+# -------------------------------
 echo "🏗 Creating XCFramework..."
 xcodebuild -create-xcframework \
-  -framework $IPHONEOS_FRAMEWORK -debug-symbols $IPHONEOS_DSYM $IPHONE_BCSYMBOLMAP_COMMANDS \
-  -framework $IPHONESIMULATOR_FRAMEWORK -debug-symbols $IPHONESIMULATOR_DSYM \
-  -output $XCFRAMEWORK
+  -framework "$IPHONEOS_FRAMEWORK" -debug-symbols "$IPHONEOS_DSYM" $IPHONE_BCSYMBOLMAP_COMMANDS \
+  -framework "$IPHONESIMULATOR_FRAMEWORK" -debug-symbols "$IPHONESIMULATOR_DSYM" \
+  -output "$XCFRAMEWORK"
 
-# Clean Swift interfaces
+# -------------------------------
+# 🧹 Clean Swift interfaces
+# -------------------------------
 echo "🧹 Cleaning Swift interface imports..."
-cd $BASE_DIR
-find . -name "*.swiftinterface" -exec sed -i -e "s/${PRODUCT_NAME}\.//g" {} \;
+cd "$BASE_DIR"
+find . -name "*.swiftinterface" -exec sed -i '' "s/${PRODUCT_NAME}\.//g" {} \;
 
 # Debug: check result
-echo "🔍 Searching for HyBid.xcframework after build..."
-find "$BASE_DIR" -type d -name "HyBid.xcframework" || echo "❌ HyBid.xcframework not found after generation"
+echo "🔍 Searching for ${PRODUCT_NAME}.xcframework after build..."
+find "$BASE_DIR" -type d -name "${PRODUCT_NAME}.xcframework" || echo "❌ ${PRODUCT_NAME}.xcframework not found after generation"
 
-# 🧱 Copy to SDK root (for packaging step)
+# -------------------------------
+# 📦 Copy to SDK root (for packaging step)
+# -------------------------------
 FINAL_XCFRAMEWORK_PATH=$(find "$BASE_DIR" -type d -name "${PRODUCT_NAME}.xcframework" | head -n 1)
 if [ -d "$FINAL_XCFRAMEWORK_PATH" ]; then
   echo "📦 Copying ${PRODUCT_NAME}.xcframework to destination: $DEST_DIR"
   mkdir -p "$DEST_DIR"
+  rm -rf "$DEST_DIR/${PRODUCT_NAME}.xcframework"
   cp -R "$FINAL_XCFRAMEWORK_PATH" "$DEST_DIR/"
   echo "✅ Copied to: $DEST_DIR/${PRODUCT_NAME}.xcframework"
   # Sanitize embedded build paths in .abi.json and .swiftinterface so audit passes (no pubnative/hybid in paths)

@@ -45,6 +45,14 @@ final class HyBidOMSDKTest: XCTestCase {
     // callbacks fire reliably in headless CI simulators (no rendering context otherwise).
     private var windows: [UIWindow] = []
 
+    // MARK: - Timeouts
+
+    /// WKWebView navigation and JS evaluation are significantly slower in headless CI
+    /// simulators (no GPU / display server). Use 30 s unconditionally — the first WKWebView
+    /// launch in a test run incurs a cold-start penalty (WebKit process spawn) that can
+    /// exceed 5–10 s even on a developer machine.
+    private let webViewTimeout: TimeInterval = 30.0
+
     // MARK: - XCTest lifecycle
 
     override func setUp() {
@@ -185,7 +193,7 @@ final class HyBidOMSDKTest: XCTestCase {
         webView.navigationDelegate = waiter
 
         webView.loadHTMLString("<html><body>OMID Test</body></html>", baseURL: nil)
-        wait(for: [didFinish], timeout: 5.0)
+        wait(for: [didFinish], timeout: webViewTimeout)
 
         // 4) Inject OMID JS service into the webView BEFORE creating OMIDAdSession.
         // The OMID JS service must be present in the web environment prior to
@@ -203,7 +211,7 @@ final class HyBidOMSDKTest: XCTestCase {
             jsError = error
             injected.fulfill()
         }
-        wait(for: [injected], timeout: 5.0)
+        wait(for: [injected], timeout: webViewTimeout)
         if let jsError {
             XCTFail("Failed injecting OMID JS: \(jsError)")
         }
@@ -280,6 +288,12 @@ final class HyBidOMSDKTest: XCTestCase {
 
         // Keep WKWebView alive for the duration of AdEvents initialization.
         _ = session.webView
+
+        // For display (htmlDisplay) sessions, OMIDAdEvents creation requires the session
+        // to be in the started state — the event filter rejects it with "Event filter does
+        // not accept" otherwise. Note: video sessions use OMIDMediaEvents which must be
+        // created BEFORE start(), so start() is only called here for the AdEvents path.
+        session.adSession.start()
 
         let wrapper = makeAdSessionWrapper(with: session.adSession as AnyObject)
         let adEvents = viewabilityManager.getAdEvents(wrapper)

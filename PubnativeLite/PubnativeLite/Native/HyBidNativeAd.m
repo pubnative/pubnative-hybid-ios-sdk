@@ -42,7 +42,7 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
 @property (nonatomic, strong) NSDictionary *trackingExtras;
 @property (nonatomic, strong) NSMutableDictionary *fetchedAssets;
 @property (nonatomic, strong) NSArray *clickableViews;
-@property (nonatomic, strong) UITapGestureRecognizer *tapRecognizer;
+@property (nonatomic, strong) NSMutableArray<UITapGestureRecognizer *> *tapRecognizers;
 @property (nonatomic, strong) UIImageView *bannerImageView;
 @property (nonatomic, weak) NSObject<HyBidNativeAdDelegate> *delegate;
 @property (nonatomic, weak) NSObject<HyBidNativeAdFetchDelegate> *fetchDelegate;
@@ -61,11 +61,8 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
     self.renderer = nil;
     self.trackingExtras = nil;
     self.fetchedAssets = nil;
-    [self.tapRecognizer removeTarget:self action:@selector(handleTap:)];
-    for (UIView *view in self.clickableViews) {
-        [view removeGestureRecognizer:self.tapRecognizer];
-    }
-    self.tapRecognizer = nil;
+    [self stopTrackingClicks];
+    self.tapRecognizers = nil;
     self.clickableViews = nil;
     [self.impressionTracker clear];
     self.impressionTracker = nil;
@@ -263,8 +260,9 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
     if (self.ad.zoneID != nil && self.ad.zoneID.length > 0){
         [reportingDictionary setObject:self.ad.zoneID forKey:HyBidReportingCommon.ZONE_ID];
     }
-    if ([HyBidSessionManager sharedInstance].impressionCounter != nil) {
-        [reportingDictionary setObject:[HyBidSessionManager sharedInstance].impressionCounter forKey:HyBidReportingCommon.IMPRESSION_SESSION_COUNT];
+    NSDictionary *impressionCounter = [[HyBidSessionManager sharedInstance] safeImpressionCounter];
+    if (impressionCounter != nil) {
+        [reportingDictionary setObject:impressionCounter forKey:HyBidReportingCommon.IMPRESSION_SESSION_COUNT];
     }
     if ([[NSUserDefaults standardUserDefaults] stringForKey: HyBidReportingCommon.SESSION_DURATION] != nil){
         [reportingDictionary setObject: [[NSUserDefaults standardUserDefaults] stringForKey: HyBidReportingCommon.SESSION_DURATION] forKey: HyBidReportingCommon.SESSION_DURATION];
@@ -338,17 +336,20 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
     } else if (!self.clickUrl || self.clickUrl.length == 0) {
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Click URL is empty, clicks won't be tracked."];
     } else {
+        [self stopTrackingClicks];
         self.clickableViews = [clickableViews mutableCopy];
-        if(!self.clickableViews) {
+        if (!self.clickableViews) {
             self.clickableViews = [NSArray arrayWithObjects:view, nil];
         }
-        if(!self.tapRecognizer) {
-            self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
-        }
-        for (int i = 0; i < [self.clickableViews count]; i++) {
-            UIView *clickableView = [self.clickableViews objectAtIndex: i];
+        self.tapRecognizers = [NSMutableArray arrayWithCapacity:self.clickableViews.count];
+        for (UIView *clickableView in self.clickableViews) {
+            // A UIGestureRecognizer can only be attached to one view at a time.
+            // Create a separate recognizer per view so all views receive tap events.
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                  action:@selector(handleTap:)];
             clickableView.userInteractionEnabled = YES;
-            [clickableView addGestureRecognizer: self.tapRecognizer];
+            [clickableView addGestureRecognizer:tap];
+            [self.tapRecognizers addObject:tap];
         }
     }
 }
@@ -373,12 +374,10 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
 }
 
 - (void)stopTrackingClicks {
-    if (self.clickableViews) {
-        for (int i = 0; i < [self.clickableViews count]; i++) {
-            UIView *view = [self.clickableViews objectAtIndex: i];
-            [view removeGestureRecognizer:self.tapRecognizer];
-        }
+    for (UITapGestureRecognizer *tap in self.tapRecognizers) {
+        [tap.view removeGestureRecognizer:tap];
     }
+    [self.tapRecognizers removeAllObjects];
 }
 
 - (void)handleTap:(UITapGestureRecognizer *)sender {

@@ -1,8 +1,10 @@
 require 'xcodeproj'
 
-PROJECT_PATH = "PubnativeLite/HyBid.xcodeproj"
+PROJECT_PATH = File.expand_path("../HyBid.xcodeproj", __dir__)
 NAMESPACE = ARGV[0] || "NGSDK"
+BASE_FOLDER = "PubnativeLite"
 TARGET_NAME = "HyBid"
+NEW_MODULE_NAME = NAMESPACE
 
 puts "🔧 Using NAMESPACE: #{NAMESPACE}"
 puts "📂 Opening Xcode project..."
@@ -14,24 +16,40 @@ puts "🔄 Updating file references..."
 project.files.each do |file|
   next unless file.path
   next unless file.real_path  # Ensure real_path exists
-  
+
   real_path = Pathname.new(file.real_path)
-  
+
   # Skip excluded directories & file types (allow .js so hybidscaling.js → ngsdkscaling.js path is updated)
   if real_path.to_s.match?(/\/(Pods|OMSDK|PubnativeLiteDemo|PubnativeLiteTests|SmaatoApplovin|SmaatoSDK|SmaatoUnifiedBidding)\//) ||
      real_path.extname == ".xcconfig" || real_path.extname == ".xcprivacy" ||
-     real_path.to_s.include?("Info.plist") || real_path.to_s.include?(".xcframework") ||
-     real_path.extname == ".tbd" || real_path.extname == ".framework" ||
-     file.path.include?('Pods_')  # Skip Pod framework references
+     real_path.to_s.include?("Info.plist") || real_path.to_s.include?(".xcframework") || real_path.extname == ".tbd" || real_path.extname == ".framework"
+    puts "⚠️ Skipped (Excluded File or Directory): #{real_path}"
     next
   end
 
-  old_path = file.path
-  new_path = old_path.gsub(/HyBid/, NAMESPACE).gsub(/PNLite/, NAMESPACE).gsub(/hybid/, 'ngsdk')
-  
-  if old_path != new_path
-    file.path = new_path
-    puts "✅ Updated: #{old_path} → #{new_path}"
+  # ** Ensure the path is relative to "PubnativeLite" without duplicating it **
+  relative_path = file.path.sub(/^.*?#{BASE_FOLDER}\//, "#{BASE_FOLDER}/")
+
+  # ** Generate new file path applying the same renaming rules as namespace.sh **
+  file_name = File.basename(relative_path)
+  new_file_name = file_name
+    .gsub("HyBid", NAMESPACE)
+    .gsub("PNLite", NAMESPACE)
+    .gsub("hybid", NAMESPACE.downcase)
+
+  if file_name != new_file_name
+    new_file_path = File.join(File.dirname(relative_path), new_file_name)
+
+    # ** Remove unnecessary "./" if present **
+    new_file_path.gsub!(/^\.\//, "")
+
+    # ** Ensure the final path does not contain duplicate "PubnativeLite" **
+    new_file_path.gsub!(/#{BASE_FOLDER}\/#{BASE_FOLDER}/, BASE_FOLDER)
+
+    # ** Update file reference in `.xcodeproj` (path + name if explicitly set) **
+    puts "🔄 Renaming #{file.path} → #{new_file_path}"
+    file.path = new_file_path
+    file.name = new_file_name if file.name
   end
 end
 
@@ -68,4 +86,24 @@ project.targets.each do |target|
 end
 
 project.save
-puts "✅ Xcode project updated successfully!"
+puts "🚀 Xcode project successfully updated with new module and product name!"
+
+# Fix Imports in Objective-C Headers **
+puts "🔄 Fixing Import Statements..."
+Dir.glob("#{BASE_FOLDER}/PubnativeLite/**/*.{h,m,mm}").each do |file|
+  text = File.read(file)
+
+  # Fix old imports
+  text.gsub!(
+    /#if __has_include\(<HyBid\/HyBid-Swift.h>\)/,
+    "#if __has_include(<#{NAMESPACE}/#{NAMESPACE}-Swift.h>)"
+  )
+  text.gsub!(
+    /#import "HyBid-Swift.h"/,
+    "#import \"#{NAMESPACE}-Swift.h\""
+  )
+
+  File.write(file, text)
+end
+
+puts "✅ Namespace update completed! Reopen Xcode and build the project."

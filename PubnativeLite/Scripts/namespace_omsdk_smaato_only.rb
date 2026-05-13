@@ -10,7 +10,6 @@
 # Run from namespace.sh after content replacement (so class name may already be NGSDK).
 
 BASE_DIR = File.expand_path(ARGV[0] || File.join(__dir__, '..', 'PubnativeLite'))
-SDK_CLASS_PATTERN = /\[(HyBid|NGSDK)\s+getIntegrationType\]/
 
 def viewability_file?(path)
   return false unless path.end_with?('.m')

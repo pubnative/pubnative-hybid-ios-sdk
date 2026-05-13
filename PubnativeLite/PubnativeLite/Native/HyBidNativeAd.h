@@ -48,6 +48,7 @@
 - (void)renderAd:(HyBidNativeAdRenderer *)renderer;
 - (void)fetchNativeAdAssetsWithDelegate:(NSObject<HyBidNativeAdFetchDelegate> *)delegate;
 - (void)startTrackingView:(UIView *)view withDelegate:(NSObject<HyBidNativeAdDelegate> *)delegate;
+- (void)startTrackingView:(UIView *)view withClickableViews:(NSArray<UIView *> *)clickableViews withDelegate:(NSObject<HyBidNativeAdDelegate> *)delegate;
 - (void)stopTracking;
 
 @end
