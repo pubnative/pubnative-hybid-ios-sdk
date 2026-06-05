@@ -8,6 +8,7 @@
 #import "PNLiteMeta.h"
 #import "PNLiteOrientationManager.h"
 #import "HyBidAdFeedbackView.h"
+#import "HyBidStringUtils.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <HyBid/HyBid-Swift.h>
@@ -134,10 +135,9 @@ CGFloat const HyBidIconMaximumHeight = 30.0f;
 - (void)downloadCustomContentInfoViewIconWithCompletionBlock:(void (^)(BOOL isFinished))completionBlock
 {
     if (self.icon != nil && [self.icon length] > 0) {
-        NSString *trimmedIcon;
         NSURL *iconURL;
         if ([self.icon rangeOfString:@" \n..."].location != NSNotFound) {
-            trimmedIcon = [self.icon stringByReplacingOccurrencesOfString:@" \n..." withString:@""];
+            NSString *trimmedIcon = [HyBidStringUtils safeReplaceInValue:self.icon target:@" \n..." replacement:@""] ?: self.icon;
             iconURL = [[NSURL alloc] initWithString:trimmedIcon];
         }else {
             iconURL = [[NSURL alloc] initWithString:self.icon];
@@ -278,7 +278,7 @@ CGFloat const HyBidIconMaximumHeight = 30.0f;
         if (!self.adFeedbackViewRequested) {
             self.adFeedbackViewRequested = YES;
             if ([self.link rangeOfString:@" \n..."].location != NSNotFound) {
-                NSString*link = [self.link stringByReplacingOccurrencesOfString:@" \n..." withString:@""];
+                NSString *link = [HyBidStringUtils safeReplaceInValue:self.link target:@" \n..." replacement:@""] ?: self.link;
                 self.adFeedbackView = [[HyBidAdFeedbackView alloc] initWithURL:link withZoneID:self.zoneID];
             }else {
                 self.adFeedbackView = [[HyBidAdFeedbackView alloc] initWithURL:self.link withZoneID:self.zoneID];

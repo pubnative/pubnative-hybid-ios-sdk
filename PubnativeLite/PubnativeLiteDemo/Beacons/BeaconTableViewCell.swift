@@ -1,4 +1,4 @@
-// 
+//
 // HyBid SDK License
 //
 // https://github.com/pubnative/pubnative-hybid-ios-sdk/blob/main/LICENSE
@@ -7,21 +7,21 @@
 import UIKit
 
 class BeaconTableViewCell: UITableViewCell {
-    
+
     @IBOutlet weak var beaconTitleLabel: UILabel!
     @IBOutlet weak var beaconContentTextView: UITextView!
-    
-    private var beacon: HyBidDataModel = HyBidDataModel() {
+
+    private var beacon: HyBidBeaconItem? {
         didSet {
             DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
+                guard let self, let beacon = self.beacon else { return }
                 self.beaconTitleLabel.text = beacon.type
-                self.beaconContentTextView.text = beacon.url ?? beacon.js
+                self.beaconContentTextView.text = beacon.content
             }
         }
     }
-    
-    func setBeacon(beacon: HyBidDataModel) {
+
+    func setBeacon(_ beacon: HyBidBeaconItem) {
         self.beacon = beacon
     }
 }

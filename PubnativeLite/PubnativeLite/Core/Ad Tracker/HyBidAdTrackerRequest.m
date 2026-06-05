@@ -57,7 +57,11 @@ NSInteger const PNLiteResponseStatusRequestNotFound = 404;
 }
 
 - (void)invokeDidLoad {
+    NSString *capturedURL = self.urlString;
+    NSString *capturedType = self.trackingType;
     dispatch_async(dispatch_get_main_queue(), ^{
+        self.urlString = capturedURL;
+        self.trackingType = capturedType;
         if (self.delegate && [self.delegate respondsToSelector:@selector(requestDidFinish:)]) {
             [self.delegate requestDidFinish:self];
         }
@@ -65,7 +69,11 @@ NSInteger const PNLiteResponseStatusRequestNotFound = 404;
 }
 
 - (void)invokeDidFail:(NSError *)error {
+    NSString *capturedURL = self.urlString;
+    NSString *capturedType = self.trackingType;
     dispatch_async(dispatch_get_main_queue(), ^{
+        self.urlString = capturedURL;
+        self.trackingType = capturedType;
         [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd)withMessage:error.localizedDescription];
         if(self.delegate && [self.delegate respondsToSelector:@selector(request:didFailWithError:)]) {
             [self.delegate request:self didFailWithError:error];

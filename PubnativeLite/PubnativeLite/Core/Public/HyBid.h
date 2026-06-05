@@ -117,7 +117,7 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import "HyBidConfigManager.h"
 #import "NSUserDefaults+HyBidCustomMethods.h"
 #import "HyBidSKOverlayDelegate.h"
-#import "ATOMManager.h"
+#import "HyBidATOMManager.h"
 
 // For swift compatibility, we are making this file public instead of private
 // Avoid using custom module map
@@ -127,6 +127,7 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import "HyBidVASTImpression.h"
 #import "UIApplication+PNLiteTopViewController.h"
 #import "HyBidAdFeedbackViewDelegate.h"
+#import "HyBidBeaconsInspectorHelper.h"
 
 @class HyBidTargetingModel;
 @class HyBidReportingManager;
@@ -149,6 +150,7 @@ typedef enum {
     HyBidLogLevelWarning,
     HyBidLogLevelInfo,
     HyBidLogLevelDebug,
+    HyBidLogLevelATOM
 } HyBidLogLevel;
 
 typedef enum {
@@ -214,8 +216,10 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 + (HyBidReportingManager *)reportingManager;
 + (NSString*)getSDKVersionInfo;
 + (NSString*)getCustomRequestSignalData;
++ (NSString*)getMinimizedCustomRequestSignalData;
 + (NSString*)getCustomRequestSignalData:(NSString*) mediationVendorName;
 + (NSString*)getEncodedCustomRequestSignalData;
++ (NSString*)getEncodedMinimizedCustomRequestSignalData;
 + (NSString*)getEncodedCustomRequestSignalData:(NSString*) mediationVendorName;
 + (void)setReporting:(BOOL)enabled;
 + (void)rightToBeForgotten;

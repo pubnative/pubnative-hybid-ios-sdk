@@ -18,14 +18,39 @@
 
 @implementation HyBidMRAIDServiceProvider
 
+#pragma mark - URL helper
+
+- (NSURL *)safeURLFromObject:(id)value {
+    if (![value isKindOfClass:[NSString class]]) { return nil; }
+
+    NSString *string = (NSString *)value;
+    if (string.length == 0) { return nil; }
+
+    NSURL *url = [NSURL URLWithString:string];
+    if (!url) {
+        NSString *encoded =
+        [string stringByAddingPercentEncodingWithAllowedCharacters:
+         [NSCharacterSet URLQueryAllowedCharacterSet]];
+        if (encoded.length > 0) {
+            url = [NSURL URLWithString:encoded];
+        }
+    }
+
+    if (!url || url.scheme.length == 0) { return nil; }
+
+    return url;
+}
+
 - (void)openBrowser:(NSString *)urlString {
-    NSURL *linkURL = [NSURL URLWithString:urlString];
+    NSURL *linkURL = [self safeURLFromObject:urlString];
+    if (!linkURL) { return; }
     [[UIApplication sharedApplication] openURL:linkURL options:@{} completionHandler:nil];
 }
 
 - (void)playVideo:(NSString *)urlString {
-    NSURL *videoUrl = [NSURL URLWithString:urlString];
-    [[UIApplication sharedApplication] openURL:videoUrl options:@{} completionHandler:nil];
+    NSURL *videoURL = [self safeURLFromObject:urlString];
+    if (!videoURL) { return; }
+    [[UIApplication sharedApplication] openURL:videoURL options:@{} completionHandler:nil];
 }
 
 - (void)storePicture:(NSString *)urlString {

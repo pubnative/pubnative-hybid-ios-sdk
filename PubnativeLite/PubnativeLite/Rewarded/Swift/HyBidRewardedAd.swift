@@ -28,6 +28,7 @@ public class HyBidRewardedAd: NSObject {
     @objc public var ad: HyBidAd?
     @objc public var isReady = false
     @objc public var isMediation = false
+    @objc public var mediationWatermarkData: Data?
     @objc public var isAutoCacheOnLoad: Bool {
         set {
             self.rewardedAdRequest?.isAutoCacheOnLoad = newValue
@@ -209,7 +210,7 @@ public class HyBidRewardedAd: NSObject {
             if initialLoadTimestamp < adExpireTime {
                 self.rewardedPresenter?.show()
                 if let adSessionData = self.adSessionData {
-                    ATOMManager.fireAdSessionEvent(with: adSessionData)
+                    HyBidATOMManager.fireAdSessionEvent(with: adSessionData)
                 }
             } else {
                 HyBidLogger.errorLog(fromClass: String(describing: HyBidRewardedAd.self), fromMethod: #function, withMessage: "Ad has expired")
@@ -394,6 +395,10 @@ public class HyBidRewardedAd: NSObject {
         }
     }
     
+    @objc(setMediationWatermark:)
+    public func setMediationWatermark(_ pngData: Data?) {
+        self.mediationWatermarkData = pngData
+    }
 }
 
 // MARK: - HyBidAdRequestDelegate
@@ -414,9 +419,10 @@ extension HyBidRewardedAd {
         
         if let ad = ad {
             self.ad = ad
-            self.adSessionData = ATOMManager.createAdSessionData(from: request, ad: ad)
+            self.adSessionData = HyBidATOMManager.createAdSessionData(from: request, ad: ad)
             self.determineSkipOffsetValuesFor(ad)
             self.ad?.adType = Int(kHyBidAdTypeVideo)
+            self.ad?.mediationWatermarkData = self.mediationWatermarkData
             self.determineCloseOnFinishFor(ad)
             self.renderAd(ad: ad)
         } else {
@@ -474,7 +480,7 @@ extension HyBidRewardedAd {
 extension HyBidRewardedAd {
     func signalDataDidFinish(with ad: HyBidAd) {
         self.ad = ad
-        self.adSessionData = ATOMManager.createAdSessionData(from: nil, ad: ad)
+        self.adSessionData = HyBidATOMManager.createAdSessionData(from: nil, ad: ad)
         self.ad?.adType = Int(kHyBidAdTypeVideo)
         self.renderAd(ad: ad)
     }

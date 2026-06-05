@@ -42,12 +42,19 @@
     NSString *deeplinkStr = q[HyBidConstants.HYBID_DEEPLINK_PARAM];
     NSString *fallbackStr = q[HyBidConstants.HYBID_FALLBACK_PARAM];
 
-    NSURL *deeplink = [NSURL URLWithString:deeplinkStr];
-    NSURL *fallback = [NSURL URLWithString:fallbackStr];
+    NSURL *deeplink = (deeplinkStr.length > 0) ? [NSURL URLWithString:deeplinkStr] : nil;
+    NSURL *fallback = (fallbackStr.length > 0) ? [NSURL URLWithString:fallbackStr] : nil;
     
-    if (deeplinkStr.length == 0 || fallbackStr.length == 0 || deeplink.scheme.length == 0 || fallback.scheme.length == 0) {
+    // Require deeplinkUrl to be present and valid
+    if (deeplink == nil || deeplink.scheme.length == 0) {
         return self;
     }
+    
+    // FallbackUrl is optional, but if present must be valid
+    if (fallbackStr.length > 0 && (fallback == nil || fallback.scheme.length == 0)) {
+        return self;
+    }
+    
     _deeplinkURL = deeplink;
     _fallbackURL = fallback;
     _isCapable = YES;
@@ -55,6 +62,10 @@
 }
 
 - (void)openWithNavigationType:(NSString *)navigationType {
+    [self openWithNavigationType:navigationType clickthroughURL:nil];
+}
+
+- (void)openWithNavigationType:(NSString *)navigationType clickthroughURL:(NSString * _Nullable)clickthroughURL {
     if (!self.isCapable) { return; }
 
     [[UIApplication sharedApplication] openURL:self.deeplinkURL
@@ -62,8 +73,13 @@
                              completionHandler:^(BOOL success) {
         if (success) { return; }
 
+        // Priority 2: Use fallbackURL from Link Meta if available
         if (self.fallbackURL) {
             [self openUrlInBrowser:[self.fallbackURL absoluteString] navigationType:navigationType];
+        }
+        // Priority 3: Use VAST/MRAID clickthrough URL if fallbackURL is missing
+        else if (clickthroughURL.length > 0) {
+            [self openUrlInBrowser:clickthroughURL navigationType:navigationType];
         }
     }];
 }

@@ -168,8 +168,10 @@ public class HyBidSettings: NSObject, CLLocationManagerDelegate {
         return nil
     }
 
-    @available(iOS 14.1, *)
     @objc public var connectionType: String {
+        guard #available(iOS 14.1, *) else {
+            return ""
+        }
         return HyBidNetworkInfoProvider.shared.connectionTypeCode()
     }
 
@@ -187,27 +189,32 @@ public class HyBidSettings: NSObject, CLLocationManagerDelegate {
     
     @objc public var orientation: String {
         if Thread.isMainThread {
-            let orientation = UIApplication.shared.statusBarOrientation
-            switch orientation {
-            case .portrait, .portraitUpsideDown:
-                return "portrait"
-            case .landscapeLeft, .landscapeRight:
-                return "landscape"
-            default:
-                return "none"
-            }
+            return HyBidSettings.resolveOrientation()
         } else {
             return DispatchQueue.main.sync {
-                let orientation = UIApplication.shared.statusBarOrientation
-                switch orientation {
-                case .portrait, .portraitUpsideDown:
-                    return "portrait"
-                case .landscapeLeft, .landscapeRight:
-                    return "landscape"
-                default:
-                    return "none"
-                }
+                HyBidSettings.resolveOrientation()
             }
+        }
+    }
+
+    private static func resolveOrientation() -> String {
+        let interfaceOrientation: UIInterfaceOrientation
+        if #available(iOS 13.0, *) {
+            let windowScenes = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
+            let activeScene = windowScenes.first(where: { $0.activationState == .foregroundActive })
+                ?? windowScenes.first(where: { $0.activationState == .foregroundInactive })
+                ?? windowScenes.first
+            interfaceOrientation = activeScene?.interfaceOrientation ?? .unknown
+        } else {
+            interfaceOrientation = UIApplication.shared.statusBarOrientation
+        }
+        switch interfaceOrientation {
+        case .portrait, .portraitUpsideDown:
+            return "portrait"
+        case .landscapeLeft, .landscapeRight:
+            return "landscape"
+        default:
+            return "none"
         }
     }
     

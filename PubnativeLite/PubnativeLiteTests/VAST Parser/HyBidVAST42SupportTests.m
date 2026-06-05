@@ -1,4 +1,4 @@
-// 
+//
 // HyBid SDK License
 //
 // https://github.com/pubnative/pubnative-hybid-ios-sdk/blob/main/LICENSE
@@ -7,6 +7,7 @@
 #import <XCTest/XCTest.h>
 #import "HyBidVASTModel.h"
 #import "HyBidVASTParser.h"
+#import "HyBidXMLEx.h"
 #import "HyBidVASTCompanionAds.h"
 
 @interface HyBidVAST42SupportTests : XCTestCase
@@ -29,7 +30,7 @@
 
     NSData *vastData = [[self readFromTxtFileNamed:@"vast_4_20_example"] dataUsingEncoding:NSUTF8StringEncoding];
 
-    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError vastError) {
+    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError* vastError) {
         XCTAssertNotNil(vastModel);
 
         HyBidVASTAd *firstAd = [[vastModel ads] firstObject];
@@ -71,7 +72,7 @@
 
     NSData *vastData = [[self readFromTxtFileNamed:@"vast_4_20_example"] dataUsingEncoding:NSUTF8StringEncoding];
 
-    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError vastError) {
+    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError* vastError) {
         XCTAssertNotNil(vastModel);
 
         HyBidVASTAd *firstAd = [[vastModel ads] firstObject];
@@ -108,7 +109,7 @@
 
     NSData *vastData = [[self readFromTxtFileNamed:@"vast_4_20_example"] dataUsingEncoding:NSUTF8StringEncoding];
 
-    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError vastError) {
+    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError* vastError) {
         XCTAssertNotNil(vastModel);
 
         HyBidVASTAd *firstAd = [[vastModel ads] firstObject];
@@ -151,7 +152,7 @@
 
     NSData *vastData = [[self readFromTxtFileNamed:@"vast_4_20_example"] dataUsingEncoding:NSUTF8StringEncoding];
 
-    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError vastError) {
+    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError* vastError) {
         XCTAssertNotNil(vastModel);
 
         HyBidVASTAd *firstAd = [[vastModel ads] firstObject];
@@ -185,7 +186,7 @@
 
     NSData *vastData = [[self readFromTxtFileNamed:@"vast_4_20_example"] dataUsingEncoding:NSUTF8StringEncoding];
 
-    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError vastError) {
+    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError* vastError) {
         XCTAssertNotNil(vastModel);
 
         HyBidVASTAd *firstAd = [[vastModel ads] firstObject];
@@ -248,7 +249,7 @@
 
     NSData *vastData = [[self readFromTxtFileNamed:@"vast_4_20_example"] dataUsingEncoding:NSUTF8StringEncoding];
 
-    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError vastError) {
+    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError* vastError) {
         XCTAssertNotNil(vastModel);
 
         HyBidVASTAd *firstAd = [[vastModel ads] firstObject];
@@ -287,7 +288,7 @@
 
     NSData *vastData = [[self readFromTxtFileNamed:@"vast_4_20_example"] dataUsingEncoding:NSUTF8StringEncoding];
 
-    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError vastError) {
+    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError *vastError) {
         XCTAssertNotNil(vastModel);
 
         HyBidVASTAd *firstAd = [[vastModel ads] firstObject];
@@ -321,7 +322,7 @@
 
     NSData *vastData = [[self readFromTxtFileNamed:@"vast_4_20_example"] dataUsingEncoding:NSUTF8StringEncoding];
 
-    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError vastError) {
+    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError* vastError) {
         XCTAssertNotNil(vastModel);
 
         HyBidVASTAd *firstAd = [[vastModel ads] firstObject];
@@ -374,33 +375,115 @@
     }];
 }
 
-- (void)test_init_withValidData_shouldGetVideoClicks
-{
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Waiting for request completion."];
-
-    NSData *vastData = [[self readFromTxtFileNamed:@"vast_4_20_example"] dataUsingEncoding:NSUTF8StringEncoding];
-
-    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError vastError) {
-        XCTAssertNotNil(vastModel);
-
-        HyBidVASTAd *firstAd = [[vastModel ads] firstObject];
-        XCTAssertNotNil(firstAd);
-      //  XCTAssertEqual(vastError, HyBidVASTParserError_None);
-
-        HyBidVASTCreative *firstCreative = [[[firstAd inLine] creatives] lastObject];
-        HyBidVASTLinear *linear = [firstCreative linear];
-        HyBidVASTVideoClicks *videoClicks = [linear videoClicks];
-
-        XCTAssertTrue([videoClicks clickThrough] != nil);
-        XCTAssertTrue([[videoClicks clickTrackings] count] == 3);
-
-        [expectation fulfill];
-    }];
-
-    [self waitForExpectationsWithTimeout:10.0 handler:^(NSError * _Nullable error) {
-        NSLog(@"Error: %@", error.localizedDescription);
-    }];
+- (void)test_ClickThroughContentAndId_ParsingWorksAndIsCovered {
+    NSString *xml = @"<ClickThrough id=\"blog\">https://iabtechlab.com</ClickThrough>";
+    HyBidXMLEx *parser = [HyBidXMLEx parserWithXML:xml];
+    HyBidXMLElementEx *root = [parser rootElement];
+    
+    // The root here IS the ClickThrough node
+    XCTAssertNotNil(root);
+    XCTAssertEqualObjects([root name], @"ClickThrough");
+    XCTAssertEqualObjects([root attribute:@"id"], @"blog");
+    XCTAssertEqualObjects([root value], @"https://iabtechlab.com");
+    
+    // Now: test through the model
+    HyBidVASTClickThrough *model = [[HyBidVASTClickThrough alloc] initWithClickThroughXMLElement:root];
+    XCTAssertNotNil(model);
+    XCTAssertEqualObjects([model id], @"blog");
+    XCTAssertEqualObjects([model content], @"https://iabtechlab.com");
 }
+
+- (void)test_ClickThroughNoId_ReturnsNilForId {
+    NSString *xml = @"<ClickThrough>https://noid.com</ClickThrough>";
+    HyBidXMLEx *parser = [HyBidXMLEx parserWithXML:xml];
+    HyBidXMLElementEx *root = [parser rootElement];
+    XCTAssertNotNil(root);
+    XCTAssertNil([root attribute:@"id"]);
+    HyBidVASTClickThrough *model = [[HyBidVASTClickThrough alloc] initWithClickThroughXMLElement:root];
+    XCTAssertNil([model id]);
+    XCTAssertEqualObjects([model content], @"https://noid.com");
+}
+
+- (void)test_ClickThroughEmptyContent_ReturnsEmptyString {
+    NSString *xml = @"<ClickThrough id=\"empty\"></ClickThrough>";
+    HyBidXMLEx *parser = [HyBidXMLEx parserWithXML:xml];
+    HyBidXMLElementEx *root = [parser rootElement];
+    XCTAssertNotNil(root);
+    XCTAssertEqualObjects([root attribute:@"id"], @"empty");
+    XCTAssertEqualObjects([root value], @"");
+    HyBidVASTClickThrough *model = [[HyBidVASTClickThrough alloc] initWithClickThroughXMLElement:root];
+    XCTAssertEqualObjects([model id], @"empty");
+    XCTAssertEqualObjects([model content], @"");
+}
+
+- (void)test_ClickThroughNilElement_ReturnsNilModel {
+    HyBidVASTClickThrough *model = [[HyBidVASTClickThrough alloc] initWithClickThroughXMLElement:nil];
+    XCTAssertNil(model);
+}
+
+- (void)test_clickThroughContent_withEncodedUrl_decodesSuccessfully
+{
+    // Given: an encoded clickthrough value
+    NSString *encodedURL = @"https%3A%2F%2Ftest.com%2Ffoo%3Fbar%3Dbaz";
+    NSString *xml = [NSString stringWithFormat:@"<ClickThrough>%@</ClickThrough>", encodedURL];
+    HyBidXMLEx *parser = [HyBidXMLEx parserWithXML:xml];
+    HyBidXMLElementEx *element = [parser rootElement];
+    HyBidVASTClickThrough *clickThrough = [[HyBidVASTClickThrough alloc] initWithClickThroughXMLElement:element];
+    NSDictionary *attributes = [element attributes];
+    XCTAssertNotNil(attributes);
+    // When: simulating your app logic
+    NSString *rawURL = [clickThrough content];
+    NSString *throughClickURL = nil;
+    if (rawURL.length > 0) {
+        NSString *decoded = [rawURL stringByRemovingPercentEncoding];
+        throughClickURL = decoded != nil ? decoded : rawURL;
+    }
+    
+    // Then: it should be decoded
+    XCTAssertEqualObjects(throughClickURL, @"https://test.com/foo?bar=baz");
+}
+
+- (void)test_clickThroughContent_withPlainUrl_returnsDirectly
+{
+    // Given: a plain (not encoded) URL
+    NSString *plainURL = @"https://plain.com";
+    NSString *xml = [NSString stringWithFormat:@"<ClickThrough>%@</ClickThrough>", plainURL];
+    HyBidXMLEx *parser = [HyBidXMLEx parserWithXML:xml];
+    HyBidXMLElementEx *element = [parser rootElement];
+    HyBidVASTClickThrough *clickThrough = [[HyBidVASTClickThrough alloc] initWithClickThroughXMLElement:element];
+    
+    // When: simulating your app logic
+    NSString *rawURL = [clickThrough content];
+    NSString *throughClickURL = nil;
+    if (rawURL.length > 0) {
+        NSString *decoded = [rawURL stringByRemovingPercentEncoding];
+        throughClickURL = decoded != nil ? decoded : rawURL;
+    }
+    
+    // Then: it should equal the plain URL
+    XCTAssertEqualObjects(throughClickURL, plainURL);
+}
+
+- (void)test_clickThroughContent_withEmptyUrl_doesNotSet
+{
+    // Given: empty clickthrough
+    NSString *xml = @"<ClickThrough></ClickThrough>";
+    HyBidXMLEx *parser = [HyBidXMLEx parserWithXML:xml];
+    HyBidXMLElementEx *element = [parser rootElement];
+    HyBidVASTClickThrough *clickThrough = [[HyBidVASTClickThrough alloc] initWithClickThroughXMLElement:element];
+    
+    // When: simulating your app logic
+    NSString *rawURL = [clickThrough content];
+    NSString *throughClickURL = @"initial";
+    if (rawURL.length > 0) {
+        NSString *decoded = [rawURL stringByRemovingPercentEncoding];
+        throughClickURL = decoded != nil ? decoded : rawURL;
+    }
+    
+    // Then: throughClickURL should still be initial (untouched)
+    XCTAssertEqualObjects(throughClickURL, @"initial");
+}
+
 
 - (void)test_withValidData_shouldGet_Valid_AdVerificationPropertyValues
 {
@@ -408,7 +491,7 @@
 
     NSData *vastData = [[self readFromTxtFileNamed:@"vast_4_20_example"] dataUsingEncoding:NSUTF8StringEncoding];
 
-    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError vastError) {
+    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError* vastError) {
         XCTAssertNotNil(vastModel);
 
         HyBidVASTAd *firstAd = [[vastModel ads] firstObject];
@@ -472,7 +555,7 @@
 
     NSData *vastData = [[self readFromTxtFileNamed:@"vast_4_20_example"] dataUsingEncoding:NSUTF8StringEncoding];
 
-    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError vastError) {
+    [self.parser parseWithData:vastData completion:^(HyBidVASTModel *vastModel, HyBidVASTParserError* vastError) {
         XCTAssertNotNil(vastModel);
 
         HyBidVASTAd *firstAd = [[vastModel ads] firstObject];

@@ -6,6 +6,7 @@
 
 #import "HyBidAdFeedbackMacroUtil.h"
 #import "HyBidAdFeedbackParameters.h"
+#import "HyBidStringUtils.h"
 
 #define HYBID_AD_FEEDBACK_MACRO_AUDIO_STATE @"${AUDIOSTATE}"
 #define HYBID_AD_FEEDBACK_MACRO_APP_VERSION @"${APPVERSION}"
@@ -24,57 +25,47 @@
     [HyBidAdFeedbackParameters sharedInstance].requestedZoneID = zoneID;
     
     if ([HyBidAdFeedbackParameters sharedInstance].appToken && [HyBidAdFeedbackParameters sharedInstance].appToken.length != 0) {
-        feedbackUrl = [feedbackUrl stringByReplacingOccurrencesOfString:HYBID_AD_FEEDBACK_MACRO_APP_TOKEN
-                                                             withString:[HyBidAdFeedbackParameters sharedInstance].appToken];
+        feedbackUrl = [HyBidStringUtils safeReplaceInValue:feedbackUrl target:HYBID_AD_FEEDBACK_MACRO_APP_TOKEN replacement:[HyBidAdFeedbackParameters sharedInstance].appToken] ?: feedbackUrl;
     }
-    
+
     if ([HyBidAdFeedbackParameters sharedInstance].audioState && [HyBidAdFeedbackParameters sharedInstance].audioState.length != 0) {
-        feedbackUrl = [feedbackUrl stringByReplacingOccurrencesOfString:HYBID_AD_FEEDBACK_MACRO_AUDIO_STATE
-                                                             withString:[HyBidAdFeedbackParameters sharedInstance].audioState];
+        feedbackUrl = [HyBidStringUtils safeReplaceInValue:feedbackUrl target:HYBID_AD_FEEDBACK_MACRO_AUDIO_STATE replacement:[HyBidAdFeedbackParameters sharedInstance].audioState] ?: feedbackUrl;
     }
-    
+
     if ([HyBidAdFeedbackParameters sharedInstance].appVersion && [HyBidAdFeedbackParameters sharedInstance].appVersion.length != 0) {
-        feedbackUrl = [feedbackUrl stringByReplacingOccurrencesOfString:HYBID_AD_FEEDBACK_MACRO_APP_VERSION
-                                                             withString:[HyBidAdFeedbackParameters sharedInstance].appVersion];
+        feedbackUrl = [HyBidStringUtils safeReplaceInValue:feedbackUrl target:HYBID_AD_FEEDBACK_MACRO_APP_VERSION replacement:[HyBidAdFeedbackParameters sharedInstance].appVersion] ?: feedbackUrl;
     }
-    
+
     if ([HyBidAdFeedbackParameters sharedInstance].deviceInfo && [HyBidAdFeedbackParameters sharedInstance].deviceInfo.length != 0) {
-        feedbackUrl = [feedbackUrl stringByReplacingOccurrencesOfString:HYBID_AD_FEEDBACK_MACRO_DEVICE_INFO
-                                                             withString:[HyBidAdFeedbackParameters sharedInstance].deviceInfo];
+        feedbackUrl = [HyBidStringUtils safeReplaceInValue:feedbackUrl target:HYBID_AD_FEEDBACK_MACRO_DEVICE_INFO replacement:[HyBidAdFeedbackParameters sharedInstance].deviceInfo] ?: feedbackUrl;
     }
-    
+
     if ([HyBidAdFeedbackParameters sharedInstance].sdkVersion && [HyBidAdFeedbackParameters sharedInstance].sdkVersion.length != 0) {
-        feedbackUrl = [feedbackUrl stringByReplacingOccurrencesOfString:HYBID_AD_FEEDBACK_MACRO_SDK_VERSION
-                                                             withString:[HyBidAdFeedbackParameters sharedInstance].sdkVersion];
+        feedbackUrl = [HyBidStringUtils safeReplaceInValue:feedbackUrl target:HYBID_AD_FEEDBACK_MACRO_SDK_VERSION replacement:[HyBidAdFeedbackParameters sharedInstance].sdkVersion] ?: feedbackUrl;
     }
-    
+
     if ([HyBidAdFeedbackParameters sharedInstance].zoneID && [HyBidAdFeedbackParameters sharedInstance].zoneID.length != 0) {
-        feedbackUrl = [feedbackUrl stringByReplacingOccurrencesOfString:HYBID_AD_FEEDBACK_MACRO_ZONE_ID
-                                                             withString:[HyBidAdFeedbackParameters sharedInstance].zoneID];
+        feedbackUrl = [HyBidStringUtils safeReplaceInValue:feedbackUrl target:HYBID_AD_FEEDBACK_MACRO_ZONE_ID replacement:[HyBidAdFeedbackParameters sharedInstance].zoneID] ?: feedbackUrl;
     }
-    
+
     if ([HyBidAdFeedbackParameters sharedInstance].creativeID && [HyBidAdFeedbackParameters sharedInstance].creativeID.length != 0) {
-        feedbackUrl = [feedbackUrl stringByReplacingOccurrencesOfString:HYBID_AD_FEEDBACK_MACRO_CREATIVE_ID
-                                                             withString:[HyBidAdFeedbackParameters sharedInstance].creativeID];
+        feedbackUrl = [HyBidStringUtils safeReplaceInValue:feedbackUrl target:HYBID_AD_FEEDBACK_MACRO_CREATIVE_ID replacement:[HyBidAdFeedbackParameters sharedInstance].creativeID] ?: feedbackUrl;
     }
-    
+
     if ([HyBidAdFeedbackParameters sharedInstance].impressionBeacon && [HyBidAdFeedbackParameters sharedInstance].impressionBeacon.length != 0) {
-        feedbackUrl = [feedbackUrl stringByReplacingOccurrencesOfString:HYBID_AD_FEEDBACK_MACRO_IMPRESSION_BEACON
-                                                             withString:[HyBidAdFeedbackParameters sharedInstance].impressionBeacon];
+        feedbackUrl = [HyBidStringUtils safeReplaceInValue:feedbackUrl target:HYBID_AD_FEEDBACK_MACRO_IMPRESSION_BEACON replacement:[HyBidAdFeedbackParameters sharedInstance].impressionBeacon] ?: feedbackUrl;
     }
-    
+
     if ([HyBidAdFeedbackParameters sharedInstance].integrationType && [HyBidAdFeedbackParameters sharedInstance].integrationType.length != 0) {
-        feedbackUrl = [feedbackUrl stringByReplacingOccurrencesOfString:HYBID_AD_FEEDBACK_MACRO_INTEGRATION_TYPE
-                                                             withString:[HyBidAdFeedbackParameters sharedInstance].integrationType];
+        feedbackUrl = [HyBidStringUtils safeReplaceInValue:feedbackUrl target:HYBID_AD_FEEDBACK_MACRO_INTEGRATION_TYPE replacement:[HyBidAdFeedbackParameters sharedInstance].integrationType] ?: feedbackUrl;
     }
-    
+
     if ([HyBidAdFeedbackParameters sharedInstance].adFormat && [HyBidAdFeedbackParameters sharedInstance].adFormat.length != 0) {
-        feedbackUrl = [feedbackUrl stringByReplacingOccurrencesOfString:HYBID_AD_FEEDBACK_MACRO_AD_FORMAT
-                                                             withString:[HyBidAdFeedbackParameters sharedInstance].adFormat];
+        feedbackUrl = [HyBidStringUtils safeReplaceInValue:feedbackUrl target:HYBID_AD_FEEDBACK_MACRO_AD_FORMAT replacement:[HyBidAdFeedbackParameters sharedInstance].adFormat] ?: feedbackUrl;
     }
-    
-    feedbackUrl = [feedbackUrl stringByReplacingOccurrencesOfString:HYBID_AD_FEEDBACK_MACRO_HAS_END_CARD
-                                                         withString:[HyBidAdFeedbackParameters sharedInstance].hasEndCard ? @"true" : @"false"];
+
+    feedbackUrl = [HyBidStringUtils safeReplaceInValue:feedbackUrl target:HYBID_AD_FEEDBACK_MACRO_HAS_END_CARD replacement:[HyBidAdFeedbackParameters sharedInstance].hasEndCard ? @"true" : @"false"] ?: feedbackUrl;
+
     return [feedbackUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
 }
 

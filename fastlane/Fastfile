@@ -5,9 +5,14 @@ require 'base64'
 require 'tempfile'
 require 'fileutils'
 
-def running_on_ci?
-  ENV['CIRCLECI'] == "true"
+def running_on_github_actions?
+  ENV['GITHUB_ACTIONS'] == "true"
 end
+
+# Single source of truth for the CI keychain name and its on-disk path.
+# All lanes derive from these constants to avoid duplication and drift.
+GHA_KEYCHAIN_NAME = "fastlane_tmp_keychain"
+GHA_KEYCHAIN_PATH = File.expand_path("~/Library/Keychains/#{GHA_KEYCHAIN_NAME}-db")
 
 # Decode Apple API key stored in APP_STORE_CONNECT_PRIVATE_KEY_BASE64
 def decode_api_key_from_env
@@ -18,7 +23,7 @@ def decode_api_key_from_env
   issuer_id  = ENV['APP_STORE_CONNECT_ISSUER_ID']
 
   if key_base64.nil? || key_id.nil? || issuer_id.nil?
-    UI.user_error!("Missing one of the required ENV vars: APP_STORE_CONNECT_PRIVATE_KEY_BASE64, APP_STORE_CONNECT_KEY_ID, APP_STORE_CONNECT_ISSUER_ID")
+    UI.user_error!("Missing one of: APP_STORE_CONNECT_PRIVATE_KEY_BASE64, APP_STORE_CONNECT_KEY_ID, APP_STORE_CONNECT_ISSUER_ID")
   end
 
   key_content = Base64.decode64(key_base64)
@@ -29,17 +34,10 @@ def decode_api_key_from_env
   { key_id: key_id, issuer_id: issuer_id, key_filepath: file.path }
 end
 
-before_all do
-  if running_on_ci?
-    UI.message("🔑 Running on CircleCI — using a temporary keychain.")
-  end
-end
-
 platform :ios do
-
   desc "Fetch provisioning profiles & certs"
   lane :setup_signing do
-    if running_on_ci?
+    if running_on_github_actions?
       api_key_info = decode_api_key_from_env
 
       app_store_connect_api_key(
@@ -54,11 +52,11 @@ platform :ios do
         readonly: true,
         app_identifier: ["com.pubnative.HyBid.demo"],
         git_url: "https://github.com/vervegroup/iOSHyBidCertificates.git",
-        keychain_name: "fastlane_tmp_keychain-db",
+        keychain_name: GHA_KEYCHAIN_NAME,
         keychain_password: "" # empty password for CI
       )
 
-      sh "security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k '' ~/Library/Keychains/fastlane_tmp_keychain-db"
+      sh "security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k '' #{GHA_KEYCHAIN_PATH}"
     else
       match(
         type: "adhoc",
@@ -68,48 +66,26 @@ platform :ios do
     end
   end
 
-  desc "Build Ad-hoc IPA with version bump"
-  lane :build do
-    setup_signing
+  desc "Build Ad-hoc IPA (assumes signing already configured)"
+  lane :build_ipa do
+    repo_root = File.expand_path(ENV['GITHUB_WORKSPACE'] || Dir.pwd)
 
-    base_folder = "/tmp/circleci-artifacts"
-    archive_path = "#{base_folder}/archive.xcarchive"
-    output_folder = "#{base_folder}/ipa"
-
-    # Clean previous artifacts
-    FileUtils.rm_rf(archive_path) if File.exist?(archive_path)
-    FileUtils.rm_rf(output_folder) if Dir.exist?(output_folder)
-
-    # Get repo root
-    repo_root = File.expand_path(ENV['CIRCLE_WORKING_DIRECTORY'] || Dir.pwd)
-    
-    # Folder containing the .xcodeproj
     pubnative_folder = File.join(repo_root, "PubnativeLite")
-    
     unless Dir.exist?(pubnative_folder)
-        UI.user_error!("Directory '#{pubnative_folder}' does not exist! Check your path.")
-    end
-    
-    Dir.chdir(pubnative_folder) do
-    # Bump marketing version
-    sh "agvtool -noscm new-marketing-version \"$(agvtool what-marketing-version -terse1)-#{ENV['CIRCLE_BRANCH']}.#{ENV['CIRCLE_BUILD_NUM']}\""
-    
-    # Bump build number
-    build_num = ENV['CIRCLE_BUILD_NUM'] || '1'
-    sh "agvtool new-version -all #{build_num}"
+      UI.user_error!("Directory '#{pubnative_folder}' does not exist! Check your path.")
     end
 
-    # Cleanup unnecessary files
+    Dir.chdir(pubnative_folder) do
+      branch  = (ENV['GITHUB_REF_NAME'] || "unknown").gsub('/', '-')
+      run_num = ENV['GITHUB_RUN_NUMBER'] || "1"
+
+      sh "agvtool -noscm new-marketing-version \"$(agvtool what-marketing-version -terse1)-#{branch}.#{run_num}\""
+      sh "agvtool new-version -all #{run_num}"
+    end
+
     sh "find . -name '*.DS_Store' -type f -delete"
     sh "xattr -cr . || true"
 
-    # After bumping versions in PubnativeLite
-    Dir.chdir(repo_root) do
-        # List workspace contents (optional)
-        sh "xcodebuild -workspace HyBid.xcworkspace -list"
-    end
-
-    # Build IPA
     gym(
       workspace: File.join(repo_root, "HyBid.xcworkspace"),
       scheme: "HyBidDemo",
@@ -126,7 +102,53 @@ platform :ios do
           "com.pubnative.HyBid.demo" => "match AdHoc com.pubnative.HyBid.demo"
         }
       },
-      xcargs: 'OTHER_CODE_SIGN_FLAGS="--keychain /Users/distiller/Library/Keychains/fastlane_tmp_keychain-db"'
+      xcargs: running_on_github_actions? ? "OTHER_CODE_SIGN_FLAGS=\"--keychain #{GHA_KEYCHAIN_PATH}\"" : nil
+    )
+  end
+
+  desc "Build Ad-hoc IPA with version bump"
+  lane :build do
+    setup_signing
+
+    # ✅ GitHub Actions workspace root
+    repo_root = File.expand_path(ENV['GITHUB_WORKSPACE'] || Dir.pwd)
+
+    # Folder containing the .xcodeproj
+    pubnative_folder = File.join(repo_root, "PubnativeLite")
+    unless Dir.exist?(pubnative_folder)
+      UI.user_error!("Directory '#{pubnative_folder}' does not exist! Check your path.")
+    end
+
+    # Bump versions inside PubnativeLite
+    Dir.chdir(pubnative_folder) do
+      branch    = (ENV['GITHUB_REF_NAME'] || "unknown").gsub('/', '-')
+      run_num   = ENV['GITHUB_RUN_NUMBER'] || "1"
+
+      sh "agvtool -noscm new-marketing-version \"$(agvtool what-marketing-version -terse1)-#{branch}.#{run_num}\""
+      sh "agvtool new-version -all #{run_num}"
+    end
+
+    # Cleanup unnecessary files
+    sh "find . -name '*.DS_Store' -type f -delete"
+    sh "xattr -cr . || true"
+
+    gym(
+      workspace: File.join(repo_root, "HyBid.xcworkspace"),
+      scheme: "HyBidDemo",
+      configuration: "Release",
+      clean: true,
+      export_method: "ad-hoc",
+      output_directory: "./build",
+      output_name: "HyBidDemo.ipa",
+      include_symbols: false,
+      silent: false,
+      verbose: true,
+      export_options: {
+        provisioningProfiles: {
+          "com.pubnative.HyBid.demo" => "match AdHoc com.pubnative.HyBid.demo"
+        }
+      },
+      xcargs: running_on_github_actions? ? "OTHER_CODE_SIGN_FLAGS=\"--keychain #{GHA_KEYCHAIN_PATH}\"" : nil
     )
   end
 
@@ -134,18 +156,29 @@ platform :ios do
   lane :distribute do
     build
 
-    commit_hash   = ENV['CIRCLE_SHA1'].to_s[0..6]
-    commit_author = ENV['CIRCLE_USERNAME'].to_s.strip
+    # ✅ Use GitHub Actions vars for notes
+    commit_hash   = (ENV['GITHUB_SHA'].to_s[0..6])
+    commit_author = ENV['GITHUB_ACTOR'].to_s.strip
+    branch        = ENV['GITHUB_REF_NAME'].to_s.strip
+    run_num       = ENV['GITHUB_RUN_NUMBER'].to_s.strip
 
-    # Avoid nulls by providing defaults
-    commit_hash   = "unknown" if commit_hash.empty?
+    commit_hash   = "unknown" if commit_hash.to_s.empty?
     commit_author = "unknown" if commit_author.empty?
+    branch        = "unknown" if branch.empty?
+    run_num       = "unknown" if run_num.empty?
+
+    # firebase.json safe fallback:
+    if !File.exist?("firebase.json")
+      json = ENV['FIREBASE_SERVICE_ACCOUNT_JSON'].to_s
+      UI.user_error!("firebase.json missing and FIREBASE_SERVICE_ACCOUNT_JSON not set") if json.empty?
+      File.write("firebase.json", json)
+    end
 
     firebase_app_distribution(
       app: ENV['FIREBASE_APP_ID'],
       service_credentials_file: "firebase.json",
       ipa_path: "./build/HyBidDemo.ipa",
-      release_notes: "🔧 Build: #{ENV['CIRCLE_BUILD_NUM']}\n🌿 Branch: #{ENV['CIRCLE_BRANCH']}\n#️⃣ Commit: #{commit_hash}\n✍️ Author: #{commit_author}"
+      release_notes: "🔧 Run: #{run_num}\n🌿 Branch: #{branch}\n#️⃣ Commit: #{commit_hash}\n✍️ Author: #{commit_author}"
     )
   end
 end

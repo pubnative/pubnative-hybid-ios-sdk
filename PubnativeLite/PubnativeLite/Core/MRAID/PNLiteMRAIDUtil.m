@@ -5,6 +5,13 @@
 //
 
 #import "PNLiteMRAIDUtil.h"
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <UIKit/UIKit.h>
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import <UIKit/UIKit.h>
+    #import "HyBid-Swift.h"
+#endif
 
 @implementation PNLiteMRAIDUtil
 
@@ -84,9 +91,13 @@
         
     }
     
+    NSString *omidFilename = @"omsdk";
+    if ([HyBid getIntegrationType] == SDKIntegrationTypeSmaato) {
+        omidFilename = @"omsdk_Smaato";
+    }
     NSBundle *bundle = [NSBundle bundleForClass:[self class]];
     NSString *mraidjs = [self loadJavaScriptFile:@"hybidmraidscaling" fromBundle:bundle];
-    NSString *omjs = [self loadJavaScriptFile:@"omsdk" fromBundle:bundle];
+    NSString *omjs = [self loadJavaScriptFile:omidFilename fromBundle:bundle];
     NSString *scalingjs = [self loadJavaScriptFile:@"hybidscaling" fromBundle:bundle];
     
     // Add meta and style tags to head tag.

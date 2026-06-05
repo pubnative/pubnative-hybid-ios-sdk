@@ -169,15 +169,30 @@
 }
 
 + (NSString*) valueOfAttributeNamed:(NSString *)aName forElement:(HyBidXMLElement*)aXMLElement {
+	if (!aName) {
+		return nil;
+	}
+	if (!aXMLElement) {
+		return nil;
+	}
 	const char * name = [aName cStringUsingEncoding:NSUTF8StringEncoding];
+	if (!name) {
+		return nil;
+	}
 	NSString * value = nil;
     HyBidXMLAttribute * attribute = aXMLElement->firstAttribute;
     while (attribute) {
+        if (!attribute->name) {
+            attribute = attribute->next;
+            continue;
+        }
         for(int i = 0; attribute->name[i]; i++){
             attribute->name[i] = tolower(attribute->name[i]);
         }
 		if (strlen(attribute->name) == strlen(name) && memcmp(attribute->name,name,strlen(name)) == 0) {
-			value = [NSString stringWithCString:&attribute->value[0] encoding:NSUTF8StringEncoding];
+			if (attribute->value) {
+				value = [NSString stringWithCString:&attribute->value[0] encoding:NSUTF8StringEncoding];
+			}
 			break;
 		}
 		attribute = attribute->next;
@@ -195,6 +210,10 @@
         return nil;
     }
 	while (xmlElement) {
+        if (!xmlElement->name) {
+            xmlElement = xmlElement->nextSibling;
+            continue;
+        }
         for(int i = 0; xmlElement->name[i]; i++){
             xmlElement->name[i] = tolower(xmlElement->name[i]);
         }
@@ -285,14 +304,18 @@
 			// find start of next element skipping any cdata sections within text
 			char * elementEnd = CDATAEnd;
 			
-			// find next open tag
+			// find next open tag (may be NULL if no more tags after this CDATA)
 			elementEnd = strstr(elementEnd,"<");
-			// if open tag is a cdata section
-			while (strncmp(elementEnd,"<![CDATA[",9) == 0) {
+			// if open tag is a cdata section (guard: elementEnd must be non-NULL before strncmp)
+			while (elementEnd && strncmp(elementEnd,"<![CDATA[",9) == 0) {
 				// find end of cdata section
 				elementEnd = strstr(elementEnd,"]]>");
 				// find next open tag
 				elementEnd = strstr(elementEnd,"<");
+			}
+			// no "<" after CDATA: treat end of buffer as end of text (single CDATA to end of doc)
+			if (!elementEnd) {
+				elementEnd = bytes + bytesLength;
 			}
 			
 			// calculate length of cdata content

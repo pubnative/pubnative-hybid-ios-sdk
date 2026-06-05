@@ -12,6 +12,7 @@
 #import "HyBidDiagnosticsManager.h"
 #import "HyBidATOMFlow.h"
 #import "HyBidConfigManager.h"
+#import "HyBidStringUtils.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -101,8 +102,19 @@ static SDKIntegrationType _sdkIntegrationType = SDKIntegrationTypeHyBid;
     return [self getCustomRequestSignalData:nil];
 }
 
++ (NSString *)getMinimizedCustomRequestSignalData {
+    return [self getCustomRequestSignalData:nil minimize:YES];
+}
+
 + (NSString *)getCustomRequestSignalData:(NSString *)mediationVendorName {
-    PNLiteAdRequestModel* adRequestModel = [[PNLiteAdFactory alloc]createAdRequestWithZoneID:@"" withAppToken:@"" withAdSize:HyBidAdSize.SIZE_INTERSTITIAL withSupportedAPIFrameworks:nil withIntegrationType:IN_APP_BIDDING isRewarded:false isUsingOpenRTB:false mediationVendorName:mediationVendorName];
+    return [self getCustomRequestSignalData:mediationVendorName minimize:NO];
+}
+
++ (NSString *)getCustomRequestSignalData:(NSString *)mediationVendorName minimize:(BOOL)minimize {
+    PNLiteAdRequestModel* adRequestModel = [[PNLiteAdFactory alloc]createAdRequestWithZoneID:@"" withAppToken:@"" withAdSize:HyBidAdSize.SIZE_INTERSTITIAL withSupportedAPIFrameworks:nil withIntegrationType:IN_APP_BIDDING isRewarded:NO isUsingOpenRTB:NO mediationVendorName:mediationVendorName];
+    if (minimize) {
+        [adRequestModel.requestParameters removeObjectForKey:HyBidRequestParameter.skAdNetworkAdNetworkIDs];
+    }
     HyBidAdRequest* adRequest = [[HyBidAdRequest alloc]init];
     NSURL* url = [adRequest requestURLFromAdRequestModel:adRequestModel];
     if (!url) {
@@ -118,27 +130,39 @@ static SDKIntegrationType _sdkIntegrationType = SDKIntegrationTypeHyBid;
     return [self encodeToBase64: [self getCustomRequestSignalData]];
 }
 
++ (NSString *)getEncodedMinimizedCustomRequestSignalData {
+    return [self encodeToBase64: [self getMinimizedCustomRequestSignalData]];
+}
+
 + (NSString*)getEncodedCustomRequestSignalData:(NSString*) mediationVendorName {
-    return [self encodeToBase64: [self getCustomRequestSignalData:mediationVendorName]];
+    return [self encodeToBase64: [self getCustomRequestSignalData:mediationVendorName minimize:NO]];
+}
+
++ (NSString*)getEncodedCustomRequestSignalData:(NSString*) mediationVendorName minimize:(BOOL)minimize  {
+    return [self encodeToBase64: [self getCustomRequestSignalData:mediationVendorName minimize:minimize]];
 }
 
 + (NSString *)encodeToBase64:(NSString *)string {
+    NSString *empty = @"";
     if (!string) {
-        return @"";
+        return empty;
     }
     
     NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
     if (!data) {
-        return @"";
+        return empty;
     }
     
     NSString *base64Encoded = [data base64EncodedStringWithOptions:0];
-    NSString *urlSafe = [[base64Encoded stringByReplacingOccurrencesOfString:@"+" withString:@"-"] stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
+    if (![base64Encoded isKindOfClass:[NSString class]]) {
+        return empty;
+    }
+    
+    NSString *urlSafe = [HyBidStringUtils safeReplaceInValue:base64Encoded target:@"+" replacement:@"-"] ?: base64Encoded;
+    urlSafe = [HyBidStringUtils safeReplaceInValue:urlSafe target:@"/" replacement:@"_"] ?: urlSafe;
+    urlSafe = [HyBidStringUtils safeTrimInValue:urlSafe characterSet:[NSCharacterSet characterSetWithCharactersInString:@"="]] ?: urlSafe;
 
-    // Optionally remove padding (=), often used for URL-safe Base64
-    urlSafe = [urlSafe stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"="]];
-
-    return urlSafe;
+    return urlSafe ?: empty;
 }
 
 + (void)setReporting:(BOOL)enabled {
@@ -161,3 +185,4 @@ static SDKIntegrationType _sdkIntegrationType = SDKIntegrationTypeHyBid;
     }
 }
 @end
+

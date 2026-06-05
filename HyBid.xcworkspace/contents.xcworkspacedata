@@ -5,6 +5,9 @@
       location = "group:PubnativeLite/Scripts"
       name = "Scripts">
       <FileRef
+         location = "group:namespace_omsdk_smaato_only.rb">
+      </FileRef>
+      <FileRef
          location = "group:namespace_xcodeproj.rb">
       </FileRef>
       <FileRef

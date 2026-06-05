@@ -5,6 +5,7 @@
 //
 
 #import "HyBidEncryption.h"
+#import "HyBidStringUtils.h"
 #import <CommonCrypto/CommonCryptor.h>
 
 @implementation HyBidEncryption
@@ -63,7 +64,7 @@
 {
     if([string containsString:@"\n"] || [string containsString:@"\t"]) {
         string = [[string componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] componentsJoinedByString:@""];
-        string = [string stringByReplacingOccurrencesOfString:@"\t" withString:@""];
+        string = [HyBidStringUtils safeReplaceInValue:string target:@"\t" replacement:@""] ?: string;
     }
     
     NSData *keyData = [[NSData alloc] initWithBase64EncodedString:string options:0];

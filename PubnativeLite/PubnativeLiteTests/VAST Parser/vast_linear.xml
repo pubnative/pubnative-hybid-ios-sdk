@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VAST version="2.0">
+   <Ad id="7b5a8e2b-f951-459f-8e82-fd1f187b6290">
+      <InLine>
+         <AdSystem>Liftoff</AdSystem>
+         <AdTitle>277051</AdTitle>
+         <Impression><![CDATA[https://impression-europe.liftoff.io/verve/beacon?ad_group_id=165000&channel_id=119&creative_id=277051&auction_id=f9bf100ca8fd41ea8c66d118c64ad880&loid=61ZCdRpby5DNFSKxaIX0&origin=haggler-verve992]]></Impression>
+         <Creatives>
+            <Creative>
+               <Linear>
+                  <Duration>00:00:43</Duration>
+                  <MediaFiles>
+                     <MediaFile width="360" height="640" type="video/mp4" bitrate="897" delivery="progressive" scalable="true" maintainAspectRatio="true"><![CDATA[https://cdn.liftoff-creatives.io/customers/e039ca02d2/videos/mobile/d6df39b3a2f798081628.mp4]]></MediaFile>
+                  </MediaFiles>
+                  <TrackingEvents>
+                     <Tracking event="start"><![CDATA[https://adexp.liftoff.io/event/vast/start/111ae3CIiJChIgZjliZjEwMGNhOGZkNDFlYThjNjZkMTE4YzY0YWQ4ODDqARQ2MVpDZFJwYnk1RE5GU0t4YUlYMBjogpXuhDEgdyi79BAw4SQ6CjE1NjA1NDUxMThCGGNyc2VydmUtc2thbi1wb2QtY29udHJvbEIiY3JzZXJ2ZS12dW5nbGUtcG9kLWV4cC1hZnRlci12aWRlb0IdbWludGVncmFsLXN0b3Jla2l0LWV4cGVyaW1lbnRCH2Nyc2VydmUtdnVuZ2xlLXBvZC1odG1sLWNvbnRyb2xKCjI3MmY1MjIzNGVQAloDVFVSYAFoAXIMZXUtY2VudHJhbC0x4AEDgAF3kgECdHKYAQGhAQAAAAAAALA_qgEHMzIweDQ4MLIBBU11c2ljugEeTXVzaWMgRk0gQm94IEZpbmQgTWVldCBBd2Vzb21lwgEZdmFzdC0xMTUyMDQxYWI4ZjVmMDY1MGIzMNIBBTU0MTAw2gEFdmlkZW8?playhead=[CONTENTPLAYHEAD]&sr=1]]></Tracking>
+                     <Tracking event="firstQuartile"><![CDATA[https://adexp.liftoff.io/event/vast/firstQuartile/111ae3CIiJChIgZjliZjEwMGNhOGZkNDFlYThjNjZkMTE4YzY0YWQ4ODDqARQ2MVpDZFJwYnk1RE5GU0t4YUlYMBjogpXuhDEgdyi79BAw4SQ6CjE1NjA1NDUxMThCGGNyc2VydmUtc2thbi1wb2QtY29udHJvbEIiY3JzZXJ2ZS12dW5nbGUtcG9kLWV4cC1hZnRlci12aWRlb0IdbWludGVncmFsLXN0b3Jla2l0LWV4cGVyaW1lbnRCH2Nyc2VydmUtdnVuZ2xlLXBvZC1odG1sLWNvbnRyb2xKCjI3MmY1MjIzNGVQAloDVFVSYAFoAXIMZXUtY2VudHJhbC0x4AEDgAF3kgECdHKYAQGhAQAAAAAAALA_qgEHMzIweDQ4MLIBBU11c2ljugEeTXVzaWMgRk0gQm94IEZpbmQgTWVldCBBd2Vzb21lwgEZdmFzdC0xMTUyMDQxYWI4ZjVmMDY1MGIzMNIBBTU0MTAw2gEFdmlkZW8?playhead=[CONTENTPLAYHEAD]&sr=1]]></Tracking>
+                     <Tracking event="midpoint"><![CDATA[https://adexp.liftoff.io/event/vast/midpoint/111ae3CIiJChIgZjliZjEwMGNhOGZkNDFlYThjNjZkMTE4YzY0YWQ4ODDqARQ2MVpDZFJwYnk1RE5GU0t4YUlYMBjogpXuhDEgdyi79BAw4SQ6CjE1NjA1NDUxMThCGGNyc2VydmUtc2thbi1wb2QtY29udHJvbEIiY3JzZXJ2ZS12dW5nbGUtcG9kLWV4cC1hZnRlci12aWRlb0IdbWludGVncmFsLXN0b3Jla2l0LWV4cGVyaW1lbnRCH2Nyc2VydmUtdnVuZ2xlLXBvZC1odG1sLWNvbnRyb2xKCjI3MmY1MjIzNGVQAloDVFVSYAFoAXIMZXUtY2VudHJhbC0x4AEDgAF3kgECdHKYAQGhAQAAAAAAALA_qgEHMzIweDQ4MLIBBU11c2ljugEeTXVzaWMgRk0gQm94IEZpbmQgTWVldCBBd2Vzb21lwgEZdmFzdC0xMTUyMDQxYWI4ZjVmMDY1MGIzMNIBBTU0MTAw2gEFdmlkZW8?playhead=[CONTENTPLAYHEAD]&sr=1]]></Tracking>
+                     <Tracking event="thirdQuartile"><![CDATA[https://adexp.liftoff.io/event/vast/thirdQuartile/111ae3CIiJChIgZjliZjEwMGNhOGZkNDFlYThjNjZkMTE4YzY0YWQ4ODDqARQ2MVpDZFJwYnk1RE5GU0t4YUlYMBjogpXuhDEgdyi79BAw4SQ6CjE1NjA1NDUxMThCGGNyc2VydmUtc2thbi1wb2QtY29udHJvbEIiY3JzZXJ2ZS12dW5nbGUtcG9kLWV4cC1hZnRlci12aWRlb0IdbWludGVncmFsLXN0b3Jla2l0LWV4cGVyaW1lbnRCH2Nyc2VydmUtdnVuZ2xlLXBvZC1odG1sLWNvbnRyb2xKCjI3MmY1MjIzNGVQAloDVFVSYAFoAXIMZXUtY2VudHJhbC0x4AEDgAF3kgECdHKYAQGhAQAAAAAAALA_qgEHMzIweDQ4MLIBBU11c2ljugEeTXVzaWMgRk0gQm94IEZpbmQgTWVldCBBd2Vzb21lwgEZdmFzdC0xMTUyMDQxYWI4ZjVmMDY1MGIzMNIBBTU0MTAw2gEFdmlkZW8?playhead=[CONTENTPLAYHEAD]&sr=1]]></Tracking>
+                     <Tracking event="complete"><![CDATA[https://adexp.liftoff.io/event/vast/complete/111ae3CIiJChIgZjliZjEwMGNhOGZkNDFlYThjNjZkMTE4YzY0YWQ4ODDqARQ2MVpDZFJwYnk1RE5GU0t4YUlYMBjogpXuhDEgdyi79BAw4SQ6CjE1NjA1NDUxMThCGGNyc2VydmUtc2thbi1wb2QtY29udHJvbEIiY3JzZXJ2ZS12dW5nbGUtcG9kLWV4cC1hZnRlci12aWRlb0IdbWludGVncmFsLXN0b3Jla2l0LWV4cGVyaW1lbnRCH2Nyc2VydmUtdnVuZ2xlLXBvZC1odG1sLWNvbnRyb2xKCjI3MmY1MjIzNGVQAloDVFVSYAFoAXIMZXUtY2VudHJhbC0x4AEDgAF3kgECdHKYAQGhAQAAAAAAALA_qgEHMzIweDQ4MLIBBU11c2ljugEeTXVzaWMgRk0gQm94IEZpbmQgTWVldCBBd2Vzb21lwgEZdmFzdC0xMTUyMDQxYWI4ZjVmMDY1MGIzMNIBBTU0MTAw2gEFdmlkZW8?playhead=[CONTENTPLAYHEAD]&sr=1]]></Tracking>
+                  </TrackingEvents>
+                  <VideoClicks>
+                     <ClickThrough><![CDATA[https://apps.apple.com/GB/app/id1521236603?ls=1&mt=8]]></ClickThrough>
+                     <ClickTracking><![CDATA[https://click.liftoff.io/v1/campaign_click/TZt_5SXoI2dzVymIRV0JegkC2nTpYyKwLzWfhdD66Og7gf60a6zUdHXUxmtu3kMCEysGdobPDgGGBiGZfwOVdHdH4n9p1lxZ_DFWqh2d_j_dTKgYcNLMqhnrrkyuWag9KMGvcUxcmsGIwLFTP-Pjh4AXoHgUyfS4PKQ5e27dW11tdgkAZxIB7Q3-xUGQNPOlv4KEbNjZOvMZr9zADwJipMv8_nRDPpCV9iKXmR6Ww44pCq_TnPe2nASfOQrmhddrs-7yy5YmGS8v9_GWKEkvBV1HsHpUdjO-6xcjlq4Y_1PCYGIqY_Xpj45pb-MlVkGoZ9soNifLkp6LXO63cbwx-AzZ8ZOi3Nm_tMG9-3_4dKRXNwcEMBwlhgVtn6QMkxuvzfDa6H3qhyEe0wfYkPFbl5qyHqpYSvV2KaobClxqTCBco1zOTBoCZ_O4s4j-G2_ngGIkEHvatHvRO3CEjuBNyaAQG5ce_S80-J4fiOmRBowU55H39V3BfeBixC_8VRvaJ2ew6eAqF98odOMlRBVcZnmY3dBbcsITdZyh6qgVc9QX0pPHubk1ukWABTiqmsoikgWIxYUKHw073eXHyDanyrXNrlhLZ0fbZOHm?vast_el=1]]></ClickTracking>
+                  </VideoClicks>
+               </Linear>
+            </Creative>
+            <Creative>
+               <CompanionAds>
+                  <Companion assetWidth="1080" assetHeight="1920" width="320" height="480">
+                     <StaticResource creativeType="image/jpeg"><![CDATA[https://cdn.liftoff-creatives.io/customers/e039ca02d2/image/lambda_jpg_65/216b0e661dc4236f2d6d.jpg]]></StaticResource>
+                     <CompanionClickThrough><![CDATA[https://apps.apple.com/GB/app/id1521236603?ls=1&mt=8]]></CompanionClickThrough>
+                     <CompanionClickTracking><![CDATA[https://click.liftoff.io/v1/campaign_click/TZt_5SXoI2dzVymIRV0JegkC2nTpYyKwLzWfhdD66Og7gf60a6zUdHXUxmtu3kMCEysGdobPDgGGBiGZfwOVdHdH4n9p1lxZ_DFWqh2d_j_dTKgYcNLMqhnrrkyuWag9KMGvcUxcmsGIwLFTP-Pjh4AXoHgUyfS4PKQ5e27dW11tdgkAZxIB7Q3-xUGQNPOlv4KEbNjZOvMZr9zADwJipMv8_nRDPpCV9iKXmR6Ww44pCq_TnPe2nASfOQrmhddrs-7yy5YmGS8v9_GWKEkvBV1HsHpUdjO-6xcjlq4Y_1PCYGIqY_Xpj45pb-MlVkGoZ9soNifLkp6LXO63cbwx-AzZ8ZOi3Nm_tMG9-3_4dKRXNwcEMBwlhgVtn6QMkxuvzfDa6H3qhyEe0wfYkPFbl5qyHqpYSvV2KaobClxqTCBco1zOTBoCZ_O4s4j-G2_ngGIkEHvatHvRO3CEjuBNyaAQG5ce_S80-J4fiOmRBowU55H39V3BfeBixC_8VRvaJ2ew6eAqF98odOMlRBVcZnmY3dBbcsITdZyh6qgVc9QX0pPHubk1ukWABTiqmsoikgWIxYUKHw073eXHyDanyrXNrlhLZ0fbZOHm?vast_el=2]]></CompanionClickTracking>
+                     <TrackingEvents>
+                        <Tracking event="creativeView"><![CDATA[https://adexp.liftoff.io/event/vast/staticEndscreenView/111ae3CIiJChIgZjliZjEwMGNhOGZkNDFlYThjNjZkMTE4YzY0YWQ4ODDqARQ2MVpDZFJwYnk1RE5GU0t4YUlYMBjogpXuhDEgdyi79BAw4SQ6CjE1NjA1NDUxMThCGGNyc2VydmUtc2thbi1wb2QtY29udHJvbEIiY3JzZXJ2ZS12dW5nbGUtcG9kLWV4cC1hZnRlci12aWRlb0IdbWludGVncmFsLXN0b3Jla2l0LWV4cGVyaW1lbnRCH2Nyc2VydmUtdnVuZ2xlLXBvZC1odG1sLWNvbnRyb2xKCjI3MmY1MjIzNGVQAloDVFVSYAFoAXIMZXUtY2VudHJhbC0x4AEDgAF3kgECdHKYAQGhAQAAAAAAALA_qgEHMzIweDQ4MLIBBU11c2ljugEeTXVzaWMgRk0gQm94IEZpbmQgTWVldCBBd2Vzb21lwgEZdmFzdC0xMTUyMDQxYWI4ZjVmMDY1MGIzMNIBBTU0MTAw2gEFdmlkZW8?playhead=[CONTENTPLAYHEAD]&sr=1]]></Tracking>
+                     </TrackingEvents>
+                  </Companion>
+               </CompanionAds>
+            </Creative>
+         </Creatives>
+      </InLine>
+   </Ad>
+</VAST>

@@ -84,16 +84,35 @@ public class HyBidSKAdNetworkViewController: NSObject {
             return
         }
         
+
+        guard let skVC = handlerController.skStoreProductViewController else {
+            handlerController.isStoreKitViewBeingPresented = false
+            handlerController.isStoreKitViewPresented = false
+            return
+        }
+        guard let presenter = self.rootViewController ?? UIApplication.shared.topViewController else {
+            handlerController.isStoreKitViewBeingPresented = false
+            handlerController.isStoreKitViewPresented = false
+            return
+        }
+
+        handlerController.isStoreKitViewBeingPresented = true
         HyBidInterruptionHandler.shared.productViewControllerIsReadyToShow()
-        handlerController.isStoreKitViewPresented = true
-        guard let skStoreProductViewController = handlerController.skStoreProductViewController else { return }
-        guard let presentationViewController = self.rootViewController ?? UIApplication.shared.topViewController else { return }
-        presentationViewController.present(skStoreProductViewController, animated: true) {
-            handlerController.isStoreKitViewPresented = true
-            handlerController.rootViewController = nil
-            HyBidInterruptionHandler.shared.productViewControllerDidShow(isAutoStoreKitView: isAutoStoreKitView, adFormat: adFormat)
+        //Re-set flag to avoid bug blocking productViewControllerDidFinish call
+        HyBidStoreProductHelper.productViewControllerDidFinishHasBeenCalled = false
+        
+        DispatchQueue.main.async {
+            presenter.present(skVC, animated: true) {
+                handlerController.isStoreKitViewBeingPresented = false
+                handlerController.isStoreKitViewPresented = true
+                handlerController.rootViewController = nil
+                HyBidInterruptionHandler.shared.productViewControllerDidShow(
+                    isAutoStoreKitView: isAutoStoreKitView, adFormat: adFormat
+                )
+            }
         }
     }
+
 
     private func isStoreKitViewResultSuccessful(error: Error?, success: Bool = false) -> Bool {
         guard success == false else { return true }
@@ -123,15 +142,20 @@ public class HyBidSKAdNetworkViewController: NSObject {
             HyBidInterruptionHandler.shared.productViewControllerWillShow()
 
             if #available(iOS 17.4, *) {
-                Task { [weak self] in
-                    guard let self else { return }
-                    await self.loadStoreKitViewAAK(parameters: productParameters, adFormat: adFormat, isAutoStoreKitView: isAutoStoreKitView)
-                }
+                self.loadStoreKitViewAAKAsync(parameters: productParameters, adFormat: adFormat, isAutoStoreKitView: isAutoStoreKitView)
             } else {
                 DispatchQueue.global().async {
                     self.loadStoreKitView(parameters: productParameters, adFormat: adFormat, isAutoStoreKitView: isAutoStoreKitView)
                 }
             }
+        }
+    }
+
+    @available(iOS 17.4, *)
+    private func loadStoreKitViewAAKAsync(parameters: Dictionary<String,Any>, adFormat: String, isAutoStoreKitView: Bool) {
+        Task { [weak self] in
+            guard let self else { return }
+            await self.loadStoreKitViewAAK(parameters: parameters, adFormat: adFormat, isAutoStoreKitView: isAutoStoreKitView)
         }
     }
     
@@ -170,6 +194,9 @@ extension HyBidSKAdNetworkViewController {
 extension HyBidSKAdNetworkViewController: SKStoreProductViewControllerDelegate {
     
     public func productViewControllerDidFinish(_ viewController: SKStoreProductViewController) {
+        self.isStoreKitViewPresented = false
+        self.isStoreKitViewBeingPresented = false
+
         if !HyBidStoreProductHelper.productViewControllerDidFinishHasBeenCalled {
             HyBidInterruptionHandler.shared.productViewControllerDidFinish()
             HyBidStoreProductHelper.productViewControllerDidFinishHasBeenCalled = true
@@ -179,18 +206,6 @@ extension HyBidSKAdNetworkViewController: SKStoreProductViewControllerDelegate {
 
 extension SKStoreProductViewController {
 
-    private enum HyBidOverrideOptionsType {
-        case superClassOption
-        case presentingViewControllerOption
-        case customImplementationOption
-    }
-    
-    open override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        HyBidStoreProductHelper.productViewControllerDidFinishHasBeenCalled = false
-    }
-    
     open override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
         super.dismiss(animated: flag, completion: completion)
         
@@ -220,67 +235,5 @@ extension SKStoreProductViewController {
         if #available(iOS 17.2, *) {
             self.loadProduct(withParameters: productParametersGlobal, completionBlock: nil)
         }
-    }
-    
-    open override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        let overrideOption = hyBidDetermineOverrideOption(with: self.presentingViewController, selector: #selector(getter: self.supportedInterfaceOrientations))
-        switch overrideOption {
-        case .superClassOption:
-            return super.supportedInterfaceOrientations
-        case .presentingViewControllerOption:
-            return self.presentingViewController?.supportedInterfaceOrientations ?? super.supportedInterfaceOrientations
-        case .customImplementationOption:
-            return .all
-        }
-    }
-    
-    open override var shouldAutorotate: Bool {
-        let overrideOption = hyBidDetermineOverrideOption(with: presentingViewController, selector: #selector(getter: self.shouldAutorotate))
-        switch overrideOption {
-        case .superClassOption:
-            return super.shouldAutorotate
-        case .presentingViewControllerOption:
-            return presentingViewController?.shouldAutorotate ?? super.shouldAutorotate
-        case .customImplementationOption:
-            let applicationSupportedOrientations = UIApplication.shared.supportedInterfaceOrientations(for: UIApplication.shared.keyWindow)
-            let viewControllerSupportedOrientations = supportedInterfaceOrientations
-            return viewControllerSupportedOrientations.intersection(applicationSupportedOrientations).rawValue != 0
-        }
-    }
-    
-    private func hyBidDetermineOverrideOption(with presentingViewController: UIViewController?, selector: Selector) -> HyBidOverrideOptionsType {
-        
-        guard let presentingViewController = presentingViewController else { return .superClassOption }
-        guard let presentingVCBundleID = Bundle(for: type(of: presentingViewController)).bundleIdentifier else {
-            return .superClassOption
-        }
-        
-        guard let hyBidBundleID = Bundle(for: HyBidSKAdNetworkViewController.self).bundleIdentifier else {
-            return .superClassOption
-        }
-        
-        if presentingVCBundleID != hyBidBundleID {
-            return doesClassHasMethod(cls: type(of: presentingViewController), sel: selector)
-            ? .presentingViewControllerOption
-            : .superClassOption
-        }
-        
-        return .customImplementationOption
-    }
-    
-    private func doesClassHasMethod(cls: AnyClass, sel: Selector) -> Bool {
-        var methodCount: UInt32 = 0
-        guard let methods = class_copyMethodList(cls, &methodCount) else { return false }
-        
-        var result = false
-        for i in 0..<Int(methodCount) {
-            if method_getName(methods[i]) == sel {
-                result = true
-                break
-            }
-        }
-        
-        free(methods)
-        return result
     }
 }

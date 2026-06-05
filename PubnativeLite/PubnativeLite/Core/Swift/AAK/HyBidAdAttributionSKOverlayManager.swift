@@ -6,9 +6,9 @@
 
 import AdAttributionKit
 
-@available(iOS 17.4, *)
 @objc public class HyBidAdAttributionSKOverlayManager: NSObject {
 
+    @available(iOS 17.4, *)
     @objc public func getAppConfiguration(appIdentifier:String?, position:SKOverlay.Position, userDismissible: Bool, ad: HyBidAd, adFormat: String) async -> SKOverlay.AppConfiguration? {
         
         guard let appIdentifier else { return .none }

@@ -14,6 +14,7 @@
 #import "HyBidDisplayManager.h"
 #import "HyBidAPI.h"
 #import "HyBidProtocol.h"
+#import "HyBidStringUtils.h"
 #import <CoreLocation/CoreLocation.h>
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
@@ -168,8 +169,8 @@
     
     NSString* gppSID = [[HyBidUserDataManager sharedInstance] getInternalGPPSID];
     if (gppSID != nil && !([gppSID length] == 0)) {
-        self.adRequestModel.requestParameters[HyBidRequestParameter.gppsid] = [gppSID stringByReplacingOccurrencesOfString:@"_"
-                                                                                                                    withString:@","];;
+        gppSID = [HyBidStringUtils safeReplaceInValue:gppSID target:@"_" replacement:@","] ?: gppSID;
+        self.adRequestModel.requestParameters[HyBidRequestParameter.gppsid] = gppSID;
     }
     
     if (![HyBidConsentConfig sharedConfig].coppa && ![[HyBidUserDataManager sharedInstance] isCCPAOptOut] && ![[HyBidUserDataManager sharedInstance] isConsentDenied]) {
@@ -217,7 +218,7 @@
         self.adRequestModel.requestParameters[HyBidRequestParameter.sessionDuration] = sessionDuration;
     }
     
-    NSDictionary *impressionDepth = [[HyBidSessionManager sharedInstance] impressionCounter];
+    NSDictionary *impressionDepth = [[HyBidSessionManager sharedInstance] safeImpressionCounter];
     if (impressionDepth && [impressionDepth count] != 0) {
         NSString *value = impressionDepth[zoneID];
         self.adRequestModel.requestParameters[HyBidRequestParameter.impressionDepth] = [NSString stringWithFormat:@"%@", value];

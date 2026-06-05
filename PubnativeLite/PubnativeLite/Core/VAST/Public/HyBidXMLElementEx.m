@@ -5,6 +5,7 @@
 //
 
 #import "HyBidXMLElementEx.h"
+#import "HyBidStringUtils.h"
 
 @interface HyBidXMLElementEx() 
 -(HyBidXMLElementEx *) duplicate;
@@ -14,9 +15,14 @@
 @synthesize attributes;
 
 -(id) initWithElement:(HyBidXMLElement *) value {
+	return [self initWithElement:value parser:nil];
+}
+
+-(id) initWithElement:(HyBidXMLElement *) value parser:(HyBidXML *) parser {
 	if (self = [super init]) {
 		element = value;
 		firstPass = YES;
+		_parser = parser;
 	}
 	
 	return self;
@@ -86,7 +92,7 @@
 }
 
 -(HyBidXMLElementEx *) duplicate {
-	return [[HyBidXMLElementEx alloc] initWithElement:element];
+	return [[HyBidXMLElementEx alloc] initWithElement:element parser:_parser];
 }
 
 -(NSString *) name {
@@ -134,7 +140,10 @@
     
     for (NSString *entityCode in htmlEntities.allKeys) {
         NSString *character = htmlEntities[entityCode];
-        decodedString = [decodedString stringByReplacingOccurrencesOfString:entityCode withString:character];
+        NSString *safeDecodedString = [HyBidStringUtils safeReplaceInValue:decodedString target:entityCode replacement:character];
+        if (safeDecodedString) {
+            decodedString = safeDecodedString;
+        }
     }
     
     return decodedString;
@@ -160,7 +169,7 @@
 
 -(HyBidXMLElementEx *) child:(NSString *) elementName {
 	HyBidXMLElement *childElement = [HyBidXML childElementNamed:elementName.lowercaseString parentElement:element];
-	return childElement ? [[HyBidXMLElementEx alloc] initWithElement:childElement] : nil;
+	return childElement ? [[HyBidXMLElementEx alloc] initWithElement:childElement parser:_parser] : nil;
 }
 
 @end

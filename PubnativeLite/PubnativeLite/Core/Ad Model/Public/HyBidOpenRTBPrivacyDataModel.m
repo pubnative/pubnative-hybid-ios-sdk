@@ -7,6 +7,7 @@
 #import "HyBidOpenRTBPrivacyDataModel.h"
 #import "HyBidUserDataManager.h"
 #import "HyBidRequestParameter.h"
+#import "HyBidStringUtils.h"
 
 @implementation HyBidOpenRTBPrivacyDataModel
 
@@ -28,7 +29,8 @@
         }
         
         if (gpp_sid) {
-            [privacyDataModel setObject: [gpp_sid stringByReplacingOccurrencesOfString:@"_" withString:@","] forKey: HyBidRequestParameter.openRTBgpp_sid];
+            gpp_sid = [HyBidStringUtils safeReplaceInValue:gpp_sid target:@"_" replacement:@","] ?: gpp_sid;
+            [privacyDataModel setObject:gpp_sid forKey:HyBidRequestParameter.openRTBgpp_sid];
         }
         
         if (us_privacy) {

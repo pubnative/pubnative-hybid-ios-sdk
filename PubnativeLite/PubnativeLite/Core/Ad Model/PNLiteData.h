@@ -56,11 +56,14 @@
 + (NSString *)customEndcardDisplay;
 + (NSString *)creativeAutoStorekitEnabled;
 + (NSString *)customCtaEnabled;
++ (NSString *)customCtaEnabledInputValue;
 + (NSString *)customCtaDelay;
++ (NSString *)customCtaDelayInputValue;
 + (NSString *)customCtaInputValue;
 + (NSString *)sdkAutoStorekitEnabled;
 + (NSString *)pcSDKAutoStorekitEnabled;
 + (NSString *)sdkAutoStorekitDelay;
++ (NSString *)sdkAutoStorekitDelayInputValue;
 + (NSString *)itunesIdValue;
 + (NSString *)reducedIconSizes;
 + (NSString *)reducedIconSizesInputValue;

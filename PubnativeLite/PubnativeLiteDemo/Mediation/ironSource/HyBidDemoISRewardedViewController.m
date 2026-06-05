@@ -55,7 +55,7 @@
 
 - (IBAction)showAdTouchUpInside:(UIButton *)sender {
     if ([self.rewardedAd isAdReady]) {
-        [self.rewardedAd showAdWithViewController: self placementName: NULL];
+        [self.rewardedAd showAdWithViewController: self placementName: @"HyBidRewarded"];
     } else {
         NSLog(@"Ad wasn't ready");
     }

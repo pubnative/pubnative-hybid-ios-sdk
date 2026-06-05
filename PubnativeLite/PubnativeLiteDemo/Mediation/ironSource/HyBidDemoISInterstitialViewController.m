@@ -55,7 +55,7 @@
 
 - (IBAction)showInterstitialAdButtonTapped:(UIButton *)sender {
     if ([self.interstitialAd isAdReady]) {
-        [self.interstitialAd showAdWithViewController: self placementName: NULL];
+        [self.interstitialAd showAdWithViewController: self placementName: @"HyBidInterstitial"];
     } else {
         NSLog(@"Ad wasn't ready");
     }

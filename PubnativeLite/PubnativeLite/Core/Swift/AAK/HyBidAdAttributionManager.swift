@@ -6,9 +6,9 @@
 
 import AdAttributionKit
 
-@available(iOS 17.4, *)
 struct HyBidAdAttributionManager {
     
+    @available(iOS 17.4, *)
     static func getAppImpression(ad: HyBidAd, adFormat: String? = nil, aakAdType: HyBidAdAttributionAdType) async -> AppImpression? {
         do {
             guard let adAttributionModel = ad.isUsingOpenRTB ? ad.getOpenRTBAdAttributionModel() : ad.getAttributionModel(),
@@ -38,7 +38,11 @@ struct HyBidAdAttributionManager {
         return .none
     }
     
+    @available(iOS 13.0, *)
     static func getReengagementURL(ad: HyBidAd) async -> URL? {
+        guard #available(iOS 17.4, *) else {
+            return nil
+        }
         
         guard let adAttributionModel = ad.isUsingOpenRTB ? ad.getOpenRTBAdAttributionModel() : ad.getAttributionModel(),
               let productParameters = adAttributionModel.productParameters as? [String: Any],

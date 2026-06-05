@@ -107,7 +107,6 @@
 
 - (void)triggerClickFlowWithUrl:(NSString *)url {
     HyBidDeeplinkHandler *deeplinkHandler = [[HyBidDeeplinkHandler alloc] initWithLink:self.ad.link];
-    HyBidSkAdNetworkModel* skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.adModel getOpenRTBSkAdNetworkModel] : [self.adModel getSkAdNetworkModel];
     NSString *customUrl = [HyBidCustomClickUtil extractPNClickUrl:url];
     if (customUrl != nil) {
         [self openBrowser:customUrl navigationType:HyBidWebBrowserNavigationExternalValue];
@@ -126,7 +125,7 @@
             NSLog(@"HyBid SKAN params dictionary: %@", cleanedParams);
             [HyBidSKAdNetworkViewController.shared presentStoreKitViewWithProductParameters:cleanedParams adFormat:HyBidReportingAdFormat.FULLSCREEN isAutoStoreKitView:NO ad:self.ad];
         } else if (deeplinkHandler.isCapable) {
-            [deeplinkHandler openWithNavigationType:self.ad.navigationMode];
+            [deeplinkHandler openWithNavigationType:self.ad.navigationMode clickthroughURL:url];
         } else {
             [self openBrowser:url navigationType:self.ad.navigationMode];
         }

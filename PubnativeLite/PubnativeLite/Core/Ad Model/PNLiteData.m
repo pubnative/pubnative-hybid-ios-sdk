@@ -56,11 +56,14 @@
 + (NSString *)customEndcardDisplay { return @"custom_endcard_display"; }
 + (NSString *)creativeAutoStorekitEnabled { return @"creative_autostorekit"; }
 + (NSString *)customCtaEnabled { return @"custom_cta_enabled"; }
++ (NSString *)customCtaEnabledInputValue { return @"custom_cta_enabled_input_value"; }
 + (NSString *)customCtaDelay { return @"custom_cta_delay"; }
++ (NSString *)customCtaDelayInputValue { return @"custom_cta_delay_input_value"; }
 + (NSString *)customCtaInputValue { return @"custom_cta_input_value"; }
 + (NSString *)sdkAutoStorekitEnabled { return @"sdk_autostorekit"; }
 + (NSString *)pcSDKAutoStorekitEnabled { return @"pc_sdk_autostorekit"; }
 + (NSString *)sdkAutoStorekitDelay { return @"sdk_autostorekit_delay"; }
++ (NSString *)sdkAutoStorekitDelayInputValue { return @"sdk_autostorekit_delay_input_value"; }
 + (NSString *)itunesIdValue { return @"itunesid_value"; }
 + (NSString *)reducedIconSizes { return @"pc_reduced_icon_sizes"; }
 + (NSString *)reducedIconSizesInputValue { return @"pc_reduced_icon_sizes_input_value"; }

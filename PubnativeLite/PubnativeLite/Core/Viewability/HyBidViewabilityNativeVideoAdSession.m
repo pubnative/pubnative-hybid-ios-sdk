@@ -114,23 +114,57 @@
     [[HyBidViewabilityManager sharedInstance] reportEvent:HyBidReportingEventType.AD_SESSION_INITIALIZED];
 
     if (omidAdSession) {
-        OMIDAdSessionWrapper* adSessionWrapper = [[OMIDAdSessionWrapper alloc] initWithAdSession:omidAdSession];
-        [omidAdSession setMainAdView:view];
-        self.adEvents = [[HyBidViewabilityManager sharedInstance] getAdEvents:adSessionWrapper];
-        self.omidMediaEvents = [[HyBidViewabilityManager sharedInstance] getMediaEvents:adSessionWrapper];
-
-        return adSessionWrapper;
+        return [self wrapAndSetupOMIDSession:omidAdSession forView:view];
     }
 
     return nil;
 }
 
+/// Wraps an OMID ad session in HyBidOMIDAdSessionWrapper, sets main ad view, and fetches ad/media events.
+/// Used so the same path can be covered by tests with a fake session when OMSDK is not linked.
+- (id)wrapAndSetupOMIDSession:(id)omidAdSession forView:(id)view {
+    HyBidOMIDAdSessionWrapper *adSessionWrapper = [[HyBidOMIDAdSessionWrapper alloc] initWithAdSession:omidAdSession];
+    [omidAdSession setMainAdView:view];
+    self.adEvents = [[HyBidViewabilityManager sharedInstance] getAdEvents:adSessionWrapper];
+    self.omidMediaEvents = [[HyBidViewabilityManager sharedInstance] getMediaEvents:adSessionWrapper];
+    return adSessionWrapper;
+}
+
 - (void)fireOMIDAdLoadEvent {
+    [self fireOMIDAdLoadEventWithSkipOffset:-1];
+}
+
+- (void)fireOMIDAdLoadEventWithSkipOffset:(CGFloat)skipOffset {
     if(![HyBidViewabilityManager sharedInstance].isViewabilityMeasurementActivated)
         return;
     
     NSError *vastPropertiesError;
-    OMIDPubnativenetVASTProperties *vastProperties = [[OMIDPubnativenetVASTProperties alloc] initWithAutoPlay:YES position:OMIDPositionStandalone];
+    id vastProperties;
+    
+    if (skipOffset >= 0) {
+        // Skippable video ad
+        if ([HyBid getIntegrationType] == SDKIntegrationTypeHyBid) {
+            #if __has_include(<OMSDK_Pubnativenet/OMIDImports.h>)
+            vastProperties = [[OMIDPubnativenetVASTProperties alloc] initWithSkipOffset:skipOffset autoPlay:YES position:OMIDPositionStandalone];
+            #endif
+        } else if ([HyBid getIntegrationType] == SDKIntegrationTypeSmaato) {
+            #if __has_include(<OMSDK_Smaato/OMIDImports.h>)
+            vastProperties = [[OMIDSmaatoVASTProperties alloc] initWithSkipOffset:skipOffset autoPlay:YES position:OMIDPositionStandalone];
+            #endif
+        }
+    } else {
+        // Non-skippable video ad
+        if ([HyBid getIntegrationType] == SDKIntegrationTypeHyBid) {
+            #if __has_include(<OMSDK_Pubnativenet/OMIDImports.h>)
+            vastProperties = [[OMIDPubnativenetVASTProperties alloc] initWithAutoPlay:YES position:OMIDPositionStandalone];
+            #endif
+        } else if ([HyBid getIntegrationType] == SDKIntegrationTypeSmaato) {
+            #if __has_include(<OMSDK_Smaato/OMIDImports.h>)
+            vastProperties = [[OMIDSmaatoVASTProperties alloc] initWithAutoPlay:YES position:OMIDPositionStandalone];
+            #endif
+        }
+    }
+    
     [self.adEvents loadedWithVastProperties:vastProperties error:&vastPropertiesError];
 }
 

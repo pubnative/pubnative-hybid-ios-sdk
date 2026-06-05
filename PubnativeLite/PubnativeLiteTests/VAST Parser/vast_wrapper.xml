@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VAST version="3.0">
+   <Ad id="Criteo_ABC">
+      <Wrapper>
+         <AdSystem>Criteo</AdSystem>
+         <VASTAdTagURI><![CDATA[https://gist.githubusercontent.com/anastasiyastachnik/6094d41362e21e37cd360dea2043953e/raw/931bdcff9184a0dfd32c15303874f2cd5f43741d/Criteo_WrapperReworked_16.xml]]></VASTAdTagURI>
+         <Impression />
+         <Impression><![CDATA[https://ets-ap-southeast-1.track.smaato.net/v1/view?sessionId=fa0709c8-fbc0-2c8f-96a4-3a509b235a61&adSourceId=9138b017-095d-b2c3-f0c6-31370953283a&originalRequestTime=1678369422613&e=verve&expires=1678373022613&dpid=aAS-XWNiyZGr71CdWreXCQ==|p4DzYJZDewWB98VhPwNiBQ==&winurl=Ja4Z6DrGubPzdjyyfsKFD1-PEfUy-CAOfwHYRbDK1xkY7CYSHHv_GsISiAJIasQ5dZmAgD0a35kC5XfSz0BbrhiYFsmeJuKPcQqcQM9dTDgX2RNRc7b_f4AjytcRPB6-E0a-f0zVWXH5lOiyGnXlqQ-H_1Mj2_O4y7OZJ0Za9a36gSsNIyHJ2C8qKV5AxrjV-eiOVjXDEMCPlkogHAdiLO8d-Q1zuC67iQpOuQTDeHM5Ig4UVmtMnKiLmGWITQjVeq-9CijYtl40HPe8VAhDqV0XFZQyHfPmkZo3RlaY0sUCtVQu_Keh5ypqLUj2yXKRYmer_6E_YMrhs8ZrS0pGQJwjr_xFW7RhmEdFkP5eWY0EyF3YSEcMuVmt8ESESJ4N7rhds3x268yeHAB1hs4YfNvqXbfNeARC50jXYYnuyjX761oxZDfmQ6ISP27tw-5nDK_fQYRIFGpagCnMyq4klea7USgu7MEChs_Qzu_M-Cpgrh4ML_Uc1WJD0xEk_gn__rjs9AAOfhCJ1WXgpyIxWeflCYRGwqDdwTAZJ58Ry19qBacJW1Pdgug9MaWnt91OZBcgcWrcsGBuPyABjXtp-fFQXvSeK-R8VWKkFVHGSZxRpEC0-6OM8jOHe_0pvuveWd0QTKKmo2n8Z4nj92K83Y-KqiunPnTnFihIyOi1ZBFed38aptBBBNYodlir-kHtFd7X-ursVNIZLwOBnnjr3rZ5u7rE1NNmrkD_EG-iR0wG0oDHm7zuQkTVqDTR8S12LS3XR5rACB-0iRMc2g1vKMUycuWrL4aYCbveo10FfnDx33wnGS-fLhOqpZySmgGAXW2uVDvEQ5Tlzef0ShUuaO3_G7kEhJMmWt8C_bu_88nD4tFK3cqDpMTRvzcwJNU9RsWg3JdciUD-W3Th6RsQfju3OYq0rBt6AltJ3AhSQ_hDiRtFzR9-Q8BEMYQ1Yf4wXp2cZGci7nDRE3GsBYt0EljEh321vsgP2x2np8DImQZJnTzDMOAlWemh5t25TxrXFt63lzT0AArF-0LwrQrNf59DbJmurnYE3TzqbaCJIZ3pbZ946EUtiYaOQG1CJcCAyXuCDewfEA8kMJ4lPdSQKBFaKVG7Xh6Cs6zkRBnmPWFlEXIJe_bROAb-9Ti0Rixf|unJWipfqnvivTRFL4RDyWg==]]></Impression>
+         <Creatives>
+            <Creative>
+               <Linear>
+                  <VideoClicks>
+                     <ClickTracking><![CDATA[https://ets-ap-southeast-1.track.smaato.net/v1/click?sessionId=fa0709c8-fbc0-2c8f-96a4-3a509b235a61&adSourceId=9138b017-095d-b2c3-f0c6-31370953283a&originalRequestTime=1678369422613&e=verve]]></ClickTracking>
+                     <ClickThrough>
+                         <![CDATA[https://ams.creativecdn.com/ad/clicks?ed_vast-clicked-area=companionAd&tk=UCQADTAsqiLrO6Km0KU90BJ9daAitZRhqz2lrE-8jW2quI0M-3tEngc9em2FnfBeKmRCneTeXrdFxKwx0oKJ5YsozRkRAky8308A_WkGrUYnNRFmevlwVdLTx4LVn2KQQPJ2e8Q0Mb36rFCkJLO463FZOLsgskLaaT-Txuih2o1oj0w_nh6GSuNpn_VzBlt9sjTApyOjSl8fTJW9UvM8W9ABsRPUR8lEkx7K3Xdo0h9Ua-gUE__ijkOHdjH5jfvKwmAKpDvRL9BB5KDlpZAkpVU82sMtDVrT3mVb99SShMC3ccDTDBTZwfHTqcOfT8KdUKsFESuq4BnRAwE78vw-u85Xbq90qNiAmmA-XlAqg46XOJm2Dvtxlge5Vxrdzv9eg27lGexRWP__OOQY9yqDWhV9yk0eTHUSFL6Ljo92qDulpswt72xANHFFIfFz4B5J9kTjU6KpmXY7IGiRzWjdCln9WZRA8c4TmP8xaxSIAh1NHeNG4PBnXSdMxvdj-4B44a3rnkkgb7WQhRTKva2W6Yiw-Xqntkbz_LDhS7KldNAx195i0VZaLoo0VucI15AzNEyUjaDUJQ2DN1DV6Hj4HXB5d5aOWU0wewO3DcFv7hpZgQ_C7nbNqRNXqAel0uLj]]>
+                     </ClickThrough>
+                  </VideoClicks>
+                  <TrackingEvents>
+                     <Tracking event="start"><![CDATA[https://vet-us-east-1.track.smaato.net/start?sessionId=fa0709c8-fbc0-2c8f-96a4-3a509b235a61&adSourceId=9138b017-095d-b2c3-f0c6-31370953283a&originalRequestTime=1678369422613&e=verve]]></Tracking>
+                     <Tracking event="firstQuartile"><![CDATA[https://vet-us-east-1.track.smaato.net/firstQuartile?sessionId=fa0709c8-fbc0-2c8f-96a4-3a509b235a61&adSourceId=9138b017-095d-b2c3-f0c6-31370953283a&originalRequestTime=1678369422613&e=verve]]></Tracking>
+                     <Tracking event="midpoint"><![CDATA[https://vet-us-east-1.track.smaato.net/midpoint?sessionId=fa0709c8-fbc0-2c8f-96a4-3a509b235a61&adSourceId=9138b017-095d-b2c3-f0c6-31370953283a&originalRequestTime=1678369422613&e=verve]]></Tracking>
+                     <Tracking event="thirdQuartile"><![CDATA[https://vet-us-east-1.track.smaato.net/thirdQuartile?sessionId=fa0709c8-fbc0-2c8f-96a4-3a509b235a61&adSourceId=9138b017-095d-b2c3-f0c6-31370953283a&originalRequestTime=1678369422613&e=verve]]></Tracking>
+                     <Tracking event="complete"><![CDATA[https://vet-us-east-1.track.smaato.net/complete?sessionId=fa0709c8-fbc0-2c8f-96a4-3a509b235a61&adSourceId=9138b017-095d-b2c3-f0c6-31370953283a&originalRequestTime=1678369422613&e=verve]]></Tracking>
+                  </TrackingEvents>
+               </Linear>
+            </Creative>
+         </Creatives>
+         <Error><![CDATA[https://vet-us-east-1.track.smaato.net/error?sessionId=fa0709c8-fbc0-2c8f-96a4-3a509b235a61&adSourceId=9138b017-095d-b2c3-f0c6-31370953283a&originalRequestTime=1678369422613&e=verve&errorCode=[ERRORCODE]]]></Error>
+         <Pricing currency="USD" model="CPM"><![CDATA[0.199394]]></Pricing>
+      </Wrapper>
+   </Ad>
+</VAST>

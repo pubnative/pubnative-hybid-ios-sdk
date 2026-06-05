@@ -138,7 +138,7 @@
             NSLog(@"HyBid SKAN params dictionary: %@", cleanedParams);
             [HyBidSKAdNetworkViewController.shared presentStoreKitViewWithProductParameters:cleanedParams adFormat:HyBidReportingAdFormat.BANNER isAutoStoreKitView:NO ad:self.ad];
         } else if (deeplinkHandler.isCapable) {
-            [deeplinkHandler openWithNavigationType:self.ad.navigationMode];
+            [deeplinkHandler openWithNavigationType:self.ad.navigationMode clickthroughURL:url];
         } else {
             [self openBrowser:url navigationType:self.ad.navigationMode];
         }
@@ -164,6 +164,7 @@
 - (void)mraidViewAdReady:(HyBidMRAIDView *)mraidView {
     [self.delegate adPresenter:self didLoadWithAd:mraidView];
     [self.aakCustomClickAd startImpressionWithAdView: mraidView];
+    [self.mraidView startAdSession];
 }
 
 - (void)mraidViewAdFailed:(HyBidMRAIDView *)mraidView {

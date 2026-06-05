@@ -32,7 +32,7 @@
 
 -(HyBidXMLElementEx *) rootElement {
 	if (!rootElement) {
-		rootElement = [[HyBidXMLElementEx alloc] initWithElement:hyBidXML.rootXMLElement];
+		rootElement = [[HyBidXMLElementEx alloc] initWithElement:hyBidXML.rootXMLElement parser:hyBidXML];
 	}
 
 	return rootElement;
