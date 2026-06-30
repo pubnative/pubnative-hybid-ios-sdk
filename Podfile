@@ -9,10 +9,6 @@ platform :ios, '12.0'
 
 use_frameworks!
 
-#target 'HyBid' do
-#  pod 'ATOM-Standalone'
-#end
-
 target 'HyBidDemo' do
   # Pods for HyBidDemo
   pod 'FLEX', :configurations => ['Debug']

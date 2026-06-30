@@ -9,7 +9,6 @@
 
 @interface HyBidConfig : NSObject
 
-@property (nonatomic, readonly) BOOL atomEnabled;
 
 - (instancetype)initWithData:(HyBidConfigModel *)data;
 

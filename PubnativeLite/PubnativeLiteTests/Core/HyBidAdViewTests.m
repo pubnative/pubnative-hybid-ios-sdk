@@ -119,8 +119,8 @@
     XCTAssertNoThrow([view setOpenRTBAdTypeWithAdFormat:HyBidOpenRTBAdBanner]);
 }
 
-// MARK: - New code coverage: HyBidATOMManager.createAdSessionDataFromRequest (prefix rename from ATOMManager)
-- (void)testRequest_didLoadWithAd_setsAdSessionDataViaHyBidATOMManager {
+// MARK: - Ad session data coverage
+- (void)testRequest_didLoadWithAd_setsAdSessionData {
     HyBidAd *ad = [self hyBidAdFromTestBundle];
     if (!ad) { XCTSkip(@"adResponse.txt not in test bundle"); }
     HyBidAdView *view = [[HyBidAdView alloc] initWithFrame:CGRectZero];
@@ -129,7 +129,7 @@
     XCTAssertNotNil(view.ad);
 }
 
-- (void)testSignalDataDidFinishWithAd_setsAdSessionDataViaHyBidATOMManager {
+- (void)testSignalDataDidFinishWithAd_setsAdSessionData {
     HyBidAd *ad = [self hyBidAdFromTestBundle];
     if (!ad) { XCTSkip(@"adResponse.txt not in test bundle"); }
     HyBidAdView *view = [[HyBidAdView alloc] initWithFrame:CGRectZero];

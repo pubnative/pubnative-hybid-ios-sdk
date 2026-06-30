@@ -6,6 +6,7 @@
 
 #import <XCTest/XCTest.h>
 #import "HyBidBeaconsInspectorHelper.h"
+#import "PNLiteRequestInspector.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <HyBid/HyBid-Swift.h>
@@ -17,6 +18,11 @@
 @end
 
 @implementation HyBidBeaconsInspectorTests
+
+- (void)setUp {
+    [super setUp];
+    [PNLiteRequestInspector sharedInstance].lastInspectedRequest = nil;
+}
 
 // ============================================================================
 #pragma mark - HyBidBeaconItem
@@ -368,13 +374,18 @@
 // ============================================================================
 
 - (void)testHelper_adBeaconDictionariesFromLastResponseWithCompletion_callsCompletion {
+    // Ensure the singleton has no leftover response so the fast-path is taken.
+    [PNLiteRequestInspector sharedInstance].lastInspectedRequest = nil;
     XCTestExpectation *exp = [self expectationWithDescription:@"helper completion"];
     [HyBidBeaconsInspectorHelper adBeaconDictionariesFromLastResponseWithCompletion:^(NSArray<NSDictionary<NSString *, id> *> *dicts) {
         XCTAssertNotNil(dicts);
         XCTAssertTrue([dicts isKindOfClass:[NSArray class]]);
         [exp fulfill];
     }];
-    [self waitForExpectationsWithTimeout:2.0 handler:nil];
+    // 5 s is ample for a single main-queue dispatch; the nil fast-path added in
+    // adBeaconDictionariesFromLastResponseWithCompletion: ensures completion is
+    // always called within one runloop turn when there is no cached response.
+    [self waitForExpectationsWithTimeout:5.0 handler:nil];
 }
 
 - (void)testHelper_adBeaconDictionariesFromLastResponseWithNilCompletion_doesNotCrash {

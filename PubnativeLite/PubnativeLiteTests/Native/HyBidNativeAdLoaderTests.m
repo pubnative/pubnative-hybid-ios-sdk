@@ -48,8 +48,7 @@
     XCTAssertNotNil(loader);
 }
 
-// Covers new code: HyBidATOMManager.createAdSessionDataFromRequest in loadNativeAdWithRequest:ad:
-- (void)testRequest_didLoadWithAd_setsAdSessionDataViaHyBidATOMManager {
+- (void)testRequest_didLoadWithAd_setsAdSessionData {
     HyBidAd *ad = [self hyBidAdFromTestBundle];
     if (!ad) { XCTSkip(@"adResponse.txt not in test bundle"); }
     HyBidNativeAdLoader *loader = [[HyBidNativeAdLoader alloc] init];

@@ -117,7 +117,6 @@ FOUNDATION_EXPORT const unsigned char HyBidVersionString[];
 #import "HyBidConfigManager.h"
 #import "NSUserDefaults+HyBidCustomMethods.h"
 #import "HyBidSKOverlayDelegate.h"
-#import "HyBidATOMManager.h"
 
 // For swift compatibility, we are making this file public instead of private
 // Avoid using custom module map
@@ -149,8 +148,7 @@ typedef enum {
     HyBidLogLevelError,
     HyBidLogLevelWarning,
     HyBidLogLevelInfo,
-    HyBidLogLevelDebug,
-    HyBidLogLevelATOM
+    HyBidLogLevelDebug
 } HyBidLogLevel;
 
 typedef enum {

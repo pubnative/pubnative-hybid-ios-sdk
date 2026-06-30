@@ -85,23 +85,22 @@ final class HyBidRewardedAdTests: XCTestCase {
         rewarded.show()
     }
 
-    // MARK: - New code coverage: HyBidATOMManager (prefix rename) in request(didLoadWithAd:) and signalDataDidFinish(with:)
+    // MARK: - Ad session data in request(didLoadWithAd:) and signalDataDidFinish(with:)
 
-    func testRequest_didLoadWithAd_setsAdSessionDataViaHyBidATOMManager() {
+    func testRequest_didLoadWithAd_setsAdSessionData() {
         guard let ad = hyBidAdFromTestBundle() else { return }
         let request = HyBidAdRequest()
         rewarded.request(request, didLoadWithAd: ad)
         XCTAssertNotNil(rewarded.ad)
     }
 
-    func testSignalDataDidFinish_withAd_setsAdSessionDataViaHyBidATOMManager() {
+    func testSignalDataDidFinish_withAd_setsAdSessionData() {
         guard let ad = hyBidAdFromTestBundle() else { return }
         rewarded.signalDataDidFinish(with: ad)
         XCTAssertNotNil(rewarded.ad)
     }
 
-    /// Covers new code: HyBidATOMManager.fireAdSessionEvent in show() when isReady and not expired
-    func testShow_whenReadyAndHasAdSessionData_firesHyBidATOMManagerEvent() {
+    func testShow_whenReadyAndHasAdSessionData_doesNotCrash() {
         guard let ad = hyBidAdFromTestBundle() else { return }
         let request = HyBidAdRequest()
         rewarded.request(request, didLoadWithAd: ad)

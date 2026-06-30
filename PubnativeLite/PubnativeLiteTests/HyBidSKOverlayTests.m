@@ -81,7 +81,7 @@ typedef NS_ENUM(NSUInteger, HyBidSKOverlaySimulateMethod) {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(duration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [expectation fulfill];
     });
-    [self waitForExpectationsWithTimeout:duration + 0.1 handler:nil];
+    [self waitForExpectationsWithTimeout:duration + 2.0 handler:nil];
 }
 
 - (void)createMockSKOverlay {

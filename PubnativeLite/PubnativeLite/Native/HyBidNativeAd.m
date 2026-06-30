@@ -29,10 +29,6 @@
     #import "HyBid-Swift.h"
 #endif
 
-#if __has_include(<ATOM/ATOM-Swift.h>)
-    #import <ATOM/ATOM-Swift.h>
-#endif
-
 NSString * const PNLiteNativeAdBeaconImpression = @"impression";
 NSString * const PNLiteNativeAdBeaconClick = @"click";
 
@@ -720,7 +716,6 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
 
 - (void)percentVisibleDidChange:(CGFloat)newValue {
     self.adSessionData.viewability = [NSNumber numberWithFloat:newValue];
-    [HyBidATOMManager fireAdSessionEventWithData:self.adSessionData];
 }
 
 @end

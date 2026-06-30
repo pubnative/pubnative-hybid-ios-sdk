@@ -15,7 +15,6 @@ public class HyBidSDKConfig: NSObject {
     
     @objc public var test: Bool = false
     @objc public var reporting: Bool = false
-    @objc public var atomEnabled: Bool = false
     @objc public var targeting: HyBidTargetingModel?
     @objc public var appToken: String?
     @objc public var apiURL: String {

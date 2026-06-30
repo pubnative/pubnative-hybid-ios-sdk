@@ -2362,17 +2362,7 @@ typedef enum {
         HyBidEndCard *customEndCard = [[HyBidEndCard alloc] init];
         [customEndCard setType:HyBidEndCardType_HTML];
         
-        #if __has_include(<ATOM/ATOM-Swift.h>)
-        NSString * _Nullable surveyHTML = [HyBidATOMManager getATOMValueForKey:HyBidConstants.ATOM_SURVEY_PARAM];
-        
-        if (surveyHTML) {
-            [customEndCard setContent:surveyHTML];
-        } else {
-            [customEndCard setContent:self.ad.customEndCardData];
-        }
-        #else
         [customEndCard setContent:self.ad.customEndCardData];
-        #endif
                         
         [customEndCard setIsCustomEndCard:YES];
         self.ad.customEndCard = customEndCard;
@@ -2405,27 +2395,8 @@ typedef enum {
         endCard = [self.endCards firstObject];
         endCardCount = PNLiteVASTPlayerCustomEndCardValue;
     } else {
-        #if __has_include(<ATOM/ATOM-Swift.h>)
-        NSString *surveyKey = HyBidConstants.ATOM_SURVEY_PARAM;
-        
-        NSString * _Nullable surveyHTML = [HyBidATOMManager getATOMValueForKey:surveyKey];
-        if (surveyHTML && [surveyHTML length] > 0) {
-            HyBidEndCard *customEndCard = [[HyBidEndCard alloc] init];
-            [customEndCard setType:HyBidEndCardType_HTML];
-
-            [customEndCard setContent:surveyHTML];            
-            [customEndCard setIsCustomEndCard:YES];
-            
-            endCard = customEndCard;
-            endCardCount = PNLiteVASTPlayerCustomEndCardValue;
-        } else {
-            endCard = [self.endCards lastObject];
-            endCardCount = PNLiteVASTPlayerWrapperMaximumValue;
-        }
-        #else
         endCard = [self.endCards lastObject];
         endCardCount = PNLiteVASTPlayerWrapperMaximumValue;
-        #endif
     }
     self.endCardView = [[HyBidEndCardView alloc] initWithDelegate:self
                                                                     withViewController:self

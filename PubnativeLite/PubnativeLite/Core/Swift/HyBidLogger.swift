@@ -18,8 +18,7 @@ public class HyBidLogger: NSObject {
             "Error",
             "Warning",
             "Info",
-            "Debug",
-            "ATOM"
+            "Debug"
         ]
         
         let levelName = levelNames[Int(logLevel.rawValue)]
@@ -68,10 +67,4 @@ public class HyBidLogger: NSObject {
         print("\n ----------------------- \n [LOG TYPE]: \(logLevelString)\n [CLASS]: \(className)\n [METHOD]: \(fromMethod) \n [withMessage]: \(withMessage)\n -----------------------");
     }
     
-    @objc
-    public static func atomLog(fromClass className: String, fromMethod: String, withMessage: String) {
-        if (logLevel.rawValue >= Int(HyBidLogLevelATOM.rawValue)) {
-            internalLog(fromClass: className, fromMethod: fromMethod, withMessage: withMessage, logLevel: HyBidLogLevelATOM)
-        }
-    }
 }

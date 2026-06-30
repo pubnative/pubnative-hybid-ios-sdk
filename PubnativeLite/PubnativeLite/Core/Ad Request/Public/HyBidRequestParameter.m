@@ -109,9 +109,6 @@
 + (NSString * _Nonnull)extension                     { return @"ext"; }
 + (NSString * _Nonnull)geolocation                   { return @"geo"; }
 
-#pragma mark - Atom parameters
-+ (NSString * _Nonnull)vg                            { return @"vg"; }
-
 #pragma mark - DSPv1 / OpenRTB parameters
 + (NSString * _Nonnull)openRTBgdpr                          { return @"gdpr"; }
 + (NSString * _Nonnull)openRTBgpp                           { return @"gpp"; }

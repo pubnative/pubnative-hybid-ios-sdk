@@ -93,10 +93,6 @@ public class EventType: HyBidReportingProperties  {
     @objc public static let DEFAULT_ENDCARD_CLICK = "default_endcard_click";
     @objc public static let CUSTOM_ENDCARD_CLOSE = "custom_endcard_closed"
     @objc public static let CUSTOM_ENDCARD_CLICK = "custom_endcard_click"
-    @objc public static let ATOM_ACTIVATED = "atom_activated"
-    @objc public static let ATOM_DEACTIVATED = "atom_deactivated"
-    @objc public static let ATOM_ACTIVATED_RECEIVED = "atom_activated_received"
-    @objc public static let ATOM_DEACTIVATED_RECEIVED  = "atom_deactivated_received"
     @objc public static let CUSTOM_CTA_IMPRESSION = "custom_cta_show"
     @objc public static let CUSTOM_CTA_CLICK = "custom_cta_click"
     @objc public static let CUSTOM_CTA_ENDCARD_CLICK = "custom_cta_endcard_click"
@@ -122,7 +118,6 @@ public class EventType: HyBidReportingProperties  {
     @objc public static let AD_ATTRIBUTION_KIT_APP_IMPRESSION_END_VIEW = "aak_app_impression_end_view"
     @objc public static let AD_ATTRIBUTION_KIT_APP_IMPRESSION_END_VIEW_ERROR = "aak_app_impression_end_view_error"
     
-    @objc public static let AD_SESSION_DATA_SHARED_TO_ATOM = "ad_session_data_shared_to_atom"
 }
 
 @objc(HyBidReportingCreativeType)

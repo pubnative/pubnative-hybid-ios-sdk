@@ -5,7 +5,6 @@
 //
 
 #import "HyBidMRAIDView.h"
-#import "HyBidVRVAdJIBridge.h"
 #import "PNLiteMRAIDOrientationProperties.h"
 #import "PNLiteMRAIDResizeProperties.h"
 #import "PNLiteMRAIDParser.h"
@@ -38,10 +37,6 @@
 #import "HyBidURLDriller.h"
 #import "HyBidOMIDAdSessionWrapper.h"
 
-#if __has_include(<ATOM/ATOM-Swift.h>)
-    #import <ATOM/ATOM-Swift.h>
-#endif
-
 #define SYSTEM_VERSION_LESS_THAN(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
 #define HYBID_MRAID_CLOSE_BUTTON_TAG 1001
@@ -59,7 +54,7 @@ typedef enum {
     PNLiteMRAIDStateHidden
 } PNLiteMRAIDState;
 
-@interface HyBidMRAIDView () <WKNavigationDelegate, WKUIDelegate, PNLiteMRAIDModalViewControllerDelegate, UIGestureRecognizerDelegate, HyBidContentInfoViewDelegate, HyBidSkipOverlayDelegate, HyBidInterruptionDelegate, HyBidURLRedirectorDelegate, HyBidEndCardViewDelegate, HyBidURLDrillerDelegate, WKScriptMessageHandler>
+@interface HyBidMRAIDView () <WKNavigationDelegate, WKUIDelegate, PNLiteMRAIDModalViewControllerDelegate, UIGestureRecognizerDelegate, HyBidContentInfoViewDelegate, HyBidSkipOverlayDelegate, HyBidInterruptionDelegate, HyBidURLRedirectorDelegate, HyBidEndCardViewDelegate, HyBidURLDrillerDelegate>
 {
     PNLiteMRAIDState state;
     // This corresponds to the MRAID placement type.
@@ -155,6 +150,7 @@ typedef enum {
 // internal helper methods
 - (void)initWebView:(WKWebView *)wv;
 - (void)parseCommandUrl:(NSString *)commandUrlString prefixToRemove:(NSString *)prefixToRemove;
+- (NSString *)enforceInlineVideoPlaybackForBannerHtml:(NSString *)html;
 
 @property (nonatomic, strong) NSTimer *closeButtonOffsetTimer;
 @property (nonatomic, assign) NSTimeInterval closeButtonTimeElapsed;
@@ -264,6 +260,12 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
         isScrollable = canScroll;
         adWidth = frame.size.width;
         adHeight = frame.size.height;
+
+        // Prevent CSS transform overflow for banner ads.
+        // Clipping the view to its bounds closes that escape hatch for non-interstitial ads.
+        if (!isInter) {
+            self.clipsToBounds = YES;
+        }
         _delegate = delegate;
         _serviceDelegate = serviceDelegate;
         _rootViewController = rootViewController;
@@ -329,6 +331,7 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
             [self htmlFromUrl:baseURL handler:^(NSString *html, NSError *error) {
                 if(html && !error){
                     htmlData = [PNLiteMRAIDUtil processRawHtml:html];
+                    htmlData = [self enforceInlineVideoPlaybackForBannerHtml:htmlData];
                     [self loadHTMLDataWithBaseURL:htmlData];
                 } else {
                     [HyBidLogger errorLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:error.localizedDescription];
@@ -342,6 +345,7 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
             }];
         } else {
             htmlData = [PNLiteMRAIDUtil processRawHtml:htmlData];
+            htmlData = [self enforceInlineVideoPlaybackForBannerHtml:htmlData];
             [self loadHTMLData:htmlData];
         }
         
@@ -2134,26 +2138,6 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
     return nil;
 }
 
-#pragma mark - WKScriptMessageHandler
-
-- (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message {
-    if ([message.name isEqualToString:@"onSurveyDataCollected"]) {
-        // Fire ATOM event with survey data
-        if ([message.body isKindOfClass:[NSString class]]) {
-            #if __has_include(<ATOM/ATOM-Swift.h>)
-            [Atom fireWithEventWithName:HyBidConstants.ATOM_SURVEY_DATA_PARAM eventWithValue:message.body withDelegate:self completion:^(BOOL success, NSError * _Nullable error) {
-                if (!success) {
-                    [HyBidLogger atomLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage: [NSString stringWithFormat: @"❌ Failed to save survey data: %@", error]];
-                } else {
-                    [Atom deleteValueForKey:HyBidConstants.ATOM_SURVEY_PARAM];
-                    [Atom uploadLocalDatabasesIfNeeded];
-                }
-            }];
-            #endif
-        }
-    }
-}
-
 #pragma mark - MRAIDModalViewControllerDelegate
 
 - (void)mraidModalViewControllerDidRotate:(PNLiteMRAIDModalViewController *)modalViewController {
@@ -2169,6 +2153,22 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
     return (skanModel.productParameters[HyBidSKAdNetworkParameter.itunesitem] != nil && [skanModel.productParameters[HyBidSKAdNetworkParameter.itunesitem] isKindOfClass:[NSString class]]);
 }
 
+// Keeps banner videos playing inline instead of taking over the screen in the native player.
+// Adds `playsinline` to any <video> already in the markup. Videos added later by JS are handled
+// in createConfiguration. The lookahead skips tags that already have it.
+- (NSString *)enforceInlineVideoPlaybackForBannerHtml:(NSString *)html {
+    if (isInterstitial || html == nil) {
+        return html;
+    }
+    NSRegularExpression *playsinlineRegex = [NSRegularExpression regularExpressionWithPattern:@"<video(?![^>]*\\splaysinline)(\\s|>|/)"
+        options:NSRegularExpressionCaseInsensitive
+        error:NULL];
+    return [playsinlineRegex stringByReplacingMatchesInString:html
+                             options:0
+                             range:NSMakeRange(0, [html length])
+                             withTemplate:@"<video playsinline$1"];
+}
+
 - (WKWebViewConfiguration *)createConfiguration {
     WKUserContentController *wkUController = [[WKUserContentController alloc] init];
     WKWebViewConfiguration *webConfiguration = [[WKWebViewConfiguration alloc] init];
@@ -2177,18 +2177,44 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
     if ([supportedFeatures containsObject:PNLiteMRAIDSupportsInlineVideo]) {
         webConfiguration.allowsInlineMediaPlayback = YES;
         webConfiguration.mediaTypesRequiringUserActionForPlayback = WKAudiovisualMediaTypeNone;
+
+        // For banner ads only: without `playsinline` on a <video> element, iOS launches
+        // the native AVKit fullscreen player when autoplay fires, regardless of
+        // allowsInlineMediaPlayback = YES. Injected at AtDocumentStart so the
+        // MutationObserver is in place before any page script (e.g. Video.js) runs
+        // and creates <video> elements. forMainFrameOnly:NO covers nested iframes.
+        if (!isInterstitial) {
+            NSString *playsinlineJS =
+                @"(function() {"
+                @"  function enforcePlaysinline(node) {"
+                @"    if (node.nodeName === 'VIDEO') {"
+                @"      node.setAttribute('playsinline', '');"
+                @"      node.setAttribute('webkit-playsinline', '');"
+                @"    }"
+                @"  }"
+                @"  document.querySelectorAll('video').forEach(enforcePlaysinline);"
+                @"  new MutationObserver(function(mutations) {"
+                @"    mutations.forEach(function(m) {"
+                @"      m.addedNodes.forEach(function(n) {"
+                @"        if (n.nodeType === 1) {"
+                @"          enforcePlaysinline(n);"
+                @"          n.querySelectorAll && n.querySelectorAll('video').forEach(enforcePlaysinline);"
+                @"        }"
+                @"      });"
+                @"    });"
+                @"  }).observe(document.documentElement, { childList: true, subtree: true });"
+                @"})();";
+            WKUserScript *playsinlineScript = [[WKUserScript alloc]
+                initWithSource:playsinlineJS
+                 injectionTime:WKUserScriptInjectionTimeAtDocumentStart
+              forMainFrameOnly:NO];
+            [wkUController addUserScript:playsinlineScript];
+        }
     } else {
         webConfiguration.allowsInlineMediaPlayback = NO;
         webConfiguration.mediaTypesRequiringUserActionForPlayback = WKAudiovisualMediaTypeAll;
         [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"No inline video support has been included, videos will play full screen without autoplay."]];
     }
-
-    #if __has_include(<ATOM/ATOM-Swift.h>)
-    // Inject VRVAdJI bridge with ATOM data before any page content loads
-    [HyBidVRVAdJIBridge injectIntoController:wkUController];
-
-    [wkUController addScriptMessageHandler:self name:@"onSurveyDataCollected"];
-    #endif
 
     return webConfiguration;
 }
@@ -2198,6 +2224,11 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
     wv.navigationDelegate = self;
     wv.UIDelegate = self;
     wv.opaque = NO;
+
+    // For banner ads, clip the webview so that CSS-transformed content cannot visually overflow the declared ad bounds.
+    if (!isInterstitial) {
+        wv.clipsToBounds = YES;
+    }
     
 #if DEBUG
     if (@available(iOS 16.4, *)) {

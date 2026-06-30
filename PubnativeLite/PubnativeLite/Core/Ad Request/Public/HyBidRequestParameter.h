@@ -109,9 +109,6 @@
 + (NSString * _Nonnull)extension;
 + (NSString * _Nonnull)geolocation;
 
-#pragma mark - Voyager parameters
-+ (NSString * _Nonnull)vg;
-
 #pragma mark - DSPv1 / OpenRTB parameters
 + (NSString * _Nonnull)openRTBgdpr;
 + (NSString * _Nonnull)openRTBgpp;

@@ -41,17 +41,4 @@ final class HyBidConstantsTests: XCTestCase {
         XCTAssertFalse(offset.isCustom)
     }
 
-    // MARK: - ATOM constants
-
-    func test_atomSurveyParam_hasExpectedValue() {
-        XCTAssertEqual(HyBidConstants.ATOM_SURVEY_PARAM, "SurveyHtml")
-    }
-
-    func test_atomSurveyDataParam_hasExpectedValue() {
-        XCTAssertEqual(HyBidConstants.ATOM_SURVEY_DATA_PARAM, "SurveyData")
-    }
-
-    func test_atomKeyPrefix_hasExpectedValue() {
-        XCTAssertEqual(HyBidConstants.ATOM_KEY_PREFIX, "atomvalue_")
-    }
 }

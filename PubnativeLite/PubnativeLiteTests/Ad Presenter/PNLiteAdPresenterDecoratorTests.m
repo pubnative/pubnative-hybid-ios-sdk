@@ -8,9 +8,13 @@
 #import "HyBidAdPresenter.h"
 #import "HyBidAdTracker.h"
 #import "HyBidAdSize.h"
-#import "HyBidATOMManager.h"
 #import "HyBidAd.h"
 #import "PNLiteResponseModel.h"
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import "HyBid-Swift.h"
+#endif
 
 @interface PNLiteAdPresenterDecorator (TestCoverage)
 - (void)percentVisibleDidChange:(CGFloat)newValue;
@@ -48,12 +52,11 @@
     XCTAssertNoThrow([decorator stopTracking]);
 }
 
-// Covers new code: HyBidATOMManager.fireAdSessionEventWithData in percentVisibleDidChange:
-- (void)testPercentVisibleDidChange_firesHyBidATOMManagerEvent {
+- (void)testPercentVisibleDidChange_updatesViewabilityAndDoesNotCrash {
     HyBidAd *ad = [self hyBidAdFromTestBundle];
     if (!ad) { XCTSkip(@"adResponse.txt not in test bundle"); }
     HyBidAdPresenter *presenter = [[HyBidAdPresenter alloc] init];
-    presenter.adSessionData = [HyBidATOMManager createAdSessionDataFromRequest:nil ad:ad];
+    presenter.adSessionData = [[HyBidAdSessionData alloc] init];
     PNLiteAdPresenterDecorator *decorator = [[PNLiteAdPresenterDecorator alloc] initWithAdPresenter:presenter
                                                                                       withAdTracker:nil
                                                                                        withDelegate:nil];

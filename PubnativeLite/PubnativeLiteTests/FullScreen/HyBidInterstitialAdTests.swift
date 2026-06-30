@@ -97,9 +97,9 @@ final class HyBidInterstitialAdTests: XCTestCase {
         interstitial.show()
     }
 
-    // MARK: - New code coverage: HyBidATOMManager (prefix rename) in request(didLoadWithAd:) and signalDataDidFinish(with:)
+    // MARK: - Ad session data in request(didLoadWithAd:) and signalDataDidFinish(with:)
 
-    func testRequest_didLoadWithAd_setsAdSessionDataViaHyBidATOMManager() {
+    func testRequest_didLoadWithAd_setsAdSessionData() {
         guard let ad = hyBidAdFromTestBundle() else {
             return // skip if no bundle resource
         }
@@ -108,7 +108,7 @@ final class HyBidInterstitialAdTests: XCTestCase {
         XCTAssertNotNil(interstitial.ad)
     }
 
-    func testSignalDataDidFinish_withAd_setsAdSessionDataViaHyBidATOMManager() {
+    func testSignalDataDidFinish_withAd_setsAdSessionData() {
         guard let ad = hyBidAdFromTestBundle() else {
             return
         }
@@ -116,8 +116,7 @@ final class HyBidInterstitialAdTests: XCTestCase {
         XCTAssertNotNil(interstitial.ad)
     }
 
-    /// Covers new code: HyBidATOMManager.fireAdSessionEvent in show() when isReady and not expired
-    func testShow_whenReadyAndHasAdSessionData_firesHyBidATOMManagerEvent() {
+    func testShow_whenReadyAndHasAdSessionData_doesNotCrash() {
         guard let ad = hyBidAdFromTestBundle() else { return }
         let request = HyBidAdRequest()
         interstitial.request(request, didLoadWithAd: ad)

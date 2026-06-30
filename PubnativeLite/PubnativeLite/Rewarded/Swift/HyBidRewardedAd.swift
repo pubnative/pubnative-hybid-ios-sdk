@@ -209,9 +209,6 @@ public class HyBidRewardedAd: NSObject {
             }
             if initialLoadTimestamp < adExpireTime {
                 self.rewardedPresenter?.show()
-                if let adSessionData = self.adSessionData {
-                    HyBidATOMManager.fireAdSessionEvent(with: adSessionData)
-                }
             } else {
                 HyBidLogger.errorLog(fromClass: String(describing: HyBidRewardedAd.self), fromMethod: #function, withMessage: "Ad has expired")
                 self.cleanUp()
@@ -419,7 +416,6 @@ extension HyBidRewardedAd {
         
         if let ad = ad {
             self.ad = ad
-            self.adSessionData = HyBidATOMManager.createAdSessionData(from: request, ad: ad)
             self.determineSkipOffsetValuesFor(ad)
             self.ad?.adType = Int(kHyBidAdTypeVideo)
             self.ad?.mediationWatermarkData = self.mediationWatermarkData
@@ -480,7 +476,6 @@ extension HyBidRewardedAd {
 extension HyBidRewardedAd {
     func signalDataDidFinish(with ad: HyBidAd) {
         self.ad = ad
-        self.adSessionData = HyBidATOMManager.createAdSessionData(from: nil, ad: ad)
         self.ad?.adType = Int(kHyBidAdTypeVideo)
         self.renderAd(ad: ad)
     }

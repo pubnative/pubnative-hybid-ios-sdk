@@ -12,46 +12,6 @@ import Foundation
 
 final class HyBidLoggerTests: XCTestCase {
     
-    func testAtomLog_whenLogLevelIsATOM_printsClassMethodAndMessage() {
-        HyBidLogger.setLogLevel(HyBidLogLevelATOM)
-        
-        let output = captureStdout {
-            HyBidLogger.atomLog(
-                fromClass: "HyBidLoggerTests",
-                fromMethod: "testAtomLog_whenLogLevelIsATOM_printsClassMethodAndMessage",
-                withMessage: "ATOM test message"
-            )
-        }
-        
-        XCTAssertEqual(
-            output,
-            """
-            
-             ----------------------- 
-             [LOG TYPE]: Debug
-             [CLASS]: HyBidLoggerTests
-             [METHOD]: testAtomLog_whenLogLevelIsATOM_printsClassMethodAndMessage 
-             [withMessage]: ATOM test message
-             -----------------------
-            
-            """
-        )
-    }
-    
-    func testAtomLog_whenLogLevelIsBelowATOM_doesNotPrintAnything() {
-        HyBidLogger.setLogLevel(HyBidLogLevelDebug)
-
-        let output = captureStdout {
-            HyBidLogger.atomLog(
-                fromClass: "HyBidLoggerTests",
-                fromMethod: "testAtomLog_whenLogLevelIsBelowATOM_doesNotPrintAnything",
-                withMessage: "ATOM test message"
-            )
-        }
-
-        XCTAssertTrue(output.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-    }
-
     // MARK: - setLogLevel tests
 
     func test_setLogLevel_setsLogLevelProperty() {

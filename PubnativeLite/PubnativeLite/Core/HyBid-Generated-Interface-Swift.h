@@ -421,14 +421,6 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 + (NSString * _Nonnull)CUSTOM_ENDCARD_CLOSE SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull CUSTOM_ENDCARD_CLICK;)
 + (NSString * _Nonnull)CUSTOM_ENDCARD_CLICK SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull ATOM_ACTIVATED;)
-+ (NSString * _Nonnull)ATOM_ACTIVATED SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull ATOM_DEACTIVATED;)
-+ (NSString * _Nonnull)ATOM_DEACTIVATED SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull ATOM_ACTIVATED_RECEIVED;)
-+ (NSString * _Nonnull)ATOM_ACTIVATED_RECEIVED SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull ATOM_DEACTIVATED_RECEIVED;)
-+ (NSString * _Nonnull)ATOM_DEACTIVATED_RECEIVED SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull CUSTOM_CTA_IMPRESSION;)
 + (NSString * _Nonnull)CUSTOM_CTA_IMPRESSION SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull CUSTOM_CTA_CLICK;)
@@ -475,8 +467,6 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 + (NSString * _Nonnull)AD_ATTRIBUTION_KIT_APP_IMPRESSION_END_VIEW SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull AD_ATTRIBUTION_KIT_APP_IMPRESSION_END_VIEW_ERROR;)
 + (NSString * _Nonnull)AD_ATTRIBUTION_KIT_APP_IMPRESSION_END_VIEW_ERROR SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull AD_SESSION_DATA_SHARED_TO_ATOM;)
-+ (NSString * _Nonnull)AD_SESSION_DATA_SHARED_TO_ATOM SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -648,12 +638,6 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 + (NSString * _Nonnull)HYBID_DEEPLINK_PARAM SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull HYBID_FALLBACK_PARAM;)
 + (NSString * _Nonnull)HYBID_FALLBACK_PARAM SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull ATOM_SURVEY_PARAM;)
-+ (NSString * _Nonnull)ATOM_SURVEY_PARAM SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull ATOM_SURVEY_DATA_PARAM;)
-+ (NSString * _Nonnull)ATOM_SURVEY_DATA_PARAM SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull ATOM_KEY_PREFIX;)
-+ (NSString * _Nonnull)ATOM_KEY_PREFIX SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class) BOOL mraidExpand;)
 + (BOOL)mraidExpand SWIFT_WARN_UNUSED_RESULT;
 + (void)setMraidExpand:(BOOL)value;
@@ -963,7 +947,6 @@ SWIFT_CLASS("_TtC5HyBid11HyBidLogger")
 + (void)warningLogFromClass:(NSString * _Nonnull)className fromMethod:(NSString * _Nonnull)fromMethod withMessage:(NSString * _Nonnull)withMessage;
 + (void)infoLogFromClass:(NSString * _Nonnull)className fromMethod:(NSString * _Nonnull)fromMethod withMessage:(NSString * _Nonnull)withMessage;
 + (void)debugLogFromClass:(NSString * _Nonnull)className fromMethod:(NSString * _Nonnull)fromMethod withMessage:(NSString * _Nonnull)withMessage;
-+ (void)atomLogFromClass:(NSString * _Nonnull)className fromMethod:(NSString * _Nonnull)fromMethod withMessage:(NSString * _Nonnull)withMessage;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -1044,7 +1027,6 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) HyBidReporti
 + (HyBidReportingManager * _Nonnull)sharedInstance SWIFT_WARN_UNUSED_RESULT;
 @property (nonatomic, copy) NSArray<HyBidReportingEvent *> * _Nonnull events;
 @property (nonatomic, weak) id <HyBidReportingDelegate> _Nullable delegate;
-@property (nonatomic) BOOL isAtomStarted;
 @property (nonatomic, copy) NSArray<HyBidReportingBeacon *> * _Nonnull beacons;
 @property (nonatomic, copy) NSArray<HyBidReportingVASTTracker *> * _Nonnull vastTrackers;
 - (void)reportEventFor:(HyBidReportingEvent * _Nonnull)event;
@@ -1113,7 +1095,6 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) HyBidSDKConf
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @property (nonatomic) BOOL test;
 @property (nonatomic) BOOL reporting;
-@property (nonatomic) BOOL atomEnabled;
 @property (nonatomic, strong) HyBidTargetingModel * _Nullable targeting;
 @property (nonatomic, copy) NSString * _Nullable appToken;
 @property (nonatomic, copy) NSString * _Nonnull apiURL;

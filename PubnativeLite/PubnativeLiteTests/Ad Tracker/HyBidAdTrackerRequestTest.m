@@ -9,6 +9,9 @@
 #import "HyBidAdTrackerRequest.h"
 #import "HyBidAdTracker.h"
 #import "PNLiteHttpRequest.h"
+#import "HyBidDataModel.h"
+#import "HyBidURLDriller.h"
+#import "PNLiteData.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <HyBid/HyBid-Swift.h>
@@ -35,6 +38,7 @@
                            withClickURLs:(NSArray *)clickURLs
               withCustomEndcardClickURLs:(NSArray *)customEndcardClickURLs
                    withCustomCTATracking:(HyBidCustomCTATracking *)customCTATracking;
+- (void)trackURLs:(NSArray *)URLs withTrackingType:(NSString *)trackingType;
 @end
 
 @interface HyBidAdTrackerRequestTest : XCTestCase
@@ -471,22 +475,23 @@
     }];
 }
 
-#pragma mark - VMI-1548: HyBidAdTracker request:didFailWithError: beacon reporting
+#pragma mark - VMI-1634: HyBidAdTracker trackURLs:withTrackingType: fire-time beacon reporting
 
-- (void)test_adTrackerRequestDidFail_withValidURLAndReportingEnabled_reportsBeacon
+- (HyBidDataModel *)dataModelWithURL:(NSString *)url
 {
-    // App Store-redirecting click URLs cause NSURLSession errors; the fix reports their
-    // beacons in the didFail path so they appear in BeaconsController.
-    [[HyBidReportingManager sharedInstance] clearBeacons];
+    return [[HyBidDataModel alloc] initWithDictionary:@{@"data": @{@"url": url}}];
+}
+
+- (void)test_trackURLs_withValidURLAndReportingEnabled_reportsBeacon
+{
+    // Beacons are reported at fire-time (when the URL is dispatched) so they are recorded even
+    // if the tracking request's weak delegate is deallocated before the network call completes
+    // (e.g. App Store-redirecting clicks, or a modal ad dismissed right after a click).
+    [HyBidReportingManager sharedInstance].beacons = @[];
     [HyBidSDKConfig sharedConfig].reporting = YES;
 
     HyBidAdTracker *tracker = [self makeTracker];
-    HyBidAdTrackerRequest *mockRequest = mock([HyBidAdTrackerRequest class]);
-    [given([mockRequest urlString]) willReturn:@"https://example.com/click"];
-    [given([mockRequest trackingType]) willReturn:PNLiteAdTrackerClick];
-    NSError *error = [NSError errorWithDomain:@"test" code:-1 userInfo:@{NSLocalizedDescriptionKey: @"redirect error"}];
-
-    [(id<HyBidAdTrackerRequestDelegate>)tracker request:mockRequest didFailWithError:error];
+    [tracker trackURLs:@[[self dataModelWithURL:@"https://example.com/click"]] withTrackingType:PNLiteAdTrackerClick];
 
     NSPredicate *beaconAdded = [NSPredicate predicateWithBlock:^BOOL(id _Nullable obj, NSDictionary<NSString *,id> * _Nullable bindings) {
         return [HyBidReportingManager sharedInstance].beacons.count == 1;
@@ -494,24 +499,22 @@
     [self expectationForPredicate:beaconAdded evaluatedWithObject:nil handler:nil];
     [self waitForExpectationsWithTimeout:5 handler:nil];
 
-    [[HyBidReportingManager sharedInstance] clearBeacons];
+    [HyBidReportingManager sharedInstance].beacons = @[];
 }
 
-- (void)test_adTrackerRequestDidFail_withNilURL_doesNotReportBeacon
+- (void)test_trackURLs_withEmptyURL_doesNotReportBeacon
 {
-    [[HyBidReportingManager sharedInstance] clearBeacons];
+    // An empty URL is dropped by the request layer (length == 0); reporting must align and not
+    // record a beacon with an empty URL.
+    [HyBidReportingManager sharedInstance].beacons = @[];
     [HyBidSDKConfig sharedConfig].reporting = YES;
 
     HyBidAdTracker *tracker = [self makeTracker];
-    HyBidAdTrackerRequest *mockRequest = mock([HyBidAdTrackerRequest class]);
-    [given([mockRequest urlString]) willReturn:nil];
-    [given([mockRequest trackingType]) willReturn:PNLiteAdTrackerClick];
-    NSError *error = [NSError errorWithDomain:@"test" code:-1 userInfo:@{NSLocalizedDescriptionKey: @"fail"}];
+    [tracker trackURLs:@[[self dataModelWithURL:@""]] withTrackingType:PNLiteAdTrackerClick];
 
-    [(id<HyBidAdTrackerRequestDelegate>)tracker request:mockRequest didFailWithError:error];
-
-    XCTestExpectation *expectation = [self expectationWithDescription:@"no beacon for nil url"];
-    dispatch_async(dispatch_get_main_queue(), ^{
+    XCTestExpectation *expectation = [self expectationWithDescription:@"no beacon for empty url"];
+    // Wait a short window so any asynchronously reported beacon would have landed before asserting none.
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         XCTAssertEqual([HyBidReportingManager sharedInstance].beacons.count, 0U);
         [expectation fulfill];
     });
@@ -519,25 +522,21 @@
         NSLog(@"error: %@", error);
     }];
 
-    [[HyBidReportingManager sharedInstance] clearBeacons];
+    [HyBidReportingManager sharedInstance].beacons = @[];
 }
 
-- (void)test_adTrackerRequestDidFail_withUnknownTrackingType_doesNotReportBeacon
+- (void)test_trackURLs_withUnknownTrackingType_doesNotReportBeacon
 {
     // beaconReportObjectWith: returns nil for unrecognised tracking types — no beacon should fire.
-    [[HyBidReportingManager sharedInstance] clearBeacons];
+    [HyBidReportingManager sharedInstance].beacons = @[];
     [HyBidSDKConfig sharedConfig].reporting = YES;
 
     HyBidAdTracker *tracker = [self makeTracker];
-    HyBidAdTrackerRequest *mockRequest = mock([HyBidAdTrackerRequest class]);
-    [given([mockRequest urlString]) willReturn:@"https://example.com/click"];
-    [given([mockRequest trackingType]) willReturn:@"unknown_tracking_type"];
-    NSError *error = [NSError errorWithDomain:@"test" code:-1 userInfo:@{NSLocalizedDescriptionKey: @"fail"}];
-
-    [(id<HyBidAdTrackerRequestDelegate>)tracker request:mockRequest didFailWithError:error];
+    [tracker trackURLs:@[[self dataModelWithURL:@"https://example.com/click"]] withTrackingType:@"unknown_tracking_type"];
 
     XCTestExpectation *expectation = [self expectationWithDescription:@"no beacon for unknown type"];
-    dispatch_async(dispatch_get_main_queue(), ^{
+    // Wait a short window so any asynchronously reported beacon would have landed before asserting none.
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         XCTAssertEqual([HyBidReportingManager sharedInstance].beacons.count, 0U);
         [expectation fulfill];
     });
@@ -545,24 +544,20 @@
         NSLog(@"error: %@", error);
     }];
 
-    [[HyBidReportingManager sharedInstance] clearBeacons];
+    [HyBidReportingManager sharedInstance].beacons = @[];
 }
 
-- (void)test_adTrackerRequestDidFail_withReportingDisabled_doesNotReportBeacon
+- (void)test_trackURLs_withReportingDisabled_doesNotReportBeacon
 {
-    [[HyBidReportingManager sharedInstance] clearBeacons];
+    [HyBidReportingManager sharedInstance].beacons = @[];
     [HyBidSDKConfig sharedConfig].reporting = NO;
 
     HyBidAdTracker *tracker = [self makeTracker];
-    HyBidAdTrackerRequest *mockRequest = mock([HyBidAdTrackerRequest class]);
-    [given([mockRequest urlString]) willReturn:@"https://example.com/click"];
-    [given([mockRequest trackingType]) willReturn:PNLiteAdTrackerClick];
-    NSError *error = [NSError errorWithDomain:@"test" code:-1 userInfo:@{NSLocalizedDescriptionKey: @"fail"}];
-
-    [(id<HyBidAdTrackerRequestDelegate>)tracker request:mockRequest didFailWithError:error];
+    [tracker trackURLs:@[[self dataModelWithURL:@"https://example.com/click"]] withTrackingType:PNLiteAdTrackerClick];
 
     XCTestExpectation *expectation = [self expectationWithDescription:@"no beacon when reporting disabled"];
-    dispatch_async(dispatch_get_main_queue(), ^{
+    // Wait a short window so any asynchronously reported beacon would have landed before asserting none.
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         XCTAssertEqual([HyBidReportingManager sharedInstance].beacons.count, 0U);
         [expectation fulfill];
     });
@@ -570,7 +565,109 @@
         NSLog(@"error: %@", error);
     }];
 
-    [[HyBidReportingManager sharedInstance] clearBeacons];
+    [HyBidReportingManager sharedInstance].beacons = @[];
+}
+
+#pragma mark - VMI-1634: URL driller path reports the drilled URL
+
+- (void)test_didFinishWithURL_withReportingEnabled_reportsDrilledURLBeacon
+{
+    // For the URL-driller path the beacon is reported once drilling resolves, using the drilled
+    // URL — so the inspector matches the URL that is actually dispatched.
+    [HyBidReportingManager sharedInstance].beacons = @[];
+    [HyBidSDKConfig sharedConfig].reporting = YES;
+
+    HyBidAdTracker *tracker = [self makeTracker];
+    NSURL *drilledURL = [NSURL URLWithString:@"https://example.com/drilled-click"];
+    [(id<HyBidURLDrillerDelegate>)tracker didFinishWithURL:drilledURL trackingType:PNLiteAdTrackerClick];
+
+    NSPredicate *drilledBeaconReported = [NSPredicate predicateWithBlock:^BOOL(id _Nullable obj, NSDictionary<NSString *,id> * _Nullable bindings) {
+        NSArray *beacons = [HyBidReportingManager sharedInstance].beacons;
+        if (beacons.count != 1) { return NO; }
+        HyBidReportingBeacon *beacon = beacons.firstObject;
+        NSDictionary *data = beacon.properties[@"data"];
+        return [data[PNLiteData.url] isEqualToString:@"https://example.com/drilled-click"];
+    }];
+    [self expectationForPredicate:drilledBeaconReported evaluatedWithObject:nil handler:nil];
+    [self waitForExpectationsWithTimeout:5 handler:nil];
+
+    [HyBidReportingManager sharedInstance].beacons = @[];
+}
+
+- (void)test_didFinishWithURL_withReportingDisabled_doesNotReportBeacon
+{
+    [HyBidReportingManager sharedInstance].beacons = @[];
+    [HyBidSDKConfig sharedConfig].reporting = NO;
+
+    HyBidAdTracker *tracker = [self makeTracker];
+    [(id<HyBidURLDrillerDelegate>)tracker didFinishWithURL:[NSURL URLWithString:@"https://example.com/drilled-click"] trackingType:PNLiteAdTrackerClick];
+
+    XCTestExpectation *expectation = [self expectationWithDescription:@"no beacon when reporting disabled"];
+    // Wait a short window so any asynchronously reported beacon would have landed before asserting none.
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        XCTAssertEqual([HyBidReportingManager sharedInstance].beacons.count, 0U);
+        [expectation fulfill];
+    });
+    [self waitForExpectationsWithTimeout:5 handler:^(NSError *error) {
+        NSLog(@"error: %@", error);
+    }];
+
+    [HyBidReportingManager sharedInstance].beacons = @[];
+}
+
+#pragma mark - VMI-1634: completion/failure callbacks no longer re-report
+
+- (void)test_requestDidFinish_onTracker_doesNotReportBeacon
+{
+    // Beacons are reported at fire-time, so the completion callback must not report again.
+    [HyBidReportingManager sharedInstance].beacons = @[];
+    [HyBidSDKConfig sharedConfig].reporting = YES;
+
+    HyBidAdTracker *tracker = [self makeTracker];
+    HyBidAdTrackerRequest *mockRequest = mock([HyBidAdTrackerRequest class]);
+    [given([mockRequest urlString]) willReturn:@"https://example.com/click"];
+    [given([mockRequest trackingType]) willReturn:PNLiteAdTrackerClick];
+
+    [(id<HyBidAdTrackerRequestDelegate>)tracker requestDidFinish:mockRequest];
+
+    XCTestExpectation *expectation = [self expectationWithDescription:@"no beacon from requestDidFinish"];
+    // Wait a short window so any asynchronously reported beacon would have landed before asserting none.
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        XCTAssertEqual([HyBidReportingManager sharedInstance].beacons.count, 0U);
+        [expectation fulfill];
+    });
+    [self waitForExpectationsWithTimeout:5 handler:^(NSError *error) {
+        NSLog(@"error: %@", error);
+    }];
+
+    [HyBidReportingManager sharedInstance].beacons = @[];
+}
+
+- (void)test_trackerRequestDidFail_doesNotReportBeacon
+{
+    // The failure callback no longer reports — fire-time reporting already covered it.
+    [HyBidReportingManager sharedInstance].beacons = @[];
+    [HyBidSDKConfig sharedConfig].reporting = YES;
+
+    HyBidAdTracker *tracker = [self makeTracker];
+    HyBidAdTrackerRequest *mockRequest = mock([HyBidAdTrackerRequest class]);
+    [given([mockRequest urlString]) willReturn:@"https://example.com/click"];
+    [given([mockRequest trackingType]) willReturn:PNLiteAdTrackerClick];
+    NSError *error = [NSError errorWithDomain:@"test" code:-1 userInfo:@{NSLocalizedDescriptionKey: @"fail"}];
+
+    [(id<HyBidAdTrackerRequestDelegate>)tracker request:mockRequest didFailWithError:error];
+
+    XCTestExpectation *expectation = [self expectationWithDescription:@"no beacon from didFail"];
+    // Wait a short window so any asynchronously reported beacon would have landed before asserting none.
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        XCTAssertEqual([HyBidReportingManager sharedInstance].beacons.count, 0U);
+        [expectation fulfill];
+    });
+    [self waitForExpectationsWithTimeout:5 handler:^(NSError *error) {
+        NSLog(@"error: %@", error);
+    }];
+
+    [HyBidReportingManager sharedInstance].beacons = @[];
 }
 
 @end

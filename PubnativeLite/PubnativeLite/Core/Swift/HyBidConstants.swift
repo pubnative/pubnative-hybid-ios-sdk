@@ -11,7 +11,7 @@ public class HyBidConstants: NSObject {
     
     @objc public static let HYBID_SDK_NAME = "HyBid"
     @objc public static let HYBID_OMSDK_VERSION = "1.6.3"
-    @objc public static let HYBID_SDK_VERSION = "3.8.1"
+    @objc public static let HYBID_SDK_VERSION = "3.9.0"
     @objc public static let SMAATO_SDK_VERSION = "23.0.2"
     @objc public static let HYBID_OMSDK_IDENTIFIER = "Pubnativenet"
     @objc public static let SMAATO_OMSDK_IDENTIFIER = "Smaato"
@@ -22,10 +22,6 @@ public class HyBidConstants: NSObject {
     @objc public static let HYBID_DEEPLINK_SCHEME = "vrvdl"
     @objc public static let HYBID_DEEPLINK_PARAM  = "deeplinkUrl"
     @objc public static let HYBID_FALLBACK_PARAM  = "fallbackUrl"
-    @objc public static let ATOM_SURVEY_PARAM  = "SurveyHtml"
-    @objc public static let ATOM_SURVEY_DATA_PARAM  = "SurveyData"
-    @objc public static let ATOM_KEY_PREFIX    = "atomvalue_"
-    
     //Rendering Constants
     @objc public static var mraidExpand: Bool = true
     @objc public static var showEndCard: Bool = true

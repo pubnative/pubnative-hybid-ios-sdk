@@ -21,10 +21,6 @@
     #import "HyBid-Swift.h"
 #endif
 
-#if __has_include(<ATOM/ATOM-Swift.h>)
-    #import <ATOM/ATOM-Swift.h>
-#endif
-
 #define TIME_TO_EXPIRE 1800 //30 Minutes as in seconds
 
 @interface HyBidAdView() <HyBidSignalDataProcessorDelegate>
@@ -563,7 +559,7 @@
         } else {
             self.ad.adType = kHyBidAdTypeUnsupported;
         }
-        self.adSessionData = [HyBidATOMManager createAdSessionDataFromRequest:request ad:ad];
+        self.adSessionData = [[HyBidAdSessionData alloc] init];
         if (self.autoShowOnLoad) {
             [self renderAd];
         } else {
@@ -638,7 +634,7 @@
 
 - (void)signalDataDidFinishWithAd:(HyBidAd *)ad {
     self.ad = ad;
-    self.adSessionData = [HyBidATOMManager createAdSessionDataFromRequest:nil ad:ad];
+    self.adSessionData = [[HyBidAdSessionData alloc] init];
     [self renderAdForSignalData];
 }
 

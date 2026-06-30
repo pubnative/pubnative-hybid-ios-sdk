@@ -1,76 +1,85 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
 # ============================================================
-# 🚀 TVSmiles Submodule Auto-Updater (triggered by HyBid CI)
+# 🚀 TVSmiles TestFlight Trigger (run from the HyBid release pipeline)
 # ============================================================
-# This script:
-#   1. Clones the TVSmiles repo
-#   2. Updates internal/hybid-private-pods submodule
-#   3. Pushes a new branch like internal/hybid-private-3.7.0-build.8462
-# ============================================================
-
-TVSMILES_REPO="git@github.com:pubnative/tvsmiles-app-ios.git"
-BASE_BRANCH="develop"
-HYBID_VERSION="${HYBID_PRIVATE_REPO_RELEASE_TAG:-unknown}"
-RELEASE_BRANCH="internal/hybid-private-${HYBID_VERSION}"
-
-echo "🚀 Preparing to update TVSmiles submodule for HyBid $HYBID_VERSION"
-
-# --- Clone TVSmiles ---
-git clone "$TVSMILES_REPO"
-cd tvsmiles-app-ios
-
-# 🧩 Set explicit commit author identity (local to TVSmiles clone)
-git config --local user.name "CircleCI Bot"
-git config --local user.email "ci-bot@pubnative.net"
-
-# Prevent inheriting previous Git author info
-git config --local user.useConfigOnly true
-git config --global --add safe.directory "$(pwd)"
-
-# --- Fetch and checkout develop ---
-echo "🔄 Checking out base branch: $BASE_BRANCH"
-git fetch origin "$BASE_BRANCH"
-git checkout "$BASE_BRANCH"
-git pull origin "$BASE_BRANCH"
-
+# Creates an `internal/hybid-private-<version>` branch on
+# pubnative/tvsmiles-app-ios. Pushing that branch triggers TVSmiles'
+# own CI (.github/workflows/config.yml), which:
+#   • derives the HyBid version from the branch name
+#   • runs Scripts/update-adapters-for-hybid-private.sh
+#     (checks out the HyBid private repo at the matching git tag)
+#   • pod install → build_tvsmiles → testflight_tvsmiles (TestFlight upload)
+#
+# Invoked from config.yml's generate_private_pod job on every private-pod
+# build (release branches: beta/development/master). The version passed is the
+# private-pod build tag (e.g. 3.9.0-beta1-build.8923), which
+# commit-private-podspec.sh has already pushed to the private HyBid repo, so
+# TVSmiles' adapter tag-checkout finds it.
+#
+# Inputs (env):
+#   HYBID_PRIVATE_REPO_RELEASE_TAG  (required)  e.g. 3.9.0-beta1-build.8923
+#   GH_TOKEN                        (required)  PAT with push access to
+#                                               pubnative/tvsmiles-app-ios
 # ============================================================
 
-# --- Create release branch ---
-echo "🌿 Creating release branch: $RELEASE_BRANCH"
-git checkout -b "$RELEASE_BRANCH" || git checkout "$RELEASE_BRANCH"
-
-# --- Update submodule ---
-if [ -d "internal/hybid-private-pods" ]; then
-  echo "✅ Updating submodule internal/hybid-private-pods..."
-
-  # ✅ Ensure submodule is initialized and synced correctly
-  git submodule update --init --recursive internal/hybid-private-pods
-  git submodule sync --recursive internal/hybid-private-pods
-
-  cd internal/hybid-private-pods
-
-  # Re-add remote if missing (common in fresh CI clones)
-  if ! git remote get-url origin &>/dev/null; then
-    echo "⚙️  Adding missing remote origin..."
-    git remote add origin git@github.com:vervegroup/hybid-ios-sdk-private-pods.git
-  fi
-
-  git fetch origin main
-  git checkout main
-  git pull origin main
-
-  cd ../..
-else
-  echo "❌ Submodule folder missing — did you add it to TVSmiles?"
+HYBID_VERSION="${HYBID_PRIVATE_REPO_RELEASE_TAG:-}"
+if [ -z "$HYBID_VERSION" ]; then
+  echo "❌ Missing HYBID_PRIVATE_REPO_RELEASE_TAG (e.g. 3.9.0-beta1)"
+  exit 1
+fi
+if [ -z "${GH_TOKEN:-}" ]; then
+  echo "❌ Missing GH_TOKEN (PAT with push access to pubnative/tvsmiles-app-ios)"
   exit 1
 fi
 
-# --- Commit & push release branch ---
-git add internal/hybid-private-pods
-git commit -m "🔄 Update HyBid private pods to ${HYBID_VERSION}" || echo "ℹ️ Nothing to commit"
-git push origin "$RELEASE_BRANCH" || echo "⚠️ Push skipped or branch already exists"
+TVSMILES_REPO="https://x-access-token:${GH_TOKEN}@github.com/pubnative/tvsmiles-app-ios.git"
+BASE_BRANCH="develop"
+RELEASE_BRANCH="internal/hybid-private-${HYBID_VERSION}"
 
-echo "✅ Created and pushed branch: $RELEASE_BRANCH"
-echo "✅ TVSmiles submodule updated successfully"
+# Route any SSH submodule URLs through the token (best-effort — the
+# private-pods submodule lives in the vervegroup org and may be
+# inaccessible to this token; the branch push is what triggers CI).
+git config --global url."https://x-access-token:${GH_TOKEN}@github.com/".insteadOf "git@github.com:"
+
+echo "🚀 Triggering TVSmiles TestFlight for HyBid ${HYBID_VERSION}"
+
+WORKDIR="$(mktemp -d)"
+git clone --branch "$BASE_BRANCH" "$TVSMILES_REPO" "$WORKDIR/tvsmiles-app-ios"
+cd "$WORKDIR/tvsmiles-app-ios"
+
+git config user.name "verve-release-bot[bot]"
+git config user.email "verve-release-bot[bot]@users.noreply.github.com"
+
+# Idempotency: if the branch already exists, the trigger already fired.
+if git ls-remote --exit-code --heads origin "$RELEASE_BRANCH" >/dev/null 2>&1; then
+  echo "⚠️  Branch $RELEASE_BRANCH already exists on tvsmiles-app-ios — TestFlight already triggered. Skipping."
+  exit 0
+fi
+
+git checkout -b "$RELEASE_BRANCH"
+
+# Best-effort: bump the private-pods submodule to its latest main.
+if [ -f .gitmodules ] && grep -q "internal/hybid-private-pods" .gitmodules; then
+  echo "🔄 Updating internal/hybid-private-pods submodule to latest main (best-effort)…"
+  if git submodule update --init --recursive internal/hybid-private-pods 2>/dev/null; then
+    git -C internal/hybid-private-pods fetch origin main --quiet || true
+    git -C internal/hybid-private-pods checkout main --quiet || true
+    git -C internal/hybid-private-pods pull origin main --quiet || true
+    git add internal/hybid-private-pods || true
+  else
+    echo "⚠️  Submodule update skipped (token may lack vervegroup access)."
+  fi
+fi
+
+# Commit so the new branch has a tip. If the submodule did not change, an
+# empty commit is fine — pushing a new branch ref still triggers TVSmiles CI.
+if git diff --cached --quiet; then
+  git commit --allow-empty -m "Trigger TVSmiles TestFlight for HyBid ${HYBID_VERSION}"
+else
+  git commit -m "Update HyBid private pods to ${HYBID_VERSION}"
+fi
+
+git push origin "$RELEASE_BRANCH"
+echo "✅ Pushed $RELEASE_BRANCH → TVSmiles CI will build + upload to TestFlight."

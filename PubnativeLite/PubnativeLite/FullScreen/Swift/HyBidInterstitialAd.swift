@@ -214,9 +214,6 @@ public class HyBidInterstitialAd: NSObject {
             }
             if initialLoadTimestamp < adExpireTime {
                 self.interstitialPresenter?.show()
-                if let adSessionData = self.adSessionData {
-                    HyBidATOMManager.fireAdSessionEvent(with: adSessionData)
-                }
             } else {
                 HyBidLogger.errorLog(fromClass: String(describing: HyBidInterstitialAd.self), fromMethod: #function, withMessage: "Ad has expired")
                 self.cleanUp()
@@ -489,7 +486,6 @@ extension HyBidInterstitialAd {
         
         if let ad = ad {
             self.ad = ad
-            self.adSessionData = HyBidATOMManager.createAdSessionData(from: request, ad: ad)
             self.determineSkipOffsetValuesFor(ad)
             self.determineCloseOnFinishFor(ad)
             self.ad?.mediationWatermarkData = self.mediationWatermarkData
@@ -556,7 +552,6 @@ extension HyBidInterstitialAd {
 extension HyBidInterstitialAd {
     func signalDataDidFinish(with ad: HyBidAd) {
         self.ad = ad
-        self.adSessionData = HyBidATOMManager.createAdSessionData(from: nil, ad: ad)
         self.renderAd(ad: ad)
     }
     

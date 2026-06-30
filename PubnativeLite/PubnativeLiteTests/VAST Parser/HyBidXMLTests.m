@@ -155,6 +155,90 @@
 	XCTAssertNotNil(parser);
 }
 
+// Regression test for VMI-1614: crash when aXMLElement is NULL.
+- (void)test_nextSiblingNamed_returnsNilWhenSearchElementIsNil {
+	HyBidXMLElement *result = [HyBidXML nextSiblingNamed:@"item" searchFromElement:NULL];
+	XCTAssertTrue(result == NULL);
+}
+
+// Regression test for VMI-1614: crash when a sibling element has a NULL name pointer.
+- (void)test_nextSiblingNamed_skipsElementWithNullName_returnsNextMatchingSibling {
+	static char itemName[] = "item";
+	HyBidXMLElement startElement;
+	HyBidXMLElement nullNameSibling;
+	HyBidXMLElement matchSibling;
+	memset(&startElement, 0, sizeof(startElement));
+	memset(&nullNameSibling, 0, sizeof(nullNameSibling));
+	memset(&matchSibling, 0, sizeof(matchSibling));
+	startElement.nextSibling = &nullNameSibling;
+	nullNameSibling.name = NULL;
+	nullNameSibling.nextSibling = &matchSibling;
+	matchSibling.name = itemName;
+	matchSibling.nextSibling = NULL;
+	HyBidXMLElement *result = [HyBidXML nextSiblingNamed:@"item" searchFromElement:&startElement];
+	XCTAssertTrue(result == &matchSibling);
+}
+
+// Regression test for VMI-1614: crash when aName's cStringUsingEncoding: returns NULL.
+- (void)test_nextSiblingNamed_returnsNilWhenNameCStringIsNULL {
+	NSData *xmlData = [@"<root><a/><a/></root>" dataUsingEncoding:NSUTF8StringEncoding];
+	HyBidXML *parser = [HyBidXML HyBidXMLWithXMLData:xmlData];
+	HyBidXMLElement *a = [HyBidXML childElementNamed:@"a" parentElement:parser.rootXMLElement];
+	XCTAssertTrue(a != NULL);
+	NSString *nullCStringName = [MockNSStringNullCString new];
+	HyBidXMLElement *result = [HyBidXML nextSiblingNamed:nullCStringName searchFromElement:a];
+	XCTAssertTrue(result == NULL);
+	XCTAssertNotNil(parser);
+}
+
+// Regression test for VMI-1614: passing nil for aName must return nil (not crash on strlen(NULL)).
+- (void)test_nextSiblingNamed_returnsNilWhenNameIsNil {
+	NSData *xmlData = [@"<root><a/><a/></root>" dataUsingEncoding:NSUTF8StringEncoding];
+	HyBidXML *parser = [HyBidXML HyBidXMLWithXMLData:xmlData];
+	HyBidXMLElement *a = [HyBidXML childElementNamed:@"a" parentElement:parser.rootXMLElement];
+	XCTAssertTrue(a != NULL);
+	HyBidXMLElement *result = [HyBidXML nextSiblingNamed:nil searchFromElement:a];
+	XCTAssertTrue(result == NULL);
+	XCTAssertNotNil(parser);
+}
+
+// Regression test for VMI-1614: loop must terminate (not infinite-loop or crash) when the
+// trailing sibling in the chain has a NULL name pointer.
+- (void)test_nextSiblingNamed_terminatesWhenTrailingSiblingHasNullName {
+	static char itemName[] = "item";
+	HyBidXMLElement startElement;
+	HyBidXMLElement matchSibling;
+	HyBidXMLElement nullNameTail;
+	memset(&startElement, 0, sizeof(startElement));
+	memset(&matchSibling, 0, sizeof(matchSibling));
+	memset(&nullNameTail, 0, sizeof(nullNameTail));
+	startElement.nextSibling = &matchSibling;
+	matchSibling.name = itemName;
+	matchSibling.nextSibling = &nullNameTail;
+	nullNameTail.name = NULL;
+	nullNameTail.nextSibling = NULL;
+	HyBidXMLElement *firstResult = [HyBidXML nextSiblingNamed:@"item" searchFromElement:&startElement];
+	XCTAssertTrue(firstResult == &matchSibling);
+	HyBidXMLElement *secondResult = [HyBidXML nextSiblingNamed:@"item" searchFromElement:&matchSibling];
+	XCTAssertTrue(secondResult == NULL);
+}
+
+// Regression test for VMI-1614: iteration must skip non-matching named siblings between
+// two matches (real parsed XML, not synthetic structs).
+- (void)test_nextSiblingNamed_skipsNonMatchingNamedSiblings_betweenMatches {
+	NSData *xmlData = [@"<root><item id=\"1\"/><other/><item id=\"2\"/></root>" dataUsingEncoding:NSUTF8StringEncoding];
+	HyBidXML *parser = [HyBidXML HyBidXMLWithXMLData:xmlData];
+	HyBidXMLElement *firstItem = [HyBidXML childElementNamed:@"item" parentElement:parser.rootXMLElement];
+	XCTAssertTrue(firstItem != NULL);
+	XCTAssertEqualObjects([HyBidXML valueOfAttributeNamed:@"id" forElement:firstItem], @"1");
+	HyBidXMLElement *secondItem = [HyBidXML nextSiblingNamed:@"item" searchFromElement:firstItem];
+	XCTAssertTrue(secondItem != NULL);
+	XCTAssertEqualObjects([HyBidXML valueOfAttributeNamed:@"id" forElement:secondItem], @"2");
+	HyBidXMLElement *thirdItem = [HyBidXML nextSiblingNamed:@"item" searchFromElement:secondItem];
+	XCTAssertTrue(thirdItem == NULL);
+	XCTAssertNotNil(parser);
+}
+
 #pragma mark - elementName, textForElement (StaticFunctions coverage)
 
 - (void)test_elementName_returnsElementTagName {
@@ -331,6 +415,69 @@
 	HyBidXMLElementEx *icon = iconResults.firstObject;
 	XCTAssertEqualObjects([icon attribute:@"width"], @"40");
 	XCTAssertEqualObjects([icon attribute:@"height"], @"40");
+}
+
+#pragma mark - VMI-1614 regression: HyBidXMLElementEx next/query crash call path
+
+// Integration test for VMI-1614: exercises the exact call chain from the Crashlytics
+// stack trace ([HyBidXMLElementEx next] → +[HyBidXML nextSiblingNamed:searchFromElement:])
+// by iterating multiple siblings on a real parsed tree.
+- (void)test_HyBidXMLElementEx_next_iteratesMultipleSiblings_withoutCrashing {
+	NSString *xml = @"<root><item id=\"1\"/><item id=\"2\"/><item id=\"3\"/></root>";
+	HyBidXMLEx *parser = [HyBidXMLEx parserWithXML:xml];
+	HyBidXMLElementEx *root = [parser rootElement];
+	HyBidXMLElementEx *first = [root child:@"item"];
+	XCTAssertNotNil(first);
+	NSMutableArray<NSString *> *ids = [NSMutableArray array];
+	while ([first next]) {
+		[ids addObject:[first attribute:@"id"]];
+	}
+	XCTAssertEqualObjects(ids, (@[@"1", @"2", @"3"]));
+}
+
+// Integration test for VMI-1614: [HyBidXMLElementEx next] must return NO and not crash
+// when the start element has no following siblings (single-child case).
+- (void)test_HyBidXMLElementEx_next_returnsFalseAfterSingleSibling {
+	NSString *xml = @"<root><only id=\"x\"/></root>";
+	HyBidXMLEx *parser = [HyBidXMLEx parserWithXML:xml];
+	HyBidXMLElementEx *root = [parser rootElement];
+	HyBidXMLElementEx *only = [root child:@"only"];
+	XCTAssertNotNil(only);
+	XCTAssertTrue([only next]);   // firstPass
+	XCTAssertFalse([only next]);  // no further siblings — must not crash
+}
+
+// Regression test for VMI-1614: mirrors HyBidVASTCompanion -staticResources, which calls
+// [companionXMLElement query:@"/StaticResource"] and iterates the result via [el next].
+// This is the exact call path that produced the Crashlytics report.
+- (void)test_query_onCompanionWithMultipleStaticResources_iteratesAllSiblings_withoutCrashing {
+	NSString *xml = @"<VAST><Ad><InLine><Creatives><Creative><CompanionAds><Companion>"
+					@"<StaticResource creativeType=\"image/png\">a.png</StaticResource>"
+					@"<StaticResource creativeType=\"image/jpeg\">b.jpg</StaticResource>"
+					@"<StaticResource creativeType=\"image/gif\">c.gif</StaticResource>"
+					@"</Companion></CompanionAds></Creative></Creatives></InLine></Ad></VAST>";
+	HyBidXMLEx *parser = [HyBidXMLEx parserWithXML:xml];
+	HyBidXMLElementEx *companion = [[[[[[[parser rootElement] child:@"Ad"] child:@"InLine"] child:@"Creatives"] child:@"Creative"] child:@"CompanionAds"] child:@"Companion"];
+	XCTAssertNotNil(companion);
+	NSArray<HyBidXMLElementEx *> *resources = [companion query:@"/StaticResource"];
+	XCTAssertEqual(resources.count, 3);
+	XCTAssertEqualObjects([resources[0] attribute:@"creativeType"], @"image/png");
+	XCTAssertEqualObjects([resources[1] attribute:@"creativeType"], @"image/jpeg");
+	XCTAssertEqualObjects([resources[2] attribute:@"creativeType"], @"image/gif");
+}
+
+// Regression test for VMI-1614: companion with no StaticResource children must return an
+// empty array (the iterator hits nextSiblingNamed: with a start element that has no
+// matching next, and must not crash).
+- (void)test_query_onCompanionWithNoStaticResources_returnsEmptyArray_withoutCrashing {
+	NSString *xml = @"<VAST><Ad><InLine><Creatives><Creative><CompanionAds><Companion>"
+					@"<CompanionClickThrough>https://example.com</CompanionClickThrough>"
+					@"</Companion></CompanionAds></Creative></Creatives></InLine></Ad></VAST>";
+	HyBidXMLEx *parser = [HyBidXMLEx parserWithXML:xml];
+	HyBidXMLElementEx *companion = [[[[[[[parser rootElement] child:@"Ad"] child:@"InLine"] child:@"Creatives"] child:@"Creative"] child:@"CompanionAds"] child:@"Companion"];
+	XCTAssertNotNil(companion);
+	NSArray<HyBidXMLElementEx *> *resources = [companion query:@"/StaticResource"];
+	XCTAssertEqual(resources.count, 0);
 }
 
 #pragma mark - decodeBytes coverage (CDATA, malformed, single-quote, attribute CDATA)

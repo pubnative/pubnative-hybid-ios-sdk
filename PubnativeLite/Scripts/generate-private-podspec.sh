@@ -67,23 +67,6 @@ VERSION="${BASE_VERSION}-${POSTFIX}"
 echo -e "${GREEN}📦 Final version: ${VERSION}${NC}"
 
 # -----------------------------------------
-# 🔍 Fetch ATOM-Standalone-Private from private specs repo
-# -----------------------------------------
-
-ATOM_NAME="ATOM-Standalone-Private"
-
-# Ensure the private specs repo is added
-if ! pod repo list | grep -q "specs-private"; then
-  echo -e "${GREEN}📦 Adding private specs repo...${NC}"
-  pod repo add specs-private git@github.com:vervegroup/specs-private.git || true
-else
-  echo -e "${GREEN}✅ Private specs repo already added.${NC}"
-fi
-
-# Fetch the latest version of ATOM-Standalone-Private from the specs repo
-ATOM_VERSION=$(pod spec cat ${ATOM_NAME} 2>/dev/null | grep -E "s\.version\s*=" | head -1 | sed -E "s/.*=[[:space:]]*['\"]([^'\"]+)['\"].*/\1/" || echo "")
-
-# -----------------------------------------
 # 📝 Generate HyBid-private.podspec
 # -----------------------------------------
 cat > HyBid-private.podspec <<EOF
@@ -110,7 +93,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios
 
   s.ios.deployment_target = "12.0"
-  s.source       = { :git => "https://github.com/pubnative/pubnative-hybid-ios-sdk-private.git", :branch => "feature/PoC-HyBid-JS-Interface" }
+  s.source       = { :git => "https://github.com/vervegroup/pubnative-hybid-ios-sdk-private.git", :tag => "${VERSION}" }
   s.resource_bundle = {
     "#{s.module_name}Resources" => "PubnativeLite/PubnativeLite/PrivacyInfo.xcprivacy"
   }
@@ -158,12 +141,7 @@ Pod::Spec.new do |s|
     rewarded.public_header_files = ['PubnativeLite/PubnativeLite/Rewarded/Public/*.h']
   end
 
-  s.subspec 'ATOM' do |atom|
-    atom.dependency 'HyBid-private/Core'
-    atom.dependency 'ATOM-Standalone-Private', '${ATOM_VERSION}'
-  end
-
-  s.default_subspecs = ['Core', 'Banner', 'Native', 'FullScreen', 'RewardedVideo', 'ATOM']
+  s.default_subspecs = ['Core', 'Banner', 'Native', 'FullScreen', 'RewardedVideo']
   
 end
 EOF

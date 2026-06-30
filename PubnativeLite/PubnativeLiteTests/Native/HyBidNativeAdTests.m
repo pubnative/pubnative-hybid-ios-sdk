@@ -8,8 +8,11 @@
 #import "HyBidNativeAd.h"
 #import "HyBidAd.h"
 #import "PNLiteResponseModel.h"
-#import "HyBidATOMManager.h"
-
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import "HyBid-Swift.h"
+#endif
 @interface HyBidNativeAd (TestCoverage)
 - (void)percentVisibleDidChange:(CGFloat)newValue;
 @end
@@ -26,7 +29,7 @@
 - (NSString *)clickUrl { return @"https://example.com"; }
 @end
 
-/// Unit tests for HyBidNativeAd to improve coverage on new code (initWithAd, dealloc, HyBidATOMManager).
+/// Unit tests for HyBidNativeAd to improve coverage on new code (initWithAd, dealloc).
 @interface HyBidNativeAdTests : XCTestCase
 @end
 
@@ -79,12 +82,11 @@
     XCTAssertNoThrow([nativeAd stopTracking]);
 }
 
-// Covers new code: HyBidATOMManager.fireAdSessionEventWithData in percentVisibleDidChange:
-- (void)testPercentVisibleDidChange_firesHyBidATOMManagerEvent {
+- (void)testPercentVisibleDidChange_updatesViewabilityAndDoesNotCrash {
     HyBidAd *ad = [self hyBidAdFromTestBundle];
     if (!ad) { XCTSkip(@"adResponse.txt not in test bundle"); }
     HyBidNativeAd *nativeAd = [[HyBidNativeAd alloc] initWithAd:ad];
-    nativeAd.adSessionData = [HyBidATOMManager createAdSessionDataFromRequest:nil ad:ad];
+    nativeAd.adSessionData = [[HyBidAdSessionData alloc] init];
     XCTAssertNoThrow([nativeAd percentVisibleDidChange:0.5f]);
 }
 

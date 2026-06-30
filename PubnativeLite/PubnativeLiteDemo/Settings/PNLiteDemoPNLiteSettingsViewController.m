@@ -25,7 +25,6 @@
 @property (nonatomic, assign) BOOL coppaModeSelected;
 @property (nonatomic, assign) BOOL reportingEnabled;
 @property (nonatomic, strong) HyBidTargetingModel *targetingModel;
-@property (weak, nonatomic) IBOutlet UILabel *atomStateTextField;
 @property (nonatomic, strong) NSString *gender;
 @property (nonatomic, strong) HyBidConfigManager *configManager;
 @end
@@ -55,8 +54,6 @@
     if (self.targetingModel.age.integerValue > 0) {
         self.ageTextField.text = [NSString stringWithFormat:@"%@",[PNLiteDemoSettings sharedInstance].targetingModel.age];
     }
-    self.atomStateTextField.text = HyBidReportingManager.sharedInstance.isAtomStarted ? @"Started" : @"Not Started";
-    [self.atomStateTextField setAccessibilityLabel: self.atomStateTextField.text];
 }
 
 - (void)setInitialStateForModeButtons {

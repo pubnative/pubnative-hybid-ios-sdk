@@ -43,13 +43,13 @@ BASE_BRANCH="${2:-development}"
 if [[ -z "$NEW_VERSION" ]]; then
   echo "❌ Missing version argument."
   echo "   Usage: $0 <version>"
-  echo "   Examples: $0 3.8.0  |  $0 3.8.0-beta"
+  echo "   Examples: $0 3.8.0  |  $0 3.8.0-beta  |  $0 3.8.0-beta2"
   exit 1
 fi
 
-if ! [[ "$NEW_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-beta)?$ ]]; then
+if ! [[ "$NEW_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-beta[0-9]*)?$ ]]; then
   echo "❌ Invalid version format: '$NEW_VERSION'"
-  echo "   Expected: X.Y.Z or X.Y.Z-beta (e.g. 3.8.0 or 3.8.0-beta)"
+  echo "   Expected: X.Y.Z or X.Y.Z-betaN (e.g. 3.8.0, 3.8.0-beta or 3.8.0-beta2)"
   exit 1
 fi
 

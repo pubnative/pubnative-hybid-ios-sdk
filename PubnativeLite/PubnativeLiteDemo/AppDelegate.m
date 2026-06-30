@@ -12,12 +12,6 @@
 #import <HyBidDemo-Swift.h>
 #import <ChartboostSDK/Chartboost.h>
 
-#if __has_include(<ATOM/ATOM-Swift.h>)
-    #import <ATOM/ATOM-Swift.h>
-#endif
-
-#define kATOM_API_KEY @"39a34d8d-dd1d-4fbf-aa96-fdc5f0329451"
-
 @import GoogleMobileAds;
 @import Firebase;
 

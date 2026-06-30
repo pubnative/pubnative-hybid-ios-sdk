@@ -10,7 +10,6 @@
 #import "HyBidDisplayManager.h"
 #import "PNLiteAdFactory.h"
 #import "HyBidDiagnosticsManager.h"
-#import "HyBidATOMFlow.h"
 #import "HyBidConfigManager.h"
 #import "HyBidStringUtils.h"
 
@@ -54,16 +53,6 @@ static SDKIntegrationType _sdkIntegrationType = SDKIntegrationTypeHyBid;
         isInitialized = YES;
         HyBidConfigManager *configManager = [HyBidConfigManager new];
         [configManager requestConfigWithCompletion:^(HyBidConfig *config, NSError *error) {
-            if (error == nil) {
-                if (config.atomEnabled) {
-                    [HyBidSDKConfig sharedConfig].atomEnabled = config.atomEnabled;
-                } else {
-                    [HyBidSDKConfig sharedConfig].atomEnabled = NO;
-                }
-            } else {
-                [HyBidSDKConfig sharedConfig].atomEnabled = NO;
-            }
-            [HyBidATOMFlow initFlow];
         }];
         [HyBidDiagnosticsManager printDiagnosticsLogWithEvent:HyBidDiagnosticsEventInitialisation];
         [[HyBidSessionManager sharedInstance] setStartSession];

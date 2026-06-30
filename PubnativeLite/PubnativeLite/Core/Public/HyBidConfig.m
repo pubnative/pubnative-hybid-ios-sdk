@@ -5,7 +5,6 @@
 //
 
 #import "HyBidConfig.h"
-#import "HyBidConfigParameter.h"
 
 @interface HyBidConfig ()
 
@@ -25,15 +24,6 @@
         self.data = data;
     }
     return self;
-}
-
-- (BOOL)atomEnabled {
-    BOOL result = NO;
-    HyBidDataModel *data = [self appLevelDataWithType:HyBidConfigParameter.atomEnabled];
-    if (data) {
-        result = data.boolean;
-    }
-    return result;
 }
 
 - (HyBidDataModel *)appLevelDataWithType:(NSString *)type {

@@ -38,6 +38,7 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler;
 - (void)cleanupWebViewPart2;
 - (void)cancel;
 - (void)close;
+- (NSString *)enforceInlineVideoPlaybackForBannerHtml:(NSString *)html;
 @end
 
 @protocol HyBidMRAIDViewDelegate;
@@ -993,6 +994,219 @@ static int32_t HyBid_Test_commandTypeWithText(id self, SEL _cmd, NSString *text)
     } @finally {
         HyBidUnswizzleInterruptionHandlerSharedForClose();
     }
+}
+
+#pragma mark - enforceInlineVideoPlaybackForBannerHtml: (playsinline injection for banner <video> tags)
+
+/// Raw instance with isInterstitial = NO (banner). -alloc leaves the ivar zeroed.
+- (HyBidMRAIDView *)makeBannerMRAIDView {
+    return [HyBidMRAIDView alloc];
+}
+
+/// Raw instance flagged as interstitial via KVC.
+- (HyBidMRAIDView *)makeInterstitialMRAIDView {
+    HyBidMRAIDView *view = [HyBidMRAIDView alloc];
+    [view setValue:@(YES) forKey:@"isInterstitial"];
+    return view;
+}
+
+/// Counts non-overlapping occurrences of `needle` in `haystack`.
+- (NSUInteger)countOccurrencesOf:(NSString *)needle in:(NSString *)haystack {
+    NSUInteger count = 0;
+    NSRange searchRange = NSMakeRange(0, haystack.length);
+    NSRange found;
+    while ((found = [haystack rangeOfString:needle options:0 range:searchRange]).location != NSNotFound) {
+        count++;
+        NSUInteger next = found.location + found.length;
+        searchRange = NSMakeRange(next, haystack.length - next);
+    }
+    return count;
+}
+
+- (void)test_enforceInlineVideo_banner_videoWithAttributes_addsPlaysinline {
+    HyBidMRAIDView *view = [self makeBannerMRAIDView];
+    NSString *result = [view enforceInlineVideoPlaybackForBannerHtml:@"<video src=\"a.mp4\" autoplay muted></video>"];
+    XCTAssertEqualObjects(result, @"<video playsinline src=\"a.mp4\" autoplay muted></video>");
+}
+
+- (void)test_enforceInlineVideo_banner_bareVideoTag_addsPlaysinline {
+    HyBidMRAIDView *view = [self makeBannerMRAIDView];
+    NSString *result = [view enforceInlineVideoPlaybackForBannerHtml:@"<video></video>"];
+    XCTAssertEqualObjects(result, @"<video playsinline></video>");
+}
+
+- (void)test_enforceInlineVideo_banner_selfClosingVideoTag_addsPlaysinline {
+    HyBidMRAIDView *view = [self makeBannerMRAIDView];
+    NSString *result = [view enforceInlineVideoPlaybackForBannerHtml:@"<video/>"];
+    XCTAssertEqualObjects(result, @"<video playsinline/>");
+}
+
+- (void)test_enforceInlineVideo_banner_uppercaseTag_addsPlaysinline_caseInsensitive {
+    HyBidMRAIDView *view = [self makeBannerMRAIDView];
+    NSString *result = [view enforceInlineVideoPlaybackForBannerHtml:@"<VIDEO SRC=\"a.mp4\">"];
+    XCTAssertEqualObjects(result, @"<video playsinline SRC=\"a.mp4\">");
+}
+
+- (void)test_enforceInlineVideo_banner_alreadyHasPlaysinline_isUnchanged_noDuplicate {
+    HyBidMRAIDView *view = [self makeBannerMRAIDView];
+    NSString *input = @"<video playsinline src=\"a.mp4\"></video>";
+    NSString *result = [view enforceInlineVideoPlaybackForBannerHtml:input];
+    XCTAssertEqualObjects(result, input);
+    XCTAssertEqual([self countOccurrencesOf:@"playsinline" in:result], (NSUInteger)1);
+}
+
+- (void)test_enforceInlineVideo_banner_hasOnlyWebkitPlaysinline_stillAddsStandalonePlaysinline {
+    // `webkit-playsinline` must NOT satisfy the standalone-`playsinline` guard.
+    HyBidMRAIDView *view = [self makeBannerMRAIDView];
+    NSString *result = [view enforceInlineVideoPlaybackForBannerHtml:@"<video webkit-playsinline src=\"a.mp4\">"];
+    XCTAssertEqualObjects(result, @"<video playsinline webkit-playsinline src=\"a.mp4\">");
+}
+
+- (void)test_enforceInlineVideo_banner_multipleVideos_allGetPlaysinline {
+    HyBidMRAIDView *view = [self makeBannerMRAIDView];
+    NSString *input = @"<video src=\"a.mp4\"></video><div></div><video src=\"b.mp4\"></video>";
+    NSString *result = [view enforceInlineVideoPlaybackForBannerHtml:input];
+    XCTAssertEqual([self countOccurrencesOf:@"<video playsinline" in:result], (NSUInteger)2);
+}
+
+- (void)test_enforceInlineVideo_banner_noVideoTag_isUnchanged {
+    HyBidMRAIDView *view = [self makeBannerMRAIDView];
+    NSString *input = @"<html><body><div id=\"ad\">no video here</div></body></html>";
+    NSString *result = [view enforceInlineVideoPlaybackForBannerHtml:input];
+    XCTAssertEqualObjects(result, input);
+}
+
+- (void)test_enforceInlineVideo_banner_doesNotMatchTagWithVideoPrefix {
+    // A made-up tag like <videoplayer> must not be touched.
+    HyBidMRAIDView *view = [self makeBannerMRAIDView];
+    NSString *input = @"<videoplayer data-x=\"1\"></videoplayer>";
+    NSString *result = [view enforceInlineVideoPlaybackForBannerHtml:input];
+    XCTAssertEqualObjects(result, input);
+}
+
+- (void)test_enforceInlineVideo_banner_nilInput_returnsNil {
+    HyBidMRAIDView *view = [self makeBannerMRAIDView];
+    XCTAssertNil([view enforceInlineVideoPlaybackForBannerHtml:nil]);
+}
+
+- (void)test_enforceInlineVideo_interstitial_videoTagIsUntouched {
+    // Interstitials are intentionally excluded; fullscreen video is acceptable there.
+    HyBidMRAIDView *view = [self makeInterstitialMRAIDView];
+    NSString *input = @"<video src=\"a.mp4\" autoplay></video>";
+    NSString *result = [view enforceInlineVideoPlaybackForBannerHtml:input];
+    XCTAssertEqualObjects(result, input);
+}
+
+#pragma mark - clipsToBounds (auto-expansion containment)
+
+/// Banner views must clip to their bounds so CSS-scaled content cannot visually overflow the ad frame.
+- (void)test_bannerView_selfClipsToBoundsIsEnabled {
+    HyBidMRAIDView *view = [self makeInitializedMRAIDViewWithHTML:@"<html><body></body></html>"
+                                                  isInterstitial:NO
+                                                       isEndcard:NO];
+    XCTAssertTrue(view.clipsToBounds, @"Banner HyBidMRAIDView must have clipsToBounds=YES to prevent CSS-transform overflow");
+}
+
+- (void)test_interstitialView_selfClipsToBoundsIsDisabled {
+    HyBidMRAIDView *view = [self makeInitializedMRAIDViewWithHTML:@"<html><body></body></html>"
+                                                  isInterstitial:YES
+                                                       isEndcard:NO];
+    XCTAssertFalse(view.clipsToBounds, @"Interstitial HyBidMRAIDView must NOT clip; fullscreen content is intentional");
+}
+
+- (void)test_bannerView_webViewClipsToBoundsIsEnabled {
+    HyBidMRAIDView *view = [self makeInitializedMRAIDViewWithHTML:@"<html><body></body></html>"
+                                                  isInterstitial:NO
+                                                       isEndcard:NO];
+    WKWebView *wv = [view valueForKey:@"webView"];
+    XCTAssertNotNil(wv);
+    XCTAssertTrue(wv.clipsToBounds, @"Banner WKWebView must have clipsToBounds=YES");
+}
+
+- (void)test_interstitialView_webViewClipsToBoundsIsDisabled {
+    HyBidMRAIDView *view = [self makeInitializedMRAIDViewWithHTML:@"<html><body></body></html>"
+                                                  isInterstitial:YES
+                                                       isEndcard:NO];
+    WKWebView *wv = [view valueForKey:@"webView"];
+    XCTAssertNotNil(wv);
+    XCTAssertFalse(wv.clipsToBounds, @"Interstitial WKWebView must NOT clip its bounds");
+}
+
+#pragma mark - createConfiguration: playsinline JS injection
+
+/// Creates a fully-initialised view with a live service delegate so that supportedFeatures is set
+/// and createConfiguration receives the features during WKWebView construction.
+- (HyBidMRAIDView *)makeInitializedMRAIDViewWithHTML:(NSString *)html
+                                      isInterstitial:(BOOL)isInterstitial
+                                           isEndcard:(BOOL)isEndcard
+                                   supportedFeatures:(NSArray *)features {
+    __block HyBidMRAIDView *view = nil;
+    void (^createView)(void) = ^{
+        id ad = mock([HyBidAd class]);
+        [given([ad nativeCloseButtonDelay]) willReturn:nil];
+        [given([ad creativeAutoStorekitEnabled]) willReturn:nil];
+        [given([ad sdkAutoStorekitEnabled]) willReturn:nil];
+        [given([ad link]) willReturn:nil];
+        UIViewController *rootVC = [[UIViewController alloc] init];
+        view = [[HyBidMRAIDView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)
+                                         withHtmlData:html
+                                          withBaseURL:nil
+                                               withAd:ad
+                                    supportedFeatures:features
+                                      isInterstital:isInterstitial
+                                         isScrollable:YES
+                                             delegate:nil
+                                      serviceDelegate:self->_serviceProvider
+                                   rootViewController:rootVC
+                                          contentInfo:nil
+                                           skipOffset:0
+                                            isEndcard:isEndcard
+                           shouldHandleInterruptions:NO];
+    };
+    if ([NSThread isMainThread]) { createView(); }
+    else { dispatch_sync(dispatch_get_main_queue(), createView); }
+    return view;
+}
+
+- (BOOL)userScriptsOf:(WKWebView *)wv containSource:(NSString *)needle {
+    for (WKUserScript *script in wv.configuration.userContentController.userScripts) {
+        if ([script.source containsString:needle]) { return YES; }
+    }
+    return NO;
+}
+
+- (void)test_createConfiguration_bannerWithInlineVideoSupport_injectsPlaysinlineUserScript {
+    HyBidMRAIDView *view = [self makeInitializedMRAIDViewWithHTML:@"<html><body></body></html>"
+                                                  isInterstitial:NO
+                                                       isEndcard:NO
+                                               supportedFeatures:@[@"inlineVideo"]];
+    WKWebView *wv = [view valueForKey:@"webView"];
+    XCTAssertNotNil(wv);
+    XCTAssertTrue([self userScriptsOf:wv containSource:@"playsinline"],
+                  @"Banner config must inject a user script that enforces 'playsinline' on dynamically-created video elements");
+}
+
+- (void)test_createConfiguration_interstitialWithInlineVideoSupport_doesNotInjectPlaysinlineScript {
+    HyBidMRAIDView *view = [self makeInitializedMRAIDViewWithHTML:@"<html><body></body></html>"
+                                                  isInterstitial:YES
+                                                       isEndcard:NO
+                                               supportedFeatures:@[@"inlineVideo"]];
+    WKWebView *wv = [view valueForKey:@"webView"];
+    XCTAssertNotNil(wv);
+    XCTAssertFalse([self userScriptsOf:wv containSource:@"playsinline"],
+                   @"Interstitial config must NOT inject the playsinline script; native fullscreen is acceptable there");
+}
+
+- (void)test_createConfiguration_bannerWithoutInlineVideoSupport_doesNotInjectPlaysinlineScript {
+    // Empty features → allowsInlineMediaPlayback=NO branch; no playsinline script.
+    HyBidMRAIDView *view = [self makeInitializedMRAIDViewWithHTML:@"<html><body></body></html>"
+                                                  isInterstitial:NO
+                                                       isEndcard:NO
+                                               supportedFeatures:@[]];
+    WKWebView *wv = [view valueForKey:@"webView"];
+    XCTAssertNotNil(wv);
+    XCTAssertFalse([self userScriptsOf:wv containSource:@"playsinline"],
+                   @"Without inline-video support the playsinline script must not be injected");
 }
 
 @end

@@ -25,10 +25,6 @@
     #import "HyBid-Swift.h"
 #endif
 
-#if __has_include(<ATOM/ATOM-Swift.h>)
-    #import <ATOM/ATOM-Swift.h>
-#endif
-
 @interface PNLiteAdFactory ()
 
 @property (nonatomic, strong) PNLiteAdRequestModel *adRequestModel;
@@ -229,18 +225,6 @@
         self.adRequestModel.requestParameters[HyBidRequestParameter.ageOfApp] = ageOfApp;
     }
 
-    #if __has_include(<ATOM/ATOM-Swift.h>)
-    SEL vgParameterBase64StringSelector = NSSelectorFromString(@"vgParameterBase64String");
-    
-    if ([Atom respondsToSelector: vgParameterBase64StringSelector]) {
-        NSString *vgParameter = [Atom performSelector:vgParameterBase64StringSelector];
-        
-        if (vgParameter != nil) {
-            self.adRequestModel.requestParameters[HyBidRequestParameter.vg] = vgParameter;
-        }
-    }
-    #endif
-    
     [self setDefaultMetaFields:self.adRequestModel];
     [self setDisplayManager:self.adRequestModel withIntegrationType:integrationType];
     [self setSupportedAPIs:self.adRequestModel];

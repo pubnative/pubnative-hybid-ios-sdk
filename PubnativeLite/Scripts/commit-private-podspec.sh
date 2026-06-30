@@ -197,7 +197,12 @@ if [ -d "$SOURCE_REPO_DIR/.git" ]; then
       -m "Auto-tagged for private release ${HYBID_PRIVATE_REPO_RELEASE_TAG} from ${CURRENT_BRANCH} (${CURRENT_COMMIT})"
     echo "🏷 Created tag ${HYBID_PRIVATE_REPO_RELEASE_TAG} on ${CURRENT_BRANCH}"
     if [ "$AUTO_COMMIT" = true ]; then
-      git push origin "${HYBID_PRIVATE_REPO_RELEASE_TAG}" || echo "⚠️ Could not push tag to ${SOURCE_REPO_NAME}"
+      # Fail loud: this tag is what TVSmiles' adapter checkout resolves. A
+      # silent failure here (the old `|| echo`) left the tag unpushed while the
+      # job still reported success. In CI the token must have write to the
+      # source repo (see config.yml generate_private_pod token scope).
+      git push origin "${HYBID_PRIVATE_REPO_RELEASE_TAG}"
+      echo "🏷 Pushed tag ${HYBID_PRIVATE_REPO_RELEASE_TAG} to ${SOURCE_REPO_NAME}"
     else
       echo "ℹ️ Local mode — tag not pushed to remote."
     fi
