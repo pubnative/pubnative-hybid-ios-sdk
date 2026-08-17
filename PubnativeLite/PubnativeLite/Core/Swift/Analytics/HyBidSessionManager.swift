@@ -10,15 +10,23 @@ import Foundation
 public class HyBidSessionManager: NSObject {
     @objc public static let sharedInstance = HyBidSessionManager()
     private let serialQueue = DispatchQueue(label: "com.verve.HyBid.serialQueueSessionManager")
-    @objc public var impressionCounter: [String: Int] = [:]
-    @objc public var sessionDuration: String = ""
-   
+    private var _impressionCounter: [String: Int] = [:]
+    private var _sessionDuration: String = ""
+
+    @objc public var impressionCounter: [String: Int] {
+        get { serialQueue.sync { return self._impressionCounter } }
+        set { serialQueue.sync { self._impressionCounter = newValue } }
+    }
+
+    @objc public var sessionDuration: String {
+        get { serialQueue.sync { return self._sessionDuration } }
+        set { serialQueue.sync { self._sessionDuration = newValue } }
+    }
+
     @objc private override init() {}
-    
+
     @objc public var safeImpressionCounter: [String: Int] {
-        serialQueue.sync {
-            return self.impressionCounter
-        }
+        return self.impressionCounter
     }
     
     @objc
@@ -29,13 +37,19 @@ public class HyBidSessionManager: NSObject {
     
     @objc
     public func updateSession(zoneID: String) {
+        serialQueue.sync {
+            self.updateSessionOnQueue(zoneID: zoneID)
+        }
+    }
+
+    private func updateSessionOnQueue(zoneID: String) {
         var sessionDuration: TimeInterval
         let lastTimeStamp = NSDate(timeIntervalSince1970: TimeInterval(NSDate().timeIntervalSince1970))
         UserDefaults.standard.set(lastTimeStamp, forKey: Common.LAST_SESSION_TIMESTAMP)
         self.incrementImpressionCounter(zoneID: zoneID)
         if let startTime = UserDefaults.standard.object(forKey: Common.START_SESSION_TIMESTAMP) as? Date {
             sessionDuration = lastTimeStamp.timeIntervalSince(startTime)
-            self.sessionDuration = String(sessionDuration.milliseconds)
+            self._sessionDuration = String(sessionDuration.milliseconds)
             UserDefaults.standard.set(sessionDuration.stringFromTimeInterval(), forKey: Common.SESSION_DURATION)
         }
     }
@@ -43,12 +57,12 @@ public class HyBidSessionManager: NSObject {
     @objc
     public func incrementImpressionCounter(zoneID: String) {
         serialQueue.async {
-            if self.impressionCounter.keys.contains(zoneID) {
-                if let num = self.impressionCounter[zoneID] {
-                    self.impressionCounter[zoneID] = num + 1
+            if self._impressionCounter.keys.contains(zoneID) {
+                if let num = self._impressionCounter[zoneID] {
+                    self._impressionCounter[zoneID] = num + 1
                 }
             } else {
-                self.impressionCounter[zoneID] = 1
+                self._impressionCounter[zoneID] = 1
             }
         }
     }
@@ -56,19 +70,19 @@ public class HyBidSessionManager: NSObject {
     @objc
     public func sessionDuration(zoneID: String) {
         serialQueue.sync {
-            if self.impressionCounter.isEmpty {
-                self.updateSession(zoneID: zoneID)
+            if self._impressionCounter.isEmpty {
+                self.updateSessionOnQueue(zoneID: zoneID)
             } else {
                 if let lastTimeStamp = UserDefaults.standard.object(forKey: Common.LAST_SESSION_TIMESTAMP) as? Date {
                     let now = NSDate(timeIntervalSince1970: TimeInterval(NSDate().timeIntervalSince1970))
                     let ttl = now.timeIntervalSince(lastTimeStamp as Date)
                     
                     if ttl.minutes >= 30 {
-                        self.impressionCounter = [:]
+                        self._impressionCounter = [:]
                         self.setStartSession()
-                        self.updateSession(zoneID: zoneID)
+                        self.updateSessionOnQueue(zoneID: zoneID)
                     } else {
-                        self.updateSession(zoneID: zoneID)
+                        self.updateSessionOnQueue(zoneID: zoneID)
                     }
                 }
             }

@@ -6,7 +6,7 @@
 
 #import "PNLiteVASTInterstitialPresenter.h"
 #import "PNLiteVASTPlayerInterstitialViewController.h"
-#import "UIApplication+PNLiteTopViewController.h"
+#import "HyBidVASTPlayerPresentation.h"
 
 @interface PNLiteVASTInterstitialPresenter()
 
@@ -46,16 +46,11 @@
 }
 
 - (void)show {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[UIApplication sharedApplication].topViewController presentViewController:self.vastViewController animated:NO completion:nil];
-    });
-    [[HyBidVASTEventBeaconsManager shared] reportVASTEventWithType:HyBidReportingEventType.SHOW ad:self.ad];
+    [HyBidVASTPlayerPresentation showPlayer:self.vastViewController onTopWithAd:self.ad];
 }
 
 - (void)showFromViewController:(UIViewController *)viewController {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [viewController presentViewController:self.vastViewController animated:NO completion:nil];
-    });
+    [HyBidVASTPlayerPresentation showPlayer:self.vastViewController fromViewController:viewController];
 }
 
 - (void)hideFromViewController:(UIViewController *)viewController

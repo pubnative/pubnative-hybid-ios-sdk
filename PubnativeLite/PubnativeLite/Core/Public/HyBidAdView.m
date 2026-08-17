@@ -40,6 +40,8 @@
 @property (nonatomic, weak) NSTimer *autoRefreshTimer;
 @property (nonatomic, strong) NSTimer *skanImpressionTimer;
 @property (nonatomic, assign) BOOL shouldRunAutoRefresh;
+@property (nonatomic, assign) BOOL isObservingAppLifecycle;
+@property (nonatomic, assign) NSTimeInterval remainingAutoRefreshTime;
 @property (nonatomic, assign) BOOL markup;
 @property (nonatomic, assign) BOOL isUsingOpenRTB;
 
@@ -175,8 +177,53 @@
 
 - (void)setupAutoRefreshTimerIfNeeded {
     if (self.autoRefreshTimer == nil && self.autoRefreshTimeInSeconds > 0) {
-        self.autoRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:self.autoRefreshTimeInSeconds target:self selector:@selector(refresh) userInfo:nil repeats:YES];
+        [self scheduleAutoRefreshTimerWithInitialInterval:self.autoRefreshTimeInSeconds deferWhileBackgrounded:YES];
     }
+}
+
+- (BOOL)isApplicationBackgrounded {
+    return [UIApplication sharedApplication].applicationState == UIApplicationStateBackground;
+}
+
+- (void)scheduleAutoRefreshTimerWithInitialInterval:(NSTimeInterval)initialInterval
+                             deferWhileBackgrounded:(BOOL)deferWhileBackgrounded {
+    if (![NSThread isMainThread]) {
+        __weak __typeof(self) weakSelf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf scheduleAutoRefreshTimerWithInitialInterval:initialInterval deferWhileBackgrounded:deferWhileBackgrounded];
+        });
+        return;
+    }
+    if (!self.shouldRunAutoRefresh || self.autoRefreshTimeInSeconds <= 0 || self.autoRefreshTimer != nil) {
+        return;
+    }
+
+    if (deferWhileBackgrounded && [self isApplicationBackgrounded]) {
+        self.remainingAutoRefreshTime = initialInterval;
+        [self startObservingApplicationLifecycleIfNeeded];
+        return;
+    }
+
+    __weak __typeof(self) weakSelf = self;
+    NSTimer *timer = [NSTimer timerWithTimeInterval:self.autoRefreshTimeInSeconds
+                                            repeats:YES
+                                              block:^(NSTimer * _Nonnull timer) {
+        __strong __typeof(weakSelf) strongSelf = weakSelf;
+        if (strongSelf == nil || !strongSelf.shouldRunAutoRefresh || strongSelf.autoRefreshTimeInSeconds <= 0) {
+            return;
+        }
+        [strongSelf refresh];
+    }];
+    timer.fireDate = [NSDate dateWithTimeIntervalSinceNow:initialInterval];
+    [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
+    self.autoRefreshTimer = timer;
+
+    if (!self.shouldRunAutoRefresh || self.autoRefreshTimeInSeconds <= 0) {
+        [self invalidateAutoRefreshTimer];
+        return;
+    }
+
+    [self startObservingApplicationLifecycleIfNeeded];
 }
 
 - (void)prepare {
@@ -234,8 +281,75 @@
 
 - (void)stopAutoRefresh {
     self.autoRefreshTimeInSeconds = 0;
-    [self.autoRefreshTimer invalidate];
+    [self invalidateAutoRefreshTimer];
+    self.remainingAutoRefreshTime = 0;
+    [self stopObservingApplicationLifecycle];
+}
+
+- (void)invalidateAutoRefreshTimer {
+    NSTimer *timer = self.autoRefreshTimer;
     self.autoRefreshTimer = nil;
+    if (timer == nil) { return; }
+    if ([NSThread isMainThread]) {
+        [timer invalidate];
+    } else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [timer invalidate];
+        });
+    }
+}
+
+#pragma mark - Auto-refresh app lifecycle handling
+
+- (void)startObservingApplicationLifecycleIfNeeded {
+    if (self.isObservingAppLifecycle) { return; }
+    self.isObservingAppLifecycle = YES;
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationDidEnterBackground:)
+                                                 name:UIApplicationDidEnterBackgroundNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationWillEnterForeground:)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
+}
+
+- (void)stopObservingApplicationLifecycle {
+    if (!self.isObservingAppLifecycle) { return; }
+    self.isObservingAppLifecycle = NO;
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIApplicationDidEnterBackgroundNotification
+                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIApplicationWillEnterForegroundNotification
+                                                  object:nil];
+}
+
+- (void)applicationDidEnterBackground:(NSNotification *)notification {
+    [self pauseAutoRefresh];
+}
+
+- (void)applicationWillEnterForeground:(NSNotification *)notification {
+    [self resumeAutoRefresh];
+}
+
+- (void)pauseAutoRefresh {
+    if (self.autoRefreshTimer != nil) {
+        NSTimeInterval remaining = [self.autoRefreshTimer.fireDate timeIntervalSinceNow];
+        self.remainingAutoRefreshTime = remaining > 0 ? remaining : 0;
+        [self invalidateAutoRefreshTimer];
+    }
+}
+
+- (void)resumeAutoRefresh {
+    if (!self.shouldRunAutoRefresh || self.autoRefreshTimeInSeconds <= 0 || self.autoRefreshTimer != nil) {
+        return;
+    }
+    NSTimeInterval initialInterval = self.remainingAutoRefreshTime > 0
+        ? self.remainingAutoRefreshTime
+        : self.autoRefreshTimeInSeconds;
+    self.remainingAutoRefreshTime = 0;
+    [self scheduleAutoRefreshTimerWithInitialInterval:initialInterval deferWhileBackgrounded:NO];
 }
 
 - (void)setMediationVendor:(NSString *)mediationVendor {

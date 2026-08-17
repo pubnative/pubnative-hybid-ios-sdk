@@ -82,16 +82,20 @@
 }
 
 - (void)sendSMS:(NSString *)urlString {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[@"sms:" stringByAppendingString:urlString]] options:@{} completionHandler:nil];
+    if (![urlString isKindOfClass:[NSString class]] || urlString.length == 0) { return; }
+    NSURL *smsUrl = [NSURL URLWithString:[@"sms:" stringByAppendingString:urlString]];
+    if (!smsUrl) { return; }
+    [[UIApplication sharedApplication] openURL:smsUrl options:@{} completionHandler:nil];
 }
 
 - (void)callNumber:(NSString *)urlString {
+    if (![urlString isKindOfClass:[NSString class]] || urlString.length == 0) { return; }
     NSURL *phoneUrl = [NSURL URLWithString:[@"telprompt://" stringByAppendingString:urlString]];
     NSURL *phoneFallbackUrl = [NSURL URLWithString:[@"tel://" stringByAppendingString:urlString]];
-    
-    if ([UIApplication.sharedApplication canOpenURL:phoneUrl]) {
+
+    if (phoneUrl && [UIApplication.sharedApplication canOpenURL:phoneUrl]) {
         [[UIApplication sharedApplication] openURL:phoneUrl options:@{} completionHandler:nil];
-    } else if ([UIApplication.sharedApplication canOpenURL:phoneFallbackUrl]) {
+    } else if (phoneFallbackUrl && [UIApplication.sharedApplication canOpenURL:phoneFallbackUrl]) {
         [[UIApplication sharedApplication] openURL:phoneFallbackUrl options:@{} completionHandler:nil];
     } else {
         // Show an error message: Your device can not do phone calls.

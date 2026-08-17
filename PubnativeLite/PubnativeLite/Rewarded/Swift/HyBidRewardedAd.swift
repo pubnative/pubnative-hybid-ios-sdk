@@ -245,6 +245,12 @@ public class HyBidRewardedAd: NSObject {
     }
     @objc
     public func renderAd(ad: HyBidAd) {
+        guard Thread.isMainThread else {
+            DispatchQueue.main.async { [weak self] in
+                self?.renderAd(ad: ad)
+            }
+            return
+        }
         let rewardedPresenterFactory = HyBidRewardedPresenterFactory()
         if let skipOffset = self.htmlSkipOffset?.offset?.intValue, skipOffset >= 0 {
             if skipOffset >= HyBidSkipOffset.DEFAULT_REWARDED_HTML_MAX_SKIP_OFFSET {
@@ -319,6 +325,12 @@ public class HyBidRewardedAd: NSObject {
     }
     
     func invokeDidFailWithError(error: Error) {
+        guard Thread.isMainThread else {
+            DispatchQueue.main.async { [weak self] in
+                self?.invokeDidFailWithError(error: error)
+            }
+            return
+        }
         if HyBidSDKConfig.sharedConfig.reporting {
             if let initialLoadTimestamp = self.initialLoadTimestamp, initialLoadTimestamp != -1 {
                 self.loadReportingProperties[Common.TIME_TO_LOAD] = String(format: "%f", elapsedTimeSince(initialLoadTimestamp))

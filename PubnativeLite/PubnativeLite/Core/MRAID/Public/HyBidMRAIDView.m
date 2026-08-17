@@ -930,6 +930,23 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
     }
 }
 
++ (NSString *)resolvedExpandURLString:(NSString *)urlString withBaseURL:(NSURL *)expandBaseURL {
+    NSString *decodedURLString = [urlString stringByRemovingPercentEncoding];
+    if (decodedURLString) {
+        urlString = decodedURLString;
+    }
+    if (urlString && ![[NSURL URLWithString:urlString] scheme]) {
+        NSString *baseURLString = [expandBaseURL absoluteString];
+        NSString *decodedBaseURLString = [baseURLString stringByRemovingPercentEncoding] ?: baseURLString;
+        if (decodedBaseURLString) {
+            urlString = [decodedBaseURLString stringByAppendingString:urlString];
+        }
+    }
+
+    NSString *encodedURLString = [urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]];
+    return encodedURLString ?: urlString;
+}
+
 - (void)expandCreative:(NSString *)urlString supportVerve:(BOOL)supportVerve {
     UIInterfaceOrientation currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
     
@@ -986,14 +1003,7 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
         // Check to see whether we've been given an absolute or relative URL.
         // If it's relative, prepend the base URL.
         if (!supportVerve) {
-            urlString = [urlString stringByRemovingPercentEncoding];
-            if (![[NSURL URLWithString:urlString] scheme]) {
-                // relative URL
-                urlString = [[[baseURL absoluteString] stringByRemovingPercentEncoding] stringByAppendingString:urlString];
-            }
-
-            // Need to escape characters which are URL specific
-            urlString = [urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]];
+            urlString = [HyBidMRAIDView resolvedExpandURLString:urlString withBaseURL:baseURL];
         }
 
         NSError *error;

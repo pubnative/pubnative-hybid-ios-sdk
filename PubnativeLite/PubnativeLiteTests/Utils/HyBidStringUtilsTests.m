@@ -768,13 +768,42 @@
 - (void)test_safeTrimInValue_withBase64LikeString_noMatchingChars_shouldReturnOriginal {
     // Given: Base64 string; whitespace trim should leave it unchanged
     NSString *value = @"eyJhbGciOiJIUzI1NiJ9";
-    
+
     // When
     NSString *result = [HyBidStringUtils safeTrimInValue:value
                                             characterSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    
+
     // Then
     XCTAssertEqualObjects(result, value);
+}
+
+#pragma mark - safeAppendInValue (VMI-1368: nil-argument guard for -stringByAppendingString:)
+
+- (void)test_safeAppendInValue_withBothStrings_shouldConcatenate {
+    XCTAssertEqualObjects([HyBidStringUtils safeAppendInValue:@"foo" withString:@"bar"], @"foobar");
+}
+
+// Regression for VMI-1368: a nil suffix must NOT be passed to -stringByAppendingString:
+// (that raises NSInvalidArgumentException). It must return the base value instead of crashing.
+- (void)test_safeAppendInValue_withNilString_shouldReturnValue_withoutCrashing {
+    XCTAssertEqualObjects([HyBidStringUtils safeAppendInValue:@"foo" withString:nil], @"foo");
+}
+
+- (void)test_safeAppendInValue_withNilValue_shouldReturnString {
+    XCTAssertEqualObjects([HyBidStringUtils safeAppendInValue:nil withString:@"bar"], @"bar");
+}
+
+- (void)test_safeAppendInValue_withBothNil_shouldReturnNil {
+    XCTAssertNil([HyBidStringUtils safeAppendInValue:nil withString:nil]);
+}
+
+- (void)test_safeAppendInValue_withNonStringValue_shouldReturnString {
+    // Given: a non-string base (NSNumber) — treated as absent, no crash
+    XCTAssertEqualObjects([HyBidStringUtils safeAppendInValue:@42 withString:@"bar"], @"bar");
+}
+
+- (void)test_safeAppendInValue_withEmptyBase_shouldReturnString {
+    XCTAssertEqualObjects([HyBidStringUtils safeAppendInValue:@"" withString:@"bar"], @"bar");
 }
 
 @end

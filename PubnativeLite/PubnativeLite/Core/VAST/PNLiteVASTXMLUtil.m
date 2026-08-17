@@ -5,6 +5,7 @@
 //
 
 #import "PNLiteVASTXMLUtil.h"
+#import "HyBidStringUtils.h"
 
 #import <libxml/tree.h>
 #import <libxml/xpath.h>
@@ -88,12 +89,7 @@ NSDictionary *dictionaryForNode(xmlNodePtr currentNode, NSMutableDictionary *par
 			currentNodeContent = [currentNodeContent stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 			
 			NSString *existingContent = parentResult[@"nodeContent"];
-			NSString *newContent;
-			if (existingContent) {
-				newContent = [existingContent stringByAppendingString:currentNodeContent];
-			} else {
-				newContent = currentNodeContent;
-			}
+			NSString *newContent = [HyBidStringUtils safeAppendInValue:existingContent withString:currentNodeContent];
             
 			parentResult[@"nodeContent"] = newContent;
 			return nil;

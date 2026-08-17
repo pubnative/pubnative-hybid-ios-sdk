@@ -252,6 +252,12 @@ public class HyBidInterstitialAd: NSObject {
     }
     @objc
     public func renderAd(ad: HyBidAd) {
+        guard Thread.isMainThread else {
+            DispatchQueue.main.async { [weak self] in
+                self?.renderAd(ad: ad)
+            }
+            return
+        }
         if let hasEndCard = self.ad?.hasEndCard, !hasEndCard, !(videoSkipOffset?.isCustom ?? false), let hasCustomEndCard = self.ad?.hasCustomEndCard, !hasCustomEndCard {
             self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD), isCustom: false)
         }
@@ -357,6 +363,12 @@ public class HyBidInterstitialAd: NSObject {
     }
     
     func invokeDidFailWithError(error: Error) {
+        guard Thread.isMainThread else {
+            DispatchQueue.main.async { [weak self] in
+                self?.invokeDidFailWithError(error: error)
+            }
+            return
+        }
         if HyBidSDKConfig.sharedConfig.reporting {
             if let initialLoadTimestamp = self.initialLoadTimestamp, initialLoadTimestamp != -1 {
                 self.loadReportingProperties[Common.TIME_TO_LOAD] = String(format: "%f", elapsedTimeSince(initialLoadTimestamp))

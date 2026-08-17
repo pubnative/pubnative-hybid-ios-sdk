@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
                               replacement:(id _Nullable)replacement;
 + (nullable NSString *)safeTrimInValue:(id _Nullable)value
                           characterSet:(NSCharacterSet * _Nullable)characterSet;
++ (nullable NSString *)safeAppendInValue:(id _Nullable)value
+                              withString:(id _Nullable)string;
 @end
 
 NS_ASSUME_NONNULL_END

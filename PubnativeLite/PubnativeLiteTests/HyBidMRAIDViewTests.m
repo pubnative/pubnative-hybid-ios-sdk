@@ -39,6 +39,7 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler;
 - (void)cancel;
 - (void)close;
 - (NSString *)enforceInlineVideoPlaybackForBannerHtml:(NSString *)html;
++ (NSString *)resolvedExpandURLString:(NSString *)urlString withBaseURL:(NSURL *)expandBaseURL;
 @end
 
 @protocol HyBidMRAIDViewDelegate;
@@ -439,14 +440,9 @@ static IMP HyBidOrigCommandTypeIMP = NULL;
         [view webView:mockInternalWebView decidePolicyForNavigationAction:action decisionHandler:decisionHandler];
     }];
 
-    XCTestExpectation *injected = [self expectationWithDescription:@"landing page template injected"];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [verify(mockInternalWebView) evaluateJavaScript:templateScript completionHandler:anything()];
-        [injected fulfill];
-    });
-    
-    [self waitForExpectations:@[injected] timeout:1.0];
-    
+    // The template injection happens synchronously inside decidePolicy
+    // (injectJavaScript: -> evaluateJavaScript:), so verify directly.
+    [verify(mockInternalWebView) evaluateJavaScript:templateScript completionHandler:anything()];
 }
 
 - (void)test_webView_decidePolicy_consoleLogCommand_cancelsAndCallsDecisionHandlerOnce {
@@ -526,14 +522,9 @@ static IMP HyBidOrigCommandTypeIMP = NULL;
     // It should mark the first redirect as done.
     XCTAssertTrue([[view valueForKey:@"firstLinkActiveRedirected"] boolValue]);
 
-    // It should schedule the landing-page template injection on main queue.
-    XCTestExpectation *injected = [self expectationWithDescription:@"landing page template injected (unknown/linkActivated)"];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [verifyCount(mockInternalWebView, times(2)) evaluateJavaScript:templateScript completionHandler:anything()];
-        [injected fulfill];
-    });
-
-    [self waitForExpectations:@[injected] timeout:1.0];
+    // Both injections (general path + first-redirect path) happen synchronously
+    // inside decidePolicy, so verify directly.
+    [verifyCount(mockInternalWebView, times(2)) evaluateJavaScript:templateScript completionHandler:anything()];
 }
 
 static void HyBidSwizzleMRAIDCommandTypeForConsoleLog(BOOL enable) {
@@ -1207,6 +1198,56 @@ static int32_t HyBid_Test_commandTypeWithText(id self, SEL _cmd, NSString *text)
     XCTAssertNotNil(wv);
     XCTAssertFalse([self userScriptsOf:wv containSource:@"playsinline"],
                    @"Without inline-video support the playsinline script must not be injected");
+}
+
+#pragma mark - resolvedExpandURLString:withBaseURL: (VMI-1368: stringByAppendingString: nil crash)
+
+// Regression for VMI-1368: an expand URL with malformed percent-encoding makes -stringByRemovingPercentEncoding
+// return nil; the resolver must not pass nil to -stringByAppendingString: (which crashed with
+// NSInvalidArgumentException: -[NSTaggedPointerString stringByAppendingString:]: nil argument).
+- (void)test_resolvedExpandURLString_malformedPercentEncodingRelativeURL_doesNotCrash_keepsPercentAsLiteral {
+    NSURL *baseURL = [NSURL URLWithString:@"https://a.co/"];
+    NSString *result = [HyBidMRAIDView resolvedExpandURLString:@"pa%th" withBaseURL:baseURL];
+    XCTAssertEqualObjects(result, @"https://a.co/pa%25th");
+    XCTAssertEqualObjects(result, [[NSURL URLWithString:@"pa%th" relativeToURL:baseURL] absoluteString]);
+}
+
+- (void)test_resolvedExpandURLString_relativeURL_prependsBaseURL {
+    NSString *result = [HyBidMRAIDView resolvedExpandURLString:@"page.html" withBaseURL:[NSURL URLWithString:@"https://a.co/"]];
+    XCTAssertTrue([[result stringByRemovingPercentEncoding] containsString:@"https://a.co/page.html"]);
+}
+
+- (void)test_resolvedExpandURLString_absoluteURL_isNotPrepended {
+    NSString *result = [HyBidMRAIDView resolvedExpandURLString:@"https://x.co/p" withBaseURL:[NSURL URLWithString:@"https://a.co/"]];
+    NSString *decoded = [result stringByRemovingPercentEncoding];
+    XCTAssertTrue([decoded containsString:@"https://x.co/p"]);
+    XCTAssertFalse([decoded containsString:@"a.co"]);
+}
+
+// A nil baseURL (its -absoluteString is nil) must not crash the relative-prepend path.
+- (void)test_resolvedExpandURLString_nilBaseURL_relativeURL_doesNotCrash_returnsNonNil {
+    NSString *result = [HyBidMRAIDView resolvedExpandURLString:@"page.html" withBaseURL:nil];
+    XCTAssertNotNil(result);
+}
+
+#pragma mark - HyBidMRAIDServiceProvider sendSMS:/callNumber: nil guard (VMI-1368: stringByAppendingString: nil crash)
+
+// Regression: a nil urlString (e.g. -stringByRemovingPercentEncoding upstream returned nil for malformed
+// percent-encoding) must not reach [@"sms:"/@"tel://" stringByAppendingString:], which throws NSInvalidArgumentException.
+- (void)test_sendSMS_withNilUrlString_doesNotCrash {
+    XCTAssertNoThrow([self.serviceProvider sendSMS:nil]);
+}
+
+- (void)test_sendSMS_withEmptyUrlString_doesNotCrash {
+    XCTAssertNoThrow([self.serviceProvider sendSMS:@""]);
+}
+
+- (void)test_callNumber_withNilUrlString_doesNotCrash {
+    XCTAssertNoThrow([self.serviceProvider callNumber:nil]);
+}
+
+- (void)test_callNumber_withEmptyUrlString_doesNotCrash {
+    XCTAssertNoThrow([self.serviceProvider callNumber:@""]);
 }
 
 @end

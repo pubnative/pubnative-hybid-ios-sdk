@@ -16,9 +16,15 @@ final class HyBidRewardedAdTests: XCTestCase {
         var didTrackClick = false
         var didDismiss = false
         var onRewardCalled = false
+        var didFailOnMainThread: Bool?
+        var onFailure: (() -> Void)?
 
         func rewardedDidLoad() { didLoad = true }
-        func rewardedDidFailWithError(_ error: Error!) { didFailWithError = error }
+        func rewardedDidFailWithError(_ error: Error!) {
+            didFailWithError = error
+            didFailOnMainThread = Thread.isMainThread
+            onFailure?()
+        }
         func rewardedDidTrackImpression() { didTrackImpression = true }
         func rewardedDidTrackClick() { didTrackClick = true }
         func rewardedDidDismiss() { didDismiss = true }
@@ -106,6 +112,72 @@ final class HyBidRewardedAdTests: XCTestCase {
         rewarded.request(request, didLoadWithAd: ad)
         rewarded.setValue(true, forKey: "isReady")
         rewarded.show()
+    }
+
+    // MARK: - VMI-1626
+
+    /// VMI-1626: renderAd called off-main must re-enter on the main thread before building UIKit views.
+    func testRenderAd_calledFromBackgroundThread_reEntersOnMainThread() throws {
+        let ad = try XCTUnwrap(hyBidAdFromTestBundle(), "Failed to load adResponse.txt test fixture")
+        let spy = ThreadRecordingRewardedAd(zoneID: "test-zone", andWith: delegate)
+        let reEnteredOnMain = expectation(description: "renderAd re-enters on the main thread")
+        spy.reEntryExpectation = reEnteredOnMain
+        spy.ad = ad
+
+        DispatchQueue.global(qos: .userInitiated).async {
+            XCTAssertFalse(Thread.isMainThread, "renderAd must be invoked off-main to exercise the hop")
+            spy.renderAd(ad: ad)
+        }
+
+        wait(for: [reEnteredOnMain], timeout: 5)
+        XCTAssertEqual(spy.entriesWereOnMain, [false, true],
+                       "renderAd must be entered once off-main, then re-entered on main")
+    }
+
+    /// VMI-1626: signal-data failures raised off-main must reach the publisher delegate on the main thread.
+    func testSignalDataDidFailWithError_calledFromBackgroundThread_deliversDelegateOnMainThread() {
+        let delivered = expectation(description: "rewardedDidFailWithError delivered")
+        delegate.onFailure = { delivered.fulfill() }
+
+        DispatchQueue.global(qos: .userInitiated).async {
+            XCTAssertFalse(Thread.isMainThread, "the failure must originate off-main to exercise the hop")
+            self.rewarded.signalDataDidFailWithError(NSError(domain: "test", code: -1, userInfo: nil))
+        }
+
+        wait(for: [delivered], timeout: 5)
+        XCTAssertEqual(delegate.didFailOnMainThread, true,
+                       "rewardedDidFailWithError must be delivered on the main thread")
+    }
+
+    /// VMI-1626: a failure raised on the main thread must still be delivered synchronously.
+    func testInvokeDidFailWithError_calledOnMainThread_deliversSynchronously() {
+        rewarded.invokeDidFailWithError(error: NSError(domain: "test", code: -1, userInfo: nil))
+        XCTAssertNotNil(delegate.didFailWithError)
+        XCTAssertEqual(delegate.didFailOnMainThread, true)
+    }
+
+    /// VMI-1626: records the thread of every renderAd entry so the main-thread hop is directly observable.
+    private final class ThreadRecordingRewardedAd: HyBidRewardedAd {
+        private let lock = NSLock()
+        private var entries: [Bool] = []
+        var reEntryExpectation: XCTestExpectation?
+
+        var entriesWereOnMain: [Bool] {
+            lock.lock()
+            defer { lock.unlock() }
+            return entries
+        }
+
+        override func renderAd(ad: HyBidAd) {
+            lock.lock()
+            entries.append(Thread.isMainThread)
+            let isReEntry = entries.count == 2
+            lock.unlock()
+            if isReEntry {
+                reEntryExpectation?.fulfill()
+            }
+            super.renderAd(ad: ad)
+        }
     }
 
     private func hyBidAdFromTestBundle() -> HyBidAd? {

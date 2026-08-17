@@ -1,5 +1,8 @@
 #import <XCTest/XCTest.h>
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
+#import <OCMockito/OCMockito.h>
+#import <OCHamcrest/OCHamcrest.h>
 #import "PNLiteVASTPlayerViewController.h"
 #import "HyBidVASTModel.h"
 #import "HyBidVASTParser.h"
@@ -7,21 +10,79 @@
 #import "HyBidCloseButton.h"
 #import "HyBidSkipOverlay.h"
 
+// Mirrors the private PNLiteVASTPlayerState bitmask defined in the .m.
+static const NSUInteger kPNLiteVASTPlayerStateIdle = 1 << 0;
+static const NSUInteger kPNLiteVASTPlayerStateLoad = 1 << 1;
+static const NSUInteger kPNLiteVASTPlayerStateReady = 1 << 2;
+static const NSUInteger kPNLiteVASTPlayerStatePlay = 1 << 3;
+
 @interface PNLiteVASTPlayerViewController (TestExpose)
 - (NSDictionary *)gettingTrackingAndThroughClickURL;
 - (void)startAdSession;
 - (void)removeElementsForReplay;
 - (void)resetElementsForReplay;
+- (void)resumeAd;
+- (void)setState:(NSUInteger)state;
+- (void)moviePlayBackDidFinish:(NSNotification *)notification;
 @property (nonatomic, strong) NSArray *vastArray;
 @property (nonatomic, strong) NSArray *vastCachedArray;
 @property (nonatomic, strong) HyBidEndCardView *endCardView;
 @property (nonatomic, assign) BOOL shown;
+@property (nonatomic, assign) NSUInteger currentState;
+@property (nonatomic, assign) BOOL isMoviePlaybackFinished;
+@property (nonatomic, strong) AVPlayer *player;
 @end
 
 @interface PNLiteVASTPlayerViewControllerTests : XCTestCase
 @end
 
 @implementation PNLiteVASTPlayerViewControllerTests
+
+// MARK: - resumeAd recovery path (VMI-1641)
+// Covers the branch that resumes a stalled player when the state machine is
+// already in PLAY (app was backgrounded during buffering, so [player play] was a no-op).
+
+- (PNLiteVASTPlayerViewController *)controllerInPlayStateWithPlayer:(AVPlayer *)player shown:(BOOL)shown {
+    PNLiteVASTPlayerViewController *controller = [[PNLiteVASTPlayerViewController alloc] init];
+    controller.player = player;
+    controller.shown = shown;
+    controller.currentState = kPNLiteVASTPlayerStatePlay;
+    return controller;
+}
+
+- (void)test_resumeAd_whenPlayStateStalledAndShown_callsPlay {
+    AVPlayer *mockPlayer = mock([AVPlayer class]);
+    [given([mockPlayer rate]) willReturnFloat:0.0f];
+    PNLiteVASTPlayerViewController *controller = [self controllerInPlayStateWithPlayer:mockPlayer shown:YES];
+
+    [controller resumeAd];
+    // Reset before dealloc
+    controller.shown = NO;
+
+    [(AVPlayer *)verify(mockPlayer) play];
+}
+
+- (void)test_resumeAd_whenAlreadyPlaying_doesNotCallPlay {
+    AVPlayer *mockPlayer = mock([AVPlayer class]);
+    [given([mockPlayer rate]) willReturnFloat:1.0f];
+    PNLiteVASTPlayerViewController *controller = [self controllerInPlayStateWithPlayer:mockPlayer shown:YES];
+
+    [controller resumeAd];
+    // Reset before dealloc
+    controller.shown = NO;
+
+    [(AVPlayer *)verifyCount(mockPlayer, never()) play];
+}
+
+- (void)test_resumeAd_whenNotShown_doesNotCallPlay {
+    AVPlayer *mockPlayer = mock([AVPlayer class]);
+    [given([mockPlayer rate]) willReturnFloat:0.0f];
+    PNLiteVASTPlayerViewController *controller = [self controllerInPlayStateWithPlayer:mockPlayer shown:NO];
+
+    [controller resumeAd];
+
+    [(AVPlayer *)verifyCount(mockPlayer, never()) play];
+}
 
 - (void)test_gettingTrackingAndThroughClickURL_decodesClickThroughFromInlineSample {
     // Given: a real sample file with encoded ClickThrough URL
@@ -169,6 +230,82 @@
 
     XCTAssertNoThrow([controller removeElementsForReplay]);
     XCTAssertNil(controller.endCardView);
+}
+
+// MARK: - OMSDK main-thread marshaling (VMI-1622)
+// The OMSDK sampling timer walks the registered ad view on the main runloop. setState: and
+// moviePlayBackDidFinish: fire OMID events and mutate that view, so when they are reached from an
+// off-main AVFoundation callback they must hop to the main thread instead of racing the tree walker.
+
+- (void)test_setState_calledOffMainThread_defersTransitionToMainThread {
+    PNLiteVASTPlayerViewController *controller = [[PNLiteVASTPlayerViewController alloc] init];
+    [controller loadView];
+    controller.currentState = kPNLiteVASTPlayerStateLoad;
+
+    dispatch_semaphore_t bgObserved = dispatch_semaphore_create(0);
+    __block BOOL calledOffMain = NO;
+    __block NSUInteger stateOnCallingThread = 0;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        calledOffMain = ![NSThread isMainThread];
+        [controller setState:kPNLiteVASTPlayerStateReady];
+        // The main thread is blocked below, so a correctly-marshaled transition cannot have run yet.
+        stateOnCallingThread = controller.currentState;
+        dispatch_semaphore_signal(bgObserved);
+    });
+    // Block the main runloop until the background thread has observed the state, so the dispatched
+    // transition cannot slip in and produce a false pass.
+    intptr_t waitResult = dispatch_semaphore_wait(bgObserved, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)));
+    XCTAssertEqual(waitResult, (intptr_t)0, @"background thread did not signal within 2s (possible off-main hang or crash)");
+
+    XCTAssertTrue(calledOffMain, @"precondition: setState: must be invoked off the main thread");
+    XCTAssertEqual(stateOnCallingThread, kPNLiteVASTPlayerStateLoad,
+                   @"setState: off-main must not mutate state synchronously on the calling thread");
+
+    XCTestExpectation *drained = [self expectationWithDescription:@"main queue drained"];
+    dispatch_async(dispatch_get_main_queue(), ^{ [drained fulfill]; });
+    [self waitForExpectationsWithTimeout:2 handler:nil];
+    XCTAssertEqual(controller.currentState, kPNLiteVASTPlayerStateReady,
+                   @"the deferred transition must be applied once the main queue runs");
+
+    controller.currentState = kPNLiteVASTPlayerStateIdle; // keep dealloc quiet, mirrors existing tests
+}
+
+- (void)test_setState_calledOnMainThread_appliesTransitionSynchronously {
+    PNLiteVASTPlayerViewController *controller = [[PNLiteVASTPlayerViewController alloc] init];
+    [controller loadView];
+    controller.currentState = kPNLiteVASTPlayerStateLoad;
+
+    [controller setState:kPNLiteVASTPlayerStateReady]; // already on the main thread
+
+    XCTAssertEqual(controller.currentState, kPNLiteVASTPlayerStateReady,
+                   @"setState: on the main thread must stay synchronous (no behavior change)");
+
+    controller.currentState = kPNLiteVASTPlayerStateIdle;
+}
+
+- (void)test_moviePlayBackDidFinish_calledOffMainThread_defersToMainThread {
+    PNLiteVASTPlayerViewController *controller = [[PNLiteVASTPlayerViewController alloc] init];
+    [controller loadView];
+    NSNotification *note = [NSNotification notificationWithName:AVPlayerItemDidPlayToEndTimeNotification object:nil];
+
+    dispatch_semaphore_t bgObserved = dispatch_semaphore_create(0);
+    __block BOOL finishedOnCallingThread = YES;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [controller moviePlayBackDidFinish:note];
+        finishedOnCallingThread = controller.isMoviePlaybackFinished;
+        dispatch_semaphore_signal(bgObserved);
+    });
+    intptr_t waitResult = dispatch_semaphore_wait(bgObserved, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)));
+    XCTAssertEqual(waitResult, (intptr_t)0, @"background thread did not signal within 2s (possible off-main hang or crash)");
+
+    XCTAssertFalse(finishedOnCallingThread,
+                   @"moviePlayBackDidFinish: off-main must not run its body on the calling thread");
+
+    XCTestExpectation *drained = [self expectationWithDescription:@"main queue drained"];
+    dispatch_async(dispatch_get_main_queue(), ^{ [drained fulfill]; });
+    [self waitForExpectationsWithTimeout:2 handler:nil];
+    XCTAssertTrue(controller.isMoviePlaybackFinished,
+                  @"the handler body must run once marshaled to the main thread");
 }
 
 // MARK: - Helper Methods

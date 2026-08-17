@@ -30,16 +30,31 @@
                                                    withString:replacementString];
 }
 
-+ (nullable NSString *)safeTrimInValue:(id)value
-                          characterSet:(NSCharacterSet *)characterSet
++ (nullable NSString *)safeTrimInValue:(id _Nullable)value
+                          characterSet:(NSCharacterSet * _Nullable)characterSet
 {
     if (![value isKindOfClass:[NSString class]]) { return nil; }
     if (![characterSet isKindOfClass:[NSCharacterSet class]]) { return [(NSString *)value copy]; }
     
     NSString *string = [(NSString *)value copy];
     if (string.length == 0) { return string; }
-    
-    return [string stringByTrimmingCharactersInSet:characterSet];
+
+    return [string stringByTrimmingCharactersInSet:(NSCharacterSet * _Nonnull)characterSet];
+}
+
++ (nullable NSString *)safeAppendInValue:(id _Nullable)value
+                              withString:(id _Nullable)string
+{
+    NSString *base = [value isKindOfClass:[NSString class]] ? (NSString *)value : nil;
+    NSString *suffix = [string isKindOfClass:[NSString class]] ? (NSString *)string : nil;
+
+    if (base && suffix) {
+        return [base stringByAppendingString:suffix];
+    } else if (base) {
+        return [base copy];
+    } else {
+        return [suffix copy];
+    }
 }
 
 @end

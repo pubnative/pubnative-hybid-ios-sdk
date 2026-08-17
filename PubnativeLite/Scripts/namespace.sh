@@ -120,6 +120,20 @@ else
     echo "ℹ️ Skipping OMSDK Smaato-only viewability step for namespace '${NAMESPACE}'."
 fi
 
+# Step 2c: Privacy manifest — .xcprivacy is excluded from Steps 1/2/2a, so its
+# NSPrivacyTrackingDomains would otherwise ship the pubnative host in the
+# namespaced build. Rewrite tracking domains to match the namespaced API hosts.
+echo "🔒 Updating privacy manifest tracking domains..."
+API_HOST="${BASE_API_URL#https://}"
+PRIVACY_HOST="${BASE_API_PRIVACY_URL#https://}"
+DSP_HOST="${BASE_API_DSP_URL#https://}"
+find "$BASE_DIR" -type f -name "*.xcprivacy" \
+    ! -path "*/Pods/*" ! -path "*/OMSDK*" ! -path "*/PubnativeLiteDemo/*" ! -path "*/PubnativeLiteTests/*" | while read -r file; do
+    sed -i '' -E "s/server\.pubnative\.net/${PRIVACY_HOST}/g" "$file"
+    sed -i '' -E "s/api\.pubnative\.net/${API_HOST}/g" "$file"
+    sed -i '' -E "s/dsp\.pubnative\.net/${DSP_HOST}/g" "$file"
+done
+
 # Step 3: Update Xcode project
 echo "🔄 Updating Xcode project..."
 bundle exec ruby "$(dirname "$0")/namespace_xcodeproj.rb" "${NAMESPACE}"

@@ -1727,6 +1727,10 @@ typedef enum {
 }
 
 - (void)moviePlayBackDidFinish:(NSNotification*)notification {
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{ [self moviePlayBackDidFinish:notification]; });
+        return;
+    }
     // when endcard is presented the play already will seek to end to complete the video. Then this callback will be called. so intercept here
     [self hideUserInterfaceVideoElementsWith:self.ad hideByDefault:YES isOnClick:NO];
     if (self.endCardShown || self.isMoviePlaybackFinished) {return;}
@@ -1832,6 +1836,10 @@ typedef enum {
 }
 
 - (void)setState:(PNLiteVASTPlayerState)state {
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{ [self setState:state]; });
+        return;
+    }
     if ([self canGoToState:state]) {
         self.currentState = state;
         switch (self.currentState) {
@@ -2760,9 +2768,10 @@ typedef enum {
 }
 
 - (void)resumeAd {
-    if((self.currentState == PNLiteVASTPlayerState_PLAY ||
-       self.currentState == PNLiteVASTPlayerState_PAUSE)) {
+    if (self.currentState == PNLiteVASTPlayerState_PAUSE) {
         [self setState:PNLiteVASTPlayerState_PLAY];
+    } else if (self.currentState == PNLiteVASTPlayerState_PLAY && self.player.rate <= 0.0f && self.shown) {
+        [self.player play];
     }
 }
 

@@ -559,8 +559,8 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) HyBidBeacons
 - (void)adBeaconsFromResponse:(NSString * _Nullable)response completion:(void (^ _Nonnull)(NSArray<HyBidBeaconItem *> * _Nonnull))completion;
 @end
 
-enum HyBidCTASize : int32_t;
-enum HyBidCTALocation : int32_t;
+SWIFT_ENUM_FWD_DECL(int32_t, HyBidCTASize)
+SWIFT_ENUM_FWD_DECL(int32_t, HyBidCTALocation)
 @class UIImage;
 SWIFT_CLASS("_TtC5HyBid12HyBidCTAData")
 @interface HyBidCTAData : NSObject
@@ -787,7 +787,7 @@ SWIFT_PROTOCOL("_TtP5HyBid25HyBidInterruptionDelegate_")
 + (BOOL)isCustomCTAValidWithAd:(HyBidAd * _Nonnull)ad SWIFT_WARN_UNUSED_RESULT;
 @end
 
-enum HyBidGDPRk : NSInteger;
+SWIFT_ENUM_FWD_DECL(NSInteger, HyBidGDPRk)
 SWIFT_CLASS("_TtC5HyBid9HyBidGDPR")
 @interface HyBidGDPR : NSObject
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER SWIFT_UNAVAILABLE;
@@ -916,7 +916,7 @@ SWIFT_PROTOCOL("_TtP5HyBid27HyBidInterstitialAdDelegate_")
 - (void)interstitialDidDismiss;
 @end
 
-enum HyBidLandingBehaviourType : int32_t;
+SWIFT_ENUM_FWD_DECL(int32_t, HyBidLandingBehaviourType)
 SWIFT_CLASS("_TtC5HyBid21HyBidLandingBehaviour")
 @interface HyBidLandingBehaviour : NSObject
 - (enum HyBidLandingBehaviourType)convertStringWithValue:(NSString * _Nullable)value SWIFT_WARN_UNUSED_RESULT;
@@ -962,7 +962,7 @@ SWIFT_CLASS("_TtC5HyBid23HyBidMRAIDCloseCardView")
 - (void)contentInfoViewWidthNeedsUpdate:(NSNumber * _Null_unspecified)width;
 @end
 
-enum HyBidMRAIDCommandType : int32_t;
+SWIFT_ENUM_FWD_DECL(int32_t, HyBidMRAIDCommandType)
 SWIFT_CLASS("_TtC5HyBid17HyBidMRAIDCommand")
 @interface HyBidMRAIDCommand : NSObject
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER SWIFT_UNAVAILABLE;
@@ -1312,8 +1312,6 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) HyBidViewbil
 - (void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^ _Nullable)(void))completion;
 - (void)viewDidDisappear:(BOOL)animated;
 - (void)touchesBegan:(NSSet<UITouch *> * _Nonnull)touches withEvent:(UIEvent * _Nullable)event;
-@property (nonatomic, readonly) UIInterfaceOrientationMask supportedInterfaceOrientations;
-@property (nonatomic, readonly) BOOL shouldAutorotate;
 @end
 
 SWIFT_CLASS_NAMED("VASTBeacon")

@@ -112,6 +112,93 @@ final class HyBidSignalDataTests: XCTestCase {
             XCTAssertTrue(predicate.evaluate(with: minimized), "Minimized encoded signal should be valid base64url")
         }
     }
+
+    // MARK: - Concurrency
+
+    func testImpressionCounterRead_waitsForPendingSessionWork() throws {
+        let manager = HyBidSessionManager.sharedInstance
+        manager.impressionCounter = [:]
+
+        try assertAccessWaitsForSessionQueue(manager) {
+            _ = manager.impressionCounter
+        }
+    }
+
+    func testImpressionCounterWrite_waitsForPendingSessionWork() throws {
+        let manager = HyBidSessionManager.sharedInstance
+        manager.impressionCounter = [:]
+
+        try assertAccessWaitsForSessionQueue(manager) {
+            manager.impressionCounter = ["vmi-1666": 1]
+        }
+
+        XCTAssertEqual(manager.impressionCounter, ["vmi-1666": 1])
+        manager.impressionCounter = [:]
+    }
+
+    func testUpdateSession_waitsForPendingWorkAndMaintainsActiveSessionState() throws {
+        let manager = HyBidSessionManager.sharedInstance
+        let zoneID = "vmi-1666"
+        let userDefaults = UserDefaults.standard
+        manager.impressionCounter = [:]
+        manager.sessionDuration = ""
+        manager.setStartSession()
+
+        defer {
+            manager.impressionCounter = [:]
+            manager.sessionDuration = ""
+            userDefaults.removeObject(forKey: Common.START_SESSION_TIMESTAMP)
+            userDefaults.removeObject(forKey: Common.LAST_SESSION_TIMESTAMP)
+            userDefaults.removeObject(forKey: Common.SESSION_DURATION)
+        }
+
+        try assertAccessWaitsForSessionQueue(manager) {
+            manager.updateSession(zoneID: zoneID)
+        }
+
+        XCTAssertEqual(manager.safeImpressionCounter[zoneID], 1)
+        XCTAssertFalse(manager.sessionDuration.isEmpty)
+
+        manager.sessionDuration(zoneID: zoneID)
+
+        XCTAssertEqual(manager.safeImpressionCounter[zoneID], 2)
+        XCTAssertFalse(manager.sessionDuration.isEmpty)
+    }
+
+    private func assertAccessWaitsForSessionQueue(
+        _ manager: HyBidSessionManager,
+        access: @escaping () -> Void,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) throws {
+        let serialQueue = try XCTUnwrap(
+            Mirror(reflecting: manager).children.first(where: { $0.label == "serialQueue" })?.value as? DispatchQueue,
+            file: file,
+            line: line
+        )
+        let queueStarted = DispatchSemaphore(value: 0)
+        let releaseQueue = DispatchSemaphore(value: 0)
+        serialQueue.async {
+            queueStarted.signal()
+            releaseQueue.wait()
+        }
+        XCTAssertEqual(queueStarted.wait(timeout: .now() + .seconds(1)), .success, file: file, line: line)
+
+        let accessStarted = DispatchSemaphore(value: 0)
+        let accessFinished = DispatchGroup()
+        accessFinished.enter()
+        let workItem = DispatchWorkItem {
+            accessStarted.signal()
+            access()
+            accessFinished.leave()
+        }
+        DispatchQueue.global(qos: .userInitiated).async(execute: workItem)
+
+        XCTAssertEqual(accessStarted.wait(timeout: .now() + .seconds(1)), .success, file: file, line: line)
+        XCTAssertEqual(accessFinished.wait(timeout: .now() + .milliseconds(100)), .timedOut, file: file, line: line)
+        releaseQueue.signal()
+        XCTAssertEqual(accessFinished.wait(timeout: .now() + .seconds(1)), .success, file: file, line: line)
+    }
 }
 
 // MARK: - HyBid class general API coverage
