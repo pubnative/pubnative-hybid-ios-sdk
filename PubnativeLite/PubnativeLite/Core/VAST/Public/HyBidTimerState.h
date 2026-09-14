@@ -11,7 +11,8 @@ typedef NS_ENUM(NSInteger){
 } HyBidTimerState;
 
 typedef enum {
-    HyBidCountdownPieChart = 0,
+    HyBidCountdownSimple = 0,
+    HyBidCountdownPieChart __attribute__((deprecated("Use HyBidCountdownSimple instead"))) = HyBidCountdownSimple,
     HyBidCountdownSkipOverlayTimer = 1,
     HyBidCountdownSkipOverlayProgress = 2
 } HyBidCountdownStyle;

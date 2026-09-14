@@ -263,16 +263,24 @@ NSString * const REQUEST_SKADNETWORK_V4 = @"4.0";
     BOOL isValid = NO;
     
     if (supportsMultipleFidelities) {
-        NSArray<NSData *> *fidelitiesData = dict[HyBidSKAdNetworkParameter.fidelities];
-        isValid = [fidelitiesData count] > 0;
+        id fidelitiesValue = dict[HyBidSKAdNetworkParameter.fidelities];
+        if (![fidelitiesValue isKindOfClass:[NSArray class]]) {
+            return NO;
+        }
+        NSArray<NSDictionary *> *fidelities = fidelitiesValue;
+        isValid = [fidelities count] > 0;
         
-        for (NSData *data in fidelitiesData) {
-            SKANObject fidelityObject;
-            [data getBytes:&fidelityObject length:sizeof(fidelityObject)];
-            
-            isValid = fidelityObject.signature != nil && [[NSString stringWithUTF8String:fidelityObject.signature] length] > 0 &&
-                      fidelityObject.nonce != nil && [[NSString stringWithUTF8String:fidelityObject.nonce] length] > 0 &&
-                      fidelityObject.timestamp != nil && [[NSString stringWithUTF8String:fidelityObject.timestamp] length] > 0;
+        for (id value in fidelities) {
+            if (![value isKindOfClass:[NSDictionary class]]) {
+                return NO;
+            }
+            NSDictionary *fidelity = value;
+            NSString *signature = fidelity[HyBidSKAdNetworkParameter.signature];
+            NSString *nonce = fidelity[HyBidSKAdNetworkParameter.nonce];
+            NSString *timestamp = fidelity[HyBidSKAdNetworkParameter.timestamp];
+            isValid = [signature isKindOfClass:[NSString class]] && signature.length > 0 &&
+                      [nonce isKindOfClass:[NSString class]] && nonce.length > 0 &&
+                      [timestamp isKindOfClass:[NSString class]] && timestamp.length > 0;
             
             break; // Checking only for the first item is enough
         }

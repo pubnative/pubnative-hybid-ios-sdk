@@ -19,12 +19,19 @@
 #import "HyBidStoreKitUtils.h"
 #import "HyBidDeeplinkHandler.h"
 #import "HyBidSkipOverlay.h"
+#import "HyBidEndCardView+Internal.h"
+#import "HyBidAutomaticClickTrackingUtil.h"
 
 #define kContentInfoContainerTag 2343
 #define kIPadOS26ControlTopPadding 44.f
 #define kIPadOS26ControlSidePadding 16.f
 
 @interface HyBidEndCardView () <HyBidMRAIDViewDelegate, HyBidMRAIDServiceDelegate, UIGestureRecognizerDelegate, WKNavigationDelegate, HyBidVASTEventProcessorDelegate, HyBidURLDrillerDelegate, HyBidInterruptionDelegate, HyBidSkipOverlayDelegate>
+
+@property (nonatomic, assign) BOOL hasTrackedEndCardClick;
+@property (nonatomic, assign) BOOL hasTrackedVideoClick;
+@property (nonatomic, assign) BOOL hasTrackedCompanionClickEvent;
+@property (nonatomic, assign) BOOL hasTrackedCompanionClick;
 
 @property (nonatomic, strong) UIImageView *endCardImageView;
 
@@ -106,6 +113,38 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
      vastCompanionsClicksThrough:(NSArray<NSString *>*)vastCompanionsClicksThrough
     vastCompanionsClicksTracking:(NSArray<NSString *>*)vastCompanionsClicksTracking
          vastVideoClicksTracking:(NSArray<NSString *>*)vastVideoClicksTracking {
+    return [self initWithDelegate:delegate
+              withViewController:viewController
+                          withAd:ad
+                      withVASTAd:vastAd
+                  isInterstitial:isInterstitial
+                   iconXposition:iconXposition
+                   iconYposition:iconYposition
+                  withSkipButton:withSkipButton
+     vastCompanionsClicksThrough:vastCompanionsClicksThrough
+    vastCompanionsClicksTracking:vastCompanionsClicksTracking
+         vastVideoClicksTracking:vastVideoClicksTracking
+          hasTrackedEndCardClick:NO
+            hasTrackedVideoClick:NO
+            hasTrackedCompanionClickEvent:NO
+        hasTrackedCompanionClick:NO];
+}
+
+- (instancetype)initWithDelegate:(NSObject<HyBidEndCardViewDelegate> *)delegate
+              withViewController:(UIViewController *)viewController
+                          withAd:(HyBidAd *)ad
+                      withVASTAd:(HyBidVASTAd *)vastAd
+                  isInterstitial:(BOOL)isInterstitial
+                   iconXposition:(NSString *)iconXposition
+                   iconYposition:(NSString *)iconYposition
+                  withSkipButton:(BOOL)withSkipButton
+     vastCompanionsClicksThrough:(NSArray<NSString *> *)vastCompanionsClicksThrough
+    vastCompanionsClicksTracking:(NSArray<NSString *> *)vastCompanionsClicksTracking
+         vastVideoClicksTracking:(NSArray<NSString *> *)vastVideoClicksTracking
+          hasTrackedEndCardClick:(BOOL)hasTrackedEndCardClick
+            hasTrackedVideoClick:(BOOL)hasTrackedVideoClick
+            hasTrackedCompanionClickEvent:(BOOL)hasTrackedCompanionClickEvent
+        hasTrackedCompanionClick:(BOOL)hasTrackedCompanionClick {
     self = [super init];
     if (self) {
         self.delegate = delegate;
@@ -121,6 +160,10 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
         self.vastCompanionsClicksThrough = vastCompanionsClicksThrough;
         self.vastCompanionsClicksTracking = vastCompanionsClicksTracking;
         self.vastVideoClicksTracking = vastVideoClicksTracking;
+        self.hasTrackedEndCardClick = hasTrackedEndCardClick;
+        self.hasTrackedVideoClick = hasTrackedVideoClick;
+        self.hasTrackedCompanionClickEvent = hasTrackedCompanionClickEvent;
+        self.hasTrackedCompanionClick = hasTrackedCompanionClick;
         self.shouldOpenBrowser = NO;
         self.sdkAutoStorekitEnabled = [HyBidSKAdNetworkViewController isAutoStorekitEnabledForAd:self.ad];
         self.vastEventProcessor = [[HyBidVASTEventProcessor alloc] init];
@@ -190,11 +233,12 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
         } else {
             self.endCardCloseDelay = [HyBidConstants endCardCloseOffsetWithAdExperience: ad.adExperience];
         }
-    } else if (skipOffset && [skipOffset integerValue] >= 0 && [skipOffset isKindOfClass:[NSNumber class]]) {
-        if ([skipOffset integerValue] > 30) {
-            self.endCardCloseDelay = HyBidConstants.endCardCloseMaxOffset;
-        } else {
+    } else if (skipOffset && [skipOffset isKindOfClass:[NSNumber class]]) {
+        if ([skipOffset integerValue] >= 0) {
             self.endCardCloseDelay = [[HyBidSkipOffset alloc] initWithOffset:skipOffset isCustom:YES];
+        } else {
+            // Negative value: close immediately, matching Android's behaviour (VMA-1543).
+            self.endCardCloseDelay = [[HyBidSkipOffset alloc] initWithOffset:[NSNumber numberWithInteger:0] isCustom:YES];
         }
     } else {
         self.endCardCloseDelay = [HyBidConstants endCardCloseOffsetWithAdExperience: ad.adExperience];
@@ -315,7 +359,7 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
     
     if (self.endCard.isCustomEndCard) {
         self.skipOverlay = [[HyBidSkipOverlay alloc] initWithSkipOffset:self.endCardCloseDelay.offset.integerValue
-                                                     withCountdownStyle:HyBidCountdownPieChart
+                                                     withCountdownStyle:HyBidCountdownSimple
                                          withContentInfoPositionTopLeft:[self isContentInfoInTopLeftPosition]
                                                withShouldShowSkipButton:NO
                                                                      ad:self.ad];
@@ -473,9 +517,7 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
         [self setVerticalConstraints];
     }
     self.endCard = endCard;
-    if (self.endCard.events == nil) {
-        [self.vastEventProcessor setCustomEvents:[[endCard events] events]];
-    }
+    [self.vastEventProcessor setCustomEvents:[[endCard events] events]];
     if (self.sdkAutoStorekitEnabled) {
         [self determineSdkAutoStorekitBehaviourForAd:self.ad];
         self.sdkAutoStorekitDelay = [HyBidSKAdNetworkViewController getStorekitAutoCloseDelayWithAd:self.ad];
@@ -1214,27 +1256,43 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
     }
 }
 
+- (void)trackEndCardClickIfNeeded {
+    if ([HyBidAutomaticClickTrackingUtil sendClickTrackingURLs:[self.endCard clickTrackings]
+                                                withProcessor:self.vastEventProcessor
+                                                  alreadySent:self.hasTrackedEndCardClick]) {
+        self.hasTrackedEndCardClick = YES;
+    }
+}
+
+- (void)trackClickEventIfNeeded {
+    if ([HyBidAutomaticClickTrackingUtil trackClickEventWithProcessor:self.vastEventProcessor
+                                                      alreadyTracked:self.hasTrackedCompanionClickEvent]) {
+        self.hasTrackedCompanionClickEvent = YES;
+    }
+}
+
 - (void)fireClicksForAutoStorekit {
     HyBidSkAdNetworkModel* skAdNetworkModel = [self.ad getSkAdNetworkModel];
     if ([skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] != [NSNull null] && [[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] boolValue]) {
-        
         self.shouldTriggerAdClick = [self.endCard.content containsString: adClickTriggerFlag] ? YES : NO;
+        if ([HyBidAutomaticClickTrackingUtil isAutoClickSuppressedForAd:self.ad]) { return; }
+
         if (self.vastAd == nil || self.shouldTriggerAdClick) {
-            if ([[self.endCard clickTrackings] count] > 0) {
-                [self.vastEventProcessor sendVASTUrls:[self.endCard clickTrackings] withType:HyBidVASTClickTrackingURL];
-            }
+            [self trackEndCardClickIfNeeded];
         } else {
             HyBidEndCardType endCardType = [self.endCard type];
             NSDictionary *trackersDictionary = [self gettingTrackingAndThroughClickURLForAutoStorekit:endCardType];
             NSMutableArray<NSString *> *trackingClickURLs = [trackersDictionary objectForKey: @"trackingClickURLs"];
             NSString *throughClickURL = [trackersDictionary objectForKey: @"throughClickURL"];
-            
-            if (trackingClickURLs && [trackingClickURLs count] > 0) {
-                [self.vastEventProcessor sendVASTUrls:trackingClickURLs withType:HyBidVASTClickTrackingURL];
+
+            if ([HyBidAutomaticClickTrackingUtil sendClickTrackingURLs:trackingClickURLs
+                                                        withProcessor:self.vastEventProcessor
+                                                          alreadySent:self.hasTrackedVideoClick]) {
+                self.hasTrackedVideoClick = YES;
             }
-            
-            [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_click];
-            
+
+            [self trackClickEventIfNeeded];
+
             HyBidSkAdNetworkModel *skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.ad getOpenRTBSkAdNetworkModel] : [self.ad getSkAdNetworkModel];
             
             NSString *customUrl = [HyBidCustomClickUtil extractPNClickUrl:throughClickURL];
@@ -1416,25 +1474,35 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
     if (![HyBidSKAdNetworkViewController.shared isSKProductViewControllerPresented]) {
     HyBidSkAdNetworkModel* skAdNetworkModel = [self.ad getSkAdNetworkModel];
         if ([skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] != [NSNull null] && [[skAdNetworkModel.productParameters objectForKey:HyBidSKAdNetworkParameter.click] boolValue]) {
-            
             self.shouldTriggerAdClick = [self.endCard.content containsString: adClickTriggerFlag] ? YES : NO;
+            if ([HyBidAutomaticClickTrackingUtil isAutoClickSuppressedForAd:self.ad]) { return; }
+
             if (self.vastAd == nil || self.shouldTriggerAdClick) {
-                if ([[self.endCard clickTrackings] count] > 0) {
-                    [self.vastEventProcessor sendVASTUrls:[self.endCard clickTrackings] withType:HyBidVASTClickTrackingURL];
-                }
+                [self trackEndCardClickIfNeeded];
             } else {
                 HyBidEndCardType endCardType = [self.endCard type];
                 NSDictionary *trackersDictionary = [self gettingTrackingAndThroughClickURLWith:endCardType];
-                NSMutableArray<NSString *> *trackingClickURLs = [trackersDictionary objectForKey: @"trackingClickURLs"];
                 NSString *throughClickURL = [trackersDictionary objectForKey: @"throughClickURL"];
-                
-                if (trackingClickURLs && [trackingClickURLs count] > 0) {
-                    [self.vastEventProcessor sendVASTUrls:trackingClickURLs withType:HyBidVASTClickTrackingURL];
+
+                NSArray<NSString *> *videoClickTrackingURLs = [self.vastVideoClicksTracking isKindOfClass:[NSArray class]]
+                    ? [[self.vastVideoClicksTracking reverseObjectEnumerator] allObjects]
+                    : nil;
+                if ([HyBidAutomaticClickTrackingUtil sendClickTrackingURLs:videoClickTrackingURLs
+                                                              withProcessor:self.vastEventProcessor
+                                                                alreadySent:self.hasTrackedVideoClick]) {
+                    self.hasTrackedVideoClick = YES;
                 }
-                
-                if (isFirstPresentation) {
-                    [self.vastEventProcessor trackEventWithType:HyBidVASTAdTrackingEventType_click];
+
+                NSArray<NSString *> *companionClickTrackingURLs = [self.vastCompanionsClicksTracking isKindOfClass:[NSArray class]]
+                    ? [[self.vastCompanionsClicksTracking reverseObjectEnumerator] allObjects]
+                    : nil;
+                if ([HyBidAutomaticClickTrackingUtil sendClickTrackingURLs:companionClickTrackingURLs
+                                                            withProcessor:self.vastEventProcessor
+                                                              alreadySent:self.hasTrackedCompanionClick]) {
+                    self.hasTrackedCompanionClick = YES;
                 }
+
+                [self trackClickEventIfNeeded];
                 
                 HyBidSkAdNetworkModel *skAdNetworkModel = self.ad.isUsingOpenRTB ? [self.ad getOpenRTBSkAdNetworkModel] : [self.ad getSkAdNetworkModel];
                 
@@ -1448,7 +1516,6 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
                     }
                 }
             }
-            
             [self.delegate endCardViewSKOverlayClicked: self.shouldTriggerAdClick
                                                  clickType: self.endCard.isCustomEndCard
                                                           ? HyBidSKOverlayAutomaticCLickCustomEndCard

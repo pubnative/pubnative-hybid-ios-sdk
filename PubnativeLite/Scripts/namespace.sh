@@ -116,6 +116,7 @@ if [ "${NAMESPACE}" = "NGSDK" ]; then
     else
         echo "⚠️ namespace_omsdk_smaato_only.rb failed (non-fatal)."
     fi
+    bundle exec ruby "$(dirname "$0")/namespace_integration_type.rb" "${BASE_DIR}"
 else
     echo "ℹ️ Skipping OMSDK Smaato-only viewability step for namespace '${NAMESPACE}'."
 fi

@@ -439,13 +439,30 @@ NSInteger const PNLiteResponseStatusOK = 200;
     self.zoneID = @"legacy_api_tester";
     if (self.isUsingOpenRTB && self.openRTBAdType == HyBidOpenRTBAdVideo) {
         [self processVASTTagResponseFrom:adReponse];
-    } else {
-        NSData *adReponseData = [adReponse dataUsingEncoding:NSUTF8StringEncoding];
-        [self processResponseWithData:adReponseData];
+        return;
     }
+
+    [HyBidMarkupUtils isVastXml:adReponse completion:^(BOOL isVAST, HyBidVASTParserError* error) {
+        if (error) {
+            [self invokeDidFail:error];
+            [self.vastEventProcessor sendVASTUrls:error.errorTagURLs withType:HyBidVASTParserErrorURL];
+            return;
+        }
+
+        if (isVAST) {
+            [self processVASTTagResponseFrom:adReponse];
+        } else {
+            [self processResponseWithData:[adReponse dataUsingEncoding:NSUTF8StringEncoding]];
+        }
+    }];
 }
 
 - (void)processResponseWithData:(NSData *)data {
+    if (!data) {
+        [self invokeDidFail: NSError.hyBidParseError];
+        return;
+    }
+
     __block NSString *adContent = data.description;
     NSDictionary *bid;
     if (self.isUsingOpenRTB) {
@@ -461,7 +478,7 @@ NSInteger const PNLiteResponseStatusOK = 200;
     
     NSDictionary *jsonDictonary = [self createDictionaryFromData:data];
     if (!jsonDictonary) {
-        [self invokeDidFail: NSError.hyBidNullAd];
+        [self invokeDidFail: NSError.hyBidParseError];
         return;
     }
         PNLiteResponseModel *response = nil;
@@ -747,7 +764,7 @@ NSInteger const PNLiteResponseStatusOK = 200;
                 }];
             }
         } else {
-            [self invokeDidFail:[NSError hyBidNullAd]];
+            [self invokeDidFail:[NSError hyBidParseError]];
         }
     } else {
         NSError *statusError = [NSError hyBidServerError];

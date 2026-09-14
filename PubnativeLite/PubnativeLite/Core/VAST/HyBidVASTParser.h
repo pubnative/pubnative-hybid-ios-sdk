@@ -19,4 +19,6 @@ typedef void (^HyBidVastParserCompletionBlock)(HyBidVASTModel*, HyBidVASTParserE
 
 - (void)parseWithData:(NSData *)vastData completion:(HyBidVastParserCompletionBlock)block;
 
++ (NSData *)removingVastFirstLineParamsFrom:(NSString *)vastDataString;
+
 @end

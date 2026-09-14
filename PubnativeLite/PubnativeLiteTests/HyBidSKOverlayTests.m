@@ -24,7 +24,10 @@ typedef NS_ENUM(NSUInteger, HyBidSKOverlaySimulateMethod) {
 @interface HyBidSKOverlay (Testing)
 
 - (void)simulateSKOverlayMethod:(HyBidSKOverlaySimulateMethod)method;
+- (void)timerFinishedForType:(HyBidSKOverlayTimerType)timerType;
 @property (nonatomic, strong) SKOverlay *overlay API_AVAILABLE(ios(14.0));
+- (void)storeOverlay:(SKOverlay *)overlay
+willStartPresentation:(SKOverlayTransitionContext *)transitionContext API_AVAILABLE(ios(14.0));
 
 @end
 
@@ -152,6 +155,24 @@ typedef NS_ENUM(NSUInteger, HyBidSKOverlaySimulateMethod) {
         
         // Then: If overlay exists, delegate should be called; if nil, method returns early
         // We verify no crash occurs regardless
+    } else {
+        XCTSkip(@"SKOverlay requires iOS 14.0+");
+    }
+}
+
+- (void)test_changeDelegate_preservesFirstPresentationState {
+    if (@available(iOS 14.0, *)) {
+        [self createMockSKOverlay];
+        MockSKOverlayDelegate *videoDelegate = (MockSKOverlayDelegate *)self.mockDelegate;
+        MockSKOverlayDelegate *endCardDelegate = [[MockSKOverlayDelegate alloc] init];
+
+        [self.skOverlay storeOverlay:self.skOverlay.overlay willStartPresentation:nil];
+        [self.skOverlay changeDelegateFor:endCardDelegate];
+        [self.skOverlay storeOverlay:self.skOverlay.overlay willStartPresentation:nil];
+
+        XCTAssertTrue(videoDelegate.lastIsFirstPresentation);
+        XCTAssertTrue(endCardDelegate.skOverlayDidShowCalled);
+        XCTAssertFalse(endCardDelegate.lastIsFirstPresentation);
     } else {
         XCTSkip(@"SKOverlay requires iOS 14.0+");
     }
@@ -913,5 +934,68 @@ typedef NS_ENUM(NSUInteger, HyBidSKOverlaySimulateMethod) {
     }
 }
 
-@end
+#pragma mark - AutoClose re-arm on end card presentation (VMI-1711)
 
+- (void)test_timerFinishedForType_endCardDelay_reArmsAutoCloseWhenPreviouslyCompleted {
+    if (@available(iOS 14.0, *)) {
+        // Given: A custom autoclose that already fired during the first (video) presentation
+        [self.skOverlay setValue:@NO forKey:@"autoClosePerformsDefaultBehaviour"];
+        [self.skOverlay setValue:@5 forKey:@"autoCloseOffset"];
+        [self.skOverlay setValue:@YES forKey:@"autoCloseTimerCompleted"];
+        [self.skOverlay setValue:@(-1) forKey:@"autoCloseTimeRemaining"];
+
+        // When: The end card delay finishes, triggering the second presentation
+        [self.skOverlay timerFinishedForType:HyBidSKOverlayTimerType_EndCardDelay];
+
+        // Then: The autoclose state is reset so the timer can be armed again
+        XCTAssertFalse([[self.skOverlay valueForKey:@"autoCloseTimerCompleted"] boolValue],
+                       @"autoCloseTimerCompleted should be reset for the end card presentation");
+        XCTAssertEqual([[self.skOverlay valueForKey:@"autoCloseTimeRemaining"] integerValue], 5,
+                       @"autoCloseTimeRemaining should be restored to the autoclose offset");
+    } else {
+        XCTSkip(@"SKOverlay requires iOS 14.0+");
+    }
+}
+
+- (void)test_timerFinishedForType_endCardDelay_doesNotReArmAutoCloseWithDefaultBehaviour {
+    if (@available(iOS 14.0, *)) {
+        // Given: No custom autoclose configured on the creative
+        [self.skOverlay setValue:@YES forKey:@"autoClosePerformsDefaultBehaviour"];
+        [self.skOverlay setValue:@YES forKey:@"autoCloseTimerCompleted"];
+        [self.skOverlay setValue:@(-1) forKey:@"autoCloseTimeRemaining"];
+
+        // When: The end card delay finishes
+        [self.skOverlay timerFinishedForType:HyBidSKOverlayTimerType_EndCardDelay];
+
+        // Then: The autoclose state is left untouched
+        XCTAssertTrue([[self.skOverlay valueForKey:@"autoCloseTimerCompleted"] boolValue],
+                      @"autoCloseTimerCompleted should not be reset without a custom autoclose");
+        XCTAssertEqual([[self.skOverlay valueForKey:@"autoCloseTimeRemaining"] integerValue], -1,
+                       @"autoCloseTimeRemaining should not change without a custom autoclose");
+    } else {
+        XCTSkip(@"SKOverlay requires iOS 14.0+");
+    }
+}
+
+- (void)test_timerFinishedForType_endCardDelay_keepsRemainingTimeWhenAutoCloseNotCompleted {
+    if (@available(iOS 14.0, *)) {
+        // Given: A custom autoclose that is paused mid-count and has not fired yet
+        [self.skOverlay setValue:@NO forKey:@"autoClosePerformsDefaultBehaviour"];
+        [self.skOverlay setValue:@5 forKey:@"autoCloseOffset"];
+        [self.skOverlay setValue:@NO forKey:@"autoCloseTimerCompleted"];
+        [self.skOverlay setValue:@3 forKey:@"autoCloseTimeRemaining"];
+
+        // When: The end card delay finishes
+        [self.skOverlay timerFinishedForType:HyBidSKOverlayTimerType_EndCardDelay];
+
+        // Then: The paused countdown carries over instead of restarting from the offset
+        XCTAssertFalse([[self.skOverlay valueForKey:@"autoCloseTimerCompleted"] boolValue],
+                       @"autoCloseTimerCompleted should stay NO");
+        XCTAssertEqual([[self.skOverlay valueForKey:@"autoCloseTimeRemaining"] integerValue], 3,
+                       @"autoCloseTimeRemaining should keep the paused remaining time");
+    } else {
+        XCTSkip(@"SKOverlay requires iOS 14.0+");
+    }
+}
+
+@end

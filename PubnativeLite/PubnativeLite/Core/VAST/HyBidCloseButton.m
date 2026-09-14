@@ -5,6 +5,7 @@
 //
 
 #import "HyBidCloseButton.h"
+#import "HyBidAdExperienceManager.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -112,13 +113,10 @@
 }
 
 + (BOOL)buttonShouldBeResized:(HyBidAd *)ad {
-    if (!ad || !ad.adExperience) {
+    if (![HyBidAdExperienceManager hasPerformanceExperience:ad]) {
         return NO;
     }
-    if (![ad.adExperience isEqualToString:HyBidAdExperiencePerformanceValue]) {
-        return NO;
-    }
-    if (!ad || !ad.iconSizeReduced) {
+    if (!ad.iconSizeReduced) {
         return NO;
     }
     return YES;

@@ -42,6 +42,38 @@
     return [string stringByTrimmingCharactersInSet:(NSCharacterSet * _Nonnull)characterSet];
 }
 
++ (nullable NSString *)safeRegexReplaceInValue:(id _Nullable)value
+                                       pattern:(id _Nullable)pattern
+                                  withTemplate:(id _Nullable)templateString
+                                       options:(NSRegularExpressionOptions)options
+{
+    if (![value isKindOfClass:[NSString class]]) { return nil; }
+
+    // An immutable snapshot: if value is a mutable string mutated elsewhere while the
+    // regex walks it, Foundation reads stale ranges and throws from deep inside
+    // -stringByReplacingMatchesInString:.
+    NSString *sourceString = [(NSString *)value copy];
+
+    if (![pattern isKindOfClass:[NSString class]] || [(NSString *)pattern length] == 0) { return sourceString; }
+    if (![templateString isKindOfClass:[NSString class]]) { return sourceString; }
+    if (sourceString.length == 0) { return sourceString; }
+
+    NSError *error = nil;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:(NSString *)pattern
+                                                                            options:options
+                                                                              error:&error];
+    if (!regex || error) { return sourceString; }
+
+    @try {
+        return [regex stringByReplacingMatchesInString:sourceString
+                                               options:0
+                                                 range:NSMakeRange(0, sourceString.length)
+                                          withTemplate:(NSString *)templateString];
+    } @catch (NSException *exception) {
+        return sourceString;
+    }
+}
+
 + (nullable NSString *)safeAppendInValue:(id _Nullable)value
                               withString:(id _Nullable)string
 {

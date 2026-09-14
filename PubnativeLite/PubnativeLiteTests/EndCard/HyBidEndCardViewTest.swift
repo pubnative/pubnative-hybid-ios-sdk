@@ -702,25 +702,26 @@ final class HyBidEndCardViewTest: XCTestCase {
         XCTAssertTrue(delay?.isCustom == true)
     }
 
-    func test_closeDelay_numberGreaterThan30_setsMaxOffset() {
+    func test_closeDelay_numberGreaterThan30_isHonoured() {
         let ad = AdStub(endcardCloseDelay: NSNumber(value: 31))
 
         invokeDetermineCloseDelay(using: ad)
 
         let delay = try? XCTUnwrap(currentCloseDelay())
         XCTAssertNotNil(delay)
-        XCTAssertFalse(delay?.isCustom == true)
-        XCTAssertEqual(delay?.offset, 30) // matches implementation logic
+        XCTAssertTrue(delay?.isCustom == true)
+        XCTAssertEqual(delay?.offset, 31) // VMI-1678: 30s ceiling removed, value honoured
     }
 
-    func test_closeDelay_negativeNumber_fallsBackToDefault() {
+    /// VMA-1543 parity: a negative value means "close immediately" (0s), not the platform default.
+    func test_closeDelay_negativeNumber_closesImmediately() {
         let ad = AdStub(endcardCloseDelay: NSNumber(value: -1))
 
         invokeDetermineCloseDelay(using: ad)
 
         let delay = try? XCTUnwrap(currentCloseDelay())
-        XCTAssertNotNil(delay)
-        XCTAssertFalse(delay?.isCustom == true)
+        XCTAssertEqual(delay?.offset, 0)
+        XCTAssertTrue(delay?.isCustom == true)
     }
 
     func test_closeDelay_nil_fallsBackToDefault() {
@@ -732,7 +733,20 @@ final class HyBidEndCardViewTest: XCTestCase {
         XCTAssertNotNil(delay)
         XCTAssertFalse(delay?.isCustom == true)
     }
-    
+
+    /// Copilot review on VMI-1678: an unexpected JSON type (array/dictionary) must not
+    /// crash by sending `integerValue` to a non-NSNumber; it must fall back to default.
+    func test_closeDelay_unexpectedType_doesNotCrash_fallsBackToDefault() {
+        let ad = AdStub(endcardCloseDelay: ["not", "a", "number"])
+
+        invokeDetermineCloseDelay(using: ad)
+
+        let delay = try? XCTUnwrap(currentCloseDelay())
+        XCTAssertNotNil(delay)
+        XCTAssertFalse(delay?.isCustom == true)
+    }
+
+
     func test_initWithDelegate_setsExpectedInternalState() async throws {
         // Given
         let delegate = TestEndCardViewDelegate()
@@ -1116,6 +1130,43 @@ extension HyBidEndCardViewTest {
         // Verify elapsed was reset to 0 (line 330 covered)
         let elapsed = (sut as NSObject).value(forKey: "closeButtonTimeElapsed") as? TimeInterval
         XCTAssertEqual(elapsed, 0.0, "closeButtonTimeElapsed should be reset to 0 by setupUI")
+    }
+
+    func test_setupUI_withCustomEndCard_createsSkipOverlayInstead() throws {
+        // Deliberately not `async`: XCTestExpectation's synchronous wait(for:timeout:) is
+        // unavailable from async contexts, and it's the only reliable way found to drain
+        // the dispatch_async(main queue) pair below before this function returns (see below).
+        //
+        // endCard.isCustomEndCard = YES → hits the custom-endcard branch, which builds a
+        // HyBidSkipOverlay (HyBidCountdownSimple) instead of scheduling the close button timer.
+        //
+        // A previous version of this test crashed the host with SIGSEGV. Root cause (confirmed
+        // via captured .ips crash report): HyBidSkipOverlay.addSkipOverlayViewIn:delegate:
+        // queues its subview-add and constraint-activation work via two separate
+        // dispatch_async(dispatch_get_main_queue(), ...) blocks. pumpMainRunLoop(for:) here
+        // is RunLoop.main.run(until:) — in this @MainActor/async-throws test context that does
+        // NOT reliably drain GCD's main queue the way XCTestExpectation does, so those blocks
+        // could still be pending when the test function returned and `sut` was deallocated by
+        // ARC, then ran later (during a subsequent test) against a dangling view/layout guide.
+        // HyBidSkipOverlayTests.m's testAddSkipOverlayViewIn_delegate_doesNotCrash hits the same
+        // dispatch_async pair successfully by draining with an XCTestExpectation instead — same
+        // fix applied here.
+        let ad = try makeAd()
+        let sut = try XCTUnwrap(makeFullEndCardView(ad: ad, hostVC: makeHostViewController()))
+
+        let customEndCard = HyBidEndCard()
+        customEndCard.isCustomEndCard = true
+        (sut as NSObject).setValue(customEndCard, forKey: "endCard")
+        (sut as NSObject).setValue(HyBidSkipOffset(offset: 15, isCustom: true), forKey: "endCardCloseDelay")
+
+        sut.setupUI()
+
+        let drain = expectation(description: "Main queue drain")
+        DispatchQueue.main.async { drain.fulfill() }
+        wait(for: [drain], timeout: 1.0)
+
+        let skipOverlay = (sut as NSObject).value(forKey: "skipOverlay")
+        XCTAssertNotNil(skipOverlay, "setupUI must create a skipOverlay when the endCard is custom")
     }
 
     func test_adHasFocus_withDefaultState_resumesCloseButtonTimer() async throws {

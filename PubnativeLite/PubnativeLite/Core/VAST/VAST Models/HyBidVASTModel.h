@@ -17,6 +17,8 @@ typedef NSArray<NSString *> * HyBidVASTErrorTagURLs;
  */
 - (NSString *)version;
 
+- (NSString *)rootElementName;
+
 /**
  An array of ads.
  */

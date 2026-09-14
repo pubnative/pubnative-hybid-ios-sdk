@@ -40,6 +40,11 @@
     return [[self.parser rootElement] attribute:@"version"];
 }
 
+- (NSString *)rootElementName
+{
+    return [[self.parser rootElement] name];
+}
+
 - (NSArray<HyBidVASTAd *> *)ads
 {
     NSMutableArray *ads = [[NSMutableArray alloc] init];

@@ -108,22 +108,31 @@ API_AVAILABLE(ios(14.5)){
             }
         }
         
-        if ([[HyBidSettings sharedInstance] supportMultipleFidelities] && skanVersion >= 2.2 && [model.productParameters[HyBidSKAdNetworkParameter.fidelities] count] > 0) {
-            for (NSData *data in model.productParameters[HyBidSKAdNetworkParameter.fidelities]) {
-                SKANObject skanObject;
-                [data getBytes:&skanObject length:sizeof(skanObject)];
-                
-                if (skanObject.fidelity == 0) { // 0 is View-Through ad
-                    if ([NSString stringWithUTF8String:skanObject.signature] != nil) {
-                        [impression setSignature: [NSString stringWithUTF8String:skanObject.signature]];
-                    }
-                    if ([NSString stringWithUTF8String:skanObject.nonce] != nil) {
-                        [impression setAdImpressionIdentifier:[NSString stringWithUTF8String:skanObject.nonce]];
-                    }
-                    if ([self getNSNumberFromString:[NSString stringWithUTF8String:skanObject.timestamp]] != nil) {
-                        [impression setTimestamp:[self getNSNumberFromString:[NSString stringWithUTF8String:skanObject.timestamp]]];
-                    }
+        id fidelitiesValue = model.productParameters[HyBidSKAdNetworkParameter.fidelities];
+        BOOL hasFidelities = [fidelitiesValue isKindOfClass:[NSArray class]] && [(NSArray *)fidelitiesValue count] > 0;
+        if ([[HyBidSettings sharedInstance] supportMultipleFidelities] && skanVersion >= 2.2 && hasFidelities) {
+            for (id value in (NSArray *)fidelitiesValue) {
+                if (![value isKindOfClass:[NSDictionary class]]) {
+                    continue;
                 }
+                NSDictionary *fidelity = value;
+                NSNumber *fidelityType = fidelity[HyBidSKAdNetworkParameter.fidelity];
+                NSString *signature = fidelity[HyBidSKAdNetworkParameter.signature];
+                NSString *nonce = fidelity[HyBidSKAdNetworkParameter.nonce];
+                NSString *timestampString = fidelity[HyBidSKAdNetworkParameter.timestamp];
+                if (![fidelityType isKindOfClass:[NSNumber class]] || fidelityType.intValue != 0 ||
+                    ![signature isKindOfClass:[NSString class]] || signature.length == 0 ||
+                    ![nonce isKindOfClass:[NSString class]] || nonce.length == 0 ||
+                    ![timestampString isKindOfClass:[NSString class]] || timestampString.length == 0) {
+                    continue;
+                }
+                NSNumber *timestamp = [self getNSNumberFromString:timestampString];
+                if (timestamp == nil) {
+                    continue;
+                }
+                [impression setSignature:signature];
+                [impression setAdImpressionIdentifier:nonce];
+                [impression setTimestamp:timestamp];
             }
         } else {
             if (model.productParameters[HyBidSKAdNetworkParameter.signature] != nil) {

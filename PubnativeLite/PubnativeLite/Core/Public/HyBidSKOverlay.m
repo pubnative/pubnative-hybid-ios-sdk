@@ -524,6 +524,12 @@ typedef enum : NSUInteger {
             self.endCardDelayTimeRemaining = -1;
             self.delayTimerNeeded = NO;
             self.endCardDelayTimerCompleted = YES;
+            // Autoclose applies to every SKOverlay presentation, so re-arm it for the end card
+            // presentation (VMI-1711; supersedes the OMI-1998 Scenario 1 sign-off from 2023)
+            if (self.autoCloseTimerCompleted && !self.autoClosePerformsDefaultBehaviour) {
+                self.autoCloseTimerCompleted = NO;
+                self.autoCloseTimeRemaining = self.autoCloseOffset;
+            }
             [self presentWithAd:self.ad];
             break;
     }

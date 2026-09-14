@@ -46,8 +46,8 @@ public class HyBidInterstitialAd: NSObject {
     private weak var delegate: HyBidInterstitialAdDelegate?
     private var interstitialPresenter: HyBidInterstitialPresenter?
     private var interstitialAdRequest: HyBidInterstitialAdRequest?
-    private var videoSkipOffset: HyBidSkipOffset?
-    private var htmlSkipOffset: HyBidSkipOffset?
+    private(set) var videoSkipOffset: HyBidSkipOffset?
+    private(set) var htmlSkipOffset: HyBidSkipOffset?
     private var initialLoadTimestamp: TimeInterval?
     private var initialRenderTimestamp: TimeInterval?
     private var loadReportingProperties: [String: Any] = [:]
@@ -268,11 +268,7 @@ public class HyBidInterstitialAd: NSObject {
         let defaultHtmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_HTML_SKIP_OFFSET), isCustom: false)
 
         if videoSkipOffset >= 0 && htmlSkipOffset >= 0 {
-            if htmlSkipOffset >= HyBidSkipOffset.DEFAULT_INTERSTITIAL_HTML_MAX_SKIP_OFFSET {
-                self.interstitialPresenter = interstitalPresenterFactory.createInterstitalPresenter(with: ad, withVideoSkipOffset: self.videoSkipOffset, withHTMLSkipOffset: UInt(HyBidSkipOffset.DEFAULT_INTERSTITIAL_HTML_MAX_SKIP_OFFSET), withCloseOnFinish: self.closeOnFinish, with: HyBidInterstitialPresenterWrapper(parent: self))
-            } else {
-                self.interstitialPresenter = interstitalPresenterFactory.createInterstitalPresenter(with: ad, withVideoSkipOffset: self.videoSkipOffset, withHTMLSkipOffset: UInt(htmlSkipOffset), withCloseOnFinish: self.closeOnFinish, with: HyBidInterstitialPresenterWrapper(parent: self))
-            }
+            self.interstitialPresenter = interstitalPresenterFactory.createInterstitalPresenter(with: ad, withVideoSkipOffset: self.videoSkipOffset, withHTMLSkipOffset: UInt(htmlSkipOffset), withCloseOnFinish: self.closeOnFinish, with: HyBidInterstitialPresenterWrapper(parent: self))
         } else if videoSkipOffset < 0 && htmlSkipOffset < 0 {
             let isEndCardOrCustomEndCard = self.ad?.hasEndCard ?? false || self.ad?.hasCustomEndCard ?? false
             let offsetValue = isEndCardOrCustomEndCard && HyBidConstants.showEndCard
@@ -427,8 +423,6 @@ public class HyBidInterstitialAd: NSObject {
             if let skipOffset = ad.pcInterstitialHtmlSkipOffset {
                 if skipOffset.intValue < 0 {
                     self.htmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_PC_INTERSTITIAL_SKIP_OFFSET), isCustom: true)
-                } else if skipOffset.intValue >= HyBidSkipOffset.DEFAULT_PC_INTERSTITIAL_MAX_SKIP_OFFSET {
-                    self.htmlSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_PC_INTERSTITIAL_MAX_SKIP_OFFSET), isCustom: true)
                 } else {
                     self.htmlSkipOffset = HyBidSkipOffset(offset: skipOffset, isCustom: true)
                 }
@@ -454,8 +448,6 @@ public class HyBidInterstitialAd: NSObject {
             }
             if skipOffset.intValue < 0 {
                 self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: defaultSkipOffset), isCustom: true)
-            } else if skipOffset.intValue >= HyBidSkipOffset.DEFAULT_INTERSTITIAL_VIDEO_MAX_SKIP_OFFSET {
-                self.videoSkipOffset = HyBidSkipOffset(offset: NSNumber(value: HyBidSkipOffset.DEFAULT_INTERSTITIAL_VIDEO_MAX_SKIP_OFFSET), isCustom: true)
             } else {
                 self.videoSkipOffset = HyBidSkipOffset(offset: skipOffset, isCustom: true)
             }

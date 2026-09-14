@@ -1,4 +1,4 @@
-source 'https://github.com/CocoaPods/Specs.git'
+source 'https://cdn.cocoapods.org/'
 source 'https://github.com/vervegroup/specs-private.git'
 
 workspace 'HyBid.xcworkspace'

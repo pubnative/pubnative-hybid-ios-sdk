@@ -36,7 +36,18 @@ public class HyBidSKAdNetworkViewController: NSObject {
     
     @available(iOS 17.4, *)
     private func loadStoreKitViewAAK(parameters: [String : Any], adFormat: String, isAutoStoreKitView: Bool) async {
-        guard let ad, let impression = await HyBidAdAttributionManager.getAppImpression(ad: ad, adFormat: adFormat, aakAdType: isAutoStoreKitView ? .autoStoreKitView : .storeKitView) else {
+        let aakAdType: HyBidAdAttributionAdType = isAutoStoreKitView ? .autoStoreKitView : .storeKitView
+        guard Self.canLoadStoreKitProductWithAAK(parameters: parameters) else {
+            let message = "Falling back to legacy StoreKit loading because AdAttributionKit does not support binary product parameters."
+            HyBidLogger.warningLog(fromClass: String(describing: HyBidSKAdNetworkViewController.self), fromMethod: #function, withMessage: message)
+            if HyBidSDKConfig.sharedConfig.reporting {
+                let eventType = EventType.AD_ATTRIBUTION_KIT_APP_IMPRESSION_ERROR.replacingOccurrences(of: EventType.AD_ATTRIBUTION_KIT_AD_TYPE_MACRO, with: aakAdType.rawValue)
+                HyBid.reportingManager().reportEvent(for: HyBidReportingEvent(with: eventType, errorMessage: message))
+            }
+            return self.loadStoreKitView(parameters: parameters, adFormat: adFormat, isAutoStoreKitView: isAutoStoreKitView)
+        }
+        guard let ad,
+              let impression = await HyBidAdAttributionManager.getAppImpression(ad: ad, adFormat: adFormat, aakAdType: aakAdType) else {
             return self.loadStoreKitView(parameters: parameters, adFormat: adFormat, isAutoStoreKitView: isAutoStoreKitView)
         }
         do {
@@ -161,6 +172,21 @@ public class HyBidSKAdNetworkViewController: NSObject {
     
     @objc public func isSKProductViewControllerPresented() -> Bool {
         return self.isStoreKitViewPresented
+    }
+
+    static func canLoadStoreKitProductWithAAK(parameters: [String: Any]) -> Bool {
+        !containsData(parameters)
+    }
+
+    private static func containsData(_ value: Any) -> Bool {
+        if value is Data { return true }
+        if let array = value as? [Any] {
+            return array.contains(where: containsData)
+        }
+        if let dictionary = value as? [AnyHashable: Any] {
+            return dictionary.values.contains(where: containsData)
+        }
+        return false
     }
 }
 

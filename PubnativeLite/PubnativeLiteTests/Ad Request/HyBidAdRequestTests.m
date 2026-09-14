@@ -5,7 +5,15 @@
 //
 
 #import <XCTest/XCTest.h>
+#import <OCMockito/OCMockito.h>
+#import <OCHamcrest/OCHamcrest.h>
+#import "HyBid.h"
+#import "HyBidAdCache.h"
+#import "HyBidAdFeedbackParameters.h"
 #import "HyBidAdRequest.h"
+#import "HyBidError.h"
+#import "HyBidVASTEventProcessor.h"
+#import "PNLiteHttpRequest.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -15,12 +23,39 @@
     #import "HyBid-Swift.h"
 #endif
 
+static NSInteger const kResponseStatusOK = 200;
+static NSString *const kPlainVASTErrorTagURL = @"http://adserver.com/noad.gif";
+static NSString *const kPlainVASTWithoutAds = @"<VAST version=\"4.1\"><Error><![CDATA[http://adserver.com/noad.gif]]></Error></VAST>";
+
 // Expose private methods for testing
 @interface HyBidAdRequest (Testing)
 - (NSTimeInterval)elapsedTimeSince:(NSTimeInterval)timestamp;
 - (nullable NSDictionary *)createDictionaryFromData:(NSData *)data;
 - (void)processVASTTagResponseFrom:(NSString *)vastAdContent;
+- (void)request:(PNLiteHttpRequest *)request didFinishWithData:(NSData *)data statusCode:(NSInteger)statusCode;
 //- (HyBidCustomEndcardDisplayBehaviour)customEndcardDisplayBehaviourFromString:(NSString *)string;
+@end
+
+@interface HyBidAdRequestCaptureDelegate : NSObject <HyBidAdRequestDelegate>
+@property (nonatomic, strong) XCTestExpectation *expectation;
+@property (nonatomic, strong) HyBidAd *ad;
+@property (nonatomic, strong) NSError *error;
+@end
+
+@implementation HyBidAdRequestCaptureDelegate
+
+- (void)requestDidStart:(HyBidAdRequest *)request {}
+
+- (void)request:(HyBidAdRequest *)request didLoadWithAd:(HyBidAd *)ad {
+    self.ad = ad;
+    [self.expectation fulfill];
+}
+
+- (void)request:(HyBidAdRequest *)request didFailWithError:(NSError *)error {
+    self.error = error;
+    [self.expectation fulfill];
+}
+
 @end
 
 @interface HyBidAdRequestTests : XCTestCase
@@ -29,12 +64,62 @@
 
 @implementation HyBidAdRequestTests
 
+- (NSData *)reencodedAPIv3VideoResponseData {
+    NSString *path = [[NSBundle bundleForClass:[self class]] pathForResource:@"adResponse" ofType:@"txt"];
+    XCTAssertNotNil(path);
+    NSData *sourceData = [NSData dataWithContentsOfFile:path];
+    XCTAssertNotNil(sourceData);
+
+    NSError *error;
+    id response = [NSJSONSerialization JSONObjectWithData:sourceData options:0 error:&error];
+    XCTAssertNil(error);
+    XCTAssertTrue([response isKindOfClass:[NSDictionary class]]);
+    XCTAssertGreaterThan([response[@"ads"] count], 0);
+
+    NSData *reencodedData = [NSJSONSerialization dataWithJSONObject:response options:0 error:&error];
+    XCTAssertNil(error);
+    NSString *reencodedResponse = [[NSString alloc] initWithData:reencodedData encoding:NSUTF8StringEncoding];
+    reencodedResponse = [reencodedResponse stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"];
+    XCTAssertTrue([reencodedResponse containsString:@"<VAST"]);
+    XCTAssertTrue([reencodedResponse containsString:@"</VAST>"]);
+
+    NSData *normalizedData = [reencodedResponse dataUsingEncoding:NSUTF8StringEncoding];
+    id normalizedResponse = [NSJSONSerialization JSONObjectWithData:normalizedData options:0 error:&error];
+    XCTAssertNil(error);
+    XCTAssertEqualObjects(normalizedResponse, response);
+    return normalizedData;
+}
+
+- (HyBidVASTEventProcessor *)primedNetworkResponseContextWithMockedEventProcessor {
+    HyBidVASTEventProcessor *eventProcessor = mock([HyBidVASTEventProcessor class]);
+    [self.adRequest setValue:eventProcessor forKey:@"vastEventProcessor"];
+    [self.adRequest setValue:[NSDate date] forKey:@"startTime"];
+    [self.adRequest setValue:[NSURL URLWithString:@"https://api.pubnative.net/api/v3/native"] forKey:@"requestURL"];
+    return eventProcessor;
+}
+
+- (HyBidAdRequestCaptureDelegate *)attachedCaptureDelegateWithDescription:(NSString *)description {
+    HyBidAdRequestCaptureDelegate *delegate = [[HyBidAdRequestCaptureDelegate alloc] init];
+    delegate.expectation = [self expectationWithDescription:description];
+    self.adRequest.delegate = delegate;
+    return delegate;
+}
+
+- (void)waitForRequestDelegate:(HyBidAdRequestCaptureDelegate *)delegate {
+    [self waitForExpectations:@[delegate.expectation] timeout:5.0];
+}
+
 - (void)setUp {
     [super setUp];
     self.adRequest = [[HyBidAdRequest alloc] init];
 }
 
 - (void)tearDown {
+    for (NSString *zoneID in @[@"vmi-1706", @"legacy_api_tester"]) {
+        [[HyBidAdCache sharedInstance].adCache removeObjectForKey:zoneID];
+        [[[HyBidAdFeedbackParameters sharedInstance] valueForKey:@"adCache"] removeObjectForKey:zoneID];
+        [[[HyBidAdFeedbackParameters sharedInstance] valueForKey:@"adRequestCache"] removeObjectForKey:zoneID];
+    }
     self.adRequest = nil;
     [super tearDown];
 }
@@ -146,6 +231,156 @@
     NSData *data = [@"" dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *result = [self.adRequest createDictionaryFromData:data];
     XCTAssertNil(result);
+}
+
+#pragma mark - response classification tests
+
+// VMI-1706: a JSON ad response carrying literal VAST markup must not be sniffed as a plain-VAST document.
+- (void)test_networkResponse_withReencodedAPIv3Response_shouldLoadWithoutVASTErrorBeacon {
+    HyBidVASTEventProcessor *eventProcessor = [self primedNetworkResponseContextWithMockedEventProcessor];
+    [self.adRequest setValue:@"vmi-1706" forKey:@"zoneID"];
+    self.adRequest.isAutoCacheOnLoad = NO;
+
+    HyBidAdRequestCaptureDelegate *delegate = [self attachedCaptureDelegateWithDescription:@"APIv3 response completes"];
+
+    [self.adRequest request:nil
+          didFinishWithData:[self reencodedAPIv3VideoResponseData]
+                 statusCode:kResponseStatusOK];
+    [self waitForRequestDelegate:delegate];
+
+    XCTAssertNotNil(delegate.ad);
+    XCTAssertNil(delegate.error);
+    XCTAssertEqual(delegate.ad.assetGroupID.integerValue, VAST_INTERSTITIAL);
+    XCTAssertTrue([delegate.ad.vast containsString:@"<VAST"]);
+    XCTAssertGreaterThan(delegate.ad.customEndCardData.length, 0);
+    [verifyCount(eventProcessor, never()) sendVASTUrls:anything() withType:HyBidVASTParserErrorURL];
+}
+
+- (void)test_networkResponse_withInvalidJSONContainingVASTMarkup_shouldReturnParseErrorWithoutVASTErrorBeacon {
+    HyBidVASTEventProcessor *eventProcessor = [self primedNetworkResponseContextWithMockedEventProcessor];
+
+    HyBidAdRequestCaptureDelegate *delegate = [self attachedCaptureDelegateWithDescription:@"Invalid response fails"];
+
+    NSData *data = [@"upstream proxy error: <VAST></VAST>" dataUsingEncoding:NSUTF8StringEncoding];
+    [self.adRequest request:nil didFinishWithData:data statusCode:kResponseStatusOK];
+    [self waitForRequestDelegate:delegate];
+
+    XCTAssertNil(delegate.ad);
+    XCTAssertEqual(delegate.error.code, HyBidErrorCodeParse);
+    [verifyCount(eventProcessor, never()) sendVASTUrls:anything() withType:HyBidVASTParserErrorURL];
+}
+
+- (void)test_networkResponse_withNonUTF8Body_shouldReturnParseError {
+    HyBidAdRequestCaptureDelegate *delegate = [self attachedCaptureDelegateWithDescription:@"Undecodable response fails"];
+
+    uint8_t invalidUTF8[] = {0xC3, 0x28, 0xA0, 0xA1};
+    NSData *data = [NSData dataWithBytes:invalidUTF8 length:sizeof(invalidUTF8)];
+    XCTAssertNil([[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+
+    [self.adRequest request:nil didFinishWithData:data statusCode:kResponseStatusOK];
+    [self waitForRequestDelegate:delegate];
+
+    XCTAssertNil(delegate.ad);
+    XCTAssertEqual(delegate.error.code, HyBidErrorCodeParse);
+}
+
+- (void)test_networkResponse_withPlainVASTContainingNoAds_shouldPreserveNullAdErrorAndBeacon {
+    HyBidVASTEventProcessor *eventProcessor = [self primedNetworkResponseContextWithMockedEventProcessor];
+
+    HyBidAdRequestCaptureDelegate *delegate = [self attachedCaptureDelegateWithDescription:@"Plain VAST no-ad response fails"];
+
+    [self.adRequest request:nil
+          didFinishWithData:[kPlainVASTWithoutAds dataUsingEncoding:NSUTF8StringEncoding]
+                 statusCode:kResponseStatusOK];
+    [self waitForRequestDelegate:delegate];
+
+    XCTAssertEqual(delegate.error.code, HyBidErrorCodeNullAd);
+    [verifyCount(eventProcessor, times(1)) sendVASTUrls:@[kPlainVASTErrorTagURL]
+                                             withType:HyBidVASTParserErrorURL];
+}
+
+#pragma mark - injected response classification tests
+
+// VMI-1706: the injected path must classify the body the same way the network path does.
+- (void)test_injectedResponse_withReencodedAPIv3Response_shouldLoadWithoutVASTErrorBeacon {
+    HyBidVASTEventProcessor *eventProcessor = [self primedNetworkResponseContextWithMockedEventProcessor];
+    self.adRequest.isAutoCacheOnLoad = NO;
+
+    HyBidAdRequestCaptureDelegate *delegate = [self attachedCaptureDelegateWithDescription:@"Injected APIv3 response completes"];
+
+    NSString *response = [[NSString alloc] initWithData:[self reencodedAPIv3VideoResponseData]
+                                               encoding:NSUTF8StringEncoding];
+    [self.adRequest processResponseWithJSON:response];
+    [self waitForRequestDelegate:delegate];
+
+    XCTAssertNotNil(delegate.ad);
+    XCTAssertNil(delegate.error);
+    XCTAssertEqual(delegate.ad.assetGroupID.integerValue, VAST_INTERSTITIAL);
+    [verifyCount(eventProcessor, never()) sendVASTUrls:anything() withType:HyBidVASTParserErrorURL];
+}
+
+- (void)test_injectedResponse_withPlainVASTContainingNoAds_shouldTakeTheVASTBranch {
+    HyBidVASTEventProcessor *eventProcessor = [self primedNetworkResponseContextWithMockedEventProcessor];
+
+    HyBidAdRequestCaptureDelegate *delegate = [self attachedCaptureDelegateWithDescription:@"Injected plain VAST fails as VAST"];
+
+    [self.adRequest processResponseWithJSON:kPlainVASTWithoutAds];
+    [self waitForRequestDelegate:delegate];
+
+    XCTAssertEqual(delegate.error.code, HyBidErrorCodeNullAd);
+    [verifyCount(eventProcessor, times(1)) sendVASTUrls:@[kPlainVASTErrorTagURL]
+                                             withType:HyBidVASTParserErrorURL];
+}
+
+// VMI-1706: a body starting with "<" but with no lossless UTF-8 form must not hand nil data to HyBidVASTModel.
+- (void)test_injectedResponse_withUnencodableString_shouldReturnParseErrorWithoutCrashing {
+    HyBidVASTEventProcessor *eventProcessor = [self primedNetworkResponseContextWithMockedEventProcessor];
+
+    HyBidAdRequestCaptureDelegate *delegate = [self attachedCaptureDelegateWithDescription:@"Unencodable response fails"];
+
+    unichar unpairedSurrogate[] = {'<', 0xD800};
+    NSString *unencodable = [NSString stringWithCharacters:unpairedSurrogate length:2];
+    XCTAssertTrue([unencodable hasPrefix:@"<"]);
+    XCTAssertNil([unencodable dataUsingEncoding:NSUTF8StringEncoding]);
+
+    XCTAssertNoThrow([self.adRequest processResponseWithJSON:unencodable]);
+    [self waitForRequestDelegate:delegate];
+
+    XCTAssertNil(delegate.ad);
+    XCTAssertEqual(delegate.error.code, HyBidErrorCodeParse);
+    [verifyCount(eventProcessor, never()) sendVASTUrls:anything() withType:HyBidVASTParserErrorURL];
+}
+
+// VMI-1706: the OpenRTB branch must not hand the nil data of an unencodable body to NSJSONSerialization.
+- (void)test_injectedResponse_withUnencodableStringOnOpenRTB_shouldReturnParseErrorWithoutCrashing {
+    self.adRequest.isUsingOpenRTB = YES;
+    self.adRequest.openRTBAdType = HyBidOpenRTBAdBanner;
+
+    HyBidAdRequestCaptureDelegate *delegate = [self attachedCaptureDelegateWithDescription:@"Unencodable OpenRTB response fails"];
+
+    unichar unpairedSurrogate[] = {'<', 0xD800};
+    NSString *unencodable = [NSString stringWithCharacters:unpairedSurrogate length:2];
+    XCTAssertNil([unencodable dataUsingEncoding:NSUTF8StringEncoding]);
+
+    XCTAssertNoThrow([self.adRequest processResponseWithJSON:unencodable]);
+    [self waitForRequestDelegate:delegate];
+
+    XCTAssertNil(delegate.ad);
+    XCTAssertEqual(delegate.error.code, HyBidErrorCodeParse);
+}
+
+// VMI-1706: markup whose real XML root is not <VAST> is not a VAST document, even when it embeds one.
+- (void)test_injectedResponse_withNonVASTXMLContainingNestedVAST_shouldReturnParseErrorWithoutVASTErrorBeacon {
+    HyBidVASTEventProcessor *eventProcessor = [self primedNetworkResponseContextWithMockedEventProcessor];
+
+    HyBidAdRequestCaptureDelegate *delegate = [self attachedCaptureDelegateWithDescription:@"Nested VAST fails as parse error"];
+
+    [self.adRequest processResponseWithJSON:@"<html><VAST></VAST></html>"];
+    [self waitForRequestDelegate:delegate];
+
+    XCTAssertNil(delegate.ad);
+    XCTAssertEqual(delegate.error.code, HyBidErrorCodeParse);
+    [verifyCount(eventProcessor, never()) sendVASTUrls:anything() withType:HyBidVASTParserErrorURL];
 }
 
 #pragma mark - elapsedTimeSince tests

@@ -64,6 +64,7 @@
 + (NSString *)pcSDKAutoStorekitEnabled { return @"pc_sdk_autostorekit"; }
 + (NSString *)sdkAutoStorekitDelay { return @"sdk_autostorekit_delay"; }
 + (NSString *)sdkAutoStorekitDelayInputValue { return @"sdk_autostorekit_delay_input_value"; }
++ (NSString *)suppressAutoClick { return @"suppress_auto_click"; }
 + (NSString *)itunesIdValue { return @"itunesid_value"; }
 + (NSString *)reducedIconSizes { return @"pc_reduced_icon_sizes"; }
 + (NSString *)reducedIconSizesInputValue { return @"pc_reduced_icon_sizes_input_value"; }
@@ -76,5 +77,8 @@
 + (NSString *)ctaButtonSizeInputValue { return @"bc_learn_more_size_input_value"; }
 + (NSString *)ctaButtonLocation { return @"bc_learn_more_location"; }
 + (NSString *)ctaButtonLocationInputValue { return @"bc_learn_more_location_input_value"; }
++ (NSString *)clickThroughTimer { return @"click_through_timer"; }
++ (NSString *)pcClickThroughTimer { return @"pc_click_through_timer"; }
++ (NSString *)bcClickThroughTimer { return @"bc_click_through_timer"; }
 
 @end

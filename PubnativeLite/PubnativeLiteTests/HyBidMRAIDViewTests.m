@@ -11,12 +11,18 @@
 #import <OCHamcrest/OCHamcrest.h>
 #import <WebKit/WebKit.h>
 #import <UIKit/UIKit.h>
+#import "HyBidAd+Internal.h"
 #import "HyBidMRAIDView.h"
 #import "HyBidMRAIDServiceProvider.h"
+#import "HyBidMRAIDServiceDelegate.h"
 #import "HyBidEndCardView.h"
 #import "HyBidEndCardView+Testing.h"
+#import "HyBidTimerState.h"
 #import "HyBidAd.h"
 #import "HyBidAdModel.h"
+#import "HyBidSkAdNetworkModel.h"
+#import "HyBidSKAdNetworkParameter.h"
+#import "HyBidVASTEventProcessor.h"
 #import <objc/runtime.h>
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <HyBid/HyBid-Swift.h>
@@ -30,6 +36,9 @@
 @end
 
 @interface HyBidMRAIDView (Testing)
+- (void)trackClickForSKOverlayWithClickType:(HyBidSKOverlayAutomaticCLickType)clickType isFirstPresentation:(BOOL)isFirstPresentation;
+- (void)trackClickForAutoStoreKitViewWith:(HyBidStorekitAutomaticClickType)clickType;
+- (void)onURLRedirectorFinishWithUrl:(NSString *)url;
 - (void)loadHTMLData:(NSString *)htmlData;
 - (void)webView:(WKWebView *)webView
 decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
@@ -38,8 +47,26 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler;
 - (void)cleanupWebViewPart2;
 - (void)cancel;
 - (void)close;
+- (void)skipTimerCompleted;
+- (void)addSkipOverlay;
 - (NSString *)enforceInlineVideoPlaybackForBannerHtml:(NSString *)html;
 + (NSString *)resolvedExpandURLString:(NSString *)urlString withBaseURL:(NSURL *)expandBaseURL;
+- (void)setClickThroughTimer;
+- (void)triggerClickThrough;
+- (void)stopClickThroughTimer;
+- (void)pauseClickThroughTimer;
+- (void)resumeClickThroughTimer;
+- (void)scheduleClickThroughTimerWithDelay:(NSTimeInterval)delay;
+- (void)oneFingerOneTap;
+- (void)observeClickThroughTouchesOnWebView;
+- (void)removeClickThroughTouchObserver;
+- (void)clickThroughTouchObserved;
+- (void)open:(NSString *)urlString;
+- (void)notifyDelegateToNavigateToURL:(NSURL *)url;
+- (BOOL)shouldSuppressNavigationToURL:(NSURL *)url;
+- (void)clearSyntheticClickSuppression;
+- (void)clickThroughDestinationDidOpen;
+- (BOOL)openAppStoreWithAppID:(NSString *)urlString;
 @end
 
 @protocol HyBidMRAIDViewDelegate;
@@ -212,18 +239,31 @@ static IMP HyBidOrigCommandTypeIMP = NULL;
 
 #pragma mark - webView:decidePolicyForNavigationAction:decisionHandler: Tests
 
+- (id)mockAdForMRAIDView {
+    id ad = mock([HyBidAd class]);
+    [given([ad nativeCloseButtonDelay]) willReturn:nil];
+    [given([ad creativeAutoStorekitEnabled]) willReturn:nil];
+    [given([ad sdkAutoStorekitEnabled]) willReturn:nil];
+    [given([ad link]) willReturn:nil];
+    return ad;
+}
+
 - (HyBidMRAIDView *)makeInitializedMRAIDViewWithHTML:(NSString *)html
                                       isInterstitial:(BOOL)isInterstitial
                                            isEndcard:(BOOL)isEndcard {
+    return [self makeInitializedMRAIDViewWithHTML:html
+                                   isInterstitial:isInterstitial
+                                        isEndcard:isEndcard
+                                           withAd:[self mockAdForMRAIDView]];
+}
+
+- (HyBidMRAIDView *)makeInitializedMRAIDViewWithHTML:(NSString *)html
+                                      isInterstitial:(BOOL)isInterstitial
+                                           isEndcard:(BOOL)isEndcard
+                                              withAd:(HyBidAd *)ad {
     __block HyBidMRAIDView *view = nil;
 
     void (^createView)(void) = ^{
-        id ad = mock([HyBidAd class]);
-        [given([ad nativeCloseButtonDelay]) willReturn:nil];
-        [given([ad creativeAutoStorekitEnabled]) willReturn:nil];
-        [given([ad sdkAutoStorekitEnabled]) willReturn:nil];
-        [given([ad link]) willReturn:nil];
-
         UIViewController *rootVC = [[UIViewController alloc] init];
 
         view = [[HyBidMRAIDView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)
@@ -249,6 +289,51 @@ static IMP HyBidOrigCommandTypeIMP = NULL;
     }
 
     return view;
+}
+
+// VMI-1681: suppress_auto_click silences the MRAID SKOverlay and AutoStoreKit auto-click paths.
+- (void)test_automaticClickPaths_whenSuppressAutoClickEnabled_sendNoClick {
+    [self verifyMRAIDAutomaticClickPathsWithSuppressAutoClick:@YES expectSuppressed:YES];
+}
+
+- (void)test_automaticClickPaths_whenSuppressAutoClickAbsent_sendClick {
+    [self verifyMRAIDAutomaticClickPathsWithSuppressAutoClick:nil expectSuppressed:NO];
+}
+
+- (void)test_automaticClickPaths_whenSuppressAutoClickDisabled_sendClick {
+    [self verifyMRAIDAutomaticClickPathsWithSuppressAutoClick:@NO expectSuppressed:NO];
+}
+
+// VMI-1681: a structurally invalid suppress_auto_click must not crash and must leave today's behaviour intact.
+- (void)test_automaticClickPaths_whenSuppressAutoClickIsNonBooleanObject_sendClick {
+    [self verifyMRAIDAutomaticClickPathsWithSuppressAutoClick:(id)@{@"unexpected": @"object"} expectSuppressed:NO];
+}
+
+- (void)verifyMRAIDAutomaticClickPathsWithSuppressAutoClick:(NSNumber *)suppressAutoClick
+                                           expectSuppressed:(BOOL)expectSuppressed {
+    id ad = [self mockAdForMRAIDView];
+    [given([ad suppressAutoClick]) willReturn:suppressAutoClick];
+    [given([ad getSkAdNetworkModel]) willReturn:[[HyBidSkAdNetworkModel alloc] initWithParameters:@{HyBidSKAdNetworkParameter.click: @YES}]];
+
+    HyBidMRAIDView *view = [self makeInitializedMRAIDViewWithHTML:@"<html></html>"
+                                                  isInterstitial:YES
+                                                       isEndcard:NO
+                                                          withAd:ad];
+    HyBidVASTEventProcessor *processor = mock([HyBidVASTEventProcessor class]);
+    NSObject<HyBidMRAIDViewDelegate> *delegate = mockProtocol(@protocol(HyBidMRAIDViewDelegate));
+    [given([delegate respondsToSelector:@selector(mraidViewDidShowSKOverlayWithClickType:)]) willReturnBool:YES];
+    [given([delegate respondsToSelector:@selector(mraidViewAutoStoreKitDidShowWithClickType:)]) willReturnBool:YES];
+    [view setValue:processor forKey:@"vastEventProcessor"];
+    view.delegate = delegate;
+
+    [view trackClickForSKOverlayWithClickType:HyBidSKOverlayAutomaticCLickVideo isFirstPresentation:YES];
+    [view trackClickForAutoStoreKitViewWith:HyBidStorekitAutomaticClickVideo];
+
+    NSUInteger expectedDelegateClicks = expectSuppressed ? 0 : 1;
+    // One click event per auto-click source (SKOverlay first presentation + AutoStoreKit).
+    [verifyCount(processor, times(expectSuppressed ? 0 : 2)) trackEventWithType:HyBidVASTAdTrackingEventType_click];
+    [verifyCount(delegate, times(expectedDelegateClicks)) mraidViewDidShowSKOverlayWithClickType:HyBidSKOverlayAutomaticCLickVideo];
+    [verifyCount(delegate, times(expectedDelegateClicks)) mraidViewAutoStoreKitDidShowWithClickType:HyBidStorekitAutomaticClickVideo];
 }
 
 - (WKWebView *)currentWebViewFromView:(HyBidMRAIDView *)view {
@@ -987,6 +1072,92 @@ static int32_t HyBid_Test_commandTypeWithText(id self, SEL _cmd, NSString *text)
     }
 }
 
+#pragma mark - skipTimerCompleted (HyBidCountdownSimple close-button positioning)
+
+- (void)test_skipTimerCompleted_whenNotInterstitial_doesNotPositionCloseButton {
+    // isInterstitial=NO must short-circuit before the countdownStyle check, even with a real
+    // modalVC/skipOverlay in place to position — otherwise this can't distinguish "skipped the
+    // branch" from "there was nothing to position" (countdownStyle is never assigned in
+    // production, so it always reads as HyBidCountdownSimple; isInterstitial is the only real
+    // gate here).
+    HyBidMRAIDView *view = [self makeRawMRAIDView];
+    [view setValue:@NO forKey:@"isInterstitial"];
+
+    UIViewController *modalVC = [[UIViewController alloc] init];
+    UIView *skipOverlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    [modalVC.view addSubview:skipOverlay];
+    [view setValue:modalVC forKey:@"modalVC"];
+    [view setValue:skipOverlay forKey:@"skipOverlay"];
+
+    [view skipTimerCompleted];
+
+    XCTAssertTrue([[view valueForKey:@"isSkipTimerCompleted"] boolValue]);
+    XCTAssertTrue(skipOverlay.translatesAutoresizingMaskIntoConstraints,
+                  @"skipTimerCompleted must leave the skip overlay untouched when isInterstitial is NO");
+}
+
+- (void)test_skipTimerCompleted_whenInterstitialWithSimpleStyleAndSkipOverlayInModal_positionsCloseButton {
+    HyBidMRAIDView *view = [self makeRawMRAIDView];
+    [view setValue:@YES forKey:@"isInterstitial"];
+    [view setValue:@(HyBidCountdownSimple) forKey:@"countdownStyle"];
+
+    UIViewController *modalVC = [[UIViewController alloc] init];
+    UIView *skipOverlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    [modalVC.view addSubview:skipOverlay];
+
+    [view setValue:modalVC forKey:@"modalVC"];
+    [view setValue:skipOverlay forKey:@"skipOverlay"];
+
+    // Must not crash while positioning the close button on the skip overlay found in modalVC's subviews.
+    [view skipTimerCompleted];
+
+    XCTAssertTrue([[view valueForKey:@"isSkipTimerCompleted"] boolValue]);
+    XCTAssertFalse(skipOverlay.translatesAutoresizingMaskIntoConstraints,
+                   @"setCloseButtonPosition: must switch the skip overlay to Auto Layout when it is shown in the modal");
+}
+
+// Note: there is no "other countdownStyle" case worth testing here — countdownStyle is never
+// assigned anywhere in production (HyBidMRAIDView.m or PNLiteVASTPlayerViewController.m), so it
+// always reads as its default, HyBidCountdownSimple (0). A test that sets it to another value
+// would be asserting behavior for a state production can't produce.
+
+#pragma mark - addSkipOverlay (builds a HyBidSkipOverlay with HyBidCountdownSimple)
+
+- (void)test_addSkipOverlay_withModalVCPresent_buildsSkipOverlayAndAddsToModal {
+    // addSkipOverlay calls HyBidSkipOverlay.addSkipOverlayViewIn:delegate:, which queues its
+    // subview-add and constraint-activation work via two dispatch_async(main queue) blocks.
+    // Must drain with an XCTestExpectation, not a run-loop pump — see the equivalent note on
+    // HyBidEndCardViewTest.test_setupUI_withCustomEndCard_createsSkipOverlayInstead, which hit
+    // and root-caused the same issue: an undrained block running later against a deallocated
+    // view segfaults.
+    HyBidMRAIDView *view = [self makeRawMRAIDView];
+    [view setValue:@(5) forKey:@"_skipOffset"];
+
+    UIViewController *modalVC = [[UIViewController alloc] init];
+    [view setValue:modalVC forKey:@"modalVC"];
+
+    [view addSkipOverlay];
+
+    XCTestExpectation *drain = [self expectationWithDescription:@"Main queue drain"];
+    dispatch_async(dispatch_get_main_queue(), ^{ [drain fulfill]; });
+    [self waitForExpectationsWithTimeout:1.0 handler:nil];
+
+    id skipOverlay = [view valueForKey:@"skipOverlay"];
+    XCTAssertNotNil(skipOverlay, @"addSkipOverlay must build a skipOverlay when modalVC is present");
+    XCTAssertTrue([modalVC.view.subviews containsObject:skipOverlay],
+                  @"addSkipOverlay must add the skip overlay into modalVC's view");
+}
+
+- (void)test_addSkipOverlay_withNoModalVC_doesNothing {
+    HyBidMRAIDView *view = [self makeRawMRAIDView];
+    [view setValue:@(5) forKey:@"_skipOffset"];
+
+    [view addSkipOverlay];
+
+    XCTAssertNil([view valueForKey:@"skipOverlay"],
+                 @"addSkipOverlay must be a no-op when there is no modalVC");
+}
+
 #pragma mark - enforceInlineVideoPlaybackForBannerHtml: (playsinline injection for banner <video> tags)
 
 /// Raw instance with isInterstitial = NO (banner). -alloc leaves the ivar zeroed.
@@ -1147,7 +1318,7 @@ static int32_t HyBid_Test_commandTypeWithText(id self, SEL _cmd, NSString *text)
                                       isInterstital:isInterstitial
                                          isScrollable:YES
                                              delegate:nil
-                                      serviceDelegate:self->_serviceProvider
+                                      serviceDelegate:(id<HyBidMRAIDServiceDelegate>)self->_serviceProvider
                                    rootViewController:rootVC
                                           contentInfo:nil
                                            skipOffset:0
@@ -1202,9 +1373,6 @@ static int32_t HyBid_Test_commandTypeWithText(id self, SEL _cmd, NSString *text)
 
 #pragma mark - resolvedExpandURLString:withBaseURL: (VMI-1368: stringByAppendingString: nil crash)
 
-// Regression for VMI-1368: an expand URL with malformed percent-encoding makes -stringByRemovingPercentEncoding
-// return nil; the resolver must not pass nil to -stringByAppendingString: (which crashed with
-// NSInvalidArgumentException: -[NSTaggedPointerString stringByAppendingString:]: nil argument).
 - (void)test_resolvedExpandURLString_malformedPercentEncodingRelativeURL_doesNotCrash_keepsPercentAsLiteral {
     NSURL *baseURL = [NSURL URLWithString:@"https://a.co/"];
     NSString *result = [HyBidMRAIDView resolvedExpandURLString:@"pa%th" withBaseURL:baseURL];
@@ -1248,6 +1416,740 @@ static int32_t HyBid_Test_commandTypeWithText(id self, SEL _cmd, NSString *text)
 
 - (void)test_callNumber_withEmptyUrlString_doesNotCrash {
     XCTAssertNoThrow([self.serviceProvider callNumber:@""]);
+}
+
+// VMI-1687: single designated factory for the click-through timer tests; the wrappers below
+// keep the call sites short so initializer or baseline-stub changes only land in one place.
+- (HyBidMRAIDView *)clickThroughViewWithTimer:(NSNumber *)timer
+                            suppressAutoClick:(NSNumber *)suppressAutoClick
+                            customEndCardable:(BOOL)customEndCardable
+                                  landingPage:(BOOL)landingPage
+                               isInterstitial:(BOOL)isInterstitial
+                                    isEndcard:(BOOL)isEndcard
+                                     delegate:(id<HyBidMRAIDViewDelegate>)delegate {
+    __block HyBidMRAIDView *view = nil;
+    void (^createView)(void) = ^{
+        id ad = mock([HyBidAd class]);
+        [given([ad nativeCloseButtonDelay]) willReturn:nil];
+        [given([ad creativeAutoStorekitEnabled]) willReturn:nil];
+        [given([ad sdkAutoStorekitEnabled]) willReturn:nil];
+        [given([ad link]) willReturn:@"https://verve.com"];
+        [given([ad clickThroughTimer]) willReturn:timer];
+        [given([ad customEndcardEnabled]) willReturn:customEndCardable ? @YES : @NO];
+        [given([ad customEndCardData]) willReturn:customEndCardable ? @"<html><body>End card</body></html>" : nil];
+        [given([ad landingPage]) willReturnBool:landingPage];
+        [given([ad suppressAutoClick]) willReturn:suppressAutoClick];
+
+        CGRect frame = isInterstitial ? CGRectMake(0, 0, 320, 480) : CGRectMake(0, 0, 320, 50);
+        view = [[HyBidMRAIDView alloc] initWithFrame:frame
+                                        withHtmlData:@"<html><body>Real campaign creative</body></html>"
+                                         withBaseURL:nil
+                                              withAd:ad
+                                   supportedFeatures:@[]
+                                       isInterstital:isInterstitial
+                                        isScrollable:NO
+                                            delegate:delegate
+                                     serviceDelegate:nil
+                                  rootViewController:[[UIViewController alloc] init]
+                                         contentInfo:nil
+                                          skipOffset:5
+                                           isEndcard:isEndcard
+                           shouldHandleInterruptions:NO];
+    };
+    if ([NSThread isMainThread]) { createView(); }
+    else { dispatch_sync(dispatch_get_main_queue(), createView); }
+    return view;
+}
+
+- (HyBidMRAIDView *)clickThroughViewWithTimer:(NSNumber *)timer
+                              suppressAutoClick:(BOOL)suppressAutoClick
+                                       delegate:(id<HyBidMRAIDViewDelegate>)delegate {
+    return [self clickThroughViewWithTimer:timer
+                         suppressAutoClick:@(suppressAutoClick)
+                         customEndCardable:YES
+                               landingPage:NO
+                            isInterstitial:YES
+                                 isEndcard:NO
+                                  delegate:delegate];
+}
+
+- (void)test_clickThroughTimer_schedulesOnlyWhenConfiguredAndNotSuppressed {
+    HyBidMRAIDView *configured = [self clickThroughViewWithTimer:@5 suppressAutoClick:NO delegate:nil];
+    [configured setClickThroughTimer];
+    NSTimer *configuredTimer = [configured valueForKey:@"clickThroughTimer"];
+    XCTAssertTrue(configuredTimer.isValid);
+    [configured stopClickThroughTimer];
+
+    HyBidMRAIDView *absent = [self clickThroughViewWithTimer:nil suppressAutoClick:NO delegate:nil];
+    [absent setClickThroughTimer];
+    XCTAssertNil([absent valueForKey:@"clickThroughTimer"]);
+
+    HyBidMRAIDView *suppressed = [self clickThroughViewWithTimer:@5 suppressAutoClick:YES delegate:nil];
+    [suppressed setClickThroughTimer];
+    XCTAssertNil([suppressed valueForKey:@"clickThroughTimer"]);
+}
+
+- (void)test_triggerClickThrough_afterTouch_notifiesDelegateExactlyOnce {
+    id delegate = mockProtocol(@protocol(HyBidMRAIDViewDelegate));
+    [given([delegate respondsToSelector:@selector(mraidViewNavigate:withURL:)]) willReturnBool:YES];
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 suppressAutoClick:NO delegate:delegate];
+    [view setClickThroughTimer];
+    [view oneFingerOneTap];
+
+    [[view valueForKey:@"clickThroughTimer"] fire];
+    [view triggerClickThrough];
+
+    [verifyCount(delegate, times(1)) mraidViewNavigate:view withURL:[NSURL URLWithString:@"https://verve.com"]];
+}
+
+- (void)test_clickThroughTimer_pausesAndResumesWithRemainingTime {
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 suppressAutoClick:NO delegate:nil];
+    [view setClickThroughTimer];
+    [view pauseClickThroughTimer];
+
+    XCTAssertNil([view valueForKey:@"clickThroughTimer"]);
+    XCTAssertTrue([[view valueForKey:@"isClickThroughTimerPaused"] boolValue]);
+
+    [view resumeClickThroughTimer];
+    XCTAssertTrue([[view valueForKey:@"clickThroughTimer"] isValid]);
+    [view stopClickThroughTimer];
+}
+
+- (void)test_resumeClickThroughTimer_whenDeadlineElapsed_triggersImmediately {
+    id delegate = mockProtocol(@protocol(HyBidMRAIDViewDelegate));
+    [given([delegate respondsToSelector:@selector(mraidViewNavigate:withURL:)]) willReturnBool:YES];
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 suppressAutoClick:NO delegate:delegate];
+    [view setClickThroughTimer];
+    [view oneFingerOneTap];
+    [view pauseClickThroughTimer];
+    [view setValue:@5 forKey:@"clickThroughTimerElapsed"];
+
+    [view resumeClickThroughTimer];
+
+    [verifyCount(delegate, times(1)) mraidViewNavigate:view withURL:[NSURL URLWithString:@"https://verve.com"]];
+    XCTAssertNil([view valueForKey:@"clickThroughTimer"]);
+}
+
+- (void)test_resumeClickThroughTimer_usesOriginallyArmedDelay {
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 suppressAutoClick:NO delegate:nil];
+    [view setClickThroughTimer];
+    [view pauseClickThroughTimer];
+    [view setValue:@1 forKey:@"clickThroughTimerElapsed"];
+    id ad = [view valueForKey:@"ad"];
+    [given([ad clickThroughTimer]) willReturn:@35];
+
+    [view resumeClickThroughTimer];
+
+    NSTimer *timer = [view valueForKey:@"clickThroughTimer"];
+    NSDate *startDate = [view valueForKey:@"clickThroughTimerStartDate"];
+    // Tolerance is deliberately loose: this only needs to distinguish the originally armed
+    // delay (5 - 1 elapsed = 4) from the re-read stub value (35 - 1 = 34), and tight date
+    // math is flaky under CI load.
+    XCTAssertEqualWithAccuracy([timer.fireDate timeIntervalSinceDate:startDate], 4, 0.5);
+    [view stopClickThroughTimer];
+}
+
+- (void)test_scheduleClickThroughTimer_fromBackground_firesOnMainRunLoop {
+    id delegate = mockProtocol(@protocol(HyBidMRAIDViewDelegate));
+    [given([delegate respondsToSelector:@selector(mraidViewNavigate:withURL:)]) willReturnBool:YES];
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 suppressAutoClick:NO delegate:delegate];
+    [view oneFingerOneTap];
+
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        [view scheduleClickThroughTimerWithDelay:0.01];
+    });
+
+    // Generous deadline: loaded CI runners need 4-5s for the background hop + timer to land
+    [self pumpMainRunLoopUntilTrue:^BOOL{
+        return [[view valueForKey:@"clickThroughDestinationOpened"] boolValue];
+    } timeout:10];
+
+    [verifyCount(delegate, times(1)) mraidViewNavigate:view withURL:[NSURL URLWithString:@"https://verve.com"]];
+}
+
+- (void)pumpMainRunLoopUntilTrue:(BOOL (^)(void))condition timeout:(NSTimeInterval)timeout {
+    NSDate *deadline = [NSDate dateWithTimeIntervalSinceNow:timeout];
+    while (!condition() && [[NSDate date] compare:deadline] == NSOrderedAscending) {
+        [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
+    }
+    XCTAssertTrue(condition(), @"condition not met within %.1fs", timeout);
+}
+
+- (void)test_manualNavigation_cancelsTimerAndPreventsSyntheticSecondClick {
+    id delegate = mockProtocol(@protocol(HyBidMRAIDViewDelegate));
+    [given([delegate respondsToSelector:@selector(mraidViewNavigate:withURL:)]) willReturnBool:YES];
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 suppressAutoClick:NO delegate:delegate];
+    [view setClickThroughTimer];
+    [view oneFingerOneTap];
+
+    NSURL *url = [NSURL URLWithString:@"https://verve.com"];
+    WKNavigationAction *action = [self mockNavigationActionWithURL:url navigationType:WKNavigationTypeLinkActivated];
+    [self assertDecisionHandlerCalledOnceWithExpectedPolicy:WKNavigationActionPolicyCancel
+                                                     block:^(void (^decisionHandler)(WKNavigationActionPolicy)) {
+        [view webView:[self currentWebViewFromView:view] decidePolicyForNavigationAction:action decisionHandler:decisionHandler];
+    }];
+
+    XCTAssertNil([view valueForKey:@"clickThroughTimer"]);
+    [view triggerClickThrough];
+    [verifyCount(delegate, times(1)) mraidViewNavigate:view withURL:url];
+}
+
+- (void)test_syntheticNavigation_preventsInFlightManualNavigation {
+    id delegate = mockProtocol(@protocol(HyBidMRAIDViewDelegate));
+    [given([delegate respondsToSelector:@selector(mraidViewNavigate:withURL:)]) willReturnBool:YES];
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 suppressAutoClick:NO delegate:delegate];
+    [view setClickThroughTimer];
+    [view oneFingerOneTap];
+    [view triggerClickThrough];
+
+    NSURL *url = [NSURL URLWithString:@"https://verve.com"];
+    WKNavigationAction *action = [self mockNavigationActionWithURL:url navigationType:WKNavigationTypeLinkActivated];
+    [self assertDecisionHandlerCalledOnceWithExpectedPolicy:WKNavigationActionPolicyCancel
+                                                     block:^(void (^decisionHandler)(WKNavigationActionPolicy)) {
+        [view webView:[self currentWebViewFromView:view] decidePolicyForNavigationAction:action decisionHandler:decisionHandler];
+    }];
+
+    [verifyCount(delegate, times(1)) mraidViewNavigate:view withURL:url];
+}
+
+- (void)test_syntheticNavigation_allowsManualNavigationAfterNewTouch {
+    id delegate = mockProtocol(@protocol(HyBidMRAIDViewDelegate));
+    [given([delegate respondsToSelector:@selector(mraidViewNavigate:withURL:)]) willReturnBool:YES];
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 suppressAutoClick:NO delegate:delegate];
+    [view setClickThroughTimer];
+    [view oneFingerOneTap];
+    [view triggerClickThrough];
+    [view oneFingerOneTap];
+
+    NSURL *url = [NSURL URLWithString:@"https://verve.com"];
+    WKNavigationAction *action = [self mockNavigationActionWithURL:url navigationType:WKNavigationTypeLinkActivated];
+    [self assertDecisionHandlerCalledOnceWithExpectedPolicy:WKNavigationActionPolicyCancel
+                                                     block:^(void (^decisionHandler)(WKNavigationActionPolicy)) {
+        [view webView:[self currentWebViewFromView:view] decidePolicyForNavigationAction:action decisionHandler:decisionHandler];
+    }];
+
+    [verifyCount(delegate, times(2)) mraidViewNavigate:view withURL:url];
+}
+
+- (void)test_triggerClickThrough_afterTouchedNavigationWithoutDestination_notifiesDelegate {
+    id delegate = mockProtocol(@protocol(HyBidMRAIDViewDelegate));
+    [given([delegate respondsToSelector:@selector(mraidViewNavigate:withURL:)]) willReturnBool:YES];
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 suppressAutoClick:NO delegate:delegate];
+    [view setClickThroughTimer];
+    [view oneFingerOneTap];
+    [view setValue:@YES forKey:@"isExpanded"];
+
+    WKNavigationAction *action = [self mockNavigationActionWithURL:[NSURL URLWithString:@"https://example.com/expanded"]
+                                                    navigationType:WKNavigationTypeLinkActivated];
+    [self assertDecisionHandlerCalledOnceWithExpectedPolicy:WKNavigationActionPolicyAllow
+                                                     block:^(void (^decisionHandler)(WKNavigationActionPolicy)) {
+        [view webView:[self currentWebViewFromView:view] decidePolicyForNavigationAction:action decisionHandler:decisionHandler];
+    }];
+    [view triggerClickThrough];
+
+    [verifyCount(delegate, times(1)) mraidViewNavigate:view withURL:[NSURL URLWithString:@"https://verve.com"]];
+}
+
+- (void)test_triggerClickThrough_withoutTouch_orWhenSuppressed_notifiesNoDelegate {
+    id delegate = mockProtocol(@protocol(HyBidMRAIDViewDelegate));
+    [given([delegate respondsToSelector:@selector(mraidViewNavigate:withURL:)]) willReturnBool:YES];
+    HyBidMRAIDView *untouched = [self clickThroughViewWithTimer:@5 suppressAutoClick:NO delegate:delegate];
+    [untouched triggerClickThrough];
+
+    HyBidMRAIDView *suppressed = [self clickThroughViewWithTimer:@5 suppressAutoClick:YES delegate:delegate];
+    [suppressed oneFingerOneTap];
+    XCTAssertTrue([[suppressed valueForKey:@"hasBeenTouched"] boolValue]);
+    [suppressed triggerClickThrough];
+
+    [verifyCount(delegate, never()) mraidViewNavigate:(id)anything() withURL:(id)anything()];
+}
+
+#pragma mark - PR 1440 review regressions
+
+- (HyBidMRAIDView *)clickThroughViewWithTimer:(NSNumber *)timer
+                            customEndCardable:(BOOL)customEndCardable
+                                    isEndcard:(BOOL)isEndcard
+                                     delegate:(id<HyBidMRAIDViewDelegate>)delegate {
+    return [self clickThroughViewWithTimer:timer
+                         suppressAutoClick:nil
+                         customEndCardable:customEndCardable
+                               landingPage:NO
+                            isInterstitial:YES
+                                 isEndcard:isEndcard
+                                  delegate:delegate];
+}
+
+// Regression: the touch observer was attached to `self`, but expandCreative: reparents
+// currentWebView into modalVC.view and presents it, so `self` never receives those touches and
+// the auto-click could never fire on an interstitial. It must live on the web view.
+- (void)test_clickThroughTouchObserver_isAttachedToWebViewNotContainer {
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 suppressAutoClick:NO delegate:nil];
+    [view setClickThroughTimer];
+
+    UITapGestureRecognizer *observer = [view valueForKey:@"clickThroughTouchRecognizer"];
+    XCTAssertNotNil(observer);
+    XCTAssertEqual(observer.view, [self currentWebViewFromView:view]);
+    XCTAssertNotEqual(observer.view, view);
+    // Must stay a passive observer, otherwise it would eat the creative's own taps.
+    XCTAssertFalse(observer.cancelsTouchesInView);
+    XCTAssertFalse(observer.delaysTouchesBegan);
+    XCTAssertFalse(observer.delaysTouchesEnded);
+    
+    [view stopClickThroughTimer];
+    XCTAssertNotNil([view valueForKey:@"clickThroughTouchRecognizer"]);
+
+    [view cancel];
+    XCTAssertNil([view valueForKey:@"clickThroughTouchRecognizer"]);
+}
+
+// Regression: a touch reaching only the web view (the real interstitial case) must be enough to
+// let the timer navigate. Previously only a tap on the container counted.
+- (void)test_triggerClickThrough_afterWebViewTouchOnly_navigates {
+    id delegate = mockProtocol(@protocol(HyBidMRAIDViewDelegate));
+    [given([delegate respondsToSelector:@selector(mraidViewNavigate:withURL:)]) willReturnBool:YES];
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 suppressAutoClick:NO delegate:delegate];
+    [view setClickThroughTimer];
+    XCTAssertFalse([[view valueForKey:@"hasBeenTouched"] boolValue]);
+
+    [view clickThroughTouchObserved]; // what the web-view recognizer invokes
+    XCTAssertTrue([[view valueForKey:@"hasBeenTouched"] boolValue]);
+    [view triggerClickThrough];
+
+    [verifyCount(delegate, times(1)) mraidViewNavigate:view withURL:[NSURL URLWithString:@"https://verve.com"]];
+}
+
+// VMI-1687: Android arms this only from determineSkipTimerDelay when mEndCardView is non-null, so an
+// interstitial with no end card must not arm it.
+- (void)test_clickThroughTimer_doesNotArmWithoutAnEndCard {
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 customEndCardable:NO isEndcard:NO delegate:nil];
+    [view setClickThroughTimer];
+
+    XCTAssertNil([view valueForKey:@"clickThroughTimer"]);
+}
+
+// VMI-1687: the end-card gate must not depend on clickThrough being resolved yet — an ad that receives
+// its URL later via setRedirectionUrl still has to arm. triggerClickThrough null-checks it at fire time.
+- (void)test_clickThroughTimer_armsForEndCardAdBeforeClickThroughIsResolved {
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 customEndCardable:YES isEndcard:NO delegate:nil];
+    [view setValue:nil forKey:@"clickThrough"];
+    [view setClickThroughTimer];
+
+    XCTAssertTrue([[view valueForKey:@"clickThroughTimer"] isValid]);
+    [view stopClickThroughTimer];
+}
+
+// Regression: the old boolean latch stayed armed until the next container tap, which never
+// arrives in the expanded modal, so every real click after the synthetic one was dropped. The
+// guard is now scoped to the duplicated destination and consumed by it.
+- (void)test_syntheticClickSuppression_isConsumedByTheDuplicateNavigation {
+    id delegate = mockProtocol(@protocol(HyBidMRAIDViewDelegate));
+    [given([delegate respondsToSelector:@selector(mraidViewNavigate:withURL:)]) willReturnBool:YES];
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 suppressAutoClick:NO delegate:delegate];
+    [view setClickThroughTimer];
+    [view clickThroughTouchObserved];
+    [view triggerClickThrough];
+
+    XCTAssertNotNil([view valueForKey:@"syntheticClickURL"]);
+    [view open:@"https://verve.com"];
+    XCTAssertNil([view valueForKey:@"syntheticClickURL"]);
+}
+
+// A different destination during the window is a genuine click and must not be swallowed. The
+// old latch dropped it, which is what made the ad look broken.
+- (void)test_syntheticClickSuppression_allowsDifferentDestinationImmediately {
+    id delegate = mockProtocol(@protocol(HyBidMRAIDViewDelegate));
+    [given([delegate respondsToSelector:@selector(mraidViewNavigate:withURL:)]) willReturnBool:YES];
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 suppressAutoClick:NO delegate:delegate];
+    [view setClickThroughTimer];
+    [view clickThroughTouchObserved];
+    [view triggerClickThrough];
+
+    NSURL *other = [NSURL URLWithString:@"https://example.com/other"];
+    XCTAssertFalse([view shouldSuppressNavigationToURL:other]);
+    // Still armed for the actual duplicate.
+    XCTAssertNotNil([view valueForKey:@"syntheticClickURL"]);
+    XCTAssertTrue([view shouldSuppressNavigationToURL:[NSURL URLWithString:@"https://verve.com"]]);
+}
+
+- (void)test_openAppStoreThatDefersToAutoStorekit_keepsClickThroughTimerAlive {
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 customEndCardable:YES isEndcard:YES delegate:nil];
+    id ad = [view valueForKey:@"ad"];
+    [given([ad sdkAutoStorekitEnabled]) willReturn:@YES]; // openAppStoreWithAppID: returns NO
+    [view setClickThroughTimer];
+    [view setValue:@YES forKey:@"startedFromTap"]; // get past the endcard auto-storekit guard
+    XCTAssertTrue([[view valueForKey:@"clickThroughTimer"] isValid]);
+
+    [view open:@"https://apps.apple.com/app/id123456789"];
+
+    XCTAssertFalse([[view valueForKey:@"clickThroughDestinationOpened"] boolValue]);
+    XCTAssertTrue([[view valueForKey:@"clickThroughTimer"] isValid]);
+    [view stopClickThroughTimer];
+}
+
+// VMI-1368 class: stringByRemovingPercentEncoding returns nil for malformed percent-encoding,
+// and the suppression check must not hand that nil to +URLWithString:, which raises.
+- (void)test_open_withMalformedPercentEncoding_doesNotCrashSuppressionCheck {
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 suppressAutoClick:NO delegate:nil];
+    [view setClickThroughTimer];
+    [view clickThroughTouchObserved];
+    [view triggerClickThrough]; // arms the suppression guard
+
+    XCTAssertNoThrow([view open:@"https://verve.com/%E0%A4%A"]);
+    [view stopClickThroughTimer];
+}
+
+- (void)test_syntheticClickSuppression_isOneShotRegardlessOfElapsedTime {
+    id delegate = mockProtocol(@protocol(HyBidMRAIDViewDelegate));
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 suppressAutoClick:NO delegate:delegate];
+    [view setClickThroughTimer];
+    [view clickThroughTouchObserved];
+    [view triggerClickThrough];
+
+    // A long stall between the synthetic click and the webview's echo.
+    XCTAssertTrue([view shouldSuppressNavigationToURL:[NSURL URLWithString:@"https://verve.com"]]);
+    // ...and having consumed it, the guard is gone, so a later genuine click gets through.
+    XCTAssertNil([view valueForKey:@"syntheticClickURL"]);
+    XCTAssertFalse([view shouldSuppressNavigationToURL:[NSURL URLWithString:@"https://verve.com"]]);
+}
+
+- (void)test_clickThroughTouchObserver_survivesSyntheticClick {
+    // A receiving delegate is required for the synthetic click to arm a guard at all, otherwise
+    // the guard-clearing assertion below would be vacuously true.
+    id delegate = mockProtocol(@protocol(HyBidMRAIDViewDelegate));
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 suppressAutoClick:NO delegate:delegate];
+    [view setClickThroughTimer];
+    [view clickThroughTouchObserved];
+    [view triggerClickThrough];
+    XCTAssertNotNil([view valueForKey:@"syntheticClickURL"]);
+
+    UITapGestureRecognizer *observer = [view valueForKey:@"clickThroughTouchRecognizer"];
+    XCTAssertNotNil(observer);
+    XCTAssertEqual(observer.view, [self currentWebViewFromView:view]);
+
+    // And that surviving observer can clear the guard so the next real click is honoured.
+    [view clickThroughTouchObserved];
+    XCTAssertNil([view valueForKey:@"syntheticClickURL"]);
+}
+
+- (void)test_syntheticClickSuppression_matchesPercentEncodedDestination {
+    id delegate = mockProtocol(@protocol(HyBidMRAIDViewDelegate));
+    [given([delegate respondsToSelector:@selector(mraidViewNavigate:withURL:)]) willReturnBool:YES];
+    NSString *encoded = @"https://track.example.com/c?u=https%3A%2F%2Fverve.com%2Foffer";
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 suppressAutoClick:NO delegate:delegate];
+    [view setValue:[NSURL URLWithString:encoded] forKey:@"clickThrough"];
+    [view setClickThroughTimer];
+    [view clickThroughTouchObserved];
+    [view triggerClickThrough];
+
+    // open: hands us the decoded form of the very same destination.
+    NSString *decoded = [encoded stringByRemovingPercentEncoding];
+    XCTAssertTrue([view shouldSuppressNavigationToURL:[NSURL URLWithString:decoded]]);
+}
+
+- (void)test_syntheticClickSuppression_doesNotSwallowUnparsableDestination {
+    id delegate = mockProtocol(@protocol(HyBidMRAIDViewDelegate));
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 suppressAutoClick:NO delegate:delegate];
+    [view setClickThroughTimer];
+    [view clickThroughTouchObserved];
+    [view triggerClickThrough];
+
+    XCTAssertFalse([view shouldSuppressNavigationToURL:nil]);
+    // The guard is still armed for the destination it was actually meant for.
+    XCTAssertNotNil([view valueForKey:@"syntheticClickURL"]);
+}
+
+- (void)test_open_withUndecodableURL_keepsClickThroughTimerAlive {
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 suppressAutoClick:NO delegate:nil];
+    [view setClickThroughTimer];
+    XCTAssertTrue([[view valueForKey:@"clickThroughTimer"] isValid]);
+
+    [view open:@"%"]; // decodes to nil
+
+    XCTAssertFalse([[view valueForKey:@"clickThroughDestinationOpened"] boolValue]);
+    XCTAssertTrue([[view valueForKey:@"clickThroughTimer"] isValid]);
+    [view stopClickThroughTimer];
+}
+
+// The tel/sms branches never retired the timer. Not reachable with an armed timer today, but the
+// asymmetry is the trap for the next navigation path added here.
+- (HyBidMRAIDView *)endcardViewWithArmedTimerAndServiceDelegate {
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 customEndCardable:YES isEndcard:YES delegate:nil];
+    id serviceDelegate = mockProtocol(@protocol(HyBidMRAIDServiceDelegate));
+    [given([serviceDelegate respondsToSelector:@selector(mraidServiceCallNumberWithUrlString:)]) willReturnBool:YES];
+    [given([serviceDelegate respondsToSelector:@selector(mraidServiceSendSMSWithUrlString:)]) willReturnBool:YES];
+    [view setValue:serviceDelegate forKey:@"serviceDelegate"];
+    [view setClickThroughTimer];
+    [view setValue:@YES forKey:@"startedFromTap"]; // past the endcard auto-storekit guard
+    XCTAssertTrue([[view valueForKey:@"clickThroughTimer"] isValid]);
+    return view;
+}
+
+- (void)test_openTelLink_retiresClickThroughTimer {
+    HyBidMRAIDView *view = [self endcardViewWithArmedTimerAndServiceDelegate];
+
+    [view open:@"tel://5551234"];
+
+    XCTAssertNil([view valueForKey:@"clickThroughTimer"]);
+    XCTAssertTrue([[view valueForKey:@"clickThroughDestinationOpened"] boolValue]);
+}
+
+- (void)test_openSMSLink_retiresClickThroughTimer {
+    HyBidMRAIDView *view = [self endcardViewWithArmedTimerAndServiceDelegate];
+
+    [view open:@"sms://5551234"];
+
+    XCTAssertNil([view valueForKey:@"clickThroughTimer"]);
+    XCTAssertTrue([[view valueForKey:@"clickThroughDestinationOpened"] boolValue]);
+}
+
+- (void)test_openBrowserFunnelWithoutServiceDelegate_keepsClickThroughTimerAlive {
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 suppressAutoClick:NO delegate:nil];
+    [view setClickThroughTimer];
+    XCTAssertTrue([[view valueForKey:@"clickThroughTimer"] isValid]);
+
+    // Non-endcard open: goes straight through the browser funnel; serviceDelegate is nil here.
+    [view open:@"https://verve.com/offer"];
+
+    XCTAssertFalse([[view valueForKey:@"clickThroughDestinationOpened"] boolValue]);
+    XCTAssertTrue([[view valueForKey:@"clickThroughTimer"] isValid]);
+    [view stopClickThroughTimer];
+}
+
+- (void)test_openBrowserFunnelWithServiceDelegate_retiresClickThroughTimer {
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 suppressAutoClick:NO delegate:nil];
+    id serviceDelegate = mockProtocol(@protocol(HyBidMRAIDServiceDelegate));
+    [given([serviceDelegate respondsToSelector:@selector(mraidServiceOpenBrowserWithUrlString:)]) willReturnBool:YES];
+    [view setValue:serviceDelegate forKey:@"serviceDelegate"];
+    [view setClickThroughTimer];
+
+    [view open:@"https://verve.com/offer"];
+
+    XCTAssertTrue([[view valueForKey:@"clickThroughDestinationOpened"] boolValue]);
+    XCTAssertNil([view valueForKey:@"clickThroughTimer"]);
+}
+
+- (void)test_triggerClickThrough_withoutRespondingDelegate_armsNoSuppressionGuard {
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 suppressAutoClick:NO delegate:nil];
+    [view setClickThroughTimer];
+    [view clickThroughTouchObserved];
+
+    [view triggerClickThrough];
+
+    XCTAssertNil([view valueForKey:@"syntheticClickURL"]);
+    XCTAssertFalse([[view valueForKey:@"clickThroughDestinationOpened"] boolValue]);
+    XCTAssertFalse([view shouldSuppressNavigationToURL:[NSURL URLWithString:@"https://verve.com"]]);
+}
+
+- (void)test_navigateFunnelWithoutRespondingDelegate_keepsClickThroughTimerAlive {
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 suppressAutoClick:NO delegate:nil];
+    [view setClickThroughTimer];
+    XCTAssertTrue([[view valueForKey:@"clickThroughTimer"] isValid]);
+
+    [view notifyDelegateToNavigateToURL:[NSURL URLWithString:@"https://verve.com"]];
+
+    XCTAssertFalse([[view valueForKey:@"clickThroughDestinationOpened"] boolValue]);
+    XCTAssertTrue([[view valueForKey:@"clickThroughTimer"] isValid]);
+    [view stopClickThroughTimer];
+}
+
+- (void)test_openTelLink_withoutServiceDelegate_keepsClickThroughTimerAlive {
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 customEndCardable:YES isEndcard:YES delegate:nil];
+    [view setClickThroughTimer];
+    [view setValue:@YES forKey:@"startedFromTap"];
+
+    [view open:@"tel://5551234"];
+
+    XCTAssertTrue([[view valueForKey:@"clickThroughTimer"] isValid]);
+    XCTAssertFalse([[view valueForKey:@"clickThroughDestinationOpened"] boolValue]);
+    [view stopClickThroughTimer];
+}
+
+- (HyBidMRAIDView *)bannerClickThroughViewWithTimer:(NSNumber *)timer
+                                           delegate:(id<HyBidMRAIDViewDelegate>)delegate {
+    return [self clickThroughViewWithTimer:timer
+                         suppressAutoClick:nil
+                         customEndCardable:NO
+                               landingPage:NO
+                            isInterstitial:NO
+                                 isEndcard:NO
+                                  delegate:delegate];
+}
+
+- (void)test_clickThroughTimer_doesNotArmForBannerExpand {
+    HyBidMRAIDView *banner = [self bannerClickThroughViewWithTimer:@5 delegate:nil];
+    [banner oneFingerOneTap]; // the tap that triggers mraid.expand()
+    [banner setClickThroughTimer];
+
+    XCTAssertNil([banner valueForKey:@"clickThroughTimer"]);
+    XCTAssertNil([banner valueForKey:@"clickThroughTouchRecognizer"]);
+}
+
+- (void)test_clickThroughTimer_armingClearsEarlierTouch {
+    id delegate = mockProtocol(@protocol(HyBidMRAIDViewDelegate));
+    [given([delegate respondsToSelector:@selector(mraidViewNavigate:withURL:)]) willReturnBool:YES];
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 suppressAutoClick:NO delegate:delegate];
+
+    [view oneFingerOneTap]; // touch that happened before the timer was armed
+    [view setClickThroughTimer];
+    XCTAssertFalse([[view valueForKey:@"hasBeenTouched"] boolValue]);
+
+    [view triggerClickThrough];
+    [verifyCount(delegate, never()) mraidViewNavigate:(id)anything() withURL:(id)anything()];
+}
+
+// Regression: clickThroughDestinationOpened was set at the top of open:, so the fallback timer
+// was killed even when open: bailed out below without opening anything.
+- (void)test_openThatAbortsWithoutNavigating_keepsClickThroughTimerAlive {
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 customEndCardable:YES isEndcard:YES delegate:nil];
+    [view setClickThroughTimer];
+    XCTAssertTrue([[view valueForKey:@"clickThroughTimer"] isValid]);
+
+    // isEndcard with auto-storekit disabled and no originating tap: open: returns early.
+    [view open:@"https://verve.com"];
+
+    XCTAssertFalse([[view valueForKey:@"clickThroughDestinationOpened"] boolValue]);
+    XCTAssertTrue([[view valueForKey:@"clickThroughTimer"] isValid]);
+    [view stopClickThroughTimer];
+}
+
+// VMI-1687: expandCreative: is re-entrant on interstitials (a vrvm.com type=expandable tap calls
+// expand again), and re-arming reset clickThroughDestinationOpened, so a second synthetic click
+// could fire for the same impression.
+- (void)test_clickThroughTimer_doesNotReArmAfterADestinationAlreadyOpened {
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 suppressAutoClick:NO delegate:nil];
+    [view setClickThroughTimer];
+    XCTAssertTrue([[view valueForKey:@"clickThroughTimer"] isValid]);
+
+    [view clickThroughDestinationDidOpen];
+    XCTAssertTrue([[view valueForKey:@"clickThroughDestinationOpened"] boolValue]);
+
+    [view setClickThroughTimer]; // re-entrant expandCreative:
+
+    XCTAssertNil([view valueForKey:@"clickThroughTimer"]);
+    XCTAssertTrue([[view valueForKey:@"clickThroughDestinationOpened"] boolValue]);
+}
+
+// VMI-1687: Android never arms this timer for landing-page ads; the first in-webview navigation is
+// Allowed without marking a destination opened, so the timer would push a second synthetic click
+// while the user is reading the page.
+- (void)test_clickThroughTimer_doesNotArmForLandingPageAd {
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5
+                                         suppressAutoClick:nil
+                                         customEndCardable:YES
+                                               landingPage:YES
+                                            isInterstitial:YES
+                                                 isEndcard:NO
+                                                  delegate:nil];
+    [view setClickThroughTimer];
+
+    XCTAssertNil([view valueForKey:@"clickThroughTimer"]);
+}
+
+// VMI-1687: triggerClickThrough used to clear tapObserved, which demoted a real tap's JS
+// navigation (WKNavigationTypeOther) to Allow with no click flow. The synthetic URL guard already
+// covers the duplicate navigation.
+- (void)test_triggerClickThrough_preservesRealTapState {
+    id delegate = mockProtocol(@protocol(HyBidMRAIDViewDelegate));
+    [given([delegate respondsToSelector:@selector(mraidViewNavigate:withURL:)]) willReturnBool:YES];
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 suppressAutoClick:NO delegate:delegate];
+    [view setClickThroughTimer];
+    [view oneFingerOneTap];
+
+    [view triggerClickThrough];
+
+    XCTAssertTrue([[view valueForKey:@"tapObserved"] boolValue]);
+}
+
+// VMI-1687: openAppStoreWithAppID: returned YES from the no-appID fallback even when the browser
+// could not be opened, so callers retired the fallback timer with nothing actually opened.
+- (void)test_openAppStoreWithoutAppID_andWithoutBrowser_reportsNothingOpened {
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 suppressAutoClick:NO delegate:nil];
+
+    XCTAssertFalse([view openAppStoreWithAppID:@"https://apps.apple.com/app/no-numeric-id"]);
+}
+
+// VMI-1687: the nil-URL and suppression early returns in open: skipped the startedFromTap reset at the
+// end of the method, latching it and letting a later programmatic open: bypass the auto-storekit guard.
+- (void)test_openEarlyReturns_doNotLatchStartedFromTap {
+    id delegate = mockProtocol(@protocol(HyBidMRAIDViewDelegate));
+    [given([delegate respondsToSelector:@selector(mraidViewNavigate:withURL:)]) willReturnBool:YES];
+    HyBidMRAIDView *suppressed = [self clickThroughViewWithTimer:@5 suppressAutoClick:NO delegate:delegate];
+    [suppressed setClickThroughTimer];
+    [suppressed clickThroughTouchObserved];
+    [suppressed triggerClickThrough]; // arms the suppression guard for https://verve.com
+    [suppressed setValue:@YES forKey:@"startedFromTap"];
+
+    [suppressed open:@"https://verve.com"]; // swallowed by the guard
+
+    XCTAssertFalse([[suppressed valueForKey:@"startedFromTap"] boolValue]);
+
+    HyBidMRAIDView *nilURL = [self clickThroughViewWithTimer:@5 suppressAutoClick:NO delegate:nil];
+    [nilURL setValue:@YES forKey:@"startedFromTap"];
+
+    [nilURL open:nil];
+
+    XCTAssertFalse([[nilURL valueForKey:@"startedFromTap"] boolValue]);
+}
+
+// VMI-1687: a URL with a literal percent sign decodes to nil; the early return dropped the click
+// entirely. It must fall back to the undecoded string and still run the click flow.
+- (void)test_open_withUndecodableURL_stillRunsTheClickFlow {
+    HyBidMRAIDView *view = [self clickThroughViewWithTimer:@5 suppressAutoClick:NO delegate:nil];
+    id serviceDelegate = mockProtocol(@protocol(HyBidMRAIDServiceDelegate));
+    [given([serviceDelegate respondsToSelector:@selector(mraidServiceOpenBrowserWithUrlString:)]) willReturnBool:YES];
+    [view setValue:serviceDelegate forKey:@"serviceDelegate"];
+    [view setClickThroughTimer];
+
+    [view open:@"https://verve.com/50%off"];
+
+    [verifyCount(serviceDelegate, times(1)) mraidServiceOpenBrowserWithUrlString:@"https://verve.com/50%off"];
+    XCTAssertTrue([[view valueForKey:@"clickThroughDestinationOpened"] boolValue]);
+}
+
+#pragma mark - Endcard click routing after URL redirection
+
+/// A tapped endcard click is deferred to HyBidURLRedirector, which clears tapObserved before
+/// re-entering open:. The tail of open: used to gate the browser on tapObserved alone, so every
+/// resolved URL that was not an App Store link was dropped silently.
+- (void)test_onURLRedirectorFinish_nonAppStoreURL_opensBrowserForUserClick {
+    HyBidMRAIDView *view = [self makeInitializedMRAIDViewWithHTML:@"<html><body>ok</body></html>"
+                                                  isInterstitial:YES
+                                                       isEndcard:YES];
+
+    id serviceDelegate = mockProtocol(@protocol(HyBidMRAIDServiceDelegate));
+    [given([serviceDelegate respondsToSelector:@selector(mraidServiceOpenBrowserWithUrlString:)]) willReturnBool:YES];
+    view.serviceDelegate = serviceDelegate;
+
+    [view setValue:@(YES) forKey:@"bonafideTapObserved"];
+    [view setValue:@(YES) forKey:@"startedFromTap"]; // the click originated from a real tap
+
+    NSString *resolved = @"https://tv.apple.com/gb/channel/tvs.sbd.4000";
+    [view onURLRedirectorFinishWithUrl:resolved];
+
+    [verify(serviceDelegate) mraidServiceOpenBrowserWithUrlString:resolved];
+    XCTAssertFalse([[view valueForKey:@"redirectorResolvedFromUserClick"] boolValue],
+                   @"the user-click context must not leak past the open: re-entry");
+}
+
+/// The tail of open: is also reached by the auto-storekit flow, which has no user tap. That path
+/// must never launch a browser, so the fallback stays conditional rather than becoming a plain else.
+- (void)test_open_autoStorekitClickWithoutUserTap_doesNotOpenBrowser {
+    HyBidMRAIDView *view = [self makeInitializedMRAIDViewWithHTML:@"<html><body>ok</body></html>"
+                                                  isInterstitial:YES
+                                                       isEndcard:YES];
+
+    id serviceDelegate = mockProtocol(@protocol(HyBidMRAIDServiceDelegate));
+    [given([serviceDelegate respondsToSelector:@selector(mraidServiceOpenBrowserWithUrlString:)]) willReturnBool:YES];
+    view.serviceDelegate = serviceDelegate;
+
+    [view setValue:@(YES) forKey:@"bonafideTapObserved"];
+    [view setValue:@(YES) forKey:@"creativeAutoStorekitEnabled"];
+    [view setValue:@(NO) forKey:@"startedFromTap"];
+    [view setValue:@(NO) forKey:@"tapObserved"];
+
+    [view open:@"https://tv.apple.com/gb/channel/tvs.sbd.4000"];
+
+    [verifyCount(serviceDelegate, never()) mraidServiceOpenBrowserWithUrlString:anything()];
 }
 
 @end

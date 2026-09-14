@@ -8,6 +8,9 @@
 
 #import <XCTest/XCTest.h>
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
+#import <OCMockito/OCMockito.h>
+#import <OCHamcrest/OCHamcrest.h>
 #import "PNLiteVASTPlayerViewController.h"
 
 // Expose private properties and methods needed for testing
@@ -15,9 +18,11 @@
 - (void)setupProgressFillView;
 - (void)startBottomProgressBarAnimationWithProgress:(double)progress;
 - (void)onPlaybackProgressTick;
+- (IBAction)btnOpenOfferPush:(id)sender;
 @property (weak, nonatomic) UIProgressView *viewProgress;
 @property (nonatomic, strong) UIView *progressFillView;
 @property (nonatomic, strong) NSLayoutConstraint *progressFillWidthConstraint;
+@property (nonatomic, strong) AVPlayer *player;
 @end
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -58,11 +63,18 @@ static PNLiteVASTPlayerViewController *makeLoadedController(void) {
                   @"progressFillView must be a subview of viewProgress");
 }
 
-- (void)test_setupProgressFillView_fillViewHasWhiteBackground {
+- (void)test_setupProgressFillView_fillViewHasDimmedWhiteBackground {
     PNLiteVASTPlayerViewController *vc = makeLoadedController();
 
-    XCTAssertEqualObjects(vc.progressFillView.backgroundColor, [UIColor whiteColor],
-                          @"progressFillView background must be white to match original tintColor");
+    XCTAssertEqualObjects(vc.progressFillView.backgroundColor, [UIColor colorWithWhite:0.8 alpha:1.0],
+                          @"progressFillView background must be 80% white, dimmed to be less eye-catching");
+}
+
+- (void)test_setupProgressFillView_viewProgressHasDarkGrayTrackBackground {
+    PNLiteVASTPlayerViewController *vc = makeLoadedController();
+
+    XCTAssertEqualObjects(vc.viewProgress.backgroundColor, [UIColor darkGrayColor],
+                          @"viewProgress background must be dark gray to act as the track behind the fill");
 }
 
 - (void)test_setupProgressFillView_fillViewUsesAutoLayout {
@@ -112,10 +124,10 @@ static PNLiteVASTPlayerViewController *makeLoadedController(void) {
     // Exactly one fill view must be present — no stacking.
     NSArray *fillViews = [vc.viewProgress.subviews filteredArrayUsingPredicate:
                           [NSPredicate predicateWithBlock:^BOOL(UIView *v, NSDictionary *b) {
-        return v.backgroundColor == [UIColor whiteColor];
+        return [v.backgroundColor isEqual:[UIColor colorWithWhite:0.8 alpha:1.0]];
     }]];
     XCTAssertEqual(fillViews.count, 1u,
-                   @"Exactly one white fill view must exist after re-setup, not %lu", (unsigned long)fillViews.count);
+                   @"Exactly one fill view must exist after re-setup, not %lu", (unsigned long)fillViews.count);
 
     // The property must point to the newly created view, not the old one.
     XCTAssertNotEqual(firstFillView, secondFillView,
@@ -152,6 +164,22 @@ static PNLiteVASTPlayerViewController *makeLoadedController(void) {
 
     XCTAssertEqual(vc.progressFillWidthConstraint.constant, 0.0,
                    @"0%% progress must produce a zero-width fill");
+}
+
+- (void)test_startBottomProgress_animatesTheFillRatherThanSnapping {
+    // The whole point of this PR is that the fill no longer snaps to the new width
+    // synchronously — it must be driven by an actual layer animation. Every other test
+    // in this file only asserts progressFillWidthConstraint.constant, which is set
+    // *before* the animation block runs, so they would all still pass if the
+    // UIView animateWithDuration: wrapper were removed entirely. This one specifically
+    // checks that an animation was installed on the fill view's layer.
+    PNLiteVASTPlayerViewController *vc = makeLoadedController();
+    [vc.view layoutIfNeeded];
+
+    [vc startBottomProgressBarAnimationWithProgress:0.5];
+
+    XCTAssertGreaterThan(vc.progressFillView.layer.animationKeys.count, 0u,
+                         @"startBottomProgressBarAnimationWithProgress: must install an animation on the fill layer, not just set the constraint");
 }
 
 - (void)test_startBottomProgress_atFiftyPercent_setsWidthToHalfOfViewProgressWidth {
@@ -297,6 +325,37 @@ static PNLiteVASTPlayerViewController *makeLoadedController(void) {
 
     XCTAssertEqual(vc.progressFillWidthConstraint.constant, initialConstant,
                    @"Width constraint must be unchanged when duration is invalid (NaN/0)");
+}
+
+// MARK: - btnOpenOfferPush: must not cancel the progress bar's own fill animation
+
+- (void)test_btnOpenOfferPush_whilePlaying_cancelsSiblingAnimationsButNotTheFillBars {
+    // With no real AVPlayerItem, duration/currentPlaybackTime both read as NaN,
+    // so `currentPlaybackTime != duration` is true and the isPlaying branch runs
+    // as long as the mocked player reports rate != 0 and no error.
+    PNLiteVASTPlayerViewController *vc = makeLoadedController();
+
+    AVPlayer *mockPlayer = mock([AVPlayer class]);
+    [given([mockPlayer rate]) willReturnFloat:1.0f];
+    [given([mockPlayer error]) willReturn:nil];
+    vc.player = mockPlayer;
+
+    CABasicAnimation *fillAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    fillAnimation.duration = 10.0;
+    [vc.progressFillView.layer addAnimation:fillAnimation forKey:@"fillAnim"];
+
+    CALayer *otherLayer = [CALayer layer];
+    [vc.viewProgress.layer addSublayer:otherLayer];
+    CABasicAnimation *otherAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    otherAnimation.duration = 10.0;
+    [otherLayer addAnimation:otherAnimation forKey:@"otherAnim"];
+
+    [vc btnOpenOfferPush:nil];
+
+    XCTAssertNotNil([vc.progressFillView.layer animationForKey:@"fillAnim"],
+                    @"btnOpenOfferPush: must not cancel the progress bar's own fill animation");
+    XCTAssertNil([otherLayer animationForKey:@"otherAnim"],
+                 @"btnOpenOfferPush: must still cancel animations on other sibling layers");
 }
 
 @end

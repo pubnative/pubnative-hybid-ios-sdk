@@ -236,7 +236,7 @@ extension HyBidCustomCTAView {
     }
     
     @objc static public func isCustomCTAValid(ad: HyBidAd) -> Bool {
-        guard ad.adExperience != HyBidAdExperienceBrandValue,
+        guard !HyBidAdExperienceManager.hasBrandExperience(ad),
               ad.skOverlayEnabled == nil ||
               (ad.skOverlayEnabled != nil &&
               ad.skOverlayEnabled.boolValue == false) ||

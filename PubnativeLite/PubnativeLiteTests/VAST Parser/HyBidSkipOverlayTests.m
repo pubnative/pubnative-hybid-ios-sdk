@@ -24,9 +24,9 @@
 
 @implementation HyBidSkipOverlayTests
 
-- (void)testInitWithSkipOffset_PieChart_nilAd_doesNotCrash {
+- (void)testInitWithSkipOffset_Simple_nilAd_doesNotCrash {
     HyBidSkipOverlay *overlay = [[HyBidSkipOverlay alloc] initWithSkipOffset:5
-                                                          withCountdownStyle:HyBidCountdownPieChart
+                                                          withCountdownStyle:HyBidCountdownSimple
                                               withContentInfoPositionTopLeft:NO
                                                     withShouldShowSkipButton:YES
                                                                          ad:nil];
@@ -53,7 +53,7 @@
 
 - (void)testGetRemainingTime_afterInit_returnsSkipOffset {
     HyBidSkipOverlay *overlay = [[HyBidSkipOverlay alloc] initWithSkipOffset:10
-                                                          withCountdownStyle:HyBidCountdownPieChart
+                                                          withCountdownStyle:HyBidCountdownSimple
                                               withContentInfoPositionTopLeft:NO
                                                     withShouldShowSkipButton:YES
                                                                          ad:nil];
@@ -63,7 +63,7 @@
 
 - (void)testUpdateTimerStateWithRemainingSeconds_Start_then_Stop_doesNotCrash {
     HyBidSkipOverlay *overlay = [[HyBidSkipOverlay alloc] initWithSkipOffset:5
-                                                          withCountdownStyle:HyBidCountdownPieChart
+                                                          withCountdownStyle:HyBidCountdownSimple
                                               withContentInfoPositionTopLeft:NO
                                                     withShouldShowSkipButton:YES
                                                                          ad:nil];
@@ -78,7 +78,7 @@
 
 - (void)testUpdateTimerState_Pause_doesNotCrash {
     HyBidSkipOverlay *overlay = [[HyBidSkipOverlay alloc] initWithSkipOffset:5
-                                                          withCountdownStyle:HyBidCountdownPieChart
+                                                          withCountdownStyle:HyBidCountdownSimple
                                               withContentInfoPositionTopLeft:NO
                                                     withShouldShowSkipButton:YES
                                                                          ad:nil];
@@ -88,7 +88,7 @@
 
 - (void)testAddSkipOverlayViewIn_delegate_doesNotCrash {
     HyBidSkipOverlay *overlay = [[HyBidSkipOverlay alloc] initWithSkipOffset:5
-                                                          withCountdownStyle:HyBidCountdownPieChart
+                                                          withCountdownStyle:HyBidCountdownSimple
                                               withContentInfoPositionTopLeft:NO
                                                     withShouldShowSkipButton:YES
                                                                          ad:nil];

@@ -5,6 +5,7 @@
 //
 
 #import "PNLiteMRAIDUtil.h"
+#import "HyBidStringUtils.h"
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
     #import <HyBid/HyBid-Swift.h>
@@ -32,14 +33,11 @@
     //     <script  type = 'text/javascript'  src = 'mraid.js' > </script>
     //
     NSString *pattern = @"<script\\s+[^>]*\\bsrc\\s*=\\s*([\\\"\\\'])mraid\\.js\\1[^>]*>\\s*</script>\\n*";
-    
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern
-                                                                           options:NSRegularExpressionCaseInsensitive
-                                                                             error:&error];
-    processedHtml = [regex stringByReplacingMatchesInString:processedHtml
-                                                    options:0
-                                                      range:NSMakeRange(0, [processedHtml length])
-                                               withTemplate:@""];
+
+    processedHtml = [HyBidStringUtils safeRegexReplaceInValue:processedHtml
+                                                      pattern:pattern
+                                                 withTemplate:@""
+                                                      options:NSRegularExpressionCaseInsensitive];
     
     // Add html, head, and/or body tags as needed.
     range = [[self removeAllScripts:rawHtml] rangeOfString:@"<html"];
@@ -80,14 +78,10 @@
     } else if (!hasHeadTag) {
         // html tag exists, head tag doesn't, so add it
         pattern = @"<html[^>]*>";
-        error = NULL;
-        regex = [NSRegularExpression regularExpressionWithPattern:pattern
-                                                          options:NSRegularExpressionCaseInsensitive
-                                                            error:&error];
-        processedHtml = [regex stringByReplacingMatchesInString:processedHtml
-                                                        options:0
-                                                          range:NSMakeRange(0, [processedHtml length])
-                                                   withTemplate:@"$0\n<head>\n</head>"];
+        processedHtml = [HyBidStringUtils safeRegexReplaceInValue:processedHtml
+                                                          pattern:pattern
+                                                     withTemplate:@"$0\n<head>\n</head>"
+                                                          options:NSRegularExpressionCaseInsensitive];
         
     }
     
@@ -112,9 +106,9 @@
     
     pattern = @"<head[^>]*>";
     error = NULL;
-    regex = [NSRegularExpression regularExpressionWithPattern:pattern
-                                                      options:NSRegularExpressionCaseInsensitive
-                                                        error:&error];
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern
+                                                                            options:NSRegularExpressionCaseInsensitive
+                                                                              error:&error];
 
     NSArray<NSTextCheckingResult *> *matches = [regex matchesInString:processedHtml options:0 range:NSMakeRange(0, [processedHtml length])];
 
@@ -146,9 +140,10 @@
     if (htmlString == nil || [htmlString isEqual:@""]) {
         return @"";
     }
-    NSError *error = NULL;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"<script[\\s\\S]*?>[\\s\\S]*?<\\/script>" options:NSRegularExpressionCaseInsensitive error:&error];
-    return [regex stringByReplacingMatchesInString:htmlString options:0 range:NSMakeRange(0, [htmlString length]) withTemplate:@""];
+    return [HyBidStringUtils safeRegexReplaceInValue:htmlString
+                                             pattern:@"<script[\\s\\S]*?>[\\s\\S]*?<\\/script>"
+                                        withTemplate:@""
+                                             options:NSRegularExpressionCaseInsensitive];
 }
 
 @end

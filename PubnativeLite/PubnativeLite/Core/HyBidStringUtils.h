@@ -19,6 +19,10 @@ NS_ASSUME_NONNULL_BEGIN
                           characterSet:(NSCharacterSet * _Nullable)characterSet;
 + (nullable NSString *)safeAppendInValue:(id _Nullable)value
                               withString:(id _Nullable)string;
++ (nullable NSString *)safeRegexReplaceInValue:(id _Nullable)value
+                                       pattern:(id _Nullable)pattern
+                                  withTemplate:(id _Nullable)templateString
+                                       options:(NSRegularExpressionOptions)options;
 @end
 
 NS_ASSUME_NONNULL_END

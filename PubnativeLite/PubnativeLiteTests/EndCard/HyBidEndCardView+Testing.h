@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 
 #import "HyBidEndCardView.h"
+#import "HyBidEndCardView+Internal.h"
 
 // Swift tests needed methods.
 // Not public methods in HyBidEndCardView.h
@@ -17,7 +18,14 @@
 @interface HyBidEndCardView (Testing)
 
 @property (nonatomic, weak) id<HyBidEndCardViewDelegate> delegate;
+@property (nonatomic, strong) HyBidEndCard *endCard;
+@property (nonatomic, strong) HyBidVASTAd *vastAd;
+@property (nonatomic, strong) HyBidVASTEventProcessor *vastEventProcessor;
+@property (nonatomic, strong) NSArray<NSString *> *vastCompanionsClicksTracking;
+@property (nonatomic, strong) NSArray<NSString *> *vastVideoClicksTracking;
 
+- (void)fireClicksForAutoStorekit;
+- (void)endCardViewClicked;
 - (void)navigationToURL:(NSString *)url
       shouldOpenBrowser:(BOOL)shouldOpenBrowser
          navigationType:(NSString *)navigationType;
@@ -39,4 +47,3 @@
 - (void)trackEndCardImpression;
 
 @end
-

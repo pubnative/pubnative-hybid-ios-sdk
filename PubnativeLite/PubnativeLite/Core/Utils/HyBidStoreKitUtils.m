@@ -18,47 +18,52 @@
 
 + (NSMutableDictionary *)insertFidelitiesIntoDictionaryIfNeeded:(NSMutableDictionary *)dictionary
 {
-    double skanVersion = [dictionary[@"adNetworkPayloadVersion"] doubleValue];
-    if ([[HyBidSettings sharedInstance] supportMultipleFidelities] && skanVersion >= 2.2 && [dictionary[HyBidSKAdNetworkParameter.fidelities] count] > 0) {
-        NSArray<NSData *> *fidelitiesDataArray = dictionary[HyBidSKAdNetworkParameter.fidelities];
-        
-        if ([fidelitiesDataArray count] > 0) {
-            for (NSData *fidelity in fidelitiesDataArray) {
-                SKANObject skanObject;
-                [fidelity getBytes:&skanObject length:sizeof(skanObject)];
-                
-                if (skanObject.fidelity == 1) {
-                    if (@available(iOS 11.3, *)) {
-                        NSString *timestampString = [NSString stringWithUTF8String:skanObject.timestamp];
-                        NSNumber *timestamp = [self getNSNumberFromString:timestampString];
-                        if (timestamp != nil) {
-                            [dictionary setObject:timestamp forKey:SKStoreProductParameterAdNetworkTimestamp];
-                        }
-                        
-                        NSString *nonce = [NSString stringWithUTF8String:skanObject.nonce];
-                        [dictionary setObject:[[NSUUID alloc] initWithUUIDString:nonce] forKey:SKStoreProductParameterAdNetworkNonce];
-                    }
-                    
-                    if (@available(iOS 13.0, *)) {
-                        if (skanObject.signature != nil) {
-                            NSString *signature = [NSString stringWithUTF8String:skanObject.signature];
-                            if (signature != nil) {
-                                [dictionary setObject:signature forKey:SKStoreProductParameterAdNetworkAttributionSignature];
-                            }
-                        }
-                        
-                        NSString *fidelity = [NSString stringWithFormat:@"%d", skanObject.fidelity];
-                        [dictionary setObject:fidelity forKey:HyBidSKAdNetworkParameter.fidelityType];
-                    }
-                    
-                    dictionary[HyBidSKAdNetworkParameter.fidelities] = nil;
-                    
-                    break; // Currently we support only 1 fidelity for each kind
-                }
-            }
-        }
+    id version = dictionary[SKStoreProductParameterAdNetworkVersion];
+    id fidelitiesValue = dictionary[HyBidSKAdNetworkParameter.fidelities];
+    if (![[HyBidSettings sharedInstance] supportMultipleFidelities] ||
+        ![version respondsToSelector:@selector(doubleValue)] ||
+        [version doubleValue] < 2.2 ||
+        ![fidelitiesValue isKindOfClass:[NSArray class]]) {
+        return dictionary;
     }
-    
+
+    for (id value in (NSArray *)fidelitiesValue) {
+        if (![value isKindOfClass:[NSDictionary class]]) {
+            continue;
+        }
+
+        NSDictionary *fidelity = value;
+        NSNumber *fidelityType = fidelity[HyBidSKAdNetworkParameter.fidelity];
+        NSString *timestampString = fidelity[HyBidSKAdNetworkParameter.timestamp];
+        NSString *nonceString = fidelity[HyBidSKAdNetworkParameter.nonce];
+        NSString *signature = fidelity[HyBidSKAdNetworkParameter.signature];
+        if (![fidelityType isKindOfClass:[NSNumber class]] || fidelityType.intValue != 1 ||
+            ![timestampString isKindOfClass:[NSString class]] ||
+            ![nonceString isKindOfClass:[NSString class]] ||
+            ![signature isKindOfClass:[NSString class]] || signature.length == 0) {
+            continue;
+        }
+
+        NSNumber *timestamp = [self getNSNumberFromString:timestampString];
+        NSUUID *nonce = [[NSUUID alloc] initWithUUIDString:nonceString];
+        if (timestamp == nil || nonce == nil) {
+            continue;
+        }
+
+        if (@available(iOS 11.3, *)) {
+            [dictionary setObject:timestamp forKey:SKStoreProductParameterAdNetworkTimestamp];
+            [dictionary setObject:nonce forKey:SKStoreProductParameterAdNetworkNonce];
+        }
+
+        if (@available(iOS 13.0, *)) {
+            [dictionary setObject:signature forKey:SKStoreProductParameterAdNetworkAttributionSignature];
+            [dictionary setObject:fidelityType.stringValue forKey:HyBidSKAdNetworkParameter.fidelityType];
+        }
+
+        dictionary[HyBidSKAdNetworkParameter.fidelities] = nil;
+        break;
+    }
+
     return dictionary;
 }
 
@@ -83,6 +88,7 @@
 
 + (NSDictionary *)cleanUpProductParams:(NSDictionary *)productParams {
     NSMutableDictionary* cleanDictionary = [productParams mutableCopy];
+    [cleanDictionary removeObjectForKey:HyBidSKAdNetworkParameter.fidelities];
     [cleanDictionary removeObjectForKey:HyBidSKAdNetworkParameter.fidelityType];
     [cleanDictionary removeObjectForKey:HyBidSKAdNetworkParameter.autoClose];
     [cleanDictionary removeObjectForKey:HyBidSKAdNetworkParameter.delay];

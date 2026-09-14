@@ -806,4 +806,221 @@
     XCTAssertEqualObjects([HyBidStringUtils safeAppendInValue:@"" withString:@"bar"], @"bar");
 }
 
+#pragma mark - safeRegexReplaceInValue (VMI-1667: guard for -stringByReplacingMatchesInString:)
+
+- (void)test_safeRegexReplaceInValue_withNilValue_shouldReturnNil {
+    // Given: A nil value
+    id value = nil;
+
+    // When: Calling safeRegexReplaceInValue
+    NSString *result = [HyBidStringUtils safeRegexReplaceInValue:value
+                                                         pattern:@"foo"
+                                                    withTemplate:@"bar"
+                                                         options:0];
+
+    // Then: Result should be nil
+    XCTAssertNil(result, @"Result should be nil when value is nil");
+}
+
+- (void)test_safeRegexReplaceInValue_withNonStringValue_shouldReturnNil {
+    // Given: A non-string value (NSNumber)
+    id value = @42;
+
+    // When
+    NSString *result = [HyBidStringUtils safeRegexReplaceInValue:value
+                                                         pattern:@"foo"
+                                                    withTemplate:@"bar"
+                                                         options:0];
+
+    // Then
+    XCTAssertNil(result, @"Result should be nil when value is not an NSString");
+}
+
+- (void)test_safeRegexReplaceInValue_withNSNullValue_shouldReturnNil {
+    // Given: NSNull (common in JSON-parsed payloads)
+    id value = [NSNull null];
+
+    // When
+    NSString *result = [HyBidStringUtils safeRegexReplaceInValue:value
+                                                         pattern:@"foo"
+                                                    withTemplate:@"bar"
+                                                         options:0];
+
+    // Then
+    XCTAssertNil(result);
+}
+
+- (void)test_safeRegexReplaceInValue_withNilPattern_shouldReturnOriginalValue {
+    // Given: A valid string value but a nil pattern
+    NSString *value = @"hello world";
+
+    // When
+    NSString *result = [HyBidStringUtils safeRegexReplaceInValue:value
+                                                         pattern:nil
+                                                    withTemplate:@"bar"
+                                                         options:0];
+
+    // Then
+    XCTAssertEqualObjects(result, value, @"Result should equal the original value when pattern is nil");
+}
+
+- (void)test_safeRegexReplaceInValue_withEmptyPattern_shouldReturnOriginalValue {
+    // Given: A valid string value but an empty pattern
+    NSString *value = @"hello world";
+
+    // When
+    NSString *result = [HyBidStringUtils safeRegexReplaceInValue:value
+                                                         pattern:@""
+                                                    withTemplate:@"bar"
+                                                         options:0];
+
+    // Then
+    XCTAssertEqualObjects(result, value, @"Result should equal the original value when pattern is empty");
+}
+
+- (void)test_safeRegexReplaceInValue_withInvalidPattern_shouldReturnOriginalValue {
+    // Given: A syntactically invalid regex pattern (unbalanced parenthesis)
+    NSString *value = @"hello world";
+
+    // When
+    NSString *result = [HyBidStringUtils safeRegexReplaceInValue:value
+                                                         pattern:@"(unclosed"
+                                                    withTemplate:@"bar"
+                                                         options:0];
+
+    // Then: Regex creation fails, original returned without crashing
+    XCTAssertEqualObjects(result, value, @"Result should equal the original value when the pattern is invalid");
+}
+
+- (void)test_safeRegexReplaceInValue_withNilTemplate_shouldReturnOriginalValue {
+    // Given: A valid string value and pattern, but a nil template
+    NSString *value = @"hello world";
+
+    // When
+    NSString *result = [HyBidStringUtils safeRegexReplaceInValue:value
+                                                         pattern:@"world"
+                                                    withTemplate:nil
+                                                         options:0];
+
+    // Then
+    XCTAssertEqualObjects(result, value, @"Result should equal the original value when template is nil");
+}
+
+- (void)test_safeRegexReplaceInValue_withNonStringTemplate_shouldReturnOriginalValue {
+    // Given: A valid string value and pattern, but a non-string template (NSNumber)
+    NSString *value = @"hello world";
+    id templateString = @99;
+
+    // When
+    NSString *result = [HyBidStringUtils safeRegexReplaceInValue:value
+                                                         pattern:@"world"
+                                                    withTemplate:templateString
+                                                         options:0];
+
+    // Then
+    XCTAssertEqualObjects(result, value, @"Result should equal the original value when template is not an NSString");
+}
+
+- (void)test_safeRegexReplaceInValue_withEmptyValue_shouldReturnEmptyString {
+    // Given: An empty string value
+    NSString *value = @"";
+
+    // When
+    NSString *result = [HyBidStringUtils safeRegexReplaceInValue:value
+                                                         pattern:@"foo"
+                                                    withTemplate:@"bar"
+                                                         options:0];
+
+    // Then
+    XCTAssertEqualObjects(result, @"", @"Result should be an empty string when value is empty");
+}
+
+- (void)test_safeRegexReplaceInValue_withNoMatch_shouldReturnOriginalValue {
+    // Given: A pattern that does not match the value
+    NSString *value = @"hello world";
+
+    // When
+    NSString *result = [HyBidStringUtils safeRegexReplaceInValue:value
+                                                         pattern:@"xyz"
+                                                    withTemplate:@"bar"
+                                                         options:0];
+
+    // Then
+    XCTAssertEqualObjects(result, value, @"Result should equal the original value when nothing matches");
+}
+
+- (void)test_safeRegexReplaceInValue_withMatchingPattern_shouldReplaceMatches {
+    // Given: The mraid.js script tag removal scenario from PNLiteMRAIDUtil
+    NSString *value = @"<html><script src='mraid.js'></script><body>ad</body></html>";
+    NSString *pattern = @"<script\\s+[^>]*\\bsrc\\s*=\\s*([\\\"\\\'])mraid\\.js\\1[^>]*>\\s*</script>\\n*";
+
+    // When
+    NSString *result = [HyBidStringUtils safeRegexReplaceInValue:value
+                                                         pattern:pattern
+                                                    withTemplate:@""
+                                                         options:NSRegularExpressionCaseInsensitive];
+
+    // Then
+    XCTAssertEqualObjects(result, @"<html><body>ad</body></html>", @"The mraid.js script tag should be removed");
+}
+
+- (void)test_safeRegexReplaceInValue_withCaptureGroupTemplate_shouldExpandGroup {
+    // Given: The playsinline injection scenario from HyBidMRAIDView
+    NSString *value = @"<video src=\"a.mp4\">";
+
+    // When
+    NSString *result = [HyBidStringUtils safeRegexReplaceInValue:value
+                                                         pattern:@"<video(?![^>]*\\splaysinline)(\\s|>|/)"
+                                                    withTemplate:@"<video playsinline$1"
+                                                         options:NSRegularExpressionCaseInsensitive];
+
+    // Then
+    XCTAssertEqualObjects(result, @"<video playsinline src=\"a.mp4\">", @"$1 should expand to the captured character");
+}
+
+- (void)test_safeRegexReplaceInValue_withWholeMatchTemplate_shouldExpandMatch {
+    // Given: The head tag injection scenario from PNLiteMRAIDUtil, using $0
+    NSString *value = @"<html><body>ad</body></html>";
+
+    // When
+    NSString *result = [HyBidStringUtils safeRegexReplaceInValue:value
+                                                         pattern:@"<html[^>]*>"
+                                                    withTemplate:@"$0\n<head>\n</head>"
+                                                         options:NSRegularExpressionCaseInsensitive];
+
+    // Then
+    XCTAssertEqualObjects(result, @"<html>\n<head>\n</head><body>ad</body></html>", @"$0 should expand to the whole match");
+}
+
+- (void)test_safeRegexReplaceInValue_withMutableStringValue_shouldReturnReplacedString {
+    // Given: A mutable string value (the util must snapshot it before matching)
+    NSMutableString *value = [NSMutableString stringWithString:@"hello world"];
+
+    // When
+    NSString *result = [HyBidStringUtils safeRegexReplaceInValue:value
+                                                         pattern:@"world"
+                                                    withTemplate:@"there"
+                                                         options:0];
+
+    // Then
+    XCTAssertEqualObjects(result, @"hello there", @"Mutable input should be handled via an immutable snapshot");
+}
+
+// Regression for VMI-1667: a template referencing a capture group the pattern does not
+// define makes Foundation throw from inside -stringByReplacingMatchesInString:
+// (NSInvalidArgumentException). It must not crash; the original value is acceptable output.
+- (void)test_safeRegexReplaceInValue_withOutOfRangeGroupTemplate_shouldNotCrash {
+    // Given: A pattern with no capture groups but a template referencing $5
+    NSString *value = @"hello world";
+
+    // When
+    NSString *result = [HyBidStringUtils safeRegexReplaceInValue:value
+                                                         pattern:@"world"
+                                                    withTemplate:@"$5"
+                                                         options:0];
+
+    // Then: No crash; a non-nil string comes back
+    XCTAssertNotNil(result, @"Should not crash when the template references a non-existent capture group");
+}
+
 @end

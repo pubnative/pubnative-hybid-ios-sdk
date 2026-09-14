@@ -207,4 +207,132 @@ final class HyBidInterstitialAdTests: XCTestCase {
         }
         return HyBidAd(data: firstAd, withZoneID: "4")
     }
+
+    // MARK: - Skip-offset ceiling removal (VMI-1678)
+
+    private func adWithRemoteConfigs(_ jsondata: [String: Any], bundleID: String? = nil) -> HyBidAd {
+        var meta: [[String: Any]] = [["type": "remoteconfigs",
+                                      "data": ["jsondata": jsondata]]]
+        if let bundleID = bundleID {
+            meta.append(["type": "bundleid", "data": ["text": bundleID]])
+        }
+        let adDictionary: [String: Any] = ["assetgroupid": 15,
+                                           "assets": [],
+                                           "meta": meta]
+        let adModel = HyBidAdModel(dictionary: adDictionary)
+        return HyBidAd(data: adModel, withZoneID: "1")
+    }
+
+    func testDetermineHtmlSkipOffset_pcVariantAboveOldCap_isHonoured() {
+        let ad = adWithRemoteConfigs(["pc_html_skip_offset": 60], bundleID: "123456")
+        interstitial.determineHtmlSkipOffSetFor(ad)
+        XCTAssertEqual(interstitial.htmlSkipOffset?.offset?.intValue, 60)
+    }
+
+    func testDetermineHtmlSkipOffset_pcVariantNegative_fallsBackToPcDefault() {
+        let ad = adWithRemoteConfigs(["pc_html_skip_offset": -1], bundleID: "123456")
+        interstitial.determineHtmlSkipOffSetFor(ad)
+        XCTAssertEqual(interstitial.htmlSkipOffset?.offset?.intValue,
+                       HyBidSkipOffset.DEFAULT_PC_INTERSTITIAL_SKIP_OFFSET)
+    }
+
+    func testDetermineVideoSkipOffset_above99_isHonoured() {
+        let ad = adWithRemoteConfigs(["video_skip_offset": 120])
+        interstitial.determineVideoSkipOffSetFor(ad)
+        XCTAssertEqual(interstitial.videoSkipOffset?.offset?.intValue, 120)
+    }
+
+    func testDetermineVideoSkipOffset_aboveOldCap_isHonoured() {
+        let ad = adWithRemoteConfigs(["video_skip_offset": 75])
+        interstitial.determineVideoSkipOffSetFor(ad)
+        XCTAssertEqual(interstitial.videoSkipOffset?.offset?.intValue, 75)
+    }
+
+    func testDetermineVideoSkipOffset_belowOldCap_isHonoured() {
+        let ad = adWithRemoteConfigs(["video_skip_offset": 20])
+        interstitial.determineVideoSkipOffSetFor(ad)
+        XCTAssertEqual(interstitial.videoSkipOffset?.offset?.intValue, 20)
+    }
+
+    func testDetermineVideoSkipOffset_negative_fallsBackToDefault() {
+        let ad = adWithRemoteConfigs(["video_skip_offset": -5])
+        interstitial.determineVideoSkipOffSetFor(ad)
+        XCTAssertEqual(interstitial.videoSkipOffset?.offset?.intValue,
+                       HyBidSkipOffset.DEFAULT_PC_VIDEO_MAX_SKIP_OFFSET_NON_COMPANION)
+    }
+
+    func testDetermineVideoSkipOffset_absent_fallsBackToDefaultWithoutEndcard() {
+        let ad = adWithRemoteConfigs([:])
+        interstitial.determineVideoSkipOffSetFor(ad)
+        XCTAssertEqual(interstitial.videoSkipOffset?.offset?.intValue,
+                       HyBidSkipOffset.DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD)
+    }
+
+    func testDetermineHtmlSkipOffset_aboveOldCap_isHonoured() {
+        let ad = adWithRemoteConfigs(["html_skip_offset": 60])
+        interstitial.determineHtmlSkipOffSetFor(ad)
+        XCTAssertEqual(interstitial.htmlSkipOffset?.offset?.intValue, 60)
+    }
+
+    func testDetermineHtmlSkipOffset_negative_fallsBackToDefault() {
+        let ad = adWithRemoteConfigs(["html_skip_offset": -3])
+        interstitial.determineHtmlSkipOffSetFor(ad)
+        XCTAssertEqual(interstitial.htmlSkipOffset?.offset?.intValue,
+                       HyBidSkipOffset.DEFAULT_HTML_SKIP_OFFSET)
+    }
+
+    func testDetermineVideoSkipOffset_nonNumeric_fallsBackToDefault() {
+        let ad = adWithRemoteConfigs(["video_skip_offset": "ninety"])
+        interstitial.determineVideoSkipOffSetFor(ad)
+        XCTAssertEqual(interstitial.videoSkipOffset?.offset?.intValue,
+                       HyBidSkipOffset.DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD)
+    }
+
+    func testDetermineHtmlSkipOffset_pcVariantNonNumeric_fallsBackToPcDefault() {
+        let ad = adWithRemoteConfigs(["pc_html_skip_offset": "sixty"], bundleID: "123456")
+        interstitial.determineHtmlSkipOffSetFor(ad)
+        XCTAssertEqual(interstitial.htmlSkipOffset?.offset?.intValue,
+                       HyBidSkipOffset.DEFAULT_PC_INTERSTITIAL_SKIP_OFFSET)
+    }
+
+    // MARK: - Numeric-string coercion, matching Android's org.json read (VMI-1709)
+
+    func testDetermineVideoSkipOffset_numericString_isHonoured() {
+        // Android coerces via (int) Double.parseDouble(value), so a quoted number is valid.
+        let ad = adWithRemoteConfigs(["video_skip_offset": "20"])
+        interstitial.determineVideoSkipOffSetFor(ad)
+        XCTAssertEqual(interstitial.videoSkipOffset?.offset?.intValue, 20)
+    }
+
+    func testDetermineVideoSkipOffset_decimalString_truncatesTowardZero() {
+        let ad = adWithRemoteConfigs(["video_skip_offset": "30.7"])
+        interstitial.determineVideoSkipOffSetFor(ad)
+        XCTAssertEqual(interstitial.videoSkipOffset?.offset?.intValue, 30)
+    }
+
+    func testDetermineVideoSkipOffset_stringWithSurroundingWhitespace_isHonoured() {
+        let ad = adWithRemoteConfigs(["video_skip_offset": " 30 "])
+        interstitial.determineVideoSkipOffSetFor(ad)
+        XCTAssertEqual(interstitial.videoSkipOffset?.offset?.intValue, 30)
+    }
+
+    func testDetermineVideoSkipOffset_negativeString_fallsBackToDefault() {
+        // "-5" coerces to -5, then the normal negative handling applies.
+        let ad = adWithRemoteConfigs(["video_skip_offset": "-5"])
+        interstitial.determineVideoSkipOffSetFor(ad)
+        XCTAssertEqual(interstitial.videoSkipOffset?.offset?.intValue,
+                       HyBidSkipOffset.DEFAULT_PC_VIDEO_MAX_SKIP_OFFSET_NON_COMPANION)
+    }
+
+    func testDetermineHtmlSkipOffset_numericString_isHonoured() {
+        let ad = adWithRemoteConfigs(["html_skip_offset": "45"])
+        interstitial.determineHtmlSkipOffSetFor(ad)
+        XCTAssertEqual(interstitial.htmlSkipOffset?.offset?.intValue, 45)
+    }
+
+    func testDetermineHtmlSkipOffset_pcVariantNumericString_isHonoured() {
+        let ad = adWithRemoteConfigs(["pc_html_skip_offset": "45"], bundleID: "123456")
+        interstitial.determineHtmlSkipOffSetFor(ad)
+        XCTAssertEqual(interstitial.htmlSkipOffset?.offset?.intValue, 45)
+    }
 }

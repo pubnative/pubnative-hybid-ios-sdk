@@ -5,7 +5,6 @@
 //
 
 #import "HyBidSkipOverlay.h"
-#import "PNLiteProgressLabel.h"
 #import "HyBidCloseButton.h"
 
 #define HYBID_MRAID_CLOSE_BUTTON_TAG 1001
@@ -28,7 +27,7 @@ static BOOL HyBidShouldApplyIPadOS26Insets(void) {
 @property (nonatomic, strong) NSTimer *skipTimer;
 @property (nonatomic, assign) NSInteger skipTimeRemaining;
 @property (nonatomic, assign) HyBidCountdownStyle countdownStyle;
-@property (nonatomic, strong) PNLiteProgressLabel *progressLabel;
+@property (nonatomic, strong) UILabel *progressLabel;
 @property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic) CGSize buttonSize;
 
@@ -44,8 +43,7 @@ static BOOL HyBidShouldApplyIPadOS26Insets(void) {
 {
     if (self) {
         self.skipOffset = skipOffset;
-        //set default value to get the old behaviour
-        self.countdownStyle = HyBidCountdownPieChart;
+        self.countdownStyle = countdownStyle;
         self.skipTimeRemaining = skipOffset;
         self.isContentInfoInTopLeftPosition = isContentInfoInTopLeftPosition;
         self.shouldShowSkipButton = shouldShowSkipButton;
@@ -55,7 +53,7 @@ static BOOL HyBidShouldApplyIPadOS26Insets(void) {
         CGFloat height;
         self.buttonSize = [HyBidCloseButton buttonDefaultSize];
         switch(self.countdownStyle){
-            case HyBidCountdownPieChart:{
+            case HyBidCountdownSimple:{
                 screenSize = UIScreen.mainScreen.bounds.size;
                 width = self.buttonSize.width;
                 height = self.buttonSize.height;
@@ -139,7 +137,7 @@ static BOOL HyBidShouldApplyIPadOS26Insets(void) {
     }
     self.buttonSize = [HyBidCloseButton buttonSizeBasedOn:self.ad];
     switch(self.countdownStyle){
-        case HyBidCountdownPieChart: {
+        case HyBidCountdownSimple: {
             CGFloat skipButtonX = self.buttonSize.width - self.buttonSize.height;
             self.skipButton = [[UIButton alloc] initWithFrame:CGRectMake(skipButtonX, 0, self.buttonSize.width, self.buttonSize.height)];
             [self setBackgroundColor: UIColor.clearColor];
@@ -219,26 +217,18 @@ static BOOL HyBidShouldApplyIPadOS26Insets(void) {
 - (void)setupUI
 {
     switch(self.countdownStyle){
-        case HyBidCountdownPieChart:
+        case HyBidCountdownSimple:
             if (!self.progressLabel) {
                 CGFloat x = self.bounds.size.width - self.buttonSize.width;
                 CGFloat y = 0;
-                self.progressLabel = [[PNLiteProgressLabel alloc] initWithFrame:CGRectMake(x, y, self.buttonSize.width, self.buttonSize.height)];
-                self.progressLabel.borderWidth = 3.0;
-                self.progressLabel.colorTable = @{
-                    NSStringFromPNProgressLabelColorTableKey(PNLiteColorTable_ProgressLabelTrackColor):[UIColor clearColor],
-                    NSStringFromPNProgressLabelColorTableKey(PNLiteColorTable_ProgressLabelProgressColor):[UIColor whiteColor],
-                    NSStringFromPNProgressLabelColorTableKey(PNLiteColorTable_ProgressLabelFillColor):[UIColor clearColor]
-                };
+                self.progressLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, y, self.buttonSize.width, self.buttonSize.height)];
                 self.progressLabel.textColor = [UIColor whiteColor];
                 self.progressLabel.shadowColor = [UIColor darkGrayColor];
                 self.progressLabel.shadowOffset = CGSizeMake(1, 1);
                 self.progressLabel.textAlignment = NSTextAlignmentCenter;
                 self.progressLabel.font = [UIFont fontWithName:@"Helvetica" size:10]; // Adjust the font size as needed
-                
+
                 [self addSubview:self.progressLabel];
-                //setting progress animation for the first second of the countdown
-                [self.progressLabel setProgress: (1.0 / self.skipOffset) timing:0 duration:1 delay:0];
             }
             self.progressLabel.text = [NSString stringWithFormat:@"%ld", (long)self.skipOffset];
             break;
@@ -283,20 +273,7 @@ static BOOL HyBidShouldApplyIPadOS26Insets(void) {
 - (void)updateSkipOffsetOnProgressTick:(NSInteger)newSkipOffset
 {
     switch(self.countdownStyle){
-        case HyBidCountdownPieChart:{
-            Float64 currentSkippablePlayedPercent = 0;
-            if (newSkipOffset > 0 && newSkipOffset < self.skipOffset) {
-                // counting - 1 second to finish the counting reaching second 0 and completing filling the circle
-                currentSkippablePlayedPercent = (double) (self.skipOffset - (newSkipOffset - 1)) / (double) self.skipOffset;
-            } else if(newSkipOffset == 0) {
-                currentSkippablePlayedPercent = 1;
-            }
-            
-            // avoiding restarting the progress of the pie chart during the first second
-            if(self.skipOffset != newSkipOffset){
-                [self.progressLabel setProgress: currentSkippablePlayedPercent timing:0 duration:1 delay:0];
-            }
-            
+        case HyBidCountdownSimple:{
             self.progressLabel.text = [NSString stringWithFormat:@"%ld", (long)newSkipOffset];
             break;
         }
