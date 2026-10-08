@@ -6,6 +6,7 @@
 
 #import "HyBidURLDriller.h"
 #import "HyBidWebBrowserUserAgentInfo.h"
+#import "HyBidAutomaticClickTrackingUtil.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -23,6 +24,7 @@ NSTimeInterval const kHyBidURLDrillerTimeout = 5; // seconds
 @property (nonatomic, strong) NSURL *url;
 @property (nonatomic, strong) NSURL *lastURL;
 @property (nonatomic, strong) NSString *trackingType;
+@property (nonatomic, assign) HyBidClickThroughType clickThroughType;
 
 @end
 
@@ -39,6 +41,13 @@ NSTimeInterval const kHyBidURLDrillerTimeout = 5; // seconds
                        delegate:(NSObject<HyBidURLDrillerDelegate> *)delegate
                withTrackingType:(NSString *)trackingType {
     self.trackingType = trackingType;
+    [self startDrillWithURLString:urlString delegate:delegate];
+}
+
+- (void)startClickThroughDrillWithURLString:(NSString *)urlString
+                                       type:(HyBidClickThroughType)type
+                                   delegate:(NSObject<HyBidURLDrillerDelegate> *)delegate {
+    self.clickThroughType = type;
     [self startDrillWithURLString:urlString delegate:delegate];
 }
 
@@ -81,6 +90,7 @@ NSTimeInterval const kHyBidURLDrillerTimeout = 5; // seconds
     
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request
                                             completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        [self reportClickThroughOpened:(error == nil)];
         if (error) {
             [self invokeDidFailWithURL:self.lastURL andError:error];
             if ([HyBidSDKConfig sharedConfig].reporting) {
@@ -95,6 +105,12 @@ NSTimeInterval const kHyBidURLDrillerTimeout = 5; // seconds
     
     [task resume];
     
+}
+
+- (void)reportClickThroughOpened:(BOOL)opened {
+    HyBidClickThroughType type = self.clickThroughType;
+    self.clickThroughType = HyBidClickThroughTypeNone;
+    [HyBidAutomaticClickTrackingUtil reportClickThroughURL:self.url.absoluteString type:type opened:opened];
 }
 
 - (BOOL)isFinalURL:(NSURL*)url {
@@ -151,6 +167,7 @@ NSTimeInterval const kHyBidURLDrillerTimeout = 5; // seconds
 willPerformHTTPRedirection:(NSHTTPURLResponse *)response
         newRequest:(NSURLRequest *)request
  completionHandler:(void (^)(NSURLRequest * _Nullable))completionHandler {
+    [self reportClickThroughOpened:YES];
     [self invokeDidRedirectWithURL:request.URL];
     if ([self isFinalURL:request.URL]) {
         [self invokeDidFinishWithURL:request.URL];

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "HyBidDeeplinkHandler.h"
+#import "HyBidAutomaticClickTrackingUtil.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
 #import <UIKit/UIKit.h>
@@ -66,6 +67,12 @@
 }
 
 - (void)openWithNavigationType:(NSString *)navigationType clickthroughURL:(NSString * _Nullable)clickthroughURL {
+    [self openWithNavigationType:navigationType clickthroughURL:clickthroughURL clickThroughType:HyBidClickThroughTypeNone];
+}
+
+- (void)openWithNavigationType:(NSString *)navigationType
+               clickthroughURL:(NSString * _Nullable)clickthroughURL
+              clickThroughType:(HyBidClickThroughType)clickThroughType {
     if (!self.isCapable) { return; }
 
     [[UIApplication sharedApplication] openURL:self.deeplinkURL
@@ -75,24 +82,29 @@
 
         // Priority 2: Use fallbackURL from Link Meta if available
         if (self.fallbackURL) {
-            [self openUrlInBrowser:[self.fallbackURL absoluteString] navigationType:navigationType];
+            [self openUrlInBrowser:[self.fallbackURL absoluteString] navigationType:navigationType clickThroughType:HyBidClickThroughTypeNone];
         }
         // Priority 3: Use VAST/MRAID clickthrough URL if fallbackURL is missing
         else if (clickthroughURL.length > 0) {
-            [self openUrlInBrowser:clickthroughURL navigationType:navigationType];
+            [self openUrlInBrowser:clickthroughURL navigationType:navigationType clickThroughType:clickThroughType];
         }
     }];
 }
 
-- (void)openUrlInBrowser:(NSString*) url navigationType:(NSString *)navigationType {
+- (void)openUrlInBrowser:(NSString*) url navigationType:(NSString *)navigationType clickThroughType:(HyBidClickThroughType)clickThroughType {
+    NSURL *targetURL = url ? [NSURL URLWithString:url] : nil;
+    if (!targetURL) { return; }
     HyBidWebBrowserNavigation navigation = [HyBidInternalWebBrowser.shared webBrowserNavigationBehaviourFromString: navigationType];
     
     if (navigation == HyBidWebBrowserNavigationInternal) {
         [HyBidInternalWebBrowser.shared navigateToURL:url];
+        [HyBidAutomaticClickTrackingUtil reportClickThroughURL:url type:clickThroughType opened:YES];
     } else {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]
+        [[UIApplication sharedApplication] openURL:targetURL
                                            options:@{}
-                                 completionHandler:nil];
+                                 completionHandler:^(BOOL success) {
+            [HyBidAutomaticClickTrackingUtil reportClickThroughURL:url type:clickThroughType opened:success];
+        }];
     }
 }
 

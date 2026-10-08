@@ -559,8 +559,8 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) HyBidBeacons
 - (void)adBeaconsFromResponse:(NSString * _Nullable)response completion:(void (^ _Nonnull)(NSArray<HyBidBeaconItem *> * _Nonnull))completion;
 @end
 
-enum HyBidCTASize : int32_t;
-enum HyBidCTALocation : int32_t;
+SWIFT_ENUM_FWD_DECL(int32_t, HyBidCTASize)
+SWIFT_ENUM_FWD_DECL(int32_t, HyBidCTALocation)
 @class UIImage;
 SWIFT_CLASS("_TtC5HyBid12HyBidCTAData")
 @interface HyBidCTAData : NSObject
@@ -680,9 +680,6 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) HyBidSkipOffset * _Non
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class) HyBidInterstitialActionBehaviour interstitialActionBehaviour;)
 + (HyBidInterstitialActionBehaviour)interstitialActionBehaviour SWIFT_WARN_UNUSED_RESULT;
 + (void)setInterstitialActionBehaviour:(HyBidInterstitialActionBehaviour)value;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) HyBidSkipOffset * _Nonnull endCardCloseMaxOffset;)
-+ (HyBidSkipOffset * _Nonnull)endCardCloseMaxOffset SWIFT_WARN_UNUSED_RESULT;
-+ (void)setEndCardCloseMaxOffset:(HyBidSkipOffset * _Nonnull)value;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) HyBidSkipOffset * _Nonnull nativeCloseButtonOffset;)
 + (HyBidSkipOffset * _Nonnull)nativeCloseButtonOffset SWIFT_WARN_UNUSED_RESULT;
 + (void)setNativeCloseButtonOffset:(HyBidSkipOffset * _Nonnull)value;
@@ -731,6 +728,12 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, copy) NSString * _Nonnull ctaL
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class) NSInteger sdkAutoStoreKitDelayInputValue;)
 + (NSInteger)sdkAutoStoreKitDelayInputValue SWIFT_WARN_UNUSED_RESULT;
 + (void)setSdkAutoStoreKitDelayInputValue:(NSInteger)value;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class) NSInteger closeButtonTouchSize;)
++ (NSInteger)closeButtonTouchSize SWIFT_WARN_UNUSED_RESULT;
++ (void)setCloseButtonTouchSize:(NSInteger)value;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class) NSInteger closeButtonInitialTouchSize;)
++ (NSInteger)closeButtonInitialTouchSize SWIFT_WARN_UNUSED_RESULT;
++ (void)setCloseButtonInitialTouchSize:(NSInteger)value;
 + (HyBidSkipOffset * _Nonnull)endCardCloseOffsetWithAdExperience:(NSString * _Nullable)adExperience SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
@@ -787,7 +790,7 @@ SWIFT_PROTOCOL("_TtP5HyBid25HyBidInterruptionDelegate_")
 + (BOOL)isCustomCTAValidWithAd:(HyBidAd * _Nonnull)ad SWIFT_WARN_UNUSED_RESULT;
 @end
 
-enum HyBidGDPRk : NSInteger;
+SWIFT_ENUM_FWD_DECL(NSInteger, HyBidGDPRk)
 SWIFT_CLASS("_TtC5HyBid9HyBidGDPR")
 @interface HyBidGDPR : NSObject
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER SWIFT_UNAVAILABLE;
@@ -916,7 +919,7 @@ SWIFT_PROTOCOL("_TtP5HyBid27HyBidInterstitialAdDelegate_")
 - (void)interstitialDidDismiss;
 @end
 
-enum HyBidLandingBehaviourType : int32_t;
+SWIFT_ENUM_FWD_DECL(int32_t, HyBidLandingBehaviourType)
 SWIFT_CLASS("_TtC5HyBid21HyBidLandingBehaviour")
 @interface HyBidLandingBehaviour : NSObject
 - (enum HyBidLandingBehaviourType)convertStringWithValue:(NSString * _Nullable)value SWIFT_WARN_UNUSED_RESULT;
@@ -938,6 +941,13 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) HyBidLocatio
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @property (nonatomic) BOOL locationTrackingEnabled;
 @property (nonatomic) BOOL locationUpdatesEnabled;
+@end
+
+SWIFT_CLASS("_TtC5HyBid19HyBidLocationHelper")
+@interface HyBidLocationHelper : NSObject
++ (double)roundedCoordinate:(double)value SWIFT_WARN_UNUSED_RESULT;
++ (NSString * _Nonnull)formattedCoordinate:(double)value SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
 SWIFT_CLASS("_TtC5HyBid11HyBidLogger")
@@ -962,7 +972,7 @@ SWIFT_CLASS("_TtC5HyBid23HyBidMRAIDCloseCardView")
 - (void)contentInfoViewWidthNeedsUpdate:(NSNumber * _Null_unspecified)width;
 @end
 
-enum HyBidMRAIDCommandType : int32_t;
+SWIFT_ENUM_FWD_DECL(int32_t, HyBidMRAIDCommandType)
 SWIFT_CLASS("_TtC5HyBid17HyBidMRAIDCommand")
 @interface HyBidMRAIDCommand : NSObject
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER SWIFT_UNAVAILABLE;
@@ -1111,6 +1121,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) HyBidSKAdNet
 - (void)presentStoreKitViewWithProductParameters:(NSDictionary<NSString *, id> * _Nonnull)productParameters adFormat:(NSString * _Nonnull)adFormat isAutoStoreKitView:(BOOL)isAutoStoreKitView ad:(HyBidAd * _Nonnull)ad rootViewController:(UIViewController * _Nonnull)rootViewController;
 - (void)presentStoreKitViewWithProductParameters:(NSDictionary<NSString *, id> * _Nonnull)productParameters adFormat:(NSString * _Nonnull)adFormat isAutoStoreKitView:(BOOL)isAutoStoreKitView ad:(HyBidAd * _Nonnull)ad;
 - (BOOL)isSKProductViewControllerPresented SWIFT_WARN_UNUSED_RESULT;
+- (void)resetStoreKitPresentationState;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -1200,16 +1211,8 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger DEFAULT_SK
 + (NSInteger)DEFAULT_SKIP_OFFSET_WITHOUT_ENDCARD SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger DEFAULT_END_CARD_CLOSE_OFFSET;)
 + (NSInteger)DEFAULT_END_CARD_CLOSE_OFFSET SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger DEFAULT_END_CARD_CLOSE_MAX_OFFSET;)
-+ (NSInteger)DEFAULT_END_CARD_CLOSE_MAX_OFFSET SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger DEFAULT_REWARDED_VIDEO_MAX_SKIP_OFFSET;)
-+ (NSInteger)DEFAULT_REWARDED_VIDEO_MAX_SKIP_OFFSET SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger DEFAULT_INTERSTITIAL_VIDEO_MAX_SKIP_OFFSET;)
-+ (NSInteger)DEFAULT_INTERSTITIAL_VIDEO_MAX_SKIP_OFFSET SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger DEFAULT_REWARDED_HTML_MAX_SKIP_OFFSET;)
-+ (NSInteger)DEFAULT_REWARDED_HTML_MAX_SKIP_OFFSET SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger DEFAULT_INTERSTITIAL_HTML_MAX_SKIP_OFFSET;)
-+ (NSInteger)DEFAULT_INTERSTITIAL_HTML_MAX_SKIP_OFFSET SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger DEFAULT_REWARDED_VIDEO_SKIP_OFFSET;)
++ (NSInteger)DEFAULT_REWARDED_VIDEO_SKIP_OFFSET SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger DEFAULT_NATIVE_CLOSE_BUTTON_OFFSET;)
 + (NSInteger)DEFAULT_NATIVE_CLOSE_BUTTON_OFFSET SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger DEFAULT_PC_VIDEO_SKIP_OFFSET;)
@@ -1220,8 +1223,6 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger DEFAULT_PC
 + (NSInteger)DEFAULT_PC_VIDEO_MAX_SKIP_OFFSET_NON_COMPANION SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger DEFAULT_PC_INTERSTITIAL_SKIP_OFFSET;)
 + (NSInteger)DEFAULT_PC_INTERSTITIAL_SKIP_OFFSET SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger DEFAULT_PC_INTERSTITIAL_MAX_SKIP_OFFSET;)
-+ (NSInteger)DEFAULT_PC_INTERSTITIAL_MAX_SKIP_OFFSET SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger DEFAULT_PC_END_CARD_CLOSE_DELAY;)
 + (NSInteger)DEFAULT_PC_END_CARD_CLOSE_DELAY SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger DEFAULT_BC_END_CARD_CLOSE_DELAY;)
@@ -1236,11 +1237,31 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSInteger DEFAULT_BC
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
+SWIFT_CLASS("_TtC5HyBid25HyBidSkipOffsetResolution")
+@interface HyBidSkipOffsetResolution : NSObject
+@property (nonatomic, readonly, strong) HyBidSkipOffset * _Nullable skipOffset;
+@property (nonatomic, readonly) BOOL hasInvalidVASTSkipOffset;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+SWIFT_CLASS("_TtC5HyBid23HyBidSkipOffsetResolver")
+@interface HyBidSkipOffsetResolver : NSObject
++ (HyBidSkipOffsetResolution * _Nonnull)resolveWithSkipOffsetChain:(NSArray<NSString *> * _Nonnull)skipOffsetChain durationString:(NSString * _Nullable)durationString remoteConfigOffset:(NSNumber * _Nullable)remoteConfigOffset remoteConfigPercentage:(NSString * _Nullable)remoteConfigPercentage sdkDefaultOffset:(NSNumber * _Nullable)sdkDefaultOffset SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
 SWIFT_CLASS("_TtC5HyBid19HyBidTargetingModel")
 @interface HyBidTargetingModel : NSObject
 @property (nonatomic, strong) NSNumber * _Nullable age;
 @property (nonatomic, copy) NSArray<NSString *> * _Nonnull interests;
 @property (nonatomic, copy) NSString * _Nullable gender;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+SWIFT_CLASS("_TtC5HyBid17HyBidTimeResolver")
+@interface HyBidTimeResolver : NSObject
++ (NSNumber * _Nullable)absoluteSecondsFromString:(NSString * _Nonnull)string SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -1312,8 +1333,6 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) HyBidViewbil
 - (void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^ _Nullable)(void))completion;
 - (void)viewDidDisappear:(BOOL)animated;
 - (void)touchesBegan:(NSSet<UITouch *> * _Nonnull)touches withEvent:(UIEvent * _Nullable)event;
-@property (nonatomic, readonly) UIInterfaceOrientationMask supportedInterfaceOrientations;
-@property (nonatomic, readonly) BOOL shouldAutorotate;
 @end
 
 SWIFT_CLASS_NAMED("VASTBeacon")

@@ -103,7 +103,7 @@ Pod::Spec.new do |s|
 
   s.swift_version = '5.0'
   s.pod_target_xcconfig = {
-    'OTHER_SWIFT_FLAGS' => '-Xcc -Wno-incomplete-umbrella'
+    'OTHER_SWIFT_FLAGS' => '-Xcc -Wno-incomplete-umbrella -alias-module-names-in-module-interface'
   }
 
   s.subspec 'Core' do |core|

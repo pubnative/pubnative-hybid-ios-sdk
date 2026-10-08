@@ -192,6 +192,9 @@ extension HyBidInterruptionHandler: HyBidAdFeedbackViewDelegate {
         setAdInterruption(interruptionType: .feedbackView)
     }
     public func adFeedbackViewDidFailWithError(_ error: any Error) {
+        // Normally fail comes before show and this is a no-op, but `mraid.unload()` from the feedback page reports a
+        // failure while the view is shown. It will not close cleanly after that, so balance the `.feedbackView` entry.
+        removeAdInterruption(interruptionType: .feedbackView)
         feedbackViewDelegate?.adFeedbackViewDidFailWithError?(error as NSError)
     }
     public func adFeedbackViewDidDismiss() {

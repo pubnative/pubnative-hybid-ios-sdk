@@ -115,12 +115,20 @@ static BOOL HyBidShouldApplyIPadOS26Insets(void) {
     return self;
 }
 
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
+    if (self.closeButton != nil && self.closeButton.superview == self) {
+        return [self.closeButton pointInside:[self convertPoint:point toView:self.closeButton] withEvent:event];
+    }
+    return [super pointInside:point withEvent:event];
+}
+
 - (void)addCloseOverlayButton {
     if (!self.closeButton) {
         self.closeButton = [[HyBidCloseButton alloc] initWithRootView:self action:@selector(skipButtonTapped:) target:self ad:self.ad];
     }
     
     [self.closeButton setTag:HYBID_MRAID_CLOSE_BUTTON_TAG];
+    self.closeButton.touchSize = self.touchSize;
     
     if (self.progressLabel) {
         [self.progressLabel removeFromSuperview];

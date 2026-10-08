@@ -11,6 +11,7 @@
 #import "PNLiteHttpRequest.h"
 #import "HyBidDataModel.h"
 #import "HyBidURLDriller.h"
+#import "HyBidJSBeaconLoader+Testing.h"
 #import "PNLiteData.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
@@ -286,6 +287,117 @@
     [tracker trackStorekitAutomaticCustomEndCardClickWithAdFormat:@"fullscreen"];
     // automaticDefaultEndCardClickTracked must remain unaffected
     XCTAssertFalse(tracker.automaticDefaultEndCardClickTracked);
+}
+
+#pragma mark - VMI-1712: one automatic click SDK event per mechanism per ad view
+
+// Runs `scenario` against a fresh tracker with reporting on, waits for the reporting
+// manager's private queue to drain, and returns the automatic click SDK event types
+// it recorded, in order. This is the same list the demo app's SDK event list shows.
+- (NSArray<NSString *> *)automaticClickEventTypesReportedBy:(void (^)(HyBidAdTracker *tracker))scenario
+{
+    BOOL previousReporting = [HyBidSDKConfig sharedConfig].reporting;
+    [HyBidSDKConfig sharedConfig].reporting = YES;
+    [[HyBidReportingManager sharedInstance] clearEvents];
+
+    scenario([self makeTracker]);
+
+    // The manager appends on a serial queue, so once this marker has landed every event
+    // reported before it has landed too. No fixed sleep needed.
+    HyBidReportingEvent *marker = [[HyBidReportingEvent alloc] initWith:@"vmi1712_test_marker" adFormat:nil properties:nil];
+    [[HyBidReportingManager sharedInstance] reportEventFor:marker];
+    NSPredicate *markerLanded = [NSPredicate predicateWithBlock:^BOOL(id _Nullable obj, NSDictionary<NSString *,id> * _Nullable bindings) {
+        return [[HyBidReportingManager sharedInstance].events containsObject:marker];
+    }];
+    [self expectationForPredicate:markerLanded evaluatedWithObject:nil handler:nil];
+    [self waitForExpectationsWithTimeout:5 handler:nil];
+
+    NSMutableArray<NSString *> *types = [NSMutableArray array];
+    for (HyBidReportingEvent *event in [HyBidReportingManager sharedInstance].events) {
+        if ([event.eventType containsString:@"_automatic_"]) {
+            [types addObject:event.eventType];
+        }
+    }
+
+    [[HyBidReportingManager sharedInstance] clearEvents];
+    [HyBidSDKConfig sharedConfig].reporting = previousReporting;
+    return types;
+}
+
+// The ticket's scenario: SKOverlay presents over the video, then again over the custom end card.
+- (void)test_skOverlayAutomaticClick_videoThenCustomEndCard_reportsOneSDKEvent
+{
+    NSArray<NSString *> *reported = [self automaticClickEventTypesReportedBy:^(HyBidAdTracker *tracker) {
+        [tracker trackSKOverlayAutomaticClickWithAdFormat:@"fullscreen"];
+        [tracker trackSKOverlayAutomaticCustomEndCardClickWithAdFormat:@"fullscreen"];
+    }];
+
+    XCTAssertEqualObjects(reported, @[HyBidReportingEventType.SKOVERLAY_AUTOMATIC_CLICK]);
+}
+
+- (void)test_skOverlayAutomaticClick_defaultEndCardThenCustomEndCard_reportsOneSDKEvent
+{
+    NSArray<NSString *> *reported = [self automaticClickEventTypesReportedBy:^(HyBidAdTracker *tracker) {
+        [tracker trackSKOverlayAutomaticDefaultEndCardClickWithAdFormat:@"fullscreen"];
+        [tracker trackSKOverlayAutomaticCustomEndCardClickWithAdFormat:@"fullscreen"];
+    }];
+
+    XCTAssertEqualObjects(reported, @[HyBidReportingEventType.SKOVERLAY_AUTOMATIC_DEFAULT_ENDCARD_CLICK]);
+}
+
+- (void)test_storekitAutomaticClick_videoThenCustomEndCard_reportsOneSDKEvent
+{
+    NSArray<NSString *> *reported = [self automaticClickEventTypesReportedBy:^(HyBidAdTracker *tracker) {
+        [tracker trackStorekitAutomaticClickWithAdFormat:@"fullscreen"];
+        [tracker trackStorekitAutomaticCustomEndCardClickWithAdFormat:@"fullscreen"];
+    }];
+
+    XCTAssertEqualObjects(reported, @[HyBidReportingEventType.STOREKIT_AUTOMATIC_CLICK]);
+}
+
+- (void)test_storekitAutomaticClick_defaultEndCardThenCustomEndCard_reportsOneSDKEvent
+{
+    NSArray<NSString *> *reported = [self automaticClickEventTypesReportedBy:^(HyBidAdTracker *tracker) {
+        [tracker trackStorekitAutomaticDefaultEndCardClickWithAdFormat:@"fullscreen"];
+        [tracker trackStorekitAutomaticCustomEndCardClickWithAdFormat:@"fullscreen"];
+    }];
+
+    XCTAssertEqualObjects(reported, @[HyBidReportingEventType.STOREKIT_AUTOMATIC_DEFAULT_ENDCARD_CLICK]);
+}
+
+// Ruling (VMI-1700 AC6, product comment on VMI-1673): the latch is per mechanism, so SKOverlay
+// and AutoStoreKit each still report their own automatic click in the same ad view.
+- (void)test_skOverlayVideoThenStorekitDefaultEndCard_reportsOneSDKEventPerMechanism
+{
+    NSArray<NSString *> *reported = [self automaticClickEventTypesReportedBy:^(HyBidAdTracker *tracker) {
+        [tracker trackSKOverlayAutomaticClickWithAdFormat:@"fullscreen"];
+        [tracker trackStorekitAutomaticDefaultEndCardClickWithAdFormat:@"fullscreen"];
+    }];
+
+    NSArray<NSString *> *expected = @[HyBidReportingEventType.SKOVERLAY_AUTOMATIC_CLICK,
+                                      HyBidReportingEventType.STOREKIT_AUTOMATIC_DEFAULT_ENDCARD_CLICK];
+    XCTAssertEqualObjects(reported, expected);
+}
+
+// VMI-1735: the SDK event latch must not touch the ad-server click beacons. After the video
+// surface reported, the custom end card still sends its own declared click URL.
+- (void)test_skOverlayAutomaticClick_videoThenCustomEndCard_stillSendsCustomEndCardClickURL
+{
+    HyBidAdTrackerRequest *mockRequest = mock([HyBidAdTrackerRequest class]);
+    NSString *customEndCardClickURL = @"https://example.com/custom_endcard_click";
+    HyBidAdTracker *tracker = [[HyBidAdTracker alloc] initWithAdTrackerRequest:mockRequest
+                                                            withImpressionURLs:@[]
+                                               withCustomEndcardImpressionURLs:@[]
+                                                                 withClickURLs:@[]
+                                                    withCustomEndcardClickURLs:@[[self dataModelWithURL:customEndCardClickURL]]
+                                                         withCustomCTATracking:nil];
+
+    [tracker trackSKOverlayAutomaticClickWithAdFormat:@"fullscreen"];
+    [tracker trackSKOverlayAutomaticCustomEndCardClickWithAdFormat:@"fullscreen"];
+
+    [verifyCount(mockRequest, times(1)) trackAdWithDelegate:tracker
+                                                    withURL:customEndCardClickURL
+                                           withTrackingType:HyBidReportingEventType.CUSTOM_ENDCARD_CLICK];
 }
 
 #pragma mark - VMI-1548: invokeDidLoad URL capture
@@ -668,6 +780,39 @@
     }];
 
     [HyBidReportingManager sharedInstance].beacons = @[];
+}
+
+#pragma mark - VMI-1750: JS-type beacons are loaded as HTML, not evaluated as JS expressions
+
+- (HyBidDataModel *)dataModelWithJS:(NSString *)js
+{
+    return [[HyBidDataModel alloc] initWithDictionary:@{@"data": @{@"js": js}}];
+}
+
+- (void)test_trackURLs_withJSBeaconScriptTag_reportsBeacon
+{
+    [HyBidJSBeaconLoader hybid_stubLoadWithError:nil];
+    [HyBidReportingManager sharedInstance].beacons = @[];
+    [HyBidSDKConfig sharedConfig].reporting = YES;
+
+    HyBidAdTracker *tracker = [self makeTracker];
+    NSString *scriptTag = @"<script>var x = 1;</script>";
+    [tracker trackURLs:@[[self dataModelWithJS:scriptTag]] withTrackingType:PNLiteAdTrackerImpression];
+
+    NSPredicate *beaconAdded = [NSPredicate predicateWithBlock:^BOOL(id _Nullable obj, NSDictionary<NSString *,id> * _Nullable bindings) {
+        return [HyBidReportingManager sharedInstance].beacons.count == 1;
+    }];
+    [self expectationForPredicate:beaconAdded evaluatedWithObject:nil handler:nil];
+    // The completion still hops through a dispatch_async(main queue) in production code before
+    // hitting the synchronous test stub, so give a busy CI run loop more slack than 5s.
+    [self waitForExpectationsWithTimeout:15 handler:nil];
+
+    HyBidReportingBeacon *beacon = [HyBidReportingManager sharedInstance].beacons.firstObject;
+    NSDictionary *data = beacon.properties[@"data"];
+    XCTAssertEqualObjects(data[PNLiteData.js], scriptTag);
+
+    [HyBidReportingManager sharedInstance].beacons = @[];
+    [HyBidJSBeaconLoader hybid_removeLoadStub];
 }
 
 @end

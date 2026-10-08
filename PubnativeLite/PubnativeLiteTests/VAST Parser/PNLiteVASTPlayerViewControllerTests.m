@@ -20,6 +20,7 @@
 #import "PNLiteResponseModel.h"
 #import "HyBidVASTTrackingEvents.h"
 #import "HyBidAutomaticClickTrackingUtil.h"
+#import "HyBidAd.h"
 
 // Mirrors the private PNLiteVASTPlayerState bitmask defined in the .m.
 static const NSUInteger kPNLiteVASTPlayerStateIdle = 1 << 0;
@@ -41,8 +42,9 @@ static NSString * const kSKOverlayEnabledConfigKey = @"SKOverlayenabled";
 - (void)moviePlayBackDidFinish:(NSNotification *)notification;
 - (BOOL)isValidToShowCustomCountdown;
 - (void)determineRewardedSkipOffsetForAd:(HyBidAd *)ad;
-- (HyBidSkipOffset *)convertSkipOffsetFromVASTLinear:(HyBidVASTLinear *)vastLinear;
-- (HyBidSkipOffset *)resolveSkipOffsetFromVAST:(HyBidSkipOffset *)vastSkipOffset remoteConfigOffset:(NSNumber *)remoteConfigOffset;
+- (void)applySkipOffsetFromVastArray:(NSArray *)vastArray;
+- (HyBidVASTEventProcessor *)createVASTEventProcessor;
+- (NSBundle *)getBundle;
 - (void)trackClickForSKOverlayWithClickType:(HyBidSKOverlayAutomaticCLickType)clickType isFirstPresentation:(BOOL)isFirstPresentation;
 - (void)trackClickForAutoStorekit:(HyBidStorekitAutomaticClickType)clickType;
 - (void)showEndCard;
@@ -115,6 +117,21 @@ static NSString * const kSKOverlayEnabledConfigKey = @"SKOverlayenabled";
 - (void)sendTrackingRequest:(NSString *)url trackingType:(NSString *)vastTrackerType {
     if (!self.sentURLs) { self.sentURLs = [NSMutableArray array]; }
     [self.sentURLs addObject:url];
+}
+@end
+
+@interface RecordingProcessorVASTPlayerViewController : PNLiteVASTPlayerViewController
+@property (nonatomic, strong) RecordingVASTEventProcessor *recordingProcessor;
+@end
+
+@implementation RecordingProcessorVASTPlayerViewController
+- (HyBidVASTEventProcessor *)createVASTEventProcessor {
+    self.recordingProcessor = [[RecordingVASTEventProcessor alloc] init];
+    return self.recordingProcessor;
+}
+
+- (NSBundle *)getBundle {
+    return [NSBundle bundleForClass:[PNLiteVASTPlayerViewController class]];
 }
 @end
 
@@ -1127,6 +1144,21 @@ static NSString * const kCompanionCreativeViewEventURL = @"https://companion-cre
     XCTAssertTrue(controller.endCardView.hasTrackedCompanionClickEvent);
 }
 
+// VMI-1751: every replay sets the replay flag, but only an auto StoreKit attempt clears it.
+// If nothing is pending, the flag stays on and the next end card loses its own AutoStoreKit.
+// So showEndCard has to clear it before the new end card starts its timer.
+- (void)test_showEndCard_clearsAutoStoreKitReplayLatch {
+    PNLiteVASTPlayerViewController *controller = [self automaticClickControllerWithProcessor:mock([HyBidVASTEventProcessor class])
+                                                                                    delegate:mockProtocol(@protocol(PNLiteVASTPlayerViewControllerDelegate))];
+    controller.endCards = [@[[self companionEndCardWithURLsByEvent:@{ @"click": kCompanionClickEventURL }]] mutableCopy];
+    [self addTeardownBlock:^{ HyBidSKAdNetworkViewController.shared.avoidAutoStoreKitPresentationAfterReplay = NO; }];
+    HyBidSKAdNetworkViewController.shared.avoidAutoStoreKitPresentationAfterReplay = YES;
+
+    [controller showEndCard];
+
+    XCTAssertFalse(HyBidSKAdNetworkViewController.shared.avoidAutoStoreKitPresentationAfterReplay);
+}
+
 // The player's processor stays linear when a companion end card shows: the companion's TrackingEvents
 // (creativeView, click, close) belong to the end card's own processor, which fires them when the creative renders.
 - (void)test_showEndCard_withCompanionEndCard_keepsLinearProcessorOnPlayer {
@@ -1288,6 +1320,22 @@ static NSString * const kCompanionCreativeViewEventURL = @"https://companion-cre
     XCTAssertNil(controller.endCardView);
 }
 
+- (void)test_removeElementsForReplay_invalidatesEndCardStorekitDelayTimer {
+    PNLiteVASTPlayerViewController *controller = [[PNLiteVASTPlayerViewController alloc] init];
+    [controller loadView];
+
+    HyBidEndCardView *endCard = [[HyBidEndCardView alloc] initWithFrame:CGRectZero];
+    NSTimer *pendingTimer = [NSTimer scheduledTimerWithTimeInterval:60 repeats:NO block:^(NSTimer *t) {}];
+    [endCard setValue:pendingTimer forKey:@"delayTimer"];
+    [controller.view addSubview:endCard];
+    controller.endCardView = endCard;
+
+    [controller removeElementsForReplay];
+
+    XCTAssertNil([endCard valueForKey:@"delayTimer"], "the end card's pending StoreKit delay timer should be invalidated before replay");
+    [pendingTimer invalidate];
+}
+
 - (void)test_resetElementsForReplay_resetsAutomaticClickTrackingState {
     HyBidVASTEventProcessor *processor = mock([HyBidVASTEventProcessor class]);
     NSObject<PNLiteVASTPlayerViewControllerDelegate> *delegate = mockProtocol(@protocol(PNLiteVASTPlayerViewControllerDelegate));
@@ -1404,12 +1452,6 @@ static NSString * const kCompanionCreativeViewEventURL = @"https://companion-cre
     return ad;
 }
 
-- (HyBidVASTLinear *)vastLinearWithSkipOffset:(NSString *)skipOffset {
-    NSString *xml = [NSString stringWithFormat:@"<Linear skipoffset=\"%@\"><Duration>00:01:00</Duration></Linear>", skipOffset];
-    HyBidXMLElementEx *root = [[HyBidXMLEx parserWithXML:xml] rootElement];
-    return [[HyBidVASTLinear alloc] initWithInLineXMLElement:root];
-}
-
 - (void)test_isValidToShowCustomCountdown_durationAboveSkipOffset_returnsYes {
     HyBidAd *ad = [self adWithRemoteConfigs:@{} hasEndCard:NO];
     TestableVASTPlayerViewController *controller = [[TestableVASTPlayerViewController alloc] initPlayerWithAdModel:ad withAdFormat:HyBidAdFormatInterstitial];
@@ -1439,230 +1481,319 @@ static NSString * const kCompanionCreativeViewEventURL = @"https://companion-cre
     XCTAssertFalse(controller.skipOffset.isCustom);
 }
 
-- (void)test_convertSkipOffsetFromVASTLinear_interstitialWithVASTSkipOffset_isHonoured {
+// MARK: - VMI-1729 percentage skip offset remote config
+
+- (void)test_videoSkipOffsetPercentage_returnsRawPercentString {
+    HyBidAd *ad = [self adWithRemoteConfigs:@{@"video_skip_offset": @"20%"} hasEndCard:YES];
+
+    XCTAssertEqualObjects(ad.videoSkipOffsetPercentage, @"20%");
+    XCTAssertNil(ad.videoSkipOffset);
+}
+
+- (void)test_rewardedVideoSkipOffsetPercentage_returnsRawPercentString {
+    HyBidAd *ad = [self adWithRemoteConfigs:@{@"rewarded_video_skip_offset": @"20%"} hasEndCard:YES];
+
+    XCTAssertEqualObjects(ad.rewardedVideoSkipOffsetPercentage, @"20%");
+    XCTAssertNil(ad.rewardedVideoSkipOffset);
+}
+
+- (void)test_videoSkipOffsetPercentage_absoluteValue_returnsNil {
+    HyBidAd *ad = [self adWithRemoteConfigs:@{@"video_skip_offset": @12} hasEndCard:YES];
+
+    XCTAssertNil(ad.videoSkipOffsetPercentage);
+    XCTAssertEqualObjects(ad.videoSkipOffset, @12);
+}
+
+- (void)test_videoSkipOffsetPercentage_absent_returnsNil {
     HyBidAd *ad = [self adWithRemoteConfigs:@{} hasEndCard:YES];
-    PNLiteVASTPlayerViewController *controller = [[PNLiteVASTPlayerViewController alloc] initPlayerWithAdModel:ad withAdFormat:HyBidAdFormatInterstitial];
-    HyBidVASTLinear *linear = [self vastLinearWithSkipOffset:@"00:00:12"];
 
-    HyBidSkipOffset *result = [controller convertSkipOffsetFromVASTLinear:linear];
-
-    XCTAssertEqual(result.offset.integerValue, 12);
-    XCTAssertTrue(result.isCustom);
+    XCTAssertNil(ad.videoSkipOffsetPercentage);
+    XCTAssertNil(ad.videoSkipOffset);
 }
 
-- (void)test_convertSkipOffsetFromVASTLinear_rewardedNoVASTOffsetWithEndCard_returnsRewardedDefault {
-    HyBidAd *ad = [self adWithRemoteConfigs:@{} hasEndCard:YES];
-    PNLiteVASTPlayerViewController *controller = [[PNLiteVASTPlayerViewController alloc] initPlayerWithAdModel:ad withAdFormat:HyBidAdFormatRewarded];
-    HyBidVASTLinear *linear = [self vastLinearWithSkipOffset:@""];
-
-    HyBidSkipOffset *result = [controller convertSkipOffsetFromVASTLinear:linear];
-
-    XCTAssertEqual(result.offset.integerValue, HyBidSkipOffset.DEFAULT_REWARDED_VIDEO_SKIP_OFFSET);
-    XCTAssertFalse(result.isCustom);
-}
-
-- (void)test_convertSkipOffsetFromVASTLinear_rewardedNoVASTOffsetNoEndCard_returnsRewardedDefault {
-    HyBidAd *ad = [self adWithRemoteConfigs:@{} hasEndCard:NO];
-    PNLiteVASTPlayerViewController *controller = [[PNLiteVASTPlayerViewController alloc] initPlayerWithAdModel:ad withAdFormat:HyBidAdFormatRewarded];
-    HyBidVASTLinear *linear = [self vastLinearWithSkipOffset:@""];
-
-    HyBidSkipOffset *result = [controller convertSkipOffsetFromVASTLinear:linear];
-
-    XCTAssertEqual(result.offset.integerValue, HyBidSkipOffset.DEFAULT_REWARDED_VIDEO_SKIP_OFFSET);
-    XCTAssertFalse(result.isCustom);
-}
-
-// MARK: - VMI-1704 min(VAST, remote config) skip-offset resolution
+// MARK: - VMI-1729 skip offset chain collection
+// The resolution rules are covered by HyBidSkipOffsetResolverTests; these tests cover what the
+// controller feeds into the resolver and what it does with the result.
 
 - (PNLiteVASTPlayerViewController *)interstitialControllerWithRemoteConfigs:(NSDictionary *)jsondata {
     HyBidAd *ad = [self adWithRemoteConfigs:jsondata hasEndCard:YES];
     return [[PNLiteVASTPlayerViewController alloc] initPlayerWithAdModel:ad withAdFormat:HyBidAdFormatInterstitial];
 }
 
-- (void)test_resolveSkipOffset_remoteConfigBelowVAST_remoteConfigWins {
+- (RecordingProcessorVASTPlayerViewController *)recordingInterstitialControllerWithVASTString:(NSString *)vastString {
+    HyBidAd *ad = [self adWithRemoteConfigs:@{} hasEndCard:YES];
+    RecordingProcessorVASTPlayerViewController *controller = [[RecordingProcessorVASTPlayerViewController alloc] initPlayerWithAdModel:ad withAdFormat:HyBidAdFormatInterstitial];
+    controller.vastArray = @[[vastString dataUsingEncoding:NSUTF8StringEncoding]];
+    [controller setValue:vastString forKey:@"vastString"];
+    return controller;
+}
+
+- (NSString *)vastWrapperInlineXMLWithWrapperSkipOffset:(NSString *)wrapperSkipOffset
+                                       inlineSkipOffset:(NSString *)inlineSkipOffset
+                                        inlineDuration:(NSString *)inlineDuration {
+    NSString *template = [self readFromTxtFileNamed:@"vast_wrapper_inline_skipoffset_template"];
+    template = [template stringByReplacingOccurrencesOfString:@"__WRAPPER_SKIPOFFSET__" withString:wrapperSkipOffset];
+    template = [template stringByReplacingOccurrencesOfString:@"__INLINE_SKIPOFFSET__" withString:inlineSkipOffset];
+    template = [template stringByReplacingOccurrencesOfString:@"__INLINE_DURATION__" withString:inlineDuration];
+    return template;
+}
+
+- (NSString *)vastInlineXMLWithSkipOffset:(NSString *)skipOffset duration:(NSString *)duration {
+    NSString *template = [self readFromTxtFileNamed:@"vast_inline_skipoffset_template"];
+    template = [template stringByReplacingOccurrencesOfString:@"__SKIPOFFSET__" withString:skipOffset];
+    template = [template stringByReplacingOccurrencesOfString:@"__DURATION__" withString:duration];
+    return template;
+}
+
+- (void)test_applySkipOffset_remoteConfigPercentage_resolvesAgainstVASTDuration {
+    // Fixture VAST (AdResponse.json) has <Duration>00:00:14</Duration>; 20% of 14s rounds to 3s.
+    HyBidAd *ad = [self automaticClickAdFromTestBundleWithRemoteConfigs:@{@"video_skip_offset": @"20%"}];
+    PNLiteVASTPlayerViewController *controller = [[PNLiteVASTPlayerViewController alloc] initPlayerWithAdModel:ad
+                                                                                                 withAdFormat:HyBidAdFormatInterstitial];
+
+    [controller applySkipOffsetFromVastArray:@[[ad.vast dataUsingEncoding:NSUTF8StringEncoding]]];
+
+    XCTAssertEqual(controller.skipOffset.offset.integerValue, 3);
+    XCTAssertFalse(controller.skipOffset.isCustom);
+}
+
+- (void)test_applySkipOffset_rewardedRemoteConfigPercentage_resolvesAgainstVASTDuration {
+    HyBidAd *ad = [self automaticClickAdFromTestBundleWithRemoteConfigs:@{@"rewarded_video_skip_offset": @"20%"}];
+    PNLiteVASTPlayerViewController *controller = [[PNLiteVASTPlayerViewController alloc] initPlayerWithAdModel:ad
+                                                                                                 withAdFormat:HyBidAdFormatRewarded];
+
+    [controller applySkipOffsetFromVastArray:@[[ad.vast dataUsingEncoding:NSUTF8StringEncoding]]];
+
+    XCTAssertEqual(controller.skipOffset.offset.integerValue, 3);
+    XCTAssertFalse(controller.skipOffset.isCustom);
+}
+
+- (void)test_applySkipOffset_rewardedRemoteConfigPercentageBelowVASTPercentage_remoteConfigWins {
+    NSString *vastString = [self vastInlineXMLWithSkipOffset:@"50%" duration:@"00:00:20"];
+    HyBidAd *ad = [self adWithRemoteConfigs:@{@"rewarded_video_skip_offset": @"20%"} hasEndCard:YES];
+    PNLiteVASTPlayerViewController *controller = [[PNLiteVASTPlayerViewController alloc] initPlayerWithAdModel:ad
+                                                                                                 withAdFormat:HyBidAdFormatRewarded];
+
+    [controller applySkipOffsetFromVastArray:@[[vastString dataUsingEncoding:NSUTF8StringEncoding]]];
+
+    XCTAssertEqual(controller.skipOffset.offset.integerValue, 4);
+    XCTAssertFalse(controller.skipOffset.isCustom);
+}
+
+- (void)test_applySkipOffset_remoteConfigPercentageWithoutDuration_keepsCurrentSkipOffset {
+    NSString *vastString = [self readFromTxtFileNamed:@"vast_percentage_no_duration"];
+    PNLiteVASTPlayerViewController *controller = [self interstitialControllerWithRemoteConfigs:@{@"video_skip_offset": @"0%"}];
+
+    [controller applySkipOffsetFromVastArray:@[[vastString dataUsingEncoding:NSUTF8StringEncoding]]];
+
+    XCTAssertNil(controller.skipOffset);
+}
+
+- (void)test_applySkipOffset_validInlinePercentage_winsOverWrapperAbsolute {
+    NSString *vastString = [self vastWrapperInlineXMLWithWrapperSkipOffset:@"00:00:08"
+                                                         inlineSkipOffset:@"20%"
+                                                           inlineDuration:@"00:00:30"];
+    RecordingProcessorVASTPlayerViewController *controller = [self recordingInterstitialControllerWithVASTString:vastString];
+
+    [controller applySkipOffsetFromVastArray:controller.vastArray];
+
+    XCTAssertEqual(controller.skipOffset.offset.integerValue, 6);
+    XCTAssertTrue(controller.skipOffset.isCustom);
+    XCTAssertEqual(controller.recordingProcessor.sentURLs.count, 0);
+}
+
+- (void)test_applySkipOffset_wrapperPercentage_resolvesAgainstInlineDuration {
+    NSString *vastString = [self vastWrapperInlineXMLWithWrapperSkipOffset:@"20%"
+                                                         inlineSkipOffset:@"-1"
+                                                           inlineDuration:@"00:00:30"];
     PNLiteVASTPlayerViewController *controller = [self interstitialControllerWithRemoteConfigs:@{}];
-    HyBidSkipOffset *vast = [[HyBidSkipOffset alloc] initWithOffset:@8 isCustom:YES];
 
-    HyBidSkipOffset *result = [controller resolveSkipOffsetFromVAST:vast remoteConfigOffset:@5];
+    [controller applySkipOffsetFromVastArray:@[[vastString dataUsingEncoding:NSUTF8StringEncoding]]];
 
-    XCTAssertEqual(result.offset.integerValue, 5);
-    XCTAssertFalse(result.isCustom);
+    XCTAssertEqual(controller.skipOffset.offset.integerValue, 6);
+    XCTAssertTrue(controller.skipOffset.isCustom);
 }
 
-- (void)test_resolveSkipOffset_vastBelowRemoteConfig_vastWins {
-    PNLiteVASTPlayerViewController *controller = [self interstitialControllerWithRemoteConfigs:@{}];
-    HyBidSkipOffset *vast = [[HyBidSkipOffset alloc] initWithOffset:@5 isCustom:YES];
-
-    HyBidSkipOffset *result = [controller resolveSkipOffsetFromVAST:vast remoteConfigOffset:@8];
-
-    XCTAssertEqual(result.offset.integerValue, 5);
-    XCTAssertTrue(result.isCustom);
-}
-
-- (void)test_resolveSkipOffset_longVASTOffsetCappedByRemoteConfig {
-    PNLiteVASTPlayerViewController *controller = [self interstitialControllerWithRemoteConfigs:@{}];
-    HyBidSkipOffset *vast = [[HyBidSkipOffset alloc] initWithOffset:@120 isCustom:YES];
-
-    HyBidSkipOffset *result = [controller resolveSkipOffsetFromVAST:vast remoteConfigOffset:@30];
-
-    XCTAssertEqual(result.offset.integerValue, 30);
-    XCTAssertFalse(result.isCustom);
-}
-
-- (void)test_resolveSkipOffset_equalValues_vastWins {
-    PNLiteVASTPlayerViewController *controller = [self interstitialControllerWithRemoteConfigs:@{}];
-    HyBidSkipOffset *vast = [[HyBidSkipOffset alloc] initWithOffset:@8 isCustom:YES];
-
-    HyBidSkipOffset *result = [controller resolveSkipOffsetFromVAST:vast remoteConfigOffset:@8];
-
-    XCTAssertEqual(result.offset.integerValue, 8);
-    XCTAssertTrue(result.isCustom);
-}
-
-- (void)test_resolveSkipOffset_vastOnly_vastApplies {
-    PNLiteVASTPlayerViewController *controller = [self interstitialControllerWithRemoteConfigs:@{}];
-    HyBidSkipOffset *vast = [[HyBidSkipOffset alloc] initWithOffset:@12 isCustom:YES];
-
-    HyBidSkipOffset *result = [controller resolveSkipOffsetFromVAST:vast remoteConfigOffset:nil];
-
-    XCTAssertEqual(result.offset.integerValue, 12);
-    XCTAssertTrue(result.isCustom);
-}
-
-- (void)test_resolveSkipOffset_remoteConfigOnly_remoteConfigApplies {
+- (void)test_applySkipOffset_wrapperPercentage_skipsIntermediateWrapperDuration_resolvesAgainstInline {
+    // Wrapper1 "20%" without Duration, Wrapper2 without skipoffset but with a 5s Duration,
+    // Inline without skipoffset and a 30s Duration: 20% resolves against the Inline, not Wrapper2.
+    NSString *vastString = [self readFromTxtFileNamed:@"vast_wrapper_chain_percentage"];
     PNLiteVASTPlayerViewController *controller = [self interstitialControllerWithRemoteConfigs:@{}];
 
-    HyBidSkipOffset *result = [controller resolveSkipOffsetFromVAST:nil remoteConfigOffset:@7];
+    [controller applySkipOffsetFromVastArray:@[[vastString dataUsingEncoding:NSUTF8StringEncoding]]];
 
-    XCTAssertEqual(result.offset.integerValue, 7);
-    XCTAssertFalse(result.isCustom);
+    XCTAssertEqual(controller.skipOffset.offset.integerValue, 6);
+    XCTAssertTrue(controller.skipOffset.isCustom);
 }
 
-- (void)test_resolveSkipOffset_bothAbsent_returnsNil {
+- (void)test_applySkipOffset_innerWrapperPercentage_overridesOuterWrapperAbsolute {
+    NSString *vastString = [self readFromTxtFileNamed:@"vast_wrapper_chain_inner_percentage_overrides_outer"];
     PNLiteVASTPlayerViewController *controller = [self interstitialControllerWithRemoteConfigs:@{}];
 
-    XCTAssertNil([controller resolveSkipOffsetFromVAST:nil remoteConfigOffset:nil]);
+    [controller applySkipOffsetFromVastArray:@[[vastString dataUsingEncoding:NSUTF8StringEncoding]]];
+
+    XCTAssertEqual(controller.skipOffset.offset.integerValue, 6);
+    XCTAssertTrue(controller.skipOffset.isCustom);
 }
 
-- (void)test_resolveSkipOffset_zeroRemoteConfig_actsAsCeiling {
+- (void)test_applySkipOffset_multipleLinearCreatives_resolvesAgainstFirstDuration {
+    NSString *vastString = [self readFromTxtFileNamed:@"vast_multiple_linear_creatives"];
+    PNLiteVASTPlayerViewController *controller = [self interstitialControllerWithRemoteConfigs:@{@"video_skip_offset": @"50%"}];
+
+    [controller applySkipOffsetFromVastArray:@[[vastString dataUsingEncoding:NSUTF8StringEncoding]]];
+
+    XCTAssertEqual(controller.skipOffset.offset.integerValue, 10);
+    XCTAssertFalse(controller.skipOffset.isCustom);
+}
+
+- (void)test_applySkipOffset_multipleLinearCreatives_appliesOnlyFirstCreativesSkipOffset {
+    NSString *vastString = [self readFromTxtFileNamed:@"vast_multiple_linear_creatives_conflicting_skipoffsets"];
     PNLiteVASTPlayerViewController *controller = [self interstitialControllerWithRemoteConfigs:@{}];
-    HyBidSkipOffset *vast = [[HyBidSkipOffset alloc] initWithOffset:@12 isCustom:YES];
 
-    HyBidSkipOffset *result = [controller resolveSkipOffsetFromVAST:vast remoteConfigOffset:@0];
+    [controller applySkipOffsetFromVastArray:@[[vastString dataUsingEncoding:NSUTF8StringEncoding]]];
 
-    XCTAssertEqual(result.offset.integerValue, 0);
-    XCTAssertFalse(result.isCustom);
+    XCTAssertEqual(controller.skipOffset.offset.integerValue, 8);
+    XCTAssertTrue(controller.skipOffset.isCustom);
 }
 
-- (void)test_resolveSkipOffset_zeroRemoteConfigAlone_isGenuineZero {
+- (void)test_applySkipOffset_companionOnlyFirstCreative_resolvesFirstLinear {
+    NSString *vastString =
+        @"<VAST version=\"3.0\"><Ad id=\"1\"><InLine>"
+         "<AdSystem>Test</AdSystem><AdTitle>Test</AdTitle>"
+         "<Impression><![CDATA[https://example.com/impression]]></Impression>"
+         "<Creatives>"
+         "<Creative id=\"1\"><CompanionAds><Companion width=\"480\" height=\"320\">"
+         "<HTMLResource><![CDATA[<img src=\"https://example.com/companion.jpg\">]]></HTMLResource>"
+         "</Companion></CompanionAds></Creative>"
+         "<Creative id=\"2\"><Linear skipoffset=\"20%\"><Duration>00:00:20</Duration></Linear></Creative>"
+         "</Creatives>"
+         "</InLine></Ad></VAST>";
     PNLiteVASTPlayerViewController *controller = [self interstitialControllerWithRemoteConfigs:@{}];
 
-    HyBidSkipOffset *result = [controller resolveSkipOffsetFromVAST:nil remoteConfigOffset:@0];
+    [controller applySkipOffsetFromVastArray:@[[vastString dataUsingEncoding:NSUTF8StringEncoding]]];
 
-    XCTAssertEqual(result.offset.integerValue, 0);
-    XCTAssertFalse(result.isCustom);
+    XCTAssertEqual(controller.skipOffset.offset.integerValue, 4);
+    XCTAssertTrue(controller.skipOffset.isCustom);
 }
 
-- (void)test_resolveSkipOffset_negativeRemoteConfig_treatedAsAbsent {
+- (void)test_applySkipOffset_adPodSecondAd_doesNotOverridePlayedAdSkipOffset {
+    NSString *vastString = [self readFromTxtFileNamed:@"vast_ad_pod_second_ad_does_not_override_played_ad_skipoffset"];
     PNLiteVASTPlayerViewController *controller = [self interstitialControllerWithRemoteConfigs:@{}];
-    HyBidSkipOffset *vast = [[HyBidSkipOffset alloc] initWithOffset:@12 isCustom:YES];
 
-    HyBidSkipOffset *result = [controller resolveSkipOffsetFromVAST:vast remoteConfigOffset:@-5];
+    [controller applySkipOffsetFromVastArray:@[[vastString dataUsingEncoding:NSUTF8StringEncoding]]];
 
-    XCTAssertEqual(result.offset.integerValue, 12);
-    XCTAssertTrue(result.isCustom);
+    XCTAssertEqual(controller.skipOffset.offset.integerValue, 8);
+    XCTAssertTrue(controller.skipOffset.isCustom);
 }
 
-// MARK: - VMI-1704 non-numeric VAST skipoffset falls back instead of resolving to 0
-
-- (void)test_convertSkipOffsetFromVASTLinear_nonNumericComponents_fallsBackToRemoteConfig {
-    PNLiteVASTPlayerViewController *controller = [self interstitialControllerWithRemoteConfigs:@{@"video_skip_offset": @12}];
-    HyBidVASTLinear *linear = [self vastLinearWithSkipOffset:@"aa:bb:cc"];
-
-    HyBidSkipOffset *result = [controller convertSkipOffsetFromVASTLinear:linear];
-
-    XCTAssertEqual(result.offset.integerValue, 12);
-    XCTAssertFalse(result.isCustom);
-}
-
-- (void)test_convertSkipOffsetFromVASTLinear_nonNumericComponentsNoRemoteConfig_fallsBackToDefault {
+- (void)test_applySkipOffset_unresolvableInlinePercentage_doesNotLeakIntoNextAd {
+    NSString *vastString = [self readFromTxtFileNamed:@"vast_unresolvable_inline_percentage_does_not_leak"];
     PNLiteVASTPlayerViewController *controller = [self interstitialControllerWithRemoteConfigs:@{}];
-    HyBidVASTLinear *linear = [self vastLinearWithSkipOffset:@"aa:bb:cc"];
 
-    HyBidSkipOffset *result = [controller convertSkipOffsetFromVASTLinear:linear];
+    [controller applySkipOffsetFromVastArray:@[[vastString dataUsingEncoding:NSUTF8StringEncoding]]];
 
-    XCTAssertEqual(result.offset.integerValue, HyBidSkipOffset.DEFAULT_VIDEO_SKIP_OFFSET);
-    XCTAssertFalse(result.isCustom);
+    XCTAssertNil(controller.skipOffset);
 }
 
-- (void)test_convertSkipOffsetFromVASTLinear_allZeroComponents_isGenuineZero {
-    PNLiteVASTPlayerViewController *controller = [self interstitialControllerWithRemoteConfigs:@{@"video_skip_offset": @12}];
-    HyBidVASTLinear *linear = [self vastLinearWithSkipOffset:@"00:00:00"];
+- (void)test_applySkipOffset_banner_doesNotApplySkipOffset {
+    NSString *vastString = [self vastWrapperInlineXMLWithWrapperSkipOffset:@"20%"
+                                                         inlineSkipOffset:@"-1"
+                                                           inlineDuration:@"00:00:30"];
+    HyBidAd *ad = [self adWithRemoteConfigs:@{} hasEndCard:YES];
+    PNLiteVASTPlayerViewController *controller = [[PNLiteVASTPlayerViewController alloc] initPlayerWithAdModel:ad withAdFormat:HyBidAdFormatBanner];
 
-    HyBidSkipOffset *result = [controller convertSkipOffsetFromVASTLinear:linear];
+    [controller applySkipOffsetFromVastArray:@[[vastString dataUsingEncoding:NSUTF8StringEncoding]]];
 
-    XCTAssertEqual(result.offset.integerValue, 0);
-    XCTAssertTrue(result.isCustom);
+    XCTAssertNil(controller.skipOffset);
 }
 
-- (void)test_convertSkipOffsetFromVASTLinear_twoPartValue_fallsBackToRemoteConfig {
-    PNLiteVASTPlayerViewController *controller = [self interstitialControllerWithRemoteConfigs:@{@"video_skip_offset": @12}];
-    HyBidVASTLinear *linear = [self vastLinearWithSkipOffset:@"00:08"];
+- (void)test_applySkipOffset_bannerInvalidSkipOffset_doesNotSendError {
+    NSString *vastString = [self vastWrapperInlineXMLWithWrapperSkipOffset:@"00:00:08"
+                                                         inlineSkipOffset:@"garbage"
+                                                           inlineDuration:@"00:01:00"];
+    HyBidAd *ad = [self adWithRemoteConfigs:@{} hasEndCard:YES];
+    RecordingProcessorVASTPlayerViewController *controller = [[RecordingProcessorVASTPlayerViewController alloc] initPlayerWithAdModel:ad withAdFormat:HyBidAdFormatBanner];
+    controller.vastArray = @[[vastString dataUsingEncoding:NSUTF8StringEncoding]];
+    [controller setValue:vastString forKey:@"vastString"];
+    controller.vastEventProcessor = [controller createVASTEventProcessor];
 
-    HyBidSkipOffset *result = [controller convertSkipOffsetFromVASTLinear:linear];
+    [controller applySkipOffsetFromVastArray:controller.vastArray];
 
-    XCTAssertEqual(result.offset.integerValue, 12);
-    XCTAssertFalse(result.isCustom);
+    XCTAssertNil(controller.skipOffset);
+    XCTAssertNotNil(controller.recordingProcessor);
+    XCTAssertEqual(controller.recordingProcessor.sentURLs.count, 0);
 }
 
-- (void)test_resolveSkipOffset_genuineZeroVAST_staysZeroUnderMin {
-    PNLiteVASTPlayerViewController *controller = [self interstitialControllerWithRemoteConfigs:@{}];
-    HyBidSkipOffset *vast = [[HyBidSkipOffset alloc] initWithOffset:@0 isCustom:YES];
+// MARK: - VMI-1729 invalid skipoffset error 101
 
-    HyBidSkipOffset *result = [controller resolveSkipOffsetFromVAST:vast remoteConfigOffset:@5];
+- (void)test_applySkipOffset_invalidInline_fallsBackToDefaultAndSendsError101Once {
+    NSString *vastString = [self vastWrapperInlineXMLWithWrapperSkipOffset:@"00:00:08"
+                                                         inlineSkipOffset:@"garbage"
+                                                           inlineDuration:@"00:01:00"];
+    RecordingProcessorVASTPlayerViewController *controller = [self recordingInterstitialControllerWithVASTString:vastString];
 
-    XCTAssertEqual(result.offset.integerValue, 0);
-    XCTAssertTrue(result.isCustom);
+    [controller applySkipOffsetFromVastArray:controller.vastArray];
+
+    XCTAssertEqual(controller.skipOffset.offset.integerValue, HyBidSkipOffset.DEFAULT_VIDEO_SKIP_OFFSET);
+    XCTAssertFalse(controller.skipOffset.isCustom);
+    NSArray *expectedURLs = @[@"https://example.com/wrapper-error?reason=101", @"https://example.com/inline-error?reason=101"];
+    XCTAssertEqualObjects([NSSet setWithArray:controller.recordingProcessor.sentURLs], [NSSet setWithArray:expectedURLs]);
+    XCTAssertEqual(controller.recordingProcessor.sentURLs.count, 2);
 }
 
-- (void)test_convertSkipOffsetFromVASTLinear_leadingWhitespace_stillAccepted {
-    PNLiteVASTPlayerViewController *controller = [self interstitialControllerWithRemoteConfigs:@{}];
-    HyBidVASTLinear *linear = [self vastLinearWithSkipOffset:@" 00:00:05"];
+- (void)test_applySkipOffset_invalidWrapperValidInline_usesInlineWithoutError {
+    NSString *vastString = [self vastWrapperInlineXMLWithWrapperSkipOffset:@"garbage"
+                                                         inlineSkipOffset:@"00:00:05"
+                                                           inlineDuration:@"00:01:00"];
+    RecordingProcessorVASTPlayerViewController *controller = [self recordingInterstitialControllerWithVASTString:vastString];
 
-    HyBidSkipOffset *result = [controller convertSkipOffsetFromVASTLinear:linear];
+    [controller applySkipOffsetFromVastArray:controller.vastArray];
 
-    XCTAssertEqual(result.offset.integerValue, 5);
-    XCTAssertTrue(result.isCustom);
+    XCTAssertEqual(controller.skipOffset.offset.integerValue, 5);
+    XCTAssertTrue(controller.skipOffset.isCustom);
+    XCTAssertEqual(controller.recordingProcessor.sentURLs.count, 0);
 }
 
-- (void)test_convertSkipOffsetFromVASTLinear_nonASCIIDigit_fallsBackToRemoteConfig {
-    PNLiteVASTPlayerViewController *controller = [self interstitialControllerWithRemoteConfigs:@{@"video_skip_offset": @12}];
-    HyBidVASTLinear *linear = [self vastLinearWithSkipOffset:@"00:00:𝟝"];
+- (void)test_applySkipOffset_emptyInline_keepsWrapperWithoutError {
+    NSString *vastString = [self vastWrapperInlineXMLWithWrapperSkipOffset:@"00:00:08"
+                                                         inlineSkipOffset:@""
+                                                           inlineDuration:@"00:01:00"];
+    RecordingProcessorVASTPlayerViewController *controller = [self recordingInterstitialControllerWithVASTString:vastString];
 
-    HyBidSkipOffset *result = [controller convertSkipOffsetFromVASTLinear:linear];
+    [controller applySkipOffsetFromVastArray:controller.vastArray];
 
-    XCTAssertEqual(result.offset.integerValue, 12);
-    XCTAssertFalse(result.isCustom);
+    XCTAssertEqual(controller.skipOffset.offset.integerValue, 8);
+    XCTAssertTrue(controller.skipOffset.isCustom);
+    XCTAssertEqual(controller.recordingProcessor.sentURLs.count, 0);
 }
 
-- (void)test_convertSkipOffsetFromVASTLinear_overlongHoursComponent_fallsBackToRemoteConfig {
-    PNLiteVASTPlayerViewController *controller = [self interstitialControllerWithRemoteConfigs:@{@"video_skip_offset": @12}];
-    HyBidVASTLinear *linear = [self vastLinearWithSkipOffset:@"9999999999999999999:00:00"];
+- (void)test_applySkipOffset_whitespacePaddedAbsentInline_keepsWrapperWithoutError {
+    NSString *vastString = [self vastWrapperInlineXMLWithWrapperSkipOffset:@"00:00:08"
+                                                         inlineSkipOffset:@" -1 "
+                                                           inlineDuration:@"00:01:00"];
+    RecordingProcessorVASTPlayerViewController *controller = [self recordingInterstitialControllerWithVASTString:vastString];
 
-    HyBidSkipOffset *result = [controller convertSkipOffsetFromVASTLinear:linear];
+    [controller applySkipOffsetFromVastArray:controller.vastArray];
 
-    XCTAssertEqual(result.offset.integerValue, 12);
-    XCTAssertFalse(result.isCustom);
+    XCTAssertEqual(controller.skipOffset.offset.integerValue, 8);
+    XCTAssertTrue(controller.skipOffset.isCustom);
+    XCTAssertEqual(controller.recordingProcessor.sentURLs.count, 0);
 }
 
-- (void)test_convertSkipOffsetFromVASTLinear_fractionalSeconds_stillAccepted {
-    PNLiteVASTPlayerViewController *controller = [self interstitialControllerWithRemoteConfigs:@{}];
-    HyBidVASTLinear *linear = [self vastLinearWithSkipOffset:@"00:00:10.500"];
+- (void)test_resetElementsForReplay_reusesResolvedSkipOffsetWithoutResendingError {
+    NSString *vastString = [self vastInlineXMLWithSkipOffset:@"garbage" duration:@"00:01:00"];
+    RecordingProcessorVASTPlayerViewController *controller = [self recordingInterstitialControllerWithVASTString:vastString];
+    controller.currentEndCard = [[HyBidEndCard alloc] init];
+    [controller applySkipOffsetFromVastArray:controller.vastArray];
+    XCTAssertEqualObjects(controller.recordingProcessor.sentURLs, @[@"https://example.com/error?reason=101"]);
+    HyBidSkipOffset *resolvedSkipOffset = controller.skipOffset;
 
-    HyBidSkipOffset *result = [controller convertSkipOffsetFromVASTLinear:linear];
+    XCTAssertNoThrow([controller resetElementsForReplay]);
 
-    XCTAssertEqual(result.offset.integerValue, 10);
-    XCTAssertTrue(result.isCustom);
+    XCTAssertEqual(controller.skipOffset, resolvedSkipOffset);
+    XCTAssertEqual(controller.recordingProcessor.sentURLs.count, 0);
+    controller.shown = NO;
+    HyBidSKAdNetworkViewController.shared.avoidAutoStoreKitPresentationAfterReplay = NO;
 }
 
 // MARK: - Helper Methods
@@ -1948,6 +2079,43 @@ static NSString * const kCompanionCreativeViewEventURL = @"https://companion-cre
             }];
         }
     }
+}
+
+- (void)verifyClickThroughDrillOpenedForInvocation:(void (^)(PNLiteVASTPlayerViewController *controller))invocation {
+    HyBidReportingManager *manager = [HyBidReportingManager sharedInstance];
+    NSArray *originalTrackers = [manager.vastTrackers copy];
+    BOOL previousReporting = [HyBidSDKConfig sharedConfig].reporting;
+    [HyBidSDKConfig sharedConfig].reporting = YES;
+    manager.vastTrackers = [@[] mutableCopy];
+
+    HyBidAd *ad = [self automaticClickAdFromTestBundle];
+    NSRegularExpression *clickThrough = [NSRegularExpression regularExpressionWithPattern:@"<ClickThrough[^>]*>.*?</ClickThrough>" options:NSRegularExpressionDotMatchesLineSeparators error:nil];
+    NSString *vast = [clickThrough stringByReplacingMatchesInString:ad.vast options:0 range:NSMakeRange(0, ad.vast.length) withTemplate:@"<ClickThrough><![CDATA[data:,ok]]></ClickThrough>"];
+    PNLiteVASTPlayerViewController *controller = [[PNLiteVASTPlayerViewController alloc] initPlayerWithAdModel:ad withAdFormat:HyBidAdFormatInterstitial];
+    controller.vastArray = @[[vast dataUsingEncoding:NSUTF8StringEncoding]];
+    controller.vastEventProcessor = mock([HyBidVASTEventProcessor class]);
+
+    invocation(controller);
+
+    NSPredicate *opened = [NSPredicate predicateWithBlock:^BOOL(id object, NSDictionary *bindings) {
+        return [manager.vastTrackers.firstObject.properties[@"type"] isEqualToString:@"ClickThrough - opened"];
+    }];
+    [self waitForExpectations:@[[[XCTNSPredicateExpectation alloc] initWithPredicate:opened object:nil]] timeout:5.0];
+
+    [HyBidSDKConfig sharedConfig].reporting = previousReporting;
+    manager.vastTrackers = [originalTrackers mutableCopy];
+}
+
+- (void)test_trackClickForSKOverlay_withSkAdModel_reportsClickThrough {
+    [self verifyClickThroughDrillOpenedForInvocation:^(PNLiteVASTPlayerViewController *controller) {
+        [controller trackClickForSKOverlayWithClickType:HyBidSKOverlayAutomaticCLickVideo isFirstPresentation:YES];
+    }];
+}
+
+- (void)test_trackClickForAutoStorekit_withSkAdModel_reportsClickThrough {
+    [self verifyClickThroughDrillOpenedForInvocation:^(PNLiteVASTPlayerViewController *controller) {
+        [controller trackClickForAutoStorekit:HyBidStorekitAutomaticClickVideo];
+    }];
 }
 
 @end

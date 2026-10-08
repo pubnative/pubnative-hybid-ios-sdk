@@ -156,8 +156,11 @@ def git_commit_and_push(file_path):
         return True
 
     except subprocess.CalledProcessError as e:
-        print(f"⚠️  Git operation failed: {e}")
-        return False
+        # Fatal, not a warning: the build that follows uses the regenerated
+        # interface, so an unpushed change would ship a binary whose tree
+        # exists nowhere in git — the release pipeline (Gate 4, VMI-1719)
+        # could then sync source that diverges from the artifact.
+        raise SystemExit(f"❌ Git commit/push of the updated interface failed: {e}")
 
 if AUTO_COMMIT:
     git_commit_and_push(BASE_FILE)

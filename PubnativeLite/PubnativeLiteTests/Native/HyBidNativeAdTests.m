@@ -5,16 +5,23 @@
 
 #import <XCTest/XCTest.h>
 #import <UIKit/UIKit.h>
+#import <OCMockito/OCMockito.h>
 #import "HyBidNativeAd.h"
 #import "HyBidAd.h"
+#import "HyBidDataModel.h"
+#import "HyBidJSBeaconLoader+Testing.h"
+#import "PNLiteData.h"
 #import "PNLiteResponseModel.h"
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <HyBid/HyBid-Swift.h>
 #else
     #import "HyBid-Swift.h"
 #endif
+extern NSString * const PNLiteNativeAdBeaconImpression;
+
 @interface HyBidNativeAd (TestCoverage)
 - (void)percentVisibleDidChange:(CGFloat)newValue;
+- (void)confirmBeaconsWithType:(NSString *)type;
 @end
 
 @interface HyBidNativeAd (ClickTrackingInternals)
@@ -150,6 +157,41 @@
     XCTAssertEqual(second.gestureRecognizers.count, 1U);
     XCTAssertEqual(nativeAd.tapRecognizers.count, 1U);
 }
+
+// MARK: - VMI-1750: JS-type beacons are loaded as HTML, not evaluated as JS expressions
+
+- (HyBidDataModel *)jsBeaconWithType:(NSString *)type js:(NSString *)js {
+    return [[HyBidDataModel alloc] initWithDictionary:@{@"type": type, @"data": @{@"js": js}}];
+}
+
+- (void)testConfirmBeaconsWithType_jsScriptTagBeacon_reportsBeacon {
+    [HyBidJSBeaconLoader hybid_stubLoadWithError:nil];
+    [HyBidReportingManager sharedInstance].beacons = @[];
+    [HyBidSDKConfig sharedConfig].reporting = YES;
+
+    NSString *scriptTag = @"<script>var x = 1;</script>";
+    HyBidAd *mockAd = mock([HyBidAd class]);
+    [given([mockAd beacons]) willReturn:@[[self jsBeaconWithType:PNLiteNativeAdBeaconImpression js:scriptTag]]];
+
+    HyBidNativeAd *nativeAd = [[HyBidNativeAd alloc] initWithAd:mockAd];
+    [nativeAd confirmBeaconsWithType:PNLiteNativeAdBeaconImpression];
+
+    NSPredicate *beaconAdded = [NSPredicate predicateWithBlock:^BOOL(id _Nullable obj, NSDictionary<NSString *,id> * _Nullable bindings) {
+        return [HyBidReportingManager sharedInstance].beacons.count == 1;
+    }];
+    [self expectationForPredicate:beaconAdded evaluatedWithObject:nil handler:nil];
+    // The completion still hops through a dispatch_async(main queue) in production code before
+    // hitting the synchronous test stub, so give a busy CI run loop more slack than 5s.
+    [self waitForExpectationsWithTimeout:15 handler:nil];
+
+    HyBidReportingBeacon *beacon = [HyBidReportingManager sharedInstance].beacons.firstObject;
+    NSDictionary *data = beacon.properties[@"data"];
+    XCTAssertEqualObjects(data[PNLiteData.js], scriptTag);
+
+    [HyBidReportingManager sharedInstance].beacons = @[];
+    [HyBidJSBeaconLoader hybid_removeLoadStub];
+}
+
 
 - (HyBidAd *)hyBidAdFromTestBundle {
     NSBundle *bundle = [NSBundle bundleForClass:[self class]];

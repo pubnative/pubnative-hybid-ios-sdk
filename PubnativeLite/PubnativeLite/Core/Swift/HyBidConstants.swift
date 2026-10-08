@@ -11,8 +11,8 @@ public class HyBidConstants: NSObject {
     
     @objc public static let HYBID_SDK_NAME = "HyBid"
     @objc public static let HYBID_OMSDK_VERSION = "1.6.3"
-    @objc public static let HYBID_SDK_VERSION = "3.9.2"
-    @objc public static let SMAATO_SDK_VERSION = "23.2.1"
+    @objc public static let HYBID_SDK_VERSION = "3.9.3"
+    @objc public static let SMAATO_SDK_VERSION = "23.2.2"
     @objc public static let HYBID_OMSDK_IDENTIFIER = "Pubnativenet"
     @objc public static let SMAATO_OMSDK_IDENTIFIER = "Smaato"
     @objc public static let SMAATO_OMSDK_VERSION = "1.6.3"
@@ -53,6 +53,8 @@ public class HyBidConstants: NSObject {
     @objc public static var ctaSizeTypeInputValue: String = String()
     @objc public static var ctaLocationTypeInputValue: String = String()
     @objc public static var sdkAutoStoreKitDelayInputValue: Int = 0
+    @objc public static var closeButtonTouchSize: Int = 0
+    @objc public static var closeButtonInitialTouchSize: Int = 0
     
     @objc public static func endCardCloseOffset(adExperience: String?) -> HyBidSkipOffset {
         if HyBidAdExperienceManager.isPerformanceExperienceValue(adExperience) {

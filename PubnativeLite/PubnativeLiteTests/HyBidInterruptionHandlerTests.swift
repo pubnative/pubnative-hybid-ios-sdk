@@ -204,6 +204,52 @@ final class HyBidInterruptionHandlerTests: XCTestCase {
         XCTAssertEqual(mockVAST.adHasFocusCallCount, 1, "VAST player should get adHasFocus even when endcard was cleaned up while backgrounded")
     }
 
+    // MARK: - VMI-1694: leaked feedbackView entry must not block resume
+
+    func test_feedbackViewUnloadedAfterShow_storeKitDismissed_deliversAdHasFocus() {
+        // mraid.unload() from the shown feedback page reaches mraidViewAdFailed -> adFeedbackViewDidFailWithError
+        handler.activateContext(.vastPlayer, with: mockVAST)
+        handler.adFeedbackViewDidShow()
+        handler.adFeedbackViewDidFailWithError(NSError(domain: "test", code: 0))
+        handler.productViewControllerDidShow(isAutoStoreKitView: false, adFormat: "interstitial")
+        mockVAST.reset()
+        handler.productViewControllerDidFinish()
+        XCTAssertEqual(mockVAST.adHasFocusCallCount, 1, "A failed feedback view must not leave a .feedbackView entry that blocks resume")
+    }
+
+    func test_feedbackViewShown_vastToEndCardHandoff_keepsFeedbackEntry() {
+        // showEndCard deactivates .vastPlayer before HyBidEndCardView activates .endcard, so the stack is briefly empty
+        let mockEndcard = MockInterruptionDelegate()
+        handler.activateContext(.vastPlayer, with: mockVAST)
+        handler.adFeedbackViewDidShow()
+        handler.deactivateContext(.vastPlayer)
+        handler.activateContext(.endcard, with: mockEndcard)
+
+        handler.productViewControllerDidShow(isAutoStoreKitView: false, adFormat: "interstitial")
+        mockEndcard.reset()
+        handler.productViewControllerDidFinish()
+        XCTAssertEqual(mockEndcard.adHasFocusCallCount, 0, "Feedback view is still on screen across the handoff, so the end card must stay paused")
+
+        handler.adFeedbackViewDidDismiss()
+        XCTAssertEqual(mockEndcard.adHasFocusCallCount, 1)
+    }
+
+    func test_feedbackViewShownOverActiveAd_nestedContextActivation_keepsFeedbackEntry() {
+        let mockEndcard = MockInterruptionDelegate()
+        handler.activateContext(.vastPlayer, with: mockVAST)
+        handler.adFeedbackViewDidShow()
+
+        // Activating on a non-empty stack is the same ad session; the entry must survive
+        handler.activateContext(.endcard, with: mockEndcard)
+        handler.productViewControllerDidShow(isAutoStoreKitView: false, adFormat: "interstitial")
+        mockEndcard.reset()
+        handler.productViewControllerDidFinish()
+        XCTAssertEqual(mockEndcard.adHasFocusCallCount, 0, "Feedback view is still on screen, so the ad must stay paused")
+
+        handler.adFeedbackViewDidDismiss()
+        XCTAssertEqual(mockEndcard.adHasFocusCallCount, 1, "Ad resumes once the feedback view is dismissed")
+    }
+
     // MARK: - Helpers
 
     private func postWillResignActive() {

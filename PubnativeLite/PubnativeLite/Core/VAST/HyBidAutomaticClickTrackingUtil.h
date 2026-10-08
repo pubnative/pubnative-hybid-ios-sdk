@@ -9,6 +9,12 @@
 
 @class HyBidAd;
 
+typedef NS_ENUM(NSInteger, HyBidClickThroughType) {
+    HyBidClickThroughTypeNone,
+    HyBidClickThroughTypeVideo,
+    HyBidClickThroughTypeCompanion,
+};
+
 @interface HyBidAutomaticClickTrackingUtil : NSObject
 
 + (BOOL)isAutoClickSuppressedForAd:(HyBidAd *)ad;
@@ -19,5 +25,7 @@
 
 + (BOOL)trackClickEventWithProcessor:(HyBidVASTEventProcessor *)eventProcessor
                       alreadyTracked:(BOOL)alreadyTracked;
+
++ (void)reportClickThroughURL:(NSString *)url type:(HyBidClickThroughType)type opened:(BOOL)opened;
 
 @end

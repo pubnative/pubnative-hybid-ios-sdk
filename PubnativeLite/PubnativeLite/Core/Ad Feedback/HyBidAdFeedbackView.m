@@ -28,6 +28,8 @@
 @property (nonatomic, strong) NSString *zoneID;
 @property (nonatomic, strong) HyBidMRAIDServiceProvider *serviceProvider;
 @property (nonatomic, weak) NSObject <HyBidAdFeedbackViewDelegate> *delegate;
+@property (nonatomic, readwrite, assign) BOOL isShown;
+@property (nonatomic, assign) BOOL isClosed;
 
 @end
 
@@ -96,9 +98,35 @@
 }
 
 - (void)show {
+    // Present from the view controller on top now, not the one captured at init: the ad may have expanded (or another
+    // modal appeared) while the feedback page was loading, and presenting from a view controller that is already
+    // presenting silently does nothing.
+    [self showFromViewController:[UIApplication sharedApplication].topViewController];
+}
+
+- (void)showFromViewController:(UIViewController *)presenter {
+    // The MRAID interstitial can only be presented once. Showing again (after close, or while shown) presents nothing,
+    // so recording a .feedbackView interruption here would leave an entry that nothing can ever remove.
+    if (self.isShown || self.isClosed) {
+        return;
+    }
     [HyBidInterruptionHandler.shared adFeedbackViewWillShow];
-    [self.mraidView showAsInterstitial];
+    [self.mraidView showAsInterstitialFromViewController:presenter];
+    self.isShown = YES;
     [HyBidInterruptionHandler.shared adFeedbackViewDidShow];
+
+    // HyBidMRAIDView presents on the next main queue turn. If the presentation did not happen, nothing is on screen and
+    // nothing will ever close it, so drop the .feedbackView entry again instead of blocking ad resume for the session.
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (!strongSelf || !strongSelf.isShown || presenter.presentedViewController) {
+            return;
+        }
+        [HyBidLogger errorLogFromClass:NSStringFromClass([strongSelf class]) fromMethod:@"showFromViewController:" withMessage:@"Ad feedback view could not be presented."];
+        strongSelf.isShown = NO;
+        [HyBidInterruptionHandler.shared adFeedbackViewDidDismiss];
+    });
 }
 
 #pragma mark HyBidMRAIDViewDelegate
@@ -110,11 +138,14 @@
 }
 
 - (void)mraidViewAdFailed:(HyBidMRAIDView *)mraidView {
+    self.isShown = NO;
     [self.delegate adFeedbackViewDidFailWithError:[NSError hyBidAdFeedbackFormNotLoaded]];
 }
 
 - (void)mraidViewWillExpand:(HyBidMRAIDView *)mraidView {}
 - (void)mraidViewDidClose:(HyBidMRAIDView *)mraidView {
+    self.isShown = NO;
+    self.isClosed = YES;
     [HyBidInterruptionHandler.shared adFeedbackViewDidDismiss];
 }
 - (void)mraidViewNavigate:(HyBidMRAIDView *)mraidView withURL:(NSURL *)url {

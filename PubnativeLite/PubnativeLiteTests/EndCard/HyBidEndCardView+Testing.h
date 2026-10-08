@@ -39,6 +39,7 @@
 - (void)adHasFocus;
 - (void)adHasNoFocus;
 - (void)determineStorekitDelayOffsetAndBehaviour;
+- (void)close;
 - (void)configureCTAWebViewWith:(HyBidVASTCTAButton *)ctaButton;
 - (void)addVerticalConstraintsInRelationToView:(UIView *)view;
 - (void)addHorizontalConstraintsInRelationToView:(UIView *)view;

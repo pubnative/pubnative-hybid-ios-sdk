@@ -178,8 +178,8 @@
             CLLocation* location = [HyBidSettings sharedInstance].location;
             
             if (location && location.coordinate.latitude != 0.0 && location.coordinate.longitude != 0.0) {
-                NSString* lat = [NSString stringWithFormat:@"%.2f", location.coordinate.latitude];
-                NSString* lon = [NSString stringWithFormat:@"%.2f", location.coordinate.longitude];
+                NSString* lat = [HyBidLocationHelper formattedCoordinate:location.coordinate.latitude];
+                NSString* lon = [HyBidLocationHelper formattedCoordinate:location.coordinate.longitude];
                 NSString *accuracy = [NSString stringWithFormat:@"%d", (int)round(location.horizontalAccuracy)];
 
                 self.adRequestModel.requestParameters[HyBidRequestParameter.lat] = lat;

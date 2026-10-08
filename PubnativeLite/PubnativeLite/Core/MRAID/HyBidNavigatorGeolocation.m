@@ -1,10 +1,16 @@
-// 
+//
 // HyBid SDK License
 //
 // https://github.com/pubnative/pubnative-hybid-ios-sdk/blob/main/LICENSE
 //
 
 #import "HyBidNavigatorGeolocation.h"
+
+#if __has_include(<HyBid/HyBid-Swift.h>)
+    #import <HyBid/HyBid-Swift.h>
+#else
+    #import "HyBid-Swift.h"
+#endif
 
 @interface HyBidNavigatorGeolocation ()   <WKScriptMessageHandler, CLLocationManagerDelegate> {
     CLLocationManager* locationManager;
@@ -81,7 +87,7 @@
 - (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message {
     if ([message.name isEqualToString:@"listenerAdded"]) {
         listenerCount += 1;
-        
+
         if (![self locationServicesIsEnabled]) {
             [self onLocationServicesIsDisabled];
         } else if (@available(iOS 14.0, *)) {
@@ -97,7 +103,7 @@
         }
     } else if ([message.name isEqualToString:@"listenerRemoved"]) {
         listenerCount -= 1;
-        
+
         if (listenerCount == 0) {
             // Creative should never trigger location updates
             //[locationManager stopUpdatingLocation];
@@ -118,7 +124,15 @@
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
     if (webView && locations && [locations lastObject]) {
         CLLocation* location = [locations lastObject];
-        NSString* expression = [NSString stringWithFormat: @"navigator.geolocation.helper.success('%@', %f, %f, %f, %f, %f, %f, %f);", location.timestamp, location.coordinate.latitude, location.coordinate.longitude, location.altitude, location.horizontalAccuracy, location.verticalAccuracy, location.course, location.speed];
+        NSString* expression = [NSString stringWithFormat: @"navigator.geolocation.helper.success('%@', %f, %f, %f, %f, %f, %f, %f);",
+                                location.timestamp,
+                                [HyBidLocationHelper roundedCoordinate:location.coordinate.latitude],
+                                [HyBidLocationHelper roundedCoordinate:location.coordinate.longitude],
+                                location.altitude,
+                                location.horizontalAccuracy,
+                                location.verticalAccuracy,
+                                location.course,
+                                location.speed];
         [webView evaluateJavaScript:expression completionHandler:^(id result, NSError *error) {}];
     }
 }
@@ -136,7 +150,7 @@
     if (!geolocationJSPath) {
         return @"";
     }
-    
+
     NSData *geolocationJsData = [NSData dataWithContentsOfFile:geolocationJSPath];
     return [[NSString alloc] initWithData:geolocationJsData encoding:NSUTF8StringEncoding];
 }

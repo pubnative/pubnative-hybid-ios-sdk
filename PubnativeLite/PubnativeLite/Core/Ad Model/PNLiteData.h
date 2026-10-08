@@ -80,5 +80,7 @@
 + (NSString *)clickThroughTimer;
 + (NSString *)pcClickThroughTimer;
 + (NSString *)bcClickThroughTimer;
++ (NSString *)closeButtonTouchSize;
++ (NSString *)closeButtonInitialTouchSize;
 
 @end

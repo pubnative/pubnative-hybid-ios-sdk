@@ -786,6 +786,22 @@
     [self waitForExpectationsWithTimeout:10.0 handler:nil];
 }
 
+- (void)testHelper_adBeaconDictionariesFromResponse_withVASTVideoClickThrough {
+    NSString *vast = @"<VAST version=\"2.0\"><Ad><InLine><AdSystem>Test</AdSystem><Creatives><Creative><Linear>"
+                     @"<Duration>00:00:10</Duration><MediaFiles></MediaFiles>"
+                     @"<VideoClicks><ClickThrough><![CDATA[https://video-click.test]]></ClickThrough></VideoClicks>"
+                     @"</Linear></Creative></Creatives></InLine></Ad></VAST>";
+
+    XCTestExpectation *exp = [self expectationWithDescription:@"video click through"];
+    [HyBidBeaconsInspectorHelper adBeaconDictionariesFromResponse:vast completion:^(NSArray<NSDictionary<NSString *, id> *> *dicts) {
+        NSArray *clickThroughs = [dicts filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"type == 'ClickThrough'"]];
+        XCTAssertEqual(clickThroughs.count, 1);
+        XCTAssertEqualObjects(clickThroughs.firstObject[@"url"], @"https://video-click.test");
+        [exp fulfill];
+    }];
+    [self waitForExpectationsWithTimeout:10.0 handler:nil];
+}
+
 - (void)testHelper_adBeaconDictionariesFromResponse_withEmptyVASTTag_returnsEmpty {
     NSString *vast = @"<?xml version=\"1.0\" encoding=\"UTF-8\"?><VAST version=\"2.0\"></VAST>";
     XCTestExpectation *exp = [self expectationWithDescription:@"empty VAST"];

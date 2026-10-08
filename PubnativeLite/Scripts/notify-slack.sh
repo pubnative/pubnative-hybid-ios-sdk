@@ -238,14 +238,14 @@ else
   SHORT_SHA="${COMMIT_SHA:0:7}"; SHORT_SHA="${SHORT_SHA:-unknown}"
 
   case "$BRANCH" in
-    master|development)
-      EMOJI="🚀"
-      TITLE="Production Release"
+    main)
+      EMOJI="🌳"
+      TITLE="Trunk Build"
       COLOR="#2EB67D"
       ;;
-    beta)
-      EMOJI="🧪"
-      TITLE="Beta Release"
+    release/*)
+      EMOJI="🚀"
+      TITLE="Release Branch Build"
       COLOR="#ECB22E"
       ;;
     *)

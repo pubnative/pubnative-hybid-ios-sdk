@@ -12,8 +12,8 @@
 #import "HyBidSkAdNetworkModel.h"
 #import "HyBidAdImpression.h"
 #import "UIApplication+PNLiteTopViewController.h"
-#import <WebKit/WebKit.h>
 #import "HyBidURLDriller.h"
+#import "HyBidJSBeaconLoader.h"
 #import "HyBid.h"
 #import "HyBidSKAdNetworkParameter.h"
 #import "HyBidCustomClickUtil.h"
@@ -455,34 +455,15 @@ NSString * const PNLiteNativeAdBeaconClick = @"click";
                     }
                     [PNLiteTrackingManager trackWithURL:injectedUrl withType:type forAd: self.ad];
                 } else if (beaconJs && beaconJs.length > 0) {
-                    __block NSString *beaconJsBlock = [beacon stringFieldWithKey:@"js"];
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        NSString *jScript = @"var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width'); document.getElementsByTagName('head')[0].appendChild(meta);";
-                        WKUserScript *wkUScript = [[WKUserScript alloc] initWithSource:jScript injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
-                        WKUserContentController *wkUController = [[WKUserContentController alloc] init];
-                        [wkUController addUserScript:wkUScript];
-                        WKWebViewConfiguration *wkWebConfig = [[WKWebViewConfiguration alloc] init];
-                        wkWebConfig.userContentController = wkUController;
-
-                        __block WKWebView *webView;
-                        if ([NSThread isMainThread]) {
-                            webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:wkWebConfig];
-                        } else {
-                            dispatch_sync(dispatch_get_main_queue(), ^{
-                                webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:wkWebConfig];
-                            });
-                        }
-                        webView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
-//                        [webView evaluateJavaScript:beaconJsBlock completionHandler:nil];
-                        [webView evaluateJavaScript:beaconJsBlock completionHandler:^(id result, NSError *error) {
-                            if (!error && result) {
+                        [HyBidJSBeaconLoader loadBeacon:beaconJs completion:^(NSError * _Nullable error) {
+                            if (!error) {
                                 HyBidReportingBeacon *reportingBeacon = [self beaconReportObjectWith:beacon.type content:@{PNLiteData.js : beacon.js}];
                                 if ([HyBidSDKConfig sharedConfig].reporting && reportingBeacon) {
                                     [[HyBid reportingManager] reportBeaconFor:reportingBeacon];
                                 }
                             }
                         }];
-
                     });
                 }
             }

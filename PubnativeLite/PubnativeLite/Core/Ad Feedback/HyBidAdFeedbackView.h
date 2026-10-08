@@ -8,6 +8,9 @@
 
 @interface HyBidAdFeedbackView : UIView
 
+/// YES between `show` and the feedback view closing or failing.
+@property (nonatomic, readonly) BOOL isShown;
+
 - (instancetype)initWithURL:(NSString *)url withZoneID:(NSString *)zoneID;
 - (void)show;
 

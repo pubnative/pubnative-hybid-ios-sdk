@@ -6,6 +6,7 @@
 
 #import "HyBidCloseButton.h"
 #import "HyBidAdExperienceManager.h"
+#import "HyBidAd+Internal.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -21,8 +22,16 @@
 #define kClickableAreaResizedSize 20.0
 #define kCloseImageResizedSize 20.0
 
+// Kept out of a grown tap area so a control drawn by the creative next to the X stays reachable.
+#define kAdjacentControlSize 18.0
+#define kAdjacentControlGap 10.0
+
 @implementation HyBidCloseButton {
     UIImageView *closeImageView;
+    HyBidAd *pnAd;
+    CGFloat pnTouchSize;
+    CGFloat pnInitialTouchSize;
+    BOOL pnIsSkipControl;
 }
 
 - (instancetype)initWithRootView:(UIView *)rootView action:(SEL)action target:(id)target ad:(HyBidAd *)ad {
@@ -38,6 +47,10 @@
     if (self) {
         self.backgroundColor = [UIColor clearColor];
         [self addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
+        pnIsSkipControl = showSkipButton;
+        pnAd = ad;
+        pnTouchSize = [HyBidCloseButton touchSizeBasedOn:ad];
+        pnInitialTouchSize = [HyBidCloseButton initialTouchSizeBasedOn:ad];
         
         UIImage *closeImage;
         CGSize buttonSize = [self buttonSizeBasedOn:ad];
@@ -110,6 +123,75 @@
     NSString *imagePath = [bundle pathForResource:name ofType:@"png"];
     
     return [UIImage imageWithContentsOfFile:imagePath];
+}
+
+#pragma mark - Configurable tappable size
+
++ (CGFloat)touchSizeBasedOn:(HyBidAd *)ad {
+    CGFloat drawn = [HyBidCloseButton buttonSizeBasedOn:ad].width;
+    NSNumber *served = [ad closeButtonTouchSize];
+    if (served == nil) {
+        return drawn;
+    }
+    return MAX((CGFloat)served.integerValue, drawn);
+}
+
++ (CGFloat)initialTouchSizeBasedOn:(HyBidAd *)ad {
+    NSNumber *served = [ad closeButtonInitialTouchSize];
+    if (served == nil) {
+        return [HyBidCloseButton touchSizeBasedOn:ad];
+    }
+    return (CGFloat)served.integerValue;
+}
+
++ (CGRect)touchAreaForBounds:(CGRect)bounds touchSize:(CGFloat)touchSize {
+    if (touchSize <= 0) {
+        return bounds;
+    }
+    CGFloat dx = (CGRectGetWidth(bounds) - touchSize) / 2.f;
+    CGFloat dy = (CGRectGetHeight(bounds) - touchSize) / 2.f;
+    return CGRectInset(bounds, dx, dy);
+}
+
++ (CGRect)adjacentControlAreaForBounds:(CGRect)bounds towardsTheLeft:(BOOL)towardsTheLeft {
+    CGFloat x = towardsTheLeft ? CGRectGetMinX(bounds) - kAdjacentControlGap - kAdjacentControlSize
+                               : CGRectGetMaxX(bounds) + kAdjacentControlGap;
+    return CGRectMake(x, CGRectGetMinY(bounds), kAdjacentControlSize, kAdjacentControlSize);
+}
+
+// The adjacent control area sits on the side of the X that faces the middle of the screen.
+- (BOOL)isOnTheRightHalf {
+    UIView *reference = self.window;
+    if (!reference) {
+        reference = self;
+        while (reference.superview) {
+            reference = reference.superview;
+        }
+    }
+    CGRect frame = [self convertRect:self.bounds toView:reference];
+    return CGRectGetMidX(frame) > CGRectGetMidX(reference.bounds);
+}
+
+- (CGFloat)activeTouchSize {
+    if (self.touchSize) {
+        return self.touchSize.doubleValue;
+    }
+    return pnAd.hasRegisteredClick ? pnTouchSize : pnInitialTouchSize;
+}
+
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
+    if (pnIsSkipControl) {
+        return [super pointInside:point withEvent:event];
+    }
+    CGRect touchArea = [HyBidCloseButton touchAreaForBounds:self.bounds touchSize:[self activeTouchSize]];
+    if (!CGRectContainsPoint(touchArea, point)) {
+        return NO;
+    }
+    if (CGRectContainsPoint(self.bounds, point)) {
+        return YES;
+    }
+    CGRect adjacentControlArea = [HyBidCloseButton adjacentControlAreaForBounds:self.bounds towardsTheLeft:[self isOnTheRightHalf]];
+    return !CGRectContainsPoint(adjacentControlArea, point);
 }
 
 + (BOOL)buttonShouldBeResized:(HyBidAd *)ad {

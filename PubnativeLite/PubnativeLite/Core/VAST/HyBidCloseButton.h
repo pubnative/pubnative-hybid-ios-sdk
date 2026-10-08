@@ -15,4 +15,10 @@
 + (CGSize)buttonSizeBasedOn:(HyBidAd *)ad;
 + (BOOL)isDefaultSize:(CGSize)size;
 + (CGSize)buttonDefaultSize;
++ (CGFloat)touchSizeBasedOn:(HyBidAd *)ad;
++ (CGFloat)initialTouchSizeBasedOn:(HyBidAd *)ad;
++ (CGRect)touchAreaForBounds:(CGRect)bounds touchSize:(CGFloat)touchSize;
+
+@property (nonatomic, strong) NSNumber *touchSize;
+
 @end

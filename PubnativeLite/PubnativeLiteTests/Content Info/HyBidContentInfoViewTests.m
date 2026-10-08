@@ -6,6 +6,7 @@
 
 #import <XCTest/XCTest.h>
 #import "HyBidContentInfoView.h"
+#import "HyBidAdFeedbackView.h"
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -19,6 +20,17 @@
 @interface HyBidContentInfoView (Testing)
 - (void)downloadCustomContentInfoViewIconWithCompletionBlock:(void (^)(BOOL isFinished))completionBlock;
 - (void)handleDisplay;
+@property (nonatomic, assign) BOOL adFeedbackViewRequested;
+@end
+
+@interface HyBidContentInfoViewTestsFocusDelegate : NSObject <HyBidInterruptionDelegate>
+@property (nonatomic, assign) NSInteger adHasFocusCallCount;
+@end
+
+@implementation HyBidContentInfoViewTestsFocusDelegate
+- (void)adHasFocus {
+    self.adHasFocusCallCount++;
+}
 @end
 
 @interface HyBidContentInfoViewTests : XCTestCase
@@ -204,6 +216,66 @@
     self.contentInfoView.link = @"https://verve.com/feedback";
     self.contentInfoView.zoneID = @"testZone";
     XCTAssertNoThrow([self.contentInfoView handleDisplay]);
+}
+
+#pragma mark - Feedback callback routing (VMI-1694)
+
+- (void)test_init_shouldNotTakeOverFeedbackViewDelegate {
+    HyBidInterruptionHandler.shared.feedbackViewDelegate = nil;
+    HyBidContentInfoView *other = [[HyBidContentInfoView alloc] init];
+    XCTAssertNil(HyBidInterruptionHandler.shared.feedbackViewDelegate, @"Creating a content info view must not claim the feedback callbacks");
+    (void)other;
+}
+
+- (void)test_handleDisplay_thenAnotherViewCreated_callbacksStillReachTappedView {
+    self.contentInfoView.display = HyBidContentInfoDisplayInApp;
+    self.contentInfoView.link = @"https://verve.com/feedback";
+    self.contentInfoView.zoneID = @"testZone";
+    [self.contentInfoView handleDisplay];
+    XCTAssertTrue(self.contentInfoView.adFeedbackViewRequested);
+
+    // e.g. HyBidAd.contentInfo minting a fresh view after the tap
+    HyBidContentInfoView *other = [[HyBidContentInfoView alloc] init];
+    XCTAssertEqual(HyBidInterruptionHandler.shared.feedbackViewDelegate, self.contentInfoView);
+
+    [HyBidInterruptionHandler.shared adFeedbackViewDidFailWithError:[NSError errorWithDomain:@"test" code:0 userInfo:nil]];
+    XCTAssertFalse(self.contentInfoView.adFeedbackViewRequested, @"Tapped view must receive the failure and accept further taps");
+    XCTAssertFalse(other.adFeedbackViewRequested);
+}
+
+- (void)test_dealloc_whileFeedbackViewShown_removesFeedbackInterruption_deliversAdHasFocus {
+    HyBidContentInfoViewTestsFocusDelegate *mockDelegate = [HyBidContentInfoViewTestsFocusDelegate new];
+    [HyBidInterruptionHandler.shared activateContext:HyBidAdContextVastPlayer with:mockDelegate];
+
+    @autoreleasepool {
+        HyBidContentInfoView *view = [[HyBidContentInfoView alloc] init];
+        HyBidAdFeedbackView *feedbackView = [[HyBidAdFeedbackView alloc] initWithURL:@"https://verve.com/feedback" withZoneID:@"testZone"];
+        [feedbackView setValue:@YES forKey:@"isShown"];
+        [view setValue:feedbackView forKey:@"adFeedbackView"];
+        [HyBidInterruptionHandler.shared adFeedbackViewDidShow];
+        view = nil;
+    }
+
+    XCTAssertEqual(mockDelegate.adHasFocusCallCount, 1, @"Tearing down the ad while its feedback view is shown must remove the .feedbackView entry");
+    [HyBidInterruptionHandler.shared deactivateContext:HyBidAdContextVastPlayer];
+}
+
+- (void)test_dealloc_whenFeedbackViewNotShown_doesNotTouchInterruptions {
+    HyBidContentInfoViewTestsFocusDelegate *mockDelegate = [HyBidContentInfoViewTestsFocusDelegate new];
+    [HyBidInterruptionHandler.shared activateContext:HyBidAdContextVastPlayer with:mockDelegate];
+    // Another content info view's feedback view is on screen; releasing one that never showed must not clear it
+    [HyBidInterruptionHandler.shared adFeedbackViewDidShow];
+
+    @autoreleasepool {
+        HyBidContentInfoView *view = [[HyBidContentInfoView alloc] init];
+        [view setValue:[[HyBidAdFeedbackView alloc] initWithURL:@"https://verve.com/feedback" withZoneID:@"testZone"] forKey:@"adFeedbackView"];
+        view = nil;
+    }
+
+    XCTAssertEqual(mockDelegate.adHasFocusCallCount, 0);
+    [HyBidInterruptionHandler.shared adFeedbackViewDidDismiss];
+    XCTAssertEqual(mockDelegate.adHasFocusCallCount, 1);
+    [HyBidInterruptionHandler.shared deactivateContext:HyBidAdContextVastPlayer];
 }
 
 @end

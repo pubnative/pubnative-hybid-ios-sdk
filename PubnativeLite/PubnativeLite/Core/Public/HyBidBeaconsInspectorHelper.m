@@ -11,6 +11,7 @@
 #import "HyBidVASTAd.h"
 #import "HyBidVASTAdInline.h"
 #import "HyBidVASTAdWrapper.h"
+#import "HyBidVASTClickThrough.h"
 #import "HyBidVASTClickTracking.h"
 #import "HyBidVASTCompanion.h"
 #import "HyBidVASTCompanionAds.h"
@@ -41,6 +42,7 @@ static NSString *const kVast2Key = @"vast2";
 static NSString *const kVASTZoneID = @"6";
 static NSString *const kVASTTrackerImpression = @"Impression";
 static NSString *const kVASTTrackerClickTracking = @"ClickTracking";
+static NSString *const kVASTTrackerClickThrough = @"ClickThrough";
 static NSString *const kVASTTrackerCompanionClickThrough =
     @"CompanionClickThrough";
 
@@ -313,6 +315,14 @@ static NSString *const kVASTTrackerCompanionClickThrough =
               kBeaconKeyJs : [NSNull null]
             }];
           }
+        }
+        NSString *clickThrough = [[videoClicks clickThrough] content];
+        if (clickThrough.length) {
+          [items addObject:@{
+            kBeaconKeyType : kVASTTrackerClickThrough,
+            kBeaconKeyUrl : clickThrough,
+            kBeaconKeyJs : [NSNull null]
+          }];
         }
       }
     }

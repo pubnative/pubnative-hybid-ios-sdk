@@ -12,6 +12,7 @@
 #import "PNLIteResponseModel.h"
 #import "HyBidError.h"
 #import "HyBidAd+Internal.h"
+#import "HyBidAdTracker.h"
 
 @interface HyBidAdTests : XCTestCase
 @end
@@ -60,6 +61,32 @@
     XCTAssertEqualObjects(ad.pcInterstitialHtmlSkipOffset, @30);
     XCTAssertEqualObjects(ad.rewardedHtmlSkipOffset, @30);
     XCTAssertEqualObjects(ad.pcRewardedHtmlSkipOffset, @30);
+}
+
+- (void)test_skipOffsetPercentages_pcAndBcVariants_bypassExperienceRouting {
+    HyBidAd *ad = [self adWithRemoteConfigs:@{@"video_skip_offset": @"10%",
+                                              @"pc_video_skip_offset": @"20%",
+                                              @"bc_video_skip_offset": @"30%",
+                                              @"rewarded_video_skip_offset": @"40%",
+                                              @"pc_rewarded_video_skip_offset": @"50%",
+                                              @"bc_rewarded_video_skip_offset": @"60%"}];
+
+    XCTAssertEqualObjects(ad.videoSkipOffsetPercentage, @"10%");
+    XCTAssertEqualObjects(ad.pcVideoSkipOffsetPercentage, @"20%");
+    XCTAssertEqualObjects(ad.bcVideoSkipOffsetPercentage, @"30%");
+    XCTAssertEqualObjects(ad.rewardedVideoSkipOffsetPercentage, @"40%");
+    XCTAssertEqualObjects(ad.pcRewardedVideoSkipOffsetPercentage, @"50%");
+    XCTAssertEqualObjects(ad.bcRewardedVideoSkipOffsetPercentage, @"60%");
+}
+
+- (void)test_pcAndBcVideoSkipOffsetPercentage_absoluteValue_returnsNil {
+    HyBidAd *ad = [self adWithRemoteConfigs:@{@"pc_video_skip_offset": @12,
+                                              @"bc_rewarded_video_skip_offset": @7}];
+
+    XCTAssertNil(ad.pcVideoSkipOffsetPercentage);
+    XCTAssertEqualObjects(ad.pcVideoSkipOffset, @12);
+    XCTAssertNil(ad.bcRewardedVideoSkipOffsetPercentage);
+    XCTAssertEqualObjects(ad.bcRewardedVideoSkipOffset, @7);
 }
 
 - (void)test_skipOffsets_decimalString_truncatesTowardZero {
@@ -303,6 +330,103 @@
         XCTAssertNil([self adWithExperience:nil remoteConfigs:@{@"click_through_timer": bad}].clickThroughTimer,
                      @"expected nil for %@", bad);
     }
+}
+
+- (void)test_closeButtonTouchSize_whenKeyIsAbsent_returnsNil {
+    HyBidAd *ad = [self adWithRemoteConfigs:@{}];
+    XCTAssertNil(ad.closeButtonTouchSize);
+    XCTAssertNil(ad.closeButtonInitialTouchSize);
+}
+
+- (void)test_closeButtonTouchSize_inRangeValuesAndNumericStringsAreHonoured {
+    XCTAssertEqualObjects([self adWithRemoteConfigs:@{@"close_button_touch_size": @44}].closeButtonTouchSize, @44);
+    XCTAssertEqualObjects([self adWithRemoteConfigs:@{@"close_button_touch_size": @"44"}].closeButtonTouchSize, @44);
+    XCTAssertEqualObjects([self adWithRemoteConfigs:@{@"close_button_touch_size": @" 44 "}].closeButtonTouchSize, @44);
+    XCTAssertEqualObjects([self adWithRemoteConfigs:@{@"close_button_touch_size": @1}].closeButtonTouchSize, @1);
+    XCTAssertEqualObjects([self adWithRemoteConfigs:@{@"close_button_touch_size": @100}].closeButtonTouchSize, @100);
+}
+
+- (void)test_closeButtonTouchSize_zeroAndNegativeResolveToTheDefault {
+    XCTAssertNil([self adWithRemoteConfigs:@{@"close_button_touch_size": @0}].closeButtonTouchSize);
+    XCTAssertNil([self adWithRemoteConfigs:@{@"close_button_touch_size": @(-10)}].closeButtonTouchSize);
+    XCTAssertNil([self adWithRemoteConfigs:@{@"close_button_touch_size": @"0"}].closeButtonTouchSize);
+}
+
+- (void)test_closeButtonTouchSize_aboveMaximumIsClamped {
+    XCTAssertEqualObjects([self adWithRemoteConfigs:@{@"close_button_touch_size": @101}].closeButtonTouchSize, @100);
+    XCTAssertEqualObjects([self adWithRemoteConfigs:@{@"close_button_touch_size": @1000}].closeButtonTouchSize, @100);
+    XCTAssertEqualObjects([self adWithRemoteConfigs:@{@"close_button_touch_size": @"120"}].closeButtonTouchSize, @100);
+}
+
+- (void)test_closeButtonTouchSize_malformedValuesResolveToTheDefault {
+    for (id bad in @[@"fifty", @"", @"50pt", @"50,0", @"NaN", @"Infinity", @[], @{}, [NSNull null]]) {
+        XCTAssertNil([self adWithRemoteConfigs:@{@"close_button_touch_size": bad}].closeButtonTouchSize,
+                     @"expected nil for %@", bad);
+    }
+}
+
+- (void)test_closeButtonTouchSize_booleansAreRejectedLikeAndroid {
+    XCTAssertNil([self adWithRemoteConfigs:@{@"close_button_touch_size": @YES}].closeButtonTouchSize);
+    XCTAssertNil([self adWithRemoteConfigs:@{@"close_button_touch_size": @NO}].closeButtonTouchSize);
+    XCTAssertNil([self adWithRemoteConfigs:@{@"close_button_initial_touch_size": @YES}].closeButtonInitialTouchSize);
+}
+
+- (void)test_closeButtonTouchSize_bothKeysAreValidatedIdentically {
+    NSArray *inputs = @[@0, @1, @12, @44, @100, @101, @1000, @(-5), @"44", @" 44 ", @"120", @"", @"x", @YES, @[], [NSNull null]];
+    for (id input in inputs) {
+        NSNumber *regular = [self adWithRemoteConfigs:@{@"close_button_touch_size": input}].closeButtonTouchSize;
+        NSNumber *initial = [self adWithRemoteConfigs:@{@"close_button_initial_touch_size": input}].closeButtonInitialTouchSize;
+        XCTAssertEqualObjects(regular, initial, @"keys diverged on %@", input);
+    }
+}
+
+- (void)test_closeButtonTouchSize_hasNoAdExperienceVariantsAndNoCrossTalk {
+    HyBidAd *ad = [self adWithRemoteConfigs:@{@"pc_close_button_touch_size": @70,
+                                              @"bc_close_button_touch_size": @70,
+                                              @"close_button_initial_touch_size": @12}];
+    XCTAssertNil(ad.closeButtonTouchSize);
+    XCTAssertEqualObjects(ad.closeButtonInitialTouchSize, @12);
+}
+
+- (HyBidAdTracker *)trackerForAd:(HyBidAd *)ad {
+    return [[HyBidAdTracker alloc] initWithImpressionURLs:@[]
+                          withCustomEndcardImpressionURLs:@[]
+                                            withClickURLs:@[]
+                               withCustomEndcardClickURLs:@[]
+                                    withCustomCTATracking:nil
+                                                    forAd:ad];
+}
+
+- (void)test_hasRegisteredClick_isNoForAFreshAd {
+    XCTAssertFalse([self adWithRemoteConfigs:@{}].hasRegisteredClick);
+}
+
+- (void)test_hasRegisteredClick_isSetByEveryUserClickPath {
+    HyBidAd *ad = [self adWithRemoteConfigs:@{}];
+    [[self trackerForAd:ad] trackClickWithAdFormat:@"fullscreen"];
+    XCTAssertTrue(ad.hasRegisteredClick, @"creative click");
+
+    ad = [self adWithRemoteConfigs:@{}];
+    [[self trackerForAd:ad] trackCustomEndCardClickWithAdFormat:@"fullscreen"];
+    XCTAssertTrue(ad.hasRegisteredClick, @"custom end card click");
+
+    ad = [self adWithRemoteConfigs:@{}];
+    [[self trackerForAd:ad] trackCustomCTAClickWithAdFormat:@"fullscreen" onEndCard:NO];
+    XCTAssertTrue(ad.hasRegisteredClick, @"CTA click");
+
+    ad = [self adWithRemoteConfigs:@{}];
+    [[self trackerForAd:ad] trackCustomCTAClickWithAdFormat:@"fullscreen" onEndCard:YES];
+    XCTAssertTrue(ad.hasRegisteredClick, @"CTA click on the end card");
+}
+
+- (void)test_hasRegisteredClick_isNotSetByAutomaticPathsImpressionsOrReplay {
+    HyBidAd *ad = [self adWithRemoteConfigs:@{}];
+    HyBidAdTracker *tracker = [self trackerForAd:ad];
+    [tracker trackImpressionWithAdFormat:@"fullscreen"];
+    [tracker trackSKOverlayAutomaticClickWithAdFormat:@"fullscreen"];
+    [tracker trackStorekitAutomaticClickWithAdFormat:@"fullscreen"];
+    [tracker trackReplayClickWithAdFormat:@"fullscreen"];
+    XCTAssertFalse(ad.hasRegisteredClick);
 }
 
 @end

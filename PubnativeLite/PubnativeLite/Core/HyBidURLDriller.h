@@ -5,6 +5,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HyBidAutomaticClickTrackingUtil.h"
 
 @protocol HyBidURLDrillerDelegate <NSObject>
 
@@ -23,6 +24,9 @@
 - (void)startDrillWithURLString:(NSString *)urlString
                        delegate:(NSObject<HyBidURLDrillerDelegate> *)delegate
                withTrackingType:(NSString *)trackingType;
+- (void)startClickThroughDrillWithURLString:(NSString *)urlString
+                                       type:(HyBidClickThroughType)type
+                                   delegate:(NSObject<HyBidURLDrillerDelegate> *)delegate;
 
 @end
 

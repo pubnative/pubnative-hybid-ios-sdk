@@ -116,6 +116,8 @@ private typealias HyBidAdSettingsDictionary = Dictionary<String,Any>
            adSettings = [
                [
                 AdSetting(sectionTitle: "General", settingTitle: "Native Close Button Delay", cellType: .numberFieldCell, isChecked: false, remoteConfigName: "close_button_delay" , value: HyBidConstants.nativeCloseButtonOffset.offset),
+                AdSetting(sectionTitle: "General", settingTitle: "Close Button Touch Size", cellType: .numberFieldCell, isChecked: false, remoteConfigName: "close_button_touch_size", value: HyBidConstants.closeButtonTouchSize),
+                AdSetting(sectionTitle: "General", settingTitle: "Close Button Initial Touch Size", cellType: .numberFieldCell, isChecked: false, remoteConfigName: "close_button_initial_touch_size", value: HyBidConstants.closeButtonInitialTouchSize),
                 AdSetting(sectionTitle: "General", settingTitle: AudioStatusStringTitle, cellType: .segmentedControlCell, isChecked: false, remoteConfigName: "audiostate", value: stringifyAudioStatus(with: HyBidConstants.audioStatus)),
                 AdSetting(sectionTitle: "General", settingTitle: "MRAID Expand Enabled", cellType: .switchCell, isChecked: false, remoteConfigName: "mraid_expand", value: HyBidConstants.mraidExpand),
                 AdSetting(sectionTitle: "General", settingTitle: "SKOverlay Enabled", cellType: .switchCell, isChecked: false, remoteConfigName: "SKOverlayenabled", value: false),

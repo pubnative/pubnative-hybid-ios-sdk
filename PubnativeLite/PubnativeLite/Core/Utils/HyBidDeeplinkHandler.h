@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "HyBidAutomaticClickTrackingUtil.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,6 +22,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)openWithNavigationType:(NSString *)navigationType;
 - (void)openWithNavigationType:(NSString *)navigationType clickthroughURL:(NSString * _Nullable)clickthroughURL;
+- (void)openWithNavigationType:(NSString *)navigationType
+               clickthroughURL:(NSString * _Nullable)clickthroughURL
+              clickThroughType:(HyBidClickThroughType)clickThroughType;
 
 @end
 

@@ -9,5 +9,8 @@
 @interface HyBidAd ()
 
 @property (nonatomic, readonly, nullable) NSNumber *clickThroughTimer;
+@property (nonatomic, readonly, nullable) NSNumber *closeButtonTouchSize;
+@property (nonatomic, readonly, nullable) NSNumber *closeButtonInitialTouchSize;
+@property (nonatomic, assign) BOOL hasRegisteredClick;
 
 @end

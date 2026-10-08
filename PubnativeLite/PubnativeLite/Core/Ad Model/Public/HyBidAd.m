@@ -34,6 +34,9 @@ NSString *const ContentInfoViewIcon = @"https://cdn.pubnative.net/static/adserve
 static NSInteger const HyBidClickThroughTimerMinimum = 5;
 static NSInteger const HyBidClickThroughTimerMaximum = 35;
 
+static NSInteger const HyBidCloseButtonTouchSizeMinimum = 1;
+static NSInteger const HyBidCloseButtonTouchSizeMaximum = 100;
+
 static BOOL HyBidIsNonEmptyString(id value) {
     return [value isKindOfClass:[NSString class]] && [value length] > 0;
 }
@@ -585,6 +588,26 @@ static NSArray<NSDictionary *> *HyBidValidSKANFidelities(id fidelities) {
     return @(MIN(MAX(seconds, HyBidClickThroughTimerMinimum), HyBidClickThroughTimerMaximum));
 }
 
+- (NSNumber *)closeButtonTouchSize {
+    return [self servedCloseButtonTouchSizeForKey:PNLiteData.closeButtonTouchSize];
+}
+
+- (NSNumber *)closeButtonInitialTouchSize {
+    return [self servedCloseButtonTouchSizeForKey:PNLiteData.closeButtonInitialTouchSize];
+}
+
+- (NSNumber *)servedCloseButtonTouchSizeForKey:(NSString *)key {
+    NSNumber *value = [self coercedNumberForRemoteConfigKey:key];
+    if (value == nil || CFGetTypeID((__bridge CFTypeRef)value) == CFBooleanGetTypeID()) {
+        return nil;
+    }
+    NSInteger points = value.integerValue;
+    if (points < HyBidCloseButtonTouchSizeMinimum) {
+        return nil;
+    }
+    return @(MIN(points, HyBidCloseButtonTouchSizeMaximum));
+}
+
 - (NSNumber *)endcardEnabled {
     NSNumber *result = nil;
     if ([HyBidAdExperienceManager isPerformanceAd:self]) {
@@ -731,12 +754,30 @@ static NSArray<NSDictionary *> *HyBidValidSKANFidelities(id fidelities) {
     }
 }
 
+- (NSString *)videoSkipOffsetPercentage {
+    if ([HyBidAdExperienceManager isPerformanceAd:self]) {
+        return [self skipOffsetPercentageForRemoteConfigKey:PNLiteData.pcVideoSkipOffset];
+    } else if ([HyBidAdExperienceManager isBrandAd:self]) {
+        return [self skipOffsetPercentageForRemoteConfigKey:PNLiteData.bcVideoSkipOffset];
+    } else {
+        return [self skipOffsetPercentageForRemoteConfigKey:PNLiteData.videoSkipOffset];
+    }
+}
+
 - (NSNumber *)pcVideoSkipOffset {
     return [self coercedNumberForRemoteConfigKey:PNLiteData.pcVideoSkipOffset];
 }
 
+- (NSString *)pcVideoSkipOffsetPercentage {
+    return [self skipOffsetPercentageForRemoteConfigKey:PNLiteData.pcVideoSkipOffset];
+}
+
 - (NSNumber *)bcVideoSkipOffset {
     return [self coercedNumberForRemoteConfigKey:PNLiteData.bcVideoSkipOffset];
+}
+
+- (NSString *)bcVideoSkipOffsetPercentage {
+    return [self skipOffsetPercentageForRemoteConfigKey:PNLiteData.bcVideoSkipOffset];
 }
 
 - (NSNumber *)rewardedVideoSkipOffset {
@@ -749,12 +790,39 @@ static NSArray<NSDictionary *> *HyBidValidSKANFidelities(id fidelities) {
     }
 }
 
+- (NSString *)rewardedVideoSkipOffsetPercentage {
+    if ([HyBidAdExperienceManager isPerformanceAd:self]) {
+        return [self skipOffsetPercentageForRemoteConfigKey:PNLiteData.pcRewardedVideoSkipOffset];
+    } else if ([HyBidAdExperienceManager isBrandAd:self]) {
+        return [self skipOffsetPercentageForRemoteConfigKey:PNLiteData.bcRewardedVideoSkipOffset];
+    } else {
+        return [self skipOffsetPercentageForRemoteConfigKey:PNLiteData.rewardedVideoSkipOffset];
+    }
+}
+
 - (NSNumber *)pcRewardedVideoSkipOffset {
     return [self coercedNumberForRemoteConfigKey:PNLiteData.pcRewardedVideoSkipOffset];
 }
 
+- (NSString *)pcRewardedVideoSkipOffsetPercentage {
+    return [self skipOffsetPercentageForRemoteConfigKey:PNLiteData.pcRewardedVideoSkipOffset];
+}
+
 - (NSNumber *)bcRewardedVideoSkipOffset {
     return [self coercedNumberForRemoteConfigKey:PNLiteData.bcRewardedVideoSkipOffset];
+}
+
+- (NSString *)bcRewardedVideoSkipOffsetPercentage {
+    return [self skipOffsetPercentageForRemoteConfigKey:PNLiteData.bcRewardedVideoSkipOffset];
+}
+
+- (NSString *)skipOffsetPercentageForRemoteConfigKey:(NSString *)key {
+    id value = [[self jsonData] objectForKey:key];
+    if (![value isKindOfClass:[NSString class]]) {
+        return nil;
+    }
+    NSString *trimmed = [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    return [trimmed hasSuffix:@"%"] ? trimmed : nil;
 }
 
 - (NSNumber *)closeInterstitialAfterFinish {

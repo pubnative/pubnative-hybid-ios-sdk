@@ -23,6 +23,10 @@ private final class TestEndCardViewDelegate: NSObject, HyBidEndCardViewDelegate 
     func endCardViewDidDisplay() {
         didDisplay = true
     }
+
+    func endCardViewCloseButtonTapped() {}
+
+    func endCardViewSkipButtonTapped() {}
 }
 
 @objcMembers
@@ -1261,6 +1265,39 @@ extension HyBidEndCardViewTest {
 
         let timer = obj.value(forKey: "delayTimer")
         XCTAssertNil(timer, "No delay timer should be created when sdkAutoStorekitDelay is 0")
+    }
+
+    func test_close_invalidatesStorekitDelayTimer() throws {
+        let ad = try makeAd()
+        let sut = try XCTUnwrap(makeFullEndCardView(ad: ad, hostVC: makeHostViewController()))
+        let obj = sut as NSObject
+        let dummyTimer = Timer.scheduledTimer(withTimeInterval: 100, repeats: false) { _ in }
+        obj.setValue(dummyTimer, forKey: "delayTimer")
+
+        sut.close()
+
+        XCTAssertNil(obj.value(forKey: "delayTimer"), "closing the end card must invalidate the StoreKit delay timer")
+        XCTAssertFalse(dummyTimer.isValid)
+    }
+
+    func test_invalidateStorekitDelayTimer_clearsTimerAndResetsState() async throws {
+        let ad = try makeAd()
+        let sut = try XCTUnwrap(makeFullEndCardView(ad: ad, hostVC: makeHostViewController()))
+        let obj = sut as NSObject
+
+        let dummyTimer = Timer.scheduledTimer(withTimeInterval: 100, repeats: false) { _ in }
+        obj.setValue(dummyTimer, forKey: "delayTimer")
+        obj.setValue(NSNumber(value: 5.0), forKey: "storekitDelayTimeElapsed")
+        obj.setValue(NSNumber(value: true), forKey: "isTimerPaused")
+        obj.setValue(NSNumber(value: true), forKey: "shouldResumeTimer")
+
+        sut.invalidateStorekitDelayTimer()
+
+        XCTAssertNil(obj.value(forKey: "delayTimer"), "must invalidate and clear the delay timer")
+        XCTAssertEqual(obj.value(forKey: "storekitDelayTimeElapsed") as? Double, 0, "must reset storekitDelayTimeElapsed")
+        XCTAssertEqual(obj.value(forKey: "isTimerPaused") as? Bool, false, "must clear isTimerPaused")
+        XCTAssertEqual(obj.value(forKey: "shouldResumeTimer") as? Bool, false, "must clear shouldResumeTimer")
+        XCTAssertFalse(dummyTimer.isValid)
     }
 
     // MARK: - addVerticalConstraintsInRelationToView

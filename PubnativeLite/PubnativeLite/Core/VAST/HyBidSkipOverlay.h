@@ -29,5 +29,6 @@
 @property (nonatomic) BOOL isContentInfoInTopLeftPosition;
 @property (nonatomic) BOOL isCloseButtonShown;
 @property (nonatomic) BOOL shouldShowSkipButton;
+@property (nonatomic, strong) NSNumber *touchSize;
 
 @end

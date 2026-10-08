@@ -9,6 +9,8 @@
 #import "HyBidAdSize.h"
 #import "HyBidUserDataManager.h"
 #import "HyBidRequestParameter.h"
+#import "PNLiteLocationManager.h"
+#import <CoreLocation/CoreLocation.h>
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -25,20 +27,38 @@
 - (void)setDefaultMetaFields:(PNLiteAdRequestModel *)adRequestModel;
 @end
 
+@interface PNLiteLocationManager (Testing)
++ (instancetype)sharedInstance;
+@end
+
 @interface PNLiteAdFactoryTests : XCTestCase
 @property (nonatomic, strong) PNLiteAdFactory *adFactory;
 @end
 
-@implementation PNLiteAdFactoryTests
+@implementation PNLiteAdFactoryTests {
+    CLLocation *_originalLastKnownLocation;
+    BOOL _originalLocationTrackingEnabled;
+    BOOL _originalCoppa;
+}
 
 - (void)setUp {
     [super setUp];
     self.adFactory = [[PNLiteAdFactory alloc] init];
+
+    _originalLastKnownLocation = [[PNLiteLocationManager sharedInstance] valueForKey:@"lastKnownLocation"];
+    _originalLocationTrackingEnabled = HyBidLocationConfig.sharedConfig.locationTrackingEnabled;
+    _originalCoppa = HyBidConsentConfig.sharedConfig.coppa;
+    HyBidConsentConfig.sharedConfig.coppa = NO;
 }
 
 - (void)tearDown {
     // Reset GPP SID after each test
     [[HyBidUserDataManager sharedInstance] setInternalGPPSID:@""];
+
+    [[PNLiteLocationManager sharedInstance] setValue:_originalLastKnownLocation forKey:@"lastKnownLocation"];
+    HyBidLocationConfig.sharedConfig.locationTrackingEnabled = _originalLocationTrackingEnabled;
+    HyBidConsentConfig.sharedConfig.coppa = _originalCoppa;
+
     self.adFactory = nil;
     [super tearDown];
 }
@@ -177,6 +197,27 @@
 
     NSString *gppsid = model.requestParameters[HyBidRequestParameter.gppsid];
     XCTAssertEqualObjects(gppsid, @"123");
+}
+
+#pragma mark - createAdRequest: location tests (VMI-1734)
+
+// VMI-1734: ad-request lat/lon must be the shared 2-decimal format.
+- (void)test_createAdRequest_locationTrackingEnabled_withValidCoordinates_setsFormattedLatLon {
+    HyBidLocationConfig.sharedConfig.locationTrackingEnabled = YES;
+    CLLocation *location = [[CLLocation alloc] initWithLatitude:52.345678 longitude:-73.935242];
+    [[PNLiteLocationManager sharedInstance] setValue:location forKey:@"lastKnownLocation"];
+
+    PNLiteAdRequestModel *model = [self.adFactory createAdRequestWithZoneID:@"zone"
+                                                               withAppToken:@"token"
+                                                                 withAdSize:HyBidAdSize.SIZE_320x50
+                                                 withSupportedAPIFrameworks:nil
+                                                        withIntegrationType:HEADER_BIDDING
+                                                                 isRewarded:NO
+                                                             isUsingOpenRTB:NO
+                                                        mediationVendorName:nil];
+
+    XCTAssertEqualObjects(model.requestParameters[HyBidRequestParameter.lat], @"52.35");
+    XCTAssertEqualObjects(model.requestParameters[HyBidRequestParameter.lon], @"-73.94");
 }
 
 #pragma mark - formatUTCTime tests

@@ -344,6 +344,16 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
     }
 }
 
+- (void)invalidateStorekitDelayTimer {
+    self.storekitDelayTimeElapsed = 0;
+    self.shouldResumeTimer = NO;
+    self.isTimerPaused = NO;
+    if (self.delayTimer) {
+        [self.delayTimer invalidate];
+        self.delayTimer = nil;
+    }
+}
+
 - (void)pauseStorekitDelayTimer {
     if ([self.delayTimer isValid] && !self.isTimerPaused) {
         [self.delayTimer invalidate];
@@ -474,12 +484,7 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
         }
         [self.delegate endCardViewSkipButtonTapped];
     }
-    if (self.delayTimer) {
-        self.storekitDelayTimeElapsed = 0;
-        self.shouldResumeTimer = NO;
-        [self.delayTimer invalidate];
-        self.delayTimer = nil;
-    }
+    [self invalidateStorekitDelayTimer];
 }
 
 - (void)displayEndCard:(HyBidEndCard *)endCard withCTAButton:(HyBidVASTCTAButton *)ctaButton withViewController:(UIViewController*) viewController
@@ -904,7 +909,7 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
             }
             if(endCardType == HyBidEndCardType_STATIC) {
                 if (throughClickURL != nil) {
-                    [[HyBidURLDriller alloc] startDrillWithURLString:throughClickURL delegate:self];
+                    [[HyBidURLDriller alloc] startClickThroughDrillWithURLString:throughClickURL type:HyBidClickThroughTypeCompanion delegate:self];
                 }
             } else {
                 [[HyBidURLDriller alloc] startDrillWithURLString:url delegate:self];
@@ -918,7 +923,7 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
 
         } else if (deeplinkHandler.isCapable) {
             NSString *clickthrough = (endCardType == HyBidEndCardType_STATIC) ? throughClickURL : url;
-            [deeplinkHandler openWithNavigationType:self.ad.navigationMode clickthroughURL:clickthrough];
+            [deeplinkHandler openWithNavigationType:self.ad.navigationMode clickthroughURL:clickthrough clickThroughType:(endCardType == HyBidEndCardType_STATIC ? HyBidClickThroughTypeCompanion : HyBidClickThroughTypeNone)];
         } else {
             if(endCardType == HyBidEndCardType_STATIC) {
                 if (throughClickURL != nil) {
@@ -926,7 +931,7 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
                     if(!canOpenURL){
                         throughClickURL = [throughClickURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet  URLQueryAllowedCharacterSet]];
                     }
-                    [self navigationToURL:throughClickURL shouldOpenBrowser:shouldOpenBrowser navigationType:self.ad.navigationMode];
+                    [self navigationToURL:throughClickURL shouldOpenBrowser:shouldOpenBrowser navigationType:self.ad.navigationMode clickThroughType:HyBidClickThroughTypeCompanion];
                 }
             } else {
                 [self determineIfAdClickIsTriggeredWithURL:url withShouldOpenBrowser:shouldOpenBrowser];
@@ -939,7 +944,7 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
                 if(!canOpenURL){
                     throughClickURL = [throughClickURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet  URLQueryAllowedCharacterSet]];
                 }
-                [self navigationToURL:throughClickURL shouldOpenBrowser:shouldOpenBrowser navigationType:self.ad.navigationMode];
+                [self navigationToURL:throughClickURL shouldOpenBrowser:shouldOpenBrowser navigationType:self.ad.navigationMode clickThroughType:HyBidClickThroughTypeCompanion];
             }
         } else {
             [self determineIfAdClickIsTriggeredWithURL:url withShouldOpenBrowser:shouldOpenBrowser];
@@ -948,6 +953,10 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
 }
 
 - (void)navigationToURL:(NSString *)url shouldOpenBrowser:(BOOL)shouldOpenBrowser navigationType:(NSString *)navigationType {
+    [self navigationToURL:url shouldOpenBrowser:shouldOpenBrowser navigationType:navigationType clickThroughType:HyBidClickThroughTypeNone];
+}
+
+- (void)navigationToURL:(NSString *)url shouldOpenBrowser:(BOOL)shouldOpenBrowser navigationType:(NSString *)navigationType clickThroughType:(HyBidClickThroughType)clickThroughType {
     if (!shouldOpenBrowser ||
         ![url isKindOfClass:[NSString class]] ||
         url.length == 0) {
@@ -971,8 +980,10 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
 
     if (navigation == HyBidWebBrowserNavigationInternal) {
         [HyBidInternalWebBrowser.shared navigateToURL:targetURL.absoluteString];
+        [HyBidAutomaticClickTrackingUtil reportClickThroughURL:targetURL.absoluteString type:clickThroughType opened:YES];
     } else {
         [[UIApplication sharedApplication] openURL:targetURL options:@{} completionHandler:^(BOOL success) {
+            [HyBidAutomaticClickTrackingUtil reportClickThroughURL:targetURL.absoluteString type:clickThroughType opened:success];
             [self.delegate endCardViewRedirectedWithSuccess:success];
         }];
     }
@@ -1301,7 +1312,7 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
                 
                 [HyBidStoreKitUtils insertFidelitiesIntoDictionaryIfNeeded:productParams];
                 if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams] && throughClickURL) {
-                    [[HyBidURLDriller alloc] startDrillWithURLString:throughClickURL delegate:self];
+                    [[HyBidURLDriller alloc] startClickThroughDrillWithURLString:throughClickURL type:HyBidClickThroughTypeVideo delegate:self];
                 }
             }
         }
@@ -1512,7 +1523,7 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
                     
                     [HyBidStoreKitUtils insertFidelitiesIntoDictionaryIfNeeded:productParams];
                     if ([productParams count] > 0 && [skAdNetworkModel isSKAdNetworkIDVisible:productParams] && throughClickURL) {
-                        [[HyBidURLDriller alloc] startDrillWithURLString:throughClickURL delegate:self];
+                        [[HyBidURLDriller alloc] startClickThroughDrillWithURLString:throughClickURL type:HyBidClickThroughTypeCompanion delegate:self];
                     }
                 }
             }

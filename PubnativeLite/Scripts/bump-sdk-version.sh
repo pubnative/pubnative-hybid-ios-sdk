@@ -4,13 +4,18 @@ set -euo pipefail
 # ========================================
 # 🔢 HyBid SDK Version Bump
 # ========================================
-# Ensures the SDK version is correctly set in all mandatory locations,
-# then creates a release/hybid-X.Y.Z branch, commits, pushes,
-# and opens a PR against the specified base branch (default: development).
+# Ensures the SDK version is correctly set in all mandatory locations, then:
+#   base branch 'beta' (betas — the only non-main base accepted): creates a
+#     release-prep/hybid-X.Y.Z-betaN head branch, commits, pushes, and opens
+#     a PR into beta.
+#   base branch 'main' (VMI-1719, official release): cuts the release branch
+#     release/hybid-X.Y from main, commits the bump DIRECTLY on it and pushes.
+#     No PR — release branches never merge back to main. Pushing the X.Y.Z tag
+#     on that branch is what triggers the release pipeline.
 #
 # Usage:
-#   ./bump-sdk-version.sh 3.8.0
-#   ./bump-sdk-version.sh 3.8.0-beta
+#   ./bump-sdk-version.sh 3.8.0            (official — base branch defaults to main)
+#   ./bump-sdk-version.sh 3.8.0-beta2 beta (beta — base branch 'beta' is required)
 #
 # Requires: gh CLI authenticated (for opening the PR)
 #
@@ -38,18 +43,53 @@ APPLOVIN_ADAPTER="$SDK_ROOT/PubnativeLite/PubnativeLiteDemo/Adapters/MaxAds/AppL
 # ─── Args & validation ────────────────────────────────────────────────────────
 
 NEW_VERSION="${1:-}"
-BASE_BRANCH="${2:-development}"
+BASE_BRANCH="${2:-main}"
+SET_ONLY=0
+if [[ "$BASE_BRANCH" == "--set-only" ]]; then
+  SET_ONLY=1
+fi
 
 if [[ -z "$NEW_VERSION" ]]; then
   echo "❌ Missing version argument."
   echo "   Usage: $0 <version>"
-  echo "   Examples: $0 3.8.0  |  $0 3.8.0-beta  |  $0 3.8.0-beta2"
+  echo "   Examples: $0 3.8.0  |  $0 3.8.0-beta2 beta  |  $0 3.9.4 --set-only"
+  echo "   --set-only: hotfix mode — set the version files on the CURRENT branch"
+  echo "   (must be the branch the tag will sit on), no git operations."
   exit 1
 fi
 
-if ! [[ "$NEW_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-beta[0-9]*)?$ ]]; then
+if ! [[ "$NEW_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-beta[0-9]+)?$ ]]; then
   echo "❌ Invalid version format: '$NEW_VERSION'"
-  echo "   Expected: X.Y.Z or X.Y.Z-betaN (e.g. 3.8.0, 3.8.0-beta or 3.8.0-beta2)"
+  echo "   Expected: X.Y.Z or X.Y.Z-betaN (e.g. 3.8.0 or 3.8.0-beta2)"
+  exit 1
+fi
+
+# Version type must match the base branch — checked up front, before any file
+# is modified. Gate 1 accepts a betaN tag only on 'beta' and a bare tag only
+# on its release/hybid-X.Y (cut from main), so any other pairing prepares a
+# release that can never be tagged.
+if [[ "$SET_ONLY" -eq 1 ]]; then
+  # Hotfix mode: files are set on the branch that is currently checked out.
+  # Mirror Gate 1 containment so the prepared version can actually be tagged:
+  # X.Y.Z belongs on release/hybid-X.Y, X.Y.Z-betaN on beta.
+  CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+  if [[ "$NEW_VERSION" == *-beta* ]]; then
+    EXPECTED_BRANCH="beta"
+  else
+    EXPECTED_BRANCH="release/hybid-${NEW_VERSION%.*}"
+  fi
+  if [[ "$CURRENT_BRANCH" != "$EXPECTED_BRANCH" ]]; then
+    echo "❌ --set-only: current branch is '$CURRENT_BRANCH' but version $NEW_VERSION belongs on '$EXPECTED_BRANCH'."
+    echo "   Check out the branch the tag will sit on (Gate 1 containment), then rerun."
+    exit 1
+  fi
+elif [[ "$NEW_VERSION" == *-beta* && "$BASE_BRANCH" != "beta" ]]; then
+  echo "❌ Beta versions are prepared from the 'beta' branch, not '$BASE_BRANCH'."
+  echo "   Run prepare-sdk-release from 'beta' (or pass 'beta' as the base branch)."
+  exit 1
+elif [[ "$NEW_VERSION" != *-beta* && "$BASE_BRANCH" != "main" ]]; then
+  echo "❌ Production versions are prepared from 'main', not '$BASE_BRANCH'."
+  echo "   Run prepare-sdk-release from 'main' (or omit the base branch argument)."
   exit 1
 fi
 
@@ -220,6 +260,15 @@ fi
 echo ""
 echo "✅ All locations validated."
 
+if [[ "$SET_ONLY" -eq 1 ]]; then
+  echo ""
+  echo "🎉 Done — version files set to ${NEW_VERSION} on ${CURRENT_BRANCH} (no git operations)."
+  echo "   Next: review the diff, commit it on this branch, wait for CI to build,"
+  echo "   then tag the remote branch tip to release:"
+  echo "     git fetch origin && git tag -a ${NEW_VERSION} -m \"Release ${NEW_VERSION}\" origin/${CURRENT_BRANCH} && git push origin ${NEW_VERSION}"
+  exit 0
+fi
+
 # ─── Build PR table rows ──────────────────────────────────────────────────────
 
 # For rows that were updated: show before → after. Already correct: show value only.
@@ -286,7 +335,18 @@ $(applovin_row)"
 
 # ─── Git: branch, commit, push, PR ───────────────────────────────────────────
 
-BRANCH="release/hybid-${NEW_VERSION}"
+# Official release from main (VMI-1719): the bump lands directly on the
+# release branch release/hybid-X.Y — no head branch, no PR.
+if [[ "${BASE_BRANCH}" == "main" ]]; then
+  RELEASE_MODE="branch"
+  BRANCH="release/hybid-${NEW_VERSION%.*}"
+else
+  RELEASE_MODE="pr"
+  # NOT release/… — config.yml's publish jobs match release/** (fnmatch, **
+  # crosses /), and the head branch of a [release] PR must not publish the
+  # beta a second time before the merge into beta does.
+  BRANCH="release-prep/hybid-${NEW_VERSION}"
+fi
 VERSION_FILES=(
   "HyBid.podspec"
   "PubnativeLite/HyBid.xcodeproj/project.pbxproj"
@@ -328,8 +388,16 @@ if git show-ref --verify --quiet "refs/heads/$BRANCH"; then
 fi
 
 if git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null 2>&1; then
-  echo "❌ Remote branch 'origin/$BRANCH' already exists."
-  echo "   Please delete it or use a different version before rerunning this script."
+  if [[ "$RELEASE_MODE" == "branch" ]]; then
+    # A shipped release line — NEVER suggest deleting it.
+    echo "❌ Release line 'origin/$BRANCH' already exists — a ${NEW_VERSION%.*}.x version has already been cut."
+    echo "   For a hotfix on that line: check out '$BRANCH', land the fix and the"
+    echo "   ${NEW_VERSION} version bump there, then push the ${NEW_VERSION} tag on it."
+    echo "   Do not delete a shipped release branch."
+  else
+    echo "❌ Remote branch 'origin/$BRANCH' already exists."
+    echo "   Please delete it or use a different version before rerunning this script."
+  fi
   if [ "$VERSION_STASH_CREATED" -eq 1 ]; then
     git stash pop --quiet
   fi
@@ -343,17 +411,38 @@ fi
 
 git add "${VERSION_FILES[@]}"
 if git diff --cached --quiet; then
-  echo "⚠️  No file changes to commit — version was already $NEW_VERSION everywhere."
-  echo "   Deleting branch and exiting."
-  git checkout -
-  git branch -d "$BRANCH"
-  exit 0
+  if [[ "$RELEASE_MODE" == "branch" ]]; then
+    # Expected on every second official release: main was already bumped to
+    # X.Y.Z right after the previous release was cut, so there is nothing to
+    # commit — but in branch mode the BRANCH ITSELF is the deliverable
+    # (Gate 1 requires the tag to sit on release/hybid-X.Y), so it must
+    # still be pushed.
+    echo "⚠️  No file changes to commit — version was already $NEW_VERSION everywhere."
+    echo "   Pushing $BRANCH without a bump commit (the branch is the release signal)."
+  else
+    echo "❌ No file changes to commit — version was already $NEW_VERSION everywhere."
+    echo "   Nothing to put in a [release] PR. Deleting branch and exiting."
+    git checkout -
+    git branch -d "$BRANCH"
+    exit 1
+  fi
+else
+  git commit -m "[release] ${NEW_VERSION}"
 fi
-
-git commit -m "[release] ${NEW_VERSION}"
 
 echo "🚀 Pushing branch..."
 git push origin "$BRANCH"
+
+if [[ "$RELEASE_MODE" == "branch" ]]; then
+  echo ""
+  echo "🎉 Done — release branch ${BRANCH} cut from ${BASE_BRANCH} with the ${NEW_VERSION} bump."
+  echo "   Next steps:"
+  echo "   1. Bump ${BASE_BRANCH} to the next version (main must never be stale)."
+  echo "   2. Wait for CI to build ${BRANCH}, then push the tag to release"
+  echo "      (pinned to the remote branch tip, not your local HEAD):"
+  echo "        git fetch origin && git tag -a ${NEW_VERSION} -m \"Release ${NEW_VERSION}\" origin/${BRANCH} && git push origin ${NEW_VERSION}"
+  exit 0
+fi
 
 echo "📬 Opening PR..."
 gh pr create \
@@ -372,14 +461,17 @@ ${PR_TABLE}
 
 > Rows with no **Before** value were already correct.
 
-### How to merge
+### How to release
 
-Merge this PR into \`${BASE_BRANCH}\` to trigger the release pipeline automatically.
-
-The branch name \`release/hybid-${NEW_VERSION}\` is the release signal — no specific commit message format required."
+1. Merge this PR into \`${BASE_BRANCH}\` (merging alone releases nothing).
+2. Wait for CI to build the merge commit.
+3. Push the tag — that starts the release pipeline (VMI-1719):
+\`\`\`
+git fetch origin && git tag -a ${NEW_VERSION} -m \"Release ${NEW_VERSION}\" origin/${BASE_BRANCH} && git push origin ${NEW_VERSION}
+\`\`\`"
 
 # ─── Done ────────────────────────────────────────────────────────────────────
 
 echo ""
 echo "🎉 Done — PR opened to ${BASE_BRANCH}."
-echo "   Merge to ${BASE_BRANCH} to trigger the release pipeline."
+echo "   Merge it, wait for CI, then push the ${NEW_VERSION} tag to release."

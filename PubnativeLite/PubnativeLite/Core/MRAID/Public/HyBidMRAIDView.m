@@ -42,6 +42,7 @@
 #define SYSTEM_VERSION_LESS_THAN(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
 #define HYBID_MRAID_CLOSE_BUTTON_TAG 1001
+#define kMRAIDCloseEventRegionSize 50
 
 CGFloat const kContentInfoViewHeight = 15.0f;
 CGFloat const kContentInfoViewWidth = 15.0f;
@@ -93,7 +94,7 @@ typedef enum {
     
     HyBidNavigatorGeolocation* navigatorGeolocation;
     
-    UIButton *closeButton;
+    HyBidCloseButton *closeButton;
 
     UIView *resizeView;
     UIButton *resizeCloseRegion;
@@ -1110,6 +1111,7 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
                                          withContentInfoPositionTopLeft:[self isContentInfoInTopLeftPosition]
                                                withShouldShowSkipButton:[self isValidToCreateCustomEndCardForAd:self.ad] ? YES : NO
                                                                      ad:self.ad];
+        self.skipOverlay.touchSize = [self closeEventRegionTouchSize];
         [self.skipOverlay addSkipOverlayViewIn:modalVC.view delegate:self];
         if (hideCountdownForLandingPage) { [self.skipOverlay setHidden:YES]; }
     }
@@ -1579,8 +1581,13 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
     
     if(modalVC.view){
         closeButton = [[HyBidCloseButton alloc] initWithRootView:modalVC.view action:@selector(close) target:self ad:self.ad];
+        closeButton.touchSize = [self closeEventRegionTouchSize];
         [closeButton setTag:HYBID_MRAID_CLOSE_BUTTON_TAG];
     }
+}
+
+- (NSNumber *)closeEventRegionTouchSize {
+    return isInterstitial ? nil : @(kMRAIDCloseEventRegionSize);
 }
 
 - (BOOL)isContentInfoInTopLeftPosition {
@@ -1970,12 +1977,12 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
     if ([HyBidLocationConfig sharedConfig].locationTrackingEnabled) {
         CLLocation* location = [HyBidSettings sharedInstance].location;
         if (location) {
-            NSString* formattedLatitude = [[NSString alloc] initWithFormat:@"%.2f", location.coordinate.latitude];
-            NSString* formattedLongitude = [[NSString alloc] initWithFormat:@"%.2f", location.coordinate.longitude];
+            double roundedLatitude = [HyBidLocationHelper roundedCoordinate:location.coordinate.latitude];
+            double roundedLongitude = [HyBidLocationHelper roundedCoordinate:location.coordinate.longitude];
             
             NSArray *objects = [[NSArray alloc] initWithObjects:
-                                [NSNumber numberWithDouble:[formattedLatitude floatValue]],
-                                [NSNumber numberWithDouble:[formattedLongitude floatValue]],
+                                [NSNumber numberWithDouble:roundedLatitude],
+                                [NSNumber numberWithDouble:roundedLongitude],
                                 [NSNumber numberWithInt:1],
                                 [NSNumber numberWithDouble:[location horizontalAccuracy]],
                                 [NSNumber numberWithDouble:[[NSDate date] timeIntervalSinceDate:location.timestamp]], nil];
@@ -2067,6 +2074,30 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
 
 - (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@", NSStringFromSelector(_cmd)]];
+    [self handleLoadingNavigationFailureWithError:error];
+}
+
+- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
+    [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), error.localizedDescription]];
+    [self handleLoadingNavigationFailureWithError:error];
+}
+
+// A navigation that fails before the ad became ready would otherwise leave the delegate with neither ready nor failed.
+- (void)handleLoadingNavigationFailureWithError:(NSError *)error {
+    if (state != PNLiteMRAIDStateLoading) {
+        return;
+    }
+    // Navigations cancelled by decidePolicyForNavigationAction (mraid:// commands, redirects) are not load failures.
+    BOOL isCancelled = [error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorCancelled;
+    BOOL isPolicyInterruption = [error.domain isEqualToString:@"WebKitErrorDomain"] && error.code == 102;
+    if (isCancelled || isPolicyInterruption) {
+        return;
+    }
+    if (isEndcard && [self.delegate respondsToSelector:@selector(mraidViewAdFailed:withError:)]) {
+        [self.delegate mraidViewAdFailed:self withError:error];
+    } else if ([self.delegate respondsToSelector:@selector(mraidViewAdFailed:)]) {
+        [self.delegate mraidViewAdFailed:self];
+    }
 }
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {

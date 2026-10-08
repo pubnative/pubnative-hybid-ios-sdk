@@ -1,0 +1,21 @@
+<VAST version="3.0">
+	<Ad id="1">
+		<InLine>
+			<AdSystem>Test</AdSystem>
+			<AdTitle>Test</AdTitle>
+			<Impression><![CDATA[https://example.com/impression]]></Impression>
+			<Creatives>
+				<Creative id="1">
+					<Linear skipoffset="-1">
+						<Duration>00:00:20</Duration>
+					</Linear>
+				</Creative>
+				<Creative id="2">
+					<Linear skipoffset="-1">
+						<Duration>00:00:05</Duration>
+					</Linear>
+				</Creative>
+			</Creatives>
+		</InLine>
+	</Ad>
+</VAST>

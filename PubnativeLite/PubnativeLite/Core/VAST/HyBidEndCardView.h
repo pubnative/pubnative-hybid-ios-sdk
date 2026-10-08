@@ -60,5 +60,6 @@
 - (void)displayEndCard:(HyBidEndCard *)endCard withCTAButton:(HyBidVASTCTAButton *)ctaButton withViewController:(UIViewController*) viewController;
 - (void)setupUI;
 - (void)setAutoStoreKitPresentationAllowed:(BOOL)autoStoreKitAllowed;
+- (void)invalidateStorekitDelayTimer;
 
 @end

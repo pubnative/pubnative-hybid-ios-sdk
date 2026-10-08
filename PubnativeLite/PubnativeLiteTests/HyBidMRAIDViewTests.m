@@ -24,6 +24,9 @@
 #import "HyBidSKAdNetworkParameter.h"
 #import "HyBidVASTEventProcessor.h"
 #import <objc/runtime.h>
+#import "PNLiteLocationManager.h"
+#import <CoreLocation/CoreLocation.h>
+
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <HyBid/HyBid-Swift.h>
 #else
@@ -35,6 +38,10 @@
 - (NSURL *)safeURLFromObject:(id)value;
 @end
 
+@interface PNLiteLocationManager (Testing)
++ (instancetype)sharedInstance;
+@end
+
 @interface HyBidMRAIDView (Testing)
 - (void)trackClickForSKOverlayWithClickType:(HyBidSKOverlayAutomaticCLickType)clickType isFirstPresentation:(BOOL)isFirstPresentation;
 - (void)trackClickForAutoStoreKitViewWith:(HyBidStorekitAutomaticClickType)clickType;
@@ -44,6 +51,8 @@
 decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
 decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler;
 - (void)injectJavaScript:(NSString *)js;
+- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error;
+- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error;
 - (void)cleanupWebViewPart2;
 - (void)cancel;
 - (void)close;
@@ -67,6 +76,7 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler;
 - (void)clearSyntheticClickSuppression;
 - (void)clickThroughDestinationDidOpen;
 - (BOOL)openAppStoreWithAppID:(NSString *)urlString;
+- (void)setLocation;
 @end
 
 @protocol HyBidMRAIDViewDelegate;
@@ -102,6 +112,23 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler;
 - (void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion {
     if (completion) { completion(); }
 }
+@end
+
+@interface HyBidCapturingWebView : WKWebView
+@property (nonatomic, copy) NSString *lastEvaluatedJavaScript;
+@property (nonatomic, assign) NSInteger evaluateJavaScriptCallCount;
+@end
+
+@implementation HyBidCapturingWebView
+ 
+- (void)evaluateJavaScript:(NSString *)javaScriptString completionHandler:(void (^)(id, NSError *))completionHandler {
+    self.lastEvaluatedJavaScript = javaScriptString;
+    self.evaluateJavaScriptCallCount += 1;
+    if (completionHandler) {
+        completionHandler(nil, nil);
+    }
+}
+ 
 @end
 
 /// Modal VC that does not respond to dismissViewControllerAnimated:completion: so close() takes the legacy path (dismissModalViewControllerAnimated + deactivate).
@@ -156,6 +183,9 @@ static void HyBidUnswizzleInterruptionHandlerSharedForClose(void) {
 @property (nonatomic, strong) MockEndCardViewDelegate *endCardDelegate;
 /// Ensures [UIApplication sharedApplication].topViewController is non-nil so internal browser doesn't crash on present.
 @property (nonatomic, strong) UIWindow *testWindow;
+@property (nonatomic, strong) CLLocation *originalLastKnownLocation;
+@property (nonatomic, assign) BOOL originalLocationTrackingEnabled;
+@property (nonatomic, assign) BOOL originalCoppa;
 @end
 
 @implementation HyBidMRAIDViewTests
@@ -174,9 +204,18 @@ static IMP HyBidOrigCommandTypeIMP = NULL;
     _endCardView = [[HyBidEndCardView alloc] initWithFrame:CGRectZero];
     _endCardView.delegate = _endCardDelegate;
     [_endCardView setValue:_mockAd forKey:@"ad"];
+    
+    self.originalLastKnownLocation = [[PNLiteLocationManager sharedInstance] valueForKey:@"lastKnownLocation"];
+    self.originalLocationTrackingEnabled = HyBidLocationConfig.sharedConfig.locationTrackingEnabled;
+    self.originalCoppa = HyBidConsentConfig.sharedConfig.coppa;
+    HyBidConsentConfig.sharedConfig.coppa = NO;
 }
 
 - (void)tearDown {
+    [[PNLiteLocationManager sharedInstance] setValue:self.originalLastKnownLocation forKey:@"lastKnownLocation"];
+    HyBidLocationConfig.sharedConfig.locationTrackingEnabled = self.originalLocationTrackingEnabled;
+    HyBidConsentConfig.sharedConfig.coppa = self.originalCoppa;
+    
     [_testWindow resignKeyWindow];
     _testWindow.hidden = YES;
     _testWindow = nil;
@@ -236,6 +275,64 @@ static IMP HyBidOrigCommandTypeIMP = NULL;
     [verify(delegate) mraidViewAdFailed:view];
 }
 
+
+#pragma mark - Navigation failure while loading (VMI-1694)
+
+// Mirrors the private PNLiteMRAIDState enum in HyBidMRAIDView.m
+static NSInteger const HyBidMRAIDViewTestsStateLoading = 0;
+static NSInteger const HyBidMRAIDViewTestsStateDefault = 1;
+
+- (id)mockFailureDelegateForView:(HyBidMRAIDView *)view {
+    id delegate = mockProtocol(@protocol(HyBidMRAIDViewDelegate));
+    [given([delegate respondsToSelector:@selector(mraidViewAdFailed:)]) willReturnBool:YES];
+    [view setValue:delegate forKey:@"delegate"];
+    return delegate;
+}
+
+- (void)test_didFailProvisionalNavigation_whileLoading_notifiesDelegateAdFailed {
+    HyBidMRAIDView *view = [self makeInitializedMRAIDViewWithHTML:@"<html></html>" isInterstitial:YES isEndcard:NO];
+    id delegate = [self mockFailureDelegateForView:view];
+    [view setValue:@(HyBidMRAIDViewTestsStateLoading) forKey:@"state"];
+
+    NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCannotFindHost userInfo:nil];
+    [view webView:[self currentWebViewFromView:view] didFailProvisionalNavigation:nil withError:error];
+
+    [verify(delegate) mraidViewAdFailed:view];
+}
+
+- (void)test_didFailNavigation_whileLoading_notifiesDelegateAdFailed {
+    HyBidMRAIDView *view = [self makeInitializedMRAIDViewWithHTML:@"<html></html>" isInterstitial:YES isEndcard:NO];
+    id delegate = [self mockFailureDelegateForView:view];
+    [view setValue:@(HyBidMRAIDViewTestsStateLoading) forKey:@"state"];
+
+    NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorTimedOut userInfo:nil];
+    [view webView:[self currentWebViewFromView:view] didFailNavigation:nil withError:error];
+
+    [verify(delegate) mraidViewAdFailed:view];
+}
+
+- (void)test_didFailProvisionalNavigation_afterReady_doesNotNotifyDelegate {
+    HyBidMRAIDView *view = [self makeInitializedMRAIDViewWithHTML:@"<html></html>" isInterstitial:YES isEndcard:NO];
+    id delegate = [self mockFailureDelegateForView:view];
+    [view setValue:@(HyBidMRAIDViewTestsStateDefault) forKey:@"state"];
+
+    NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCannotFindHost userInfo:nil];
+    [view webView:[self currentWebViewFromView:view] didFailProvisionalNavigation:nil withError:error];
+
+    [verifyCount(delegate, never()) mraidViewAdFailed:view];
+}
+
+- (void)test_didFailProvisionalNavigation_cancelledOrPolicyInterrupted_doesNotNotifyDelegate {
+    HyBidMRAIDView *view = [self makeInitializedMRAIDViewWithHTML:@"<html></html>" isInterstitial:YES isEndcard:NO];
+    id delegate = [self mockFailureDelegateForView:view];
+    [view setValue:@(HyBidMRAIDViewTestsStateLoading) forKey:@"state"];
+    WKWebView *webView = [self currentWebViewFromView:view];
+
+    [view webView:webView didFailProvisionalNavigation:nil withError:[NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCancelled userInfo:nil]];
+    [view webView:webView didFailProvisionalNavigation:nil withError:[NSError errorWithDomain:@"WebKitErrorDomain" code:102 userInfo:nil]];
+
+    [verifyCount(delegate, never()) mraidViewAdFailed:view];
+}
 
 #pragma mark - webView:decidePolicyForNavigationAction:decisionHandler: Tests
 
@@ -2150,6 +2247,49 @@ static int32_t HyBid_Test_commandTypeWithText(id self, SEL _cmd, NSString *text)
     [view open:@"https://tv.apple.com/gb/channel/tvs.sbd.4000"];
 
     [verifyCount(serviceDelegate, never()) mraidServiceOpenBrowserWithUrlString:anything()];
+}
+
+#pragma mark - setLocation tests (VMI-1734)
+
+// VMI-1734: mraid.setLocation must carry 2-decimal lat/lon with the payload shape unchanged.
+- (void)test_setLocation_trackingEnabledWithLocation_injectsRoundedCoordinatesAsJSON {
+    HyBidLocationConfig.sharedConfig.locationTrackingEnabled = YES;
+ 
+    NSDate *timestamp = [NSDate dateWithTimeIntervalSinceNow:-2.5];
+    CLLocation *location = [[CLLocation alloc] initWithCoordinate:CLLocationCoordinate2DMake(52.345678, -73.935242)
+                                                           altitude:0
+                                                 horizontalAccuracy:5.0
+                                                   verticalAccuracy:-1
+                                                             course:-1
+                                                              speed:-1
+                                                          timestamp:timestamp];
+    [[PNLiteLocationManager sharedInstance] setValue:location forKey:@"lastKnownLocation"];
+ 
+    HyBidMRAIDView *view = [self makeInitializedMRAIDViewWithHTML:@"<html></html>"
+                                                  isInterstitial:NO
+                                                       isEndcard:NO];
+    HyBidCapturingWebView *capturingWebView = [[HyBidCapturingWebView alloc] init];
+    [view setValue:capturingWebView forKey:@"currentWebView"];
+ 
+    [view setLocation];
+ 
+    XCTAssertEqual(capturingWebView.evaluateJavaScriptCallCount, 1);
+ 
+    NSString *js = capturingWebView.lastEvaluatedJavaScript;
+    XCTAssertTrue([js hasPrefix:@"mraid.setLocation("]);
+ 
+    NSString *jsonString = [js stringByReplacingOccurrencesOfString:@"mraid.setLocation(" withString:@""];
+    jsonString = [jsonString stringByReplacingOccurrencesOfString:@");" withString:@""];
+ 
+    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *payload = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
+    XCTAssertNotNil(payload);
+ 
+    XCTAssertEqualWithAccuracy([payload[@"lat"] doubleValue], 52.35, 0.0001);
+    XCTAssertEqualWithAccuracy([payload[@"lon"] doubleValue], -73.94, 0.0001);
+    XCTAssertEqualObjects(payload[@"type"], @1);
+    XCTAssertEqualWithAccuracy([payload[@"accuracy"] doubleValue], 5.0, 0.001);
+    XCTAssertEqualWithAccuracy([payload[@"lastfix"] doubleValue], 2.5, 1.0);
 }
 
 @end

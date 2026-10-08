@@ -1,0 +1,47 @@
+<VAST version="3.0">
+	<Ad id="1">
+		<Wrapper>
+			<AdSystem>Test</AdSystem>
+			<VASTAdTagURI><![CDATA[https://example.com/wrapper2.xml]]></VASTAdTagURI>
+			<Impression><![CDATA[https://example.com/impression1]]></Impression>
+			<Creatives>
+				<Creative id="1">
+					<Linear skipoffset="20%"></Linear>
+				</Creative>
+			</Creatives>
+		</Wrapper>
+	</Ad>
+	<Ad id="2">
+		<Wrapper>
+			<AdSystem>Test</AdSystem>
+			<VASTAdTagURI><![CDATA[https://example.com/inline.xml]]></VASTAdTagURI>
+			<Impression><![CDATA[https://example.com/impression2]]></Impression>
+			<Creatives>
+				<Creative id="2">
+					<Linear skipoffset="-1">
+						<Duration>00:00:05</Duration>
+					</Linear>
+				</Creative>
+			</Creatives>
+		</Wrapper>
+	</Ad>
+	<Ad id="3">
+		<InLine>
+			<AdSystem>Test</AdSystem>
+			<AdTitle>Test</AdTitle>
+			<Impression><![CDATA[https://example.com/impression3]]></Impression>
+			<Creatives>
+				<Creative id="3">
+					<Linear skipoffset="-1">
+						<Duration>00:00:30</Duration>
+						<MediaFiles>
+							<MediaFile id="1" delivery="progressive" type="video/mp4" width="640" height="480">
+								<![CDATA[https://example.com/video.mp4]]>
+							</MediaFile>
+						</MediaFiles>
+					</Linear>
+				</Creative>
+			</Creatives>
+		</InLine>
+	</Ad>
+</VAST>

@@ -1,0 +1,40 @@
+<VAST version="3.0">
+	<Ad id="1" sequence="1">
+		<InLine>
+			<AdSystem>Test</AdSystem>
+			<AdTitle>Test</AdTitle>
+			<Impression><![CDATA[https://example.com/impression1]]></Impression>
+			<Creatives>
+				<Creative id="1">
+					<Linear skipoffset="00:00:08">
+						<Duration>00:01:00</Duration>
+						<MediaFiles>
+							<MediaFile id="1" delivery="progressive" type="video/mp4" width="640" height="480">
+								<![CDATA[https://example.com/video1.mp4]]>
+							</MediaFile>
+						</MediaFiles>
+					</Linear>
+				</Creative>
+			</Creatives>
+		</InLine>
+	</Ad>
+	<Ad id="2" sequence="2">
+		<InLine>
+			<AdSystem>Test</AdSystem>
+			<AdTitle>Test</AdTitle>
+			<Impression><![CDATA[https://example.com/impression2]]></Impression>
+			<Creatives>
+				<Creative id="2">
+					<Linear skipoffset="20%">
+						<Duration>00:00:10</Duration>
+						<MediaFiles>
+							<MediaFile id="1" delivery="progressive" type="video/mp4" width="640" height="480">
+								<![CDATA[https://example.com/video2.mp4]]>
+							</MediaFile>
+						</MediaFiles>
+					</Linear>
+				</Creative>
+			</Creatives>
+		</InLine>
+	</Ad>
+</VAST>

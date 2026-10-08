@@ -80,5 +80,7 @@
 + (NSString *)clickThroughTimer { return @"click_through_timer"; }
 + (NSString *)pcClickThroughTimer { return @"pc_click_through_timer"; }
 + (NSString *)bcClickThroughTimer { return @"bc_click_through_timer"; }
++ (NSString *)closeButtonTouchSize { return @"close_button_touch_size"; }
++ (NSString *)closeButtonInitialTouchSize { return @"close_button_initial_touch_size"; }
 
 @end

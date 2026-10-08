@@ -334,6 +334,68 @@ final class HyBidSKAdNetworkViewControllerStoreKitParameterTests: XCTestCase {
     }
 }
 
+@MainActor
+final class HyBidSKAdNetworkViewControllerPresentationTests: XCTestCase {
+
+    private let sut = HyBidSKAdNetworkViewController.shared
+
+    override func tearDown() async throws {
+        sut.resetStoreKitPresentationState()
+        sut.isStoreKitViewPresented = false
+        sut.skStoreProductViewController = nil
+        sut.topViewControllerProvider = { UIApplication.shared.topViewController }
+        try await super.tearDown()
+    }
+
+    func test_manualClickAfterAdCloseWithStuckPresentation_presentsOnTopViewController() {
+        let topViewController = PresentationSpyViewController()
+        sut.topViewControllerProvider = { topViewController }
+        let skVC = SKStoreProductViewController()
+        sut.skStoreProductViewController = skVC
+
+        attemptPresentation(isAutoStoreKitView: true, preferredPresenter: UIViewController())
+        XCTAssertEqual(topViewController.presentedViewControllers.count, 1, "a presenter outside the window must fall back to the top view controller")
+
+        attemptPresentation(isAutoStoreKitView: false, preferredPresenter: nil)
+        XCTAssertEqual(topViewController.presentedViewControllers.count, 1, "stuck presentation blocks the next click until the ad closes")
+
+        sut.resetStoreKitPresentationState()
+        attemptPresentation(isAutoStoreKitView: false, preferredPresenter: nil)
+
+        XCTAssertEqual(topViewController.presentedViewControllers.count, 2)
+        XCTAssertTrue(topViewController.presentedViewControllers.last === skVC)
+    }
+
+    func test_presentStoreKitView_withPresenterInWindow_presentsOnIt() throws {
+        let presenter = PresentationSpyViewController()
+        let window = UIWindow(frame: UIScreen.main.bounds)
+        window.rootViewController = presenter
+        window.isHidden = false
+        let topViewController = PresentationSpyViewController()
+        sut.topViewControllerProvider = { topViewController }
+        let ad = try XCTUnwrap(HyBidAd(data: HyBidAdModel(), withZoneID: "test-zone"))
+
+        sut.presentStoreKitView(productParameters: [SKStoreProductParameterITunesItemIdentifier: 1_506_188_465],
+                                adFormat: AdFormat.FULLSCREEN,
+                                isAutoStoreKitView: true,
+                                ad: ad,
+                                rootViewController: presenter)
+
+        let presented = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in !presenter.presentedViewControllers.isEmpty }, object: nil)
+        wait(for: [presented], timeout: 10)
+        XCTAssertTrue(presenter.presentedViewControllers.first is SKStoreProductViewController)
+        XCTAssertTrue(topViewController.presentedViewControllers.isEmpty)
+        window.isHidden = true
+    }
+
+    private func attemptPresentation(isAutoStoreKitView: Bool, preferredPresenter: UIViewController?) {
+        sut.presentStoreKitViewOnTopViewController(handlerController: sut, adFormat: AdFormat.FULLSCREEN, isAutoStoreKitView: isAutoStoreKitView, preferredPresenter: preferredPresenter)
+        let drained = expectation(description: "main queue drained")
+        DispatchQueue.main.async { drained.fulfill() }
+        wait(for: [drained], timeout: 1.0)
+    }
+}
+
 // MARK: - Test Doubles
 
 /// Lets tests inject a mock presentingViewController without a real window hierarchy,
@@ -355,5 +417,13 @@ private class RecursiveOrientationNavController: UINavigationController {
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         visibleViewController?.supportedInterfaceOrientations ?? super.supportedInterfaceOrientations
+    }
+}
+
+private class PresentationSpyViewController: UIViewController {
+    private(set) var presentedViewControllers: [UIViewController] = []
+
+    override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
+        presentedViewControllers.append(viewControllerToPresent)
     }
 }

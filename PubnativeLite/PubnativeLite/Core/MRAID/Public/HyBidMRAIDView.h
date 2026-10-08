@@ -11,6 +11,8 @@
 @class HyBidMRAIDView;
 @protocol HyBidMRAIDServiceDelegate;
 
+NS_ASSUME_NONNULL_BEGIN
+
 // A delegate for MRAIDView to listen for notification on ad ready or expand related events.
 @protocol HyBidMRAIDViewDelegate <NSObject>
 
@@ -19,7 +21,7 @@
 // These callbacks are for basic banner ad functionality.
 - (void)mraidViewAdReady:(HyBidMRAIDView *)mraidView;
 - (void)mraidViewAdFailed:(HyBidMRAIDView *)mraidView;
-- (void)mraidViewAdFailed:(HyBidMRAIDView *)mraidView withError:(NSError *)error;
+- (void)mraidViewAdFailed:(HyBidMRAIDView *)mraidView withError:(nullable NSError *)error;
 - (void)mraidViewWillExpand:(HyBidMRAIDView *)mraidView;
 - (void)mraidViewDidClose:(HyBidMRAIDView *)mraidView;
 - (void)mraidViewNavigate:(HyBidMRAIDView *)mraidView withURL:(NSURL *)url;
@@ -37,25 +39,25 @@
 
 @interface HyBidMRAIDView : UIView <HyBidSKOverlayDelegate>
 
-@property (nonatomic, strong) id<HyBidMRAIDViewDelegate> delegate;
-@property (nonatomic, strong) id<HyBidMRAIDServiceDelegate> serviceDelegate;
-@property (nonatomic, weak, setter = setRootViewController:) UIViewController *rootViewController;
+@property (nonatomic, strong, nullable) id<HyBidMRAIDViewDelegate> delegate;
+@property (nonatomic, strong, nullable) id<HyBidMRAIDServiceDelegate> serviceDelegate;
+@property (nonatomic, weak, nullable, setter = setRootViewController:) UIViewController *rootViewController;
 // DEPRECATED: isViewable is deprecated as from MRAID 3.0
 @property (nonatomic, assign, getter = isViewable, setter = setIsViewable:) BOOL isViewable;
-@property (nonatomic, strong) NSString *urlStringForEndCardTracking;
+@property (nonatomic, strong, nullable) NSString *urlStringForEndCardTracking;
 
 // IMPORTANT: This is the only valid initializer for an MRAIDView; -init and -initWithFrame: will throw exceptions
 - (id)initWithFrame:(CGRect)frame
-       withHtmlData:(NSString *)htmlData
-        withBaseURL:(NSURL *)bsURL
-             withAd:(HyBidAd *)ad
+       withHtmlData:(nullable NSString *)htmlData
+        withBaseURL:(nullable NSURL *)bsURL
+             withAd:(nullable HyBidAd *)ad
   supportedFeatures:(NSArray *)features
       isInterstital:(BOOL)isInterstitial
        isScrollable:(BOOL)isScrollable
-           delegate:(id<HyBidMRAIDViewDelegate>)delegate
-    serviceDelegate:(id<HyBidMRAIDServiceDelegate>)serviceDelegate
- rootViewController:(UIViewController *)rootViewController
-        contentInfo:(HyBidContentInfoView *)contentInfo
+           delegate:(nullable id<HyBidMRAIDViewDelegate>)delegate
+    serviceDelegate:(nullable id<HyBidMRAIDServiceDelegate>)serviceDelegate
+ rootViewController:(nullable UIViewController *)rootViewController
+        contentInfo:(nullable HyBidContentInfoView *)contentInfo
          skipOffset:(NSInteger)skipOffset
           isEndcard:(BOOL)isEndcard
 shouldHandleInterruptions:(BOOL)shouldHandleInterruptions;
@@ -78,3 +80,5 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions;
 - (void)injectJavaScript:(NSString *)js;
 - (nullable UIView *)modalView;
 @end
+
+NS_ASSUME_NONNULL_END
