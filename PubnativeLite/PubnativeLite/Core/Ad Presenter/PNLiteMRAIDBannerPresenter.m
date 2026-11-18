@@ -62,7 +62,7 @@
                                                withHtmlData:self.adModel.htmlData
                                                 withBaseURL:[NSURL URLWithString:self.adModel.htmlUrl]
                                                     withAd:self.ad
-                                          supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo, PNLiteMRAIDSupportsLocation]
+                                          supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsInlineVideo, PNLiteMRAIDSupportsLocation]
                                               isInterstital:NO
                                               isScrollable:NO
                                                    delegate:self
@@ -80,7 +80,7 @@
                                                withHtmlData:self.adModel.htmlData
                                                 withBaseURL:[NSURL URLWithString:self.adModel.htmlUrl]
                                                     withAd:self.ad
-                                          supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo, PNLiteMRAIDSupportsLocation]
+                                          supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsInlineVideo, PNLiteMRAIDSupportsLocation]
                                               isInterstital:NO
                                               isScrollable:NO
                                                    delegate:self
@@ -196,7 +196,9 @@
 }
 
 - (BOOL)mraidViewShouldResize:(HyBidMRAIDView *)mraidView toPosition:(CGRect)position allowOffscreen:(BOOL)allowOffscreen {
-    return allowOffscreen;
+    // Resize is an inline (banner) feature. When allowOffscreen is false, HyBidMRAIDView has already
+    // fitted the frame on screen, so the banner can always accept the request.
+    return YES;
 }
 
 #pragma mark HyBidMRAIDServiceDelegate
@@ -215,10 +217,6 @@
 
 - (void)mraidServicePlayVideoWithUrlString:(NSString *)urlString {
     [self.serviceProvider playVideo:urlString];
-}
-
-- (void)mraidServiceStorePictureWithUrlString:(NSString *)urlString {
-    [self.serviceProvider storePicture:urlString];
 }
 
 #pragma mark HyBidInterruptionDelegate

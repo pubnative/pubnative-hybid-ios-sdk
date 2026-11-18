@@ -664,7 +664,7 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
                                               withHtmlData:content
                                                withBaseURL:baseURL
                                                     withAd:self.ad
-                                         supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo, PNLiteMRAIDSupportsLocation]
+                                         supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsInlineVideo, PNLiteMRAIDSupportsLocation]
                                              isInterstital:self.isInterstitial
                                               isScrollable:NO
                                                   delegate:self
@@ -1410,10 +1410,6 @@ NSString * const replayURLFlag = @"https://customendcard.verve.com/replay";
 
 - (void)mraidServicePlayVideoWithUrlString:(NSString *)urlString {
     [self.serviceProvider playVideo:urlString];
-}
-
-- (void)mraidServiceStorePictureWithUrlString:(NSString *)urlString {
-    [self.serviceProvider storePicture:urlString];
 }
 
 - (void)mraidServiceTrackingEndcardWithUrlString:(NSString *)urlString {

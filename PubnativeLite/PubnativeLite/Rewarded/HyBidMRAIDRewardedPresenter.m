@@ -67,7 +67,7 @@
                                               withHtmlData:self.adModel.htmlData
                                                withBaseURL:[NSURL URLWithString:self.adModel.htmlUrl]
                                                     withAd:self.ad
-                                         supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo, PNLiteMRAIDSupportsLocation]
+                                         supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsInlineVideo, PNLiteMRAIDSupportsLocation]
                                              isInterstital:YES
                                               isScrollable:NO
                                                   delegate:self
@@ -239,10 +239,6 @@
 
 - (void)mraidServicePlayVideoWithUrlString:(NSString *)urlString {
     [self.serviceProvider playVideo:urlString];
-}
-
-- (void)mraidServiceStorePictureWithUrlString:(NSString *)urlString {
-    [self.serviceProvider storePicture:urlString];
 }
 
 #pragma mark HyBidInterruptionDelegate
