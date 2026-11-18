@@ -70,3 +70,9 @@ fastlane/test_output
 iOSInjectionProject/
 .claude/*
 !.claude/skills/
+
+## Swift Package Manager
+.build/
+.swiftpm/
+/Artifacts/
+/spm-artifacts/

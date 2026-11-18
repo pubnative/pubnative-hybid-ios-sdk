@@ -181,7 +181,7 @@ regard to the Software is limited or excluded as follows:
   s.authors      = { "Eros Garcia Ponte" => "eros.ponte@pubnative.net", "Fares Benhamouda" => "fares.benhamouda@pubnative.net", "Orkhan Alizada" => "orkhan.alizada@pubnative.net", "Jose Contreras" => "jose.contreras@verve.com", "Aysel Abdullayeva" => "aysel.abdullayeva@verve.com"  }
   s.platform     = :ios
 
-  s.ios.deployment_target = "12.0"
+  s.ios.deployment_target = "13.0"
   s.source       = { :git => "https://github.com/pubnative/pubnative-hybid-ios-sdk.git", :tag => "3.9.3" }
   s.resource_bundle = {
     "#{s.module_name}Resources" => "PubnativeLite/PubnativeLite/PrivacyInfo.xcprivacy"
