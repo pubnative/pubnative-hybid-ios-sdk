@@ -72,7 +72,7 @@
                                                   withHtmlData:nil
                                                    withBaseURL:[NSURL URLWithString:url]
                                                         withAd:nil
-                                             supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsStorePicture, PNLiteMRAIDSupportsInlineVideo, PNLiteMRAIDSupportsLocation]
+                                             supportedFeatures:@[PNLiteMRAIDSupportsSMS, PNLiteMRAIDSupportsTel, PNLiteMRAIDSupportsInlineVideo, PNLiteMRAIDSupportsLocation]
                                                  isInterstital:YES
                                                   isScrollable:YES
                                                       delegate:self
@@ -161,6 +161,4 @@
 - (void)mraidServiceSendSMSWithUrlString:(NSString *)urlString {}
 - (void)mraidServiceOpenBrowserWithUrlString:(NSString *)urlString {}
 - (void)mraidServicePlayVideoWithUrlString:(NSString *)urlString {}
-- (void)mraidServiceStorePictureWithUrlString:(NSString *)urlString {}
-
 @end

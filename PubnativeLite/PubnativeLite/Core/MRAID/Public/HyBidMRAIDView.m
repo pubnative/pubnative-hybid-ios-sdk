@@ -104,6 +104,8 @@ typedef enum {
     
     CGSize previousMaxSize;
     CGSize previousScreenSize;
+    // Last default-state frame reported to mraid.js (in the reference view's coordinates).
+    CGRect lastReportedDefaultRect;
     
     UITapGestureRecognizer *tapGestureRecognizer;
     BOOL bonafideTapObserved; //supressing redirect from banners
@@ -311,6 +313,13 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
         if([self isValidFeatureSet:currentFeatures] && serviceDelegate) {
             supportedFeatures=currentFeatures;
         }
+        // mraid.storePicture is not supported (the SDK never writes to the photo library),
+        // so never advertise it, even if a caller still passes PNLiteMRAIDSupportsStorePicture.
+        if ([supportedFeatures containsObject:PNLiteMRAIDSupportsStorePicture]) {
+            NSMutableArray *features = [supportedFeatures mutableCopy];
+            [features removeObject:PNLiteMRAIDSupportsStorePicture];
+            supportedFeatures = [features copy];
+        }
         self.ad = ad;
         navigatorGeolocation = [[HyBidNavigatorGeolocation alloc] init];
         if ([NSThread isMainThread]) {
@@ -333,7 +342,8 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
         
         previousMaxSize = CGSizeZero;
         previousScreenSize = CGSizeZero;
-        
+        lastReportedDefaultRect = CGRectNull;
+
         [self addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionOld context:NULL];
        
         baseURL = bsURL;
@@ -614,9 +624,58 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
     return YES;
 }
 
+#pragma mark - Position reporting
+
+// The view that MRAID positions (getCurrentPosition / getDefaultPosition) are expressed in.
+// Falls back to the window when no root view controller view is available.
+- (UIView *)positionReferenceView {
+    return self.rootViewController.view ?: self.window;
+}
+
+// The ad's default-state frame in the reference view's coordinates, or CGRectNull while the
+// view is not attached to a window (any conversion before that would report 0,0).
+- (CGRect)defaultRectInReferenceView {
+    UIView *referenceView = [self positionReferenceView];
+    if (!self.window || !referenceView || referenceView.window != self.window) {
+        return CGRectNull;
+    }
+    return [referenceView convertRect:self.bounds fromView:self];
+}
+
+// Keeps mraid.js's default/current position in sync once the banner is actually on screen.
+// The frame KVO alone misses the common case where the ad's container is moved into place
+// after the MRAID view was created.
+- (void)refreshPositionIfNeeded {
+    if (isInterstitial || state == PNLiteMRAIDStateLoading || state == PNLiteMRAIDStateHidden) {
+        return;
+    }
+    CGRect defaultRect = [self defaultRectInReferenceView];
+    if (CGRectIsNull(defaultRect) || CGRectEqualToRect(defaultRect, lastReportedDefaultRect)) {
+        return;
+    }
+    lastReportedDefaultRect = defaultRect;
+    [self setDefaultPosition];
+    if (state == PNLiteMRAIDStateDefault) {
+        [self fireSizeChangeEvent];
+    }
+}
+
+- (void)didMoveToWindow {
+    [super didMoveToWindow];
+    [self refreshPositionIfNeeded];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    [self refreshPositionIfNeeded];
+}
+
 - (void)setIsViewable:(BOOL)newIsViewable {
     if(newIsViewable!=_isViewable) {
         _isViewable=newIsViewable;
+        if (_isViewable) {
+            [self refreshPositionIfNeeded];
+        }
         [self fireViewableChangeEvent];
     }
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"isViewable: %@", _isViewable?@"YES":@"NO"]];
@@ -1291,16 +1350,32 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
     // If our delegate doesn't respond to the mraidViewShouldResizeToPosition:allowOffscreen: message,
     // then we can't do anything. We need help from the app here.
     if (![self.delegate respondsToSelector:@selector(mraidViewShouldResize:toPosition:allowOffscreen:)]) {
+        [self fireErrorEventWithAction:@"resize" message:@"Resize is not supported for this ad placement."];
         return;
     }
-    
+
     CGRect resizeFrame = CGRectMake(resizeProperties.offsetX, resizeProperties.offsetY, resizeProperties.width, resizeProperties.height);
     // The offset of the resize frame is relative to the origin of the default banner.
     CGPoint bannerOriginInRootView = [self.rootViewController.view convertPoint:CGPointZero fromView:self];
     resizeFrame.origin.x += bannerOriginInRootView.x;
     resizeFrame.origin.y += bannerOriginInRootView.y;
-    
+
+    // MRAID: when allowOffscreen is false, the container must keep the resized ad fully on screen
+    // (repositioning it if needed) rather than refusing the resize.
+    if (!resizeProperties.allowOffscreen) {
+        CGRect availableBounds = self.rootViewController.view.bounds;
+        if (CGRectIsEmpty(availableBounds) ||
+            resizeFrame.size.width > availableBounds.size.width ||
+            resizeFrame.size.height > availableBounds.size.height) {
+            [self fireErrorEventWithAction:@"resize" message:@"Resize size does not fit on screen."];
+            return;
+        }
+        resizeFrame.origin.x = MIN(MAX(resizeFrame.origin.x, CGRectGetMinX(availableBounds)), CGRectGetMaxX(availableBounds) - resizeFrame.size.width);
+        resizeFrame.origin.y = MIN(MAX(resizeFrame.origin.y, CGRectGetMinY(availableBounds)), CGRectGetMaxY(availableBounds) - resizeFrame.size.height);
+    }
+
     if (![self.delegate mraidViewShouldResize:self toPosition:resizeFrame allowOffscreen:resizeProperties.allowOffscreen]) {
+        [self fireErrorEventWithAction:@"resize" message:@"Resize was not allowed for this ad placement."];
         return;
     }
     
@@ -1350,21 +1425,9 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
 }
 
 - (void)storePicture:(NSString *)urlString {
-    if(!bonafideTapObserved && PNLite_SUPPRESS_BANNER_AUTO_REDIRECT) {
-        [HyBidLogger infoLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"Suppressing an attempt to programmatically call mraid.storePicture when no UI touch event exists."];
-        return;  // ignore programmatic touches (taps)
-    }
-    
-    urlString=[urlString stringByRemovingPercentEncoding];
     [HyBidLogger debugLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat: @"JS callback %@ %@", NSStringFromSelector(_cmd), urlString]];
-    
-    if ([supportedFeatures containsObject:PNLiteMRAIDSupportsStorePicture]) {
-        if ([self.serviceDelegate respondsToSelector:@selector(mraidServiceStorePictureWithUrlString:)]) {
-            [self.serviceDelegate mraidServiceStorePictureWithUrlString:urlString];
-        }
-    } else {
-        [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:[NSString stringWithFormat:@"No PNLiteMRAIDSupportsStorePicture feature has been included"]];
-    }
+    // Not supported: the SDK never writes to the user's photo library.
+    [self fireErrorEventWithAction:@"storePicture" message:@"storePicture is not supported."];
 }
 
 // DEPRECATED: useCustomClose is deprecated as from MRAID 3.0
@@ -1847,11 +1910,19 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
         } else {
             // Per the MRAID spec, the current or default position is relative to the rectangle defined by the getMaxSize method,
             // that is, the largest size that the ad can resize to.
-            CGPoint originInRootView = [self.rootViewController.view convertPoint:CGPointZero fromView:self];
-            x = originInRootView.x;
-            y = originInRootView.y;
-            width = (int)self.frame.size.width;
-            height = (int)self.frame.size.height;
+            CGRect defaultRect = [self defaultRectInReferenceView];
+            if (!CGRectIsNull(defaultRect)) {
+                x = (int)defaultRect.origin.x;
+                y = (int)defaultRect.origin.y;
+                width = (int)defaultRect.size.width;
+                height = (int)defaultRect.size.height;
+            } else {
+                CGPoint originInRootView = [self.rootViewController.view convertPoint:CGPointZero fromView:self];
+                x = originInRootView.x;
+                y = originInRootView.y;
+                width = (int)self.frame.size.width;
+                height = (int)self.frame.size.height;
+            }
         }
         
         UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
@@ -1919,6 +1990,13 @@ shouldHandleInterruptions:(BOOL)shouldHandleInterruptions {
         return;
     }
     
+    // Report the ad's frame in the same coordinate space as getMaxSize/getCurrentPosition once on screen.
+    CGRect defaultRect = [self defaultRectInReferenceView];
+    if (!CGRectIsNull(defaultRect)) {
+        [self injectJavaScript:[NSString stringWithFormat:@"mraid.setDefaultPosition(%f,%f,%f,%f);", defaultRect.origin.x, defaultRect.origin.y, defaultRect.size.width, defaultRect.size.height]];
+        return;
+    }
+
     // getDefault position from the parent frame if we are not directly added to the rootview
     if(self.superview != self.rootViewController.view) {
         [self injectJavaScript:[NSString stringWithFormat:@"mraid.setDefaultPosition(%f,%f,%f,%f);", self.superview.frame.origin.x, self.superview.frame.origin.y, self.superview.frame.size.width, self.superview.frame.size.height]];

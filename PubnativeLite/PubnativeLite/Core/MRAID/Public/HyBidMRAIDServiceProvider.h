@@ -10,7 +10,7 @@
 
 - (void)openBrowser:(NSString *)urlString;
 - (void)playVideo:(NSString *)urlString;
-- (void)storePicture:(NSString *)urlString;
+- (void)storePicture:(NSString *)urlString __attribute__((deprecated("mraid.storePicture is not supported; this method does nothing.")));
 - (void)sendSMS:(NSString *)urlString;
 - (void)callNumber:(NSString *)urlString;
 

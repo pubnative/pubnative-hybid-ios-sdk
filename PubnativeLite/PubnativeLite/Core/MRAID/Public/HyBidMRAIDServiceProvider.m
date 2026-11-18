@@ -6,7 +6,6 @@
 
 #import "HyBidMRAIDServiceProvider.h"
 #import <UIKit/UIKit.h>
-#import <PhotosUI/PhotosUI.h>
 
 #if __has_include(<HyBid/HyBid-Swift.h>)
     #import <UIKit/UIKit.h>
@@ -54,31 +53,8 @@
 }
 
 - (void)storePicture:(NSString *)urlString {
-    PHAuthorizationStatus authStatus = [PHPhotoLibrary authorizationStatus];
-    if (authStatus == PHAuthorizationStatusAuthorized) {
-        [self downloadImageWithURL:[NSURL URLWithString:urlString] completionBlock:^(BOOL succeeded, UIImage *image) {
-            if (succeeded) {
-                UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
-            }
-        }];
-    }
-}
-
-- (void)downloadImageWithURL:(NSURL *)url completionBlock:(void (^)(BOOL succeeded, UIImage *image))completionBlock {
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data,NSURLResponse *response,NSError *error)
-      {
-          if (!error) {
-              UIImage *image = [[UIImage alloc] initWithData:data];
-              completionBlock(YES,image);
-          } else {
-              if ([HyBidSDKConfig sharedConfig].reporting) {
-                  HyBidReportingEvent* reportingEvent = [[HyBidReportingEvent alloc]initWith:HyBidReportingEventType.ERROR errorMessage: error.localizedDescription properties:nil];
-                  [[HyBid reportingManager] reportEventFor:reportingEvent];
-              }
-              completionBlock(NO,nil);
-          }
-      }] resume];
+    // mraid.storePicture is not supported: HyBid never writes to the user's photo library.
+    [HyBidLogger warningLogFromClass:NSStringFromClass([self class]) fromMethod:NSStringFromSelector(_cmd) withMessage:@"storePicture is not supported."];
 }
 
 - (void)sendSMS:(NSString *)urlString {
